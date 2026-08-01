@@ -1,0 +1,14 @@
+# Dependências da trilha prática. Mínimas e fixadas por faixa maior —
+# anti-apodrecimento (regra 3 da construção).
+#
+# A etapa 00 roda com ZERO dependências além do pytest: só biblioteca padrão.
+# As demais entram quando a etapa correspondente as exigir, e não antes.
+
+pytest>=8.0
+
+# etapa 05 em diante — álgebra linear
+numpy>=2.0
+
+# etapa 15 em diante — o modelo vira serviço
+fastapi>=0.115
+uvicorn[standard]>=0.30

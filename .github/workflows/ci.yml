@@ -1,0 +1,104 @@
+name: CI
+
+# Os hard gates da Definition of Done (Princípio IX). O que é mecânico é
+# verificado aqui; o que exige julgamento está no pull_request_template.md.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Forcing function: toda PR registra o que mudou para o leitor.
+  # Bypass para mudanças internas: label `skip-changelog`.
+  changelog:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'skip-changelog')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Exigir entrada no CHANGELOG.md
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          if git diff --name-only "$base"...HEAD | grep -qx 'CHANGELOG.md'; then
+            echo "CHANGELOG.md atualizado ✓"
+          else
+            echo "::error::Toda PR adiciona uma entrada em [Unreleased] no CHANGELOG.md (ou aplica o label 'skip-changelog')."
+            exit 1
+          fi
+
+  livro:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+        working-directory: publicar
+
+      # Gate do banco: exercício sem gabarito, sem feedback, sem objetivo
+      # válido ou com id duplicado derruba o build. Erro de autoria não é aviso.
+      - name: Gate do banco de exercícios
+        run: node exercicios.mjs --verificar
+        working-directory: publicar
+
+      # Gate de deriva: o banco versionado tem de bater com a fonte no livro.
+      # Sem isto, o backend corrigiria por uma versão antiga do exercício.
+      - name: Gate de deriva do banco
+        run: |
+          node exercicios.mjs
+          if ! git diff --exit-code -- ../chat-companion/backend/banco.json; then
+            echo "::error::banco.json está fora de sincronia com o livro. Rode 'node publicar/exercicios.mjs' e faça commit."
+            exit 1
+          fi
+        working-directory: publicar
+
+      # Gate de links internos quebrados.
+      - name: Build do livro
+        run: node build.mjs
+        working-directory: publicar
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar e testar o backend
+        run: |
+          pip install -q -r requirements.txt pytest
+          python -m pytest tests/ -q
+        working-directory: chat-companion/backend
+
+  ml-zero:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Testar a trilha prática
+        run: |
+          pip install -q -r requirements.txt
+          python -m pytest -q
+        working-directory: ml-zero
+
+  segredos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Princípio V: chave exposta é chave comprometida. Este gate é grosseiro
+      # de propósito — pega o caso óbvio antes que ele chegue ao histórico.
+      - name: Procurar segredos óbvios
+        run: |
+          if grep -rInE '(sk-[A-Za-z0-9]{20,}|nvapi-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})' \
+               --exclude-dir=.git --exclude-dir=node_modules . ; then
+            echo "::error::Possível credencial no repositório. Revogue a chave ANTES de remover o commit."
+            exit 1
+          fi
+          echo "Nenhum segredo óbvio ✓"

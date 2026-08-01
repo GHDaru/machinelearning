@@ -1,0 +1,168 @@
+{
+  "titulo": "Machine Learning",
+  "subtitulo": "Um livro vivo para aprender fazendo — teoria verificável, exercícios que corrigem e uma construção do zero",
+  "companion_backend": "",
+  "_companion_backend_nota": "URL do backend do livro vivo (chat + correção de exercícios + progresso). Vazio = site estático, sem interatividade. Em desenvolvimento local: http://127.0.0.1:8000",
+  "partes": [
+    {
+      "nome": "Abertura",
+      "itens": [
+        {
+          "arquivo": "livro/00-introducao.md",
+          "titulo": "00 — Introdução",
+          "teaser": "O que é aprender de dados, e como usar este livro."
+        },
+        {
+          "arquivo": "livro/01-fundamentos.md",
+          "titulo": "01 — Fundamentos",
+          "teaser": "Generalização, viés e variância: o problema central."
+        }
+      ]
+    },
+    {
+      "nome": "Parte I — O ciclo do aprendizado supervisionado",
+      "itens": [
+        {
+          "arquivo": "livro/capitulos/02-dados.md",
+          "titulo": "02 — Dados",
+          "teaser": "Coleta, qualidade e o vazamento que engana todo mundo."
+        },
+        {
+          "arquivo": "livro/capitulos/03-representacao.md",
+          "titulo": "03 — Representação",
+          "teaser": "Como o mundo vira vetor — e o que se perde no caminho."
+        },
+        {
+          "arquivo": "livro/capitulos/04-avaliacao.md",
+          "titulo": "04 — Avaliação",
+          "teaser": "O que significa \"bom\", e por que acurácia mente."
+        },
+        {
+          "arquivo": "livro/capitulos/05-modelos-lineares.md",
+          "titulo": "05 — Modelos Lineares",
+          "teaser": "A reta que explica muito mais do que parece."
+        },
+        {
+          "arquivo": "livro/capitulos/06-otimizacao.md",
+          "titulo": "06 — Otimização e Regularização",
+          "teaser": "Como o modelo aprende — e como impedi-lo de decorar."
+        },
+        {
+          "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+          "titulo": "07 — Árvores e Ensembles",
+          "teaser": "Por que boosting ainda ganha em dados tabulares."
+        }
+      ]
+    },
+    {
+      "nome": "Parte II — Sem rótulo, e profundo",
+      "itens": [
+        {
+          "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+          "titulo": "08 — Aprendizado Não Supervisionado",
+          "teaser": "Estrutura sem gabarito: agrupar e reduzir."
+        },
+        {
+          "arquivo": "livro/capitulos/09-redes-neurais.md",
+          "titulo": "09 — Redes Neurais",
+          "teaser": "Do perceptron ao backpropagation, em NumPy."
+        },
+        {
+          "arquivo": "livro/capitulos/10-visao.md",
+          "titulo": "10 — Visão Computacional",
+          "teaser": "Convolução, e o poder de aproveitar o que já foi treinado."
+        },
+        {
+          "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+          "titulo": "11 — Sequências e Linguagem",
+          "teaser": "De RNN a Transformer: por que a atenção venceu."
+        },
+        {
+          "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+          "titulo": "12 — Modelos de Fundação",
+          "teaser": "Embeddings, fine-tuning e RAG: ML sem treinar do zero."
+        }
+      ]
+    },
+    {
+      "nome": "Parte III — Machine Learning no mundo real",
+      "itens": [
+        {
+          "arquivo": "livro/capitulos/13-reforco.md",
+          "titulo": "13 — Aprendizado por Reforço",
+          "teaser": "Aprender por consequência, não por gabarito."
+        },
+        {
+          "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+          "titulo": "14 — Interpretabilidade e Justiça",
+          "teaser": "Explicar a decisão e medir a quem ela prejudica."
+        },
+        {
+          "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+          "titulo": "15 — Sistemas de ML",
+          "teaser": "O modelo é 5% do sistema. Os outros 95%."
+        },
+        {
+          "arquivo": "livro/capitulos/16-mlops.md",
+          "titulo": "16 — MLOps",
+          "teaser": "Versionar, servir, monitorar, detectar drift."
+        },
+        {
+          "arquivo": "livro/capitulos/17-fronteira.md",
+          "titulo": "17 — Fronteira e Expiração",
+          "teaser": "O que ainda não sabemos — e o placar das previsões."
+        }
+      ]
+    },
+    {
+      "nome": "Aparato",
+      "itens": [
+        {
+          "arquivo": "livro/trilha-ml-zero.md",
+          "titulo": "Trilha ml-zero",
+          "teaser": "A construção prática, etapa por etapa."
+        },
+        {
+          "arquivo": "livro/BANCO-DE-EXERCICIOS.md",
+          "titulo": "Banco de Exercícios",
+          "teaser": "Como os exercícios são escritos e corrigidos."
+        },
+        {
+          "arquivo": "livro/videoteca.md",
+          "titulo": "Videoteca",
+          "teaser": "Curadoria de vídeos por capítulo."
+        },
+        {
+          "arquivo": "livro/bibliografia.md",
+          "titulo": "Bibliografia",
+          "teaser": "Referências por capítulo, com status de validação."
+        },
+        {
+          "arquivo": "livro/glossario.md",
+          "titulo": "Glossário",
+          "teaser": "Siglas e termos, por extenso."
+        },
+        {
+          "arquivo": "livro/GUIA-EDITORIAL.md",
+          "titulo": "Guia Editorial",
+          "teaser": "Como se escreve neste livro."
+        },
+        {
+          "arquivo": "livro/HISTORICO.md",
+          "titulo": "Histórico",
+          "teaser": "Edições datadas e o registro de expiração."
+        },
+        {
+          "arquivo": "livro/apendice-uso.md",
+          "titulo": "Uso do livro",
+          "teaser": "O que medimos, o que não medimos, como apagar."
+        },
+        {
+          "arquivo": "livro/autor.md",
+          "titulo": "Autor",
+          "teaser": "Quem escreve, e com que método."
+        }
+      ]
+    }
+  ]
+}

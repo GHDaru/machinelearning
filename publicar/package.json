@@ -1,0 +1,16 @@
+{
+  "name": "motor-do-livro-ml",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Motor de publicação do livro vivo de Machine Learning (Markdown -> HTML navegável + banco de exercícios).",
+  "scripts": {
+    "build": "node exercicios.mjs && node build.mjs",
+    "verificar": "node exercicios.mjs --verificar",
+    "servir": "node --run build && python3 -m http.server 8080 --directory ../docs"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0"
+  }
+}

@@ -1,0 +1,384 @@
+{
+ "exercicios": [
+  {
+   "id": "00-e1",
+   "capitulo": 0,
+   "arquivo": "livro/00-introducao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Uma equipe precisa validar se um número de cartão de crédito é sintaticamente válido antes de enviá-lo ao adquirente. Alguém propõe treinar um classificador com milhões de cartões válidos e inválidos. Qual é a melhor avaliação dessa proposta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Boa ideia: com dados suficientes, o modelo aprenderia a regra melhor do que um humano escreveria."
+    },
+    {
+     "correta": true,
+     "texto": "Má ideia: a regra (algoritmo de Luhn) é conhecida e escrevível — um modelo só introduziria erro onde não havia."
+    },
+    {
+     "correta": false,
+     "texto": "Boa ideia, desde que a acurácia no teste passe de 99,9%."
+    },
+    {
+     "correta": false,
+     "texto": "Depende do volume de cartões processados por segundo."
+    }
+   ],
+   "gabarito": "Má ideia: a regra é conhecida e escrevível",
+   "porque": "Machine Learning existe para quando a regra **não** é escrevível. A validação de cartão segue o algoritmo de Luhn, que é determinístico, exato e verificável linha a linha. Um modelo treinado para imitá-lo seria mais lento, não auditável, e — pior — erraria em algum ponto, trocando uma resposta *certa por construção* por uma *provavelmente certa*. Note que a alternativa da acurácia é uma armadilha: mesmo 99,99% seria pior que 100%, e a acurácia alta apenas esconderia que a tarefa era resolvível sem modelo nenhum.",
+   "volte_para": "#quando-nao-usar-machine-learning",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "00-introducao",
+   "titulo_capitulo": "00 — Introdução"
+  },
+  {
+   "id": "00-e2",
+   "capitulo": 0,
+   "arquivo": "livro/00-introducao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Quais afirmações descrevem diferenças **estruturais** entre um sistema aprendido e um sistema programado? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "No sistema aprendido, a regra vive em parâmetros ajustados a partir de exemplos."
+    },
+    {
+     "correta": true,
+     "texto": "O sistema aprendido pode degradar sem nenhuma alteração no código."
+    },
+    {
+     "correta": false,
+     "texto": "O sistema aprendido dispensa testes automatizados."
+    },
+    {
+     "correta": true,
+     "texto": "Verificar o sistema aprendido exige dados que ele nunca viu durante o treino."
+    },
+    {
+     "correta": false,
+     "texto": "O sistema programado não pode ser corrigido depois de escrito."
+    }
+   ],
+   "gabarito": "parâmetros ajustados · degrada sem alteração de código · exige dados não vistos",
+   "porque": "As três corretas são exatamente as linhas da tabela de comparação: **onde mora a regra**, **como envelhece** e **como se verifica**. As duas erradas são mal-entendidos comuns e caros. Sistemas aprendidos precisam de *mais* testes automatizados, não menos — só que os testes mudam de natureza: além de \"esta função retorna isto\", passam a incluir \"esta métrica não caiu abaixo deste limiar neste conjunto\". E sistemas programados são, obviamente, corrigíveis; a diferença é *como* se corrige: editando a regra, em vez de mexer em dado, objetivo ou modelo.",
+   "volte_para": "#o-que-muda-quando-a-regra-e-aprendida",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "00-introducao",
+   "titulo_capitulo": "00 — Introdução"
+  },
+  {
+   "id": "00-e3",
+   "capitulo": 0,
+   "arquivo": "livro/00-introducao.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Descreva um problema do seu trabalho ou da sua área de interesse que você acredita ser candidato a Machine Learning. Diga **qual regra ninguém consegue escrever**, **que exemplos existiriam** para aprender com eles, e **o que significaria \"funcionar\"** — em termos de uma medida, não de uma impressão.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "As três perguntas — regra, exemplos, medida — são o teste mínimo de viabilidade de um projeto de ML, e são as três que costumam ficar implícitas nas reuniões onde o projeto é aprovado. A terceira é a que mais falha: \"queremos prever a evasão de clientes\" não é uma medida; \"queremos identificar, entre os 5% de clientes mais prováveis de sair no próximo mês, pelo menos metade dos que de fato saem\" é. Note que definir a medida quase sempre expõe uma decisão de negócio que ninguém tinha tomado — e esse é o maior serviço que o exercício presta.",
+   "volte_para": "#como-este-livro-funciona",
+   "rubrica": "identifica uma regra concreta que é difícil de enunciar explicitamente;\ndescreve uma fonte de exemplos plausível e disponível, não hipotética;\npropõe uma medida de sucesso observável, e não um adjetivo (\"bom\", \"preciso\");\na medida proposta tem alguma relação com a consequência no mundo, não só com o modelo",
+   "versoes": null,
+   "pagina": "00-introducao",
+   "titulo_capitulo": "00 — Introdução",
+   "criterios": [
+    "identifica uma regra concreta que é difícil de enunciar explicitamente",
+    "descreve uma fonte de exemplos plausível e disponível, não hipotética",
+    "propõe uma medida de sucesso observável, e não um adjetivo (\"bom\", \"preciso\")",
+    "a medida proposta tem alguma relação com a consequência no mundo, não só com o modelo"
+   ]
+  },
+  {
+   "id": "01-e1",
+   "capitulo": 1,
+   "arquivo": "livro/01-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe testa 40 configurações de modelo, medindo cada uma no conjunto de teste, e reporta a melhor: 94,2% de acurácia. Qual é o problema mais grave dessa prática?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Nenhum: testar muitas configurações é justamente o que se deve fazer."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é o custo computacional de 40 treinos."
+    },
+    {
+     "correta": true,
+     "texto": "O 94,2% é otimista: escolher o máximo entre 40 medições ruidosas seleciona também a sorte, e o teste deixou de ser uma estimativa imparcial."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é que 40 configurações é pouco para explorar bem o espaço."
+    }
+   ],
+   "gabarito": "O 94,2% é otimista",
+   "porque": "Cada medição no teste carrega ruído amostral. Ao tomar o **máximo** de 40 medições ruidosas, você seleciona sistematicamente as configurações que tiveram sorte naquele conjunto específico — e a sorte não se repete. O número reportado passa a conter uma parcela de acaso que será cobrada em produção. A correção é estrutural, não estatística: comparar as 40 configurações na **validação**, escolher uma, e só então medir essa uma no teste. Note que o custo computacional (alternativa 2) é uma questão real, mas menor: dinheiro se resolve com dinheiro; uma estimativa contaminada leva a decisão errada e ninguém percebe.",
+   "volte_para": "#as-tres-divisoes-e-por-que-sao-tres",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "01-fundamentos",
+   "titulo_capitulo": "01 — Fundamentos"
+  },
+  {
+   "id": "01-e2",
+   "capitulo": 1,
+   "arquivo": "livro/01-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um modelo atinge 0,98 de acurácia no treino e 0,71 na validação. Qual é o diagnóstico e a primeira ação razoável?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Viés alto: aumentar a capacidade do modelo."
+    },
+    {
+     "correta": true,
+     "texto": "Variância alta: regularizar, simplificar o modelo ou conseguir mais dados."
+    },
+    {
+     "correta": false,
+     "texto": "Ruído irredutível: aceitar o resultado, é o teto do problema."
+    },
+    {
+     "correta": false,
+     "texto": "Impossível diagnosticar sem ver o erro no teste."
+    }
+   ],
+   "gabarito": "Variância alta",
+   "porque": "A assinatura é o **vão** entre treino e validação: 0,98 contra 0,71. O modelo tem capacidade de sobra — ele consegue explicar quase perfeitamente os dados que viu — mas o que aprendeu não se transfere. Isso é variância alta, ou seja, overfitting. Aumentar a capacidade (alternativa 1) pioraria; o sintoma de viés alto seria erro **alto nos dois** conjuntos, e próximos entre si. E note por que a última alternativa é errada e perigosa: você não precisa — nem deve — consultar o teste para fazer esse diagnóstico. Diagnóstico se faz na validação; o teste é a testemunha que se preserva.",
+   "volte_para": "#o-diagnostico-pratico",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "01-fundamentos",
+   "titulo_capitulo": "01 — Fundamentos"
+  },
+  {
+   "id": "01-e3",
+   "capitulo": 1,
+   "arquivo": "livro/01-fundamentos.md",
+   "tipo": "completar",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Complete o termo que falta na decomposição do erro esperado de um modelo:\n\n`erro esperado ≈ viés² + ______ + ruído irredutível`",
+   "opcoes": [],
+   "gabarito": "variância|variancia",
+   "porque": "A decomposição clássica tem três parcelas: o **viés²** (o quanto o modelo erra sistematicamente, por não conseguir representar o padrão), a **variância** (o quanto ele oscila conforme a amostra de treino muda) e o **ruído irredutível** (o que nenhum modelo alcança). O valor prático de decorar isto não é a fórmula — é que cada parcela pede uma ação diferente: viés pede mais expressividade, variância pede mais dados ou mais restrição, e ruído pede que você pare.",
+   "volte_para": "#a-decomposicao-vies-variancia",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "01-fundamentos",
+   "titulo_capitulo": "01 — Fundamentos"
+  },
+  {
+   "id": "04-e1",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge 99,5% de acurácia no teste. Qual leitura é correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O modelo é excelente: erra menos de 1 caso em 200."
+    },
+    {
+     "correta": true,
+     "texto": "O número não diz quase nada: prever \"não é fraude\" para tudo já daria 99,7%."
+    },
+    {
+     "correta": false,
+     "texto": "A acurácia não pode ser usada em problemas binários."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo é bom, mas precisaria de mais dados para confirmar."
+    }
+   ],
+   "gabarito": "O número não diz quase nada",
+   "porque": "Com 0,3% de positivos, a classe majoritária sozinha entrega 99,7% de acurácia. O modelo com 99,5% está **abaixo** do classificador que não faz nada — ele está, na prática, destruindo valor. Acurácia mede a fração de acertos totais; quando uma classe domina, ela mede sobretudo a **prevalência**, não a competência do modelo. Note que a alternativa \"não pode ser usada em problemas binários\" é falsa e revela outro mal-entendido: acurácia é perfeitamente válida quando as classes são equilibradas e os dois tipos de erro custam o mesmo. O problema não é a métrica; é usá-la fora da condição em que ela informa.",
+   "volte_para": "#a-linha-de-base-que-voce-precisa-bater",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "04-avaliacao",
+   "titulo_capitulo": "04 — Avaliação"
+  },
+  {
+   "id": "04-e2",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um classificador produziu a seguinte matriz de confusão: VP = 45, FP = 15, FN = 30, VN = 410.\n\nQual é a **precisão**? Responda com 2 casas decimais.",
+   "opcoes": [],
+   "gabarito": "0.75 ± 0.01",
+   "porque": "Precisão = VP/(VP+FP) = 45/(45+15) = 45/60 = **0,75**. O erro mais comum aqui é usar VP/(VP+FN) — isso dá 45/75 = 0,60, que é a **revocação**. A forma de nunca trocar é voltar à pergunta: precisão pergunta \"dos que **apontei**, quantos eram?\", então o denominador é tudo o que você apontou como positivo (VP+FP). Revocação pergunta \"dos que **eram**, quantos achei?\", então o denominador é tudo o que era positivo de verdade (VP+FN). Repare que este modelo tem precisão razoável e revocação de 0,60 — ele erra pouco quando fala, mas fica calado com frequência.",
+   "volte_para": "#fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "04-avaliacao",
+   "titulo_capitulo": "04 — Avaliação",
+   "gabarito_num": {
+    "valor": 0.75,
+    "tolerancia": 0.01
+   }
+  },
+  {
+   "id": "04-e3",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um sistema faz a triagem inicial de currículos, descartando candidatos antes de qualquer olhar humano. Qual métrica deve orientar a decisão de limiar, e por quê?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Precisão: é caro entrevistar candidatos ruins."
+    },
+    {
+     "correta": true,
+     "texto": "Revocação: um candidato bom descartado nunca mais é recuperado, e ninguém fica sabendo do erro."
+    },
+    {
+     "correta": false,
+     "texto": "Acurácia: é a métrica mais completa, pois considera as quatro células."
+    },
+    {
+     "correta": false,
+     "texto": "F1: equilibra as duas e evita ter de escolher."
+    }
+   ],
+   "gabarito": "Revocação",
+   "porque": "A pergunta não é estatística, é de **assimetria de custo e de visibilidade**. Um falso positivo (candidato mediano que passa) custa uma entrevista — é caro, mas é detectado e corrigido pelo humano na etapa seguinte. Um falso negativo (candidato bom descartado) é invisível: ninguém no processo jamais saberá que ele existiu, o erro nunca aparece em nenhum relatório e não há mecanismo de correção. Erros invisíveis são mais perigosos que erros caros, porque não geram aprendizado. Escolher F1 aqui (alternativa 4) é a resposta mais sedutora e a mais preguiçosa: F1 assume que os dois erros pesam igual, e a premissa inteira deste caso é que **não pesam**. Escolher F1 é declarar indiferença — só que sem perceber que está declarando.",
+   "volte_para": "#worked-example-a-mesma-matriz-tres-leituras",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "04-avaliacao",
+   "titulo_capitulo": "04 — Avaliação"
+  },
+  {
+   "id": "04-e4",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Um modelo tem AUC-ROC de 0,95 no teste. Quais conclusões são **legítimas** a partir só desse número? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O modelo ordena bem: positivos tendem a receber escores maiores que negativos."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo acerta 95% das predições."
+    },
+    {
+     "correta": false,
+     "texto": "Os escores do modelo podem ser lidos como probabilidades confiáveis."
+    },
+    {
+     "correta": true,
+     "texto": "Existe **algum** limiar com um bom compromisso entre precisão e revocação."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo terá bom desempenho mesmo se a prevalência da classe positiva mudar."
+    }
+   ],
+   "gabarito": "ordena bem · existe algum limiar com bom compromisso",
+   "porque": "AUC é uma medida de **ordenação**, e só isso. Ela não é uma taxa de acerto (0,95 de AUC não é 95% de acurácia — são grandezas diferentes), não diz nada sobre **calibração** (um modelo pode ordenar perfeitamente e ainda assim ter escores sem significado probabilístico), e não sobrevive intacta a mudanças de prevalência — quando a proporção de positivos muda, precisão e a operação real mudam junto, mesmo com a AUC-ROC estável. Esse último ponto é exatamente por que a AUC-PR é preferível para classes raras: ela é sensível à prevalência, que é o que muda no mundo. As duas corretas são as únicas que se limitam ao que a definição da AUC autoriza.",
+   "volte_para": "#ranking-decisao-e-calibracao-tres-coisas-diferentes",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "04-avaliacao",
+   "titulo_capitulo": "04 — Avaliação"
+  },
+  {
+   "id": "04-e5",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "tipo": "aberta",
+   "objetivo": "O5",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Sua equipe compara dois modelos no mesmo conjunto de teste de 800 exemplos: o modelo A tem F1 = 0,812 e o modelo B, F1 = 0,829. Alguém propõe substituir A por B em produção.\n\nEscreva a resposta que você daria: **o que falta saber** antes dessa decisão, e **como você obteria** essa informação.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A diferença é de 0,017 num conjunto de 800 exemplos — plausivelmente dentro do ruído amostral. O caminho correto não é rejeitar B, é **medir a incerteza antes de decidir**: bootstrap pareado sobre o mesmo teste (reamostre os índices, recalcule as duas métricas na mesma reamostra e observe a distribuição da **diferença**) responde diretamente à pergunta certa. O detalhe do pareamento é o que separa uma resposta boa de uma correta: como os dois modelos foram avaliados nos mesmos exemplos, a comparação pareada elimina a variância comum ao conjunto e é bem mais sensível que comparar dois intervalos independentes. E a decisão de produção nunca é só da métrica — trocar modelo tem custo, e um ganho dentro do ruído não paga esse custo.",
+   "volte_para": "#metrica-e-uma-estimativa-reporte-a-incerteza",
+   "rubrica": "questiona se a diferença de 0,017 é maior que a incerteza da medição;\npropõe um procedimento concreto para estimar essa incerteza (bootstrap, validação cruzada ou teste pareado);\nobserva que os dois modelos foram medidos no mesmo conjunto, o que permite comparação pareada e reduz a variância da comparação;\nconsidera ao menos um fator além da métrica (custo de troca, latência, interpretabilidade, calibração, comportamento por subgrupo)",
+   "versoes": null,
+   "pagina": "04-avaliacao",
+   "titulo_capitulo": "04 — Avaliação",
+   "criterios": [
+    "questiona se a diferença de 0,017 é maior que a incerteza da medição",
+    "propõe um procedimento concreto para estimar essa incerteza (bootstrap, validação cruzada ou teste pareado)",
+    "observa que os dois modelos foram medidos no mesmo conjunto, o que permite comparação pareada e reduz a variância da comparação",
+    "considera ao menos um fator além da métrica (custo de troca, latência, interpretabilidade, calibração, comportamento por subgrupo)"
+   ]
+  }
+ ],
+ "videos": [
+  {
+   "id": "00-v1",
+   "capitulo": 0,
+   "arquivo": "livro/00-introducao.md",
+   "fonte": "youtube",
+   "ref": "Gv9_4yMHFhI",
+   "titulo": "A Gentle Introduction to Machine Learning",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 6,
+   "porque": "Uma visão geral de seis minutos que fixa o vocabulário — treino, teste, predição — **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.",
+   "pagina": "00-introducao"
+  },
+  {
+   "id": "01-v1",
+   "capitulo": 1,
+   "arquivo": "livro/01-fundamentos.md",
+   "fonte": "youtube",
+   "ref": "EuBBz3bI-aA",
+   "titulo": "Machine Learning Fundamentals: Bias and Variance",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 7,
+   "porque": "A decomposição viés–variância é um daqueles conceitos que a prosa explica e o **gráfico** fixa. O vídeo mostra ajustes sucessivos ao mesmo conjunto de pontos, e a intuição visual de \"a curva balança demais quando os dados mudam\" é o que faz o termo *variância* deixar de ser jargão e virar algo que você reconhece de longe num gráfico de treino.",
+   "pagina": "01-fundamentos"
+  },
+  {
+   "id": "04-v1",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "fonte": "youtube",
+   "ref": "4jRBRDbJemM",
+   "titulo": "ROC and AUC, Clearly Explained!",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 16,
+   "porque": "A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício 04-e4.",
+   "pagina": "04-avaliacao"
+  }
+ ],
+ "gerado_de": "livro/"
+}

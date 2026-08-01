@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+.pytest_cache/
+
+# motor do livro (node)
+publicar/node_modules/
+
+# site gerado (o CI reconstrói e publica)
+docs/
+
+# corpus do tutor: gerado por build_corpus.py antes do deploy do backend.
+# (banco.json NÃO é ignorado: é versionado, e a CI confere que não derivou.)
+chat-companion/backend/corpus.json
+
+# trilha prática: artefatos locais de execução
+ml-zero/**/*.db
+ml-zero/**/artefatos/
