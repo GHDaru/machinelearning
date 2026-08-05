@@ -19,7 +19,8 @@ npm run verificar   # só valida o banco (é o gate da CI); não escreve nada
 | `exercicios.mjs` | Extrai o banco para o backend e **valida** (gabarito, feedback, objetivo, ids únicos) |
 | `grafo.mjs` | Knowledge graph do livro, derivado do conteúdo a cada build |
 | `sumario.json` | A estrutura do livro: partes, capítulos, teasers, URL do backend |
-| `tema/` | CSS e JS servidos como assets |
+| `tema/` | CSS, JS e imagens servidos como assets |
+| `gerar-capa.py` | Regera `tema/capa.png` e `tema/capa-social.png` — PNG puro, sem dependência |
 
 ## Os dois recortes do mesmo bloco
 
@@ -59,3 +60,17 @@ Exercício quebrado é pior que exercício nenhum: ele ensina errado com a autor
 | `:::exercicio` / `:::video` | vira UI interativa (ignorados dentro de cercas de código) |
 | Link para `.md` publicado | reescrito para `.html`; o resto aponta para o GitHub |
 | `<div data-viz="uso-livro">` | ilha viva preenchida em runtime |
+
+## Regerar a capa
+
+```bash
+python3 publicar/gerar-capa.py
+```
+
+Desenha o que o livro é: duas classes de pontos, a fronteira de decisão que as
+separa, e — de propósito — os ~9% de pontos do lado errado. O erro irredutível
+é parte da tese do capítulo 01, então ele aparece na capa.
+
+O script vive aqui, e não em `tema/`, porque `tema/` é o que vai para o site:
+ferramenta de autoria não é asset publicado. Os PNGs gerados são versionados;
+rode isto só quando a identidade visual mudar.

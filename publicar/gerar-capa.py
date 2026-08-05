@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 """Gera a capa do livro em PNG, sem dependência externa.
 
+    python publicar/gerar-capa.py
+
+Roda só quando a identidade visual muda — o PNG gerado é versionado.
+
 Desenha o que o livro é: uma nuvem de pontos de duas classes, e a fronteira
 de decisão que as separa — com a faixa de sobreposição deixada visível, porque
 o erro irredutível é parte da tese (cap. 01).
 """
 import math, random, struct, zlib
 from pathlib import Path
+
+AQUI = Path(__file__).resolve().parent
 
 def png(path, w, h, pixels):
     raw = b"".join(b"\x00" + bytes(pixels[y]) for y in range(h))
@@ -77,6 +83,6 @@ def desenhar(w, h, seed=20260801):
             blend(x, int(y) + dy, AMBAR, a * 0.9)
     return px
 
-png("publicar/tema/capa.png", 1024, 1536, desenhar(1024, 1536))
-png("publicar/tema/capa-social.png", 1200, 630, desenhar(1200, 630, seed=7))
+png(AQUI / "tema/capa.png", 1024, 1536, desenhar(1024, 1536))
+png(AQUI / "tema/capa-social.png", 1200, 630, desenhar(1200, 630, seed=7))
 print("✓ capa.png (1024×1536) e capa-social.png (1200×630) geradas")

@@ -6,6 +6,11 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado
+- `gerar-capa.py` movido de `publicar/tema/` para `publicar/`: `tema/` é o que vai
+  para o site, e ferramenta de autoria não é asset publicado. Documentado no
+  README do motor, com caminhos agora relativos ao próprio script.
+
 ## [0.1.0] — 2026-08-01
 
 ### Adicionado
