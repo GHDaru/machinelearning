@@ -42,6 +42,7 @@ Antes de agir, verifique se uma skill de [`skills/`](skills/README.md) se aplica
 - `ml-zero/` — a construção prática (Python + NumPy + FastAPI), uma etapa por capítulo. Regras na seção "Restrições" da constituição.
 - `chat-companion/backend/` — o backend do livro vivo: chat com RAG no texto, **correção de exercícios**, progresso e telemetria anônima.
 - `publicar/` — o motor: Markdown → site HTML navegável. `build.mjs` (páginas), `exercicios.mjs` (extrai o banco e valida), `pdf.mjs`, `tema/` (CSS/JS).
+- `ROADMAP.md` — o que vem agora, em que ordem e por quê. **Consulte antes de propor trabalho novo**: cada item vira uma spec.
 - `adr/` — Architecture Decision Records.
 - `estudos/` — notas de pesquisa e pareceres.
 - `.specify/` — spec-kit: constituição (`memory/`), scripts, templates. `.claude/skills/` — skills `/speckit-*` e `academic-research`.

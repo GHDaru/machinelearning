@@ -6,6 +6,12 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado
+- `ROADMAP.md`: o lugar único que responde "o que vem agora, em que ordem e por quê".
+  Consolida o que estava espalhado em quatro artefatos (tasks da spec 001, trilha,
+  histórico e README), e acrescenta o que não existia em lugar nenhum: as dívidas
+  registradas, os não-objetivos e o portão de publicação de um capítulo.
+
 ### Corrigido
 - `livro/videoteca.md` afirmava que o índice era gerado a partir dos capítulos.
   Não é: a fonte de cada vídeo é o bloco `:::video` do capítulo, mas a tabela é

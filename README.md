@@ -80,6 +80,8 @@ A última linha é a mais incomum e a mais importante: este livro mantém um [pl
 | Etapas do `ml-zero` | **1** de 17 (etapa 00, 17 testes verdes) |
 | Testes do backend | **23** verdes |
 
+**O que vem a seguir está em [`ROADMAP.md`](ROADMAP.md)** — a ordem dos próximos capítulos, as dívidas registradas e os não-objetivos.
+
 Os capítulos-esqueleto não têm corpo por decisão de processo: cada um entra pelo ciclo `spec → plan → tasks → implement`, com sua própria rodada de pesquisa verificada (Princípio VII). A [bibliografia](livro/bibliografia.md) reflete isso honestamente — 5 referências ✓ e as demais marcadas ⏳, sem poder sustentar afirmação no corpo.
 
 ## Rodar localmente
