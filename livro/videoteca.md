@@ -1,6 +1,6 @@
 # Videoteca
 
-> Curadoria de vídeos por capítulo. Esta página é **gerada a partir dos capítulos**: cada vídeo vive no bloco `:::video` do capítulo que ele serve, junto do texto que ele complementa. Aqui está a política e o índice.
+> Curadoria de vídeos por capítulo. A **fonte** de cada vídeo é o bloco `:::video` do capítulo que ele serve — é lá que ele vive, junto do texto que complementa. Esta página reúne a política e um índice **mantido à mão**; quem adiciona um vídeo atualiza os dois lugares. (Gerar o índice a partir do `banco.json` é melhoria devida: enquanto não for, ele pode ficar atrasado, e dizer isso é mais honesto do que fingir automação.)
 
 ## A política de curadoria
 

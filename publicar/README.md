@@ -74,3 +74,33 @@ separa, e — de propósito — os ~9% de pontos do lado errado. O erro irredut�
 O script vive aqui, e não em `tema/`, porque `tema/` é o que vai para o site:
 ferramenta de autoria não é asset publicado. Os PNGs gerados são versionados;
 rode isto só quando a identidade visual mudar.
+
+## Publicação (GitHub Pages) — e a armadilha que já nos pegou
+
+O deploy é `.github/workflows/publicar.yml`: o job `build` gera `docs/` e sobe o
+artefato; o job `deploy` publica. Só há **uma** etapa manual, feita uma vez:
+`Settings → Pages → Source: GitHub Actions`.
+
+**Se o `deploy` falhar em ~2 segundos, sem executar nenhum passo e sem log**, não
+procure erro no build: ele passou. Esse sintoma significa que o job nunca chegou
+a um runner — foi barrado no portão do ambiente `github-pages`.
+
+Duas causas, em ordem de probabilidade:
+
+1. **Política de branches do ambiente.** O GitHub cria o ambiente `github-pages`
+   com uma regra de branches permitidas, derivada da configuração do Pages no
+   momento em que ele foi habilitado. Se o Pages foi habilitado quando outra
+   branch era a default, a regra recusa `main`. Conferir em
+   `Settings → Environments → github-pages → Deployment branches`.
+2. **Source errada.** `Settings → Pages` ainda em "Deploy from a branch".
+   Sintoma auxiliar: nesse caso o passo `configure-pages` costuma falhar já no
+   `build` — se ele passou, a causa provavelmente é a (1).
+
+Depois de ajustar, `Re-run failed jobs` reaproveita o artefato que já subiu; não
+é preciso commit novo.
+
+**Por que o push que cria uma branch não dispara o deploy:** o workflow tem
+filtro de `paths`, e num push de criação de branch o GitHub não avalia esse
+filtro — nada conta como modificado. Use `Run workflow` (o `workflow_dispatch`
+está declarado) ou o primeiro push seguinte que toque `livro/`, `publicar/` ou
+`ml-zero/`.

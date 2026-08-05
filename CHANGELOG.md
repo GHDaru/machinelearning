@@ -6,6 +6,16 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido
+- `livro/videoteca.md` afirmava que o índice era gerado a partir dos capítulos.
+  Não é: a fonte de cada vídeo é o bloco `:::video` do capítulo, mas a tabela é
+  mantida à mão. Texto corrigido, com a automação registrada como melhoria devida.
+
+### Documentação
+- `publicar/README.md` passa a registrar o procedimento de publicação e o modo de
+  falha do deploy do Pages (job barrado no portão do ambiente `github-pages`,
+  falhando em segundos e sem log), com as duas causas e onde conferir cada uma.
+
 ### Alterado
 - `gerar-capa.py` movido de `publicar/tema/` para `publicar/`: `tema/` é o que vai
   para o site, e ferramenta de autoria não é asset publicado. Documentado no
