@@ -58,6 +58,32 @@ O teto também é conhecido: o gerador injeta 8% de ruído irredutível de prop�
 
 Dizer isso em voz alta é parte do método: o Princípio I exige que a limitação do experimento seja declarada junto com o resultado.
 
+## Etapa 02 — vazamento e divisões honestas
+
+**Capítulo correspondente:** [02 — Dados](../livro/capitulos/02-dados.md)
+
+| Arquivo | O que faz |
+|---|---|
+| [`etapa-02/dados.py`](etapa-02/dados.py) | Detector de vazamento, divisões por grupo e por tempo, duplicatas, ficha de dataset |
+| [`tests/test_etapa_02.py`](tests/test_etapa_02.py) | 28 testes |
+| [`tests/conftest.py`](tests/conftest.py) | Carregador de módulos por etapa (etapas autocontidas têm arquivos homônimos) |
+
+### A lição
+
+Está escrita como teste, não como comentário:
+
+```python
+def test_a_licao_da_etapa_embaralhar_por_linha_vaza_o_sujeito():
+    grupos = [f"cliente-{i // 8}" for i in range(800)]   # 100 clientes, 8 linhas cada
+    ...
+    assert len(vazou_entre(grupos, *ingenuo)) > 90, "quase todo cliente vaza"
+    assert vazou_entre(grupos, *dividir_por_grupo(grupos)) == set()
+```
+
+Com 8 linhas por cliente, a divisão ingênua espalha **mais de 90 dos 100 clientes** pelos três conjuntos. O teste não mede a linha errada; ele mede o sujeito. E é por isso que o modelo treinado assim vai bem no teste e mal com clientes novos.
+
+A `FichaDeDataset` segue a mesma filosofia: não é um documento que alguém promete escrever, é um objeto cujo `validar()` levanta quando falta resposta — inclusive quando a resposta é "nenhuma limitação conhecida", que também precisa ser dita.
+
 ## Próximas etapas
 
 As etapas 01–16 entram pelo ciclo spec-driven — uma spec por etapa (Princípio VII), com plano, tarefas e verificação. O mapa completo está em [`livro/trilha-ml-zero.md`](../livro/trilha-ml-zero.md).

@@ -13,13 +13,13 @@ A ordem não é arbitrária — segue dois critérios, nesta prioridade:
 1. **Destravar o que já está construído.** Maquinaria pronta e ociosa é desperdício maior que funcionalidade ausente.
 2. **Cobrir primeiro os modos de falha caros.** Em Machine Learning, o que quebra projetos reais é dado e avaliação, não escolha de arquitetura.
 
-## Estado atual — edição 0.1 (2026-08-01)
+## Estado atual — edição 0.2 (2026-08-05)
 
 | | |
 |---|---|
-| Capítulos escritos | **3** de 18 — `00`, `01`, `04` (piloto) |
-| Capítulos em esqueleto | 15 — com objetivos e problema definidos |
-| Exercícios | 11 · **Vídeos** 3 · **Etapas do `ml-zero`** 1 de 17 |
+| Capítulos escritos | **4** de 18 — `00`, `01`, `02`, `04` (piloto) |
+| Capítulos em esqueleto | 14 — com objetivos e problema definidos |
+| Exercícios | 15 · **Vídeos** 4 · **Etapas do `ml-zero`** 2 de 17 |
 | Site | 🟢 no ar em https://ghdaru.github.io/machinelearning/ |
 | Backend | 🔴 **não publicado** — a interatividade está dormente |
 
@@ -37,14 +37,14 @@ Tudo já está construído e testado — 23 testes verdes, sobe sem chave e sem 
 - **Entrega:** URL no ar, `GET /health` respondendo, um exercício corrigido de ponta a ponta na produção
 - **Cuidado:** é a primeira vez que o projeto tem estado persistente de leitor. Backup e plano de rollback antes, não durante.
 
-### R2 — Capítulo 02: Dados
+### ✅ R2 — Capítulo 02: Dados — **concluído** (spec 002, edição 0.2)
 
 O primeiro capítulo de conteúdo, e não por acaso: **vazamento de dados é o erro mais caro e mais silencioso de Machine Learning**. Ele não dá erro, não aparece em log, passa por revisão de código, e o sintoma é uma métrica boa demais que ninguém questiona porque a notícia é boa.
 
 Destrava também a **etapa 02** do `ml-zero`, que é onde a trilha sai do dado sintético e encontra as patologias do dado real — a limitação que o [ADR 0003](adr/0003-dado-sintetico-na-etapa-00.md) declarou de propósito.
 
-- **Depende de:** nada (00, 01 e 04 já dão a base)
-- **Entrega:** capítulo no esqueleto v4, ≥3 exercícios, ≥1 vídeo, etapa 02 da trilha, referências ⏳ → ✓
+- **Entregue:** capítulo com 4 exercícios e 1 vídeo, etapa 02 com 28 testes, Gebru et al. promovido a ✓
+- **Achado do caminho:** a lição do capítulo virou asserção executável — se "embaralhar por linha vaza o sujeito" deixar de ser verdade, o build quebra
 
 ---
 

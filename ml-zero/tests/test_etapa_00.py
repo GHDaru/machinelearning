@@ -7,15 +7,19 @@ testes e sabe quando terminou.
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "etapa-00"))
+from conftest import carregar
 
-from baseline import MajorityBaseline, MeanBaseline, acuracia, matriz_confusao  # noqa: E402
-from dados import dividir, gerar  # noqa: E402
+_baseline = carregar("etapa-00", "baseline")
+_dados = carregar("etapa-00", "dados")
+
+MajorityBaseline = _baseline.MajorityBaseline
+MeanBaseline = _baseline.MeanBaseline
+acuracia = _baseline.acuracia
+matriz_confusao = _baseline.matriz_confusao
+dividir = _dados.dividir
+gerar = _dados.gerar
 
 
 # --------------------------------------------------------------- dados

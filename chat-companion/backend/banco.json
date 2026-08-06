@@ -187,6 +187,139 @@
    "titulo_capitulo": "01 — Fundamentos"
   },
   {
+   "id": "02-e1",
+   "capitulo": 2,
+   "arquivo": "livro/capitulos/02-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe prevê inadimplência em 30 dias. O modelo atinge 0,96 de AUC — três vezes melhor que qualquer tentativa anterior. Entre os atributos está `dias_de_atraso_atual`. Qual é a leitura mais provável?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O modelo é excelente; `dias_de_atraso_atual` é de fato um bom preditor."
+    },
+    {
+     "correta": true,
+     "texto": "Vazamento: quem já está em atraso hoje quase por definição estará inadimplente, e essa coluna não existe no momento em que a decisão precisa ser tomada."
+    },
+    {
+     "correta": false,
+     "texto": "Overfitting: o modelo decorou o treino."
+    },
+    {
+     "correta": false,
+     "texto": "A AUC está alta porque a base é desbalanceada."
+    }
+   ],
+   "gabarito": "Vazamento",
+   "porque": "Aplique o teste da coluna: *no instante em que preciso decidir, este valor já existe?* Se a decisão é conceder crédito **antes** de haver qualquer atraso, então `dias_de_atraso_atual` é zero para todo mundo naquele instante — e o valor que apareceu no treino veio de um momento posterior ao que se quer prever. O modelo aprendeu \"quem está atrasado vai ficar inadimplente\", que é verdade e é inútil.\n\nNote por que **overfitting** é a resposta errada mais tentadora: overfitting produz treino bom e validação ruim. Aqui a validação também está ótima — porque a coluna vazada está nos dois lados. Vazamento e overfitting têm assinaturas opostas, e confundi-los manda a investigação para o lado errado.",
+   "volte_para": "#1-alvo-disfarcado-a-coluna-que-so-existe-depois",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "02-dados",
+   "titulo_capitulo": "02 — Dados"
+  },
+  {
+   "id": "02-e2",
+   "capitulo": 2,
+   "arquivo": "livro/capitulos/02-dados.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Quais destas práticas introduzem vazamento? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Preencher valores ausentes com a mediana calculada sobre o dataset inteiro, antes de dividir."
+    },
+    {
+     "correta": true,
+     "texto": "Selecionar os 20 atributos mais correlacionados com o alvo usando todos os dados, e só depois dividir."
+    },
+    {
+     "correta": false,
+     "texto": "Fixar a *seed* do embaralhamento antes de dividir."
+    },
+    {
+     "correta": true,
+     "texto": "Aplicar *target encoding* numa categórica usando as médias calculadas sobre treino e teste juntos."
+    },
+    {
+     "correta": false,
+     "texto": "Usar validação cruzada em vez de uma única divisão."
+    }
+   ],
+   "gabarito": "imputação antes do split · seleção de atributos antes do split · target encoding sobre tudo",
+   "porque": "As três corretas são a mesma falha com três roupas: **algo aprendeu dos dados de teste antes de o teste ser usado para medir**. A mediana carrega a distribuição do teste; a seleção de atributos usa a correlação com o alvo do teste; o *target encoding* embute a média do alvo do teste dentro de uma coluna de entrada — este último é o mais grave dos três, porque injeta o próprio alvo.\n\nAs duas erradas são higiene, não vazamento. Fixar a *seed* torna a divisão reprodutível, o que é exigência do Princípio II. E validação cruzada não vaza *por si só* — ela vaza se o pré-processamento for feito fora do laço, que é exatamente o mesmo erro de novo, só que repetido em cada dobra.",
+   "volte_para": "#2-pre-processamento-antes-da-divisao-o-vazamento-silencioso",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "02-dados",
+   "titulo_capitulo": "02 — Dados"
+  },
+  {
+   "id": "02-e3",
+   "capitulo": 2,
+   "arquivo": "livro/capitulos/02-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Um hospital quer prever readmissão em 30 dias. A base tem 50.000 internações de 12.000 pacientes, coletadas ao longo de 4 anos. O sistema vai atender pacientes que chegam pela primeira vez. Qual divisão é a correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Embaralhar as 50.000 internações e dividir 70/15/15, estratificando pelo alvo."
+    },
+    {
+     "correta": false,
+     "texto": "Dividir por paciente, embaralhando os 12.000 e separando 70/15/15."
+    },
+    {
+     "correta": true,
+     "texto": "Dividir por tempo (treino nos primeiros anos, teste no último) **e** garantir que nenhum paciente apareça em dois conjuntos."
+    },
+    {
+     "correta": false,
+     "texto": "Usar validação cruzada de 5 dobras sobre as internações, que é mais robusta que uma divisão única."
+    }
+   ],
+   "gabarito": "Dividir por tempo e por paciente, simultaneamente",
+   "porque": "Há **duas** estruturas aqui, e ignorar qualquer uma delas invalida a medição.\n\n**Tempo**, porque protocolos clínicos, população e prática mudam em 4 anos: treinar com 2026 para prever 2023 é uma máquina do tempo. **Paciente**, porque um mesmo paciente tem várias internações — e um modelo que aprende a reconhecer *aquele paciente* vai bem no teste e falha justamente no caso de uso declarado, que é o paciente novo.\n\nAs alternativas 1 e 2 acertam uma estrutura e ignoram a outra. A alternativa 4 é a armadilha mais elegante: validação cruzada é de fato mais robusta contra ruído amostral, mas robustez não conserta viés — cinco dobras embaralhadas erradas dão uma estimativa errada com um intervalo de confiança estreito, que é pior do que uma estimativa errada e obviamente incerta.\n\nNa prática, a divisão correta custa dados: pacientes do último período que já apareciam antes precisam sair de um dos lados. Esse custo é real e vale a pena.",
+   "volte_para": "#a-divisao-que-respeita-a-estrutura-dos-dados",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "02-dados",
+   "titulo_capitulo": "02 — Dados"
+  },
+  {
+   "id": "02-e4",
+   "capitulo": 2,
+   "arquivo": "livro/capitulos/02-dados.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Você recebeu uma base de 200.000 avaliações de produtos, rotuladas como \"positiva\" ou \"negativa\", para treinar um classificador de sentimento. O rótulo foi gerado automaticamente: avaliações de 4–5 estrelas viraram \"positiva\", de 1–2 estrelas viraram \"negativa\", e as de 3 estrelas foram descartadas.\n\nEscreva as **três perguntas mais importantes** que você faria antes de treinar, e diga o que cada resposta mudaria na sua decisão.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "As três mais valiosas costumam ser estas. **Primeira:** o rótulo é a estrela, não o sentimento — e as duas coisas divergem (elogio com nota baixa por causa da entrega, ironia, avaliação de 5 estrelas com reclamação no texto). O modelo terá como teto a qualidade dessa correspondência.\n\n**Segunda, e a mais fácil de deixar passar:** descartar as 3 estrelas remove exatamente os casos difíceis. O classificador vai parecer excelente no teste — que também não tem casos difíceis — e vai encontrá-los todos em produção. É desbalanceamento invertido: a base ficou mais fácil que o mundo.\n",
+   "volte_para": "#a-ficha-de-dataset",
+   "rubrica": "questiona o rótulo automático e o teto que a regra de geração impõe;\nnota que descartar as 3 estrelas remove justamente os casos ambíguos, inflando a métrica;\nlevanta ao menos uma questão de origem, licença ou representatividade da base;\ncada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas",
+   "versoes": null,
+   "pagina": "02-dados",
+   "titulo_capitulo": "02 — Dados",
+   "criterios": [
+    "questiona o rótulo automático e o teto que a regra de geração impõe",
+    "nota que descartar as 3 estrelas remove justamente os casos ambíguos, inflando a métrica",
+    "levanta ao menos uma questão de origem, licença ou representatividade da base",
+    "cada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas"
+   ]
+  },
+  {
    "id": "04-e1",
    "capitulo": 4,
    "arquivo": "livro/capitulos/04-avaliacao.md",
@@ -366,6 +499,18 @@
    "min": 7,
    "porque": "A decomposição viés–variância é um daqueles conceitos que a prosa explica e o **gráfico** fixa. O vídeo mostra ajustes sucessivos ao mesmo conjunto de pontos, e a intuição visual de \"a curva balança demais quando os dados mudam\" é o que faz o termo *variância* deixar de ser jargão e virar algo que você reconhece de longe num gráfico de treino.",
    "pagina": "01-fundamentos"
+  },
+  {
+   "id": "02-v1",
+   "capitulo": 2,
+   "arquivo": "livro/capitulos/02-dados.md",
+   "fonte": "youtube",
+   "ref": "fSytzGwwBVw",
+   "titulo": "Machine Learning Fundamentals: Cross Validation",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 6,
+   "porque": "O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este vídeo mostra a **mecânica** de dividir e de rodar validação cruzada, com os blocos se movendo na tela. Vale como base concreta antes do exercício 02-e3 — e repare, enquanto assiste, que a animação assume dados sem estrutura temporal nem de grupo. É o caso mais simples, e é por isso que ele é o mais ensinado.",
+   "pagina": "02-dados"
   },
   {
    "id": "04-v1",

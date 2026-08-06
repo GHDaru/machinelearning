@@ -6,6 +6,21 @@
 
 ## Edições
 
+### Edição 0.2 — 2026-08-05 · Dados: o vazamento e as divisões que respeitam a estrutura (spec 002)
+
+O primeiro capítulo de conteúdo depois da fundação, e não por acaso: **vazamento de dados é o erro mais caro e mais silencioso de Machine Learning**.
+
+**O que entrou:**
+
+- **Capítulo 02 — Dados**, no esqueleto v4: as três fontes de vazamento (alvo disfarçado, pré-processamento antes da divisão, duplicata entre conjuntos), a divisão que respeita tempo e grupo, a ficha de dataset em sete perguntas e o viés de seleção. 4 exercícios e 1 vídeo.
+- **Etapa 02 do `ml-zero`**: detector de vazamento com dois sinais independentes, divisão por grupo, divisão por tempo com intervalo de guarda, checagem de duplicatas e a `FichaDeDataset` como **portão executável** — o pipeline recusa dataset com ficha incompleta ou com dado pessoal declarado. 28 testes.
+- **Carregador de módulos por etapa** (`ml-zero/tests/conftest.py`): etapas autocontidas têm arquivos homônimos, e `sys.path` cru fazia a primeira importação vencer silenciosamente.
+- **Gebru et al. (2021)** conferido na fonte e promovido a ✓.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-05.
+
+**Nota de método:** a lição central do capítulo — "embaralhar por linha vaza o sujeito" — é uma **asserção executável** na suíte de testes, não apenas uma frase no texto. É o Princípio II levado ao limite: o argumento do livro falha o build se deixar de ser verdade.
+
 ### Edição 0.1 — 2026-08-01 · Fundação: maquinaria, estrutura e a camada interativa (spec 001)
 
 O repositório nasce com a máquina inteira funcionando e o conteúdo em construção — deliberadamente nessa ordem, para que nenhum capítulo seja escrito fora do formato que o livro exige de si mesmo.
@@ -29,7 +44,7 @@ O repositório nasce com a máquina inteira funcionando e o conteúdo em constru
 |---|---|---|---|---|
 | 00 — Introdução | escrito | 2026-08 | 3 | 1 |
 | 01 — Fundamentos | escrito | 2026-08 | 3 | 1 |
-| 02 — Dados | esqueleto | — | 0 | 0 |
+| 02 — Dados | **escrito** | 2026-08 | 4 | 1 |
 | 03 — Representação | esqueleto | — | 0 | 0 |
 | 04 — Avaliação | **escrito (piloto v4)** | 2026-08 | 5 | 1 |
 | 05 — Modelos Lineares | esqueleto | — | 0 | 0 |

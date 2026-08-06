@@ -6,6 +6,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-08-05
+
+### Adicionado
+- **Capítulo 02 — Dados**, no esqueleto v4, com 4 exercícios e 1 vídeo: as três fontes
+  de vazamento, divisão por tempo e por grupo, ficha de dataset e viés de seleção.
+- **Etapa 02 do `ml-zero`**: `detectar_vazamento_obvio` (dois sinais independentes),
+  `dividir_por_grupo`, `dividir_por_tempo` com intervalo de guarda, `checar_duplicatas`,
+  `vazou_entre` e `FichaDeDataset` — a ficha é um portão que levanta, não um documento
+  que alguém promete escrever. 28 testes.
+- `ml-zero/tests/conftest.py`: carregador de módulos por etapa. Etapas autocontidas têm
+  arquivos homônimos (`dados.py` na 00 e na 02) e `sys.path` cru fazia a primeira
+  importação vencer, silenciosamente.
+- Gebru et al. (2021), *Datasheets for Datasets*, conferido na fonte e promovido a ✓.
+
 ### Adicionado
 - `ROADMAP.md`: o lugar único que responde "o que vem agora, em que ordem e por quê".
   Consolida o que estava espalhado em quatro artefatos (tasks da spec 001, trilha,

@@ -31,8 +31,8 @@ Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência d
 
 ## Capítulo 02 — Dados
 
-- ⏳ **Kaufman, S., Rosset, S., Perlich, C., & Stitelman, O. (2012).** Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM TKDD*. — A formulação de referência do vazamento.
-- ⏳ **Gebru, T. et al. (2021).** Datasheets for Datasets. *Communications of the ACM*. — Origem da prática de ficha de dataset exigida pelo Princípio V.
+- ✓ **Gebru, T., Morgenstern, J., Vecchione, B., Wortman Vaughan, J., Wallach, H., Daumé III, H., & Crawford, K. (2021).** Datasheets for Datasets. *Communications of the ACM*, 64(12), 86–92. [doi:10.1145/3458723](https://doi.org/10.1145/3458723) — *verificado em 2026-08-05.* Origem da prática de ficha de dataset; o capítulo 02 adota uma versão mínima de sete perguntas e a torna executável (`FichaDeDataset`).
+- ⏳ **Kaufman, S., Rosset, S., Perlich, C., & Stitelman, O. (2012).** Leakage in Data Mining: Formulation, Detection, and Avoidance. *ACM TKDD*. — A formulação de referência do vazamento. **Prioridade**: sustentaria a taxonomia das três fontes, hoje apresentada como síntese própria.
 
 ## Capítulo 04 — Avaliação
 
