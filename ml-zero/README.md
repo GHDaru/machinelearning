@@ -84,6 +84,38 @@ Com 8 linhas por cliente, a divisão ingênua espalha **mais de 90 dos 100 clien
 
 A `FichaDeDataset` segue a mesma filosofia: não é um documento que alguém promete escrever, é um objeto cujo `validar()` levanta quando falta resposta — inclusive quando a resposta é "nenhuma limitação conhecida", que também precisa ser dita.
 
+## Etapa 07 — árvore, floresta e boosting
+
+**Capítulo correspondente:** [07 — Árvores e Ensembles](../livro/capitulos/07-arvores-ensembles.md)
+
+| Arquivo | O que faz |
+|---|---|
+| [`etapa-07/arvores.py`](etapa-07/arvores.py) | `Arvore` (Gini + MSE), `Floresta` (bagging), `Boosting` (perda logística), `auc` por postos |
+| [`etapa-07/dados_tabulares.py`](etapa-07/dados_tabulares.py) | Gerador com atributos inúteis, interação e quebra |
+| [`etapa-07/linear.py`](etapa-07/linear.py) | Régua linear — referência para o capítulo 05 |
+| [`etapa-07/rodar.py`](etapa-07/rodar.py) | O experimento do capítulo (~4 min) |
+| [`tests/test_etapa_07.py`](tests/test_etapa_07.py) | 21 testes (rápidos: usam dado pequeno) |
+
+### O que você deve ver
+
+```
+TETO DE BAYES (rank pelo processo verdadeiro): AUC 0.9402
+
+modelo                    acurácia   revocação      AUC  % do teto
+linear (referência)         0.7802      0.0000   0.4963     52.8%
+árvore (prof. 3)            0.9168      0.6970   0.9201     97.9%
+floresta (25)               0.9556      0.8485   0.9332     99.3%
+boosting (50, η=0,2)        0.9467      0.8687   0.9392     99.9%
+```
+
+### A lição
+
+O modelo linear fica em **0,4963** — acaso. Não é que vá mal: a fronteira é não-monotônica (consumo muito alto **e** muito baixo são anomalia), e nenhuma reta expressa "os extremos são positivos e o meio é negativo".
+
+E bagging faz o que promete: a variância da predição cai de **0,04066** (árvore profunda) para **0,00676** (floresta) — **6× menos**. Bagging não deixa o modelo mais esperto; deixa-o mais estável.
+
+> O dado foi construído com uma regra que favorece árvores. Isso está dito no capítulo, em destaque, antes de qualquer número — a ilustração mostra o mecanismo, não prova a regra geral.
+
 ## Próximas etapas
 
 As etapas 01–16 entram pelo ciclo spec-driven — uma spec por etapa (Princípio VII), com plano, tarefas e verificação. O mapa completo está em [`livro/trilha-ml-zero.md`](../livro/trilha-ml-zero.md).

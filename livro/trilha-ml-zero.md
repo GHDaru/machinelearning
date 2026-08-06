@@ -58,7 +58,8 @@ Se em algum ponto a etapa parecer fácil demais, ela provavelmente está — pul
 |---|---|
 | 00 — dado e linha de base | ✅ pronta e testada (17 testes) |
 | 02 — pipeline de dados e vazamento | ✅ pronta e testada (28 testes) |
-| 01, 03–16 | 🚧 entram pelo ciclo spec-driven, uma etapa por spec |
+| 07 — árvore, floresta e boosting | ✅ pronta e testada (21 testes) |
+| 01, 03–06, 08–16 | 🚧 entram pelo ciclo spec-driven, uma etapa por spec |
 
 Cada etapa nova é uma spec (Princípio VII), com plano, tarefas e verificação — e o capítulo correspondente só sai do estado de esqueleto quando sua etapa roda.
 

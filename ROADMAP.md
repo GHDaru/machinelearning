@@ -13,13 +13,13 @@ A ordem não é arbitrária — segue dois critérios, nesta prioridade:
 1. **Destravar o que já está construído.** Maquinaria pronta e ociosa é desperdício maior que funcionalidade ausente.
 2. **Cobrir primeiro os modos de falha caros.** Em Machine Learning, o que quebra projetos reais é dado e avaliação, não escolha de arquitetura.
 
-## Estado atual — edição 0.2 (2026-08-05)
+## Estado atual — edição 0.3 (2026-08-05)
 
 | | |
 |---|---|
-| Capítulos escritos | **4** de 18 — `00`, `01`, `02`, `04` (piloto) |
-| Capítulos em esqueleto | 14 — com objetivos e problema definidos |
-| Exercícios | 15 · **Vídeos** 4 · **Etapas do `ml-zero`** 2 de 17 |
+| Capítulos escritos | **5** de 18 — `00`, `01`, `02`, `04` (piloto), `07` |
+| Capítulos em esqueleto | 13 — com objetivos e problema definidos |
+| Exercícios | 20 · **Vídeos** 5 · **Etapas do `ml-zero`** 3 de 17 |
 | Site | 🟢 no ar em https://ghdaru.github.io/machinelearning/ |
 | Backend | 🔴 **não publicado** — a interatividade está dormente |
 
@@ -50,13 +50,16 @@ Destrava também a **etapa 02** do `ml-zero`, que é onde a trilha sai do dado s
 
 ## Próximo
 
-### R3 — Capítulo 07: Árvores e Ensembles
+### ✅ R3 — Capítulo 07: Árvores e Ensembles — **concluído** (spec 003, edição 0.3)
 
 A maioria dos problemas reais de ML em empresas é tabular, e a resposta padrão continua sendo gradient boosting. O capítulo trata isso como **afirmação empírica** — com experimento reproduzível e citação verificada, não como folclore de competição.
 
 Escolhido antes de 05/06 deliberadamente: entrega valor prático imediato a quem lê o livro para trabalhar, e a base teórica pode vir depois sem prejuízo.
 
-### R4 — Capítulos 05 e 06: Modelos Lineares e Otimização
+- **Entregue:** capítulo com 5 exercícios e 1 vídeo, etapa 07 com 21 testes, duas citações promovidas a ✓, cláusula de expiração E3 com gatilho operacional
+- **Achado do caminho:** medir o teto de Bayes antes de culpar o modelo. O experimento original não distinguia nada porque o dado tinha teto de 0,5895 — não porque os modelos fossem ruins
+
+### R4 — Capítulos 05 e 06 ⬅ **próximo**: Modelos Lineares e Otimização
 
 Podem ser uma spec só — são o mesmo assunto visto de dois ângulos, e separá-los duplicaria a pesquisa. É a base que torna o capítulo 09 (redes neurais) legível: quem não viu gradiente e regularização no caso limpo não entende o caso confuso.
 

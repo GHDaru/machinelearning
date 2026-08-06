@@ -6,6 +6,18 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-08-05
+
+### Adicionado
+- **Capítulo 07 — Árvores e Ensembles**, com 5 exercícios e 1 vídeo.
+- **Etapa 07 do `ml-zero`**: `Arvore`, `Floresta`, `Boosting`, `auc` por postos e um
+  gerador tabular com as três características que Grinsztajn et al. identificam no
+  tabular real. Mais `linear.py` como régua declarada. 21 testes.
+- `estudos/2026-08-05-teto-de-bayes-do-dado-da-etapa-00.md`: a medição que justificou
+  a etapa 07 gerar o próprio dado em vez de reusar o da etapa 00.
+- Breiman (2001) e Grinsztajn et al. (2022) conferidos e promovidos a ✓.
+- Cláusula de expiração E3 no placar, com gatilho de revisão operacional.
+
 ## [0.2.0] — 2026-08-05
 
 ### Adicionado

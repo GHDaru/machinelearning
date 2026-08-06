@@ -42,9 +42,10 @@ Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência d
 
 ## Capítulo 07 — Árvores e Ensembles
 
-- ⏳ **Breiman, L. (2001).** Random Forests. *Machine Learning*, 45, 5–32. — Bagging e florestas.
-- ⏳ **Chen, T., & Guestrin, C. (2016).** XGBoost: A Scalable Tree Boosting System. *KDD*. — Boosting moderno.
-- ⏳ **Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022).** Why do tree-based models still outperform deep learning on typical tabular data? *NeurIPS Datasets and Benchmarks*. — Evidência central da afirmação do capítulo sobre dados tabulares. **Prioridade de verificação.**
+- ✓ **Breiman, L. (2001).** Random Forests. *Machine Learning*, 45, 5–32. [doi:10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324) — *verificado em 2026-08-05.* Sustenta a afirmação de que a subamostragem de atributos existe para descorrelacionar as árvores, e não apenas para acelerar.
+- ✓ **Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022).** Why do tree-based models still outperform deep learning on tabular data? *NeurIPS 2022, Datasets and Benchmarks Track*. [arXiv:2207.08815](https://arxiv.org/abs/2207.08815) — *verificado em 2026-08-05.* Benchmark de 45 datasets; sustenta que modelos de árvore permanecem no estado da arte em tabular de porte médio (~10 mil exemplos) e identifica os três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos).
+- ⏳ **Chen, T., & Guestrin, C. (2016).** XGBoost: A Scalable Tree Boosting System. *KDD*. — Boosting moderno; entra quando o capítulo 16 tratar da biblioteca de produção.
+- ⏳ **Friedman, J. (2001).** Greedy Function Approximation: A Gradient Boosting Machine. *Annals of Statistics*. — A formulação original do gradient boosting.
 
 ## Capítulos 09–11 — Redes, visão e sequências
 

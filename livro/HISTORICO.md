@@ -6,6 +6,21 @@
 
 ## Edições
 
+### Edição 0.3 — 2026-08-05 · Árvores e ensembles: o que bagging e boosting realmente atacam (spec 003)
+
+**O que entrou:**
+
+- **Capítulo 07 — Árvores e Ensembles**, com 5 exercícios e 1 vídeo: como a árvore escolhe cada corte, por que uma árvore sozinha tem variância alta, a distinção entre bagging (variância) e boosting (viés), a ordem de ajuste de hiperparâmetros que economiza tempo, e a evidência sobre tabular × deep learning.
+- **Etapa 07 do `ml-zero`**: `Arvore` (Gini + MSE), `Floresta`, `Boosting` e `auc` por postos, em ~250 linhas de biblioteca padrão. Mais `linear.py` como régua declarada. 21 testes.
+- **Breiman (2001)** e **Grinsztajn, Oyallon & Varoquaux (2022)** conferidos e promovidos a ✓.
+- **Nota de estudo** sobre a medição que mudou o desenho do experimento.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-05.
+
+**O achado do caminho.** A primeira versão do experimento reusou o dado da etapa 00 e os quatro modelos terminaram empilhados entre 0,55 e 0,57 de AUC. Em vez de mexer no código, medimos o teto: o classificador de Bayes daquele dado alcança **0,5895** — o boosting já estava em 96% do máximo possível. Os modelos estavam certos; o instrumento é que não media. A etapa 07 passou a gerar o próprio dado, e a etapa 00 **não foi tocada** — sua lição depende daquele dado e já está publicada.
+
+**Nota de honestidade.** O dado da etapa 07 foi construído com uma regra que favorece árvores por construção, e o capítulo diz isso em destaque, antes de qualquer número. A ilustração mostra o mecanismo; a evidência de que dado tabular real tem essa forma é do paper, não nossa.
+
 ### Edição 0.2 — 2026-08-05 · Dados: o vazamento e as divisões que respeitam a estrutura (spec 002)
 
 O primeiro capítulo de conteúdo depois da fundação, e não por acaso: **vazamento de dados é o erro mais caro e mais silencioso de Machine Learning**.
@@ -49,7 +64,7 @@ O repositório nasce com a máquina inteira funcionando e o conteúdo em constru
 | 04 — Avaliação | **escrito (piloto v4)** | 2026-08 | 5 | 1 |
 | 05 — Modelos Lineares | esqueleto | — | 0 | 0 |
 | 06 — Otimização | esqueleto | — | 0 | 0 |
-| 07 — Árvores e Ensembles | esqueleto | — | 0 | 0 |
+| 07 — Árvores e Ensembles | **escrito** | 2026-08 | 5 | 1 |
 | 08 — Não Supervisionado | esqueleto | — | 0 | 0 |
 | 09 — Redes Neurais | esqueleto | — | 0 | 0 |
 | 10 — Visão | esqueleto | — | 0 | 0 |
@@ -69,6 +84,8 @@ Cada capítulo declara uma **cláusula de expiração**: o que, ali, tem prazo. 
 |---|---|---|---|---|---|
 | E1 | A decomposição viés–variância continua sendo a ferramenta de diagnóstico dominante na prática tabular; *double descent* é entendido como fenômeno do regime superparametrizado. Se surgir teoria unificada que preveja os dois regimes quantitativamente, a seção é reescrita. | 01 | 2026-08 | 🔵 aberta | — |
 | E2 | AUC-PR é a escolha padrão para classes raras; calibração é etapa pós-treino dedicada. Se modelos de uso geral passarem a entregar escores bem calibrados sem etapa dedicada, a recomendação muda. | 04 | 2026-08 | 🔵 aberta | — |
+
+| E3 | Gradient boosting é a escolha padrão para tabular de porte médio (Grinsztajn et al., 2022). **Gatilho de revisão**: um benchmark independente, com igual rigor de busca de hiperparâmetros, mostrando vantagem consistente de método não-árvore nesse regime. | 07 | 2026-08 | 🔵 aberta | — |
 
 **Legenda:** 🔵 aberta (ainda em pé, sem evidência de mudança) · 🟡 em curso (há sinais, mas não conclusivos) · 🟢 confirmada (o previsto aconteceu) · 🔴 refutada (o livro errou — e isso é a notícia mais importante de uma edição)
 

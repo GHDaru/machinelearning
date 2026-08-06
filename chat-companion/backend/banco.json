@@ -473,6 +473,162 @@
     "observa que os dois modelos foram medidos no mesmo conjunto, o que permite comparação pareada e reduz a variância da comparação",
     "considera ao menos um fator além da métrica (custo de troca, latência, interpretabilidade, calibração, comportamento por subgrupo)"
    ]
+  },
+  {
+   "id": "07-e1",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um nó contém 100 exemplos, 50 de cada classe. Um corte candidato produz um filho com 50 exemplos (45 positivos, 5 negativos) e outro com 50 (5 positivos, 45 negativos). Qual é o ganho de Gini desse corte?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "0,000 — o corte não ajuda, porque cada filho ainda tem as duas classes."
+    },
+    {
+     "correta": true,
+     "texto": "Aproximadamente 0,320."
+    },
+    {
+     "correta": false,
+     "texto": "0,500 — o corte separa metade dos exemplos."
+    },
+    {
+     "correta": false,
+     "texto": "Não dá para calcular sem saber qual atributo foi usado."
+    }
+   ],
+   "gabarito": "Aproximadamente 0,320",
+   "porque": "Gini do pai: 2 × 0,5 × 0,5 = **0,5**. Cada filho tem p = 45/50 = 0,9, logo Gini = 2 × 0,9 × 0,1 = **0,18**. Como os dois filhos têm o mesmo tamanho, a média ponderada é 0,18. Ganho = 0,5 − 0,18 = **0,32**.\n\nA primeira alternativa é o mal-entendido que vale corrigir: um corte não precisa deixar os filhos **puros** para valer muito. Ele precisa deixá-los **mais puros que o pai** — e este corte quase resolve o problema. Já a última alternativa confunde o que a fórmula usa: o ganho depende só de **como os exemplos se distribuem** entre os filhos, nunca de qual atributo produziu a separação. Por isso a mesma conta serve para qualquer atributo, e por isso escala não importa.",
+   "volte_para": "#fundamentos-como-a-arvore-escolhe-cada-corte",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "07-arvores-ensembles",
+   "titulo_capitulo": "07 — Árvores e Ensembles"
+  },
+  {
+   "id": "07-e2",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC na validação. Aumentam para 500 árvores. O que se espera?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A AUC vai cair, porque 500 árvores causam overfitting."
+    },
+    {
+     "correta": true,
+     "texto": "A AUC vai melhorar pouco ou nada, e depois estabilizar — mais árvores em bagging saturam, não pioram."
+    },
+    {
+     "correta": false,
+     "texto": "A AUC vai subir proporcionalmente ao número de árvores."
+    },
+    {
+     "correta": false,
+     "texto": "Impossível dizer sem saber a profundidade das árvores."
+    }
+   ],
+   "gabarito": "Vai melhorar pouco ou nada, e estabilizar",
+   "porque": "Em bagging, cada árvore nova é mais um termo na média. A variância da média cai com 1/B, então o ganho por árvore diminui rapidamente — de 50 para 500 você multiplica o custo por 10 para reduzir a variância residual por um fator pequeno. **Não piora**: adicionar termos a uma média não introduz overfitting, porque nenhuma árvore nova está tentando corrigir os erros das anteriores.\n\nÉ exatamente aqui que bagging e boosting se separam. Em **boosting**, cada árvore nova é ajustada ao resíduo — ou seja, ela persegue ativamente o que sobrou, inclusive o ruído. Por isso, em boosting, o número de árvores **é** um hiperparâmetro de regularização, e o excesso degrada a validação.\n\nSe você respondeu \"vai cair\", você aplicou a intuição de boosting a bagging. É o erro mais comum do capítulo, e a razão de a tabela comparativa existir.",
+   "volte_para": "#bagging-e-boosting-atacam-erros-diferentes",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "07-arvores-ensembles",
+   "titulo_capitulo": "07 — Árvores e Ensembles"
+  },
+  {
+   "id": "07-e3",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Quais afirmações sobre a floresta aleatória são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Cada árvore individual é tipicamente pior que uma única árvore treinada em todos os dados."
+    },
+    {
+     "correta": true,
+     "texto": "Sortear atributos em cada nó existe para descorrelacionar as árvores."
+    },
+    {
+     "correta": false,
+     "texto": "O treino é sequencial: cada árvore depende do resultado da anterior."
+    },
+    {
+     "correta": true,
+     "texto": "Normalizar os atributos não muda o resultado."
+    },
+    {
+     "correta": false,
+     "texto": "A floresta reduz o viés do modelo em relação a uma árvore única."
+    }
+   ],
+   "gabarito": "cada árvore é pior · sortear atributos descorrelaciona · normalizar não muda nada",
+   "porque": "As três corretas são as propriedades que definem bagging. A primeira é contraintuitiva e verdadeira: cada árvore vê uma reamostragem com reposição, na qual cerca de 37% dos exemplos originais não aparecem — ela treina com menos informação. A média é melhor porque os erros individuais se cancelam parcialmente, e isso exige que eles sejam **independentes**, que é o que a segunda propriedade compra. A terceira decorre de o corte depender só da ordem dos valores, e ordem é invariante a escala.\n\nAs duas erradas trocam bagging por boosting e variância por viés. Treino sequencial é boosting. E reduzir viés é boosting: a média de modelos igualmente enviesados tem o mesmo viés — não há como a floresta representar uma função que suas árvores não representam.",
+   "volte_para": "#bagging-a-media-de-modelos-descorrelacionados",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "07-arvores-ensembles",
+   "titulo_capitulo": "07 — Árvores e Ensembles"
+  },
+  {
+   "id": "07-e4",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um modelo de boosting foi treinado com taxa de aprendizado η = 0,2 e 50 árvores. Você decide reduzir a taxa para 0,05, mantendo o mesmo \"caminho percorrido\" pelo modelo. Aproximadamente quantas árvores serão necessárias?",
+   "opcoes": [],
+   "gabarito": "200 ± 5",
+   "porque": "A contribuição total é aproximadamente o produto η × número de árvores. Dividir a taxa por 4 (de 0,2 para 0,05) exige multiplicar o número de árvores por 4: 50 × 4 = **200**.\n\nA regra é aproximada de propósito, e é útil justamente por ser grosseira: ela dá o ponto de partida da busca, não o valor final. Na prática, taxa menor com mais árvores costuma terminar **um pouco melhor** que a configuração equivalente com taxa maior — passos menores exploram a paisagem com mais cuidado e o efeito regularizador é real. Por isso a receita do item 2 é fixar η baixo e deixar o early stopping decidir o número, em vez de buscar os dois numa grade.",
+   "volte_para": "#a-ordem-de-ajuste-que-economiza-tempo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "07-arvores-ensembles",
+   "titulo_capitulo": "07 — Árvores e Ensembles",
+   "gabarito_num": {
+    "valor": 200,
+    "tolerancia": 5
+   }
+  },
+  {
+   "id": "07-e5",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Sua equipe tem 8.000 linhas, 40 colunas tabulares, e um prazo de duas semanas. Um colega propõe começar por uma rede neural profunda, argumentando que \"deep learning é o estado da arte\".\n\nEscreva a resposta que você daria: qual sua **recomendação**, com que **evidência**, e em que **condição** você mudaria de ideia.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A recomendação defensável é **boosting**, e o argumento tem três camadas. **Evidência**: 8.000 linhas e 40 colunas caem exatamente no regime medido por Grinsztajn et al. (2022) — porte médio, tabular —, onde modelos de árvore permanecem no estado da arte. **Mecanismo**: entre 40 colunas quase certamente há colunas irrelevantes, que árvores descartam sem custo. **Prazo**: boosting treina em minutos e tem poucos hiperparâmetros que importam, o que permite muitas iterações em duas semanas — e o número de iterações costuma decidir mais que a escolha de família de modelo.\n\nA parte que separa uma boa resposta de uma dogmática é a **condição de mudança**. Exemplos legítimos: se houver texto livre ou imagem entre as colunas, se o volume crescer uma ou duas ordens de grandeza, se houver um modelo pré-treinado do domínio para aproveitar, ou se o requisito for aprender representação transferível para outra tarefa. Uma resposta que apenas afirma \"árvore sempre ganha em tabular\" acerta a recomendação e erra o raciocínio — e é essa a diferença que o exercício mede.",
+   "volte_para": "#fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular",
+   "rubrica": "recomenda começar por um modelo de árvore/boosting, com linha de base antes;\nsustenta a recomendação em evidência citável, não em preferência pessoal;\nmenciona ao menos um dos três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos) e não apenas o placar;\ndeclara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta;\nconsidera o custo de iteração dentro do prazo, e não só a métrica final",
+   "versoes": null,
+   "pagina": "07-arvores-ensembles",
+   "titulo_capitulo": "07 — Árvores e Ensembles",
+   "criterios": [
+    "recomenda começar por um modelo de árvore/boosting, com linha de base antes",
+    "sustenta a recomendação em evidência citável, não em preferência pessoal",
+    "menciona ao menos um dos três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos) e não apenas o placar",
+    "declara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta",
+    "considera o custo de iteração dentro do prazo, e não só a métrica final"
+   ]
   }
  ],
  "videos": [
@@ -523,6 +679,18 @@
    "min": 16,
    "porque": "A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício 04-e4.",
    "pagina": "04-avaliacao"
+  },
+  {
+   "id": "07-v1",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "fonte": "youtube",
+   "ref": "3CC4N4z3GJc",
+   "titulo": "Gradient Boost Part 1: Regression Main Ideas",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 15,
+   "porque": "Boosting é o conceito deste capítulo que a prosa explica mal, porque ele é um processo **iterativo** — e prosa é linear. O vídeo constrói o modelo passo a passo numa tabela pequena: previsão inicial, resíduo, árvore no resíduo, nova previsão, novo resíduo. Ver a coluna de resíduos encolhendo a cada rodada é o que transforma \"cada árvore corrige a anterior\" de frase decorada em mecanismo entendido. Assista antes do exercício 07-e4.",
+   "pagina": "07-arvores-ensembles"
   }
  ],
  "gerado_de": "livro/"
