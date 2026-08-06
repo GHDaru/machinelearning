@@ -475,6 +475,242 @@
    ]
   },
   {
+   "id": "05-e1",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque o erro quadrático é sempre menor que o absoluto."
+    },
+    {
+     "correta": true,
+     "texto": "Porque é diferenciável em todo ponto e admite solução fechada — não porque seja intrinsecamente mais correto."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o erro absoluto não pode ser minimizado."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o quadrado elimina os erros negativos, e o valor absoluto não."
+    }
+   ],
+   "gabarito": "É diferenciável e admite solução fechada",
+   "porque": "As razões são de **conveniência matemática**, e reconhecer isso é o que separa quem usa o método de quem o repete. O quadrado é diferenciável em toda parte (o valor absoluto tem um bico em zero, que complica o otimizador) e leva às equações normais, resolvíveis de uma vez.\n\nNão é que ele seja mais correto. Ele pune erros grandes de forma desproporcional, o que na presença de *outliers* é ativamente ruim — e nesse caso o erro absoluto é a escolha certa, à custa de exigir otimização iterativa. A última alternativa erra num detalhe revelador: o valor absoluto **também** elimina o sinal do erro. Eliminar sinal não é o ponto; a diferenciabilidade é.",
+   "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "05-modelos-lineares",
+   "titulo_capitulo": "05 — Modelos Lineares"
+  },
+  {
+   "id": "05-e2",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Numa regressão logística, o que é linear nos atributos?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A probabilidade prevista."
+    },
+    {
+     "correta": true,
+     "texto": "O logito — o logaritmo da razão de chances."
+    },
+    {
+     "correta": false,
+     "texto": "A classe prevista (0 ou 1)."
+    },
+    {
+     "correta": false,
+     "texto": "O erro de classificação."
+    }
+   ],
+   "gabarito": "O logito",
+   "porque": "O modelo calcula z = w·x + b (linear) e depois aplica a sigmoide para chegar à probabilidade. A sigmoide é **não linear** — é justamente ela que comprime a reta inteira no intervalo [0,1]. Portanto a probabilidade *não* é linear nos atributos; o logito é.\n\nA consequência prática aparece nos extremos. Um aumento de uma unidade num atributo muda o logito sempre na mesma quantidade, mas muda a **probabilidade** muito perto de 0,5 e quase nada perto de 0 ou de 1. Por isso \"este atributo aumenta a chance em 3 pontos percentuais\" é uma frase que só pode ser verdadeira num ponto específico, nunca em geral.",
+   "volte_para": "#regressao-logistica-o-nome-atrapalha",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "05-modelos-lineares",
+   "titulo_capitulo": "05 — Modelos Lineares"
+  },
+  {
+   "id": "05-e3",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 para `dívida_atual`. Quais leituras são **corretas**? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Um desvio-padrão a mais de dívida multiplica a razão de chances de inadimplência por aproximadamente 2."
+    },
+    {
+     "correta": false,
+     "texto": "Um desvio-padrão a mais de dívida aumenta a probabilidade de inadimplência em 70 pontos percentuais."
+    },
+    {
+     "correta": false,
+     "texto": "Reduzir a dívida do cliente reduziria o risco dele na proporção do coeficiente."
+    },
+    {
+     "correta": true,
+     "texto": "Se `dívida_atual` for muito correlacionada com `renda_comprometida`, este coeficiente pode ser instável entre reamostragens."
+    },
+    {
+     "correta": false,
+     "texto": "Como o coeficiente é o maior do modelo, dívida é a causa principal da inadimplência."
+    }
+   ],
+   "gabarito": "multiplica a razão de chances por ~2 · pode ser instável sob colinearidade",
+   "porque": "A primeira correta é a leitura literal: e^0,7 ≈ 2,01, e o efeito é sobre a **razão de chances**, não sobre a probabilidade. A segunda correta é o alerta de colinearidade — dois atributos que medem quase a mesma coisa dividem o crédito de forma arbitrária, e a divisão muda com pequenas variações nos dados sem que a métrica piore.\n\nAs três erradas são os três erros clássicos, nesta ordem de frequência: confundir logito com probabilidade (70 pontos percentuais é impossível — sequer respeita o intervalo [0,1]); ler correlação como intervenção (\"reduzir a dívida reduziria o risco\" é uma afirmação causal que o modelo não sustenta); e tratar magnitude de coeficiente como importância causal. As três aparecem em relatórios reais, e a terceira costuma aparecer no slide de recomendação.",
+   "volte_para": "#as-quatro-coisas-que-ele-nao-diz",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "05-modelos-lineares",
+   "titulo_capitulo": "05 — Modelos Lineares"
+  },
+  {
+   "id": "06-e1",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "A curva de perda de treino desce rapidamente nas primeiras épocas e depois oscila para cima e para baixo sem estabilizar, mantendo-se num patamar alto. Qual é o diagnóstico mais provável?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Overfitting: o modelo decorou o treino."
+    },
+    {
+     "correta": true,
+     "texto": "Taxa de aprendizado alta demais: o passo salta por cima do mínimo e fica quicando em torno dele."
+    },
+    {
+     "correta": false,
+     "texto": "Dados insuficientes."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo é simples demais para o problema."
+    }
+   ],
+   "gabarito": "Taxa de aprendizado alta demais",
+   "porque": "A assinatura é a **oscilação sem convergência** num patamar alto. O otimizador está dando passos maiores que a distância até o mínimo: chega perto, ultrapassa, volta, ultrapassa de novo. Divida a taxa por 10 e a oscilação vira descida.\n\nOverfitting (alternativa 1) tem assinatura totalmente diferente e exige **duas** curvas para ser visto: treino continua descendo enquanto validação sobe. Se você só tem a curva de treino, não pode diagnosticar overfitting — e essa é a razão de o capítulo insistir em plotar as duas juntas. Já \"modelo simples demais\" produziria uma curva que desce e estabiliza cedo, sem oscilar.",
+   "volte_para": "#diagnostico-pela-curva-de-perda",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "06-otimizacao",
+   "titulo_capitulo": "06 — Otimização e Regularização"
+  },
+  {
+   "id": "06-e2",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você tem 300 atributos, suspeita que a maioria é irrelevante, e precisa entregar um modelo que a equipe consiga explicar. Qual regularização escolher, e por quê?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "L2, porque é mais estável numericamente."
+    },
+    {
+     "correta": true,
+     "texto": "L1, porque zera coeficientes e produz um modelo com menos atributos — que é o requisito de explicabilidade."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhuma: com 300 atributos, regularizar descarta informação."
+    },
+    {
+     "correta": false,
+     "texto": "As duas dão o mesmo resultado; a escolha é indiferente."
+    }
+   ],
+   "gabarito": "L1",
+   "porque": "O requisito declarado é **explicabilidade**, e um modelo com 30 coeficientes não nulos é explicável de um jeito que um modelo com 300 coeficientes pequenos não é. L1 entrega isso porque o gradiente da penalidade tem magnitude constante — o empurrão para zero não enfraquece quando o peso se aproxima de zero, então ele chega lá.\n\nL2 é de fato mais estável numericamente e melhor sob colinearidade, mas **não zera nada**: você terminaria com 300 coeficientes pequenos, tecnicamente regularizados e praticamente ilegíveis. A terceira alternativa inverte a situação: com 300 atributos e suspeita de irrelevância, regularizar é justamente o que **preserva** informação útil, ao impedir que o modelo gaste capacidade ajustando ruído.\n\nNa prática há uma quarta opção que o capítulo não cobre e vale conhecer: *elastic net*, que combina as duas penalidades e costuma se comportar melhor quando os atributos irrelevantes são correlacionados entre si.",
+   "volte_para": "#l2-encolhe-todos-l1-zera-alguns",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "06-otimizacao",
+   "titulo_capitulo": "06 — Otimização e Regularização"
+  },
+  {
+   "id": "06-e3",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Quais afirmações sobre early stopping são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Deve ser monitorado na validação, não no treino."
+    },
+    {
+     "correta": true,
+     "texto": "Funciona como regularização porque o treino percorre modelos em ordem crescente de complexidade."
+    },
+    {
+     "correta": false,
+     "texto": "Substitui completamente L1 e L2."
+    },
+    {
+     "correta": true,
+     "texto": "Precisa de um limiar mínimo de melhora, ou pode nunca disparar."
+    },
+    {
+     "correta": false,
+     "texto": "Só faz sentido em redes neurais."
+    }
+   ],
+   "gabarito": "monitorar validação · regularização por trajetória · precisa de limiar mínimo",
+   "porque": "As três corretas são as que a implementação da etapa 05–06 tornou concretas — e as duas últimas foram descobertas na marra, não planejadas.\n\n**Validação, não treino**: com dados separáveis a perda de treino cai indefinidamente, e o critério mediria memória.\n**Regularização por trajetória**: os pesos crescem ao longo do treino, então parar antes seleciona um modelo menos complexo — o mesmo efeito de penalizar, sem penalizar.\n**Limiar mínimo**: sem `min_delta`, uma melhora de 4e-10 conta como progresso e o critério nunca dispara.\n\nAs erradas: early stopping **complementa** L1/L2 e é rotineiro usá-los juntos — ele controla *quando* parar, elas controlam *para onde* ir. E ele vale para qualquer modelo treinado iterativamente, incluindo o gradient boosting do [capítulo 07](07-arvores-ensembles.md), onde é a forma padrão de escolher o número de árvores.",
+   "volte_para": "#early-stopping-a-regularizacao-de-graca",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "06-otimizacao",
+   "titulo_capitulo": "06 — Otimização e Regularização"
+  },
+  {
+   "id": "06-e4",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "tipo": "completar",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Complete o nome do hiperparâmetro que define o **tamanho do passo** na atualização abaixo:\n\n`w ← w − ______ × ∇L(w)`",
+   "opcoes": [],
+   "gabarito": "taxa de aprendizado|learning rate|taxa|eta|η",
+   "porque": "É a **taxa de aprendizado** (η), e ela é o hiperparâmetro que mais decide entre um treino que funciona e um que não funciona. Alta demais: o passo salta por cima do mínimo e a perda oscila ou explode. Baixa demais: a perda desce imperceptivelmente e o treino termina antes de chegar a lugar nenhum.\n\nRepare que ela não muda *para onde* ir — o gradiente já decidiu a direção. Ela só decide **quanto** andar naquela direção. Confundir as duas coisas é a origem da tentativa comum e inútil de \"consertar a direção\" mexendo na taxa.",
+   "volte_para": "#fundamentos-descer-sem-enxergar-a-paisagem",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "06-otimizacao",
+   "titulo_capitulo": "06 — Otimização e Regularização"
+  },
+  {
    "id": "07-e1",
    "capitulo": 7,
    "arquivo": "livro/capitulos/07-arvores-ensembles.md",
@@ -679,6 +915,30 @@
    "min": 16,
    "porque": "A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício 04-e4.",
    "pagina": "04-avaliacao"
+  },
+  {
+   "id": "05-v1",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "fonte": "youtube",
+   "ref": "yIYKR4sgzI8",
+   "titulo": "StatQuest: Logistic Regression",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 9,
+   "porque": "O que o texto acima explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício 05-e3.",
+   "pagina": "05-modelos-lineares"
+  },
+  {
+   "id": "06-v1",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "fonte": "youtube",
+   "ref": "sDv4f4s2SB8",
+   "titulo": "Gradient Descent, Step-by-Step",
+   "autor": "StatQuest with Josh Starmer",
+   "min": 24,
+   "porque": "Vinte e quatro minutos, e valem cada um. O vídeo faz a conta **à mão**, passo a passo, num exemplo minúsculo: calcula o gradiente, dá o passo, recalcula. É o que a fórmula `w ← w − η∇L` esconde — que ela descreve um procedimento repetitivo e concreto, não uma operação abstrata. Se o gradiente ainda parece magia, é este material que resolve.",
+   "pagina": "06-otimizacao"
   },
   {
    "id": "07-v1",

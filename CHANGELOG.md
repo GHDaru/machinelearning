@@ -6,6 +6,30 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-08-05
+
+### Adicionado
+- **Capítulo 05 — Modelos Lineares** (3 exercícios, 1 vídeo) e **Capítulo 06 —
+  Otimização e Regularização** (4 exercícios, 1 vídeo).
+- **Etapa 05–06 do `ml-zero`**: `Padronizador`, `RegressaoLinear` (equações normais
+  por eliminação de Gauss **e** gradiente), `RegressaoLogistica` (L1/L2, razão de
+  chances) e `descida_de_gradiente` isolado do modelo. 22 testes.
+
+### Corrigido
+- `Historico.divergiu()` olhava apenas a última época e perdia a explosão que
+  acontecia no meio do treino — com taxa alta a perda oscila e pode terminar
+  num vale por acaso.
+- Early stopping não disparava: sem limiar mínimo de melhora, 4e-10 por época
+  contava como progresso. Adicionado `min_delta`.
+- Early stopping monitorava a perda de **treino**. Com dados separáveis essa
+  perda cai indefinidamente e o critério nunca dispara — e mesmo disparando
+  mediria memória. Adicionado `monitorar`, para observar a validação.
+
+### Alterado
+- **NumPy adiado** da etapa 05 para a 09. Biblioteca padrão bastou; adicionar
+  dependência sem que o algoritmo exija é estrutura antecipada (regra 2 da
+  construção). Registrado no docstring da etapa e no plano da spec 004.
+
 ## [0.3.0] — 2026-08-05
 
 ### Adicionado

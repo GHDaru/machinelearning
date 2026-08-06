@@ -28,6 +28,8 @@ Regras adicionais, do [Guia Editorial §5](GUIA-EDITORIAL.md):
 | 01 — Fundamentos | Machine Learning Fundamentals: Bias and Variance | StatQuest with Josh Starmer | ~7 min |
 | 02 — Dados | Machine Learning Fundamentals: Cross Validation | StatQuest with Josh Starmer | ~6 min |
 | 04 — Avaliação | ROC and AUC, Clearly Explained! | StatQuest with Josh Starmer | ~16 min |
+| 05 — Modelos Lineares | StatQuest: Logistic Regression | StatQuest with Josh Starmer | ~9 min |
+| 06 — Otimização | Gradient Descent, Step-by-Step | StatQuest with Josh Starmer | ~24 min |
 | 07 — Árvores e Ensembles | Gradient Boost Part 1: Regression Main Ideas | StatQuest with Josh Starmer | ~15 min |
 
 > Os capítulos-esqueleto ainda não têm vídeo — cada um recebe o seu quando sua spec for implementada (mínimo 1 por capítulo, Princípio VIII.1). Sugestões de vídeo são bem-vindas pelo próprio companion do livro (botão 💬 → Sugerir).

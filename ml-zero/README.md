@@ -116,6 +116,34 @@ E bagging faz o que promete: a variância da predição cai de **0,04066** (árv
 
 > O dado foi construído com uma regra que favorece árvores. Isso está dito no capítulo, em destaque, antes de qualquer número — a ilustração mostra o mecanismo, não prova a regra geral.
 
+## Etapa 05–06 — lineares e o otimizador
+
+**Capítulos:** [05 — Modelos Lineares](../livro/capitulos/05-modelos-lineares.md) e [06 — Otimização](../livro/capitulos/06-otimizacao.md)
+
+| Arquivo | O que faz |
+|---|---|
+| [`etapa-05/linear.py`](etapa-05/linear.py) | `Padronizador`, `RegressaoLinear` (fechada + gradiente), `RegressaoLogistica` (L1/L2), `descida_de_gradiente` |
+| [`tests/test_etapa_05.py`](tests/test_etapa_05.py) | 22 testes |
+
+### A lição
+
+O otimizador **não sabe o que está minimizando**:
+
+```python
+descida_de_gradiente(grad, n_parametros, n_exemplos, taxa, epocas,
+                     lote=None, paciencia=None, min_delta=1e-6, monitorar=None)
+```
+
+Quem decide *o que* minimizar é o modelo, que passa `grad`. Essa separação não foi projetada — apareceu quando linear e logística precisaram do mesmo laço com perdas diferentes. É a regra 2 (arquitetura por refatoração) acontecendo na prática.
+
+E três achados que vieram de testes falhando, todos no capítulo 06:
+
+1. A perda logística é **limitada**: taxa 500 satura em vez de explodir, enquanto erro quadrático a taxa 50 diverge.
+2. Early stopping monitorando **treino** nunca dispara em dado separável.
+3. Um instrumento de diagnóstico só se valida onde o problema existe: testar early stopping em dado limpo não prova nada.
+
+> **NumPy adiado.** O plano previa NumPy aqui. Biblioteca padrão bastou, e dependência sem necessidade é estrutura antecipada. Ele entra na etapa 09.
+
 ## Próximas etapas
 
 As etapas 01–16 entram pelo ciclo spec-driven — uma spec por etapa (Princípio VII), com plano, tarefas e verificação. O mapa completo está em [`livro/trilha-ml-zero.md`](../livro/trilha-ml-zero.md).

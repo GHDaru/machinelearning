@@ -13,13 +13,13 @@ A ordem não é arbitrária — segue dois critérios, nesta prioridade:
 1. **Destravar o que já está construído.** Maquinaria pronta e ociosa é desperdício maior que funcionalidade ausente.
 2. **Cobrir primeiro os modos de falha caros.** Em Machine Learning, o que quebra projetos reais é dado e avaliação, não escolha de arquitetura.
 
-## Estado atual — edição 0.3 (2026-08-05)
+## Estado atual — edição 0.4 (2026-08-05)
 
 | | |
 |---|---|
-| Capítulos escritos | **5** de 18 — `00`, `01`, `02`, `04` (piloto), `07` |
-| Capítulos em esqueleto | 13 — com objetivos e problema definidos |
-| Exercícios | 20 · **Vídeos** 5 · **Etapas do `ml-zero`** 3 de 17 |
+| Capítulos escritos | **7** de 18 — `00`, `01`, `02`, `04` (piloto), `05`, `06`, `07` |
+| Capítulos em esqueleto | 11 — com objetivos e problema definidos |
+| Exercícios | 27 · **Vídeos** 7 · **Etapas do `ml-zero`** 4 de 17 |
 | Site | 🟢 no ar em https://ghdaru.github.io/machinelearning/ |
 | Backend | 🔴 **não publicado** — a interatividade está dormente |
 
@@ -61,9 +61,12 @@ Escolhido antes de 05/06 deliberadamente: entrega valor prático imediato a quem
 
 ### R4 — Capítulos 05 e 06 ⬅ **próximo**: Modelos Lineares e Otimização
 
-Podem ser uma spec só — são o mesmo assunto visto de dois ângulos, e separá-los duplicaria a pesquisa. É a base que torna o capítulo 09 (redes neurais) legível: quem não viu gradiente e regularização no caso limpo não entende o caso confuso.
+Foram uma spec só — são o mesmo assunto por dois ângulos, e separá-los duplicaria a pesquisa.
 
-### R5 — Capítulo 16: MLOps
+- **Entregue:** dois capítulos (3 + 4 exercícios, 2 vídeos), etapa 05–06 com 22 testes
+- **Achado do caminho:** três correções vindas de testes que falharam — perda logística é limitada e satura em vez de divergir; early stopping monitorando treino nunca dispara em dado separável; e um instrumento de diagnóstico só se valida num cenário onde o problema existe
+
+### R5 — Capítulo 16: MLOps ⬅ **próximo**
 
 Fecha o ciclo do `ml-zero`: o modelo vira serviço com contrato, telemetria e detecção de *drift*. É o capítulo que separa "treinei um modelo" de "opero um sistema que aprende" — e o que dá sentido retroativo à regra 5 da construção ("serviço desde cedo").
 
@@ -76,7 +79,7 @@ Sem ordem fixa entre si; cada um entra quando houver razão para entrar.
 | Capítulo | Por que ainda não |
 |---|---|
 | 03 — Representação | Depende de 02 para os exemplos valerem |
-| 09 — Redes Neurais | Precisa de 05/06 para não virar mágica |
+| 09 — Redes Neurais | **desbloqueado** — 05/06 prontos; é o próximo natural depois de R5 |
 | 08 — Não Supervisionado | Independente; entra quando houver demanda |
 | 10, 11, 12 — Visão, Sequências, Fundação | Cadeia própria, dependente de 09 |
 | 14 — Interpretabilidade e Justiça | Ganha muito se vier depois de 07 (explicar ensemble é o caso real) |

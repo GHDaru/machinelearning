@@ -6,6 +6,24 @@
 
 ## Edições
 
+### Edição 0.4 — 2026-08-05 · Lineares e otimização: três achados que vieram de testes que falharam (spec 004)
+
+**O que entrou:**
+
+- **Capítulo 05 — Modelos Lineares** (3 exercícios, 1 vídeo): erro quadrático por conveniência e não por virtude, o logito como o que de fato é linear, as quatro coisas que um coeficiente **não** diz, e quando o linear é a escolha certa — reparando a impressão que o capítulo 07 deixa.
+- **Capítulo 06 — Otimização e Regularização** (4 exercícios, 1 vídeo): gradiente como procedimento, diagnóstico pela curva de perda, L1 × L2 explicado pelo gradiente da penalidade, e early stopping.
+- **Etapa 05–06 do `ml-zero`**: `Padronizador`, `RegressaoLinear` com solução fechada **e** gradiente, `RegressaoLogistica` com L1/L2, e o otimizador isolado do modelo. 22 testes.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-05.
+
+**Os três achados.** Todos vieram de testes que falharam, e todos entraram no texto porque são úteis ao leitor:
+
+1. **Perda logística é limitada.** Taxa 500 na logística **não** diverge — satura. Erro quadrático a taxa 50 explode. "Não explodiu" não prova que a taxa está boa.
+2. **Early stopping monitorando treino nunca dispara em dado separável**, porque a perda de treino cai indefinidamente. O critério precisa observar validação — e a primeira versão da nossa implementação estava errada.
+3. **Um instrumento de diagnóstico pressupõe que o problema exista.** Testar early stopping em dado limpo e separável não valida nada: não há ponto a partir do qual ajustar mais piore.
+
+**Decisão registrada:** NumPy foi **adiado** para a etapa 09. O plano da spec 001 o previa a partir da 05; biblioteca padrão bastou, e adicionar dependência sem que o algoritmo exija é a estrutura antecipada que a regra 2 da construção proíbe.
+
 ### Edição 0.3 — 2026-08-05 · Árvores e ensembles: o que bagging e boosting realmente atacam (spec 003)
 
 **O que entrou:**
@@ -62,8 +80,8 @@ O repositório nasce com a máquina inteira funcionando e o conteúdo em constru
 | 02 — Dados | **escrito** | 2026-08 | 4 | 1 |
 | 03 — Representação | esqueleto | — | 0 | 0 |
 | 04 — Avaliação | **escrito (piloto v4)** | 2026-08 | 5 | 1 |
-| 05 — Modelos Lineares | esqueleto | — | 0 | 0 |
-| 06 — Otimização | esqueleto | — | 0 | 0 |
+| 05 — Modelos Lineares | **escrito** | 2026-08 | 3 | 1 |
+| 06 — Otimização | **escrito** | 2026-08 | 4 | 1 |
 | 07 — Árvores e Ensembles | **escrito** | 2026-08 | 5 | 1 |
 | 08 — Não Supervisionado | esqueleto | — | 0 | 0 |
 | 09 — Redes Neurais | esqueleto | — | 0 | 0 |

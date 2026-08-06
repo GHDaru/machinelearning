@@ -69,15 +69,15 @@ A última linha é a mais incomum e a mais importante: este livro mantém um [pl
 
 ## Estado atual
 
-**Edição 0.3 (2026-08-05)** — a maquinaria inteira funciona; o conteúdo avança capítulo a capítulo, cada um por sua spec.
+**Edição 0.4 (2026-08-05)** — a maquinaria inteira funciona; o conteúdo avança capítulo a capítulo, cada um por sua spec.
 
 | | |
 |---|---|
-| Capítulos escritos | **5** de 18 (00, 01, 02, 07 e o piloto 04) |
-| Capítulos em esqueleto | 13 — com objetivos e problema definidos, aguardando sua spec |
-| Exercícios | **20**, corrigidos no servidor |
-| Vídeos curados | **5**, com link verificado |
-| Etapas do `ml-zero` | **3** de 17 (etapas 00, 02 e 07, 66 testes verdes) |
+| Capítulos escritos | **7** de 18 (00, 01, 02, 05, 06, 07 e o piloto 04) |
+| Capítulos em esqueleto | 11 — com objetivos e problema definidos, aguardando sua spec |
+| Exercícios | **27**, corrigidos no servidor |
+| Vídeos curados | **7**, com link verificado |
+| Etapas do `ml-zero` | **4** de 17 (etapas 00, 02, 05–06 e 07, 88 testes verdes) |
 | Testes do backend | **23** verdes |
 
 **O que vem a seguir está em [`ROADMAP.md`](ROADMAP.md)** — a ordem dos próximos capítulos, as dívidas registradas e os não-objetivos.

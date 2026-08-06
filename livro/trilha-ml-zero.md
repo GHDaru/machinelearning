@@ -29,8 +29,7 @@ E, atravessando tudo, o Princípio VI: **custo zero é requisito**. Toda etapa r
 | **02** | 02 | Pipeline de dados com detecção de vazamento e split por grupo/tempo | "o resultado estava bom demais" |
 | **03** | 03 | Codificação de categóricas, escalas, atributos de domínio | "o modelo não enxerga o que importa" |
 | **04** | 04 | Comparação pareada com intervalo de confiança | "melhorou de 0,912 para 0,918" |
-| **05** | 05 | Regressão linear e logística, em NumPy | "chamei `fit()` e não sei o que aconteceu" |
-| **06** | 06 | Gradiente descendente e regularização, à mão | "a perda não desce" |
+| **05–06** | 05 e 06 | Linear e logística + o otimizador isolado, à mão | "chamei `fit()` e não sei o que aconteceu" · "a perda não desce" |
 | **07** | 07 | Árvore, bagging e boosting; o experimento tabular do capítulo | "por que boosting ganha aqui?" |
 | **08** | 08 | k-means e PCA, com o critério de escolha de k declarado | "achei grupos, e daí?" |
 | **09** | 09 | Rede densa em NumPy: forward, backprop, update | "backprop é mágica" |
@@ -58,8 +57,9 @@ Se em algum ponto a etapa parecer fácil demais, ela provavelmente está — pul
 |---|---|
 | 00 — dado e linha de base | ✅ pronta e testada (17 testes) |
 | 02 — pipeline de dados e vazamento | ✅ pronta e testada (28 testes) |
+| 05–06 — lineares e o otimizador | ✅ pronta e testada (22 testes) |
 | 07 — árvore, floresta e boosting | ✅ pronta e testada (21 testes) |
-| 01, 03–06, 08–16 | 🚧 entram pelo ciclo spec-driven, uma etapa por spec |
+| 01, 03, 04, 08–16 | 🚧 entram pelo ciclo spec-driven, uma etapa por spec |
 
 Cada etapa nova é uma spec (Princípio VII), com plano, tarefas e verificação — e o capítulo correspondente só sai do estado de esqueleto quando sua etapa roda.
 
