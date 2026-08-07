@@ -50,13 +50,16 @@ Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência d
 ## Capítulo 18 — O Neurônio Artificial
 
 - ✓ **McCulloch, W. S., & Pitts, W. (1943).** A logical calculus of the ideas immanent in nervous activity. *Bulletin of Mathematical Biophysics*, 5, 115–133. [doi:10.1007/BF02478259](https://doi.org/10.1007/BF02478259) — *verificado em 2026-08-08.* O modelo de neurônio que o capítulo 18 e o laboratório implementam.
-- ⏳ **Rosenblatt, F. (1958).** The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain. *Psychological Review*. — A regra de aprendizado.
-- ⏳ **Minsky, M., & Papert, S. (1969).** *Perceptrons*. MIT Press. — A demonstração da limitação do XOR.
+- ✓ **Rosenblatt, F. (1958).** The perceptron: A probabilistic model for information storage and organization in the brain. *Psychological Review*, 65(6), 386–408. [doi:10.1037/h0042519](https://doi.org/10.1037/h0042519) — *verificado em 2026-08-08 (Crossref).* A regra de aprendizado que o `Perceptron` da etapa 18 implementa, e a prova de convergência para problemas separáveis.
+- ⏳ **Minsky, M., & Papert, S. (1969).** *Perceptrons*. MIT Press. — A demonstração da limitação do XOR. Livro sem DOI; conferir edição e ISBN na fonte da editora.
 - ⏳ **Hebb, D. O. (1949).** *The Organization of Behavior*. Wiley. — "Neurônios que disparam juntos, conectam-se juntos."
+- ✓ **Fukushima, K. (1980).** Neocognitron: A self-organizing neural network model for a mechanism of pattern recognition unaffected by shift in position. *Biological Cybernetics*, 36, 193–202. [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) — *verificado em 2026-08-08 (Crossref).* **Atenção à data:** o DOI registra **1980** (versão em inglês); a publicação japonesa original é de 1979. O capítulo 18 traz as duas datas por isso.
+- ⏳ **Linnainmaa, S. (1970).** *Alqoritmin kumulatiivinen pyöristysvirhe…* Dissertação de mestrado, Univ. de Helsinque. — A prioridade do modo reverso da diferenciação automática. Sem DOI e em finlandês; o capítulo 18 a cita **como nota de cronologia**, não como evidência de afirmação técnica.
+- ⏳ **Werbos, P. (1974).** *Beyond Regression*. Tese de doutorado, Harvard. — A primeira aplicação do método a redes neurais.
 
 ## Capítulos 09–11 — Redes, visão e sequências
 
-- ⏳ **Rumelhart, D., Hinton, G., & Williams, R. (1986).** Learning representations by back-propagating errors. *Nature*.
+- ✓ **Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986).** Learning representations by back-propagating errors. *Nature*, 323, 533–536. [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) — *verificado em 2026-08-08 (Crossref).* O trabalho que **popularizou** o backpropagation; a nota de prioridade do capítulo 18 se apoia nele.
 - ⏳ **He, K. et al. (2016).** Deep Residual Learning for Image Recognition. *CVPR*.
 - ⏳ **Vaswani, A. et al. (2017).** Attention Is All You Need. *NeurIPS*.
 

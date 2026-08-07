@@ -21,9 +21,25 @@ $$\text{saída} = \begin{cases} 1 & \text{se } w_1x_1 + w_2x_2 + \dots \geq \the
 
 É só isso. Uma soma ponderada e uma comparação.
 
+<img src="assets/neuronio-mp.svg" alt="Diagrama do neurônio de McCulloch–Pitts: as entradas x₁ e x₂ são multiplicadas pelos pesos w₁ e w₂, somadas no corpo do neurônio, comparadas com o limiar θ, e a saída é 1 se a soma alcançar o limiar e 0 caso contrário." width="720">
+
 O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem computar qualquer função lógica proposicional**. O argumento era filosófico antes de ser tecnológico: se o pensamento é lógica, e a lógica é computável por neurônios, então o pensamento é computável. Foi uma das ideias fundadoras da inteligência artificial, da teoria de autômatos e da cibernética — quinze anos antes de existir uma máquina que aprendesse alguma coisa.
 
 > **Repare no que ainda não existe aqui: aprendizado.** No modelo de 1943 os pesos são **postos à mão** por quem projeta a rede. Descobrir os pesos automaticamente é o passo seguinte da história, e é o que o perceptron de Rosenblatt traz em 1958.
+
+### Nota — quando "inteligência artificial" ainda não se chamava assim
+
+O artigo de McCulloch e Pitts é de **1943**. Nenhum dos dois usou a expressão "inteligência artificial", porque ela **não existia**.
+
+| Quando | O quê |
+|---|---|
+| **1943** | McCulloch & Pitts publicam o neurônio lógico |
+| **jul–ago de 1948** | Turing escreve, para o National Physical Laboratory, o relatório [*Intelligent Machinery*](https://weightagnostic.github.io/papers/turing1948.pdf) — onde o jogo da imitação aparece pela primeira vez, em forma restrita. O relatório **só foi publicado em 1968**, catorze anos depois da morte dele |
+| **1950** | Sai na revista *Mind* [*Computing Machinery and Intelligence*](https://doi.org/10.1093/mind/LIX.236.433), a exposição completa do que hoje se chama **teste de Turing** |
+| **31 de agosto de 1955** | McCarthy, Minsky, Rochester e Shannon assinam a [proposta do Dartmouth Summer Research Project](https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html) — onde a expressão **"artificial intelligence" aparece pela primeira vez** |
+| **verão de 1956** | O workshop de Dartmouth acontece, e é tomado como o evento fundador do campo |
+
+Duas coisas valem ficar. A primeira: **o neurônio artificial é treze anos mais velho que o nome do campo em que ele vive**. A segunda: a ideia de Turing sobre máquinas pensantes é de **1948**, não de 1950 — o texto famoso é o segundo, e o primeiro passou vinte anos numa gaveta.
 
 ## Mão na massa: encontre os pesos você mesmo
 
@@ -76,17 +92,37 @@ Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR
 
 ## A história: entusiasmo, inverno e a saída
 
-**1943 — McCulloch & Pitts.** O neurônio lógico. Sem aprendizado: os pesos são projetados.
+| Ano | Quem | O quê | Fonte |
+|---|---|---|---|
+| **1943** | McCulloch & Pitts | O neurônio lógico. Sem aprendizado: os pesos são projetados | [doi:10.1007/BF02478259](https://doi.org/10.1007/BF02478259) |
+| **1949** | Hebb | *The Organization of Behavior*: "neurônios que disparam juntos conectam-se juntos" — a primeira ideia de como um peso poderia **mudar** com a experiência | [registro](https://psycnet.apa.org/record/1950-02200-000) |
+| **1958** | Rosenblatt | O **perceptron**: a regra de aprendizado que faltava, com prova de convergência para problemas separáveis | [doi:10.1037/h0042519](https://doi.org/10.1037/h0042519) |
+| **1969** | Minsky & Papert | *Perceptrons*: a demonstração de que uma camada não computa o XOR | [MIT Press](https://mitpress.mit.edu/9780262534772/perceptrons/) |
+| **1970** | Linnainmaa | A **retropropagação de erro** descrita pela primeira vez, em tese de mestrado, em finlandês, sem falar em redes neurais | [nota abaixo](#nota-quem-inventou-o-backpropagation) |
+| **1974** | Werbos | Tese de doutorado: aplicar aquilo a redes neurais | [nota abaixo](#nota-quem-inventou-o-backpropagation) |
+| **1979/80** | Fukushima | O **neocognitron**: primeira arquitetura hierárquica convolucional. Publicado em japonês em 1979; em inglês em 1980 | [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) (1980) |
+| **1986** | Rumelhart, Hinton & Williams | Popularizam o backpropagation e mostram as representações aprendidas nas camadas escondidas | [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) |
 
-**1949 — Hebb.** "Neurônios que disparam juntos, conectam-se juntos." A primeira regra de como um peso poderia *mudar* com a experiência.
+### O entusiasmo e o inverno
 
-**1958 — Rosenblatt e o perceptron.** A peça que faltava: uma **regra de aprendizado**. Mostre um exemplo; se o neurônio errar, empurre os pesos na direção que teria acertado; repita. Rosenblatt provou que, se o problema for linearmente separável, o procedimento **converge em número finito de passos**. O entusiasmo foi enorme — e a imprensa da época prometeu máquinas que andariam, falariam e teriam consciência de si.
+Rosenblatt provou que, **se o problema for linearmente separável**, o perceptron converge em número finito de passos. A prova é sólida e a condição é a chave — mas o entusiasmo de 1958 leu só a primeira parte. A imprensa da época prometeu máquinas que andariam, falariam e teriam consciência de si.
 
-**1969 — Minsky & Papert.** O livro *Perceptrons* demonstrou com rigor o que você acabou de descobrir no laboratório: um perceptron de camada única não computa o XOR. O argumento era correto e a leitura que se fez dele foi mais ampla do que os autores demonstraram — o financiamento migrou para a IA simbólica, e a área conexionista entrou no que se chamou depois de **inverno da IA**.
+Onze anos depois, *Perceptrons* demonstrou com rigor o que você acabou de descobrir no laboratório: uma camada não computa o XOR. **O argumento estava correto.** A leitura que se fez dele foi mais ampla do que os autores demonstraram — e o financiamento migrou para a IA simbólica, no episódio que ficou conhecido como **inverno da IA**.
 
-**1986 — a saída.** Rumelhart, Hinton e Williams popularizam o **backpropagation**: uma forma prática de treinar redes com **camadas intermediárias**. E com uma camada escondida o XOR se resolve — porque duas retas, combinadas, separam o que uma não separava.
+A saída veio em 1986, e a moral vale além da história: **a limitação nunca foi do neurônio. Era da arquitetura de uma camada só.** O [capítulo 09](09-redes-neurais.md) constrói a rede multicamada que resolve isso.
 
-A moral, e ela vale além da história: **a limitação nunca foi do neurônio. Era da arquitetura de uma camada só.** O capítulo 09 constrói a rede multicamada que resolve isso.
+### Nota — quem inventou o backpropagation
+
+Rumelhart, Hinton e Williams **popularizaram** o backpropagation em 1986, e é a esse trabalho que quase todo curso credita a técnica. A cronologia real é mais longa e vale conhecer, porque ela ensina algo sobre como o crédito funciona em ciência:
+
+- **1970 — Seppo Linnainmaa** (finlandês) descreve o método na dissertação de mestrado dele, em finlandês, **sem mencionar redes neurais**: era diferenciação automática em modo reverso. Nunca publicada em inglês.
+- **1974 — Paul Werbos** (americano) é o primeiro a propor aplicá-lo ao treino de redes neurais, na tese de doutorado; as publicações vêm depois, entre **1979 e 1981**, depois de anos tentando publicar.
+- **1979/80 — Kunihiko Fukushima** (japonês) apresenta o **neocognitron**, a primeira arquitetura hierárquica com convolução — mas treinada **sem** backpropagation. A publicação japonesa é de 1979; a versão em inglês, na *Biological Cybernetics*, é de **1980** — é a data que o DOI registra, e por isso a tabela traz as duas.
+- **1986 — Rumelhart, Hinton & Williams** publicam na *Nature*, com resultados que convencem a comunidade. É a partir daí que a técnica pega.
+
+> **Sobre "um italiano em 1979".** Essa memória circula, e eu não encontrei quem a sustente. O que existe em 1979 são as **publicações de Werbos** (americano) e o **neocognitron de Fukushima** (japonês, publicado em inglês no ano seguinte). A prioridade de 1970 é de Linnainmaa, finlandês. Se você tiver a referência do italiano, ela entra aqui — mas até haver fonte verificável, o livro registra a dúvida em vez de escolher uma versão (Princípio I).
+
+A frase que resume o episódio é de Jürgen Schmidhuber, que passou anos reivindicando o crédito correto: **não é o primeiro inventor que leva o crédito, é o último reinventor.**
 
 :::exercicio {"id":"18-e2","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
 O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (1969)?
@@ -131,6 +167,23 @@ Explique, para alguém que nunca viu redes neurais, **o que um neurônio artific
 > **volte para:** #o-problema-pode-uma-maquina-pensar-em-logica
 :::
 
+## Mão na massa: rode o código
+
+Além do laboratório, o capítulo tem código Python que você pode **baixar e rodar** — sem instalar nada, nem NumPy.
+
+| O quê | Como usar |
+|---|---|
+| **Notebook no Colab** | [abrir direto no Google Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-18/neuronio_mp.ipynb) — não precisa instalar nada |
+| **Script** | [`ml-zero/etapa-18/neuronio.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-18/neuronio.py) — `python neuronio.py` |
+
+O notebook tem três partes, e a terceira é a que fecha o capítulo:
+
+1. **Você põe os pesos à mão** — a célula tem `w1, w2, theta = 0.0, 0.0, 0.0` e um comentário `<-- MEXA AQUI`.
+2. **O perceptron acha os pesos sozinho** — a regra de Rosenblatt em oito linhas, convergindo em poucas épocas para AND, OR, NAND e NOR.
+3. **O XOR por força bruta.** Em vez de argumentar, o notebook **testa 15.625 combinações** de pesos e limiar numa grade fina. O melhor resultado que aparece é **3 de 4**. Nunca 4.
+
+Esse último ponto é o que transforma "é impossível" de afirmação em resultado. E há um detalhe no meio do caminho que vale reparar: treinando o perceptron no XOR, o número de erros por época **nem diminui** — ele oscila. O perceptron não se aproxima da solução, porque não há solução de que se aproximar. É o sintoma do impossível, não do difícil.
+
 ## Síntese — o que levar
 
 - O neurônio de McCulloch–Pitts (1943) faz **uma soma ponderada e uma comparação com um limiar**. Nada mais.
@@ -138,9 +191,12 @@ Explique, para alguém que nunca viu redes neurais, **o que um neurônio artific
 - Encontrar pesos à mão é fazer manualmente o que o gradiente faz sozinho: mover a fronteira até os erros acabarem.
 - Há **infinitas** soluções para cada função separável — e **nenhuma** para o XOR, por geometria.
 - A limitação era da **arquitetura de uma camada**, não do neurônio. A saída foi empilhar camadas e treiná-las com backpropagation.
+- O neurônio artificial (1943) é **treze anos mais velho que o termo "inteligência artificial"** (1955) — e a ideia de Turing sobre máquinas pensantes está no relatório de **1948**, não no artigo famoso de 1950.
+- O backpropagation foi descrito em **1970** (Linnainmaa), aplicado a redes em **1974** (Werbos) e popularizado em **1986**. Em ciência, o crédito vai ao último reinventor.
 
 ## Verificação
 
 1. Sem olhar o laboratório, dê pesos e limiar que implementem o NÃO-E (NAND). Depois confira.
 2. Explique a alguém, em duas frases, por que o XOR é impossível para um neurônio só.
 3. Se uma segunda camada resolve o XOR, por que a área levou quase vinte anos para usá-la?
+4. O termo "inteligência artificial" é de 1955 e o neurônio artificial é de 1943. O que isso diz sobre como campos científicos se formam?

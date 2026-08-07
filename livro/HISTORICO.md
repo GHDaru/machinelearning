@@ -6,6 +6,23 @@
 
 ## Edições
 
+### Edição 0.5.1 — 2026-08-08 · O capítulo 18 ganha história, imagem e código executável (spec 006)
+
+Uma rodada curta e inteira dedicada a um capítulo só — o 18 —, a pedido de quem dá a aula. Nada de escopo novo: profundidade no que já existia.
+
+**O que entrou:**
+
+- **Histórico com as fontes reais.** A linha do tempo 1943–1986 deixou de citar de memória: cada marco leva DOI ou link verificável. McCulloch & Pitts ([doi:10.1007/BF02478259](https://doi.org/10.1007/BF02478259)), Rosenblatt ([doi:10.1037/h0042519](https://doi.org/10.1037/h0042519)), Fukushima ([doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251)), Rumelhart–Hinton–Williams ([doi:10.1038/323533a0](https://doi.org/10.1038/323533a0)).
+- **A imagem do neurônio.** Diagrama próprio (SVG, tema claro/escuro, descrito para leitor de tela): entradas → pesos → soma → comparação com o limiar → saída.
+- **Duas notas de contexto.** *Quando a IA ainda não se chamava assim*: o relatório de Turing de 1948, o artigo na *Mind* de 1950 e a proposta de Dartmouth de **31 de agosto de 1955**, que cunhou o termo. E a nota sobre **a prioridade do backpropagation**.
+- **Código para baixar e rodar.** `ml-zero/etapa-18/neuronio.py` e um caderno pronto para o Colab. O `NeuronioMP` **não tem `fit`** — a ausência é o conteúdo: em 1943 não havia aprendizado. O `Perceptron`, ao lado, tem.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-08.
+
+**A nota que não fechou, e por que ela ficou assim.** O pedido incluía checar uma lembrança: que o backpropagation teria sido desenvolvido por *um italiano, em 1979*. A busca não confirmou. O que existe, e está no capítulo com fonte: **Seppo Linnainmaa** (finlandês, 1970) publicou o modo reverso da diferenciação automática — a matemática do algoritmo; **Paul Werbos** (americano) o aplicou a redes na tese de 1974, com publicações no fim dos anos 1970; **Kunihiko Fukushima** (japonês) publicou o Neocognitron em **1979**. Nenhum italiano apareceu. O capítulo diz exatamente isso — inclusive que não achamos —, porque inventar uma atribuição plausível é o erro que o Princípio I existe para impedir. Se a lembrança tiver fonte, ela entra e esta nota é corrigida.
+
+**O que o `NeuronioMP` sem `fit` ensina.** Um estudante que baixa o arquivo procura o método de treino e não encontra. Essa frustração de trinta segundos ensina o recorte histórico melhor que o parágrafo que o antecede: o modelo de 1943 é um circuito, não um aprendiz. Rosenblatt levou **quinze anos** para dar-lhe uma regra de aprendizado, e ela está no arquivo ao lado, para comparação direta.
+
 ### Edição 0.5 — 2026-08-08 · Novo escopo: três disciplinas, trilhas e o primeiro laboratório (spec 005)
 
 A mudança mais profunda desde a fundação. O livro deixou de ser sobre Machine Learning e passou a ser **Ciência de Dados e Aprendizado de Máquina**, para servir a três disciplinas reais de Engenharia de Software.

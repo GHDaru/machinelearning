@@ -6,6 +6,27 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado
+- **Capítulo 18 — histórico com as fontes reais.** Linha do tempo 1943–1986 com DOI
+  ou link verificável em cada marco (McCulloch & Pitts, Hebb, Rosenblatt, Minsky &
+  Papert, Linnainmaa, Werbos, Fukushima, Rumelhart–Hinton–Williams).
+- **Diagrama do neurônio de McCulloch–Pitts** (`publicar/tema/neuronio-mp.svg`):
+  entradas → pesos → soma → limiar → saída, com tema claro/escuro e `aria-label`.
+- **Nota "quando a IA ainda não se chamava assim"**: o relatório de Turing de 1948,
+  o artigo na *Mind* de 1950 (o teste), e a proposta de Dartmouth de 1955 que cunhou
+  o termo *artificial intelligence*.
+- **Nota sobre a prioridade do backpropagation**: Linnainmaa (1970), Werbos (1974),
+  Fukushima (1979) e o que Rumelhart *et al.* (1986) de fato acrescentaram.
+- **Código Python para baixar e rodar** (`ml-zero/etapa-18/`): `neuronio.py` com
+  `NeuronioMP` (sem `fit`, de propósito) e `Perceptron` com a regra de Rosenblatt,
+  mais `neuronio_mp.ipynb` pronto para o Colab — inclui a varredura de força bruta
+  que fecha o XOR em 3 de 4.
+- **Blueprint de deploy do backend** (`render.yaml` + `chat-companion/DEPLOY.md`):
+  aplicação em um clique, segredos com `sync: false` (nunca versionados).
+
+### Alterado
+- Subtítulo do livro passa a declarar que ele é **vivo e evolutivo**.
+
 ## [0.5.0] — 2026-08-08
 
 ### Alterado — **mudança de escopo**
