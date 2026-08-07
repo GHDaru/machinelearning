@@ -34,6 +34,14 @@ Regras adicionais, do [Guia Editorial §5](GUIA-EDITORIAL.md):
 
 > Os capítulos-esqueleto ainda não têm vídeo — cada um recebe o seu quando sua spec for implementada (mínimo 1 por capítulo, Princípio VIII.1). Sugestões de vídeo são bem-vindas pelo próprio companion do livro (botão 💬 → Sugerir).
 
+## Quando não há vídeo: o laboratório
+
+A constituição (1.1.0) aceita um **laboratório interativo** no lugar do vídeo quando não houver material verificável para o tema. A ordem de preferência é essa mesma: vídeo se existir e for conferível; laboratório se o assunto for manipulável; nunca uma referência inventada para preencher cota.
+
+| Capítulo | Laboratório | O que o leitor descobre |
+|---|---|---|
+| 18 — O Neurônio Artificial | Neurônio de McCulloch–Pitts | que o XOR é impossível com um neurônio só — travando em 3 de 4 |
+
 ## Marcar como assistido
 
 Cada vídeo tem uma caixa "marcar como assistido". Ela alimenta a barra de progresso do capítulo e o seu registro anônimo de progresso — o mesmo que guarda os exercícios resolvidos. Como todo o resto: sem cadastro, e apagável a qualquer momento em uma ação.

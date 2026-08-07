@@ -56,7 +56,8 @@ function companionSnippet(chapter) {
   return `<script>window.COMPANION=${cfg.replace(/</g, "\\u003c")}</script>
 <link rel="stylesheet" href="${A}companion.css">
 <script src="${A}companion.js" defer></script>
-<script src="${A}interativos.js" defer></script>`;
+<script src="${A}interativos.js" defer></script>
+<script src="${A}laboratorios.js" defer></script>`;
 }
 
 // linkify: false de propósito — num livro técnico, "train.py"/"README.md" no
@@ -282,7 +283,7 @@ function paginaSplash(placar) {
       <a class="btn btn-escuro" href="banco-de-exercicios.html">Praticar</a>
       <a class="btn btn-escuro" href="trilha-ml-zero.html">Construir</a>
     </div>
-    <p class="splash-placar">🎯 ${placar.exercicios} exercícios · 🎬 ${placar.videos} vídeos · 📖 ${placar.capitulos} capítulos</p>
+    <p class="splash-placar">🎯 ${placar.exercicios} exercícios · 🔬 ${placar.laboratorios} laboratórios · 🎬 ${placar.videos} vídeos · 📖 ${placar.capitulos} capítulos</p>
     ${edicao ? `<p class="splash-vedicao">📖 Nesta edição (<b>${edicao.versao}</b> · ${edicao.data}): ${edicao.titulo} — <a href="historico.html">Histórico</a></p>` : ""}
     <p class="splash-creditos"><strong><a href="autor.html">Gilsiley Henrique Darú</a></strong> — edição, direção e orquestração · <a class="splash-linkedin" href="https://www.linkedin.com/in/gilsiley-dar%C3%BA/">LinkedIn</a><br><strong>Claude (Anthropic)</strong> — pesquisa e geração de texto (co-autoria)</p>
     <p class="splash-versao"><span class="splash-versao-num">${versaoDoLivro()}</span> · atualizado em ${dataDaUltimaModificacao()}</p>
@@ -319,14 +320,14 @@ mkdirSync(resolve(SAIDA, "assets"), { recursive: true });
 for (const arq of [
   "estilo.css", "app.js", "capa.png", "capa-social.png", "autor.png",
   "companion.css", "companion.js", "interativos.css", "interativos.js",
-  "uso.js", "grafo.js", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
+  "uso.js", "grafo.js", "laboratorios.js", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
 }
 writeFileSync(resolve(SAIDA, ".nojekyll"), "");
 
 let gerados = 0;
-const placar = { exercicios: 0, videos: 0, capitulos: 0 };
+const placar = { exercicios: 0, videos: 0, laboratorios: 0, capitulos: 0 };
 
 for (let k = 0; k < itens.length; k++) {
   const item = itens[k];
@@ -340,9 +341,10 @@ for (let k = 0; k < itens.length; k++) {
   const data = extrairData(bruto);
 
   // Contagem para o placar da capa (só o que existe de fato).
-  const { exercicios, videos } = extrair(bruto, item.arquivo, cap);
+  const { exercicios, videos, laboratorios } = extrair(bruto, item.arquivo, cap);
   placar.exercicios += exercicios.length;
   placar.videos += videos.length;
+  placar.laboratorios += laboratorios.length;
 
   // Blocos interativos ANTES do parse: viram HTML puro, sem gabarito.
   const renderMd = (t) => md.render(t, { srcDir: dirname(item.arquivo) });
@@ -360,6 +362,7 @@ for (let k = 0; k < itens.length; k++) {
       `<span>📖 ~${tempoDeLeitura(bruto)} min de leitura</span>`,
       exercicios.length ? `<span title="Exercícios corrigidos no servidor">🎯 ${exercicios.length} exercícios</span>` : "",
       videos.length ? `<span>🎬 ${videos.length} vídeos</span>` : "",
+      laboratorios.length ? `<span title="Objetos interativos para manipular">🔬 ${laboratorios.length} laboratórios</span>` : "",
       `<a class="cap-dl" href="md/${item.slug}.md" download title="Baixar o Markdown-fonte deste capítulo">⬇ md</a>`,
     ].join("");
     hero = `<header class="cap-hero"><div class="cap-num" aria-hidden="true">${num}</div>
@@ -452,7 +455,7 @@ const corpoSumario = `<section class="entrada">
       </div>
     </div>
   </div>
-  <p class="ent-placar">🎯 ${placar.exercicios} exercícios corrigidos no servidor · 🎬 ${placar.videos} vídeos curados · 📖 ${placar.capitulos} capítulos</p>
+  <p class="ent-placar">🎯 ${placar.exercicios} exercícios corrigidos no servidor · 🔬 ${placar.laboratorios} laboratórios interativos · 🎬 ${placar.videos} vídeos curados · 📖 ${placar.capitulos} capítulos</p>
   ${edicao ? `<p class="ent-vedicao">📖 Nesta edição (<b>${edicao.versao}</b> · ${edicao.data}): ${edicao.titulo} — <a href="historico.html">Histórico</a></p>` : ""}
   <a class="ent-retomar" id="ent-retomar" href="#" hidden>
     <span class="ent-ret-l"><span class="ent-ret-lab">Continue lendo</span><span class="ent-ret-cap" id="ent-ret-cap"></span></span>
@@ -501,4 +504,4 @@ if (quebrados.length) {
 }
 
 console.log(`✓ Livro gerado: ${gerados} páginas + capa em docs/ (links internos OK)`);
-console.log(`  Interatividade: ${placar.exercicios} exercícios · ${placar.videos} vídeos`);
+console.log(`  Interatividade: ${placar.exercicios} exercícios · ${placar.videos} vídeos · ${placar.laboratorios} laboratórios`);

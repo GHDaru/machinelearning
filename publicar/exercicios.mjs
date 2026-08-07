@@ -28,6 +28,7 @@ const capituloDe = (titulo) => parseInt((String(titulo).match(/^\s*(\d+)/) || []
 
 const exercicios = [];
 const videos = [];
+const laboratorios = [];
 const problemas = [];
 
 for (const item of itens) {
@@ -73,6 +74,10 @@ for (const item of itens) {
     v.pagina = slug;
     videos.push(v);
   }
+  for (const l of lote.laboratorios) {
+    l.pagina = slug;
+    laboratorios.push(l);
+  }
 }
 
 // Ids duplicados quebram a correção e a telemetria — falha dura.
@@ -86,6 +91,11 @@ for (const v of videos) {
   if (vistosV.has(v.id)) problemas.push(`id de vídeo duplicado: "${v.id}" (${vistosV.get(v.id)} e ${v.arquivo})`);
   vistosV.set(v.id, v.arquivo);
 }
+const vistosL = new Map();
+for (const l of laboratorios) {
+  if (vistosL.has(l.id)) problemas.push(`id de laboratório duplicado: "${l.id}" (${vistosL.get(l.id)} e ${l.arquivo})`);
+  vistosL.set(l.id, l.arquivo);
+}
 
 if (problemas.length) {
   console.error(`✗ ${problemas.length} problema(s) no banco de exercícios:`);
@@ -97,9 +107,9 @@ const porCapitulo = {};
 for (const ex of exercicios) porCapitulo[ex.capitulo] = (porCapitulo[ex.capitulo] || 0) + 1;
 
 if (SO_VERIFICAR) {
-  console.log(`✓ Banco válido: ${exercicios.length} exercícios · ${videos.length} vídeos (nada escrito — modo --verificar)`);
+  console.log(`✓ Banco válido: ${exercicios.length} exercícios · ${videos.length} vídeos · ${laboratorios.length} laboratórios (nada escrito — modo --verificar)`);
 } else {
-  writeFileSync(DESTINO, JSON.stringify({ exercicios, videos, gerado_de: "livro/" }, null, 1));
-  console.log(`✓ Banco gerado: ${exercicios.length} exercícios · ${videos.length} vídeos -> chat-companion/backend/banco.json`);
+  writeFileSync(DESTINO, JSON.stringify({ exercicios, videos, laboratorios, gerado_de: "livro/" }, null, 1));
+  console.log(`✓ Banco gerado: ${exercicios.length} exercícios · ${videos.length} vídeos · ${laboratorios.length} laboratórios -> chat-companion/backend/banco.json`);
 }
 console.log("  por capítulo: " + Object.entries(porCapitulo).map(([c, n]) => `${c}:${n}`).join(" "));

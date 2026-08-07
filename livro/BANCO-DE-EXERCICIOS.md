@@ -150,6 +150,37 @@ O corpo do bloco é a **justificativa obrigatória**: o que este vídeo resolve 
 
 O player é uma **fachada**: nada é pedido ao servidor de origem antes do clique do leitor.
 
+## Laboratórios
+
+A terceira superfície: exercício pergunta e corrige, vídeo mostra, **laboratório deixa manipular**.
+
+```markdown
+:::lab {"id":"18-l1","tipo":"neuronio-mp","titulo":"Neurônio de McCulloch–Pitts","funcao":"AND"}
+O que manipular aqui ensina — e o que o leitor deve **descobrir sozinho**.
+:::
+```
+
+| Atributo | Obrigatório | O que é |
+|---|---|---|
+| `id` | sim | único no livro; convenção `NN-lK` |
+| `tipo` | sim | qual widget carregar (ver tabela abaixo) |
+| `titulo` | não | exibido no cabeçalho |
+| *demais* | — | passados ao widget como configuração inicial |
+
+O corpo do bloco é a **introdução obrigatória**. Laboratório sem ela não compila.
+
+### Widgets disponíveis
+
+| `tipo` | O que faz | Configuração |
+|---|---|---|
+| `neuronio-mp` | Neurônio de McCulloch–Pitts: pesos e limiar à mão, reta de decisão desenhada em tempo real sobre a tabela-verdade | `funcao`: `AND`, `OR`, `NAND`, `NOR`, `XOR` |
+
+Novos widgets entram em `publicar/tema/laboratorios.js`, registrados no objeto `TIPOS` do fim do arquivo.
+
+### Por que laboratório não precisa de backend
+
+Não há resposta a esconder: o gabarito é o comportamento do objeto. Isso o torna a superfície **mais robusta** do livro — funciona offline, funciona sem servidor, e continua funcionando quando tudo o mais falha.
+
 ## Progresso do leitor
 
 - Identidade **anônima**, gerada pelo navegador — a mesma do chat. Sem cadastro, sem email.

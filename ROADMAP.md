@@ -2,131 +2,137 @@
 
 > O lugar único que responde: **o que vem agora, em que ordem, e por quê.**
 >
-> Olha para frente. Para o que já aconteceu, veja [`CHANGELOG.md`](CHANGELOG.md) (mudanças) e [`livro/HISTORICO.md`](livro/HISTORICO.md) (edições do livro e placar de expiração).
+> Reescrito em **2026-08-08**, quando o projeto mudou de escopo: de um livro de Machine Learning para o livro de **três disciplinas reais** — Ciência de Dados, Análise Preditiva e Aprendizagem de Máquina.
 
-## Como ler este documento
+## O que mudou, e por quê
 
-Cada item aqui **vira uma spec** antes de virar trabalho (Princípio VII). O roadmap diz a ordem e a justificativa; a spec diz o escopo e os critérios de aceite. Um item sem spec é uma intenção, não um compromisso.
+O livro passou a servir a duas disciplinas **em curso**, ministradas pelo autor:
 
-A ordem não é arbitrária — segue dois critérios, nesta prioridade:
+| Disciplina | Papel no livro | Recorte |
+|---|---|---|
+| **Ciência de Dados** | pré-requisito, dado por outro professor | os alunos chegam com preparação de dados na bagagem |
+| **Análise Preditiva** | ministrada pelo autor | vai da transformação de dados até modelos preditivos |
+| **Aprendizagem de Máquina** | ministrada pelo autor | vai **direto para deep learning**; o clássico é revisão |
 
-1. **Destravar o que já está construído.** Maquinaria pronta e ociosa é desperdício maior que funcionalidade ausente.
-2. **Cobrir primeiro os modos de falha caros.** Em Machine Learning, o que quebra projetos reais é dado e avaliação, não escolha de arquitetura.
+Isso impõe três mudanças de prioridade:
 
-## Estado atual — edição 0.4 (2026-08-05)
+1. **Cobertura antes de profundidade.** Uma disciplina em andamento precisa de material em todos os tópicos, não de sete capítulos perfeitos e vinte ausentes. A constituição foi emendada (1.1.0) para permitir isso **sem baixar o rigor em silêncio**: cada capítulo declara seu nível — `esqueleto`, `essencial` ou `completo` — no próprio cabeçalho.
+2. **A ordem é a da disciplina, não a do sumário.** O número do capítulo virou identificador estável; a ordem de leitura vive nas [trilhas](livro/trilhas/analise-preditiva.md). Um mesmo capítulo serve a duas disciplinas com pesos diferentes, e capítulos distantes no sumário são vizinhos numa trilha.
+3. **Laboratórios interativos passam a ser primeira classe.** O gesto de pôr os pesos à mão e ver a reta se mover ensina o que nenhuma frase ensina. É a linha de evolução mais promissora do livro.
+
+## Estado atual — edição 0.5 (2026-08-08)
 
 | | |
 |---|---|
-| Capítulos escritos | **7** de 18 — `00`, `01`, `02`, `04` (piloto), `05`, `06`, `07` |
-| Capítulos em esqueleto | 11 — com objetivos e problema definidos |
-| Exercícios | 27 · **Vídeos** 7 · **Etapas do `ml-zero`** 4 de 17 |
-| Site | 🟢 no ar em https://ghdaru.github.io/machinelearning/ |
-| Backend | 🔴 **não publicado** — a interatividade está dormente |
+| Capítulos | **28** · 7 completos · **1 essencial** · 20 esqueleto |
+| Interatividade | 31 exercícios · 7 vídeos · **1 laboratório** |
+| Trilhas de disciplina | 3 (Análise Preditiva, Aprendizagem de Máquina, Ciência de Dados) |
+| `ml-zero` | 4 etapas · 88 testes |
+| Site | 🟢 https://ghdaru.github.io/machinelearning/ |
+| Backend | 🔴 não publicado — exercícios dormentes; **laboratórios funcionam mesmo assim** |
 
 ---
 
 ## Agora
 
-### R1 — Publicar o backend do livro vivo 🔴 **maior alavanca do projeto**
+### C1 — Trilha de Análise Preditiva ao nível `essencial` ⬅ **prioridade máxima**
 
-Sem ele, o livro é um PDF navegável bonito. Com ele, é o que a constituição promete: exercícios corrigidos, feedback que explica, progresso, tutor e a telemetria que corrige o próprio texto.
+A disciplina está em curso. Faltam **sete capítulos** para a trilha ficar navegável de ponta a ponta:
 
-Tudo já está construído e testado — 23 testes verdes, sobe sem chave e sem banco. Falta **só publicar** e apontar `companion_backend` em `publicar/sumario.json`.
+| Capítulo | Unidade da ementa |
+|---|---|
+| [19 — O Ciclo da Ciência de Dados](livro/capitulos/19-ciclo-ciencia-de-dados.md) | I |
+| [20 — Coleta e Integração](livro/capitulos/20-coleta-integracao.md) | I |
+| [21 — Análise Exploratória](livro/capitulos/21-analise-exploratoria.md) | II |
+| [22 — Visualização e Storytelling](livro/capitulos/22-visualizacao-storytelling.md) | II |
+| [23 — Análise Multidimensional](livro/capitulos/23-analise-multidimensional.md) | II |
+| [24 — Séries Temporais](livro/capitulos/24-series-temporais.md) | III |
+| [25 — Do Modelo à Decisão](livro/capitulos/25-do-modelo-a-decisao.md) | III |
+| [03 — Representação](livro/capitulos/03-representacao.md) | III |
 
-- **Raia:** infra (gates de reversibilidade)
-- **Entrega:** URL no ar, `GET /health` respondendo, um exercício corrigido de ponta a ponta na produção
-- **Cuidado:** é a primeira vez que o projeto tem estado persistente de leitor. Backup e plano de rollback antes, não durante.
+**Entrega por capítulo (nível `essencial`):** corpo ensinável, ≥2 exercícios corrigidos, síntese e verificação. Sem experimento próprio e sem exigência de todas as fontes ✓ — isso é o ciclo de aprofundamento.
 
-### ✅ R2 — Capítulo 02: Dados — **concluído** (spec 002, edição 0.2)
+**Por que primeiro:** é a disciplina que já está sendo dada. Material ausente hoje custa aula; material aprofundado depois não custa nada.
 
-O primeiro capítulo de conteúdo, e não por acaso: **vazamento de dados é o erro mais caro e mais silencioso de Machine Learning**. Ele não dá erro, não aparece em log, passa por revisão de código, e o sintoma é uma métrica boa demais que ninguém questiona porque a notícia é boa.
+### C2 — Trilha de Aprendizagem de Máquina ao nível `essencial`
 
-Destrava também a **etapa 02** do `ml-zero`, que é onde a trilha sai do dado sintético e encontra as patologias do dado real — a limitação que o [ADR 0003](adr/0003-dado-sintetico-na-etapa-00.md) declarou de propósito.
+Oito capítulos, com o peso onde a disciplina de fato aprofunda:
 
-- **Entregue:** capítulo com 4 exercícios e 1 vídeo, etapa 02 com 28 testes, Gebru et al. promovido a ✓
-- **Achado do caminho:** a lição do capítulo virou asserção executável — se "embaralhar por linha vaza o sujeito" deixar de ser verdade, o build quebra
+| Capítulo | Prioridade |
+|---|---|
+| [09 — Redes Multicamadas](livro/capitulos/09-redes-neurais.md) | **alta** — sequência direta do 18, já escrito |
+| [26 — Treinar Redes Profundas](livro/capitulos/26-treinar-redes-profundas.md) | **alta** |
+| [27 — IA Simbólica, Fuzzy e Evolutiva](livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md) | alta — cobre a Unidade 02 da ementa, hoje sem nenhum material |
+| [08 — Não Supervisionado](livro/capitulos/08-nao-supervisionado.md) | média — Unidade 04, 16h |
+| [13 — Reforço](livro/capitulos/13-reforco.md) | média — Unidade 05, 16h |
+| [10 — Visão](livro/capitulos/10-visao.md) · [11 — Sequências](livro/capitulos/11-sequencias-linguagem.md) · [12 — Fundação](livro/capitulos/12-modelos-de-fundacao.md) | média — Unidade 06 |
 
----
+### C3 — Mais laboratórios interativos
 
-## Próximo
+O laboratório do capítulo 18 provou o formato: o estudante trava em 3 de 4 no XOR e **descobre** a impossibilidade. A linha de evolução, em ordem de valor didático:
 
-### ✅ R3 — Capítulo 07: Árvores e Ensembles — **concluído** (spec 003, edição 0.3)
+| Laboratório | Capítulo | O que o leitor descobre manipulando |
+|---|---|---|
+| **Perceptron que aprende** | 18 | a regra de Rosenblatt ajustando os pesos sozinha, passo a passo — depois de ele ter feito à mão |
+| **XOR com camada escondida** | 09 | duas retas combinadas resolvem o que uma não resolvia |
+| **Gradiente descendente** | 06 | taxa alta quica, taxa baixa arrasta — vendo a bolinha descer |
+| **Fronteira de decisão** | 05/07 | reta × árvore × floresta no mesmo conjunto de pontos, desenhado por ele |
+| **Matriz de confusão e limiar** | 04 | precisão e revocação trocando de lugar ao arrastar o limiar |
+| **Viés × variância** | 01 | grau do polinômio subindo, treino melhorando e validação piorando |
+| **k-means passo a passo** | 08 | centróides se movendo, e a dependência da inicialização |
 
-A maioria dos problemas reais de ML em empresas é tabular, e a resposta padrão continua sendo gradient boosting. O capítulo trata isso como **afirmação empírica** — com experimento reproduzível e citação verificada, não como folclore de competição.
-
-Escolhido antes de 05/06 deliberadamente: entrega valor prático imediato a quem lê o livro para trabalhar, e a base teórica pode vir depois sem prejuízo.
-
-- **Entregue:** capítulo com 5 exercícios e 1 vídeo, etapa 07 com 21 testes, duas citações promovidas a ✓, cláusula de expiração E3 com gatilho operacional
-- **Achado do caminho:** medir o teto de Bayes antes de culpar o modelo. O experimento original não distinguia nada porque o dado tinha teto de 0,5895 — não porque os modelos fossem ruins
-
-### R4 — Capítulos 05 e 06 ⬅ **próximo**: Modelos Lineares e Otimização
-
-Foram uma spec só — são o mesmo assunto por dois ângulos, e separá-los duplicaria a pesquisa.
-
-- **Entregue:** dois capítulos (3 + 4 exercícios, 2 vídeos), etapa 05–06 com 22 testes
-- **Achado do caminho:** três correções vindas de testes que falharam — perda logística é limitada e satura em vez de divergir; early stopping monitorando treino nunca dispara em dado separável; e um instrumento de diagnóstico só se valida num cenário onde o problema existe
-
-### R5 — Capítulo 16: MLOps ⬅ **próximo**
-
-Fecha o ciclo do `ml-zero`: o modelo vira serviço com contrato, telemetria e detecção de *drift*. É o capítulo que separa "treinei um modelo" de "opero um sistema que aprende" — e o que dá sentido retroativo à regra 5 da construção ("serviço desde cedo").
+Cada um roda no navegador, sem backend. Isso os torna a superfície **mais robusta** do livro.
 
 ---
 
 ## Depois
 
-Sem ordem fixa entre si; cada um entra quando houver razão para entrar.
+### C4 — Publicar o backend
 
-| Capítulo | Por que ainda não |
-|---|---|
-| 03 — Representação | Depende de 02 para os exemplos valerem |
-| 09 — Redes Neurais | **desbloqueado** — 05/06 prontos; é o próximo natural depois de R5 |
-| 08 — Não Supervisionado | Independente; entra quando houver demanda |
-| 10, 11, 12 — Visão, Sequências, Fundação | Cadeia própria, dependente de 09 |
-| 14 — Interpretabilidade e Justiça | Ganha muito se vier depois de 07 (explicar ensemble é o caso real) |
-| 15 — Sistemas de ML | Naturalmente após 16 |
-| 13 — Reforço | Enxuto por decisão editorial; baixa prioridade |
-| 17 — Fronteira | **Último por natureza** — só faz sentido com o placar de expiração tendo o que pontuar |
+Destrava a correção dos 31 exercícios, o tutor e a telemetria. Continua sendo alta alavanca, mas **saiu do primeiro lugar**: os laboratórios funcionam sem ele, e cobertura de conteúdo é o que a disciplina precisa esta semana.
+
+### C5 — Aprofundamento: `essencial → completo`
+
+Capítulo a capítulo, na ordem em que forem usados em aula: experimento próprio no `ml-zero`, fontes promovidas a ✓, cláusula de expiração, revisão developmental.
+
+### C6 — Etapas do `ml-zero` que faltam
+
+Prioridade para as que servem às trilhas: **09** (rede em NumPy), **26** (treino profundo), **21** (EDA), **24** (séries temporais).
+
+### C7 — Parte de Inteligência Artificial
+
+O autor observa que **IA é outra disciplina**. O capítulo 27 cobre o que a ementa de Aprendizagem de Máquina exige (simbólico, fuzzy, genéticos, bayesianas). Uma Parte VI dedicada — busca, planejamento, agentes, representação de conhecimento — fica registrada como possibilidade, não como compromisso.
 
 ## Dívidas registradas
 
-Coisas que sabemos dever. Ficam aqui para não virarem descoberta arqueológica.
-
 | # | Dívida | Origem |
 |---|---|---|
-| D1 | Índice da [videoteca](livro/videoteca.md) é mantido à mão; deveria ser gerado do `banco.json` | declarado na própria página |
-| D2 | Bibliografia tem 5 ✓ e o resto ⏳ | por design — cada ⏳ vira ✓ junto com a spec do capítulo que o usa |
-| D3 | Sem exercícios de código executável | [spec 001](specs/001-fundacao-livro-ml-interativo/spec.md) — exige sandbox; hoje são *completion problems* |
-| D4 | Nenhum capítulo tem PDF | o motor perdeu o `pdf.mjs` na adaptação; volta se houver demanda |
-| D5 | Sem tradução para inglês | fora de escopo da fundação |
+| D1 | Índice da [videoteca](livro/videoteca.md) mantido à mão | declarado na própria página |
+| D2 | Bibliografia com maioria ⏳ | por design — cada ⏳ vira ✓ no ciclo de aprofundamento |
+| D3 | Sem exercícios de código executável | exige sandbox; hoje são *completion problems* e laboratórios |
+| D4 | Nenhum capítulo tem PDF | o motor perdeu o `pdf.mjs` na adaptação |
+| D5 | Sem tradução para inglês | fora de escopo |
+| **D6** | **Capítulo 16 (MLOps) sem vídeo verificável** | a busca não achou material conferível; um laboratório de detecção de drift resolveria |
+| **D7** | **Numeração fora de ordem no sumário** | consequência aceita de manter identificadores estáveis; mitigada pelas trilhas |
 
 ## O que este projeto **não** vai fazer
 
-Não-objetivos são tão úteis quanto objetivos, e mais raramente escritos.
+- **Não será um curso com certificado.** Sem cadastro, sem nota, sem trilha obrigatória.
+- **Não vai executar código do leitor no servidor.** Laboratórios rodam no navegador; a construção livre vive no `ml-zero`, na máquina dele.
+- **Não vai perseguir o modelo da moda.**
+- **Não vai fingir profundidade.** Um capítulo `essencial` diz que é `essencial`, em destaque, no cabeçalho.
 
-- **Não será um curso com certificado.** Sem cadastro, sem nota, sem trilha obrigatória. O progresso é do leitor e apagável (Princípio V).
-- **Não vai executar código do leitor no servidor.** A construção livre vive na máquina dele, no `ml-zero`.
-- **Não vai perseguir o modelo da moda.** O capítulo 12 trata do que é estrutural; o resto expira e o placar registra.
-- **Não vai crescer por volume.** Capítulo sem exercício e sem vídeo não é publicável — é melhor ter 6 capítulos íntegros que 18 pela metade.
+## O portão de publicação (nível `completo`)
 
-## O portão de publicação de um capítulo
-
-Um capítulo sai de "esqueleto" para "escrito" quando cumpre **tudo** isto:
-
-- [ ] Esqueleto v4 completo ([Guia Editorial §2](livro/GUIA-EDITORIAL.md))
-- [ ] ≥3 exercícios e ≥1 vídeo, cada exercício rastreando a um objetivo declarado
-- [ ] Toda afirmação empírica com experimento reproduzível ou citação ✓ — nada apoiado em ⏳
+- [ ] Esqueleto v4 completo
+- [ ] ≥3 exercícios e ≥1 mídia (vídeo **ou** laboratório), cada exercício rastreando a um objetivo
+- [ ] Toda afirmação empírica com experimento reproduzível ou citação ✓
 - [ ] Etapa correspondente do `ml-zero` rodando e testada
 - [ ] Selo de captura + entrada no `HISTORICO.md` com a versão do modelo de IA
 - [ ] Cláusula de expiração declarada e registrada no placar
 - [ ] Revisão developmental feita
 
-Sem os sete, é esqueleto — e o snapshot do `HISTORICO.md` diz isso ao leitor.
-
-## Cadência
-
-- **Janela trimestral** (próxima: **2026-11**): reconferir vídeos, reexecutar experimentos nas versões correntes, atualizar o placar de expiração.
-- **Gatilho por telemetria**: exercício com taxa de acerto baixa e volume relevante entra na fila de revisão — o sintoma é texto mal escrito, não leitor fraco.
-- **Gatilho extraordinário**: evento que invalide uma "Síntese — o que levar" dispara revisão do capítulo afetado, sem esperar a janela.
+Para o nível `essencial`, o portão é menor e está no [Guia Editorial §2.2](livro/GUIA-EDITORIAL.md#22-niveis-de-maturidade).
 
 ---
 

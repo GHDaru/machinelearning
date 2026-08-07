@@ -6,6 +6,32 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-08-08
+
+### Alterado — **mudança de escopo**
+- O livro passa de "Machine Learning" a **"Ciência de Dados e Aprendizado de Máquina"**,
+  para servir a três disciplinas de Engenharia de Software: Ciência de Dados
+  (pré-requisito), Análise Preditiva e Aprendizagem de Máquina.
+- Estrutura de 18 para **28 capítulos**, em cinco partes.
+- O número do capítulo passa a ser **identificador estável**, não ordem de leitura.
+  A ordem vive nas trilhas. Alternativa descartada: renumerar tudo — quebraria os
+  ids dos 31 exercícios, que embutem o número do capítulo.
+- **Constituição 1.1.0**: níveis de maturidade (`esqueleto`/`essencial`/`completo`),
+  laboratório aceito como mídia obrigatória, portão de exercícios valendo na
+  promoção a `completo`.
+
+### Adicionado
+- **Laboratórios interativos** — terceira superfície do livro, ao lado de exercício
+  e vídeo. Bloco `:::lab` no motor, runtime em `publicar/tema/laboratorios.js`.
+  Rodam no navegador: funcionam mesmo com o backend fora do ar.
+- **Widget `neuronio-mp`**: pesos e limiar ajustáveis, reta de decisão desenhada
+  em tempo real sobre a tabela-verdade, veredito por linha. O XOR trava em 3 de 4
+  e explica por quê.
+- **Capítulo 18 — O Neurônio Artificial** (nível `essencial`): 4 exercícios e 1
+  laboratório. McCulloch & Pitts (1943) conferido e ✓.
+- **Três trilhas de disciplina**, mapeadas unidade a unidade das ementas.
+- **Nove capítulos-esqueleto** cobrindo o que faltava: 19–27.
+
 ## [0.4.0] — 2026-08-05
 
 ### Adicionado

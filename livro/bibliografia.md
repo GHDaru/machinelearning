@@ -47,6 +47,13 @@ Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência d
 - ⏳ **Chen, T., & Guestrin, C. (2016).** XGBoost: A Scalable Tree Boosting System. *KDD*. — Boosting moderno; entra quando o capítulo 16 tratar da biblioteca de produção.
 - ⏳ **Friedman, J. (2001).** Greedy Function Approximation: A Gradient Boosting Machine. *Annals of Statistics*. — A formulação original do gradient boosting.
 
+## Capítulo 18 — O Neurônio Artificial
+
+- ✓ **McCulloch, W. S., & Pitts, W. (1943).** A logical calculus of the ideas immanent in nervous activity. *Bulletin of Mathematical Biophysics*, 5, 115–133. [doi:10.1007/BF02478259](https://doi.org/10.1007/BF02478259) — *verificado em 2026-08-08.* O modelo de neurônio que o capítulo 18 e o laboratório implementam.
+- ⏳ **Rosenblatt, F. (1958).** The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain. *Psychological Review*. — A regra de aprendizado.
+- ⏳ **Minsky, M., & Papert, S. (1969).** *Perceptrons*. MIT Press. — A demonstração da limitação do XOR.
+- ⏳ **Hebb, D. O. (1949).** *The Organization of Behavior*. Wiley. — "Neurônios que disparam juntos, conectam-se juntos."
+
 ## Capítulos 09–11 — Redes, visão e sequências
 
 - ⏳ **Rumelhart, D., Hinton, G., & Williams, R. (1986).** Learning representations by back-propagating errors. *Nature*.

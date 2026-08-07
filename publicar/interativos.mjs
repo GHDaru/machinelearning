@@ -23,10 +23,18 @@
 //   :::video {"id":"04-v1","fonte":"youtube","ref":"ID","min":10,"autor":"...","titulo":"..."}
 //   O que este vídeo resolve que o texto não resolve.
 //   :::
+//
+//   :::lab {"id":"09-l1","tipo":"neuronio-mp","titulo":"...","funcao":"AND"}
+//   O que manipular aqui ensina, e o que o leitor deve tentar descobrir.
+//   :::
+//
+// Laboratório é a terceira superfície: exercício pergunta e corrige, vídeo
+// mostra, laboratório deixa MANIPULAR. Roda inteiro no navegador — não há
+// gabarito a esconder, porque o gabarito é o comportamento do próprio objeto.
 
 const TIPOS = ["multipla", "multipla-multi", "numerica", "completar", "aberta"];
 
-const RE_BLOCO = /^:::(exercicio|video)\s+(\{[\s\S]*?\})\s*\n([\s\S]*?)\n:::[ \t]*$/gm;
+const RE_BLOCO = /^:::(exercicio|video|lab)\s+(\{[\s\S]*?\})\s*\n([\s\S]*?)\n:::[ \t]*$/gm;
 const RE_CERCA = /^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm;
 const RE_OPCAO = /^[-*]\s+\[([ xX])\]\s+(.+?)\s*$/;
 const RE_META = /^>\s*\*\*([a-zà-ú ]+):\*\*\s*([\s\S]*?)\s*$/i;
@@ -129,17 +137,30 @@ export function parseNumerico(txt) {
 
 /**
  * Extrai todos os blocos interativos de um Markdown.
- * @returns {{exercicios: object[], videos: object[]}}
+ * @returns {{exercicios: object[], videos: object[], laboratorios: object[]}}
  */
 export function extrair(markdown, arquivo = "?", capitulo = 0) {
   const exercicios = [];
   const videos = [];
+  const laboratorios = [];
   const emCerca = cercas(markdown);
 
   for (const m of markdown.matchAll(RE_BLOCO)) {
     if (emCerca(m.index)) continue; // exemplo de sintaxe, não exercício
     const [, tipoBloco, attrsJson, corpo] = m;
     const attrs = parseAtributos(attrsJson, arquivo);
+
+    if (tipoBloco === "lab") {
+      if (!attrs.id) throw new ErroDeBloco(arquivo, null, "laboratório sem `id`");
+      if (!attrs.tipo) throw new ErroDeBloco(arquivo, attrs.id, "laboratório sem `tipo` (qual widget carregar)");
+      const intro = corpo.trim();
+      if (!intro) throw new ErroDeBloco(arquivo, attrs.id, "laboratório sem introdução: diga o que manipular aqui ensina");
+      laboratorios.push({
+        id: attrs.id, capitulo, arquivo, tipo: attrs.tipo,
+        titulo: attrs.titulo || attrs.id, config: attrs, intro,
+      });
+      continue;
+    }
 
     if (tipoBloco === "video") {
       if (!attrs.id) throw new ErroDeBloco(arquivo, null, "vídeo sem `id`");
@@ -182,7 +203,7 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
     exercicios.push(ex);
   }
 
-  return { exercicios, videos };
+  return { exercicios, videos, laboratorios };
 }
 
 /**
@@ -194,6 +215,7 @@ export function renderizar(markdown, renderMd, arquivo = "?", capitulo = 0) {
   return markdown.replace(RE_BLOCO, (bloco, tipoBloco, attrsJson, corpo, offset) => {
     if (emCerca(offset)) return bloco; // exemplo de sintaxe: passa intacto
     const attrs = parseAtributos(attrsJson, arquivo);
+    if (tipoBloco === "lab") return htmlLab(attrs, corpo.trim(), renderMd, capitulo);
     if (tipoBloco === "video") return htmlVideo(attrs, corpo.trim(), renderMd, capitulo);
     const { enunciado, opcoes } = fatiar(corpo);
     return htmlExercicio(attrs, enunciado, opcoes, renderMd, capitulo);
@@ -265,6 +287,17 @@ function htmlVideo(attrs, porque, renderMd, capitulo) {
     <p class="vd-aviso">O vídeo só é pedido ao servidor de origem depois deste clique.</p>
   </div>
   <label class="vd-visto"><input type="checkbox" class="vd-check"> Marcar como assistido</label>
+</section>`;
+}
+
+function htmlLab(attrs, intro, renderMd, capitulo) {
+  const id = esc(attrs.id);
+  // A config inteira vai no data-attribute: o widget é quem sabe o que ler dela.
+  const cfg = esc(JSON.stringify(attrs));
+  return `<section class="laboratorio" data-lab="${esc(attrs.tipo)}" data-id="${id}" data-cap="${capitulo}" data-cfg="${cfg}">
+  <header class="lab-cab"><span class="lab-tag">Laboratório</span><span class="lab-titulo">${esc(attrs.titulo || attrs.id)}</span><code class="ex-id">${id}</code></header>
+  <div class="lab-intro">${renderMd(intro)}</div>
+  <div class="lab-area"></div>
 </section>`;
 }
 

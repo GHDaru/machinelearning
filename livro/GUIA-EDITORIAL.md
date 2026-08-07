@@ -36,6 +36,41 @@ O v4 é o esqueleto v3 do livro de Engenharia de Harness **mais as duas seções
 
 O selo diz ao leitor se a seção "estado da arte" está fresca — o que a data de um evento citado no corpo não faz.
 
+## 2.2 Níveis de maturidade
+
+Todo capítulo declara seu nível no cabeçalho, logo abaixo da data. O leitor sempre sabe o que está lendo.
+
+| Nível | Garante | Selo no cabeçalho |
+|---|---|---|
+| **esqueleto** | objetivos e problema | ⚠ aviso em destaque |
+| **essencial** | corpo ensinável, ≥2 exercícios, síntese, verificação | nota discreta |
+| **completo** | os sete itens do portão (§9) | sem aviso |
+
+**Por que existe.** O livro serve a disciplinas em andamento: um capítulo que existe de forma honesta vale mais ao estudante do que um capítulo ausente. Mas cobertura sem rigor é o que este projeto recusa — então o nível é **declarado**, nunca silencioso. Baixar o rigor sem avisar seria fraude; declarar cria a dívida visível que o roadmap cobra.
+
+**Como promover.** `esqueleto → essencial` é um ciclo de escrita; `essencial → completo` é um ciclo de aprofundamento (experimento próprio, fontes ✓, cláusula de expiração, revisão developmental). Cada promoção é uma spec.
+
+## 2.3 Laboratórios interativos
+
+A terceira superfície do livro, ao lado de exercício e vídeo:
+
+| Superfície | O que faz | Precisa de backend? |
+|---|---|---|
+| **Exercício** | pergunta e corrige, com feedback que explica | **sim** |
+| **Vídeo** | mostra o que a prosa não mostra | não |
+| **Laboratório** | **deixa manipular** | **não** |
+
+Um laboratório roda inteiro no navegador. Não há gabarito a esconder — o gabarito é o comportamento do próprio objeto. Isso o torna a superfície mais robusta do livro: funciona mesmo com o backend fora do ar.
+
+**Regras de autoria:**
+
+- O bloco declara **o que manipular ali ensina** e, sobretudo, **o que o leitor deve descobrir sozinho**. Um laboratório que explica antes de deixar brincar desperdiça o próprio mecanismo.
+- Ponha o laboratório **antes** da explicação, não depois. A descoberta vem primeiro; o texto confirma e nomeia.
+- Prefira laboratórios em que **o fracasso ensine**. O melhor exemplo do livro é o XOR no capítulo 18: o leitor trava em 3 de 4 e descobre a impossibilidade com as próprias mãos — o que nenhuma frase entrega.
+- Quando não houver vídeo verificável para um tema, **o laboratório cumpre a cota de mídia**. Inventar uma referência para preencher cota é violação do Princípio I.
+
+Sintaxe em [`BANCO-DE-EXERCICIOS.md`](BANCO-DE-EXERCICIOS.md); os widgets vivem em `publicar/tema/laboratorios.js`.
+
 ## 3. Regras de escrita permanentes
 
 - **Evidência por experimento**: toda afirmação empírica cita o script que a produziu (`ml-zero/etapa-04/experimento.py`), com dataset, *seed* e versão da biblioteca. Sem isso, é intuição — e se escreve como intuição.

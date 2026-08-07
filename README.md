@@ -1,6 +1,8 @@
-# Machine Learning — o livro vivo
+# Ciência de Dados e Aprendizado de Máquina — o livro vivo
 
-> Um livro aberto, em português, para **aprender fazendo**: teoria verificável, exercícios corrigidos no servidor, vídeos curados e uma construção completa do zero.
+> Um livro aberto, em português, para **aprender fazendo**: teoria verificável, exercícios corrigidos no servidor, **laboratórios que se manipulam**, vídeos curados e uma construção completa do zero.
+>
+> Cobre três disciplinas: **Ciência de Dados** (base), **Análise Preditiva** e **Aprendizagem de Máquina**. A ordem de leitura de cada uma está nas [trilhas](livro/trilhas/analise-preditiva.md).
 
 ## O que é este repositório
 

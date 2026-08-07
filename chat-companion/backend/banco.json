@@ -219,7 +219,7 @@
    "rubrica": null,
    "versoes": null,
    "pagina": "02-dados",
-   "titulo_capitulo": "02 — Dados"
+   "titulo_capitulo": "02 — Qualidade e Vazamento"
   },
   {
    "id": "02-e2",
@@ -258,7 +258,7 @@
    "rubrica": null,
    "versoes": null,
    "pagina": "02-dados",
-   "titulo_capitulo": "02 — Dados"
+   "titulo_capitulo": "02 — Qualidade e Vazamento"
   },
   {
    "id": "02-e3",
@@ -293,7 +293,7 @@
    "rubrica": null,
    "versoes": null,
    "pagina": "02-dados",
-   "titulo_capitulo": "02 — Dados"
+   "titulo_capitulo": "02 — Qualidade e Vazamento"
   },
   {
    "id": "02-e4",
@@ -311,7 +311,7 @@
    "rubrica": "questiona o rótulo automático e o teto que a regra de geração impõe;\nnota que descartar as 3 estrelas remove justamente os casos ambíguos, inflando a métrica;\nlevanta ao menos uma questão de origem, licença ou representatividade da base;\ncada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas",
    "versoes": null,
    "pagina": "02-dados",
-   "titulo_capitulo": "02 — Dados",
+   "titulo_capitulo": "02 — Qualidade e Vazamento",
    "criterios": [
     "questiona o rótulo automático e o teto que a regra de geração impõe",
     "nota que descartar as 3 estrelas remove justamente os casos ambíguos, inflando a métrica",
@@ -865,6 +865,123 @@
     "declara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta",
     "considera o custo de iteração dentro do prazo, e não só a métrica final"
    ]
+  },
+  {
+   "id": "18-e1",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque o XOR exige pesos negativos, e o modelo só admite pesos positivos."
+    },
+    {
+     "correta": true,
+     "texto": "Porque os casos que devem disparar estão em cantos opostos do quadrado, e nenhuma reta separa cantos opostos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o XOR tem três entradas, e o neurônio só aceita duas."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o limiar teria de ser fracionário, o que o modelo original não permitia."
+    }
+   ],
+   "gabarito": "Os casos que devem disparar estão em cantos opostos",
+   "porque": "É geometria, não aritmética. O XOR dispara em (0,1) e (1,0) — cantos opostos do quadrado — e não dispara em (0,0) e (1,1), também opostos entre si. Uma reta divide o plano em dois lados; não existe reta que deixe dois cantos opostos de um lado e os outros dois do outro.\n\nAs três alternativas erradas atribuem a limitação a restrições do **modelo** — sinal do peso, número de entradas, limiar fracionário — quando na verdade ela é uma propriedade do **problema**. Nenhuma delas ajudaria: mesmo com pesos reais, negativos e limiar contínuo, a impossibilidade permanece. É por isso que a solução, quando veio, não foi um neurônio melhor: foi **outra camada** de neurônios.",
+   "volte_para": "#por-que-o-xor-e-impossivel",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "18-neuronio-artificial",
+   "titulo_capitulo": "18 — O Neurônio Artificial"
+  },
+  {
+   "id": "18-e2",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (1969)?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Computadores mais rápidos, que permitiram testar mais pesos."
+    },
+    {
+     "correta": false,
+     "texto": "O abandono do modelo de neurônio de McCulloch–Pitts."
+    },
+    {
+     "correta": true,
+     "texto": "Empilhar camadas — e uma forma prática de treiná-las, o backpropagation."
+    },
+    {
+     "correta": false,
+     "texto": "A substituição do limiar por uma função de ativação contínua."
+    }
+   ],
+   "gabarito": "Empilhar camadas, com backpropagation para treiná-las",
+   "porque": "A limitação era da **arquitetura**, não do neurônio. Com uma camada intermediária, duas fronteiras se combinam e o XOR se resolve. Isso já era sabido em 1969; o que faltava era um jeito **prático de treinar** os pesos das camadas escondidas — e é isso que o backpropagation, popularizado em 1986, entrega.\n\nA última alternativa merece atenção porque está **quase** certa e é o erro mais interessante: trocar o degrau por uma função contínua (como a sigmoide) é de fato **necessário** — sem derivada não há gradiente, e sem gradiente não há backpropagation. Mas sozinha ela não resolve nada: uma regressão logística é exatamente um neurônio com ativação contínua, e continua sem resolver o XOR. A ativação contínua é condição para o remédio, não o remédio.",
+   "volte_para": "#a-historia-entusiasmo-inverno-e-a-saida",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "18-neuronio-artificial",
+   "titulo_capitulo": "18 — O Neurônio Artificial"
+  },
+  {
+   "id": "18-e3",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Você quer construir a função **OU (OR)** com pesos `w₁ = 1` e `w₂ = 1`.\n\nQual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar corretamente?",
+   "opcoes": [],
+   "gabarito": "1",
+   "porque": "Some as entradas em cada linha da tabela: (0,0) → 0; (0,1) → 1; (1,0) → 1; (1,1) → 2. O OR deve disparar em todas menos na primeira. Então θ precisa ser **maior que 0** e **menor ou igual a 1** — o maior inteiro que satisfaz isso é **θ = 1**.\n\nCom θ = 2 você teria construído o **AND**, não o OR: só (1,1) alcançaria o limiar. Esse é o achado que vale levar do exercício — a mesma dupla de pesos produz funções diferentes conforme o limiar. O limiar não é um detalhe de calibração: ele é parte da função que o neurônio computa. Volte ao laboratório e confirme deslizando só o θ.",
+   "volte_para": "#mao-na-massa-encontre-os-pesos-voce-mesmo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "18-neuronio-artificial",
+   "titulo_capitulo": "18 — O Neurônio Artificial",
+   "gabarito_num": {
+    "valor": 1,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "18-e4",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "tipo": "aberta",
+   "objetivo": "O1",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Explique, para alguém que nunca viu redes neurais, **o que um neurônio artificial faz** — e diga em que ele se parece e em que ele **não** se parece com um neurônio biológico.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A operação é simples de enunciar: multiplica cada entrada pelo seu peso, soma, e dispara se a soma alcançar o limiar. O peso é \"quanto essa entrada importa\"; o limiar é \"quão convencido preciso estar para dizer sim\".\n\nA parte que separa uma boa resposta de uma decorada é a **analogia**. A semelhança é real e limitada: o neurônio biológico também integra sinais de entrada e dispara de forma tudo-ou-nada. As diferenças são enormes — o neurônio real opera no tempo, com sinais químicos, taxas de disparo, plasticidade e uma geometria que importa; o artificial é uma soma ponderada estática. McCulloch e Pitts sabiam disso: o modelo deles era uma abstração **deliberada**, feita para responder a uma pergunta lógica, não para simular biologia.\n\nVale saber por que isso importa na prática: tratar a analogia como literal é a origem de boa parte do exagero sobre o que redes neurais \"entendem\". O nome é herança histórica, não descrição do mecanismo.",
+   "volte_para": "#o-problema-pode-uma-maquina-pensar-em-logica",
+   "rubrica": "descreve a operação corretamente: soma ponderada das entradas comparada a um limiar;\nmenciona que os pesos determinam a importância de cada entrada;\naponta ao menos uma semelhança razoável com o neurônio biológico (integrar sinais, disparar ou não);\naponta ao menos uma diferença importante (ausência de tempo, de química, de estrutura, ou o fato de ser uma simplificação deliberada);\nnão trata a analogia biológica como se fosse literal",
+   "versoes": null,
+   "pagina": "18-neuronio-artificial",
+   "titulo_capitulo": "18 — O Neurônio Artificial",
+   "criterios": [
+    "descreve a operação corretamente: soma ponderada das entradas comparada a um limiar",
+    "menciona que os pesos determinam a importância de cada entrada",
+    "aponta ao menos uma semelhança razoável com o neurônio biológico (integrar sinais, disparar ou não)",
+    "aponta ao menos uma diferença importante (ausência de tempo, de química, de estrutura, ou o fato de ser uma simplificação deliberada)",
+    "não trata a analogia biológica como se fosse literal"
+   ]
   }
  ],
  "videos": [
@@ -951,6 +1068,23 @@
    "min": 15,
    "porque": "Boosting é o conceito deste capítulo que a prosa explica mal, porque ele é um processo **iterativo** — e prosa é linear. O vídeo constrói o modelo passo a passo numa tabela pequena: previsão inicial, resíduo, árvore no resíduo, nova previsão, novo resíduo. Ver a coluna de resíduos encolhendo a cada rodada é o que transforma \"cada árvore corrige a anterior\" de frase decorada em mecanismo entendido. Assista antes do exercício 07-e4.",
    "pagina": "07-arvores-ensembles"
+  }
+ ],
+ "laboratorios": [
+  {
+   "id": "18-l1",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "tipo": "neuronio-mp",
+   "titulo": "Neurônio de McCulloch–Pitts",
+   "config": {
+    "id": "18-l1",
+    "tipo": "neuronio-mp",
+    "titulo": "Neurônio de McCulloch–Pitts",
+    "funcao": "AND"
+   },
+   "intro": "Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.\n\nSua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.\n\nComece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.",
+   "pagina": "18-neuronio-artificial"
   }
  ],
  "gerado_de": "livro/"

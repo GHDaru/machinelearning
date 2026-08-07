@@ -76,12 +76,25 @@ Exceção única: emendas a *esta constituição* podem ser feitas diretamente �
 
 Ler não é aprender. O livro só cumpre seu papel se o leitor **pratica** e **recebe resposta**. Portanto:
 
-1. **Todo capítulo entrega no mínimo 3 exercícios e 1 vídeo**, ligados aos objetivos declarados no item 1 do esqueleto. Capítulo sem prática não é publicável.
+1. **Todo capítulo, ao atingir o nível `completo`, entrega no mínimo 3 exercícios e 1 elemento de mídia** — vídeo curado **ou** laboratório interativo —, ligados aos objetivos declarados. Ver "Níveis de maturidade" abaixo: o portão vale na promoção a `completo`, não em cada commit.
 2. **Todo exercício tem gabarito e feedback explicativo.** Feedback que só diz "errado" é proibido: ele diz *por que* a alternativa escolhida falha e para onde voltar no texto.
 3. **A correção acontece no backend**, não no HTML. A página nunca carrega o gabarito; a resposta do leitor é avaliada por uma regra determinística (múltipla escolha, numérica, completar) ou por rubrica escrita (resposta aberta, avaliada pelo LLM contra critérios explícitos).
 4. **Todo exercício rastreia até um objetivo de aprendizagem.** Exercício órfão — que não testa nenhum objetivo do capítulo — não entra.
-5. **Vídeo é curadoria, não enchimento**: cada vídeo declara autor, duração e *o que ele resolve* que o texto não resolve. Entra com link verificado e é reconferido na janela de revisão.
-6. **O progresso é do leitor** (Princípio V): anônimo, exportável, apagável. A telemetria agregada existe para melhorar o livro — quais exercícios erram mais é o sinal mais valioso que este projeto coleta.
+5. **Vídeo é curadoria, não enchimento**: cada vídeo declara autor, duração e *o que ele resolve* que o texto não resolve. Entra com link verificado e é reconferido na janela de revisão. **Quando não houver vídeo verificável para um tema, um laboratório interativo cumpre o requisito** — inventar uma referência para preencher a cota é violação do Princípio I.
+6. **Laboratório é a terceira superfície.** Exercício pergunta e corrige; vídeo mostra; **laboratório deixa manipular**. Ele roda inteiro no navegador — não há gabarito a esconder, porque o gabarito é o comportamento do próprio objeto. Consequência prática: laboratórios funcionam mesmo com o backend fora do ar. Todo laboratório declara o que manipulá-lo ensina e o que o leitor deve **descobrir sozinho**.
+7. **O progresso é do leitor** (Princípio V): anônimo, exportável, apagável. A telemetria agregada existe para melhorar o livro — quais exercícios erram mais é o sinal mais valioso que este projeto coleta.
+
+### Níveis de maturidade de um capítulo
+
+Um livro que serve a disciplinas em andamento precisa de **cobertura antes de profundidade** — um capítulo que existe de forma honesta vale mais para o estudante do que um capítulo ausente. Mas cobertura sem rigor é exatamente o que este projeto recusa. A conciliação é declarar o nível, capítulo a capítulo, no cabeçalho e no `HISTORICO.md`:
+
+| Nível | O que garante | O que **não** garante |
+|---|---|---|
+| **esqueleto** | Objetivos de aprendizagem e o problema, declarados | corpo, prática, fontes |
+| **essencial** | Corpo legível e ensinável, ≥2 exercícios, síntese e verificação | experimentos próprios, todas as fontes ✓ |
+| **completo** | O portão dos sete itens (ver Guia Editorial): ≥3 exercícios, mídia, experimento reproduzível, fontes ✓, expiração, revisão developmental | — |
+
+**A regra que impede a degradação:** um capítulo em nível `esqueleto` ou `essencial` **diz isso ao leitor**, em destaque, no próprio cabeçalho. O leitor sempre sabe o que está lendo. Baixar o rigor em silêncio seria fraude; declarar o nível é honestidade — e cria a dívida visível que o roadmap cobra.
 
 ### IX. Definition of Done verificável — "prove, não declare"
 
@@ -116,4 +129,11 @@ Declarar "testado" sem colar a saída é violação deste princípio.
 
 Esta constituição prevalece sobre preferências pontuais. Emendas são registradas aqui e no `livro/HISTORICO.md`. O `CLAUDE.md` da raiz aponta para este documento como fonte de autoridade.
 
-**Versão**: 1.0.0 | **Ratificada**: 2026-08-01 | **Última emenda**: — (versão inicial; deriva da constituição 1.2.0 do livro de Engenharia de Harness e do modelo operacional do Maestro)
+**Versão**: 1.1.0 | **Ratificada**: 2026-08-01 | **Última emenda**: 2026-08-08
+
+**Emenda 1.1.0 (2026-08-08)** — ampliação de escopo e três acréscimos ao Princípio VIII:
+1. **Níveis de maturidade** (esqueleto / essencial / completo), declarados ao leitor. Viabiliza cobrir o programa de disciplinas em curso sem baixar o rigor em silêncio.
+2. **Laboratório interativo** reconhecido como terceira superfície, ao lado de exercício e vídeo, e aceito como mídia obrigatória quando não houver vídeo verificável.
+3. O portão de ≥3 exercícios passa a valer na promoção a `completo`, não em cada commit.
+
+Motivação registrada: o livro passou de "Machine Learning" a **Ciência de Dados e Aprendizado de Máquina**, para servir a três disciplinas reais (Ciência de Dados, Análise Preditiva, Aprendizagem de Máquina) cujos programas estão em `ROADMAP.md`.

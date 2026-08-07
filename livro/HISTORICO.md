@@ -6,6 +6,25 @@
 
 ## Edições
 
+### Edição 0.5 — 2026-08-08 · Novo escopo: três disciplinas, trilhas e o primeiro laboratório (spec 005)
+
+A mudança mais profunda desde a fundação. O livro deixou de ser sobre Machine Learning e passou a ser **Ciência de Dados e Aprendizado de Máquina**, para servir a três disciplinas reais de Engenharia de Software.
+
+**O que entrou:**
+
+- **Novo escopo e novo título.** De 18 para **28 capítulos**, em cinco partes: Ciência de Dados, Análise Preditiva, Redes e Deep Learning, Além do Supervisionado, e No Mundo Real.
+- **Trilhas de disciplina.** Três páginas que ordenam os capítulos por curso, mapeadas unidade a unidade das ementas. O número do capítulo virou **identificador estável**; a ordem vive nas trilhas. É isso que permite um capítulo servir a duas disciplinas com pesos diferentes.
+- **Capítulo 18 — O Neurônio Artificial**, nível `essencial`: McCulloch–Pitts, o perceptron, o inverno da IA, e o XOR.
+- **Laboratórios interativos** — a terceira superfície do livro. O primeiro é o neurônio de McCulloch–Pitts: o estudante põe os pesos à mão, vê a reta de decisão se mover sobre a tabela-verdade, e **descobre sozinho** que o XOR é impossível.
+- **Nove capítulos-esqueleto novos** cobrindo o que faltava das ementas: ciclo CRISP-DM, coleta e integração, análise exploratória, visualização e storytelling, análise multidimensional, séries temporais, do modelo à decisão, treinar redes profundas, e IA simbólica/fuzzy/evolutiva.
+- **Constituição emendada para 1.1.0**: níveis de maturidade (`esqueleto` / `essencial` / `completo`), laboratório reconhecido como mídia, e o portão de exercícios passando a valer na promoção a `completo`.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-08.
+
+**A decisão de método.** Servir a disciplinas em curso exige **cobertura antes de profundidade** — e cobertura sem rigor é o que este projeto recusa. A conciliação foi declarar o nível de cada capítulo **ao leitor**, no próprio cabeçalho. Baixar o rigor em silêncio seria fraude; declarar cria a dívida visível que o roadmap cobra.
+
+**Por que o laboratório importa.** O XOR é o caso em que o formato se justifica sozinho: nenhuma frase entrega o que travar em 3 de 4 entrega. O leitor tenta, tenta de novo, e **descobre** a impossibilidade — que é exatamente como Minsky e Papert a apresentaram em 1969. E, por rodar no navegador, o laboratório funciona mesmo com o backend fora do ar: é a superfície mais robusta do livro.
+
 ### Edição 0.4 — 2026-08-05 · Lineares e otimização: três achados que vieram de testes que falharam (spec 004)
 
 **O que entrou:**
@@ -73,16 +92,20 @@ O repositório nasce com a máquina inteira funcionando e o conteúdo em constru
 
 ## Snapshot por capítulo
 
+> **Níveis** (constituição 1.1.0): `esqueleto` = objetivos e problema · `essencial` = corpo ensinável e prática · `completo` = o portão dos sete itens.
+>
+> Os capítulos 19–27, criados na edição 0.5, estão todos em `esqueleto`. O 18 está em `essencial`.
+
 | Capítulo | Estado | Captura | Exercícios | Vídeos |
 |---|---|---|---|---|
-| 00 — Introdução | escrito | 2026-08 | 3 | 1 |
-| 01 — Fundamentos | escrito | 2026-08 | 3 | 1 |
-| 02 — Dados | **escrito** | 2026-08 | 4 | 1 |
+| 00 — Introdução | completo | 2026-08 | 3 | 1 |
+| 01 — Fundamentos | completo | 2026-08 | 3 | 1 |
+| 02 — Qualidade e Vazamento | completo | 2026-08 | 4 | 1 |
 | 03 — Representação | esqueleto | — | 0 | 0 |
-| 04 — Avaliação | **escrito (piloto v4)** | 2026-08 | 5 | 1 |
-| 05 — Modelos Lineares | **escrito** | 2026-08 | 3 | 1 |
-| 06 — Otimização | **escrito** | 2026-08 | 4 | 1 |
-| 07 — Árvores e Ensembles | **escrito** | 2026-08 | 5 | 1 |
+| 04 — Avaliação | completo (piloto v4) | 2026-08 | 5 | 1 |
+| 05 — Modelos Lineares | completo | 2026-08 | 3 | 1 |
+| 06 — Otimização | completo | 2026-08 | 4 | 1 |
+| 07 — Árvores e Ensembles | completo | 2026-08 | 5 | 1 |
 | 08 — Não Supervisionado | esqueleto | — | 0 | 0 |
 | 09 — Redes Neurais | esqueleto | — | 0 | 0 |
 | 10 — Visão | esqueleto | — | 0 | 0 |
@@ -93,6 +116,16 @@ O repositório nasce com a máquina inteira funcionando e o conteúdo em constru
 | 15 — Sistemas de ML | esqueleto | — | 0 | 0 |
 | 16 — MLOps | esqueleto | — | 0 | 0 |
 | 17 — Fronteira | esqueleto | — | 0 | 0 |
+| **18 — O Neurônio Artificial** | **essencial** | 2026-08 | 4 | 1 laboratório |
+| 19 — Ciclo da Ciência de Dados | esqueleto | — | 0 | 0 |
+| 20 — Coleta e Integração | esqueleto | — | 0 | 0 |
+| 21 — Análise Exploratória | esqueleto | — | 0 | 0 |
+| 22 — Visualização e Storytelling | esqueleto | — | 0 | 0 |
+| 23 — Análise Multidimensional | esqueleto | — | 0 | 0 |
+| 24 — Séries Temporais | esqueleto | — | 0 | 0 |
+| 25 — Do Modelo à Decisão | esqueleto | — | 0 | 0 |
+| 26 — Treinar Redes Profundas | esqueleto | — | 0 | 0 |
+| 27 — IA Simbólica, Fuzzy e Evolutiva | esqueleto | — | 0 | 0 |
 
 ## Registro de expiração — o placar das previsões
 
