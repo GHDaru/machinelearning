@@ -17,7 +17,9 @@ Em 1943 não havia computador digital comercial, não havia "Machine Learning", 
 
 A resposta deles foi um modelo brutalmente simples de neurônio ([McCulloch & Pitts, 1943](https://doi.org/10.1007/BF02478259), ✓). O neurônio recebe entradas, multiplica cada uma por um **peso**, soma tudo, e dispara — devolve 1 — se a soma alcançar um **limiar**. Senão, devolve 0.
 
-$$\text{saída} = \begin{cases} 1 & \text{se } w_1x_1 + w_2x_2 + \dots \geq \theta \\ 0 & \text{caso contrário} \end{cases}$$
+$$y = \begin{cases} 1 & \text{se } w_1x_1 + w_2x_2 + \dots \geq \theta \\ 0 & \text{se } w_1x_1 + w_2x_2 + \dots < \theta \end{cases}$$
+
+Aqui `y` é a saída, `x` são as entradas, `w` são os pesos e `θ` (teta) é o limiar — a mesma notação do diagrama acima.
 
 É só isso. Uma soma ponderada e uma comparação.
 

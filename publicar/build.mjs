@@ -18,6 +18,7 @@ import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
+import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair } from "./interativos.mjs";
 
@@ -65,6 +66,49 @@ function companionSnippet(chapter) {
 const md = new MarkdownIt({ html: true, linkify: false, typographer: false }).use(anchor, {
   permalink: anchor.permalink.ariaHidden({ symbol: "#", placement: "after" }),
   slugify: (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
+});
+
+// O markdown-it-mathjax3 embrulha CADA f\u00f3rmula num <span> que carrega uma
+// c\u00f3pia inteira da folha de estilo do MathJax (~3 KB). No cap\u00edtulo 05, com 15
+// blocos, isso era 43 KB dos 130 KB da p\u00e1gina \u2014 um ter\u00e7o, id\u00eantico byte a
+// byte. Aqui a folha \u00e9 recolhida UMA vez (vai para assets/matematica.css) e
+// os embrulhos somem. O <span> usa `display: contents`, ent\u00e3o retir\u00e1-lo n\u00e3o
+// muda o layout; e ele nunca aninha outro <span>, ent\u00e3o fecha no primeiro
+// </span> \u2014 conferido no HTML gerado antes de escrever esta regra.
+let cssMatematica = "";
+const RE_EMBRULHO = /<span id="mjx-[0-9a-f]+">\s*<style>([\s\S]*?)<\/style>([\s\S]*?)<\/span>/g;
+function dedupCssMatematica(html) {
+  return html.replace(RE_EMBRULHO, (_, css, conteudo) => {
+    if (!cssMatematica) {
+      // Todas as regras vêm ANINHADAS dentro de `#mjx-ID { display:contents; … }`,
+      // ou seja, escopadas ao embrulho. Como o embrulho vai embora, o escopo
+      // precisa ir junto: tira-se a chave de abertura e a última de fechamento,
+      // e as regras internas passam a valer para a página toda — que é o que
+      // já faziam na prática, já que todo mjx-container está dentro de um.
+      const semAbertura = css.replace(/^\s*#mjx-[0-9a-f]+\s*\{\s*display:contents;/, "");
+      cssMatematica = semAbertura.replace(/\}\s*$/, "").trim();
+    }
+    return conteudo.trim();
+  })
+  // O plugin indenta o HTML que gera, e a quebra de linha que ele deixa depois
+  // da fórmula colapsa num espaço visível: "escolher os w . O critério", com o
+  // ponto solto. Aparar só antes de PONTUAÇÃO é a regra segura — antes de
+  // palavra o espaço é do texto e tem de ficar ("a média de B estimadores").
+  .replace(/<\/mjx-container>\s+(?=[.,;:!?)\]])/g, "</mjx-container>");
+}
+
+// Matem\u00e1tica: LaTeX -> SVG **em tempo de build**. A escolha \u00e9 deliberada.
+// KaTeX/MathJax no navegador exigiriam CDN (proibido: o livro tem de abrir
+// offline) ou empacotar fontes. Renderizar para SVG aqui n\u00e3o custa nada ao
+// leitor: nenhum JS, nenhuma fonte, nenhuma requisi\u00e7\u00e3o \u2014 e imprime bem.
+// Auditado antes de ligar: todo `$` fora de bloco de c\u00f3digo no livro \u00e9
+// matem\u00e1tica de verdade; n\u00e3o h\u00e1 pre\u00e7o nem vari\u00e1vel de shell em prosa que o
+// delimitador pudesse capturar por engano.
+md.use(mathjax, {
+  tex: { macros: { saida: "\\text{sa\u00edda}" } },
+  // `a11y` liga a \u00e1rvore de acessibilidade do MathJax: o leitor de tela
+  // anuncia a f\u00f3rmula em vez de silenciar sobre um <svg> an\u00f4nimo.
+  options: { enableAssistiveMml: true },
 });
 
 // Reescrita de links internos: .md publicado -> .html local; .html passa
@@ -200,6 +244,7 @@ function pagina({ tituloPagina, corpo, navLateral, prev, next, data, ehIndex, ch
 <link rel="apple-touch-icon" href="${A}apple-touch-icon.png">
 <link rel="stylesheet" href="${A}estilo.css">
 <link rel="stylesheet" href="${A}interativos.css">
+<link rel="stylesheet" href="${A}matematica.css">
 </head><body${ehIndex ? ' class="pagina-index"' : hero ? ' class="pagina-capitulo"' : ""} data-slug="${slug}" data-lang="pt" data-titulo="${tituloPagina.replace(/"/g, "&quot;")}">
 <button id="alt-tema" aria-label="Alternar tema">◐</button>
 <div class="layout">
@@ -349,7 +394,7 @@ for (let k = 0; k < itens.length; k++) {
   // Blocos interativos ANTES do parse: viram HTML puro, sem gabarito.
   const renderMd = (t) => md.render(t, { srcDir: dirname(item.arquivo) });
   const comInterativos = renderizar(bruto, renderMd, item.arquivo, cap);
-  let corpo = marcarCallouts(md.render(comInterativos, { srcDir: dirname(item.arquivo) }));
+  let corpo = dedupCssMatematica(marcarCallouts(md.render(comInterativos, { srcDir: dirname(item.arquivo) })));
 
   let hero = null;
   const { num, texto } = dividirTitulo(item.titulo);
@@ -500,6 +545,39 @@ for (const i of [...itens, { slug: "index" }, { slug: "sumario" }]) {
 if (quebrados.length) {
   console.error(`✗ ${quebrados.length} link(s) interno(s) quebrado(s):`);
   quebrados.forEach((q) => console.error("   " + q));
+  process.exit(1);
+}
+
+// A folha do MathJax, recolhida uma única vez durante a renderização.
+// Vai para assets/ como arquivo próprio: o navegador a busca uma vez e a
+// reaproveita em todos os capítulos, em vez de reler a mesma coisa embutida
+// em cada fórmula de cada página.
+writeFileSync(resolve(SAIDA, "assets/matematica.css"),
+  cssMatematica
+    ? `/* Gerado pelo build a partir do markdown-it-mathjax3 — não editar à mão.\n   Editar o estilo da matemática em tema/estilo.css. */\n${cssMatematica}\n`
+    : "/* Sem matemática nesta edição. */\n");
+
+// Guarda de acentuação dentro de matemática.
+// As fontes TeX do MathJax não têm glifos acentuados: `\text{saída}` sai como
+// "saí da", com um buraco no lugar do acento. É um erro silencioso — o build
+// passa, o SVG existe, e só se vê olhando a página. Num livro em português,
+// isso reaparece toda vez que alguém escrever naturalmente. Então falha aqui.
+const acentuadoEmMatematica = [];
+for (const i of itens) {
+  const fonte = readFileSync(resolve(RAIZ, i.arquivo), "utf8")
+    .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
+  for (const m of fonte.matchAll(/\$\$([\s\S]*?)\$\$|\$([^$\n]+)\$/g)) {
+    const formula = m[1] ?? m[2];
+    const achados = [...new Set(formula.match(/[^\x00-\x7F]/g) || [])]
+      // θ, λ, Σ e afins são símbolos matemáticos legítimos: o MathJax os tem.
+      .filter((c) => !/[Ͱ-Ͽ -⏿←-⇿]/.test(c));
+    if (achados.length) acentuadoEmMatematica.push(`${i.arquivo}: ${achados.join(" ")} em  ${formula.trim().slice(0, 60)}…`);
+  }
+}
+if (acentuadoEmMatematica.length) {
+  console.error(`✗ ${acentuadoEmMatematica.length} fórmula(s) com caractere acentuado — o MathJax quebra a palavra no acento.`);
+  acentuadoEmMatematica.forEach((q) => console.error("   " + q));
+  console.error("   Saída: tire a palavra acentuada da fórmula e explique em prosa ao lado.");
   process.exit(1);
 }
 

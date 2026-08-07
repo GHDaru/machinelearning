@@ -24,8 +24,29 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - **Blueprint de deploy do backend** (`render.yaml` + `chat-companion/DEPLOY.md`):
   aplicação em um clique, segredos com `sync: false` (nunca versionados).
 
+### Corrigido
+- **A matemática não renderizava.** O motor não tinha renderizador nenhum: todo
+  `$$...$$` saía como LaTeX cru na tela, em **quatro** capítulos (05, 06, 07 e 18)
+  — 21 fórmulas em destaque e dezenas em linha. Agora o build converte para SVG
+  com MathJax, **em tempo de compilação**: nenhum JS, nenhuma fonte e nenhuma
+  requisição para o leitor, e imprime bem. O SVG desenha em `currentColor`, então
+  o tema escuro sai de graça.
+- **Acento dentro de fórmula quebrava a palavra.** As fontes TeX não têm glifos
+  acentuados: `\text{saída}` saía como "saí da". A fórmula do capítulo 18 foi
+  reescrita sem acentos (e passou a usar `y`, a notação do diagrama), e o build
+  agora **falha** se alguém reintroduzir o problema.
+- **A página inteira rolava na horizontal no celular** (capítulo 18): a tabela do
+  histórico alargava a coluna do grid em vez de rolar sozinha. Faltava
+  `min-width: 0` no item de grid. Verificado a 390 px em seis páginas.
+- **Espaço solto antes da pontuação** depois de fórmula em linha ("escolher os
+  *w* . O critério") — 5 ocorrências, do HTML indentado que o plugin gera.
+
 ### Alterado
 - Subtítulo do livro passa a declarar que ele é **vivo e evolutivo**.
+- **Páginas com matemática ficaram ~33% menores.** O plugin embutia uma cópia
+  inteira da folha do MathJax a cada fórmula (43 KB dos 130 KB do capítulo 05,
+  idênticos byte a byte). A folha passa a ser um arquivo só, em
+  `assets/matematica.css`, buscado uma vez e reaproveitado. Capítulo 05: 132 KB → 88 KB.
 
 ## [0.5.0] — 2026-08-08
 
