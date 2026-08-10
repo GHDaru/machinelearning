@@ -11,20 +11,23 @@
 | **Diátaxis** | Quatro tipos de texto, nunca misturados na mesma seção: capítulo=explanation, `ml-zero`=tutorial, banco/fichas=reference, receitas=how-to |
 | **Carga Cognitiva** | Worked example antes do exercício; exercícios são "complete", não "crie do zero"; andaime diminui capítulo a capítulo; uma ideia nova por vez |
 
-## 2. Esqueleto v4 de capítulo (obrigatório)
+## 2. Esqueleto v5 de capítulo (obrigatório)
 
-O v4 é o esqueleto v3 do livro de Engenharia de Harness **mais as duas seções de interatividade**. A ordem não é decorativa: ela é o Backward Design tornado sumário.
+O v5 é o v4 **mais a seção histórica** que o Princípio X tornou obrigatória. O v4, por sua vez, era o esqueleto v3 do livro de Engenharia de Harness mais as duas seções de interatividade. A ordem não é decorativa: ela é o Backward Design tornado sumário.
 
 1. **Objetivos de aprendizagem** — 3–5, verbos de Bloom (explicar, comparar, implementar, avaliar), numerados `**O1.**`, `**O2.**`… Os identificadores são reais: cada exercício aponta para um deles, e o build falha se apontar para um que não existe.
 2. **O problema** — por que este assunto existe. Comece pelo erro que alguém comete sem ele.
-3. **Fundamentos** — a intuição, depois a matemática, depois o código. Nunca a fórmula sozinha.
-4. **Fundamentos científicos** — 2–4 papers *traduzidos para decisões* ("o resultado X significa que, na prática, você deve Y"); ponteiro para `bibliografia.md`.
-5. **O estado da arte** — o que é consenso hoje, o que está em disputa, e a **cláusula de expiração** do capítulo.
-6. **Mão na massa** — a etapa correspondente do `ml-zero`, com o experimento que gera os números citados.
-7. **Pratique** — os exercícios (mínimo 3). Ver §4.
-8. **Assista** — os vídeos curados (mínimo 1). Ver §5.
-9. **Síntese + "o que levar"** — leitura executiva e as ideias exportáveis para o trabalho do leitor.
-10. **Verificação** — 2–3 perguntas abertas que testam exatamente os objetivos do item 1.
+3. **De onde isto veio** — a história do método, em cinco elementos: **o aperto** (quem estava preso, em quê, quando) · **o que se fazia antes** · **a virada** (a ideia que destravou, sem notação) · **a ideia reaproveitável** (o padrão que serve fora deste método) · **o nome**. Fecha com a **tabela de selos** (✓ / ✓ᵐ / ⏳ / ❌ / 📖). Ver §2.4 e o Princípio X.
+4. **Fundamentos** — a intuição, depois a matemática, depois o código. Nunca a fórmula sozinha.
+5. **Fundamentos científicos** — 2–4 papers *traduzidos para decisões* ("o resultado X significa que, na prática, você deve Y"); ponteiro para `bibliografia.md`.
+6. **O estado da arte** — o que é consenso hoje, o que está em disputa, e a **cláusula de expiração** do capítulo.
+7. **Mão na massa** — a etapa correspondente do `ml-zero`, com o experimento que gera os números citados.
+8. **Pratique** — os exercícios (mínimo 3). Ver §4.
+9. **Assista** — os vídeos curados (mínimo 1) **ou** o laboratório. Ver §5 e §2.3.
+10. **Síntese + "o que levar"** — leitura executiva e as ideias exportáveis para o trabalho do leitor.
+11. **Verificação** — 2–3 perguntas abertas que testam exatamente os objetivos do item 1.
+
+A posição do item 3 é a regra, não sugestão: **depois** do problema e **antes** da intuição. Antes do problema, a história não tem a que se agarrar; depois da fórmula, o leitor já pulou.
 
 ### 2.1 Cabeçalho obrigatório
 
@@ -70,6 +73,36 @@ Um laboratório roda inteiro no navegador. Não há gabarito a esconder — o ga
 - Quando não houver vídeo verificável para um tema, **o laboratório cumpre a cota de mídia**. Inventar uma referência para preencher cota é violação do Princípio I.
 
 Sintaxe em [`BANCO-DE-EXERCICIOS.md`](BANCO-DE-EXERCICIOS.md); os widgets vivem em `publicar/tema/laboratorios.js`.
+
+## 2.4 "De onde isto veio" — como se escreve
+
+Materializa o **Princípio X**. Portão do nível `essencial`, para todo capítulo de método.
+
+**Os cinco elementos, nesta ordem.** O aperto (quem, em quê, quando — gente e data, não "os pesquisadores") · o que se fazia antes (contra o quê o método compete) · a virada (a ideia que destravou, **em linguagem natural, sem notação**) · **a ideia reaproveitável** · o nome, se tiver origem.
+
+**O quarto elemento é a razão de a seção existir.** Todo artifício técnico declara a ideia reaproveitável que há por trás dele: artifício sem ideia é truque, e truque não se transfere. Se você não consegue escrever esse parágrafo, ou ainda não entendeu o método, ou ele não merece capítulo.
+
+**A tabela de selos fecha a seção.** Uma linha por afirmação histórica:
+
+| Selo | Significa | Erro que ele previne |
+|---|---|---|
+| ✓ | fonte **aberta e lida** | — |
+| ✓ᵐ | só os **metadados** conferidos (autor, obra, ano, DOI) | confundir *"existe e é este artigo"* com *"eu li e diz isso"* |
+| ⏳ | **atribuição corrente**, não confirmada em primária | repetir o que "todo mundo diz" como se fosse conferido |
+| ❌ | procurei e **não achei** | preencher a lacuna com suposição plausível |
+| 📖 | **leitura editorial** deste livro | vender interpretação como fato histórico |
+
+Conferir um DOI dá **✓ᵐ**, nunca ✓. Diferente da legenda de [`bibliografia.md`](bibliografia.md), que responde a outra pergunta ("esta referência pode sustentar uma afirmação?"): lá um ✓ conferido só por identificador equivale a ✓ᵐ aqui.
+
+**❌ é permitido e às vezes é o melhor que há.** Exemplo real, no capítulo 18: a atribuição do backpropagation a "um italiano em 1979" não foi confirmada — o capítulo diz que procurou e não achou, e lista o que existe (Linnainmaa 1970, Werbos 1974, Fukushima 1979/80). Lacuna admitida em voz alta vale mais que suposição com cara de fato.
+
+**Três proibições.** Gênio solitário (história ruim e geralmente falsa: métodos nascem de instituições, encomendas, prazos e restrições materiais — e é isso que ensina) · curiosidade decorativa (se o parágrafo sai sem o leitor perder compreensão ou julgamento, é enfeite) · misturar registro ("a literatura atribui a X" ≠ "X publicou em 19NN", e as duas não podem parecer iguais no texto).
+
+**Pesquise de uma vez, não capítulo a capítulo.** A pesquisa histórica vai numa sessão própria, com nota em `estudos/` e **fila de verificação** ao final, ordenada por dúvida fechada por unidade de esforço. As histórias se conectam, e quem descobre a conexão depois já publicou os dois lados sem ela.
+
+**Duas armadilhas.** *Resumo de busca não é fonte* — nem para confirmar nem para desmentir; um resumo pode abreviar o original a ponto de um fato **correto** parecer errado, e corrigir a partir dele introduz o erro que você achava estar consertando. *Ler a fonte também serve para achar o que você não sabia que estava lá* — as melhores histórias estão no parágrafo que ninguém resumiu.
+
+**O teste:** o leitor termina a seção **querendo continuar**. Um livro técnico compete com a tentação de pular para a fórmula; a história é o que dá ao leitor um motivo para não pular.
 
 ## 3. Regras de escrita permanentes
 
@@ -126,7 +159,7 @@ Antes do copyedit de superfície, um passo de **revisão *developmental***: re-v
 1. **Abrir o tema** — pesquisa dupla (científica + indústria), verificada por busca cruzada; registrar lacunas.
 2. **Definir os objetivos primeiro** (Backward Design) e, logo em seguida, **os exercícios** — antes de escrever o corpo. Se você não consegue escrever o exercício, o objetivo está vago.
 3. **Reunir a evidência** — rodar o experimento no `ml-zero`; anotar seed, versões e números.
-4. **Escrever** — no esqueleto v4, um tipo de texto por seção (Diátaxis).
+4. **Escrever** — no esqueleto v5, um tipo de texto por seção (Diátaxis).
 5. **Revisar (developmental)** — §7.
 6. **Verificar fontes** — nenhuma URL/DOI inventado; não-confirmado marcado `⏳`; sincronizar `bibliografia.md`.
 7. **Gate de build** — `npm run build` (em `publicar/`) verde: link-check e gate de exercícios.

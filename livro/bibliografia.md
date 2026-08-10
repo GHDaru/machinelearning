@@ -12,6 +12,10 @@
 
 Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência de uma afirmação. Essa distinção é o que separa uma bibliografia de uma lista de coisas que parecem certas.
 
+> **Esta legenda e a dos capítulos respondem a perguntas diferentes.** Aqui a pergunta é *"esta referência pode sustentar uma afirmação?"* (Princípio I). Na seção "De onde isto veio" de cada capítulo, a pergunta é mais fina — *"o que exatamente eu conferi desta obra?"* — e a legenda tem cinco selos (✓ · ✓ᵐ · ⏳ · ❌ · 📖), definidos no Princípio X.
+>
+> A tradução entre as duas é estrita, e sempre na direção conservadora: **um ✓ desta página conferido só por DOI/identificador vale como ✓ᵐ no capítulo.** Metadado prova que a obra existe, quem assina e quando saiu; não prova o que ela afirma por dentro. Onde a nota de verificação abaixo diz "(Crossref)", foi isso — e só isso — que se conferiu.
+
 > **Por que tantos ⏳ nesta edição.** Este livro nasceu em 2026-08 com a maquinaria pronta e o conteúdo em construção. As referências marcadas ⏳ são as que os capítulos-esqueleto vão precisar; elas entram no fluxo de verificação (skill `academic-research`) junto com a spec do capítulo correspondente. Publicar a lista antes de conferi-la é honesto; usá-la antes de conferi-la não seria.
 
 ---

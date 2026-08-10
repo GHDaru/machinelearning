@@ -6,6 +6,22 @@
 
 ## Edições
 
+### Edição 0.6 — 2026-08-10 · Emenda 1.2.0: nenhum método cai do céu
+
+Uma emenda à constituição, e a mais consequente até aqui para *como os capítulos são escritos*.
+
+**O novo Princípio X.** Todo método deste livro foi inventado por **alguém**, preso num problema concreto, numa data, com meios limitados. Um capítulo que dá o método sem essa história entrega um procedimento — e procedimento se decora. Passa a ser obrigatória, em todo capítulo de método a partir do nível `essencial`, a seção **"De onde isto veio"**: o aperto · o que se fazia antes · a virada · **a ideia reaproveitável** · o nome.
+
+O quarto elemento é o que justifica a seção. **Todo artifício técnico declara a ideia reaproveitável que há por trás dele** — artifício sem ideia é truque, e truque não se transfere. Quem sabe *que problema forçou o método a existir* reconhece o mesmo tipo de aperto anos depois, noutro contexto; quem só executa o procedimento tem uma habilidade que expira com a prova.
+
+**Selos de proveniência por afirmação histórica** (✓ · ✓ᵐ · ⏳ · ❌ · 📖). História é o terreno mais fácil do livro para inventar, porque **história inventada soa bem** — uma data errada e uma atribuição plausível passam por qualquer revisão apressada. Inventar história é pior do que omiti-la, justamente porque convence.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-10.
+
+**De onde veio a distinção ✓ / ✓ᵐ.** Ela não é preciosismo de escrivão: nasceu de um caso desta obra, três dias atrás. Ao conferir o DOI do neocognitron para o capítulo 18, o registro do Crossref devolveu **1980** — e o capítulo dizia 1979. O DOI provava que o artigo existe, quem assina e quando saiu; não provava nada sobre o que ele afirma por dentro. São duas perguntas diferentes, e um selo só não distinguia as duas. Agora conferir identificador dá **✓ᵐ**; ✓ exige ter aberto o texto.
+
+**Uma dívida criada de propósito.** A emenda torna 8 capítulos não-conformes no instante em que é ratificada — nenhum dos que têm corpo traz a seção, porque todos são anteriores a ela. Isso está registrado como **D8** no roadmap, com o retrofit em **C8**, e nenhum deles sobe de nível sem pagá-la. Emendar a lei e declarar retroativamente que tudo já estava conforme seria o oposto do que o princípio pede.
+
 ### Edição 0.5.1 — 2026-08-08 · O capítulo 18 ganha história, imagem e código executável (spec 006)
 
 Uma rodada curta e inteira dedicada a um capítulo só — o 18 —, a pedido de quem dá a aula. Nada de escopo novo: profundidade no que já existia.

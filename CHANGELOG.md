@@ -6,6 +6,21 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — **constituição 1.2.0**
+- **Princípio X — "Nenhum método cai do céu"** (não-negociável). Todo capítulo de
+  método traz a seção **"De onde isto veio"**: o aperto · o que se fazia antes ·
+  a virada · **a ideia reaproveitável** · o nome. Portão do nível `essencial`.
+- **Selos de proveniência** por afirmação histórica: ✓ (fonte lida) · ✓ᵐ (só
+  metadados) · ⏳ (atribuição corrente) · ❌ (procurei e não achei) · 📖 (leitura
+  editorial). Conferir um DOI dá **✓ᵐ**, nunca ✓.
+- **Esqueleto de capítulo v4 → v5**, com a seção histórica entre "o problema" e
+  os fundamentos. Guia Editorial §2.4 traz o operacional; o template de PR cobra.
+- **`AGENTS.md`** — link simbólico para `CLAUDE.md`, para agentes que procuram esse
+  nome. Um arquivo só, para não haver duas verdades que divergem.
+- **Dívidas D8 e D9** e o ciclo **C8** (sessão de pesquisa histórica + retrofit):
+  a emenda deixa 8 capítulos com corpo devendo a seção e 20 sem nível declarado.
+  Registrado em vez de silenciado — nenhum sobe de nível sem pagar.
+
 ### Adicionado
 - **Capítulo 18 — histórico com as fontes reais.** Linha do tempo 1943–1986 com DOI
   ou link verificável em cada marco (McCulloch & Pitts, Hebb, Rosenblatt, Minsky &

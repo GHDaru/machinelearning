@@ -103,6 +103,18 @@ Prioridade para as que servem às trilhas: **09** (rede em NumPy), **26** (trein
 
 O autor observa que **IA é outra disciplina**. O capítulo 27 cobre o que a ementa de Aprendizagem de Máquina exige (simbólico, fuzzy, genéticos, bayesianas). Uma Parte VI dedicada — busca, planejamento, agentes, representação de conhecimento — fica registrada como possibilidade, não como compromisso.
 
+### C8 — Sessão de pesquisa histórica e retrofit do Princípio X
+
+Criado pela emenda **1.2.0** da constituição. **Uma sessão de pesquisa, não uma por capítulo** — a regra do próprio princípio: as histórias se conectam (McCulloch–Pitts → Rosenblatt → Minsky → backpropagation; Gauss/Legendre → mínimos quadrados → regressão; Tukey → EDA → visualização), e quem pesquisa capítulo a capítulo publica os dois lados sem a ligação.
+
+Produtos, nesta ordem:
+
+1. **Nota de pesquisa** em `estudos/`, cobrindo os métodos dos capítulos com corpo, e terminando com a **fila de verificação** — as fontes ordenadas por quanta dúvida cada uma fecha por unidade de esforço.
+2. **Retrofit** da seção "De onde isto veio" nos 8 capítulos com corpo (dívida **D8**), cada afirmação com selo ✓ / ✓ᵐ / ⏳ / ❌ / 📖.
+3. **Declaração de nível** nos 20 capítulos que não a têm (dívida **D9**) — mesma passada, mesmo cabeçalho.
+
+O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está organizada como cronologia, não como "o aperto → o que se fazia antes → a virada → **a ideia reaproveitável** → o nome". Falta-lhe justamente o quarto elemento, e os selos precisam baixar de ✓ para **✓ᵐ** onde só o DOI foi conferido — o caso do neocognitron mostrou por quê.
+
 ## Dívidas registradas
 
 | # | Dívida | Origem |
@@ -114,6 +126,8 @@ O autor observa que **IA é outra disciplina**. O capítulo 27 cobre o que a eme
 | D5 | Sem tradução para inglês | fora de escopo |
 | **D6** | **Capítulo 16 (MLOps) sem vídeo verificável** | a busca não achou material conferível; um laboratório de detecção de drift resolveria |
 | **D7** | **Numeração fora de ordem no sumário** | consequência aceita de manter identificadores estáveis; mitigada pelas trilhas |
+| **D8** | **Nenhum capítulo tem "De onde isto veio"** — os **8 com corpo** (00, 01, 02, 04, 05, 06, 07, 18) foram escritos antes do Princípio X | a emenda 1.2.0 é posterior a eles. Retrofit em **C8**; nível não sobe sem pagar |
+| **D9** | **20 capítulos não declaram nível de maturidade** no cabeçalho — só o 18 e os nove esqueletos novos (19–27) declaram | os demais são anteriores à emenda 1.1.0. O Princípio "níveis" exige a declaração ao leitor |
 
 ## O que este projeto **não** vai fazer
 
@@ -124,7 +138,7 @@ O autor observa que **IA é outra disciplina**. O capítulo 27 cobre o que a eme
 
 ## O portão de publicação (nível `completo`)
 
-- [ ] Esqueleto v4 completo
+- [ ] Esqueleto v5 completo (inclui "De onde isto veio" com selos)
 - [ ] ≥3 exercícios e ≥1 mídia (vídeo **ou** laboratório), cada exercício rastreando a um objetivo
 - [ ] Toda afirmação empírica com experimento reproduzível ou citação ✓
 - [ ] Etapa correspondente do `ml-zero` rodando e testada

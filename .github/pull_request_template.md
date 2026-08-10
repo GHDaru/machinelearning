@@ -18,7 +18,8 @@
 - [ ] **Evidência colada** (saída de build/teste, screenshot) — sem saída, não está pronto
 
 ## Se o PR toca o livro
-- [ ] Esqueleto v4 respeitado (objetivos → problema → fundamentos → estado da arte → prática → síntese → verificação)
+- [ ] Esqueleto v5 respeitado (objetivos → problema → **de onde isto veio** → fundamentos → estado da arte → prática → síntese → verificação)
+- [ ] Princípio X: toda afirmação histórica tem selo (✓ / ✓ᵐ / ⏳ / ❌ / 📖); DOI conferido é ✓ᵐ, não ✓
 - [ ] Mínimo de **3 exercícios e 1 vídeo** por capítulo publicado (Princípio VIII.1)
 - [ ] Todo exercício rastreia até um objetivo declarado, com feedback que **explica** (VIII.2/VIII.4)
 - [ ] Toda afirmação empírica tem experimento reproduzível ou citação ✓ (Princípio I) — nada apoiado em ⏳

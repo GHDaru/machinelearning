@@ -33,7 +33,7 @@ Todo capítulo e toda etapa da construção seguem a combinação:
 - **Diátaxis** (Procida): quatro tipos de texto, **nunca misturados** na mesma seção — capítulos = *explanation*, `ml-zero` = *tutorial*, banco de exercícios e fichas de dataset = *reference*, "receitas" = *how-to*.
 - **Carga Cognitiva** (Sweller): *worked example* antes do exercício; *completion problems* ("complete", não "crie do zero"); *fading* do andaime capítulo a capítulo; **uma ideia nova por vez**.
 
-O **esqueleto v4 de capítulo** (ver Guia Editorial) é a materialização deste princípio e é obrigatório. Ele estende o esqueleto v3 do livro de harness com as duas seções de interatividade — **Pratique** (exercícios) e **Assista** (vídeos).
+O **esqueleto v5 de capítulo** (ver Guia Editorial) é a materialização deste princípio e é obrigatório. Ele estende o v4 — que já acrescentara ao v3 do livro de harness as duas seções de interatividade, **Pratique** e **Assista** — com a seção histórica **"De onde isto veio"** exigida pelo Princípio X.
 
 ### IV. Livro vivo (datação, expiração e interatividade viva)
 
@@ -91,8 +91,10 @@ Um livro que serve a disciplinas em andamento precisa de **cobertura antes de pr
 | Nível | O que garante | O que **não** garante |
 |---|---|---|
 | **esqueleto** | Objetivos de aprendizagem e o problema, declarados | corpo, prática, fontes |
-| **essencial** | Corpo legível e ensinável, ≥2 exercícios, síntese e verificação | experimentos próprios, todas as fontes ✓ |
+| **essencial** | Corpo legível e ensinável, ≥2 exercícios, síntese e verificação, **"De onde isto veio" com selos** (Princípio X) | experimentos próprios, todas as fontes ✓, selos ✓ᵐ podem virar ✓ |
 | **completo** | O portão dos sete itens (ver Guia Editorial): ≥3 exercícios, mídia, experimento reproduzível, fontes ✓, expiração, revisão developmental | — |
+
+**Onde o Princípio X passa a valer.** A seção "De onde isto veio" é portão de **`essencial`** — é ali que o capítulo ganha corpo, e um corpo sem a origem do método é o procedimento avulso que o princípio proíbe. Capítulos escritos antes desta emenda não a têm: essa dívida é **declarada no roadmap**, capítulo a capítulo, e não se apaga promovendo nível sem pagá-la. Um capítulo `esqueleto` não precisa da seção, mas o seu spec já nasce com ela na lista de tarefas.
 
 **A regra que impede a degradação:** um capítulo em nível `esqueleto` ou `essencial` **diz isso ao leitor**, em destaque, no próprio cabeçalho. O leitor sempre sabe o que está lendo. Baixar o rigor em silêncio seria fraude; declarar o nível é honestidade — e cria a dívida visível que o roadmap cobra.
 
@@ -108,6 +110,74 @@ Nada é dado por pronto sem **evidência anexada**. O checklist vive em `.github
 - Datação e `HISTORICO.md` atualizados quando o estado da arte mudou.
 
 Declarar "testado" sem colar a saída é violação deste princípio.
+
+### X. Nenhum método cai do céu (NÃO-NEGOCIÁVEL)
+
+Todo método deste livro foi inventado por **alguém**, que estava **preso** num problema concreto, numa data, com meios limitados. Um capítulo que apresenta o método sem essa história entrega um procedimento — e procedimento, o leitor decora. **Este livro não passa decoreba.**
+
+A razão não é ornamental. Quem sabe *que problema forçou o método a existir* consegue reconhecer, anos depois e noutro contexto, quando está diante do mesmo tipo de aperto — e é isso que transfere. Quem só sabe executar o procedimento tem uma habilidade que expira com a prova.
+
+#### A seção obrigatória: "De onde isto veio"
+
+Todo capítulo de método tem essa seção, posicionada **depois** de "o problema" e **antes** da intuição. Ela não é caixa de curiosidade: é o que dá ao leitor um motivo para não pular direto para a fórmula.
+
+Cinco elementos, nesta ordem:
+
+| Elemento | A pergunta que responde |
+|---|---|
+| **O aperto** | Quem estava preso, em quê, quando. Um problema do mundo, com data e gente |
+| **O que se fazia antes** | Contra o quê o método compete. Sem isto, não dá para medir o salto |
+| **A virada** | Qual foi a ideia que destravou — em linguagem natural, sem notação |
+| **A ideia reaproveitável** | O padrão de raciocínio que serve **fora** deste método |
+| **O nome** | Se o nome tem origem, ela é contada |
+
+O elemento que mais importa é o quarto. **Todo artifício técnico declara a ideia reaproveitável que há por trás dele.** Um artifício sem ideia é truque, e truque não se transfere.
+
+#### História é afirmação, e exige fonte
+
+Este é o terreno mais fácil do livro para inventar, porque **história inventada soa bem**: uma data errada e uma atribuição plausível passam por qualquer revisão apressada.
+
+**Inventar história é pior do que omiti-la, porque é convincente.**
+
+Toda afirmação histórica carrega um selo, e cada capítulo fecha a seção com uma tabela que declara o estado de cada uma:
+
+| Selo | Significa |
+|---|---|
+| ✓ | **Fonte aberta e lida.** O que está afirmado foi conferido no texto |
+| ✓ᵐ | **Só os metadados** foram conferidos (autor, obra, ano, identificador). O conteúdo não foi lido |
+| ⏳ | **Atribuição corrente**, repetida na literatura didática, **não confirmada em fonte primária** |
+| ❌ | Procurei e **não achei fonte** |
+| 📖 | **Leitura editorial** — interpretação deste livro, não afirmação histórica |
+
+A distinção entre ✓ e ✓ᵐ não é preciosismo: ela é o que impede confundir *"existe e é este artigo"* com *"eu li e diz isso"*. Metadado confere que a obra existe; não confere o que ela afirma.
+
+O selo ❌ é permitido e às vezes é o mais honesto. Uma lacuna admitida em voz alta vale mais do que uma suposição com cara de fato.
+
+> **Relação com a bibliografia.** `livro/bibliografia.md` usa uma legenda mais curta (✓ / ⏳ / ⚠) porque responde a outra pergunta: *esta referência pode sustentar uma afirmação?* (Princípio I). Os selos acima são mais finos e vivem **no capítulo**, junto da afirmação histórica que qualificam. Onde os dois se encontram, vale a regra estrita: um ✓ na bibliografia conferido só por DOI corresponde a **✓ᵐ** aqui, e não autoriza afirmar o que a obra diz por dentro.
+
+#### Três proibições
+
+1. **Nada de gênio solitário.** É uma história ruim e geralmente falsa. Métodos nascem de instituições, encomendas, prazos e restrições materiais — e é isso que ensina.
+2. **Nada de curiosidade decorativa.** Se o parágrafo sai sem o leitor perder compreensão ou julgamento, ele é enfeite. A história entra porque ensina, não porque enfeita.
+3. **Nada de misturar registro.** "A literatura atribui a X" não é a mesma frase que "X publicou em 19NN", e as duas não podem parecer iguais no texto.
+
+#### Processo: pesquise de uma vez, não capítulo a capítulo
+
+Concentre a pesquisa histórica numa **sessão própria**, que produz uma nota de pesquisa alimentando as rodadas seguintes — em vez de pesquisar dentro de cada capítulo.
+
+A razão é concreta: **as histórias se conectam, e quem descobre a conexão depois já publicou os dois lados sem ela.** Pesquisando junto, as ligações aparecem; pesquisando separado, não.
+
+A nota de pesquisa deve terminar com uma **fila de verificação**, ordenada por quanta dúvida cada fonte fecharia por unidade de esforço. Nem toda fonte é alcançável, e saber qual abrir primeiro poupa horas.
+
+#### Duas armadilhas, aprendidas na prática
+
+**Resumo de busca não é fonte — nem para confirmar, nem para desmentir.** Um resumo pode abreviar o original de tal forma que um fato **correto** pareça errado. Corrigir a partir do resumo introduz o erro que você achava estar consertando. Se a afirmação importa, abra o texto.
+
+**Ler a fonte não serve só para conferir: serve para achar o que você não sabia que estava lá.** As melhores histórias quase nunca aparecem em resumo — elas estão no parágrafo que ninguém resumiu.
+
+#### O teste da seção
+
+O leitor deve terminá-la **querendo continuar**. Um livro técnico compete com a tentação de pular para a fórmula; a história é o que dá ao leitor um motivo para não pular.
 
 ## Restrições da construção (`ml-zero`)
 
@@ -129,7 +199,11 @@ Declarar "testado" sem colar a saída é violação deste princípio.
 
 Esta constituição prevalece sobre preferências pontuais. Emendas são registradas aqui e no `livro/HISTORICO.md`. O `CLAUDE.md` da raiz aponta para este documento como fonte de autoridade.
 
-**Versão**: 1.1.0 | **Ratificada**: 2026-08-01 | **Última emenda**: 2026-08-08
+**Versão**: 1.2.0 | **Ratificada**: 2026-08-01 | **Última emenda**: 2026-08-10
+
+**Emenda 1.2.0 (2026-08-10)** — novo **Princípio X, "Nenhum método cai do céu"** (não-negociável): todo capítulo de método traz a seção **"De onde isto veio"** (o aperto, o que se fazia antes, a virada, **a ideia reaproveitável**, o nome), com **selos de proveniência por afirmação histórica** (✓ / ✓ᵐ / ⏳ / ❌ / 📖), três proibições (gênio solitário, curiosidade decorativa, mistura de registro) e a regra de **pesquisar a história em sessão própria**, não capítulo a capítulo.
+
+Motivação: um capítulo que dá o método sem o problema que o forçou a existir entrega procedimento, e procedimento se decora e expira. A distinção ✓ / ✓ᵐ nasceu de um caso concreto desta obra — o DOI do neocognitron confere que o artigo existe e é de **1980**, o que não é a mesma coisa que ter lido o que ele afirma. O portão vale a partir do nível `essencial`; os capítulos anteriores à emenda carregam a dívida declarada no `ROADMAP.md`.
 
 **Emenda 1.1.0 (2026-08-08)** — ampliação de escopo e três acréscimos ao Princípio VIII:
 1. **Níveis de maturidade** (esqueleto / essencial / completo), declarados ao leitor. Viabiliza cobrir o programa de disciplinas em curso sem baixar o rigor em silêncio.
