@@ -22,7 +22,7 @@ O quarto elemento é o que justifica a seção. **Todo artifício técnico decla
 
 **Uma dívida criada de propósito.** A emenda torna 8 capítulos não-conformes no instante em que é ratificada — nenhum dos que têm corpo traz a seção, porque todos são anteriores a ela. Isso está registrado como **D8** no roadmap, com o retrofit em **C8**, e nenhum deles sobe de nível sem pagá-la. Emendar a lei e declarar retroativamente que tudo já estava conforme seria o oposto do que o princípio pede.
 
-### Edição 0.5.1 — 2026-08-08 · O capítulo 18 ganha história, imagem e código executável (spec 006)
+### Edição 0.5.1 — 2026-08-08 · O capítulo 18 ganha história, imagem e código executável (sem spec)
 
 Uma rodada curta e inteira dedicada a um capítulo só — o 18 —, a pedido de quem dá a aula. Nada de escopo novo: profundidade no que já existia.
 
@@ -36,6 +36,8 @@ Uma rodada curta e inteira dedicada a um capítulo só — o 18 —, a pedido de
 **Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-08.
 
 **A nota que não fechou, e por que ela ficou assim.** O pedido incluía checar uma lembrança: que o backpropagation teria sido desenvolvido por *um italiano, em 1979*. A busca não confirmou. O que existe, e está no capítulo com fonte: **Seppo Linnainmaa** (finlandês, 1970) publicou o modo reverso da diferenciação automática — a matemática do algoritmo; **Paul Werbos** (americano) o aplicou a redes na tese de 1974, com publicações no fim dos anos 1970; **Kunihiko Fukushima** (japonês) publicou o Neocognitron em **1979**. Nenhum italiano apareceu. O capítulo diz exatamente isso — inclusive que não achamos —, porque inventar uma atribuição plausível é o erro que o Princípio I existe para impedir. Se a lembrança tiver fonte, ela entra e esta nota é corrigida.
+
+**Uma dívida de processo desta edição.** Ela foi feita a pedido direto, sem passar pelo ciclo `spec → plan → tasks` que o Princípio VII exige para a raia plena — um capítulo revisado, código novo e um blueprint de deploy não são raia leve. A versão original deste registro dizia "spec 006", uma spec que nunca existiu; a correção está aqui em vez de apagada, porque um livro que mantém placar das próprias previsões não pode maquiar o próprio histórico.
 
 **O que o `NeuronioMP` sem `fit` ensina.** Um estudante que baixa o arquivo procura o método de treino e não encontra. Essa frustração de trinta segundos ensina o recorte histórico melhor que o parágrafo que o antecede: o modelo de 1943 é um circuito, não um aprendiz. Rosenblatt levou **quinze anos** para dar-lhe uma regra de aprendizado, e ela está no arquivo ao lado, para comparação direta.
 
