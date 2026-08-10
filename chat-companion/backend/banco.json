@@ -2289,6 +2289,299 @@
     "justifica pela explicabilidade por construção — o caminho no grafo ou o rastro de regras É a justificativa clínica exigida",
     "menciona ao menos um uso legítimo dos 60 casos, como avaliar o sistema ou estimar tabelas de probabilidade condicional"
    ]
+  },
+  {
+   "id": "15-e1",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Você vai apresentar a arquitetura do sistema de recomendação da empresa. Qual descrição é fiel ao que um sistema de ML em produção é?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O modelo é o sistema; coleta, serviço e monitoramento são detalhes de implantação."
+    },
+    {
+     "correta": true,
+     "texto": "O código de aprendizado é uma fração pequena do total; a maior parte é coleta, validação, extração de atributos, serviço, monitoramento e orquestração."
+    },
+    {
+     "correta": false,
+     "texto": "O sistema é metade modelo e metade infraestrutura, em partes equilibradas."
+    },
+    {
+     "correta": false,
+     "texto": "A infraestrutura só cresce depois que o modelo fica grande demais para uma máquina."
+    }
+   ],
+   "gabarito": "O código de aprendizado é uma fração pequena; o resto é infraestrutura",
+   "porque": "É exatamente o argumento da figura 1 de Sculley et al. (2015) — a caixa preta pequena no meio de treze retângulos — e do corpo do artigo: *\"only a tiny fraction of the code in many ML systems is actually devoted to learning or prediction\"*.\n\nA primeira alternativa é o erro que o capítulo inteiro combate, e é o mais comum: quem trata o modelo como o sistema não orça o resto, e o resto chega mesmo assim. A terceira erra a proporção — não é meio a meio, é uma fração minúscula. A quarta inverte a causa: o encanamento não aparece porque o modelo cresceu, ele existe desde o primeiro dia em produção; o que muda com o tempo é só a visibilidade do custo.",
+   "volte_para": "#fundamentos-o-que-e-o-sistema-alem-do-modelo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "15-sistemas-de-ml",
+   "titulo_capitulo": "15 — Sistemas de ML"
+  },
+  {
+   "id": "15-e2",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Sua equipe calcula `media_de_compras_90d` num job Spark noturno para treinar, e reimplementa o mesmo atributo em Java no serviço de inferência. Quais medidas atacam de fato o *train/serve skew*? Marque todas que valem.",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Extrair o cálculo do atributo para um único componente usado pelos dois caminhos."
+    },
+    {
+     "correta": true,
+     "texto": "Registrar em produção os atributos servidos e comparar sua distribuição com a do treino."
+    },
+    {
+     "correta": true,
+     "texto": "Declarar um contrato para o atributo (tipo, faixa, nulos) e verificá-lo nos dois lados."
+    },
+    {
+     "correta": false,
+     "texto": "Aumentar a frequência do job noturno para de hora em hora."
+    },
+    {
+     "correta": false,
+     "texto": "Retreinar o modelo com mais dados até que ele fique robusto à diferença."
+    }
+   ],
+   "gabarito": "unificar o código; monitorar as distribuições servida e de treino; contratar o atributo",
+   "porque": "As três corretas atacam a **causa** (duas implementações da mesma definição) ou garantem que a divergência apareça cedo. A primeira é a regra #32 na letra: reutilizar o código torna a divergência impossível, e não apenas improvável.\n\nAs duas erradas são as tentações reais. Aumentar a frequência do job trata **frescor**, que é outro problema: a média de hora em hora continua sendo calculada por um código diferente do código do serviço, então o desvio persiste — só chega mais rápido. E retreinar com mais dados não corrige nada, porque o modelo continua sendo treinado com a versão *do treino* do atributo; mais dado só torna o modelo mais confiante sobre uma entrada que ele nunca verá em produção.",
+   "volte_para": "#o-contrato-entre-treino-e-servico",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "15-sistemas-de-ml",
+   "titulo_capitulo": "15 — Sistemas de ML"
+  },
+  {
+   "id": "15-e3",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Um sistema de previsão de demanda funciona assim: um job diário raspa três bancos internos e uma planilha do time comercial, junta tudo e amostra os últimos 18 meses. Sobre a saída do modelo de demanda, um segundo modelo aplica uma correção sazonal, e um terceiro corrige a correção para as lojas do Nordeste. O time de precificação lê a tabela final — o time de demanda descobriu isso no mês passado. O comportamento do sistema é regido por um arquivo `params.yaml` de 600 linhas que fica na máquina do analista sênior.\n\nListe as dívidas ocultas deste sistema, **usando os nomes do capítulo**, e diga por onde você começaria a pagar — justificando a ordem.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca lista problemas genéricos (\"falta documentação\", \"o código está bagunçado\"). A resposta forte usa os nomes, porque **é o nome que faz o item entrar no orçamento** — a ideia reaproveitável deste capítulo.\n\nA ordem mais defensável começa pelo mais barato com maior redução de risco: **pôr o `params.yaml` no repositório, sob revisão**, é uma tarde de trabalho e elimina o ponto único de falha na máquina de uma pessoa. Em seguida, **declarar o contrato de entrada** — sobretudo o da planilha do comercial, que é a dependência de dados sem dono e sem compilador para acusá-la. Só então mexer na cascata, que é caro e exige negociar com quem depende dela. E, antes de qualquer mudança na saída, **descobrir e declarar os consumidores**: o time de precificação já é um; provavelmente não é o único.\n\nRepare que a resposta certa é organizacional tanto quanto técnica — a selva de pipelines é, no diagnóstico dos próprios autores, sintoma de papéis de pesquisa e engenharia separados demais.",
+   "volte_para": "#as-dividas-que-tem-nome",
+   "rubrica": "identifica a pipeline jungle (raspagens + junções + amostragem crescendo por acréscimo);\nidentifica a cascata de correções e explica que melhorar o modelo de base agora piora as camadas acima;\nidentifica os consumidores não declarados (o time de precificação) e o risco que isso cria para qualquer mudança;\nidentifica a dívida de configuração (600 linhas fora do repositório, sem revisão, sem versão);\nmenciona a dependência de dados frágil da planilha do comercial e a ausência de contrato/validação;\npropõe uma ordem de pagamento com justificativa — e não apenas uma lista",
+   "versoes": null,
+   "pagina": "15-sistemas-de-ml",
+   "titulo_capitulo": "15 — Sistemas de ML",
+   "criterios": [
+    "identifica a pipeline jungle (raspagens + junções + amostragem crescendo por acréscimo)",
+    "identifica a cascata de correções e explica que melhorar o modelo de base agora piora as camadas acima",
+    "identifica os consumidores não declarados (o time de precificação) e o risco que isso cria para qualquer mudança",
+    "identifica a dívida de configuração (600 linhas fora do repositório, sem revisão, sem versão)",
+    "menciona a dependência de dados frágil da planilha do comercial e a ausência de contrato/validação",
+    "propõe uma ordem de pagamento com justificativa — e não apenas uma lista"
+   ]
+  },
+  {
+   "id": "16-e1",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/16-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um auditor pergunta: *\"este modelo em produção foi treinado com quais dados?\"*. O time tem o código no Git, o modelo salvo em disco e os notebooks de treino. O que falta para responder com segurança?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Nada: basta rodar o notebook de novo e olhar o resultado."
+    },
+    {
+     "correta": true,
+     "texto": "O registro da linhagem — qual versão do dado e qual commit produziram **aquele** artefato em produção."
+    },
+    {
+     "correta": false,
+     "texto": "Um conjunto de teste maior, para reavaliar o modelo hoje."
+    },
+    {
+     "correta": false,
+     "texto": "A documentação do modelo escrita pelo time."
+    }
+   ],
+   "gabarito": "Falta a linhagem: dado e commit amarrados ao artefato em produção",
+   "porque": "Rodar o notebook de novo **produz outro modelo**, não recupera o que está servindo — as bibliotecas mudaram, o dado provavelmente cresceu e a seed pode não ter sido fixada. Reavaliar hoje responde \"ele ainda é bom?\", que é outra pergunta. E documentação escrita à mão descreve a intenção, não o fato: ela não prova nada, porque nada a obriga a estar sincronizada.\n\nA única resposta verificável amarra o artefato ao **hash do dado** e ao **commit** que o geraram, registrados no momento do treino. Reprodutibilidade não é uma qualidade do time; é um dado que se grava.",
+   "volte_para": "#fundamentos-versionar-registrar-servir",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "16-mlops",
+   "titulo_capitulo": "16 — MLOps"
+  },
+  {
+   "id": "16-e2",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/16-mlops.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Você opera um modelo que prevê, na assinatura do contrato, se um cliente vai ficar inadimplente. O **rótulo verdadeiro só existe 90 dias depois** — é o prazo para a primeira parcela vencer e o atraso ser confirmado.\n\nDescreva como você monitora esse modelo **durante os 90 dias**, e o que faria disparar uma investigação antes do rótulo chegar.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca diz \"acompanho a acurácia semanalmente\" — impossível, porque **não há rótulo para comparar**. Essa é a armadilha do exercício e o erro real mais comum de painel de ML: exibir uma métrica de desempenho que, nos primeiros 90 dias, está sendo calculada sobre um recorte enviesado (só os casos que já venceram, que são justamente os contratos mais antigos).\n\nA resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada — os contratos de março avaliados juntos — e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo 02](02-dados.md) dentro do próprio monitoramento.",
+   "volte_para": "#monitorar-em-tres-camadas",
+   "rubrica": "reconhece explicitamente que a métrica de desempenho não pode ser calculada no intervalo, e não propõe calculá-la;\npropõe monitorar a distribuição das **entradas** contra a janela de referência do treino;\npropõe monitorar a distribuição das **saídas** (probabilidades previstas ou taxa de positivos);\ncita ao menos um sinal proxy ou parcial (sinais precoces de atraso, cancelamentos, reclamações, taxa de aprovação por segmento);\nreconhece que esses sinais são alarme e não veredito, e diz o que faria em seguida (investigar, segurar promoção, comparar com o campeão anterior)",
+   "versoes": null,
+   "pagina": "16-mlops",
+   "titulo_capitulo": "16 — MLOps",
+   "criterios": [
+    "reconhece explicitamente que a métrica de desempenho não pode ser calculada no intervalo, e não propõe calculá-la",
+    "propõe monitorar a distribuição das **entradas** contra a janela de referência do treino",
+    "propõe monitorar a distribuição das **saídas** (probabilidades previstas ou taxa de positivos)",
+    "cita ao menos um sinal proxy ou parcial (sinais precoces de atraso, cancelamentos, reclamações, taxa de aprovação por segmento)",
+    "reconhece que esses sinais são alarme e não veredito, e diz o que faria em seguida (investigar, segurar promoção, comparar com o campeão anterior)"
+   ]
+  },
+  {
+   "id": "16-e3",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/16-mlops.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você vai promover uma nova versão de um modelo de recomendação. Quais práticas reduzem o risco **antes** de o usuário ser afetado?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Rodar o modelo novo em sombra, comparando as respostas com as do atual sem entregá-las a ninguém."
+    },
+    {
+     "correta": true,
+     "texto": "Manter a versão anterior registrada e servível, para reverter sem retreinar."
+    },
+    {
+     "correta": true,
+     "texto": "Definir, antes do deploy, a métrica e o limite que disparam a volta atrás."
+    },
+    {
+     "correta": false,
+     "texto": "Substituir a versão antiga assim que o modelo novo vencer no conjunto de teste."
+    },
+    {
+     "correta": false,
+     "texto": "Aumentar o tráfego do canário rapidamente, para colher resultado estatístico antes."
+    }
+   ],
+   "gabarito": "sombra, versão anterior servível e critério de parada escrito antes",
+   "porque": "As duas alternativas erradas são as tentações reais. Vencer no conjunto de teste diz que o modelo é melhor **naquele dado**; produção tem tráfego, latência e distribuição que o teste não tem — é justamente o intervalo entre treinar e servir que abre este capítulo. E acelerar o canário para \"ter significância logo\" inverte a lógica do canário: ele existe para **limitar o dano**, não para produzir resultado rápido; quem acelera troca a proteção pela pressa.\n\nRepare que a sombra é a única das três práticas certas que dá evidência **com risco zero**, porque a resposta do modelo novo nunca chega ao usuário. É o instrumento mais subutilizado da lista.",
+   "volte_para": "#retreinar-e-implantar-sem-quebrar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "16-mlops",
+   "titulo_capitulo": "16 — MLOps"
+  },
+  {
+   "id": "17-e1",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/17-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você lê num post: *\"Estudos mostram que modelos de linguagem já superam médicos em diagnóstico.\"* Qual é a **primeira** pergunta a fazer?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Qual modelo foi usado, e em qual versão?"
+    },
+    {
+     "correta": false,
+     "texto": "Quantos médicos participaram do estudo?"
+    },
+    {
+     "correta": true,
+     "texto": "Qual estudo, publicado onde e quando — e o post está descrevendo o que o estudo mediu?"
+    },
+    {
+     "correta": false,
+     "texto": "O post é de uma fonte confiável?"
+    }
+   ],
+   "gabarito": "Qual estudo, onde, quando — e o post descreve o que ele mediu?",
+   "porque": "As três alternativas erradas são boas perguntas **e vêm depois**. Sem localizar a fonte, você não tem o que perguntar: pode não haver estudo; pode haver um estudo que mediu outra coisa (concordância com um gabarito escrito, num conjunto de casos selecionados, sem exame físico nem histórico); ou pode haver um estudo real cuja conclusão o post ampliou.\n\nRepare que a alternativa \"a fonte é confiável?\" é a mais sedutora e a menos útil. **Confiabilidade da fonte é um atalho para não ir à fonte** — e é exatamente o atalho que fez a previsão de Simon circular por décadas com a data errada, e o memorando de Papert virar uma história sobre Minsky.\n\nA ordem certa é: **existe o estudo → o que ele mediu → sob que condição → o post está dizendo isso?** Quase toda alegação de estado da arte morre no segundo passo.",
+   "volte_para": "#o-que-os-especialistas-erraram-e-como-o-erro-chega-ate-voce",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "17-fronteira",
+   "titulo_capitulo": "17 — Fronteira e Expiração"
+  },
+  {
+   "id": "17-e2",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/17-fronteira.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Escolha **um** capítulo deste livro que você leu. Escreva o que nele você espera que **ainda seja verdade em 2036**, o que espera que **esteja obsoleto**, e — a parte que importa — **qual observação futura faria você mudar de ideia** sobre cada um.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca repete a tabela acima com outras palavras. A resposta forte faz a parte difícil: **dizer o que a refutaria.**\n\nÉ a diferença entre uma previsão e um palpite. \"A convolução vai continuar sendo usada\" não é previsão — não há como errar. \"Em 2036, arquiteturas com viés espacial embutido ainda vencerão transformadores puros em conjuntos de imagens abaixo de dez mil exemplos\" é uma previsão: tem prazo, tem condição, e alguém pode conferir.\n\nE note o que você está fazendo ao responder: exatamente o que este livro faz consigo mesmo no [registro de expiração](../HISTORICO.md). Uma previsão sem critério de refutação não é humildade — é vagueza com aparência de prudência.",
+   "volte_para": "#o-que-envelhece-rapido-e-o-que-nao-envelhece",
+   "rubrica": "identifica ao menos um elemento durável e justifica pela natureza dele (diagnóstico, restrição estrutural, propriedade matemática), não por gosto;\nidentifica ao menos um elemento com prazo e diz por que (depende de hardware, de escala, de biblioteca, de convenção da comunidade);\npropõe uma **observação falsificável** para cada previsão — algo que, se acontecesse, mostraria que a previsão estava errada;\nnão trata \"fundamentos duram\" como slogan, mas aplica ao conteúdo concreto do capítulo escolhido",
+   "versoes": null,
+   "pagina": "17-fronteira",
+   "titulo_capitulo": "17 — Fronteira e Expiração",
+   "criterios": [
+    "identifica ao menos um elemento durável e justifica pela natureza dele (diagnóstico, restrição estrutural, propriedade matemática), não por gosto",
+    "identifica ao menos um elemento com prazo e diz por que (depende de hardware, de escala, de biblioteca, de convenção da comunidade)",
+    "propõe uma **observação falsificável** para cada previsão — algo que, se acontecesse, mostraria que a previsão estava errada",
+    "não trata \"fundamentos duram\" como slogan, mas aplica ao conteúdo concreto do capítulo escolhido"
+   ]
+  },
+  {
+   "id": "17-e3",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/17-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um capítulo declara: *\"Estado da arte capturado em 2026-08.\"* O que exatamente essa data promete?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que todas as informações do capítulo eram verdadeiras em agosto de 2026."
+    },
+    {
+     "correta": true,
+     "texto": "Que a seção de estado da arte foi conferida naquela data — e nada sobre quando os fatos históricos ocorreram."
+    },
+    {
+     "correta": false,
+     "texto": "Que o capítulo será revisado em agosto de 2027."
+    },
+    {
+     "correta": false,
+     "texto": "Que os experimentos foram executados naquele mês."
+    }
+   ],
+   "gabarito": "Que a seção de estado da arte foi conferida naquela data",
+   "porque": "Este livro distingue **três datas diferentes**, e confundi-las é o erro que o selo existe para prevenir: a data do **evento** (um fato histórico — 1943 não muda nunca), a data da **captura** (quando fotografamos o que era consenso), e a data do **experimento** (quando um número foi medido, e com qual versão de biblioteca).\n\nA primeira alternativa é a mais tentadora e a mais errada: a data de captura **não** valida o capítulo inteiro. Uma afirmação histórica com selo ⏳ continua ⏳ em qualquer data — a captura não conserta procedência.\n\nA terceira confunde captura com compromisso de revisão; a quarta, captura com execução. Num capítulo com experimento próprio, as duas datas coexistem e são declaradas separadamente, justamente porque um número medido com uma versão de biblioteca não é o mesmo número medido com outra.",
+   "volte_para": "#o-placar-deste-livro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "17-fronteira",
+   "titulo_capitulo": "17 — Fronteira e Expiração"
   }
  ],
  "videos": [

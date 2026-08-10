@@ -71,20 +71,44 @@ A última linha é a mais incomum e a mais importante: este livro mantém um [pl
 
 ## Estado atual
 
-**Edição 0.4 (2026-08-05)** — a maquinaria inteira funciona; o conteúdo avança capítulo a capítulo, cada um por sua spec.
+**Edição 1.0 (2026-08-10) — a primeira versão completa.** Os 28 capítulos existem, e nenhum finge ser mais do que é: cada um declara o próprio nível de maturidade no cabeçalho.
 
 | | |
 |---|---|
-| Capítulos escritos | **7** de 18 (00, 01, 02, 05, 06, 07 e o piloto 04) |
-| Capítulos em esqueleto | 11 — com objetivos e problema definidos, aguardando sua spec |
-| Exercícios | **27**, corrigidos no servidor |
-| Vídeos curados | **7**, com link verificado |
-| Etapas do `ml-zero` | **4** de 17 (etapas 00, 02, 05–06 e 07, 88 testes verdes) |
-| Testes do backend | **23** verdes |
+| Capítulos | **28**, todos com nível declarado — a grande maioria em `essencial` |
+| Exercícios | **85**, corrigidos no servidor |
+| Vídeos curados | 7 · Laboratórios interativos | 1 |
+| Seções "De onde isto veio" | em **todos** os capítulos de método, com tabela de selos por afirmação |
+| Etapas do `ml-zero` | 5 (88 testes verdes) · Backend: 23 testes verdes |
 
-**O que vem a seguir está em [`ROADMAP.md`](ROADMAP.md)** — a ordem dos próximos capítulos, as dívidas registradas e os não-objetivos.
+**O que a v1.0 é:** cobertura declarada e rastreável. As duas disciplinas ministradas pelo autor têm material em todos os tópicos da ementa.
 
-Os capítulos-esqueleto não têm corpo por decisão de processo: cada um entra pelo ciclo `spec → plan → tasks → implement`, com sua própria rodada de pesquisa verificada (Princípio VII). A [bibliografia](livro/bibliografia.md) reflete isso honestamente — 5 referências ✓ e as demais marcadas ⏳, sem poder sustentar afirmação no corpo.
+**O que a v1.0 não é:** nenhum capítulo está no nível `completo`. Isso exige experimento próprio, todas as fontes lidas e cláusula de expiração — é o ciclo de aprofundamento, e está no [`ROADMAP.md`](ROADMAP.md).
+
+### O Princípio X, e por que ele define este livro
+
+Todo método foi inventado por **alguém**, preso num problema concreto, numa data, com meios limitados. Um capítulo que dá o método sem essa história entrega um procedimento — e procedimento se decora. Por isso todo capítulo de método traz **"De onde isto veio"**: o aperto · o que se fazia antes · a virada · **a ideia reaproveitável** · o nome.
+
+E porque **história inventada soa bem**, toda afirmação histórica carrega um **selo de proveniência**:
+
+| Selo | Significa |
+|---|---|
+| ✓ | fonte **aberta e lida** |
+| ✓ᵃ | **resumo** lido no original; o corpo, não |
+| ✓ᵐ | só os **metadados** conferidos — prova que a obra existe, não o que ela afirma |
+| ⏳ | **atribuição corrente**, não confirmada em primária |
+| ❌ | procurei e **não achei** |
+| 📖 | **leitura editorial** deste livro |
+
+Isso não é decoração: **o build não compila** um capítulo de método que suba de nível sem a seção e sem a tabela — e o alfabeto de selos é lido da constituição, falhando em qualquer símbolo inventado.
+
+### Três lendas que este livro testou — e que quebraram
+
+Pedimos verificação com instrução explícita de **não forçá-las a fechar**:
+
+- **"Cerveja e fraldas"** — o estudo existe e a correlação foi achada; a parte que todo curso ensina, o rearranjo da gôndola, **não aconteceu**.
+- **A origem do nome *dynamic programming*** — a citação de Bellman é autêntica e foi lida; **a cronologia não fecha**. É o caso mais limpo do livro para separar *"a fonte é autêntica"* de *"a afirmação é verdadeira"*.
+- **"MLOps foi cunhado por Sculley *et al.* (2015)"** — a palavra **não aparece uma vez sequer** no artigo. Verificação negativa sobre o texto primário.
 
 ## Rodar localmente
 

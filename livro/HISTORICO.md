@@ -6,6 +6,29 @@
 
 ## Edições
 
+### Edição 1.0 — 2026-08-10 · A primeira versão completa (spec 006)
+
+**Os 28 capítulos existem, e nenhum finge ser mais do que é.**
+
+O livro saiu de 8 capítulos com corpo para **28 declarados** — a maioria no nível `essencial`, cada um dizendo isso ao leitor no próprio cabeçalho. As duas disciplinas que o autor ministra têm material em todos os tópicos da ementa.
+
+**Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-10.
+
+**O que mudou de método, e é o que importa.** A emenda 1.2.0 criou o **Princípio X** — nenhum método cai do céu —, e a 1.3.0 acrescentou o selo `✓ᵃ`. Mas a decisão que mais mudou o resultado foi mecânica: **o gate no build**. Um capítulo de método em nível `essencial` sem a seção histórica e sem tabela de selos **não compila**, e o alfabeto de selos é lido da própria constituição, falhando em qualquer símbolo desconhecido.
+
+O gate reordenou o plano sozinho. O [ADR 0004](../adr/0004-escopo-da-primeira-versao.md) mandava escrever os capítulos novos antes de consertar os antigos; declarar o nível dos capítulos com corpo deixou o build vermelho na hora, e nada novo pôde ser publicado antes de a dívida velha ser paga. **É a diferença entre dívida registrada e dívida cobrada.**
+
+**A pesquisa histórica em sessão única pagou o que prometia.** Cinco passadas produziram ligações que a pesquisa capítulo a capítulo teria perdido — e uma delas reescreveu a tese central. O livro vinha dizendo "crédito segue comunicação"; o k-means corrigiu para **crédito segue o vocabulário**. Com seis pretendentes em quatro campos que não conversavam, e o nome cunhado por MacQueen **para um algoritmo diferente**, não vence quem descobre nem quem publica: vence quem **nomeia**. O caso do MLOps fechou o argumento pelo extremo oposto — ali o campo não tinha um autor para o nome e **fabricou um retroativamente**.
+
+**Três lendas foram testadas com instrução de não forçá-las a fechar. As três quebraram.** "Cerveja e fraldas" é verdadeira até a descoberta e inventada a partir da ação. A origem do nome *dynamic programming* tem citação autêntica de Bellman e cronologia impossível. E "MLOps foi cunhado por Sculley *et al.*" caiu por **verificação negativa no texto primário** — a palavra não aparece uma vez sequer.
+
+**A auditoria adversarial reprovou o livro, e foi o melhor dinheiro gasto.** Em contexto fresco, com instrução de *derrubar* em vez de revisar, ela achou seis defeitos altos que nenhum gate pegaria: um **prenome inventado**, duas seções sem lastro na nota de pesquisa, um selo inflado, três capítulos reivindicando "o maior intervalo do livro", um erro de data e uma seção narrando como fato o que a tabela marcava como dúvida. Todos corrigidos; o [relatório](../estudos/2026-08-10-auditoria-adversarial.md) fica registrado. **Pedir "revise" produz elogio; pedir "tente derrubar" produz achado.**
+
+**A dívida que fica, declarada.** A maior é a **D10**: em vários capítulos, uma fonte selada `✓ᵐ` sustenta no corpo uma afirmação sobre o que a obra argumenta por dentro. Havia duas saídas — ler as fontes, ou pôr hedge em cada frase. A escolha registrada é **ler**, no ciclo de aprofundamento, porque hedge mascara o problema com linguagem. A fila de verificação das notas de pesquisa, ordenada por dúvida fechada por unidade de esforço, é o plano de pagamento.
+
+**O que esta edição deliberadamente não fez:** nenhum capítulo foi promovido a `completo`; nenhum experimento próprio novo entrou no `ml-zero`; e o backend continua sem publicar, o que mantém os exercícios dormentes e os laboratórios funcionando.
+
+
 ### Edição 0.6 — 2026-08-10 · Emenda 1.2.0: nenhum método cai do céu
 
 Uma emenda à constituição, e a mais consequente até aqui para *como os capítulos são escritos*.

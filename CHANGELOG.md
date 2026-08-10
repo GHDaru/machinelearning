@@ -6,6 +6,51 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-08-10 — **a primeira versão completa**
+
+### Adicionado
+- **Os 28 capítulos existem e declaram o próprio nível.** De 8 com corpo para 28
+  declarados, a maioria em `essencial`. As duas disciplinas do autor têm material
+  em todos os tópicos da ementa.
+- **19 capítulos novos ou reescritos**: 03, 08, 09, 10, 11, 12, 13, 14, 15, 16,
+  17, 19, 20, 21, 22, 23, 24, 25, 26, 27.
+- **"De onde isto veio"** em todos os 26 capítulos de método, com tabela de selos.
+- **Exercícios: de 31 para 82.**
+- **Cinco notas de pesquisa histórica** em `estudos/`, com fila de verificação
+  ordenada por dúvida fechada por unidade de esforço.
+- **Relatório da auditoria adversarial** (`estudos/2026-08-10-auditoria-adversarial.md`).
+- **ADR 0004** (escopo da v1) e **ADR 0005** (o selo `✓ᵃ` e a trava contra selos
+  cunhados por fora).
+
+### Alterado
+- **Constituição 1.3.0**: o selo `✓ᵃ` (resumo lido no original) entra no alfabeto,
+  com regra de uso e a declaração do que ele **proíbe** afirmar.
+- **Gate do Princípio X no build**: capítulo de método em `essencial` sem a seção
+  histórica **não compila**; e o alfabeto de selos é **lido da constituição**,
+  falhando em qualquer símbolo desconhecido ou legenda própria. A versão anterior
+  dava *falso verde* — bastava uma linha casar.
+- **Esqueleto de capítulo v4 → v5.**
+
+### Corrigido — achados da auditoria adversarial
+- **Um prenome inventado** no capítulo 01 ("Selvin" Larson) — a nota de pesquisa
+  nunca teve prenome. É o modo de falha que o Princípio X nomeia.
+- **Duas seções históricas sem lastro** na fonte única (caps. 03 e 25): a pesquisa
+  existia, o registro não. A 5ª passada entrou na nota com essa admissão.
+- **Selo inflado** no cap. 08 (✓ onde a nota registra ⏳/❌), numa tabela que se
+  contradizia a si mesma.
+- **Três capítulos reivindicando "o maior intervalo do livro"** — com o cap. 10 se
+  refutando na própria frase.
+- **Erro factual**: células simples/complexas atribuídas ao artigo de 1959, quando
+  a literatura as associa ao de 1962.
+- **Registro misturado** no cap. 04: a origem da ROC narrada como fato com a
+  tabela marcando tudo ⏳.
+
+### Dívidas declaradas
+- **D8** e **D9** — **pagas**.
+- **D10** (nova): fonte selada `✓ᵐ` sustentando afirmação sobre o que a obra
+  argumenta por dentro. Paga-se **lendo as fontes**, não com hedge no texto.
+- **D6** — o capítulo 16 saiu do bloqueio: no nível `essencial` não há cota de mídia.
+
 ### Adicionado — **constituição 1.2.0**
 - **Princípio X — "Nenhum método cai do céu"** (não-negociável). Todo capítulo de
   método traz a seção **"De onde isto veio"**: o aperto · o que se fazia antes ·
