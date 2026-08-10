@@ -11,12 +11,14 @@
         {
           "arquivo": "livro/00-introducao.md",
           "titulo": "00 — Introdução",
-          "teaser": "O que é aprender de dados, e como usar este livro."
+          "teaser": "O que é aprender de dados, e como usar este livro.",
+          "metodo": false
         },
         {
           "arquivo": "livro/01-fundamentos.md",
           "titulo": "01 — Fundamentos",
-          "teaser": "Generalização, viés e variância: o problema central."
+          "teaser": "Generalização, viés e variância: o problema central.",
+          "metodo": true
         }
       ]
     },
@@ -26,32 +28,38 @@
         {
           "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
           "titulo": "19 — O Ciclo da Ciência de Dados",
-          "teaser": "CRISP-DM: por que o modelo é a quinta etapa, não a primeira."
+          "teaser": "CRISP-DM: por que o modelo é a quinta etapa, não a primeira.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/20-coleta-integracao.md",
           "titulo": "20 — Coleta e Integração",
-          "teaser": "Arquivos, APIs, bancos SQL e NoSQL, data lake e warehouse."
+          "teaser": "Arquivos, APIs, bancos SQL e NoSQL, data lake e warehouse.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/02-dados.md",
           "titulo": "02 — Qualidade e Vazamento",
-          "teaser": "O resultado bom demais, e as divisões que não mentem."
+          "teaser": "O resultado bom demais, e as divisões que não mentem.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/21-analise-exploratoria.md",
           "titulo": "21 — Análise Exploratória",
-          "teaser": "Estatística descritiva e o hábito de olhar antes de modelar."
+          "teaser": "Estatística descritiva e o hábito de olhar antes de modelar.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
           "titulo": "22 — Visualização e Storytelling",
-          "teaser": "O gráfico que decide, e a narrativa que convence."
+          "teaser": "O gráfico que decide, e a narrativa que convence.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/03-representacao.md",
           "titulo": "03 — Representação",
-          "teaser": "Como o mundo vira vetor — e o que se perde no caminho."
+          "teaser": "Como o mundo vira vetor — e o que se perde no caminho.",
+          "metodo": true
         }
       ]
     },
@@ -61,37 +69,44 @@
         {
           "arquivo": "livro/capitulos/04-avaliacao.md",
           "titulo": "04 — Avaliação",
-          "teaser": "O que significa \"bom\", e por que acurácia mente."
+          "teaser": "O que significa \"bom\", e por que acurácia mente.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/05-modelos-lineares.md",
           "titulo": "05 — Modelos Lineares",
-          "teaser": "A reta que explica muito mais do que parece."
+          "teaser": "A reta que explica muito mais do que parece.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/06-otimizacao.md",
           "titulo": "06 — Otimização e Regularização",
-          "teaser": "Como o modelo aprende — e como impedi-lo de decorar."
+          "teaser": "Como o modelo aprende — e como impedi-lo de decorar.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/07-arvores-ensembles.md",
           "titulo": "07 — Árvores e Ensembles",
-          "teaser": "Por que boosting ainda ganha em dados tabulares."
+          "teaser": "Por que boosting ainda ganha em dados tabulares.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/23-analise-multidimensional.md",
           "titulo": "23 — Análise Multidimensional",
-          "teaser": "OLAP, cubos e o repositório que sustenta a análise."
+          "teaser": "OLAP, cubos e o repositório que sustenta a análise.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/24-series-temporais.md",
           "titulo": "24 — Séries Temporais",
-          "teaser": "Prever o futuro sem trapacear com ele."
+          "teaser": "Prever o futuro sem trapacear com ele.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
           "titulo": "25 — Do Modelo à Decisão",
-          "teaser": "Comparar técnicas, escolher uma e defender a escolha."
+          "teaser": "Comparar técnicas, escolher uma e defender a escolha.",
+          "metodo": true
         }
       ]
     },
@@ -101,32 +116,38 @@
         {
           "arquivo": "livro/capitulos/18-neuronio-artificial.md",
           "titulo": "18 — O Neurônio Artificial",
-          "teaser": "De McCulloch–Pitts ao perceptron, com as mãos nos pesos."
+          "teaser": "De McCulloch–Pitts ao perceptron, com as mãos nos pesos.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/09-redes-neurais.md",
           "titulo": "09 — Redes Multicamadas",
-          "teaser": "A camada escondida que resolve o XOR, e o backpropagation."
+          "teaser": "A camada escondida que resolve o XOR, e o backpropagation.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
           "titulo": "26 — Treinar Redes Profundas",
-          "teaser": "Inicialização, normalização, dropout e otimizadores adaptativos."
+          "teaser": "Inicialização, normalização, dropout e otimizadores adaptativos.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/10-visao.md",
           "titulo": "10 — Visão Computacional",
-          "teaser": "Convolução, e o poder de aproveitar o que já foi treinado."
+          "teaser": "Convolução, e o poder de aproveitar o que já foi treinado.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
           "titulo": "11 — Sequências e Linguagem",
-          "teaser": "De RNN a Transformer: por que a atenção venceu."
+          "teaser": "De RNN a Transformer: por que a atenção venceu.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
           "titulo": "12 — Modelos de Fundação e Generativos",
-          "teaser": "Embeddings, fine-tuning, RAG e LLMs."
+          "teaser": "Embeddings, fine-tuning, RAG e LLMs.",
+          "metodo": true
         }
       ]
     },
@@ -136,17 +157,20 @@
         {
           "arquivo": "livro/capitulos/08-nao-supervisionado.md",
           "titulo": "08 — Aprendizado Não Supervisionado",
-          "teaser": "Estrutura sem gabarito: agrupar, associar, reduzir."
+          "teaser": "Estrutura sem gabarito: agrupar, associar, reduzir.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/13-reforco.md",
           "titulo": "13 — Aprendizado por Reforço",
-          "teaser": "MDP, Q-learning e DQN: aprender por consequência."
+          "teaser": "MDP, Q-learning e DQN: aprender por consequência.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
           "titulo": "27 — IA Simbólica, Fuzzy e Evolutiva",
-          "teaser": "Sistemas de conhecimento, lógica nebulosa, genéticos, bayesianas."
+          "teaser": "Sistemas de conhecimento, lógica nebulosa, genéticos, bayesianas.",
+          "metodo": true
         }
       ]
     },
@@ -156,22 +180,26 @@
         {
           "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
           "titulo": "14 — Interpretabilidade e Justiça",
-          "teaser": "Explicar a decisão e medir a quem ela prejudica."
+          "teaser": "Explicar a decisão e medir a quem ela prejudica.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
           "titulo": "15 — Sistemas de ML",
-          "teaser": "O modelo é a fração pequena. Os outros 95%."
+          "teaser": "O modelo é a fração pequena. Os outros 95%.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/16-mlops.md",
           "titulo": "16 — MLOps",
-          "teaser": "Versionar, servir, monitorar, detectar drift."
+          "teaser": "Versionar, servir, monitorar, detectar drift.",
+          "metodo": true
         },
         {
           "arquivo": "livro/capitulos/17-fronteira.md",
           "titulo": "17 — Fronteira e Expiração",
-          "teaser": "O que ainda não sabemos — e o placar das previsões."
+          "teaser": "O que ainda não sabemos — e o placar das previsões.",
+          "metodo": false
         }
       ]
     },
@@ -245,5 +273,6 @@
         }
       ]
     }
-  ]
+  ],
+  "_nota_metodo": "metodo=true marca CAPÍTULO DE MÉTODO (ADR 0004): ensina algo que o leitor vai executar, com inventor e data localizáveis, e cuja origem omitida vira decoreba. Capítulo de método em nível 'essencial' ou acima DEVE trazer a seção 'De onde isto veio' com tabela de selos — cobrado pelo build (Princípio X). A lista vive aqui, e não no cabeçalho de cada capítulo, para que rebaixar um capítulo a não-método apareça num diff só."
 }

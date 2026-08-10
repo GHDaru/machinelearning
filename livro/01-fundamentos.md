@@ -1,6 +1,8 @@
 # 01 — Fundamentos
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](HISTORICO.md)
+>
+> **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](GUIA-EDITORIAL.md#niveis-de-maturidade).
 
 ## Objetivos de aprendizagem
 

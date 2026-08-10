@@ -1,6 +1,8 @@
 # 05 — Modelos Lineares
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
+>
+> **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
 
 ## Objetivos de aprendizagem
 
@@ -20,6 +22,38 @@ O [capítulo 07](07-arvores-ensembles.md) mostrou o modelo linear perdendo feio:
 - quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto ensembles precisam de correção posterior (cap. 04).
 
 E há a razão pedagógica: é no modelo linear que otimização, regularização e interpretação aparecem na forma mais limpa. Quem não entende gradiente aqui não vai entender numa rede de doze camadas.
+
+## De onde isto veio
+
+**O aperto.** Virada do século XVIII para o XIX, astronomia. Um cometa ou um planeta é observado várias vezes, por instrumentos diferentes, em noites diferentes — e **nenhuma das observações concorda com as outras**. A órbita verdadeira é uma só; os dados são muitos e discordantes. O astrônomo precisa de **uma** curva, e não tem critério defensável para escolhê-la.
+
+**O que se fazia antes.** Escolhia-se a olho, descartava-se a observação que parecia pior, ou faziam-se médias de subconjuntos convenientes. Todos os caminhos tinham o mesmo defeito: **dois astrônomos competentes, com os mesmos dados, chegavam a órbitas diferentes** — e não havia como decidir quem estava certo.
+
+**A virada.** Trocar "a melhor curva" por **uma regra explícita do que significa melhor**: aquela que torna mínima a soma dos quadrados dos desvios. A regra não é mais verdadeira que as outras — ela é **pública**. Dados os mesmos números, devolve a mesma resposta para qualquer pessoa.
+
+**A ideia reaproveitável.** **Uma função de perda é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta — conveniência matemática mais uma hipótese sobre o ruído — e não a resposta "porque é o certo". Trocar a perda é trocar o critério de arbitragem: decisão de projeto, nunca detalhe técnico.
+
+**O nome.** *Mínimos quadrados* — *moindres carrés* — foi batizado por Legendre, e o nome é literalmente a definição do critério.
+
+### A disputa de prioridade mais famosa da estatística
+
+**Legendre publicou primeiro**, em **1805**, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando **usar o método desde 1795**.
+
+Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes. A avaliação histórica moderna é que Gauss provavelmente **tinha** o método antes e **falhou em comunicá-lo**.
+
+> **O espelho disto está no [capítulo 18](18-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e Schmidhuber resume: *não é o primeiro inventor que leva o crédito, é o último reinventor*. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
+>
+> Juntos, os dois dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação.** Vale para o seu trabalho: o experimento que você não registrou, datou e tornou reproduzível é, na prática, um experimento que não aconteceu. É a razão de este livro exigir script, *seed* e saída colada — e não é burocracia.
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ✓ᵐ | Legendre (1805) e Gauss (1809): obra, ano e conteúdo geral. Nenhuma das duas lida no original |
+| ✓ᵐ | [Stigler, "Gauss and the Invention of Least Squares", *Annals of Statistics*, 1981](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full) — localizado e identificado, **não lido** |
+| ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820 |
+| ⏳ | A avaliação de que Gauss tinha o método antes mas falhou em comunicá-lo |
+| 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo 18 |
 
 ## Fundamentos: regressão linear como minimização
 

@@ -1,6 +1,8 @@
 # 04 — Avaliação
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](../HISTORICO.md)
+>
+> **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
 
 > **Capítulo-piloto do esqueleto v4.** É aqui que o formato do livro foi validado antes de ser exigido dos demais — como o cap. 04 foi o piloto do livro de Engenharia de Harness, e pela mesma razão: avaliação é o assunto em que a diferença entre "achar que entendeu" e "entender" aparece mais rápido.
 
@@ -42,6 +44,31 @@ Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge 
 > **porque:** Com 0,3% de positivos, a classe majoritária sozinha entrega 99,7% de acurácia. O modelo com 99,5% está **abaixo** do classificador que não faz nada — ele está, na prática, destruindo valor. Acurácia mede a fração de acertos totais; quando uma classe domina, ela mede sobretudo a **prevalência**, não a competência do modelo. Note que a alternativa "não pode ser usada em problemas binários" é falsa e revela outro mal-entendido: acurácia é perfeitamente válida quando as classes são equilibradas e os dois tipos de erro custam o mesmo. O problema não é a métrica; é usá-la fora da condição em que ela informa.
 > **volte para:** #a-linha-de-base-que-voce-precisa-bater
 :::
+
+## De onde isto veio
+
+Este capítulo tem um nome estranho no meio dele — **curva ROC**, "característica de operação do receptor". Receptor de quê? A resposta explica a métrica inteira.
+
+**O aperto.** Segunda Guerra Mundial, estações de radar britânicas e americanas. Um operador olha uma tela e vê um borrão. Aquilo é um bombardeiro inimigo, um navio amigo, uma revoada de pássaros, ou ruído do próprio aparelho? Ele tem segundos para decidir, e **os dois erros matam**: deixar passar um bombardeiro custa uma cidade; disparar o alarme à toa esgota a defesa e, repetido, faz os alarmes serem ignorados.
+
+**O que se fazia antes.** Media-se a qualidade do operador e do equipamento por **uma taxa de acerto** — quantas detecções corretas num turno. E aí apareceu o problema que este capítulo inteiro persegue: **um operador nervoso, que apertava o botão em quase tudo, tinha taxa de detecção excelente.** O número subia; a defesa piorava.
+
+**A virada.** Perceber que detecção e falso alarme **não são dois defeitos independentes: são as duas pontas de um mesmo botão.** O receptor de radar tinha um controle de **ganho** — girá-lo para cima fazia aparecer mais alvos verdadeiros *e* mais fantasmas; para baixo, limpava a tela *e* escondia bombardeiros. Não existia posição sem custo. Então pare de medir um ponto e **meça a curva inteira**: para cada posição do botão, quanto se detecta e quanto se alarma à toa. Essa curva é a característica de operação do receptor.
+
+**A ideia reaproveitável — e é a maior deste capítulo.** **O limiar não é propriedade do modelo; é a decisão de quem assume as consequências.** No radar isso era literal: havia um botão, e girá-lo trocava um tipo de erro por outro. Um modelo entrega um *ranking*; transformá-lo em decisão exige alguém dizer quanto custa cada erro. Nenhum valor de limiar é "o certo" sem essa conversa — e quando o cientista de dados escolhe o limiar sozinho, ele não está fazendo uma escolha técnica: está tomando, calado, uma decisão que era de outra pessoa.
+
+**O nome.** *Receiver Operating Characteristic* é literalmente a característica de operação daquele receptor de rádio. O gráfico como o usamos vem do trabalho pós-guerra em teoria da detecção de sinal (Peterson & Birdsall, 1953; Peterson *et al.*, 1954), e chega à psicologia por Tanner e Swets — de onde migra para a medicina, a meteorologia e, por fim, para cá.
+
+> **Por que a história importa na prática.** Quem sabe que a ROC nasceu de um botão físico nunca mais confunde *"o modelo é bom"* com *"o limiar está certo"*. São duas perguntas, e só a primeira é técnica.
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ⏳ | A origem no radar da Segunda Guerra e o controle de ganho ajustável pelo operador — consistente entre fontes secundárias; **nenhuma primária da época foi aberta** |
+| ⏳ | Peterson & Birdsall (1953), Peterson *et al.* (1954) e a passagem por Tanner e Swets |
+| ⏳ | O caso do operador com alta taxa de detecção por excesso de alarme — narrado de forma consistente na literatura didática de detecção de sinal |
+| 📖 | A ideia reaproveitável ("o limiar é decisão de quem assume as consequências") e a leitura de que escolher limiar calado é tomar decisão alheia |
 
 ## Fundamentos: a matriz de confusão e o que dela deriva
 

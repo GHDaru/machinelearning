@@ -557,6 +557,50 @@ writeFileSync(resolve(SAIDA, "assets/matematica.css"),
     ? `/* Gerado pelo build a partir do markdown-it-mathjax3 — não editar à mão.\n   Editar o estilo da matemática em tema/estilo.css. */\n${cssMatematica}\n`
     : "/* Sem matemática nesta edição. */\n");
 
+// ---------------------------------------------------------------------------
+// GATE DO PRINCÍPIO X — "nenhum método cai do céu" (ADR 0004, lote 0)
+//
+// Capítulo de MÉTODO (metodo:true no sumário) em nível `essencial` ou acima
+// tem de trazer "De onde isto veio" COM tabela de selos. Sem isto, o princípio
+// seria promessa: um capítulo poderia subir de nível calado, e ninguém veria.
+// Aqui ele não compila.
+//
+// Este gate deixa o build VERMELHO de propósito enquanto os capítulos antigos
+// não pagarem a dívida D8. Isso é o gate funcionando, não um bug.
+// ---------------------------------------------------------------------------
+const RE_NIVEL = /\*\*Nível:\s*(esqueleto|essencial|completo)\.?\*\*/i;
+const RE_SECAO_HISTORICA = /^##+\s+De onde isto veio/mi;
+// A tabela de selos: uma linha de tabela cujo primeiro campo é um dos selos.
+const RE_TABELA_SELOS = /^\|\s*(✓ᵐ|✓|⏳|❌|📖)\s*\|/m;
+
+const semHistoria = [], semNivel = [];
+for (const i of itens) {
+  if (i.metodo === undefined) continue;             // trilhas, aparato: não são capítulos
+  const fonte = readFileSync(resolve(RAIZ, i.arquivo), "utf8");
+  const nivel = (fonte.match(RE_NIVEL) || [])[1]?.toLowerCase();
+  if (!nivel) { semNivel.push(i.arquivo); continue; }
+  if (!i.metodo || nivel === "esqueleto") continue;  // dispensados, e declaradamente
+  const temSecao = RE_SECAO_HISTORICA.test(fonte);
+  const temSelos = RE_TABELA_SELOS.test(fonte);
+  if (!temSecao || !temSelos) {
+    semHistoria.push(`${i.arquivo} (nível ${nivel})` +
+      (temSecao ? " — tem a seção, falta a tabela de selos" : " — falta a seção \"De onde isto veio\""));
+  }
+}
+if (semNivel.length) {
+  console.error(`✗ ${semNivel.length} capítulo(s) sem NÍVEL declarado no cabeçalho (dívida D9):`);
+  semNivel.forEach((q) => console.error("   " + q));
+  console.error('   O leitor tem de saber o que está lendo. Declare: > **Nível: esqueleto|essencial|completo.**');
+  process.exit(1);
+}
+if (semHistoria.length) {
+  console.error(`✗ ${semHistoria.length} capítulo(s) de método sem a seção histórica do Princípio X:`);
+  semHistoria.forEach((q) => console.error("   " + q));
+  console.error("   Um método sem a história que o forçou a existir é procedimento, e procedimento se decora.");
+  console.error("   Saídas: escrever a seção, ou rebaixar o capítulo a `esqueleto` e declarar isso ao leitor.");
+  process.exit(1);
+}
+
 // Guarda de acentuação dentro de matemática.
 // As fontes TeX do MathJax não têm glifos acentuados: `\text{saída}` sai como
 // "saí da", com um buraco no lugar do acento. É um erro silencioso — o build

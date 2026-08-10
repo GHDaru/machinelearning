@@ -126,8 +126,12 @@ O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está o
 | D5 | Sem tradução para inglês | fora de escopo |
 | **D6** | **Capítulo 16 (MLOps) sem vídeo verificável** | a busca não achou material conferível; um laboratório de detecção de drift resolveria |
 | **D7** | **Numeração fora de ordem no sumário** | consequência aceita de manter identificadores estáveis; mitigada pelas trilhas |
-| **D8** | **Nenhum capítulo tem "De onde isto veio"** — os **8 com corpo** (00, 01, 02, 04, 05, 06, 07, 18) foram escritos antes do Princípio X | a emenda 1.2.0 é posterior a eles. Retrofit em **C8**; nível não sobe sem pagar |
-| **D9** | **20 capítulos não declaram nível de maturidade** no cabeçalho — só o 18 e os nove esqueletos novos (19–27) declaram | os demais são anteriores à emenda 1.1.0. O Princípio "níveis" exige a declaração ao leitor |
+| ~~**D8**~~ | ~~Nenhum capítulo tem "De onde isto veio"~~ — **em pagamento** no lote 2 do [ADR 0004](adr/0004-escopo-da-primeira-versao.md). Já pagos: 18, 05, 04 | a emenda 1.2.0 é posterior a eles; nível não sobe sem pagar |
+| ~~**D9**~~ | ~~20 capítulos não declaram nível~~ — **PAGA** em 2026-08-10: os 18 que faltavam declararam nível, e o build agora **falha** sem a declaração | o Princípio "níveis" exige a declaração ao leitor |
+
+> **O que o gate ensinou, e que o plano não previa.** O ADR 0004 mandava fazer o lote 1 (capítulos novos) antes do lote 2 (retrofit dos antigos). Assim que o gate entrou no build, ele **inverteu a ordem sozinho**: declarar o nível dos 7 capítulos com corpo tornou o build vermelho na hora, e nenhum trabalho novo podia ser publicado antes de a dívida antiga ser paga.
+>
+> Isso é o gate funcionando como projetado — e é a diferença entre uma dívida *registrada* e uma dívida *cobrada*. Uma fica no roadmap; a outra impede o próximo commit.
 
 ## O que este projeto **não** vai fazer
 
