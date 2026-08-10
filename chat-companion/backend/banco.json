@@ -1633,6 +1633,88 @@
    ]
   },
   {
+   "id": "10-e1",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/10-visao.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Uma imagem colorida de 224×224 tem 3 canais. Considere uma camada convolucional com **64 filtros de 3×3**, aplicada a essa entrada.\n\nQuantos **pesos** (ignorando os vieses) essa camada tem?",
+   "opcoes": [],
+   "gabarito": "1728",
+   "porque": "Cada filtro cobre 3×3 posições em **cada um dos 3 canais** de entrada: `3 × 3 × 3 = 27` pesos por filtro. São 64 filtros: `27 × 64 = 1 728`.\n\nAgora a comparação, que é o ponto do exercício. Uma camada **densa** com 64 unidades sobre a mesma imagem precisaria de `224 × 224 × 3 × 64 = 9 633 792` pesos — cerca de **5 573 vezes mais**. E não é só a conta de memória: são 9,6 milhões de números a estimar a partir dos seus dados, contra 1 728.\n\nNote de onde vem a economia. Não é de olhar menos pixels — o filtro percorre a imagem toda. Vem de usar **os mesmos pesos** em todas as posições. O número de parâmetros da camada convolucional **não depende do tamanho da imagem**; o da densa é proporcional a ele.",
+   "volte_para": "#fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "10-visao",
+   "titulo_capitulo": "10 — Visão Computacional",
+   "gabarito_num": {
+    "valor": 1728,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "10-e2",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/10-visao.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe empilha camadas numa rede convolucional: 20, depois 34, depois 56 camadas. O erro **no conjunto de treino** piora a cada aumento. Qual é a leitura correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A rede está sobreajustando: profundidade demais para os dados disponíveis."
+    },
+    {
+     "correta": true,
+     "texto": "Não é sobreajuste — sobreajuste melhoraria o erro de treino. É um problema de otimização: a rede mais profunda não consegue nem aprender o que a rasa aprendeu."
+    },
+    {
+     "correta": false,
+     "texto": "Faltou aumentação de dados; com mais variação artificial o erro de treino cairia."
+    },
+    {
+     "correta": false,
+     "texto": "O campo receptivo ficou grande demais e a rede perdeu a estrutura local."
+    }
+   ],
+   "gabarito": "Não é sobreajuste — o erro de **treino** piorou",
+   "porque": "O sinal decisivo está em qual erro piorou. Um modelo que sobreajusta decora o treino: seu erro de treino **cai**, e é o de teste que sobe. Aqui os dois pioram — então o modelo nem chegou a decorar. O problema é anterior à generalização: é **otimização**.\n\nE há um argumento de construção que fecha a questão: uma rede de 56 camadas poderia, em princípio, copiar a de 20 e deixar as 36 restantes como identidade — logo, ela **nunca deveria ser pior**. Se é, o método de treino não está achando essa solução. Foi exatamente esse raciocínio que produziu as conexões residuais.\n\nSobre as outras: **aumentação** ataca generalização, não erro de treino (se algo, dificulta o treino). E **campo receptivo grande** não é uma patologia que faz o erro de treino subir monotonicamente com a profundidade.",
+   "volte_para": "#o-diagrama-que-e-um-limite-de-memoria-desenhado",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "10-visao",
+   "titulo_capitulo": "10 — Visão Computacional"
+  },
+  {
+   "id": "10-e3",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/10-visao.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Uma indústria quer classificar peças metálicas em \"com trinca\" / \"sem trinca\" a partir de fotos da linha de produção. Há **800 imagens rotuladas** por um inspetor experiente — 640 sem trinca, 160 com. Novas fotos custam caro para rotular. A câmera é fixa, a peça sempre entra na mesma orientação.\n\nTreinar do zero ou transferir? Decida, justifique e diga o que você congelaria e que aumentações usaria.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Com 800 imagens, treinar do zero é estimar milhões de parâmetros a partir de quase nada — e o resultado previsível é uma rede que decora as 800. A rede pré-treinada chega sabendo bordas, texturas e cantos, que é **exatamente** o vocabulário de uma trinca. Você está treinando um classificador sobre features prontas, não uma rede.\n\nCongele o corpo, treine só a cabeça. Se sobrar dado e paciência, descongele as últimas camadas com taxa de aprendizado uma ou duas ordens de grandeza menor. Descongelar tudo de saída é o modo clássico de destruir o que se veio buscar.\n\nNas aumentações, o enunciado é uma armadilha útil: **a câmera é fixa e a orientação é constante**. Rotações grandes e espelhamentos geram imagens que a linha nunca vai produzir — capacidade gasta em invariância que ninguém pediu. O que faz sentido é o que **de fato varia na linha**: brilho e contraste (a iluminação oscila), pequenas translações e rotações de poucos graus (a peça assenta um pouco torta), ruído leve. Aumentação boa é modelagem da variação real do processo, não uma lista de transformações copiada de um tutorial.\n\nPor fim, 640/160 é 80/20: um modelo que responde \"sem trinca\" sempre acerta 80%. Acurácia aqui não mede nada — vale revocação da classe rara, e o [capítulo 04](04-avaliacao.md) trata do resto.",
+   "volte_para": "#transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz",
+   "rubrica": "decide por transferência e sustenta a decisão com a ordem de grandeza dos dados (800 exemplos contra os milhões que o pré-treino já viu);\njustifica com a hierarquia de features — bordas e texturas são genéricas a imagens, e trinca é essencialmente um padrão de textura/borda;\npropõe congelar o corpo e treinar só a cabeça primeiro, com descongelamento parcial e taxa baixa depois, se houver folga;\nescolhe aumentações que preservam o rótulo neste domínio e justifica pelo menos uma exclusão à luz da câmera fixa e da orientação constante;\nreconhece o desbalanceamento 640/160 e propõe tratamento (peso de classe ou métrica adequada), sem se guiar por acurácia",
+   "versoes": null,
+   "pagina": "10-visao",
+   "titulo_capitulo": "10 — Visão Computacional",
+   "criterios": [
+    "decide por transferência e sustenta a decisão com a ordem de grandeza dos dados (800 exemplos contra os milhões que o pré-treino já viu)",
+    "justifica com a hierarquia de features — bordas e texturas são genéricas a imagens, e trinca é essencialmente um padrão de textura/borda",
+    "propõe congelar o corpo e treinar só a cabeça primeiro, com descongelamento parcial e taxa baixa depois, se houver folga",
+    "escolhe aumentações que preservam o rótulo neste domínio e justifica pelo menos uma exclusão à luz da câmera fixa e da orientação constante",
+    "reconhece o desbalanceamento 640/160 e propõe tratamento (peso de classe ou métrica adequada), sem se guiar por acurácia"
+   ]
+  },
+  {
    "id": "08-e1",
    "capitulo": 8,
    "arquivo": "livro/capitulos/08-nao-supervisionado.md",
