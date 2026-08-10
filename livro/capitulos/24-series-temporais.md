@@ -140,13 +140,9 @@ Identifique os problemas do protocolo e descreva o que você faria no lugar.
 > identifica o segundo vazamento, independente do primeiro: os atributos defasados e a média móvel foram calculados sobre a base inteira antes da divisão;
 > propõe divisão cronológica e validação com origem móvel (walk-forward), com as features recalculadas dentro de cada dobra;
 > exige comparação contra a previsão ingênua (simples ou sazonal) antes de aceitar os 3,1%
-> **porque:** Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia que está sendo previsto. O modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão.
+> **porque:** Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia previsto, e o modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão. O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo 02](02-dados.md), onde a normalização feita antes do split contamina o teste.
 >
-> O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo 02](02-dados.md), onde a normalização feita antes do split contamina o conjunto de teste.
->
-> O detalhe que separa a boa resposta da excelente é o intervalo estreito. Ele soa como confirmação e é o contrário: **um erro sistemático medido muitas vezes continua sendo o mesmo erro, agora com um intervalo estreito em volta de um número errado**. Precisão não é validade. Repetir um protocolo inválido não o valida — só o torna mais convincente.
->
-> Por fim, 3,1% de erro não significa nada até que se saiba quanto a previsão ingênua entrega. Talvez ela entregue 3,0%.
+> O detalhe que separa a boa resposta da excelente é o intervalo estreito. Ele soa como confirmação e é o contrário: **um erro sistemático medido muitas vezes continua sendo o mesmo erro, agora com um intervalo estreito em volta de um número errado**. Precisão não é validade; repetir um protocolo inválido só o torna mais convincente. E 3,1% não significa nada até se saber quanto a previsão ingênua entrega — talvez entregue 3,0%.
 > **volte para:** #a-validacao-nao-pode-ser-aleatoria
 :::
 
@@ -154,9 +150,7 @@ Identifique os problemas do protocolo e descreva o que você faria no lugar.
 
 Boa parte do trabalho prático não usa ARIMA. Usa-se **janelamento**: cada linha vira "os *k* valores anteriores + atributos de calendário", e o alvo é o valor seguinte. A partir daí, qualquer regressor do [capítulo 07](07-arvores-ensembles.md) serve.
 
-A transformação é legítima e frequentemente vence os métodos clássicos — desde que **o protocolo de validação continue temporal**. É aí que mora o perigo: assim que o problema *parece* tabular, o reflexo de embaralhar volta. A tabela esconde a ordem; a ordem continua lá.
-
-E declare o **horizonte**: prever 1 passo à frente e prever 30 são problemas diferentes, com erros diferentes. Um modelo excelente em 1 passo pode ser inútil em 30, e reportar só o primeiro número é omissão.
+A transformação é legítima e frequentemente vence os métodos clássicos — desde que **o protocolo de validação continue temporal**. É aí que mora o perigo: assim que o problema *parece* tabular, o reflexo de embaralhar volta. A tabela esconde a ordem; a ordem continua lá. E declare o **horizonte**: prever 1 passo à frente e prever 30 são problemas diferentes, com erros diferentes — um modelo excelente em 1 passo pode ser inútil em 30, e reportar só o primeiro número é omissão.
 
 ## Síntese — o que levar
 
@@ -165,8 +159,7 @@ E declare o **horizonte**: prever 1 passo à frente e prever 30 são problemas d
 - Atributos defasados e estatísticas móveis calculam-se **dentro** de cada dobra. Vazamento por *feature* sobrevive a uma divisão cronológica correta.
 - A **previsão ingênua** — do tipo certo — é o adversário obrigatório. Modelo que não a bate não tem valor.
 - Um intervalo estreito em torno de um protocolo inválido é **precisão sem validade**, e é mais perigoso que um número ruim.
-- Separe **sazonalidade** (período fixo, do calendário) de **ciclo** (período variável, emergente).
-- **Estacionariedade** é pré-requisito dos métodos clássicos; **diferenciar** é o caminho mais curto até ela — e a previsão precisa voltar à escala original.
+- Separe **sazonalidade** (período fixo, do calendário) de **ciclo** (período variável, emergente). **Estacionariedade** é pré-requisito dos métodos clássicos, e **diferenciar** é o caminho mais curto até ela — com a previsão voltando à escala original.
 - A ideia de Yule que atravessa tudo: **o acaso pode estar dentro do mecanismo, não só no instrumento**.
 
 ## Verificação

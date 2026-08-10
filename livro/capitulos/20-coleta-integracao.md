@@ -69,11 +69,9 @@ Escolhida a porta, resta a pergunta de ordem: transformar antes ou depois de gra
 
 **ETL** (*Extract, Transform, Load*) transforma **antes** de carregar. Nasceu numa época em que armazenamento era caro: guardava-se apenas o que já estava limpo, modelado e agregado. O preço é irreversível — o que a transformação descartou não volta. Quando a regra de negócio muda, você precisa do dado bruto que jogou fora.
 
-**ELT** (*Extract, Load, Transform*) carrega o bruto e transforma **dentro** do repositório, quase sempre em SQL. A ordem inverteu quando o armazenamento ficou barato e o motor analítico ficou forte: passou a ser mais barato guardar tudo e derivar depois do que decidir cedo o que interessa. O ganho real é poder **re-derivar** — mudou a regra, você recalcula a partir do bruto em vez de pedir uma nova extração.
+**ELT** (*Extract, Load, Transform*) carrega o bruto e transforma **dentro** do repositório, quase sempre em SQL. A ordem inverteu quando o armazenamento ficou barato e o motor analítico ficou forte: passou a ser mais barato guardar tudo e derivar depois do que decidir cedo o que interessa. O ganho real é poder **re-derivar** — mudou a regra, você recalcula a partir do bruto em vez de pedir uma nova extração. O preço é honesto e precisa ser dito: você paga para armazenar dado que ninguém pediu, e sem catálogo e sem dono ninguém sabe qual das dezessete tabelas `cliente` é a boa.
 
-O preço do ELT é honesto e precisa ser dito: você paga para armazenar dado que ninguém pediu, e sem catálogo e sem dono ninguém sabe qual das dezessete tabelas `cliente` é a boa.
-
-:::exercicio {"id":"20-e2","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
+:::exercicio {"id":"20-e1","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
 Complete a sigla que nomeia a ordem adotada quando o armazenamento ficou barato — carregar o dado bruto primeiro e transformá-lo depois, dentro do próprio repositório analítico:
 
 `Extract → Load → Transform = ______`
@@ -93,11 +91,9 @@ Os três guardam dados, e a diferença que importa é **quando o esquema é cobr
 | **Data lake** | qualquer arquivo, inclusive semiestruturado | na **leitura** — quem consulta interpreta | barato por byte, caro por pergunta |
 | **Lakehouse** | arquivos, com uma camada transacional por cima | na leitura, mas **sob contrato** (esquema versionado, transação, histórico) | promete os dois; paga-se na camada de metadados e na disciplina |
 
-O warehouse cobra caro na entrada e devolve confiança: se a linha entrou, ela está no formato combinado. O lake cobra barato na entrada e transfere o problema para quem lê — e é exatamente por isso que um lake sem catálogo vira o pântano de que todo mundo fala: não é o volume que o mata, é a **ausência de quem responda pelo significado de cada arquivo**.
+O warehouse cobra caro na entrada e devolve confiança: se a linha entrou, ela está no formato combinado. O lake cobra barato na entrada e transfere o problema para quem lê — e é exatamente por isso que um lake sem catálogo vira o pântano de que todo mundo fala: não é o volume que o mata, é a **ausência de quem responda pelo significado de cada arquivo**. O lakehouse é a tentativa de ficar com os dois: arquivos abertos e baratos, mais uma camada de tabela que garante transação, evolução de esquema e viagem no tempo. Ele não elimina a decisão — apenas move o custo para a governança.
 
-O lakehouse é a tentativa de ficar com os dois: arquivos abertos e baratos, mais uma camada de tabela que garante transação, evolução de esquema e viagem no tempo. Vale como padrão de fato em plataformas novas, e não elimina a decisão — apenas move o custo para a governança.
-
-:::exercicio {"id":"20-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"20-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma equipe precisa de duas coisas ao mesmo tempo: guardar cinco anos de eventos brutos de clique (JSON, com o esquema mudando a cada release do aplicativo) e servir trinta relatórios fixos ao financeiro, todo dia às 7h. Qual arranjo atende melhor?
 
 - [ ] Só warehouse: modelar os eventos de clique no esquema dimensional já na entrada.
@@ -126,9 +122,7 @@ Extrair é engenharia; integrar é semântica. Três problemas aparecem em todo 
 
 É a pergunta que abre o [capítulo 02](02-dados.md), e é aqui que ela nasce — porque o vazamento mais comum de todos não vem de um erro de modelagem: vem de **juntar tabelas sem respeitar o tempo**.
 
-Uma tabela de dimensão que é atualizada no lugar (sem histórico) carrega sempre o estado de **hoje**. Um `JOIN` sem recorte temporal cola esse estado de hoje em um fato de doze meses atrás — e o modelo passa a ver, no momento da compra, uma informação que só existiu depois dela. O sintoma é sempre o mesmo: métrica excelente no teste, desempenho medíocre em produção.
-
-Por isso a procedência não é burocracia de licença — embora a licença também importe, e nenhuma base pública deva ser usada sem ler a sua. De cada coluna que entra no seu conjunto de treino, saiba responder: **quem a produz, com que frequência, e ela é sobrescrita ou versionada?** Se você não sabe, você não sabe em que instante ela passou a valer.
+Uma tabela de dimensão que é atualizada no lugar (sem histórico) carrega sempre o estado de **hoje**. Um `JOIN` sem recorte temporal cola esse estado de hoje em um fato de doze meses atrás — e o modelo passa a ver, no momento da compra, uma informação que só existiu depois dela. O sintoma é sempre o mesmo: métrica excelente no teste, desempenho medíocre em produção. Por isso a procedência não é burocracia de licença — embora a licença também importe, e nenhuma base pública deva ser usada sem ler a sua. De cada coluna que entra no seu conjunto de treino, saiba responder: **quem a produz, com que frequência, e ela é sobrescrita ou versionada?** Se você não sabe, você não sabe em que instante ela passou a valer.
 
 :::exercicio {"id":"20-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Você monta o conjunto de treino de um modelo que prevê **inadimplência no momento da compra**. Os pedidos de 2025 estão no data warehouse; o cadastro vem de outro sistema, e a tabela `clientes` é sincronizada todas as noites **sobrescrevendo** a linha do cliente.
