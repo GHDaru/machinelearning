@@ -251,3 +251,88 @@ Fichas de dataset: Gebru *et al.*, arXiv:1803.09010 (2018), *CACM* (2021) ✓ᵐ
 | 7 | Breiman, *Statistical Modeling: The Two Cultures* (2001) | os projetos de consultoria em 1ª pessoa | médio |
 | 8 | Casos de dataset enviesado (cap. 02) | ❌ → 1ª passada | alto |
 | 9 | Cauchy, *C. R. Acad. Sci. Paris* 25:536–538 (Gallica) | ✓ via Lemaréchal → ✓ direto | médio |
+
+---
+
+# 3ª passada — capítulos 27, 08 e 13
+
+> **Data:** 2026-08-10 · **Dois ✓ de verdade**: [Bock, *Origins and extensions of the k-means algorithm* (JEHPS, 2008)](http://www.jehps.net/Decembre2008/Bock.pdf) e [Dreyfus, *Richard Bellman on the Birth of Dynamic Programming* (Operations Research 50(1), 2002)](https://www.cs.miami.edu/home/odelia/teaching/csc317_fall19/syllabus/dy_birth.pdf), lidos por inteiro.
+>
+> **E as duas lendas encomendadas quebraram — as duas, por motivos diferentes.** É o melhor resultado desta nota.
+
+## Cap. 08 — k-means: o caso-limite do padrão de crédito
+
+Bock (2008), lido, desmonta a versão de curso. A cadeia real tem **seis** pretendentes, em **quatro campos que não conversavam**:
+
+- **Dalenius (1950/51)** — a primeira formulação do problema, em **amostragem estratificada**, não em clustering. Um nome anterior a todos os quatro que se costuma citar. ✓
+- **Steinhaus (1956)** — primeiro a propor o k-means multidimensional, versão contínua, com motivação **mecânica**: partir um sólido heterogêneo minimizando momentos de inércia. Publicado **em francês**. ✓
+- **Lloyd (1957)** — critério contínuo em uma dimensão, contexto de **quantização de voz** nos Bell Labs. Publicado só em **1982**. ✓ᵐ
+- **Forgy (1965)** — primeiro a propor o k-means discreto. **Detalhe demolidor:** Bock registra que o resumo da palestra de Forgy **não menciona explicitamente o algoritmo** — o conteúdo é conhecido apenas por descrição de terceiros. ✓
+- **MacQueen (1967)** — cunha o nome "k-means", **para um algoritmo diferente** do que hoje leva esse nome (o sequencial, não o *batch*). E **Sebestyen (1962)** já propusera o mesmo procedimento. ✓
+
+> **Por que supera Gauss×Legendre e Linnainmaa×Rumelhart.** Ali havia dois pretendentes; aqui há seis. E o nome vencedor foi cunhado **para outro algoritmo**. Não vence quem descobre, nem quem publica, nem quem descreve o método corrente: vence **quem escreve a palavra que pega**. 📖
+
+**A ideia reaproveitável do k-means:** quando o problema conjunto é intratável, **congele metade e resolva a outra — depois inverta**. Bock mostra que é um caso de otimização alternada, e a mesma forma reaparece em EM, fuzzy c-means e k-medoids. **Não é um algoritmo, é um padrão.** 📖
+
+**Hierárquico:** Sokal & Sneath (1963) motivaram a pesquisa mundial em clustering ✓. O aperto era político-científico: **tirar a classificação das mãos da autoridade do taxonomista** e torná-la reproduzível. 📖
+
+**PCA:** Pearson (1901), formulação geométrica; Hotelling (1933), formulação algébrica, motivação psicométrica — e é dele o nome. **32 anos, dois problemas diferentes, mesma decomposição.** ✓ᵐ
+
+### A lenda "cerveja e fraldas" — quebrou, e da forma mais instrutiva
+
+Rastreada até [Power, *Ask Dan!*, DSSResources (2002)](https://dssresources.com/newsletters/66.php), que entrevistou o autor do estudo:
+
+- **O estudo existe**: junho de **1992**, Thomas Blischok (NCR/Teradata) para a **Osco Drug**; ~1,2 milhão de cestas em ~25 lojas. ⏳
+- **A correlação foi achada**: cerveja e fraldas juntas **entre 17h e 19h**. ⏳
+- **A parte que todo curso ensina — "puseram a cerveja ao lado das fraldas e as vendas subiram" — é FALSA.** Power afirma que a Osco **não** explorou a relação movendo produtos, e Blischok confirma que nunca fizeram nada com ela. ❌
+- E o registro de ouro: um participante observa que o líder da equipe, ao falar com prospects, **não distinguia entre as afinidades testadas e as hipóteses**. ⏳ **A lenda nasceu no discurso de vendas, documentadamente.**
+
+> **Não consertar a lenda: exibir a fratura.** A história é verdadeira até a descoberta e inventada a partir da ação. É o exemplo mais barato de *correlação achada ≠ decisão tomada ≠ efeito medido* — e a fabricação vem do marketing, como no caso OLAP do cap. 23. 📖
+
+## Cap. 13 — a lenda do nome "dynamic programming": quebrou por data, e a citação é real
+
+Aqui os dois selos divergem, **e a divergência é o conteúdo**.
+
+**✓ — a citação existe e foi lida.** Dreyfus (2002) transcreve a autobiografia de Bellman (*Eye of the Hurricane*, 1984, p. 159): ele passou o outono **de 1950** na RAND, precisava de um nome, e havia em Washington "um cavalheiro chamado Wilson", Secretário de Defesa, com "medo e ódio patológicos da palavra **pesquisa**". Escolheu "dynamic" porque era impossível usar em sentido pejorativo — "algo a que nem um congressista poderia objetar".
+
+**❌ — a explicação não pode ser verdadeira como contada.** Duas datas a derrubam:
+
+1. **Charles E. Wilson só assumiu como Secretário de Defesa em 28 de janeiro de 1953.** Em 1950 o cargo era de Louis Johnson / George Marshall. ✓ᵐ
+2. **O primeiro artigo de Bellman com o termo é de 1952** — *PNAS* 38(8), comunicado por von Neumann em 5 de junho de 1952 — **anterior à posse de Wilson**. ✓ᵐ
+3. Há versão concorrente: Kushner relata que Bellman lhe disse estar tentando fazer sombra ao *linear programming* de Dantzig. ⏳
+
+> **O que o capítulo deve dizer não é "a lenda é falsa".** É: *Bellman contou esta história, nestas palavras, na própria autobiografia — e a cronologia não fecha.* A lição não é sobre desonestidade; é sobre **memória autobiográfica de cientista famoso ser fonte secundária sobre si mesmo**, escrita 34 anos depois. É o caso mais limpo do livro para separar **"a fonte é autêntica"** de **"a afirmação é verdadeira"** — exatamente a distinção que ✓ e ⏳ codificam. 📖
+
+**Cronologia do 13:** Thorndike, lei do efeito (1898 tese, 1911 formulação) ⏳ · Bellman, *Dynamic Programming* (1957) e a "maldição da dimensionalidade" ✓ᵐ · Sutton, diferenças temporais (*Machine Learning* 3, 1988) ✓ᵐ · Watkins, Q-learning (tese, Cambridge, 1989) ✓ᵐ · TD-Gammon (Tesauro, 1992/1995) · DQN (2013/*Nature* 2015) ✓ᵐ · AlphaGo (*Nature*, jan. 2016) ✓ᵐ.
+
+**A ideia reaproveitável do 13:** **não é preciso saber a resposta certa para aprender — basta que a previsão de amanhã seja melhor informada que a de hoje.** O alvo é uma versão *ligeiramente menos ignorante* de si mesmo. 📖
+
+## Cap. 27 — quatro tradições, quatro apertos
+
+*Provar teorema sem busca cega* (Newell, Shaw & Simon) · *decidir com predicado vago* — "a água está quente" não tem limiar (Zadeh) · *otimizar forma física sem derivada* (Rechenberg) · *raciocinar sob incerteza sem explodir a tabela conjunta* (Pearl).
+
+**A ideia reaproveitável:** **a representação escolhida decide qual busca é possível.** Nenhuma das quatro inventou um otimizador melhor; cada uma inventou uma *forma de escrever o problema* que tornou a busca tratável. É a lição do cap. 03 vista de outro ângulo. 📖
+
+**Simbólica.** Logic Theorist (Newell, **Shaw** e Simon — o terceiro nome quase sempre some) provou 38 dos 52 primeiros teoremas do cap. 2 do *Principia*, e para o teorema 2.85 achou prova **mais curta** que a de Whitehead e Russell. O *Journal of Symbolic Logic* teria recusado artigo coautorado por um programa ⏳. DENDRAL (Stanford, 1965) e MYCIN (Shortliffe, 1972–76), que diagnosticava no nível de especialista e **nunca foi usado clinicamente** ⏳. Colapso em **1987**, quando workstations comuns passaram a rodar LISP mais barato ⏳.
+
+> **A ideia reaproveitável do colapso, e ela é dura:** o que matou o mercado **não foi a IA falhar** — foi o hardware genérico alcançar o especializado. A aposta perdida foi de **arquitetura**, não de método. 📖
+
+**Fuzzy.** Zadeh, *Information and Control* 8, 1965 ✓ᵐ. "Fuzzy" foi escolha ruim e custou uma década de recepção ⏳. Metrô de **Sendai**, linha Namboku, em operação com controle fuzzy em **1987** ⏳.
+
+**Evolutiva — três origens independentes, três continentes, ~25 anos sem se conhecerem:** Holland em Ann Arbor (1962; livro 1975), Fogel em San Diego (1962/66), e Rechenberg & Schwefel na TU Berlin (~1965), evoluindo **formas de mínimo arrasto em túnel de vento** — otimização com peça física, não simulada ⏳.
+
+**Bayesianas.** Pearl, UCLA TR CSD-850017, abril de **1985** ✓ᵐ — é onde o termo aparece. Turing em 2011. Em 1985, falar de probabilidade em IA era estar **fora do mainstream** ⏳.
+
+## Fios novos (8 a 12)
+
+**8. O k-means reescreve o fio 1: crédito segue o VOCABULÁRIO.** Não vence quem descobre nem quem publica — vence quem **nomeia**. Gauss×Legendre já apontava (Legendre deu o nome *e* levou o crédito); o k-means prova. Caps. 05, 08 e 18 formam uma tríade.
+
+**9. Invenção paralela é a regra, e a distância entre as cópias mede o isolamento do campo.** PCA: 32 anos. Evolutiva: três origens simultâneas em três continentes, independentes por ~25 anos. k-means: cinco redescobertas em 17 anos. **O gargalo não é a ideia, é a circulação.**
+
+**10. O maior intervalo do livro.** Thorndike (1898) → Q-learning (1989): **~80 anos**. Zadeh (1965) → Sendai (1987): 22 anos **e uma mudança de continente**.
+
+**11. A rejeição tem geografia.** Fuzzy é hostilizada no Ocidente e adotada industrialmente no Japão; Pearl está "fora do mainstream" em 1985 e ganha o Turing em 2011. **A comunidade que rejeita uma ideia raramente é a que a reabilita.** 📖
+
+**12. A lenda serve ao ensino, não à história — e é o padrão mais útil ao leitor.** As duas lendas testadas quebram no mesmo ponto: a parte verificável é modesta (uma correlação achada; uma citação autobiográfica autêntica) e a parte memorável é a inventada (a prateleira reorganizada; a explicação causal do nome). Com o caso OLAP do cap. 23, são **três**. A regra: **quando um detalhe é bom demais para o slide, ele foi otimizado para o slide.** 📖
+
+> **Nota de método desta passada.** As duas fontes lidas foram obtidas extraindo o texto dos PDFs localmente, depois que a leitura via web falhou — e o resumo automático do segundo chegou a **negar** que o trecho de Bellman existisse. Ele estava lá, na primeira página. É o aviso do Princípio X apanhado em flagrante pela segunda vez: **resumo não é fonte, nem quando o resumo diz que a fonte não diz nada.**
