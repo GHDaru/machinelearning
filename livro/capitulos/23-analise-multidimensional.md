@@ -37,9 +37,7 @@ E aqui entra a parte incômoda, com o cuidado que ela exige.
 
 **A versão corrente é que** o relatório que cunhou "OLAP" foi **patrocinado pela Arbor Software**, fabricante do Essbase — um produto lançado no ano anterior —, e que as 12 regras coincidiam notavelmente com as características desse produto. **Conta-se também que** o patrocínio não estava declarado no documento, que a *Computerworld* apurou o caso, e que o artigo acabou retirado.
 
-**Registre o estatuto disto:** é uma acusação de conduta envolvendo pessoas reais, e **a fonte primária não foi conferida** — o material da *Computerworld* da época não foi aberto para escrever este capítulo. O que existe aqui é um relato repetido de forma consistente em fontes secundárias. Por isso o selo é ⏳, e por isso o texto diz "a versão corrente é que", nunca "aconteceu que". A diferença entre essas duas formas é o capítulo inteiro em matéria de método.
-
-O que se sabe com segurança é o resto: Codd seguiu reconhecido como o pai do modelo relacional, e a categoria OLAP permaneceu — e prosperou por três décadas.
+**Registre o estatuto disto:** é uma acusação de conduta envolvendo pessoas reais, e **a fonte primária não foi conferida** — o material da *Computerworld* da época não foi aberto para escrever este capítulo. O que existe aqui é um relato repetido de forma consistente em fontes secundárias. Por isso o selo é ⏳, e por isso o texto diz "a versão corrente é que", nunca "aconteceu que". A diferença entre essas duas formas é o capítulo inteiro em matéria de método. O que se sabe com segurança é o resto: Codd seguiu reconhecido como o pai do modelo relacional, e a categoria OLAP permaneceu — e prosperou por três décadas.
 
 **Por que não omitir.** Porque ensina uma coisa que nenhum tutorial ensina: **categorias de tecnologia às vezes nascem de marketing, não de necessidade técnica.** Antes de aceitar que uma categoria é natural — *data lakehouse*, *feature store*, *vector database* —, pergunte de onde ela veio e quem se beneficia de ela existir. É a lição de ceticismo mais barata deste livro, e a única que você vai usar em toda contratação de ferramenta pelo resto da carreira. Note o detalhe fino: a técnica do cubo era **boa e resolvia um problema real** — o que está em causa é a *embalagem*, não a *engenharia*. As duas coisas podem ser julgadas em separado.
 
@@ -61,9 +59,7 @@ O vocabulário é curto e faz todo o trabalho.
 
 **Fato** é o que aconteceu e se mede: uma venda, um atendimento, um clique. A tabela-fato guarda as **medidas** (valor, quantidade) e as chaves que apontam para os eixos. Ela é comprida e estreita — milhões de linhas, poucas colunas.
 
-**Dimensão** é o eixo pelo qual se corta o fato: produto, cliente, loja, tempo. A tabela-dimensão é curta e larga — poucas linhas, muitos atributos descritivos (nome, categoria, marca, região, gerente). É por ela que vêm os rótulos dos relatórios.
-
-O teste rápido: **se você somaria a coluna, é medida; se você agruparia por ela, é dimensão.**
+**Dimensão** é o eixo pelo qual se corta o fato: produto, cliente, loja, tempo. A tabela-dimensão é curta e larga — poucas linhas, muitos atributos descritivos (nome, categoria, marca, região, gerente). É por ela que vêm os rótulos dos relatórios. O teste rápido: **se você somaria a coluna, é medida; se você agruparia por ela, é dimensão.**
 
 **Grão** (granularidade) é a pergunta mais cara do projeto: *o que é uma linha da tabela-fato?* Uma venda? Um item de venda? O total de um produto por loja por dia? O grão define o teto do detalhe — **você sempre pode agregar para cima, nunca desagregar para baixo**. Escolher grão grosso porque "ninguém vai precisar do detalhe" é a decisão que se paga um ano depois, quando alguém precisa.
 
@@ -86,9 +82,7 @@ Você modela as vendas de uma rede de farmácias. A base tem: `valor_do_item`, `
 > **gabarito:** As medidas (`valor_do_item`, `quantidade`, `desconto_concedido`) mais as chaves de dimensão
 > **porque:** Vale o teste: você **somaria** valor, quantidade e desconto — são medidas, e medida mora no fato. Você **agruparia por** nome de produto, categoria e cidade — são atributos descritivos, e atributo descritivo mora na dimensão.
 >
-> A primeira e a última alternativas invertem os papéis: confundem "o que aparece no relatório" com "o que é medido". O rótulo do relatório vem da dimensão justamente para que você possa trocá-lo (produto → categoria) sem tocar no fato.
->
-> A terceira é o erro mais interessante, porque tem um argumento verdadeiro dentro: `JOIN` custa, e desnormalizar acelera. Só que jogar tudo no fato multiplica o texto por **milhões** de linhas, não pelas poucas centenas da dimensão — e, pior, tira do modelo o lugar onde a hierarquia produto → categoria fica declarada. Sem esse lugar, não existe roll-up: você volta a reescrever a consulta a cada pergunta.
+> A primeira e a última alternativas invertem os papéis: confundem "o que aparece no relatório" com "o que é medido" — o rótulo vem da dimensão justamente para que você possa trocá-lo (produto → categoria) sem tocar no fato. A terceira é o erro mais interessante, porque tem um argumento verdadeiro dentro: `JOIN` custa, e desnormalizar acelera. Só que jogar tudo no fato multiplica o texto por **milhões** de linhas, não pelas poucas centenas da dimensão — e, pior, tira do modelo o lugar onde a hierarquia produto → categoria fica declarada. Sem esse lugar, não existe roll-up: você volta a reescrever a consulta a cada pergunta.
 > **volte para:** #fundamentos-fato-dimensao-e-grao
 :::
 
@@ -108,9 +102,7 @@ Repare no que mudou em relação ao SQL do início do capítulo: as cinco opera�
 
 ### Por que muito cubo virou consulta direta
 
-Uma nota de leitura editorial (📖), para você não sair daqui achando que precisa construir um cubo: **o cubo pré-computado perdeu bastante terreno.** Quando o armazenamento **colunar** e o processamento distribuído ficaram baratos, varrer bilhões de linhas na hora deixou de ser proibitivo — e a agregação prévia passou a custar mais do que rende, em espaço, em complexidade de manutenção e em atraso do dado.
-
-O que **não** perdeu terreno é a parte que interessa: fato, dimensão, grão, hierarquia e as cinco operações continuam sendo o vocabulário da análise, mesmo quando a resposta é calculada na hora. A implementação envelheceu; o modelo, não.
+Uma nota de leitura editorial (📖), para você não sair daqui achando que precisa construir um cubo: **o cubo pré-computado perdeu bastante terreno.** Quando o armazenamento **colunar** e o processamento distribuído ficaram baratos, varrer bilhões de linhas na hora deixou de ser proibitivo — e a agregação prévia passou a custar mais do que rende, em espaço, em manutenção e em atraso do dado. O que **não** perdeu terreno é a parte que interessa: fato, dimensão, grão, hierarquia e as cinco operações continuam sendo o vocabulário da análise, mesmo quando a resposta é calculada na hora. A implementação envelheceu; o modelo, não.
 
 :::exercicio {"id":"23-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Um cubo de vendas tem três dimensões, no grão mais fino: **Produto** (40 produtos, agrupados em 8 categorias), **Região** (5 regiões) e **Tempo** (12 meses).
@@ -120,9 +112,7 @@ Partindo do cubo completo, você aplica um **slice** em Tempo = março e, em seg
 > **gabarito:** 40 ± 0
 > **porque:** O cubo completo tem 40 × 5 × 12 = **2 400** células. O **slice** fixa um valor de uma dimensão (março), sobrando 40 × 5 = **200**. O **roll-up** sobe Produto de 40 itens para 8 categorias: 8 × 5 = **40** células.
 >
-> Dois erros comuns valem a atenção. O primeiro é achar que o roll-up **descarta** dado: ele não descarta, ele **agrega** — a receita das 40 células vira a receita das 8, e a soma total continua a mesma. O segundo é confundir slice com dice: se em vez de "março" você tivesse pedido "março e abril, no Sul e no Sudeste", seria um **dice**, e o resultado seria 8 × 2 × 2 = 32.
->
-> E note o que o número mostra: você saiu de 2 400 células para 40 sem escrever consulta nova. Foi exatamente isso que a arquitetura comprou.
+> Dois erros comuns valem a atenção. O primeiro é achar que o roll-up **descarta** dado: ele não descarta, ele **agrega** — a receita das 40 células vira a receita das 8, e a soma total continua a mesma. O segundo é confundir slice com dice: se em vez de "março" você tivesse pedido "março e abril, no Sul e no Sudeste", seria um **dice**, e o resultado seria 8 × 2 × 2 = 32. E note o que o número mostra: você saiu de 2 400 células para 40 sem escrever consulta nova — foi exatamente isso que a arquitetura comprou.
 > **volte para:** #as-cinco-operacoes
 :::
 
@@ -140,9 +130,7 @@ Um painel que soma coluna semi-aditiva ao longo do tempo é um dos erros mais si
 
 ### Do cubo ao modelo
 
-O cubo responde "o que aconteceu"; o modelo preditivo responde "o que vai acontecer" — e os dois consomem o **mesmo** trabalho de base. A tabela que um modelo consome é, quase sempre, um cubo **achatado num grão escolhido**: uma linha por entidade-e-instante, medidas agregadas em janelas (receita nos últimos 30 dias, número de compras no trimestre) e atributos vindos das dimensões.
-
-Duas armadilhas na travessia. A primeira: **o grão do cubo vira o grão do dataset**, e um grão grosso demais impede o modelo de existir. A segunda, e mais grave: agregar sem respeitar o **corte de tempo** é o vazamento do [capítulo 02](02-dados.md) na forma mais fácil de cometer — se a janela de agregação inclui informação posterior ao instante da previsão, seu modelo tem um desempenho excelente e inútil.
+O cubo responde "o que aconteceu"; o modelo preditivo responde "o que vai acontecer" — e os dois consomem o **mesmo** trabalho de base. A tabela que um modelo consome é, quase sempre, um cubo **achatado num grão escolhido**: uma linha por entidade-e-instante, medidas agregadas em janelas (receita nos últimos 30 dias, número de compras no trimestre) e atributos vindos das dimensões. Duas armadilhas na travessia. A primeira: **o grão do cubo vira o grão do dataset**, e um grão grosso demais impede o modelo de existir. A segunda, e mais grave: agregar sem respeitar o **corte de tempo** é o vazamento do [capítulo 02](02-dados.md) na forma mais fácil de cometer — se a janela de agregação inclui informação posterior ao instante da previsão, seu modelo tem um desempenho excelente e inútil.
 
 :::exercicio {"id":"23-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Você propõe um esquema estrela para o repositório analítico. Um colega, DBA experiente, recusa: *"Isso viola a terceira forma normal. A categoria do produto vai estar repetida em milhares de linhas da dimensão. Se alguém renomear uma categoria, você tem anomalia de atualização. Normalize."*
@@ -158,9 +146,7 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 >
 > O argumento vem em seguida, e é sobre **qual problema cada regra resolve**. A 3NF é uma defesa contra anomalias de atualização em ambiente de escrita concorrente e imprevisível — o transacional. O repositório analítico não é esse ambiente: nele a escrita é um processo de carga único, versionado, testado e executado em janela conhecida ([capítulo 20](20-coleta-integracao.md)). Retirar uma defesa contra um ataque que não existe naquele perímetro não é descuido; é dimensionar a defesa ao risco.
 >
-> O caso da renomeação é onde a boa resposta se distingue da excelente: ele **não** é um contra-argumento, é um requisito — e um requisito interessante, porque muitas vezes você **não quer** propagar a mudança. Se um produto mudou de categoria em junho, reescrever a dimensão faz o relatório de janeiro mentir sobre janeiro. É o problema das *slowly changing dimensions*, e a resposta usual é guardar as duas versões com vigência, não normalizar.
->
-> Por fim, a assimetria de tamanho fecha o caso: repetir "Medicamentos" em 800 linhas de uma dimensão custa quase nada; repeti-lo em 40 milhões de linhas do fato custaria — e é por isso que a estrela desnormaliza a dimensão, e só ela.
+> O caso da renomeação é onde a boa resposta se distingue da excelente: ele **não** é um contra-argumento, é um requisito — e um requisito interessante, porque muitas vezes você **não quer** propagar a mudança. Se um produto mudou de categoria em junho, reescrever a dimensão faz o relatório de janeiro mentir sobre janeiro. É o problema das *slowly changing dimensions*, e a resposta usual é guardar as duas versões com vigência, não normalizar. Fecha o caso a assimetria de tamanho: repetir "Medicamentos" em 800 linhas de uma dimensão custa quase nada; repeti-lo em 40 milhões de linhas do fato custaria — e por isso a estrela desnormaliza a dimensão, e só ela.
 > **volte para:** #estrela-e-floco-de-neve
 :::
 
@@ -169,8 +155,7 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 - O modelo relacional é ótimo para **transação** e desajeitado para a **pergunta gerencial**, que agrega em vários eixos ao mesmo tempo e muda a cada trinta segundos.
 - **Fato** é o que se mede; **dimensão** é por onde se corta. Teste: somaria a coluna → medida; agruparia por ela → dimensão.
 - O **grão** é a decisão mais cara. Agregar para cima sempre dá; desagregar para baixo, nunca.
-- **Estrela** vence **floco de neve** quase sempre: menos `JOIN`, modelo legível, e redundância barata porque acontece na dimensão, não no fato.
-- Desnormalizar aqui **não é relaxar o rigor** — a 3NF protege a escrita, e a escrita analítica é uma carga controlada.
+- **Estrela** vence **floco de neve** quase sempre: menos `JOIN`, modelo legível, redundância barata porque acontece na dimensão. Desnormalizar aqui **não é relaxar o rigor** — a 3NF protege a escrita, e a escrita analítica é uma carga controlada.
 - Cinco operações fechadas: **drill-down, roll-up, slice, dice, pivot**. A saída de cada uma é outro cubo, e é isso que faz a reunião fluir.
 - **Nem toda medida soma.** Estoque soma entre lojas e não soma ao longo do tempo; razão não soma em lugar nenhum — guarde os componentes, calcule depois.
 - **Trocar espaço e frescor por tempo de resposta é decisão de projeto.** O cubo é essa troca virada arquitetura — o mesmo padrão da barra de Playfair ([22](22-visualizacao-storytelling.md)) e do neurônio sem aprendizado ([18](18-neuronio-artificial.md)).
