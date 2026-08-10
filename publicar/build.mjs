@@ -180,7 +180,7 @@ const SIGLAS = {
   RMSE: "Root Mean Squared Error", MAPE: "Mean Absolute Percentage Error",
   AUC: "Area Under the Curve", ROC: "Receiver Operating Characteristic",
   RL: "Reinforcement Learning", MDP: "Markov Decision Process", PPO: "Proximal Policy Optimization",
-  RLHF: "Reinforcement Learning from Human Feedback",
+  RLHF: "Reinforcement Learning from Human Feedback", DQN: "Deep Q-Network",
   LLM: "Large Language Model", NLP: "Natural Language Processing", RAG: "Retrieval-Augmented Generation",
   BERT: "Bidirectional Encoder Representations from Transformers", GPT: "Generative Pre-trained Transformer",
   SHAP: "SHapley Additive exPlanations", LIME: "Local Interpretable Model-agnostic Explanations",

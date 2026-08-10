@@ -44,7 +44,7 @@
 | **LLM** | Large Language Model | 12 |
 | **RAG** | Retrieval-Augmented Generation | 12 |
 | **BERT / GPT** | Bidirectional Encoder Representations from Transformers / Generative Pre-trained Transformer | 11, 12 |
-| **RL / MDP / PPO / RLHF** | Reinforcement Learning / Markov Decision Process / Proximal Policy Optimization / RL from Human Feedback | 13 |
+| **RL / MDP / PPO / RLHF / DQN** | Reinforcement Learning / Markov Decision Process / Proximal Policy Optimization / RL from Human Feedback / Deep Q-Network | 13 |
 | **SHAP / LIME** | SHapley Additive exPlanations / Local Interpretable Model-agnostic Explanations | 14 |
 | **MLOps** | Machine Learning Operations | 15, 16 |
 | **ETL** | Extract, Transform, Load | 02, 15 |
