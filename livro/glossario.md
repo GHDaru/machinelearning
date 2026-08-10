@@ -52,3 +52,4 @@
 | **CPU / GPU / TPU** | Central / Graphics / Tensor Processing Unit | 09, 10 |
 | **LGPD** | Lei Geral de Proteção de Dados | 02, 14 |
 | **NLL / KL / ELBO** | Negative Log-Likelihood / Kullback-Leibler / Evidence Lower Bound | 06, 08 |
+| **IQR** | Interquartile Range — intervalo interquartil (Q3 − Q1) | 21 |

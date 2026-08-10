@@ -101,9 +101,12 @@ function dedupCssMatematica(html) {
 // KaTeX/MathJax no navegador exigiriam CDN (proibido: o livro tem de abrir
 // offline) ou empacotar fontes. Renderizar para SVG aqui n\u00e3o custa nada ao
 // leitor: nenhum JS, nenhuma fonte, nenhuma requisi\u00e7\u00e3o \u2014 e imprime bem.
-// Auditado antes de ligar: todo `$` fora de bloco de c\u00f3digo no livro \u00e9
-// matem\u00e1tica de verdade; n\u00e3o h\u00e1 pre\u00e7o nem vari\u00e1vel de shell em prosa que o
-// delimitador pudesse capturar por engano.
+// Auditado antes de ligar: todo `$` fora de bloco de c\u00f3digo ERA matem\u00e1tica.
+// Isso deixou de valer no cap\u00edtulo 25, que fala de dinheiro: "R$ 200". O que
+// salva o pre\u00e7o de virar f\u00f3rmula \u00e9 a regra do pr\u00f3prio renderizador \u2014 `$\u2026$` s\u00f3
+// \u00e9 matem\u00e1tica se o conte\u00fado n\u00e3o come\u00e7a nem termina com espa\u00e7o, e "R$ 200 \u2026"
+// tem espa\u00e7o logo ap\u00f3s o delimitador. O guarda de acentua\u00e7\u00e3o l\u00e1 embaixo
+// espelha essa mesma regra; sem isso ele acusava o pre\u00e7o em reais.
 md.use(mathjax, {
   tex: { macros: { saida: "\\text{sa\u00edda}" } },
   // `a11y` liga a \u00e1rvore de acessibilidade do MathJax: o leitor de tela
@@ -187,6 +190,7 @@ const SIGLAS = {
   CPU: "Central Processing Unit", TPU: "Tensor Processing Unit",
   JSON: "JavaScript Object Notation", HTTP: "HyperText Transfer Protocol", CSV: "Comma-Separated Values",
   DOI: "Digital Object Identifier", LGPD: "Lei Geral de Proteção de Dados",
+  IQR: "Interquartile Range — intervalo interquartil (Q3 − Q1)",
   IID: "Independent and Identically Distributed", ERM: "Empirical Risk Minimization",
   PAC: "Probably Approximately Correct", NLL: "Negative Log-Likelihood",
   KL: "Kullback-Leibler", ELBO: "Evidence Lower Bound", DDD: "Domain-Driven Design",
@@ -610,7 +614,11 @@ const acentuadoEmMatematica = [];
 for (const i of itens) {
   const fonte = readFileSync(resolve(RAIZ, i.arquivo), "utf8")
     .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
-  for (const m of fonte.matchAll(/\$\$([\s\S]*?)\$\$|\$([^$\n]+)\$/g)) {
+  // O delimitador em linha espelha a regra do renderizador: `$…$` só é
+  // matemática se o conteúdo NÃO começa nem termina com espaço. É o que salva
+  // "R$ 200 … R$ 1000" de virar fórmula — e o que impede este guarda de
+  // acusar preço em reais, num livro escrito em português.
+  for (const m of fonte.matchAll(/\$\$([\s\S]*?)\$\$|\$(?!\s)([^$\n]*[^\s$])\$/g)) {
     const formula = m[1] ?? m[2];
     const achados = [...new Set(formula.match(/[^\x00-\x7F]/g) || [])]
       // θ, λ, Σ e afins são símbolos matemáticos legítimos: o MathJax os tem.

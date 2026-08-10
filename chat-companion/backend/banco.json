@@ -187,6 +187,89 @@
    "titulo_capitulo": "01 — Fundamentos"
   },
   {
+   "id": "19-e1",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma seguradora pede um modelo para \"reduzir os sinistros de automóvel\". O projeto tem seis semanas. O que o CRISP-DM manda fazer na primeira?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Levantar as tabelas disponíveis no *data warehouse* e medir a qualidade de cada campo."
+    },
+    {
+     "correta": true,
+     "texto": "Descobrir qual decisão vai mudar por causa do modelo, quem a toma e com quanta antecedência."
+    },
+    {
+     "correta": false,
+     "texto": "Treinar um modelo simples de linha de base, para saber se o problema tem sinal."
+    },
+    {
+     "correta": false,
+     "texto": "Definir a métrica de avaliação e separar o conjunto de teste."
+    }
+   ],
+   "gabarito": "Descobrir qual decisão vai mudar, quem a toma e quando",
+   "porque": "\"Reduzir sinistros\" não é um problema de mineração de dados — é um objetivo de negócio, e dele saem alvos completamente diferentes: prever quem vai bater o carro, recusar propostas de risco, reprecificar apólices na renovação, priorizar vistoria. Cada um exige rótulo, dado e prazo distintos. Sem essa conversa você não escolhe entre eles: você herda o alvo que a tabela mais acessível permitir.\n\nA alternativa mais tentadora é a última — o [capítulo 04](04-avaliacao.md) insiste em definir a métrica **antes** de treinar, e isso está certo. Mas a métrica se escolhe pelo custo do erro, e o custo do erro é informação de negócio: quem paga um falso positivo aqui, o cliente recusado ou a seguradora? Definir métrica sem a fase 1 é escolher no chute e chamar de rigor. Inventariar tabelas é a fase 2; treinar uma linha de base é a fase 4 — as duas são trabalho útil, na hora errada.",
+   "volte_para": "#o-problema-um-modelo-excelente-para-a-pergunta-errada",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "19-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados"
+  },
+  {
+   "id": "19-e2",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Na fase de avaliação, a equipe descobre que rotulou como \"cliente perdido\" quem ficou 90 dias sem comprar — enquanto, para a área de retenção, perder um cliente é ele **não renovar o contrato**. O modelo prevê muito bem o rótulo que recebeu.\n\nPara qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.",
+   "opcoes": [],
+   "gabarito": "1",
+   "porque": "Definir o que conta como evento é **entendimento do negócio**, fase 1. O que quebrou não foi a construção do rótulo: foi o acordo sobre o que se está prevendo.\n\nA resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *\"cliente perdido é quem, para quem age?\"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas de graça se o alvo continuar errado.",
+   "volte_para": "#as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "19-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados",
+   "gabarito_num": {
+    "valor": 1,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "19-e3",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Um time de três pessoas — um engenheiro de dados, um cientista de dados e um engenheiro de ML — vai retomar o projeto de *churn* do começo do capítulo.\n\nDistribua as seis fases entre os três, aponte a fase que corre risco de ficar **sem dono** e diga como você resolveria isso.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O recorte por fase é direto: dados chegam pelo engenheiro de dados (2 e 3), o modelo e sua leitura são do cientista de dados (4 e 5), produção e monitoramento são do engenheiro de ML (6). A fase 3 é compartilhada, e vale dizer isso na resposta.\n\nA parte que separa uma boa resposta de uma lista é a **fase 1**. Nenhum dos três foi contratado para ela, e é justamente a fase cuja ausência produziu o fracasso original: o rótulo de 90 dias saiu do que a tabela permitia, não do que a retenção podia acionar. Uma resposta que só distribui as seis fases entre os três está reproduzindo o erro do capítulo com organograma novo. Resolver não exige contratar ninguém — exige declarar um responsável por conversar com quem age, e um critério de sucesso escrito antes da primeira consulta ao banco.",
+   "volte_para": "#quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo",
+   "rubrica": "atribui as fases 2 e 3 majoritariamente ao engenheiro de dados;\natribui as fases 4 e 5 ao cientista de dados;\natribui a fase 6 ao engenheiro de ML, com monitoramento;\nidentifica a fase 1 (entendimento do negócio) como a que fica sem dono natural neste trio;\npropõe uma solução concreta — trazer a área de retenção para a fase 1, ou o cientista de dados assumir formalmente a conversa — em vez de só apontar o problema;\njustifica com a consequência: sem dono na fase 1, o time otimiza um alvo que ninguém pediu",
+   "versoes": null,
+   "pagina": "19-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados",
+   "criterios": [
+    "atribui as fases 2 e 3 majoritariamente ao engenheiro de dados",
+    "atribui as fases 4 e 5 ao cientista de dados",
+    "atribui a fase 6 ao engenheiro de ML, com monitoramento",
+    "identifica a fase 1 (entendimento do negócio) como a que fica sem dono natural neste trio",
+    "propõe uma solução concreta — trazer a área de retenção para a fase 1, ou o cientista de dados assumir formalmente a conversa — em vez de só apontar o problema",
+    "justifica com a consequência: sem dono na fase 1, o time otimiza um alvo que ninguém pediu"
+   ]
+  },
+  {
    "id": "02-e1",
    "capitulo": 2,
    "arquivo": "livro/capitulos/02-dados.md",
@@ -318,6 +401,166 @@
     "levanta ao menos uma questão de origem, licença ou representatividade da base",
     "cada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas"
    ]
+  },
+  {
+   "id": "21-e1",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Os salários mensais (em milhares de reais) de sete funcionários de uma equipe são:\n\n`3, 3, 4, 4, 5, 6, 40`\n\nQual é a **mediana** desse conjunto?",
+   "opcoes": [],
+   "gabarito": "4",
+   "porque": "Os valores já estão ordenados e são sete — ímpar. A mediana é o valor da posição central, a quarta: **4**. Não há conta a fazer; há uma posição a contar.\n\nCompare com a **média**: (3+3+4+4+5+6+40)/7 = 65/7 ≈ **9,3**. Seis dos sete funcionários ganham *menos* que a média, e nenhum ganha algo próximo dela. O salário de 40 puxa a média em mais de cinco unidades e não move a mediana em nada — se ele fosse 400, a média iria a 60,7 e a mediana continuaria 4.\n\nO erro mais comum aqui é dividir a soma por sete por reflexo, sem reparar no enunciado. O segundo é ordenar errado quando a lista vem embaralhada: mediana **exige** ordenação. Com número par de elementos, é a média dos dois centrais.",
+   "volte_para": "#fundamentos-a-media-mente-a-mediana-aguenta",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "21-analise-exploratoria",
+   "titulo_capitulo": "21 — Análise Exploratória",
+   "gabarito_num": {
+    "valor": 4,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "21-e2",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação entre si praticamente idênticas às de outro par de colunas. Que conclusão é legítima?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "As duas relações têm a mesma forma; os resumos numéricos determinam o gráfico."
+    },
+    {
+     "correta": true,
+     "texto": "Nenhuma: resumos iguais são compatíveis com formas radicalmente diferentes — só o gráfico decide."
+    },
+    {
+     "correta": false,
+     "texto": "Como a correlação é a mesma, um modelo linear serve igualmente bem nos dois casos."
+    },
+    {
+     "correta": false,
+     "texto": "Se a correlação for alta nos dois casos, ambos os pares têm relação causal."
+    }
+   ],
+   "gabarito": "Nenhuma conclusão sobre a forma — é preciso ver o gráfico",
+   "porque": "É exatamente o que o quarteto de Anscombe demonstra: quatro conjuntos com médias, variâncias, correlação e reta de regressão iguais, e gráficos que não se parecem em nada. O resumo numérico comprime; e toda compressão descarta — a questão é sempre *o quê*.\n\nA terceira alternativa é a mais sedutora e a mais perigosa, porque a correlação é de fato o que a regressão linear otimiza. Só que num dos conjuntos de Anscombe a relação é uma **curva**: a reta ajustada tem os mesmos coeficientes e está sistematicamente errada em todo ponto. Em outro, a correlação inteira é produto de **um** ponto distante — remova-o e ela desaparece.\n\nA última confunde correlação com causalidade, e a primeira inverte a direção da inferência: o gráfico determina quais resumos fazem sentido, nunca o contrário.",
+   "volte_para": "#correlacao-o-que-ela-mede-e-o-que-ela-nao-prova",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "21-analise-exploratoria",
+   "titulo_capitulo": "21 — Análise Exploratória"
+  },
+  {
+   "id": "21-e3",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Você explora a base de vendas de uma rede de lojas e encontra 12 pedidos (de 400 mil) com valor acima de R$ 500 mil — a mediana dos pedidos é R$ 180. O modelo a treinar prevê o valor do próximo pedido de um cliente.\n\nEscreva o que você faz com esses 12 pedidos: **como decide** e **o que registra**.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Doze pontos em 400 mil não se resolvem por regra: resolvem-se **olhando as doze linhas**. Elas podem ser erro de digitação (um zero a mais), venda corporativa legítima (outro processo de negócio, que talvez mereça modelo próprio) ou fraude — e cada diagnóstico leva a uma ação diferente. O boxplot marca os candidatos; quem decide é quem conhece o processo que gerou o dado.\n\nO que separa uma resposta boa de uma correta é o **registro**. \"Removi outliers acima de 500 mil (12 linhas, 0,003% da base, 4,1% da receita)\" é método: qualquer pessoa reproduz, e a segunda frase já mostra que apagar 12 linhas apagou 4% da receita — o que provavelmente inviabiliza a remoção. \"Limpei os outliers\" não é reproduzível nem auditável.\n\nRepare no efeito colateral que quase sempre escapa: se as vendas corporativas ficam, o alvo é fortemente assimétrico, e otimizar erro quadrático médio faz o modelo perseguir a cauda. A decisão sobre outliers e a escolha da métrica são a **mesma** decisão tomada duas vezes.",
+   "volte_para": "#faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar",
+   "rubrica": "investiga a origem de cada ponto antes de decidir, em vez de aplicar uma regra automática;\ndistingue explicitamente erro de medida, evento raro legítimo e alvo de interesse;\npropõe um critério declarado e reprodutível (regra escrita, contagem de linhas afetadas), não \"limpei os outliers\";\nconsidera o efeito da decisão sobre a métrica e sobre a escolha entre média e mediana;\nmenciona documentar a decisão para quem for reproduzir ou revisar",
+   "versoes": null,
+   "pagina": "21-analise-exploratoria",
+   "titulo_capitulo": "21 — Análise Exploratória",
+   "criterios": [
+    "investiga a origem de cada ponto antes de decidir, em vez de aplicar uma regra automática",
+    "distingue explicitamente erro de medida, evento raro legítimo e alvo de interesse",
+    "propõe um critério declarado e reprodutível (regra escrita, contagem de linhas afetadas), não \"limpei os outliers\"",
+    "considera o efeito da decisão sobre a métrica e sobre a escolha entre média e mediana",
+    "menciona documentar a decisão para quem for reproduzir ou revisar"
+   ]
+  },
+  {
+   "id": "22-e1",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você quer mostrar **como o tempo de resposta da API se espalha** entre as requisições — se há cauda longa, onde estão os piores casos. Qual forma responde a essa pergunta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Um gráfico de pizza com a fatia de cada faixa de tempo."
+    },
+    {
+     "correta": false,
+     "texto": "Um gráfico de barras com o tempo **médio** de resposta por dia."
+    },
+    {
+     "correta": true,
+     "texto": "Um histograma (ou boxplot) dos tempos de resposta."
+    },
+    {
+     "correta": false,
+     "texto": "Um gráfico de linhas do tempo médio ao longo da semana."
+    }
+   ],
+   "gabarito": "Histograma ou boxplot",
+   "porque": "A pergunta é de **distribuição** — \"como os valores se espalham\" —, e só histograma e boxplot mostram forma, cauda e assimetria. Latência quase sempre tem cauda longa: a média fica confortável e o percentil 99 é o que derruba o usuário.\n\nAs duas alternativas com **média** (barra por dia, linha na semana) são o erro mais comum e o mais caro: elas respondem \"quanto, em geral\" e \"para onde está indo\", que são perguntas de comparação e de evolução — e a média é exatamente a estatística que apaga a cauda que você foi procurar. A pizza é a pior de todas: fatiar o tempo em faixas transforma uma variável contínua em composição, e ainda entrega a comparação ao ângulo, que o olho lê mal.",
+   "volte_para": "#fundamentos-a-pergunta-escolhe-o-grafico",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "22-visualizacao-storytelling",
+   "titulo_capitulo": "22 — Visualização e Storytelling"
+  },
+  {
+   "id": "22-e2",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Um gerente leva à diretoria um gráfico de **barras** com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em **88** e termina em **89,5**. Não há nota de rodapé. O título é \"Satisfação do cliente\". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.\n\nJulgue o gráfico: o que está errado, por que engana, e como você o refaria.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Nenhum número foi falsificado — e é isso que torna o caso instrutivo. O engano está na **codificação**. Numa barra, a quantidade é o comprimento medido a partir de uma base comum; ao começar o eixo em 88, o comprimento passa a representar \"quanto excede 88\", que não é a grandeza do título. Daí a distorção: 1,1 ponto de variação real vira uma diferença visual de cerca de onze vezes.\n\nA correção mínima é a base zero — e note o efeito: com o eixo do zero, as quatro barras ficam praticamente idênticas, que é a verdade do dado. Se a variação pequena for genuinamente relevante (satisfação move-se devagar), a saída honesta não é truncar em silêncio: é trocar para **linha**, onde o codificador é a inclinação, com a escala declarada, mais a meta e a série histórica para dar referência. E vale reparar no título: \"Satisfação do cliente\" é rótulo dos dados, não conclusão — ele delega ao gráfico distorcido o trabalho de afirmar o que o autor não escreveu. Um título que dissesse \"Satisfação subiu 1,1 ponto em um ano\" teria denunciado o próprio gráfico.",
+   "volte_para": "#como-um-grafico-mente-sem-dizer-uma-mentira",
+   "rubrica": "identifica o eixo Y truncado como o problema central;\nexplica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores;\nobserva que a variação real é pequena (cerca de 1,1 ponto, ~1%) e que a impressão visual (~11×) não corresponde a ela;\npropõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível;\nmenciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)",
+   "versoes": null,
+   "pagina": "22-visualizacao-storytelling",
+   "titulo_capitulo": "22 — Visualização e Storytelling",
+   "criterios": [
+    "identifica o eixo Y truncado como o problema central",
+    "explica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores",
+    "observa que a variação real é pequena (cerca de 1,1 ponto, ~1%) e que a impressão visual (~11×) não corresponde a ela",
+    "propõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível",
+    "menciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)"
+   ]
+  },
+  {
+   "id": "22-e3",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
+   "tipo": "completar",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Complete a regra do título num gráfico de apresentação:\n\n`O título de um gráfico que decide deve ser a ______, e não o rótulo dos dados.`",
+   "opcoes": [],
+   "gabarito": "conclusão|conclusao|mensagem",
+   "porque": "O título é o único elemento que todo mundo na sala lê — inclusive quem não vai olhar os eixos. Gastá-lo com \"Vendas por região\" desperdiça a única linha garantida do slide e transfere ao público o trabalho de interpretar; \"Vendas caíram 30% no Sul\" entrega a leitura já feita.\n\nHá um efeito colateral útil: quando você é obrigado a escrever a conclusão no título, descobre se o gráfico realmente a sustenta. Se não sai um título afirmativo, ou o gráfico está errado, ou você ainda não sabe o que achou. É o mesmo teste do slide: se o slide tem duas mensagens, são dois slides.",
+   "volte_para": "#o-grafico-que-decide",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "22-visualizacao-storytelling",
+   "titulo_capitulo": "22 — Visualização e Storytelling"
   },
   {
    "id": "04-e1",
@@ -864,6 +1107,88 @@
     "menciona ao menos um dos três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos) e não apenas o placar",
     "declara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta",
     "considera o custo de iteração dentro do prazo, e não só a métrica final"
+   ]
+  },
+  {
+   "id": "25-e1",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você comparou dois modelos no mesmo conjunto de teste: A deu 0,913 de AUC e B deu 0,907. O bootstrap pareado com mil reamostragens devolveu um intervalo de 95% para a diferença (A − B) de **[−0,004; +0,016]**. O que reportar?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que A é melhor que B, porque a estimativa pontual da diferença é positiva."
+    },
+    {
+     "correta": true,
+     "texto": "Que não há evidência de diferença entre os dois, e a escolha deve usar outro critério."
+    },
+    {
+     "correta": false,
+     "texto": "Que B é melhor, porque o intervalo é mais largo do lado positivo."
+    },
+    {
+     "correta": false,
+     "texto": "Que o experimento falhou e precisa de mais reamostragens."
+    }
+   ],
+   "gabarito": "Não há evidência de diferença; decida por outro critério",
+   "porque": "O intervalo **cruza o zero**, então os dados são compatíveis com A melhor, B melhor e empate. A estimativa pontual de +0,006 existe, mas não se sustenta sozinha — reportá-la como \"A ganhou\" é apresentar ruído como resultado.\n\nE isto é uma boa notícia disfarçada: **quando dois modelos empatam em desempenho, você fica livre para decidir por tudo o mais** — custo de inferência, facilidade de explicar a decisão a um auditor, tempo de treino, número de dependências. Um empate estatístico transfere a decisão da métrica para a engenharia, e quase sempre a engenharia tem preferência clara.\n\nA última alternativa é o erro mais comum na prática: aumentar as reamostragens **não** estreita o intervalo de forma relevante, porque a incerteza vem do **tamanho do conjunto de teste**, não do número de reamostragens. Mil já é suficiente; o que faltaria é mais dado de teste.",
+   "volte_para": "#a-diferenca-e-maior-que-o-ruido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "25-do-modelo-a-decisao",
+   "titulo_capitulo": "25 — Do Modelo à Decisão"
+  },
+  {
+   "id": "25-e2",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um modelo prevê inadimplência. Aprovar um cliente **bom** dá lucro de **R$ 200**. Aprovar um cliente **mau** dá prejuízo de **R$ 1 000**. Negar não gera lucro nem prejuízo (R$ 0), qualquer que seja o cliente.\n\nAcima de qual **probabilidade de inadimplência** vale mais negar do que aprovar? Responda em fração, com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "0,17",
+   "porque": "Chame de *p* a probabilidade de o cliente ser mau. Aprovar tem valor esperado `200 × (1 − p) − 1000 × p`; negar tem valor esperado **0**. O ponto de indiferença é onde os dois se igualam: `200 − 200p − 1000p = 0`, ou seja `200 = 1200p`, então `p = 1/6 ≈ 0,1667` — **0,17** arredondado.\n\nRepare no que acabou de acontecer: o limiar **não é 0,5**. E não é por causa de desequilíbrio de classes — é porque **os erros custam preços diferentes**. Um mau cliente destrói o lucro de cinco bons, então a régua se desloca para o lado cauteloso.\n\nEste é o cálculo que responde a pergunta da diretora lá do início do capítulo. Note também que ele **não usou a AUC**: a AUC serve para escolher o modelo; a matriz de custo serve para operá-lo.",
+   "volte_para": "#da-metrica-ao-dinheiro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "25-do-modelo-a-decisao",
+   "titulo_capitulo": "25 — Do Modelo à Decisão",
+   "gabarito_num": {
+    "valor": 0.17,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "25-e3",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Seu modelo de triagem de currículos alcança 0,89 de AUC no conjunto de teste, bem acima da triagem manual atual. Ao segmentar o resultado, você descobre que o desempenho é **0,91 para candidatos formados nas cinco universidades mais frequentes na base histórica** e **0,63 para os demais**.\n\nEscreva a recomendação que você levaria à diretoria — incluindo o que você recomenda fazer e por quê.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca compara 0,89 com a triagem manual e recomenda lançar. A resposta forte percebe que **a média esconde a decisão**: para 0,63 de AUC o modelo está perto do acaso, e \"perto do acaso\" aplicado a currículos significa descartar gente por sorteio — enquanto a empresa acredita estar usando um sistema de 0,89.\n\nO ponto mais fino, e o que separa uma boa resposta de uma excelente: o modelo provavelmente **não está errado sobre os dados** — ele aprendeu corretamente um padrão que existe no histórico. Aprendeu **quem a empresa costumava contratar**. É exatamente o vazamento do [capítulo 02](02-dados.md) em versão social: o modelo capturou o processo de coleta em vez do fenômeno. E a decisão de lançar ou não **não é técnica** — é a mesma lição da seção \"De onde isto veio\": alguém precisa dizer quanto custa cada erro, e aqui o custo recai sobre pessoas que não estão na sala.",
+   "volte_para": "#a-decisao-de-nao-lancar",
+   "rubrica": "identifica que a média de 0,89 esconde um desempenho ruim num subgrupo;\nreconhece que o subgrupo pior corresponde a quem já era minoria na base histórica, o que caracteriza aprendizado do processo de seleção passado e não da competência dos candidatos;\nNÃO recomenda lançar como está;\npropõe ao menos uma ação concreta — reponderar/coletar dados do subgrupo, usar o modelo só como apoio com revisão humana, ou restringir o escopo declarando a limitação;\nmenciona a consequência para pessoas reais, não só a métrica",
+   "versoes": null,
+   "pagina": "25-do-modelo-a-decisao",
+   "titulo_capitulo": "25 — Do Modelo à Decisão",
+   "criterios": [
+    "identifica que a média de 0,89 esconde um desempenho ruim num subgrupo",
+    "reconhece que o subgrupo pior corresponde a quem já era minoria na base histórica, o que caracteriza aprendizado do processo de seleção passado e não da competência dos candidatos",
+    "NÃO recomenda lançar como está",
+    "propõe ao menos uma ação concreta — reponderar/coletar dados do subgrupo, usar o modelo só como apoio com revisão humana, ou restringir o escopo declarando a limitação",
+    "menciona a consequência para pessoas reais, não só a métrica"
    ]
   },
   {
