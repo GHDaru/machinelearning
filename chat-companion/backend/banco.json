@@ -1633,6 +1633,171 @@
    ]
   },
   {
+   "id": "09-e1",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/09-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma rede tem duas camadas densas empilhadas, **sem nenhuma função de ativação entre elas**. O que essa rede consegue computar?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Qualquer função contínua, pelo teorema da aproximação universal — basta ter unidades suficientes."
+    },
+    {
+     "correta": true,
+     "texto": "Exatamente o mesmo conjunto de funções que uma única camada linear."
+    },
+    {
+     "correta": false,
+     "texto": "O XOR, porque já são duas camadas e duas fronteiras."
+    },
+    {
+     "correta": false,
+     "texto": "O dobro de fronteiras de decisão de uma camada só, mas todas paralelas entre si."
+    }
+   ],
+   "gabarito": "Exatamente o mesmo que uma única camada linear",
+   "porque": "Aplicar `W₂(W₁x + b₁) + b₂` é aplicar `(W₂W₁)x + (W₂b₁ + b₂)`. O produto de duas matrizes é uma matriz: a composição colapsa. Você pagou o dobro de parâmetros e de tempo de treino para obter um modelo linear.\n\nAs erradas todas confundem **profundidade** com **poder de representação**. O teorema exige a não-linearidade — é ela que impede o colapso; sem ativação, o teorema simplesmente não se aplica. O XOR continua impossível pelo mesmo motivo do [capítulo 18](18-neuronio-artificial.md): a função computada ainda é uma reta, e reta nenhuma separa cantos opostos. E \"fronteiras paralelas\" é uma imagem sedutora e falsa — não há duas fronteiras, há uma.\n\nA moral prática: **a não-linearidade é o que torna a camada uma camada.** Empilhar transformações lineares não constrói hierarquia nenhuma.",
+   "volte_para": "#fundamentos-a-camada-escondida-e-o-xor-resolvido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "09-redes-neurais",
+   "titulo_capitulo": "09 — Redes Multicamadas"
+  },
+  {
+   "id": "09-e2",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/09-redes-neurais.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Um MLP densa tem **4 entradas**, uma camada escondida de **5 unidades** e **3 saídas**. Todas as camadas têm **viés**.\n\nQuantos parâmetros treináveis a rede tem no total?",
+   "opcoes": [],
+   "gabarito": "43",
+   "porque": "Conte camada por camada. Primeira: uma matriz 4×5 = 20 pesos, mais 5 vieses (um por unidade de destino) = **25**. Segunda: 5×3 = 15 pesos, mais 3 vieses = **18**. Total **43**.\n\nA regra que vale levar: **os pesos de uma camada formam uma matriz `entradas × saídas`, e há um viés por unidade de destino** — nunca por unidade de origem. Errar isso é o bug mais comum de quem implementa a rede em NumPy pela primeira vez, e ele não aparece como erro de matemática: aparece como uma exceção de dimensão incompatível no passo para frente, ou pior, como uma soma que \"funciona\" por *broadcasting* e treina errado.\n\nRepare também na escala: 43 parâmetros para uma rede minúscula. Acrescente uma camada escondida de 100 unidades e você passa de mil. É por isso que o custo do passo para trás importa tanto.",
+   "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "09-redes-neurais",
+   "titulo_capitulo": "09 — Redes Multicamadas",
+   "gabarito_num": {
+    "valor": 43,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "09-e3",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/09-redes-neurais.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Um colega justifica a escolha da arquitetura assim: *\"pelo teorema da aproximação universal, uma camada escondida basta — então se o modelo não está aprendendo, é porque faltam unidades.\"*\n\nExplique por que o teorema **não** sustenta essa conclusão, e liste o que mais pode estar impedindo o treino.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O teorema é uma afirmação sobre o **conjunto de funções representáveis** por uma arquitetura. A frase do colega é uma afirmação sobre o **procedimento de busca**. São perguntas diferentes, e a segunda é a que atrapalha na prática.\n\n\"Não construtivo\" é o termo exato: garante-se que o objeto existe sem dar receita para construí-lo. O teorema não dá o número de unidades — e o número que serve pode ser proibitivo. Não dá os pesos. Não promete que o gradiente descendente, saindo da inicialização que você usou, chegue lá.\n\nUma boa resposta enumera as suspeitas alternativas antes de mexer no tamanho: inicialização (pesos todos iguais quebram a simetria e todas as unidades aprendem a mesma coisa), gradiente que some ou explode ao atravessar camadas, taxa de aprendizado grande demais ou pequena demais, atributos em escalas muito diferentes, rótulos com ruído. E propõe o teste barato que decide entre capacidade e bug: **tente decorar 50 exemplos**. Se a rede não consegue nem isso, acrescentar unidades não vai salvar — há um defeito no caminho do gradiente.\n\nÉ esta a distinção que explica os vinte anos entre 1986 e as redes profundas que funcionam ([capítulo 26](26-treinar-redes-profundas.md)). O espaço de hipóteses sempre continha a solução. O que faltava era como chegar nela.",
+   "volte_para": "#quantas-camadas-e-quantas-unidades-a-decisao-e-empirica",
+   "rubrica": "distingue **representabilidade** (a função está no espaço de hipóteses) de **treinabilidade** (o procedimento de busca chega até ela);\naponta que o teorema é **não construtivo** — não diz quantas unidades, nem como achar os pesos;\ncita ao menos dois impedimentos que não são capacidade: inicialização ruim, gradiente que some ou explode, otimização presa, dados insuficientes ou mal escalados, perda ou taxa de aprendizado inadequadas;\nreconhece que \"faltam unidades\" é uma hipótese testável — e diz como testá-la (tentar overfitar um subconjunto pequeno);\nnão afirma que o teorema está errado, apenas que ele responde a outra pergunta",
+   "versoes": null,
+   "pagina": "09-redes-neurais",
+   "titulo_capitulo": "09 — Redes Multicamadas",
+   "criterios": [
+    "distingue **representabilidade** (a função está no espaço de hipóteses) de **treinabilidade** (o procedimento de busca chega até ela)",
+    "aponta que o teorema é **não construtivo** — não diz quantas unidades, nem como achar os pesos",
+    "cita ao menos dois impedimentos que não são capacidade: inicialização ruim, gradiente que some ou explode, otimização presa, dados insuficientes ou mal escalados, perda ou taxa de aprendizado inadequadas",
+    "reconhece que \"faltam unidades\" é uma hipótese testável — e diz como testá-la (tentar overfitar um subconjunto pequeno)",
+    "não afirma que o teorema está errado, apenas que ele responde a outra pergunta"
+   ]
+  },
+  {
+   "id": "26-e1",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Numa rede com sigmoide, suponha que cada camada atravessada multiplique o gradiente por **0,25** (o melhor caso da sigmoide). A partir de quantas camadas o gradiente que chega à primeira fica **abaixo de um milionésimo** (10⁻⁶) do que saiu da última?\n\nResponda com um número inteiro de camadas.",
+   "opcoes": [],
+   "gabarito": "10 ± 0,4",
+   "porque": "É a conta `0,25ⁿ < 10⁻⁶`. Cada camada tira um fator 4: 0,25⁵ ≈ 0,00098 (um milésimo) e 0,25¹⁰ ≈ 0,00000095 — abaixo do milionésimo já na décima camada.\n\nO que importa não é o 10, é a **forma da curva**. Não há degradação suave: a cada cinco camadas o sinal perde três casas decimais. Por isso nenhum ajuste de taxa de aprendizado resolve — multiplicar o passo por 10 devolve uma casa de um buraco de seis. Compare com uma rede de 3 camadas (0,25³ ≈ 0,016, perfeitamente treinável) e você tem a razão de duas camadas treinarem sozinhas e vinte não treinarem de jeito nenhum.",
+   "volte_para": "#fundamentos-o-gradiente-e-um-produto-e-produtos-sao-traicoeiros",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "26-treinar-redes-profundas",
+   "titulo_capitulo": "26 — Treinar Redes Profundas",
+   "gabarito_num": {
+    "valor": 10,
+    "tolerancia": 0.4
+   }
+  },
+  {
+   "id": "26-e2",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe troca a ativação de uma rede de 30 camadas de `tanh` para `ReLU` e mantém a inicialização de Xavier/Glorot, que vinha funcionando. O treino, que antes convergia devagar, agora estagna. Qual é a explicação mais precisa?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A ReLU é inadequada para redes muito profundas; acima de ~20 camadas só ativações saturantes funcionam."
+    },
+    {
+     "correta": true,
+     "texto": "A dedução de Xavier supõe ativação aproximadamente linear; sob ReLU, metade das entradas é zerada e a variância do sinal encolhe camada a camada — a inicialização He corrige isso com o fator 2."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é a taxa de aprendizado: ReLU exige taxa menor, e basta dividi-la por 10."
+    },
+    {
+     "correta": false,
+     "texto": "Inicialização não interage com a ativação; as duas escolhas são independentes e o problema está em outro lugar."
+    }
+   ],
+   "gabarito": "Xavier supõe ativação linear — hipótese inválida sob ReLU; use a inicialização He",
+   "porque": "Inicialização e ativação **não são escolhas independentes**: a inicialização existe para preservar a variância do sinal, e quanto de variância sobrevive depende de qual ativação está no caminho. A ReLU zera as entradas negativas, ou seja, descarta cerca de metade do sinal — algo que a dedução de Xavier, feita no regime linear, não previa. Trinta camadas de encolhimento de variância reproduzem o desaparecimento do gradiente com outra causa imediata e a mesma matemática por trás: um produto.\n\nSobre as erradas: **a ReLU é justamente o que viabilizou redes profundas**, não o que as impede. **Dividir a taxa por 10** não muda a variância propagada — é o clássico ajuste de hiperparâmetro contra uma exponencial. E dizer que as duas escolhas são independentes é exatamente o mal-entendido que este exercício existe para desfazer.",
+   "volte_para": "#inicializacao-por-que-zero-nao-funciona-e-por-que-a-variancia-importa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "26-treinar-redes-profundas",
+   "titulo_capitulo": "26 — Treinar Redes Profundas"
+  },
+  {
+   "id": "26-e3",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Uma equipe treina uma rede densa de 40 camadas com sigmoide, inicialização uniforme pequena e SGD. A perda cai de 2,30 para 2,25 na primeira época e depois não se move por 50 épocas. A acurácia fica em nível de acaso. Em três semanas, a equipe trocou o otimizador de SGD para Adam, depois para RMSProp, testou seis taxas de aprendizado e dobrou o conjunto de dados. Nada mudou.\n\nDiga o que você mediria **antes** de propor qualquer correção, qual é o diagnóstico mais provável e o que faria em seguida.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca escolhe um remédio — \"use ReLU\", \"põe batch norm\" — e pode até acertar por sorte. A resposta forte faz o que a tese de 1991 fez: **mede primeiro**. Uma linha que imprime a norma do gradiente por camada encerra a discussão em minutos, e mostra a queda de várias ordens de grandeza entre a camada 40 e a camada 1.\n\nAs três semanas perdidas são o conteúdo do exercício, não um detalhe do enunciado. Otimizador, taxa de aprendizado e volume de dados são todos ajustes **multiplicativos sobre um sinal que não existe**. Nenhum deles poderia funcionar, e isso era previsível antes do primeiro teste — bastava conhecer o diagnóstico.\n\nSobre o critério de otimizador, que é o objetivo aqui: Adam é a escolha certa para iterar rápido e perdoa taxa mal escolhida; SGD com momento e boa agenda costuma generalizar igual ou melhor quando há orçamento de ajuste. Mas a pergunta \"Adam ou SGD?\" só é legítima **depois** que o sinal chega às camadas do fundo. Antes disso, ela é uma pergunta bem formulada sobre o problema errado.",
+   "volte_para": "#o-kit-de-conserto-um-diagnostico-quatro-remedios-vinte-e-cinco-anos",
+   "rubrica": "propõe **medir antes de corrigir** — norma do gradiente por camada, e/ou distribuição das ativações por camada, comparando o topo com o fundo da rede;\nidentifica o desaparecimento do gradiente como diagnóstico mais provável, ligando-o à sigmoide (derivada ≤ 0,25) elevada a ~40 camadas;\nexplica **por que a troca de otimizador não podia funcionar**: otimizador reescala o passo, não restaura sinal que chegou como 10⁻²⁰ — nenhum hiperparâmetro conserta uma exponencial;\npropõe correções que atacam o produto (ReLU, inicialização He, conexões residuais, normalização), não hiperparâmetros;\ndistingue os sintomas: perda travada = gradiente sumindo; perda em `NaN` = gradiente explodindo, e aí o remédio é o grampo",
+   "versoes": null,
+   "pagina": "26-treinar-redes-profundas",
+   "titulo_capitulo": "26 — Treinar Redes Profundas",
+   "criterios": [
+    "propõe **medir antes de corrigir** — norma do gradiente por camada, e/ou distribuição das ativações por camada, comparando o topo com o fundo da rede",
+    "identifica o desaparecimento do gradiente como diagnóstico mais provável, ligando-o à sigmoide (derivada ≤ 0,25) elevada a ~40 camadas",
+    "explica **por que a troca de otimizador não podia funcionar**: otimizador reescala o passo, não restaura sinal que chegou como 10⁻²⁰ — nenhum hiperparâmetro conserta uma exponencial",
+    "propõe correções que atacam o produto (ReLU, inicialização He, conexões residuais, normalização), não hiperparâmetros",
+    "distingue os sintomas: perda travada = gradiente sumindo",
+    "perda em `NaN` = gradiente explodindo, e aí o remédio é o grampo"
+   ]
+  },
+  {
    "id": "10-e1",
    "capitulo": 10,
    "arquivo": "livro/capitulos/10-visao.md",
