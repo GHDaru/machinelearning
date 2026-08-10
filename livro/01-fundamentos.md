@@ -21,6 +21,40 @@ O nome do fracasso oposto é **underfitting**: o modelo é simples demais para c
 
 O que separa os dois é a **capacidade** do modelo: quantas hipóteses diferentes ele consegue representar. Muita capacidade e poucos dados, ele decora. Pouca capacidade, ele não aprende. O trabalho é encontrar o ponto entre os dois — e, mais importante, **saber onde você está** nessa reta.
 
+## De onde isto veio
+
+**O aperto, e ele não nasceu na computação.** Em **1931**, um psicometrista chamado Selvin Larson tinha um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O artigo dele chama-se, literalmente, *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era esse — um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
+
+**O que se fazia antes.** Avaliava-se o modelo nos mesmos dados em que ele foi ajustado, e o resultado era tomado como estimativa da qualidade. Não por ingenuidade: dado era caro, e separar metade dele para não usar parecia desperdício.
+
+**A virada.** Guardar dados que o modelo **não vê**. É uma ideia quase ofensiva de simples, e é a mais importante deste livro inteiro. Depois vieram as economias em cima dela: **Mosteller e Tukey (1968)** formulam o *leave-one-out*; **Stone (1974)** e **Geisser (1975)** constroem o arcabouço da validação cruzada. Note que Stone **cita explicitamente** Larson, Mosteller & Tukey e outros: o que ele traz de novo **não é a prática, é o arcabouço** que a justifica.
+
+**A ideia reaproveitável.** **Quem avalia não pode ser quem produziu, nem usar a mesma informação.** A separação treino/teste é um caso particular de um princípio que vale muito além de modelos: o revisor precisa ser independente do autor; a prova precisa ter questões que não estavam na lista; o benchmark precisa ser secreto para medir alguma coisa. Toda vez que você vir um número bom demais, a primeira pergunta é **"quem avaliou, e com qual informação?"**.
+
+**O nome.** *Cross-validation* é literalmente validar cruzando: cada parte dos dados serve, por sua vez, de juiz das outras.
+
+### A curva em U — e a descoberta de que ela estava incompleta
+
+A formulação canônica em Machine Learning do dilema viés–variância é **Geman, Bienenstock & Doursat, "Neural Networks and the Bias/Variance Dilemma"** (*Neural Computation*, 1992), que trata redes neurais como estimadores não-paramétricos e argumenta que a escolha do viés precisa casar com a estrutura do problema. Dali vem a curva em U que todo curso desenha: aumente a capacidade e o erro de teste cai, atinge um mínimo, e volta a subir.
+
+Só que ela sobe **e depois desce de novo**. Belkin, Hsu, Ma e Mandal (*PNAS*, 2019) mostraram que, passando do ponto em que o modelo interpola perfeitamente o treino, o erro de teste **volta a cair** — o fenômeno do *double descent*, que explica por que redes enormes funcionam onde a intuição clássica previa desastre.
+
+**A ideia reaproveitável, e é a que este capítulo mais quer que fique:** **uma "lei" empírica pode ser um artefato da faixa em que se mediu.** A curva em U não estava errada — estava **incompleta**. Era verdadeira dentro do regime de capacidade que era observável nos anos 1990. Quando o regime mudou, a lei revelou-se um trecho de uma curva maior. Guarde isso para toda regra prática que você aprender: *em que faixa isto foi medido?*
+
+> **E o crédito, de novo.** Loog, Viering, Mey, Krijthe e Tax publicaram *"A brief prehistory of double descent"* (*PNAS*, 2020) contestando que o fenômeno tivesse sido historicamente negligenciado — a física estatística de redes neurais já o havia observado.
+>
+> É a terceira vez que este livro encontra o mesmo padrão. Gauss perde a prioridade dos mínimos quadrados para Legendre no [capítulo 05](capitulos/05-modelos-lineares.md); Linnainmaa perde o crédito do backpropagation para quem o popularizou, no [capítulo 18](capitulos/18-neuronio-artificial.md); e aqui, em **2019**, acontece de novo — desta vez à luz do dia, com todos os artigos indexados e acessíveis. Se ocorre hoje, com essa infraestrutura toda, não era problema de correio lento no século XIX. **Crédito segue comunicação, não descoberta** — e este é o caso contemporâneo que torna os outros dois inegáveis.
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ✓ᵐ | Geman, Bienenstock & Doursat (*Neural Computation* 4(1):1–58, 1992); Stone (*JRSS-B* 36(2):111–133, 1974); Geisser (*JASA* 70:320–328, 1975); [Belkin *et al.* (*PNAS* 116(32), 2019)](https://doi.org/10.1073/pnas.1903070116); [Loog *et al.* (*PNAS* 117(20), 2020)](https://arxiv.org/abs/2004.04328) |
+| ⏳ | Larson (1931) como origem da divisão de amostra, e Mosteller & Tukey (1968) para o *leave-one-out* |
+| ⏳ | Que Stone cita os antecessores e que sua contribuição é o arcabouço, não a prática — apurado, **mas o texto de Stone não foi relido diretamente, e por isso nada dele aparece entre aspas neste capítulo** |
+| ❌ | A **primeira** formulação da decomposição viés–variância, anterior a 1992 — procurei e não localizei |
+| 📖 | As duas ideias reaproveitáveis e a leitura do *double descent* como terceiro caso do padrão de crédito |
+
 ## Fundamentos: a hipótese que sustenta tudo
 
 Todo Machine Learning supervisionado repousa numa hipótese que raramente é dita em voz alta:

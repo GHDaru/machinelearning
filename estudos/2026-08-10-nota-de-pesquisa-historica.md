@@ -180,3 +180,74 @@ Ordenada por **quanta dúvida cada fonte fecha por unidade de esforço** — nã
 - **Não abriu nenhuma fonte primária.** Toda a pesquisa desta passada é de localização e triangulação entre secundárias. Por isso o selo mais alto aqui é **✓ᵐ**, e não há um único **✓** — o que é a resposta honesta, não modéstia: `✓` exige ter lido o texto.
 - **Não cobriu os capítulos 25, 03, 01, 02, 06 e 07.** Marcados ❌ no sentido de *não pesquisados nesta passada*, que é diferente de *procurei e não existe*.
 - **Não resolveu o caso OLAP.** É a afirmação mais séria da nota — envolve conduta de pessoas reais — e a que tem a fonte mais fraca. Está registrada com esse desconforto explícito, e não entra no corpo do livro como fato até fechar.
+
+
+---
+
+# 2ª passada — capítulos 01, 02, 06 e 07
+
+> **Data:** 2026-08-10 · Cobre a sobreposição com os capítulos que já tinham corpo (dívida D8).
+>
+> **Novidade desta passada: há um ✓ de verdade.** [Lemaréchal, *Cauchy and the Gradient Method*, Documenta Mathematica, 2012](https://ems.press/content/book-chapter-files/27368?nt=1) foi **lido por inteiro**, e transcreve o francês original de Cauchy em nota de rodapé. É a primeira afirmação do livro que sai de fonte aberta e lida, e não de triangulação.
+
+## Cap. 06 — Gradiente (Cauchy, 18 de outubro de 1847)
+
+Cauchy queria a **órbita de um corpo celeste**, com seis incógnitas, à mão. Critica a eliminação sucessiva por dois motivos que ele enumera: em muitos casos ela simplesmente não se efetua, e a equação resultante fica complicadíssima mesmo partindo de equações simples. A virada: se a função nunca é negativa, **não é preciso resolvê-la — basta fazê-la decrescer** até que se anule. ✓
+
+**Três detalhes de ouro, todos ✓:**
+
+1. Para sistemas de várias equações, Cauchy manda minimizar a **soma dos quadrados** dos resíduos. Ou seja: **o cap. 06 executa o objetivo que o cap. 05 inventou.**
+2. **Cauchy não prova convergência, e sabe disso.** Diz que se limita, por ora, a indicar os princípios, prometendo voltar "num próximo Memória". Lemaréchal observa que esse próximo memorial **parece não existir**. O matemático mais rigoroso do século publicou um algoritmo sem garantia e nunca voltou.
+3. **Bônus para o cap. 05:** Lemaréchal cita Gauss sobre a disputa com Legendre — que não imaginava que Legendre tivesse tanto apego a uma ideia tão simples, e que deveria antes causar espanto ninguém a ter tido cem anos antes. ✓ como transcrição; ⏳ para a correspondência original.
+
+**Regularização:** Hadamard (1923) define problema bem-posto; Tikhonov publica em 1943 e 1963, com Phillips (1962) chegando a algo equivalente de forma independente ⏳. Ridge é Hoerl & Kennard, *Technometrics*, 1970 ✓ᵐ — origem industrial, engenharia química, e o "ridge" alude às cristas dos gráficos de superfície de resposta ⏳. LASSO é Tibshirani, *JRSS-B*, 1996 ✓ᵐ, herdeiro do *non-negative garrote* de Breiman (1995) ⏳. **Early stopping: ❌** — não localizei atribuição primária confiável.
+
+## Cap. 07 — Árvores e ensembles
+
+**Breiman deixou a academia em 1967**, passou treze anos consultando e voltou a Berkeley em **1980**; modelava tráfego em autoestradas, gargalos do sistema judiciário e ozônio em Los Angeles ✓ᵐ. **CART nasce da consultoria, não do seminário.**
+
+**Boosting inverte o padrão do livro.** Kearns & Valiant (1988) fizeram uma **pergunta teórica** — um aprendiz pouco melhor que o acaso pode virar arbitrariamente bom? Schapire (1990) respondeu que sim, e **a prova era construtiva**: a construção era o método ✓ᵐ. Ninguém procurava boosting; procurava-se saber se era possível.
+
+**❌ desta passada:** o nome do projeto de consultoria específico que gerou o CART; a expansão de *AdaBoost* na fonte de 1997.
+
+## Cap. 01 — Fundamentos
+
+Divisão treino/teste é **mais antiga do que se conta**: Larson (1931), psicometria, medindo o encolhimento do R múltiplo ⏳. Mosteller & Tukey (1968) formulam o *leave-one-out* ⏳. Stone (1974) e Geisser (1975) constroem o arcabouço ✓ᵐ — e Stone **cita os antecessores**: o novo dele não é a prática, é o arcabouço.
+
+Viés–variância em ML: Geman, Bienenstock & Doursat (1992) ✓ᵐ. **A origem da decomposição, anterior a eles, é ❌** — procurei e não achei.
+
+*Double descent*: Belkin *et al.* (*PNAS*, 2019) ✓ᵐ, **com contestação publicada** — Loog *et al.*, "A brief prehistory of double descent" (*PNAS*, 2020) ✓ᵐ, sustentando que o fenômeno não fora historicamente negligenciado.
+
+> ⚠ **Aviso de método desta passada.** O PDF de Stone (1974) foi aberto, mas a extração devolveu texto **parafraseado**. Por isso **nada de Stone entra entre aspas** em nenhum capítulo até releitura direta. É exatamente a armadilha que o Princípio X nomeia — resumo não é fonte —, apanhada em flagrante dentro do próprio processo.
+
+## Cap. 02 — Dados
+
+Vazamento: Kaufman, Rosset, Perlich & Stitelman, *ACM TKDD*, 2012 ✓ᵐ. O gatilho foram **competições públicas quebradas** — INFORMS 2010, IJCNN 2011, KDD-Cup 2007 — e o emblema é a **KDD Cup 2008**, mamografia, em que o **identificador do paciente** tinha poder preditivo enorme ⏳.
+
+Fichas de dataset: Gebru *et al.*, arXiv:1803.09010 (2018), *CACM* (2021) ✓ᵐ. A analogia com a folha de dados da **eletrônica** está declarada no resumo.
+
+**❌:** casos de datasets clássicos que envelheceram mal — existem e são citados, **nenhum verificado**. Nenhum é nomeado no capítulo.
+
+## Fios novos
+
+**4. Cauchy fecha o triângulo 05 → 06.** Mínimos quadrados (1805/1809) dá o alvo; Cauchy (1847) dá o como, e manda explicitamente somar os quadrados. Os dois capítulos agora se citam.
+
+**5. O padrão "ideia → procedimento" ganha casos… e uma exceção que o explica.** Larson 1931 → Stone 1974 são **43 anos**, idêntico a Yule → Box–Jenkins. Mas **boosting inverte**: pergunta em 1988, resposta em 1990, AdaBoost em 1995 — **sete anos**. A diferença é que ali o aperto já estava formulado como **pergunta formal precisa**. O gargalo nunca foi o tempo nem o computador: é a **precisão da pergunta**. Isso reescreve o fio 2 e o torna acionável.
+
+**6. *Double descent* é o fio 1 pela terceira vez — e a versão contemporânea.** Belkin *et al.* levam o crédito por algo que, segundo Loog *et al.*, já estava publicado. Com Gauss×Legendre e Linnainmaa×Rumelhart, são três casos; este é o único **de 2019**, com tudo indexado e acessível. Se acontece hoje, não era problema de correio lento no século XIX.
+
+**7. Um método pode nascer duas vezes do mesmo diagnóstico.** "Instabilidade" leva Breiman ao garrote → LASSO (cap. 06) e ao *bagging* (cap. 07).
+
+## Fila de verificação (acrescenta à anterior)
+
+| # | Fonte | O que fecha | Esforço |
+|---|---|---|---|
+| 1 | [Loog *et al.*, arXiv:2004.04328](https://arxiv.org/abs/2004.04328) — 2 pp., aberto | ✓ᵐ → ✓ no fio 6; lista as fontes pré-1999 | baixo |
+| 2 | [Gebru *et al.*, arXiv:1803.09010](https://arxiv.org/abs/1803.09010) | ✓ᵐ → ✓ na motivação e na analogia | baixo |
+| 3 | [Kaufman *et al.*, TKDD 2012 (PDF aberto)](https://www.cs.umb.edu/~ding/history/470_670_fall_2011/papers/cs670_Tran_PreferredPaper_LeakingInDataMining.pdf) | ✓ᵐ → ✓ no caso *Patient ID* | baixo |
+| 4 | **Stone (1974), releitura direta** | permite **citar** — hoje proibido | baixo |
+| 5 | [Schapire (1990)](http://www.schapire.net/papers/strengthofweak.pdf) | ✓ᵐ → ✓ no enunciado de Kearns & Valiant | médio |
+| 6 | [Quinlan (1986)](https://hunch.net/~coms-4771/quinlan.pdf) | ⏳ → ✓ no desafio de Michie e no crédito a Hunt | médio |
+| 7 | Breiman, *Statistical Modeling: The Two Cultures* (2001) | os projetos de consultoria em 1ª pessoa | médio |
+| 8 | Casos de dataset enviesado (cap. 02) | ❌ → 1ª passada | alto |
+| 9 | Cauchy, *C. R. Acad. Sci. Paris* 25:536–538 (Gallica) | ✓ via Lemaréchal → ✓ direto | médio |

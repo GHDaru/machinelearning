@@ -32,6 +32,49 @@ Medimos. No dado do experimento da [etapa 07](../trilha-ml-zero.md), com o teto 
 
 O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que ele não tem como ir bem. Já uma árvore de **profundidade 3** — três perguntas encadeadas — chega a 98% do teto.
 
+## De onde isto veio
+
+### As árvores: Breiman fora da universidade
+
+**O aperto.** Leo Breiman **deixou a academia em 1967** e passou treze anos como consultor, voltando a Berkeley só em **1980**. Nesse período ele modelou coisas como padrões de tráfego em autoestradas, gargalos no sistema judiciário e o nível de ozônio do dia seguinte na bacia de Los Angeles. Três características em comum, e nenhuma delas aparece num seminário de estatística: **variáveis de tipos misturados** (número, categoria, ordem), **dados faltando** por razões banais, e o resultado tendo de ser explicado a quem **não lê estatística** — um juiz, um engenheiro de tráfego, um secretário municipal.
+
+**O que se fazia antes.** Modelos paramétricos que exigiam que o consultor jurasse a forma da relação antes de olhar o dado, e que devolviam uma equação impossível de defender numa reunião com quem decide.
+
+**A virada.** Um modelo que **é a própria explicação**: uma sequência de perguntas binárias sobre os atributos. A árvore não aproxima uma função e depois se explica — ela **já é** o organograma da decisão. E lida com tipo misto sem esforço, porque cada corte só precisa saber comparar dentro de um atributo.
+
+**A ideia reaproveitável.** **A restrição de quem vai usar o resultado é um requisito de projeto, não uma limitação a lamentar.** CART tem a forma que tem porque nasceu na consultoria e não no seminário. Sempre que você escolher um modelo, a pergunta "quem vai precisar defender esta decisão, e para quem?" muda a resposta — e é uma pergunta técnica, não política.
+
+**O nome.** *Classification and Regression Trees* (Breiman, Friedman, Olshen & Stone, Wadsworth, **1984**). Em paralelo, na linha da inteligência artificial, Quinlan desenvolve o **ID3** — *Iterative Dichotomiser 3* —, herdeiro do CLS de Hunt (1966); conta-se que o gatilho foi um desafio de Donald Michie: decidir, só por atributos do tabuleiro, se um final de xadrez Rei-Torre contra Rei-Cavalo está perdido em número fixo de lances.
+
+### O boosting: uma pergunta que virou algoritmo
+
+Esta é a origem menos conhecida e a mais instrutiva do capítulo, porque **ninguém estava procurando boosting**.
+
+Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Em **1990**, Robert Schapire respondeu que **sim** — e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
+
+**A ideia reaproveitável.** **Uma pergunta bem-posta sobre limites vira algoritmo.** Quando você consegue formular precisamente *"isto é possível?"*, a resposta afirmativa frequentemente já contém o *como*. Vale mais aprender isso do que decorar o AdaBoost.
+
+> **Repare no relógio.** Em quase todo o resto deste livro, a distância entre a ideia e o procedimento utilizável é de décadas: 1943→1958 no [capítulo 18](18-neuronio-artificial.md), 1927→1970 no [24](24-series-temporais.md), 1931→1974 no [01](../01-fundamentos.md). No boosting são **sete anos** — pergunta em 1988, resposta em 1990, algoritmo em 1995.
+>
+> A diferença não é a época nem o computador. É que aqui **o aperto já estava formulado como uma pergunta formal precisa**. Quando a pergunta é vaga, a espera é longa; quando é exata, a resposta traz o método junto. Isso é uma dica prática sobre como gastar o seu tempo: afiar a pergunta costuma render mais que procurar a solução.
+
+### E a ponte com o capítulo 06
+
+Bagging — *bootstrap aggregating*, Breiman, 1996 — vem do mesmo diagnóstico que produziu o LASSO no [capítulo 06](06-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
+
+Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularização. Do lado **"instabilidade é insumo"** saiu o bagging: se o modelo varia muito com o dado, então **perturbe de propósito** e tire a média. Random Forests (2001) é a mesma frase dita de novo, com uma perturbação a mais. **O mesmo diagnóstico, dois métodos, dois capítulos.**
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ✓ᵐ | Breiman deixando a academia em 1967, os treze anos de consultoria, o retorno em 1980 e os três exemplos de projeto — [memorial da Estatística de Berkeley](https://statistics.berkeley.edu/about/memoriam/memory-leo-breiman) |
+| ✓ᵐ | CART (1984), *bagging* (*Machine Learning* 24:123–140, 1996), Random Forests (2001), Schapire (*Machine Learning* 5:197–227, 1990): obra, ano e veículo |
+| ⏳ | A pergunta de Kearns & Valiant (1988) e sua formulação como manuscrito sobre *hypothesis boosting* |
+| ⏳ | O desafio de Michie a Quinlan e o final Rei-Torre × Rei-Cavalo; a filiação do ID3 ao CLS de Hunt (1966) |
+| ❌ | O **nome do projeto de consultoria específico** que gerou o CART — procurei e não achei em primária |
+| 📖 | As três ideias reaproveitáveis, a leitura sobre o relógio do boosting e a ponte com o capítulo 06 |
+
 > **Números deste capítulo.** Todos saem de [`ml-zero/etapa-07/rodar.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-07/rodar.py), com seed fixa. Rodar duas vezes dá o mesmo resultado (Princípio II).
 
 > ⚠ **Honestidade sobre o experimento.** O dado foi **construído** com uma regra que é literalmente uma árvore pequena — uma interação e uma quebra. Árvores têm vantagem estrutural aqui **por construção**, e seria desonesto apresentar isso como descoberta. O experimento serve para tornar visível *por que* a vantagem existe, não para provar que ela sempre existe. A evidência de que dado tabular real tende a ter essa forma está em Grinsztajn et al. (2022), adiante.

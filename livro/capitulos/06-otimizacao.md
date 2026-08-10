@@ -17,6 +17,48 @@
 
 Este capítulo é sobre duas coisas que parecem opostas e são complementares: **descer** a paisagem da perda, e **impedir** que a descida vá longe demais.
 
+## De onde isto veio
+
+### A descida: Cauchy, 18 de outubro de 1847
+
+**O aperto.** Augustin-Louis Cauchy queria calcular a **órbita de um corpo celeste**. Não pelas equações diferenciais do movimento, mas pelas equações finitas que o representam, tomando como incógnitas os próprios elementos da órbita — *"Então as incógnitas são em número de seis."* Seis incógnitas, resolvidas à mão, em 1847.
+
+**O que se fazia antes.** Eliminação sucessiva: reduzir o sistema a uma equação só. Cauchy lista por que não serve, e a lista é honesta: *"1º que, num grande número de casos, a eliminação não pode efetuar-se de maneira alguma; 2º que a equação resultante é geralmente muito complicada, mesmo quando as equações dadas são bastante simples"*.
+
+**A virada.** Se a função nunca é negativa, **não é preciso resolvê-la — basta fazê-la decrescer**. Nas palavras dele: *"Para achar os valores de x, y, z… que verificarão a equação u = 0, bastará fazer decrescer indefinidamente a função u, até que ela se anule."* Descer contra a derivada, um passo pequeno de cada vez.
+
+**A ideia reaproveitável.** **Trocar "resolver" por "melhorar repetidamente".** Quando a solução fechada não existe, ou existe e explode em complexidade, aceita-se um procedimento que só garante *ficar melhor a cada passo*. É a troca fundadora de quase todo o Machine Learning — e a razão de o capítulo 05 ter duas implementações: a equação normal, que resolve, e o gradiente, que melhora.
+
+**O nome.** O artigo se chama *"Méthode générale pour la résolution des systèmes d'équations simultanées"* (C. R. Acad. Sci. Paris, 25:536–538, 1847). "Método geral" — a palavra *gradiente* não está no título.
+
+> **Dois detalhes que mudam como você lê este capítulo.**
+>
+> **O primeiro:** para um sistema de várias equações, Cauchy manda minimizar a soma dos quadrados dos resíduos. Ou seja — **o capítulo 06 executa o objetivo que o [capítulo 05](05-modelos-lineares.md) inventou.** Legendre e Gauss definiram *o que* é a melhor curva; Cauchy, quarenta anos depois, deu o *como* chegar nela sem resolver nada.
+>
+> **O segundo, e é o melhor antídoto que este livro tem contra a reverência:** Cauchy **não prova que o método converge, e sabe disso.** Ele escreve que se limita, por ora, a indicar os princípios, propondo-se a voltar ao assunto *"num próximo Memória"*. Esse próximo memorial, ao que se sabe, **nunca existiu**. O matemático mais rigoroso do século XIX publicou um algoritmo sem garantia e não voltou. Método não nasce provado — nasce funcionando, e a prova vem depois, se vier.
+
+### O freio: Tikhonov, ridge e LASSO
+
+Regularização vem de outro lugar: **problemas mal-postos**. Hadamard (1923) define o que é um problema *bem-posto* — solução existe, é única e depende de forma estável dos dados. Muitos problemas inversos reais falham na terceira condição: uma perturbação minúscula na entrada muda a resposta radicalmente. Tikhonov publica sobre estabilidade desses problemas em **1943**, e o método de regularização em **1963**; **D. L. Phillips** chega a algo equivalente de forma independente em 1962 — daí a forma "Tikhonov–Phillips".
+
+Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Kennard, *Technometrics*, 1970), e a origem é **industrial**: Hoerl vinha da engenharia química, e o "ridge" alude às **cristas dos gráficos de superfície de resposta**. Vinte e seis anos depois, o **LASSO** (Tibshirani, *JRSS-B*, 1996) herda diretamente do *non-negative garrote* de Breiman (1995), fundindo as duas etapas do garrote numa só.
+
+**A ideia reaproveitável do bloco inteiro:** **aceitar erro sistemático de propósito para comprar estabilidade.** Tikhonov, ridge e LASSO são o mesmo gesto — o dado não determina a resposta, então você **impõe** uma preferência externa e assume o viés que ela introduz. É por isso que regularização não é um truque de implementação: é uma declaração sobre o que você acredita antes de ver os dados.
+
+> **A ponte com o [capítulo 07](07-arvores-ensembles.md) é Breiman, e é uma ideia só: instabilidade.** Ele classificou os métodos entre estáveis (ridge) e instáveis (seleção de subconjunto), com o garrote no meio. Do lado "encolher coeficientes" nasce o LASSO, aqui. Do lado "instabilidade é oportunidade, não defeito" nasce o *bagging*, lá. **O mesmo diagnóstico gerou dois métodos em dois capítulos** — e conhecer o diagnóstico vale mais que conhecer os dois métodos.
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ✓ | Tudo o que é atribuído a Cauchy: o problema das seis incógnitas, a crítica à eliminação, a frase "fazer decrescer indefinidamente", a minimização da soma de quadrados, e a ausência do memorial prometido — via [Lemaréchal, *Cauchy and the Gradient Method*, Documenta Mathematica, 2012](https://ems.press/content/book-chapter-files/27368?nt=1), **lido por inteiro**, que transcreve o francês original em nota |
+| ✓ᵐ | Hoerl & Kennard (*Technometrics* 12(1):55–67, 1970) e Tibshirani (*JRSS-B* 58(1):267–288, 1996): obra, ano e veículo |
+| ⏳ | A cronologia de Tikhonov (1943, 1963) e a contribuição independente de Phillips (1962) |
+| ⏳ | Que "ridge" vem das cristas dos gráficos de superfície de resposta |
+| ⏳ | Que o LASSO herda do *non-negative garrote* de Breiman (1995) |
+| ❌ | **Early stopping**: procurei e não localizei atribuição primária confiável. O capítulo ensina o método sem lhe atribuir inventor |
+| 📖 | As duas ideias reaproveitáveis, a ligação com o cap. 05 e a ponte com o cap. 07 |
+
 ## Fundamentos: descer, sem enxergar a paisagem
 
 Imagine estar numa encosta, no escuro, com um único instrumento: você sente a inclinação sob os pés. O procedimento é óbvio — dê um passo na direção mais íngreme para baixo, sinta de novo, repita.

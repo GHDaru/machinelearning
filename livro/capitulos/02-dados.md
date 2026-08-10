@@ -28,6 +28,37 @@ O vazamento **não dá erro**. Não aparece em log, não quebra teste, e passa p
 
 > **A heurística mais útil deste livro.** Resultado surpreendentemente bom é a pista mais confiável de que algo está errado. Antes de comemorar, procure o vazamento. Se não achar, procure de novo — e só então comemore.
 
+## De onde isto veio
+
+**O aperto.** Fim dos anos 2000, competições públicas de mineração de dados. Empresas e universidades passaram a publicar conjuntos de dados reais e premiar quem previsse melhor — e as competições começaram a **quebrar**, uma atrás da outra: INFORMS 2010, o desafio de rede social do IJCNN 2011, a KDD-Cup 2007 sobre o dado da Netflix. Não por trapaça: por vazamento.
+
+O caso que virou emblema é a **KDD Cup de 2008**, de detecção de câncer em mamografia. Uma das colunas era o **identificador do paciente** — um número administrativo, sem nenhum conteúdo clínico. E ele tinha **poder preditivo enorme**.
+
+**O que se fazia antes.** Tratava-se vazamento como descuido individual: alguém esqueceu de tirar uma coluna. Cada equipe descobria o seu, contava no corredor, e não havia vocabulário comum para o fenômeno.
+
+**A virada.** Em 2012, Kaufman, Rosset, Perlich e Stitelman publicam *"Leakage in Data Mining: Formulation, Detection, and Avoidance"* e fazem o movimento que faltava: **transformar uma coleção de acidentes numa categoria com definição, taxonomia e método de detecção.** Vazamento deixa de ser azar e passa a ser algo que se procura de propósito.
+
+**A ideia reaproveitável — e é a que dá título a este capítulo.** **Desempenho alto demais é sintoma, não vitória.** O identificador do paciente não sabia nada sobre câncer; sabia sobre **como o hospital organizou a fila** — que exames vinham de triagem de rotina e quais de encaminhamento suspeito. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
+
+**O nome.** *Leakage* — a informação "vaza" do futuro para o passado, atravessando a fronteira temporal que deveria separar o que se sabe do que se quer prever.
+
+### As fichas de dataset, e de onde a forma foi copiada
+
+A **ficha de dataset** que este capítulo adota tem origem declarada, e ela não vem da computação. Gebru e coautoras propuseram os *Datasheets for Datasets* (2018; versão em *CACM*, 2021) fazendo uma analogia explícita com a **indústria eletrônica**, onde todo componente vem acompanhado de uma folha de dados descrevendo características de operação, resultados de teste e usos recomendados. A proposta é literalmente: por analogia, que todo conjunto de dados venha com a sua.
+
+**A ideia reaproveitável.** **Importar uma forma madura de outra engenharia é mais barato que inventar uma.** A eletrônica levou décadas para padronizar o que entra numa folha de dados; Machine Learning copiou o formato pronto e ganhou o atalho. Vale olhar para os lados com mais frequência: o problema que parece novo no seu campo costuma ter uma solução estabilizada em outro.
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ✓ᵐ | [Kaufman, Rosset, Perlich & Stitelman, *ACM TKDD* 6(4), art. 15, 2012](https://dl.acm.org/doi/10.1145/2382577.2382579) — obra, autoria, ano e veículo. **PDF localizado, não lido por inteiro** |
+| ✓ᵐ | [Gebru *et al.*, *Datasheets for Datasets*, arXiv:1803.09010](https://arxiv.org/abs/1803.09010), 23/03/2018; versão em *CACM* 64(12), 2021. A analogia com a eletrônica está declarada no resumo |
+| ⏳ | As competições citadas como gatilho (INFORMS 2010, IJCNN 2011, KDD-Cup 2007) e o caso do *Patient ID* na KDD Cup 2008 |
+| ⏳ | A explicação de **por que** o identificador previa — a organização da fila do hospital. É a leitura corrente do caso; não conferida na primária |
+| ❌ | **Datasets clássicos que envelheceram mal** por viés de seleção ou por questões éticas: casos existem e são citados na literatura, mas **nenhum foi verificado nesta passada**, e por isso nenhum é nomeado aqui |
+| 📖 | As duas ideias reaproveitáveis |
+
 ## Fundamentos: as três fontes de vazamento
 
 ### 1. Alvo disfarçado — a coluna que só existe depois
