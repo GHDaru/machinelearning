@@ -43,7 +43,7 @@ O exemplo canônico é a data. Como inteiro (`1721692800`), ela é quase inútil
 
 A hipótese distribucional é de **1954**. O **word2vec** — Mikolov, Chen, Corrado e Dean — é de **janeiro de 2013**, com a regularidade que ficou famosa: *rei − homem + mulher ≈ rainha*.
 
-São **cinquenta e nove anos**, o maior intervalo registrado neste livro — maior que os 43 de Yule → Box–Jenkins ([capítulo 24](24-series-temporais.md)) e que os 43 de Larson → Stone ([capítulo 01](../01-fundamentos.md)). No meio do caminho, a linha vetorial foi sendo construída: **1972**, Karen Spärck Jones mostra que **especificidade é estatística, não semântica** — pesa-se o termo pela raridade na coleção; **1973**, Salton e Yang multiplicam a frequência do termo por aquela fórmula e batizam o resultado de *idf*; **1975**, o modelo de espaço vetorial é formalizado no sistema SMART, em Cornell.
+São **cinquenta e nove anos**, um dos maiores intervalos registrados neste livro — maior que os 43 de Yule → Box–Jenkins ([capítulo 24](24-series-temporais.md)) e que os 43 de Larson → Stone ([capítulo 01](../01-fundamentos.md)). No meio do caminho, a linha vetorial foi sendo construída: **1972**, Karen Spärck Jones mostra que **especificidade é estatística, não semântica** — pesa-se o termo pela raridade na coleção; **1973**, Salton e Yang multiplicam a frequência do termo por aquela fórmula e batizam o resultado de *idf*; **1975**, o modelo de espaço vetorial é formalizado no sistema SMART, em Cornell.
 
 Repare no detalhe do TF-IDF: **ela inventou, eles nomearam.** O padrão de novo.
 

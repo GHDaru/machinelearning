@@ -1880,6 +1880,171 @@
    ]
   },
   {
+   "id": "11-e1",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma RNN simples é treinada para classificar avaliações de produto e vai bem em textos curtos, mas erra sistematicamente quando a negação aparece no começo de um parágrafo longo (\"Não recomendo… *[80 palavras]* …o acabamento é bonito\"). Qual é o diagnóstico correto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A rede tem poucos parâmetros; basta aumentar o tamanho do estado oculto."
+    },
+    {
+     "correta": true,
+     "texto": "O gradiente encolhe exponencialmente ao retroceder muitos passos, então a rede nunca recebe sinal para aprender a dependência longa."
+    },
+    {
+     "correta": false,
+     "texto": "A rede está em *overfitting* nos textos curtos e precisa de mais regularização."
+    },
+    {
+     "correta": false,
+     "texto": "Textos longos violam a premissa de independência; textos curtos não."
+    }
+   ],
+   "gabarito": "O gradiente encolhe exponencialmente com a distância em passos",
+   "porque": "Retroceder *k* passos multiplica *k* fatores. Com fatores abaixo de 1, o produto tende a zero rápido — e um gradiente que chega em zero não é um gradiente pequeno, é ausência de instrução. A rede **não aprende** aquela dependência; não é que a aprenda mal.\n\nSobre as erradas: **aumentar o estado oculto** dá mais espaço de memória, mas o problema não é espaço, é o caminho do erro até lá — mais capacidade sem caminho não vira aprendizado. **Regularização** ataca variância, e aqui o modelo não está decorando os curtos: está cego para os longos. E a **premissa de independência** é violada em *qualquer* comprimento — ela é o que define o problema sequencial, não um efeito do tamanho do texto.\n\nA correção histórica foi arquitetural: um caminho em que o estado é somado em vez de multiplicado (LSTM/GRU) e, depois, o acesso direto de qualquer posição a qualquer posição (atenção).",
+   "volte_para": "#fundamentos-a-recorrencia-o-estado-oculto-e-o-gradiente-que-some-no-tempo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "11-sequencias-linguagem",
+   "titulo_capitulo": "11 — Sequências e Linguagem"
+  },
+  {
+   "id": "11-e2",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+   "tipo": "numerica",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Numa camada de autoatenção, cada posição da sequência é comparada com todas as posições. Se o comprimento da sequência passa de **512** para **4096** elementos, por qual fator o número de comparações da atenção é multiplicado?\n\nResponda com um número inteiro.",
+   "opcoes": [],
+   "gabarito": "64 ± 0",
+   "porque": "O número de comparações é o comprimento ao quadrado. A sequência ficou 8 vezes maior (4096 ÷ 512 = 8), e 8² = **64**. Não é o custo que fica 8 vezes maior — é 64.\n\nÉ por isso que \"aumentamos a janela de contexto de 8 mil para 128 mil\" nunca é uma mudança barata: o fator de comprimento é 16, e o de comparações, 256. Também é por isso que o comprimento máximo aparece como característica de produto, com preço. A atenção comprou **caminho curto** (uma posição alcança qualquer outra em um passo) e pagou em **custo quadrático** — a recorrência fazia o negócio inverso: custo linear no comprimento, caminho longo demais para o gradiente sobreviver.",
+   "volte_para": "#o-transformer-remover-o-hospedeiro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "11-sequencias-linguagem",
+   "titulo_capitulo": "11 — Sequências e Linguagem",
+   "gabarito_num": {
+    "valor": 64,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "11-e3",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Um colega diz: *\"Atenção é só uma forma de dar mais memória ao modelo — no fundo é uma LSTM melhorzinha.\"* Explique por que essa leitura está errada, usando (a) o que a atenção substitui, (b) o que ela custa e (c) o que o artigo de 2017 de fato removeu.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca trata memória e atenção como quantidades da mesma grandeza — \"mais memória\" — e conclui que a diferença é de grau. A diferença é de **espécie**. A LSTM mantém um resumo e decide o que preservar dele a cada passo: é compressão com política de descarte. A atenção **não resume**: guarda todas as posições e escolhe, a cada consulta, quanto de cada uma usar. Uma esquece por construção; a outra nunca esqueceu nada e paga por isso.\n\nA prova de que não é uma LSTM melhorzinha está na cronologia: entre 2014 e 2017 a atenção **conviveu** com a recorrência, como acessório. Se fosse a mesma coisa em versão melhor, não haveria por que somar as duas. O que 2017 fez foi retirar a parte antiga — e o argumento apresentado foi operacional, não representacional: *\"more parallelizable and requiring significantly less time to train\"*.\n\nUma resposta excelente nota o que o negócio custou: caminho curto de gradiente em troca de custo quadrático no comprimento, mais a necessidade de reinjetar a ordem via codificação posicional, porque sem recorrência a arquitetura enxerga um conjunto e não uma sequência.",
+   "volte_para": "#do-gargalo-a-atencao-seq2seq-e-o-vetor-de-tamanho-fixo",
+   "rubrica": "identifica que a atenção substitui **compressão** (um vetor de tamanho fixo resumindo tudo) por **acesso ponderado** a todas as posições preservadas;\ndescreve o mecanismo como consulta × chaves → pesos que somam 1 → média ponderada dos valores, isto é, busca suave e derivável;\naponta que o caminho entre duas posições distantes passa de muitos passos para um, o que é uma mudança de topologia do gradiente, não de tamanho de memória;\nreconhece o custo: comparações quadráticas no comprimento, contra custo linear da recorrência;\nafirma corretamente que 2017 removeu a **recorrência** (o hospedeiro), mantendo a atenção que já existia desde 2014, e que o motivo declarado foi paralelismo/tempo de treino",
+   "versoes": null,
+   "pagina": "11-sequencias-linguagem",
+   "titulo_capitulo": "11 — Sequências e Linguagem",
+   "criterios": [
+    "identifica que a atenção substitui **compressão** (um vetor de tamanho fixo resumindo tudo) por **acesso ponderado** a todas as posições preservadas",
+    "descreve o mecanismo como consulta × chaves → pesos que somam 1 → média ponderada dos valores, isto é, busca suave e derivável",
+    "aponta que o caminho entre duas posições distantes passa de muitos passos para um, o que é uma mudança de topologia do gradiente, não de tamanho de memória",
+    "reconhece o custo: comparações quadráticas no comprimento, contra custo linear da recorrência",
+    "afirma corretamente que 2017 removeu a **recorrência** (o hospedeiro), mantendo a atenção que já existia desde 2014, e que o motivo declarado foi paralelismo/tempo de treino"
+   ]
+  },
+  {
+   "id": "12-e1",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe indexou 30 mil chamados de suporte com **embeddings estáticos** (um vetor fixo por palavra, somados por documento) para fazer busca semântica. A busca por \"**manga quebrada na esteira**\" devolve receitas de suco de fruta. Qual é o diagnóstico mais preciso?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O índice é pequeno demais: com 30 mil documentos não há sinal suficiente para busca vetorial."
+    },
+    {
+     "correta": true,
+     "texto": "O embedding estático dá **um único vetor por palavra**, misturando os sentidos; sem contexto, \"manga\" carrega fruta e peça de roupa ao mesmo tempo."
+    },
+    {
+     "correta": false,
+     "texto": "A busca vetorial não serve para termos técnicos — o caso pede busca por palavra-chave."
+    },
+    {
+     "correta": false,
+     "texto": "Falta normalizar os vetores antes de calcular a similaridade do cosseno."
+    }
+   ],
+   "gabarito": "O embedding estático colapsa os sentidos da palavra num vetor só",
+   "porque": "O vetor estático é aprendido **antes** de existir a frase: ele é a média de todos os contextos em que a palavra apareceu no corpus de treino. Se o corpus tinha mais fruta que vestuário, \"manga\" fica perto de fruta e leva o documento inteiro junto. A representação contextual resolve isso por construção — o vetor é calculado **com a frase**, e as duas mangas ficam longe uma da outra.\n\nSobre as erradas: **tamanho do índice** não é o problema — a mesma consulta erraria com 30 milhões de documentos, porque o erro está na representação, não na quantidade. **Voltar para palavra-chave** troca um problema por outro: a busca por termos não erraria a manga, mas perderia o chamado que diz \"correia partida\" sem usar nenhuma das suas palavras. E **normalizar** muda a escala da similaridade, não o sentido colapsado dentro do vetor.",
+   "volte_para": "#fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "12-modelos-de-fundacao",
+   "titulo_capitulo": "12 — Modelos de Fundação e Generativos"
+  },
+  {
+   "id": "12-e2",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "No artigo do ULMFiT (2018), o modelo transferido atinge, **com 100 exemplos rotulados**, o mesmo desempenho de um modelo treinado do zero com **10 000** exemplos.\n\nPor qual fator a quantidade de rótulos necessária foi dividida? Responda com um número inteiro.",
+   "opcoes": [],
+   "gabarito": "100 ± 0",
+   "porque": "10 000 ÷ 100 = **100**. Duas ordens de grandeza.\n\nO que interessa não é a divisão, é o que ela reorganiza no seu projeto. Rótulo é o insumo caro: ele custa hora de especialista, não hora de máquina. Um fator de 100 significa que a diferença entre \"inviável\" e \"uma semana de anotação\" pode ser apenas **escolher transferir em vez de treinar do zero**. É por isso que a primeira pergunta de um projeto com pouco dado rotulado não é qual algoritmo usar — é o que já foi aprendido que você pode não reaprender.\n\nCuidado com o exagero simétrico: o fator vale para as tarefas e o corpus daquele artigo, não é uma constante da natureza. Meça o seu.",
+   "volte_para": "#adaptar-as-tres-portas-e-o-que-cada-uma-custa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "12-modelos-de-fundacao",
+   "titulo_capitulo": "12 — Modelos de Fundação e Generativos",
+   "gabarito_num": {
+    "valor": 100,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "12-e3",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Uma operadora de saúde quer um assistente interno que responda dúvidas sobre **cobertura de procedimentos**. As regras mudam **toda semana** por decisão de comitê, existem cerca de 4 mil páginas de normas vigentes, e **toda resposta precisa apontar a norma que a sustenta**, porque a auditoria confere por amostragem.\n\nA liderança técnica propôs \"fazer fine-tuning do modelo nas normas\". Julgue a proposta e diga o que você faria — incluindo o que mediria para saber se funcionou.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A proposta erra na natureza do problema, não no tamanho. Fine-tuning **congela** o que ensinou: no dia seguinte ao treino a norma muda e o modelo continua confiante na versão antiga — e agora o erro está espalhado pelos pesos, onde não se corrige com um `UPDATE`. Com regra semanal, o ciclo de retreino nunca alcança o ciclo do comitê.\n\nO segundo requisito é ainda mais decisivo e costuma passar despercebido: **auditoria exige procedência**. Conhecimento nos pesos não devolve fonte — ele devolve texto plausível, e uma norma inventada com número e artigo é exatamente o tipo de saída que o objetivo de treino premia. Recuperação devolve **o trecho**, e a citação deixa de ser promessa e passa a ser um ponteiro verificável.\n\nA resposta forte separa os papéis: **recuperação para o fato, adaptação (ou simplesmente prompt) para o formato**. E ela mede as duas metades separadamente — porque um sistema que responde mal pode estar recuperando o trecho errado ou raciocinando mal sobre o trecho certo, e essas duas falhas se consertam em lugares opostos. Sem essa separação, a equipe vai passar meses ajustando prompt para consertar um problema de índice.\n\nModo de falha que quase ninguém escreve na proposta e todo mundo encontra em produção: **a norma revogada continua no índice**. O recuperador a traz, o modelo a cita, a auditoria acha. A política de expurgo do índice é parte do sistema, não tarefa de manutenção.",
+   "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
+   "rubrica": "identifica que o conhecimento muda toda semana, o que torna qualquer conhecimento congelado nos pesos obsoleto entre treinos;\nreconhece a exigência de citar a fonte como incompatível com conhecimento paramétrico, que não devolve procedência;\nrecomenda recuperação (RAG) como arquitetura principal, e não como ajuste de prompt;\nsepara os dois papéis — recuperação fornece fato, fine-tuning (ou prompt) ajusta formato e tom da resposta;\npropõe medir as duas etapas separadamente: qualidade do recuperador (o trecho certo apareceu entre os recuperados?) e qualidade da resposta (ela é sustentada pelo trecho citado?);\nmenciona ao menos um modo de falha residual — recuperador traz documento errado, norma revogada ainda no índice, resposta convicta sobre trecho inadequado",
+   "versoes": null,
+   "pagina": "12-modelos-de-fundacao",
+   "titulo_capitulo": "12 — Modelos de Fundação e Generativos",
+   "criterios": [
+    "identifica que o conhecimento muda toda semana, o que torna qualquer conhecimento congelado nos pesos obsoleto entre treinos",
+    "reconhece a exigência de citar a fonte como incompatível com conhecimento paramétrico, que não devolve procedência",
+    "recomenda recuperação (RAG) como arquitetura principal, e não como ajuste de prompt",
+    "separa os dois papéis — recuperação fornece fato, fine-tuning (ou prompt) ajusta formato e tom da resposta",
+    "propõe medir as duas etapas separadamente: qualidade do recuperador (o trecho certo apareceu entre os recuperados?) e qualidade da resposta (ela é sustentada pelo trecho citado?)",
+    "menciona ao menos um modo de falha residual — recuperador traz documento errado, norma revogada ainda no índice, resposta convicta sobre trecho inadequado"
+   ]
+  },
+  {
    "id": "08-e1",
    "capitulo": 8,
    "arquivo": "livro/capitulos/08-nao-supervisionado.md",

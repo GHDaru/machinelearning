@@ -33,18 +33,19 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 
 **A linha.** Hubel & Wiesel (1959) → neocognitron de Fukushima (1979/80), já com S/C-cells alternadas e treinado **sem retropropagação** (ver [capítulo 18](18-neuronio-artificial.md)) → LeCun e colegas (1989) treinam uma rede convolucional em **CEPs manuscritos do Serviço Postal dos EUA**: 7 291 imagens de 16×16, cerca de 9 760 parâmetros, **três dias numa SUN-4/260** → LeNet-5 (1998) → AlexNet (2012) → ResNet (2016).
 
-**O intervalo, e é o maior do livro.** De Hubel & Wiesel a AlexNet vão **53 anos**. Compare com os 59 do [capítulo 03](03-representacao.md), os ~80 do [capítulo 13](13-reforco.md), os 43 do [capítulo 24](24-series-temporais.md). Agora a contra-prova, que vem no [capítulo 12](12-modelos-de-fundacao.md): do Transformer (2017) a BERT e GPT (2018) passou-se **cerca de um ano**. A diferença não é a qualidade das ideias. É que em 2017 já existia **infraestrutura de reprodução compartilhada** — arXiv, código aberto, GPU comprável, benchmark comum — além da pergunta precisa. Meio século da história desta área foi, em boa parte, o tempo de construir isso.
+**O intervalo, e é um dos maiores do livro.** De Hubel & Wiesel a AlexNet vão **53 anos**. Compare com os 59 do [capítulo 03](03-representacao.md), os ~80 do [capítulo 13](13-reforco.md), os 43 do [capítulo 24](24-series-temporais.md). Agora a contra-prova, que vem no [capítulo 12](12-modelos-de-fundacao.md): do Transformer (2017) a BERT e GPT (2018) passou-se **cerca de um ano**. A diferença não é a qualidade das ideias. É que em 2017 já existia **infraestrutura de reprodução compartilhada** — arXiv, código aberto, GPU comprável, benchmark comum — além da pergunta precisa. Meio século da história desta área foi, em boa parte, o tempo de construir isso.
 
 **Procedência das afirmações desta seção:**
 
 | Selo | Afirmação |
 |---|---|
-| ✓ᵐ | Hubel & Wiesel, *Receptive fields of single neurones in the cat's striate cortex*, **J. Physiol. 148:574–591 (1959)** — células simples e complexas, seletividade a orientação |
+| ✓ᵐ | Hubel & Wiesel, *Receptive fields of single neurones in the cat's striate cortex*, **J. Physiol. 148:574–591 (1959)** — obra, autoria, ano e veículo |
+| ⏳ | Que a distinção entre **células simples e complexas** e a hierarquia entre elas estejam nesse artigo de 1959. A literatura a associa ao trabalho seguinte da dupla, de **1962**; não conferimos em qual dos dois ela aparece, e ✓ᵐ não autorizaria afirmar conteúdo interno de nenhum modo |
 | ✓ᵐ | Fukushima, neocognitron (1979/80): S-cells e C-cells em cascata, herdando os nomes de Hubel & Wiesel |
-| ✓ᵐ | LeCun et al., **Neural Computation 1:541–551 (1989)** — CEPs do Serviço Postal dos EUA, 7 291 imagens de 16×16, ~9 760 parâmetros, três dias numa SUN-4/260 |
+| ✓ᵐ | LeCun et al., **Neural Computation 1:541–551 (1989)** — obra, autoria, ano e veículo |
+| ⏳ | Os números internos desse artigo (7 291 imagens de 16×16, ~9 760 parâmetros, três dias numa SUN-4/260) e a origem postal do dado. **O artigo está atrás de paywall e não foi aberto**; ✓ᵐ prova que a obra existe, não o que ela mede |
 | ⏳ | A anedota da **borda da lâmina de vidro** como o estímulo que finalmente fez a célula disparar — atribuição corrente, não conferida em fonte primária |
 | ⏳ | Que a busca anterior era por um "detector de ponto", por suposição de que a visão se compõe a partir de pixels |
-| ⏳ | O Nobel de Medicina de 1981 a Hubel e Wiesel |
 | ⏳ | Que o neocognitron foi treinado sem retropropagação |
 | 📖 | A leitura de que "a primitiva certa não é a mais elementar" é a ideia exportável do episódio |
 | 📖 | A leitura do intervalo de 53 anos contra o ~1 ano do [capítulo 12](12-modelos-de-fundacao.md) como evidência de que **infraestrutura de reprodução** encurta o intervalo |

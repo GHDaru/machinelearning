@@ -112,9 +112,9 @@ Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de 
 
 | Selo | Afirmação |
 |---|---|
-| ✓ | Toda a apuração — o estudo, a correlação, a negativa de que produtos tenham sido movidos, e o relato sobre o discurso de vendas — de Power, *"Ask Dan!"*, [DSSResources (2002)](https://dssresources.com/newsletters/66.php) |
+| ✓ᵐ | A existência e a autoria da apuração de Power, *"Ask Dan!"*, [DSSResources (2002)](https://dssresources.com/newsletters/66.php) — página localizada e identificada. **A entrevista não foi lida por inteiro**, e por isso nada dela aparece aqui entre aspas |
 | ⏳ | Data, empresas, volume de cestas e a janela das 17h–19h, conforme relatados nessa entrevista |
-| ❌ | O rearranjo de gôndola e o aumento de vendas: **não aconteceu** |
+| ⏳ | Que o rearranjo de gôndola **não aconteceu** — a negativa é sustentada pela apuração de Power, mas **por fonte secundária**. `❌` seria dizer que não achamos fonte; aqui há fonte, e ela nega. A distinção importa: **não é o mesmo desconhecer e ter apurado que não** |
 | ✓ᵐ | Agrawal, Imieliński & Swami (SIGMOD 1993) e Apriori (Agrawal & Srikant, VLDB 1994) |
 
 :::exercicio {"id":"08-e2","tipo":"numerica","objetivo":"O1","dificuldade":"media"}

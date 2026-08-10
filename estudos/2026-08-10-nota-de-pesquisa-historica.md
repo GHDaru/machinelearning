@@ -430,3 +430,48 @@ Aqui os dois selos divergem, **e a divergência é o conteúdo**.
 | 8 | **Fala primária de Whittaker** | ⏳ → ✓/❌. Crítica nominal **exige** primária, como no caso OLAP | alto |
 | 9 | **Anedota do caixa de banco** (dropout) | ⏳ → ✓/❌. Ótima se fechar, **descartável se não** | alto |
 | 10 | **Corpo dos 12 artigos ✓ᵃ** | ✓ᵃ → ✓ pleno | alto |
+
+---
+
+# 5ª passada — capítulos 25 e 03 (a que faltava)
+
+> **Data:** 2026-08-10 · **Registro tardio, e a falha é do processo.** Esta pesquisa foi feita e usada para escrever os capítulos 25 e 03 **antes** de ser registrada aqui. A auditoria adversarial apanhou: as duas seções históricas existiam sem linha correspondente na fonte única, que é violação da regra de rastreabilidade do ADR 0004. O conteúdo estava certo; o registro não existia. Fica aqui, e a lição fica no HISTORICO.
+> **Dois ✓:** [Elkan, *The Foundations of Cost-Sensitive Learning* (IJCAI 2001)](https://cseweb.ucsd.edu/~elkan/rescale.pdf) e [Brunila & LaViolette (2022), arXiv:2205.07750](https://arxiv.org/pdf/2205.07750), lidos.
+
+## Cap. 25 — Do modelo à decisão
+
+**O aperto:** guerra, 1940–43, duas frentes independentes com o mesmo problema — *o que fazer com um número*. Na Inglaterra, **Patrick Blackett** monta em **agosto de 1940**, no Anti-Aircraft Command, um grupo de sete cientistas apelidado **"Blackett's Circus"**; em março de 1941 repete no Coastal Command. Nos EUA, o **Statistical Research Group** (Columbia, verão de 1942) reúne **Wald, Savage, Friedman e Hotelling**. ✓ᵐ ([perfil INFORMS](https://www.informs.org/Explore/History-of-O.R.-Excellence/Biographical-Profiles/Blackett-Patrick-M.-S))
+
+**A virada:** Wald mostra em **1939** que estimação e teste são casos particulares de um mesmo problema — **decidir** — e para isso precisa de uma **função que diz quanto custa errar**. Erro deixa de ser categoria lógica e vira grandeza econômica. ✓ᵐ (*Annals of Mathematical Statistics* 10(4):299–326; **o PDF do Project Euclid é digitalização sem camada de texto e não foi lido**)
+
+**A ideia reaproveitável (✓, de Elkan lido):** **pode ser ótimo agir como se uma classe fosse verdadeira mesmo quando outra é mais provável** — pode ser racional não aprovar uma transação alta de cartão mesmo que ela seja provavelmente legítima. **Probabilidade ordena; custo decide.**
+
+**O nome:** *operational research* (britânico) × *operations research* (americano). "Decision analysis" é cunhado só em **1966**, por **Ronald Howard** — e **dentro** de uma conferência de Pesquisa Operacional. ✓ᵐ
+
+**Cronologia:** 1939 Wald · 1943 o estudo da blindagem dos bombardeiros ⏳ · 1950 *Statistical Decision Functions* · 1954 Savage, probabilidade **pessoal** ✓ᵐ · **1961 Raiffa & Schlaifer**, publicado pela **Harvard Business School** — a teoria muda de prédio, sai da matemática e entra na escola de negócios ✓ᵐ · 1966 Howard · 1999 Domingos, *MetaCost* · **2001 Elkan ✓, lido**.
+
+**A matriz de custo, e é uma armadilha (✓).** Elkan mostra que a matriz publicada com o *German credit dataset* é **economicamente incoerente**: mede cada célula a partir de uma linha de base diferente. Como negar o empréstimo produz o mesmo fluxo de caixa quer o cliente fosse bom ou mau, **as duas células da linha "negar" têm de ser iguais** — e não são. Recomenda contabilizar em **benefício**, que tem linha de base natural.
+
+**Curva de lift — ❌.** Procurei inventor, data e publicação e **não achei atribuição primária**. O que se apura é ambiente: RFM atribuído a **George Cullinan, ~1961**, no marketing direto ⏳; análise por decis consolidada no *database marketing* dos anos 1980–90 ⏳. **Não escrever "X inventou a curva de lift".**
+
+> **A conexão com o cap. 04 é REAL, não forçada (✓ᵐ).** Blackett entrou em **1934** no **CSSAD** (comitê Tizard), cuja marca foi **supervisionar o desenvolvimento pré-guerra do radar**; só depois montou o Circus. A mesma pessoa, no mesmo comitê, para o mesmo problema. O cap. 04 conta o lado do **botão de ganho**; o 25, o lado do **comando**. 📖
+
+## Cap. 03 — Representação
+
+**O aperto:** anos 1950, **Zellig Harris** (Penn) quer uma linguística que parta **só do corpus**, sem apelar a intuição de significado, sob influência declarada da teoria da informação de Shannon. ✓ (via Brunila & LaViolette, lido)
+
+**A virada: 1954**, *"Distributional Structure"*, *Word* 10(2–3). Harris mostra como induzir o sentido de *oculist*, *eye-doctor* e *lawyer* pela **sobreposição dos ambientes** em que ocorrem. Diferença de sentido vira diferença de distribuição observável. ✓ᵐ (**o artigo original não foi aberto — paywall**)
+
+**A ideia reaproveitável:** **representar não é descrever a coisa, é registrar a companhia que a coisa mantém.** Não existe "o vetor do cliente" — existe o vetor do cliente *em relação ao conjunto*. É o que faz one-hot, TF-IDF e embedding pertencerem a um capítulo só. 📖
+
+**O nome:** a frase é de **Firth (1957)** — *"You shall know a word by the company it keeps"* — usada para um modo específico de significado, *"meaning by collocation"*. ✓ (via leitura cerrada publicada)
+
+**Linha vetorial:** **1972** Spärck Jones, *Journal of Documentation* 28:11–21 — **especificidade é estatística, não semântica** ✓ᵐ · **1973** Salton & Yang multiplicam TF pela fórmula dela e **batizam "idf"** ⏳ — *ela inventou, eles nomearam* · **1975** modelo de espaço vetorial, *CACM* 18:613–620, sistema SMART ✓ᵐ · **2013 (16/jan)** Mikolov *et al.*, [arXiv:1301.3781](https://arxiv.org/abs/1301.3781) ✓ᵐ.
+
+**One-hot / dummy:** em estatística, **Daniel B. Suits (1957)**, *JASA* 52:548–551 — e **Suits diz explicitamente que a técnica não era nova**; faltava expor o procedimento, inclusive a restrição obrigatória ✓ᵐ. Em engenharia, "one-hot" vem de circuito digital ⏳ (**não achei o primeiro uso datado**).
+
+**Feature engineering:** o contraponto é Bengio, Courville & Vincent (2013), *IEEE TPAMI* 35(8) ✓ᵐ — **não lido, não citar frase interna**.
+
+> **Terceiro caso de "crédito segue o vocabulário".** **Harris tinha o argumento** — dezessete páginas de definições formais e exemplos. **Firth tinha a frase.** Todo mundo cita Firth. 📖
+
+**Intervalo:** Harris **1954** → word2vec **2013**: **59 anos**. E o cap. 25 tem o seu: Wald **1939** → Elkan **2001**, **62 anos** até o custo assimétrico virar procedimento de ML.

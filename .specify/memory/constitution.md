@@ -145,11 +145,18 @@ Toda afirmação histórica carrega um selo, e cada capítulo fecha a seção co
 |---|---|
 | ✓ | **Fonte aberta e lida.** O que está afirmado foi conferido no texto |
 | ✓ᵐ | **Só os metadados** foram conferidos (autor, obra, ano, identificador). O conteúdo não foi lido |
+| ✓ᵃ | **Resumo lido no original.** A página do artigo foi aberta e o resumo lido literalmente; o corpo, não. Autoriza citar o resumo entre aspas e afirmar a tese que os autores **declaram** |
 | ⏳ | **Atribuição corrente**, repetida na literatura didática, **não confirmada em fonte primária** |
 | ❌ | Procurei e **não achei fonte** |
 | 📖 | **Leitura editorial** — interpretação deste livro, não afirmação histórica |
 
 A distinção entre ✓ e ✓ᵐ não é preciosismo: ela é o que impede confundir *"existe e é este artigo"* com *"eu li e diz isso"*. Metadado confere que a obra existe; não confere o que ela afirma.
+
+**A escala existe porque cada degrau autoriza uma coisa diferente.** Metadado prova que a obra **existe**; resumo lido autoriza citar o resumo e afirmar a **tese declarada pelos autores**; leitura completa autoriza afirmar o que o artigo **demonstra** — número, método, condição experimental.
+
+**Regra de uso do `✓ᵃ`:** exige o identificador (DOI ou arXiv) **na própria linha**, e vale só para o resumo publicado pelos autores. *Snippet* de busca ou resumo gerado por máquina **nunca** dá `✓ᵃ` — é ✓ᵐ na melhor hipótese, e continua valendo a armadilha do resumo mais abaixo. E `✓ᵃ` **proíbe** afirmar qualquer coisa do corpo: número, tabela, protocolo, limitação, atribuição interna, ou "o artigo mostra que X". **Ele sustenta o que os autores dizem que fizeram, nunca o que o artigo demonstra.**
+
+**Esta tabela é a fonte única do alfabeto de selos, e o build a lê daqui.** Um capítulo que use um símbolo fora dela — ou que redefina um selo numa legenda própria — **não compila**. Cunhar selo novo exige emenda, e isso é intencional: a precisão da proveniência é justamente o que não pode variar de capítulo para capítulo.
 
 O selo ❌ é permitido e às vezes é o mais honesto. Uma lacuna admitida em voz alta vale mais do que uma suposição com cara de fato.
 

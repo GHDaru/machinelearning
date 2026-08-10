@@ -580,10 +580,30 @@ writeFileSync(resolve(SAIDA, "assets/matematica.css"),
 // ---------------------------------------------------------------------------
 const RE_NIVEL = /\*\*Nível:\s*(esqueleto|essencial|completo)\.?\*\*/i;
 const RE_SECAO_HISTORICA = /^##+\s+De onde isto veio/mi;
-// A tabela de selos: uma linha de tabela cujo primeiro campo é um dos selos.
-const RE_TABELA_SELOS = /^\|\s*(✓ᵐ|✓|⏳|❌|📖)\s*\|/m;
 
-const semHistoria = [], semNivel = [];
+// O ALFABETO DE SELOS VEM DA CONSTITUIÇÃO, não daqui (ADR 0005).
+// A versão anterior era um regex com os selos escritos à mão, e ela dava
+// FALSO VERDE: bastava UMA linha casar para o capítulo passar. Um agente
+// cunhou o selo `✓ᵃ` durante a escrita, definiu-o de dois jeitos diferentes
+// em dois capítulos, e o gate não viu — porque as outras linhas tinham ✓.
+// Agora é allowlist derivada da fonte única, com falha no DESCONHECIDO:
+// cunhar selo passa a exigir editar a constituição, que é o ponto.
+const CONSTITUICAO = readFileSync(resolve(RAIZ, ".specify/memory/constitution.md"), "utf8");
+const SELOS = new Set(
+  [...CONSTITUICAO.matchAll(/^\|\s*(✓ᵐ|✓ᵃ|✓|⏳|❌|📖)\s*\|/gm)].map((m) => m[1])
+);
+if (SELOS.size < 5) {
+  console.error("✗ Não consegui ler o alfabeto de selos da constituição (Princípio X).");
+  console.error("   O gate do Princípio X depende dessa tabela. Confira .specify/memory/constitution.md");
+  process.exit(1);
+}
+// Qualquer primeira célula de uma linha de tabela que "pareça selo" — símbolo
+// curto, não-alfanumérico — mas não esteja no alfabeto.
+const RE_LINHA_TABELA = /^\|\s*([^|\s][^|]{0,3}?)\s*\|/gm;
+const RE_TABELA_SELOS = new RegExp("^\\|\\s*(" + [...SELOS].join("|") + ")\\s*\\|", "m");
+const RE_LEGENDA_PROPRIA = /^[^\n]*\b[Ll]egenda\b[^\n]*(✓ᵃ|✓ᵐ|✓)\s*=/m;
+
+const semHistoria = [], semNivel = [], selosDesconhecidos = [], legendasProprias = [];
 for (const i of itens) {
   if (i.metodo === undefined) continue;             // trilhas, aparato: não são capítulos
   const fonte = readFileSync(resolve(RAIZ, i.arquivo), "utf8");
@@ -595,12 +615,43 @@ for (const i of itens) {
   if (!temSecao || !temSelos) {
     semHistoria.push(`${i.arquivo} (nível ${nivel})` +
       (temSecao ? " — tem a seção, falta a tabela de selos" : " — falta a seção \"De onde isto veio\""));
+    continue;
+  }
+  // Allowlist, escopada À TABELA DE SELOS. Um capítulo tem outras tabelas —
+  // cronologias, comparativos, filas com coluna "#" —, e varrer todas dava
+  // falso positivo. O critério: um bloco contíguo de linhas de tabela que
+  // contenha ao menos um selo conhecido É a tabela de selos; então TODAS as
+  // linhas dele têm de usar o alfabeto.
+  for (const bloco of fonte.split(/\n\s*\n/)) {
+    const primeiras = [...bloco.matchAll(/^\|\s*([^|\n]*?)\s*\|/gm)].map((m) => m[1]);
+    if (!primeiras.some((c) => SELOS.has(c))) continue;   // não é a tabela de selos
+    for (const celula of primeiras) {
+      if (SELOS.has(celula)) continue;
+      if (/^[-:]+$/.test(celula)) continue;               // separador
+      if (/^Selo$/i.test(celula)) continue;               // cabeçalho
+      selosDesconhecidos.push(`${i.arquivo} — "${celula}" não está no alfabeto da constituição`);
+    }
+  }
+  if (RE_LEGENDA_PROPRIA.test(fonte)) {
+    legendasProprias.push(`${i.arquivo} — redefine um selo numa legenda própria`);
   }
 }
 if (semNivel.length) {
   console.error(`✗ ${semNivel.length} capítulo(s) sem NÍVEL declarado no cabeçalho (dívida D9):`);
   semNivel.forEach((q) => console.error("   " + q));
   console.error('   O leitor tem de saber o que está lendo. Declare: > **Nível: esqueleto|essencial|completo.**');
+  process.exit(1);
+}
+if (selosDesconhecidos.length) {
+  console.error(`✗ ${selosDesconhecidos.length} selo(s) fora do alfabeto do Princípio X:`);
+  selosDesconhecidos.forEach((q) => console.error("   " + q));
+  console.error("   O alfabeto vive na constituição e só lá. Cunhar selo exige emenda (ADR 0005).");
+  process.exit(1);
+}
+if (legendasProprias.length) {
+  console.error(`✗ ${legendasProprias.length} capítulo(s) redefinindo selo numa legenda própria:`);
+  legendasProprias.forEach((q) => console.error("   " + q));
+  console.error("   A definição do selo vive num lugar só: .specify/memory/constitution.md");
   process.exit(1);
 }
 if (semHistoria.length) {

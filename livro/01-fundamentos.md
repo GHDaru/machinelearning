@@ -23,7 +23,7 @@ O que separa os dois é a **capacidade** do modelo: quantas hipóteses diferente
 
 ## De onde isto veio
 
-**O aperto, e ele não nasceu na computação.** Em **1931**, um psicometrista chamado Selvin Larson tinha um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O artigo dele chama-se, literalmente, *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era esse — um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
+**O aperto, e ele não nasceu na computação.** Em **1931**, um psicometrista de sobrenome **Larson** tinha um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O artigo dele chama-se, literalmente, *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era esse — um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
 
 **O que se fazia antes.** Avaliava-se o modelo nos mesmos dados em que ele foi ajustado, e o resultado era tomado como estimativa da qualidade. Não por ingenuidade: dado era caro, e separar metade dele para não usar parecia desperdício.
 

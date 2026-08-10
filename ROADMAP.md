@@ -129,6 +129,8 @@ O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está o
 | ~~**D8**~~ | ~~Nenhum capítulo tem "De onde isto veio"~~ — **em pagamento** no lote 2 do [ADR 0004](adr/0004-escopo-da-primeira-versao.md). Já pagos: 18, 05, 04 | a emenda 1.2.0 é posterior a eles; nível não sobe sem pagar |
 | ~~**D9**~~ | ~~20 capítulos não declaram nível~~ — **PAGA** em 2026-08-10: os 18 que faltavam declararam nível, e o build agora **falha** sem a declaração | o Princípio "níveis" exige a declaração ao leitor |
 
+| **D10** | **Selo ✓ᵐ sustentando afirmação sobre o que a obra argumenta por dentro**, em vários capítulos — quando ✓ᵐ só prova que a obra existe | achado da [auditoria adversarial](estudos/2026-08-10-auditoria-adversarial.md). Paga-se **lendo as fontes** no ciclo `essencial → completo`, não com hedge no texto. A fila de verificação da nota de pesquisa é o plano de pagamento |
+
 > **O que o gate ensinou, e que o plano não previa.** O ADR 0004 mandava fazer o lote 1 (capítulos novos) antes do lote 2 (retrofit dos antigos). Assim que o gate entrou no build, ele **inverteu a ordem sozinho**: declarar o nível dos 7 capítulos com corpo tornou o build vermelho na hora, e nenhum trabalho novo podia ser publicado antes de a dívida antiga ser paga.
 >
 > Isso é o gate funcionando como projetado — e é a diferença entre uma dívida *registrada* e uma dívida *cobrada*. Uma fica no roadmap; a outra impede o próximo commit.
