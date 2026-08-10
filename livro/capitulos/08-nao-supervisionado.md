@@ -15,9 +15,7 @@
 
 Todos os capítulos anteriores tinham um gabarito: havia um alvo, havia um erro, e o erro dizia se você estava melhorando. Aqui não há nada disso. Sem rótulo, **não existe erro a minimizar** — existe um critério a *inventar*. Você decide o que significa "grupo bom", e só então há o que otimizar. A escolha não vem dos dados: vem de você.
 
-A consequência é desconfortável. Quase sempre é possível encontrar grupos: rode k-means com k=4 em ruído puro e ele devolve quatro grupos, com fronteiras nítidas e centros bem definidos. O algoritmo nunca diz "não há estrutura aqui". A pergunta honesta, portanto, nunca é *"existem grupos?"* — é **"estes grupos significam alguma coisa fora deste conjunto de dados?"**.
-
-O erro que este capítulo previne é o mais barato de cometer em toda a análise de dados: **olhar para os grupos, achar que fazem sentido, e apresentar isso como descoberta.**
+A consequência é desconfortável. Quase sempre é possível encontrar grupos: rode k-means com k=4 em ruído puro e ele devolve quatro grupos, com fronteiras nítidas e centros bem definidos. O algoritmo nunca diz "não há estrutura aqui". A pergunta honesta, portanto, nunca é *"existem grupos?"* — é **"estes grupos significam alguma coisa fora deste conjunto de dados?"**. O erro que este capítulo previne é o mais barato de cometer em toda a análise de dados: **olhar para os grupos, achar que fazem sentido, e apresentar isso como descoberta.**
 
 ## De onde isto veio
 
@@ -38,8 +36,8 @@ O erro que este capítulo previne é o mais barato de cometer em toda a análise
 | 1950/51 | **Dalenius** | A primeira formulação do problema, em amostragem estratificada — anterior a todos os que se costuma citar |
 | 1956 | **Steinhaus** | Primeiro a propor o k-means multidimensional (versão contínua), por motivação **mecânica**: partir um sólido heterogêneo minimizando momentos de inércia. Publicado em francês |
 | 1957 | **Lloyd** | Critério contínuo em **uma** dimensão, quantização de voz nos Bell Labs. Publicado só em **1982** — 25 anos depois |
-| 1965 | **Forgy** | Primeiro a propor o k-means discreto. Bock registra que **o resumo da palestra não menciona explicitamente o algoritmo**: o conteúdo é conhecido apenas por descrição de terceiros |
 | 1962 | **Sebestyen** | Já propusera o mesmo procedimento que MacQueen apresentaria cinco anos depois |
+| 1965 | **Forgy** | Primeiro a propor o k-means discreto. Bock registra que **o resumo da palestra não menciona explicitamente o algoritmo**: o conteúdo é conhecido apenas por descrição de terceiros |
 | 1967 | **MacQueen** | Cunha o nome — para outro algoritmo |
 
 **A leitura deste livro.** Os capítulos [05](05-modelos-lineares.md) (Gauss × Legendre) e [18](18-neuronio-artificial.md) (Linnainmaa × Rumelhart) contam a mesma história com **dois** pretendentes. Aqui há **seis**, em quatro campos isolados, e o nome vencedor foi cunhado para um algoritmo diferente. Os três casos, juntos, fecham a tríade e dizem o que nenhum diz sozinho: **não vence quem descobre, nem quem publica primeiro, nem sequer quem descreve o método que virou padrão. Vence quem escreve a palavra que pega.**
@@ -59,9 +57,7 @@ O erro que este capítulo previne é o mais barato de cometer em toda a análise
 
 ## Fundamentos: inventar o critério, depois alternar
 
-O k-means declara o critério antes de tudo: **a soma das distâncias quadradas de cada ponto ao centro do seu grupo** (a *inércia*). Grupo bom = grupo compacto. Escolhido isso, o algoritmo é a alternância descrita acima — sorteie k centros, atribua, recalcule, repita até parar de mudar.
-
-Três consequências que ninguém avisa:
+O k-means declara o critério antes de tudo: **a soma das distâncias quadradas de cada ponto ao centro do seu grupo** (a *inércia*). Grupo bom = grupo compacto. Escolhido isso, o algoritmo é a alternância descrita acima — sorteie k centros, atribua, recalcule, repita até parar de mudar. Três consequências que ninguém avisa:
 
 **Ele sempre converge, e quase nunca para o ótimo.** A inércia cai a cada passo, então o algoritmo para — num mínimo **local**, que depende do sorteio inicial. Rodar de novo com outra semente pode dar outra resposta; por isso as bibliotecas rodam várias inicializações e ficam com a melhor. Duas partições diferentes do mesmo dado não são bug: são a natureza do método.
 
@@ -108,9 +104,7 @@ A armadilha é confiança alta com lift 1. Se 60% de todas as cestas têm pão, 
 
 ### Cerveja e fraldas: verdadeira até a descoberta, inventada a partir da ação
 
-Todo curso conta esta história. Vale a pena separar o que se sustenta do que não se sustenta — a fratura está num ponto exato.
-
-**O estudo existe.** Junho de 1992, **Thomas Blischok** (NCR/Teradata) para a **Osco Drug**: cerca de 1,2 milhão de cestas, cerca de 25 lojas (⏳). **A correlação foi achada**: cerveja e fraldas juntas entre 17h e 19h (⏳).
+Todo curso conta esta história. Vale separar o que se sustenta do que não se sustenta — a fratura está num ponto exato. **O estudo existe.** Junho de 1992, **Thomas Blischok** (NCR/Teradata) para a **Osco Drug**: cerca de 1,2 milhão de cestas, cerca de 25 lojas (⏳). **A correlação foi achada**: cerveja e fraldas juntas entre 17h e 19h (⏳).
 
 **A parte que todo mundo ensina é falsa.** "Puseram a cerveja ao lado das fraldas e as vendas subiram" — isto não aconteceu. Power, que entrevistou o autor do estudo, afirma que a Osco **não** explorou a relação movendo produtos, e Blischok confirma que **nunca fizeram nada com ela** (❌). Um participante ainda registra que o líder da equipe, ao falar com prospects, **não distinguia entre as afinidades testadas e as hipóteses** (⏳). A lenda nasceu no discurso de vendas, e isso está documentado.
 
@@ -137,13 +131,11 @@ Calcule o **lift** da regra `{leite} → {pão}`. Responda com duas casas decima
 
 ## Validar sem gabarito
 
-Aqui está a dificuldade que separa este capítulo de todos os anteriores. Na classificação, a validação é externa: existe uma resposta certa que você não usou para treinar. No agrupamento, os candidatos a métrica são **internos** — calculados sobre os mesmos dados, com a mesma noção de distância que produziu os grupos. Eles medem se a partição é coerente com o critério, não se ela é **verdadeira**.
+Aqui está a dificuldade que separa este capítulo de todos os anteriores. Na classificação, a validação é externa: existe uma resposta certa que você não usou para treinar. No agrupamento, os candidatos a métrica são **internos** — calculados sobre os mesmos dados, com a mesma noção de distância que produziu os grupos. Eles medem se a partição é coerente com o critério, não se ela é **verdadeira**. Duas ferramentas, e o que cada uma não faz:
 
-Duas ferramentas, e o que cada uma não faz:
+**Silhueta.** Para cada ponto, compara a distância média aos vizinhos do próprio grupo com a distância média ao grupo mais próximo. Perto de 1, bem alocado; perto de 0, na fronteira; negativo, provavelmente no grupo errado. É útil e tem um limite duro: premia a mesma geometria compacta que o k-means persegue. Silhueta alta com clusters esféricos não é confirmação independente — é o critério se elogiando.
 
-**Silhueta.** Para cada ponto, compara a distância média aos vizinhos do próprio grupo com a distância média ao grupo mais próximo. Perto de 1, bem alocado; perto de 0, na fronteira; negativo, provavelmente no grupo errado. É útil e tem um limite duro: ela premia a mesma geometria compacta que o k-means persegue. Silhueta alta com clusters esféricos não é confirmação independente — é o critério se elogiando.
-
-**Método do cotovelo.** Plote a inércia contra k e procure o ponto em que a curva "dobra". Funciona quando a dobra é óbvia; o problema é que, na maioria dos dados reais, ela não é — e "o cotovelo é aqui" vira uma leitura pessoal do gráfico, que muda de analista para analista e, o que é pior, muda depois de você já ter uma hipótese.
+**Método do cotovelo.** Plote a inércia contra k e procure onde a curva "dobra". Funciona quando a dobra é óbvia; na maioria dos dados reais ela não é, e "o cotovelo é aqui" vira leitura pessoal do gráfico — que muda de analista para analista e, pior, muda depois de você já ter uma hipótese.
 
 **E o alerta principal:** *"os clusters fazem sentido"* é a forma mais fácil de se enganar em análise de dados. Você reconhece histórias em grupos aleatórios com uma facilidade constrangedora — dê nomes a quatro grupos de ruído e o quarto vira "os clientes de alto potencial ainda não ativados". O antídoto é declarar o critério **antes** e testá-lo fora: os grupos se mantêm numa amostra separada? Eles predizem alguma variável que **não** entrou no agrupamento (churn, receita futura, retorno de campanha)? Um critério externo vale mais que cotovelo e silhueta somados, porque é o único que pode dar errado.
 
@@ -159,9 +151,7 @@ Escreva a crítica que você faria e o que proporia em seguida.
 > não se limita a sugerir "usar silhueta" como se isso resolvesse
 > **porque:** A resposta fraca troca um critério interno por outro: "use silhueta em vez de interpretabilidade". Mas silhueta mede a mesma compacidade que o k-means otimizou — ela pode confirmar uma partição de puro ruído, porque nunca foi projetada para dizer se a estrutura existe.
 >
-> A resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — é o mesmo pecado do [capítulo 25](25-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que existe uma pergunta cara e decisiva que ninguém fez: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo.
->
-> E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**, destruindo qualquer estrutura real. Se os cinco grupos continuarem "interpretáveis" e nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.
+> A resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — o mesmo pecado do [capítulo 25](25-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que ninguém fez a pergunta decisiva: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo. E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**. Se os cinco grupos continuarem nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.
 > **volte para:** #validar-sem-gabarito
 :::
 
@@ -170,8 +160,7 @@ Escreva a crítica que você faria e o que proporia em seguida.
 - Sem rótulo **não há erro a minimizar**: há um critério a inventar. Quem escolhe o critério decide o resultado, e a escolha não está nos dados.
 - **O algoritmo nunca diz "não há grupos".** A pergunta é se os grupos existem fora deste conjunto de dados.
 - **Congele metade, resolva a outra, inverta.** O k-means é um caso de otimização alternada — o padrão vale para EM, fuzzy c-means, k-medoids e para qualquer problema com duas incógnitas que se determinam mutuamente.
-- k-means só enxerga grupos **esféricos e de tamanho parecido**, e isso está no critério, não no código. Nenhum k nem nenhuma semente conserta forma errada.
-- **Distância depende de escala.** Normalizar faz parte da definição do critério, não da faxina.
+- k-means só enxerga grupos **esféricos e de tamanho parecido**, e isso está no critério, não no código. Nenhum k nem nenhuma semente conserta forma errada. E **distância depende de escala**: normalizar faz parte da definição do critério, não da faxina.
 - PCA troca colunas por variância — e perde interpretabilidade e, às vezes, exatamente a direção que importava.
 - Em regras de associação, **confiança alta sem lift alto é a popularidade do item disfarçada de descoberta**.
 - Métricas internas (silhueta, cotovelo) medem coerência com o critério, não verdade. **Critério externo vale mais que as duas somadas**, porque é o único que pode dar errado.

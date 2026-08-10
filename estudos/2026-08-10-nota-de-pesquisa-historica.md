@@ -336,3 +336,97 @@ Aqui os dois selos divergem, **e a divergência é o conteúdo**.
 **12. A lenda serve ao ensino, não à história — e é o padrão mais útil ao leitor.** As duas lendas testadas quebram no mesmo ponto: a parte verificável é modesta (uma correlação achada; uma citação autobiográfica autêntica) e a parte memorável é a inventada (a prateleira reorganizada; a explicação causal do nome). Com o caso OLAP do cap. 23, são **três**. A regra: **quando um detalhe é bom demais para o slide, ele foi otimizado para o slide.** 📖
 
 > **Nota de método desta passada.** As duas fontes lidas foram obtidas extraindo o texto dos PDFs localmente, depois que a leitura via web falhou — e o resumo automático do segundo chegou a **negar** que o trecho de Bellman existisse. Ele estava lá, na primeira página. É o aviso do Princípio X apanhado em flagrante pela segunda vez: **resumo não é fonte, nem quando o resumo diz que a fonte não diz nada.**
+
+---
+
+# 4ª passada — a linhagem conexionista (caps. 09, 26, 10, 11, 12)
+
+> **2026-08-10** · Sessão única, cinco capítulos, **porque é uma história só** — continua o cap. 18 a partir de 1986.
+> **Dois ✓ de verdade:** a tese de Hochreiter (1991) e o artigo da AlexNet (2012), ambos baixados e lidos no original.
+> **Selo novo `✓ᵃ`:** página do arXiv aberta e **resumo lido literalmente**; o corpo, não. Com `✓ᵃ` cita-se o resumo entre aspas e **nada** do corpo.
+
+## Cap. 09 — Redes multicamadas
+
+**A virada vem em ordem inversa à intuição:** primeiro o procedimento (1986), **depois** a licença teórica. Cybenko (1989) e Hornik (*Neural Networks* 4:251–257, 1991) provam que uma camada escondida aproxima qualquer função contínua — **desde que haja unidades suficientes**. ✓ᵐ
+
+**A ideia reaproveitável: existência não é treinabilidade.** O teorema garante que a rede certa está no espaço de hipóteses; não diz quantas unidades, nem como achá-la, nem se o gradiente chega até ela. É **não construtivo** — e os vinte anos do cap. 26 são o preço dessa distinção. 📖
+
+"Teorema da aproximação universal" é rótulo posterior, ausente dos dois títulos ✓ᵐ. Hornik mostra que **a ativação não é a fonte do poder** — a estrutura em camadas é ⏳.
+
+## Cap. 26 — Treinar redes profundas
+
+**O aperto: Munique, 15 de junho de 1991.** Um aluno de graduação entrega uma *Diplomarbeit* de 74 páginas e mede o que ninguém tinha medido — por que o erro não chega às camadas do fundo.
+
+**Folha de rosto, lida ✓** ([PDF](https://people.idsia.ch/~juergen/SeppHochreiter1991ThesisAdvisorSchmidhuber.pdf)). Três detalhes que nenhuma secundária tinha: ele assina **Josef**, não "Sepp"; o *Aufgabensteller* (orientador formal) é **Brauer**, e Schmidhuber é o *Betreuer*; e o **capítulo 4 já se chama "Konstanter Fehlerrückfluß"** — refluxo **constante** do erro. **A LSTM de 1997 estava nomeada em 1991.** A §2.3 diz, em alemão, que o produto dos pesos *"exponentiell fällt bzw. steigt"*.
+
+**A virada:** nomear a causa. O gradiente é um **produto** de muitos fatores, e produto de muitos fatores cai ou explode exponencialmente. **Nenhum hiperparâmetro conserta uma exponencial.** ✓
+
+**A ideia reaproveitável: diagnóstico antes do remédio — e o diagnóstico dura mais que o remédio.** O texto de 1991 não resolve: ele **mede**. Trinta e cinco anos depois o remédio mudou quatro vezes; o diagnóstico, não. 📖
+
+**O kit de conserto** (✓ᵐ, nenhum artigo aberto): Glorot & Bengio 2010 — o título é *Understanding the difficulty…*, **entender vem antes de consertar**, e a inicialização é subproduto · Nair & Hinton 2010, a ReLU entra pela porta de trás, num artigo sobre máquinas de Boltzmann · Glorot, Bordes & Bengio 2011, cujo argumento é **esparsidade**, não velocidade · Kingma & Ba 2014 (Adam) · Srivastava, Hinton *et al.* 2014 (dropout; a anedota do caixa de banco que roda de guichê para impedir conluio é ⏳, **não conferida em fala primária**) · Ioffe & Szegedy 2015 · He *et al.* 2015, primeiro a passar o humano reportado no ImageNet (4,94% contra 5,1%), porque a inicialização de Xavier supunha ativação linear, inválida sob ReLU.
+
+> **O caso mais didático dos cinco capítulos.** Ioffe & Szegedy explicaram a *batch norm* por *internal covariate shift*. Em 2018, [Santurkar *et al.*](https://arxiv.org/abs/1805.11604) ✓ᵐ mostram que o método funciona e **a explicação não se sustenta**. *Funciona* e *sabemos por quê* são afirmações independentes, e a segunda é revisável sem derrubar a primeira. 📖
+
+## Cap. 10 — Visão computacional
+
+**O aperto:** fim dos anos 1950, Hubel e Wiesel registram neurônios do córtex de um gato e não obtêm resposta com pontos de luz. A célula dispara quando **a borda da lâmina de vidro** cruza a tela, ao trocarem o slide ⏳. O córtex não detecta pontos: detecta **bordas com orientação**, em hierarquia ✓ᵐ.
+
+**A ideia reaproveitável: a primitiva certa não é a mais elementar.** O ponto é mais simples que a borda, e é a primitiva errada. Achar a unidade mínima da **representação** — não a do sinal — é o trabalho de projeto. 📖
+
+**AlexNet, lida no original ✓** ([PDF NIPS](https://proceedings.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)): *"A single GTX 580 GPU has only 3GB of memory, which limits the maximum size of the networks that can be trained on it. (…) **Therefore we spread the net across two GPUs.**"* Treino de *"between five and six days"*. ReLU chega a 25% de erro no CIFAR-10 **seis vezes mais rápido** que tanh. **15,3% top-5 contra 26,2% do segundo colocado.**
+
+> **O diagrama de duas colunas da AlexNet, reproduzido em todo curso de visão como decisão de arquitetura, é um limite de 3 gigabytes desenhado.** É o melhor caso de "restrição material gera forma nova" em todo o livro. 📖
+
+**ResNet** ([arXiv:1512.03385](https://arxiv.org/abs/1512.03385)) ✓ᵃ: o problema é **degradação** — acurácia de **treino** que piora ao empilhar camadas, o que descarta sobreajuste. É o cap. 26 dentro do cap. 10.
+
+## Cap. 11 — Sequências e linguagem
+
+**O aperto é o do cap. 26 na dimensão tempo** ✓. A LSTM (1997) resolve pelo formato da falha: se o erro morre por ser multiplicado a cada passo, **construa um caminho onde ele não seja multiplicado**.
+
+**A ideia reaproveitável: a solução veio do formato da falha, não da tarefa.** Ninguém desenhou a LSTM pensando em linguagem — desenhou-se contra uma exponencial. 📖 *Long Short-Term Memory* é memória de **curto prazo que dura muito**; o oximoro é o argumento ⏳.
+
+**Seq2seq** (2014): o truque que os próprios autores chamam de contribuição técnica principal é **inverter a ordem das palavras da frase de origem** ⏳ — restrição virando forma, e desta vez a forma é gambiarra confessa.
+
+**Atenção** ([arXiv:1409.0473](https://arxiv.org/abs/1409.0473)) ✓ᵃ: **o resumo não contém a palavra "attention"**. O diagnóstico é que *"the use of a **fixed-length vector** is a bottleneck"*; no artigo o modelo chama-se **RNNsearch** e o vocabulário é *alignment*. O nome "attention" teria vindo de Bengio ⏳.
+
+**Transformer** ([arXiv:1706.03762](https://arxiv.org/abs/1706.03762)) ✓ᵃ: *"based solely on attention mechanisms, **dispensing with recurrence and convolutions entirely**"*. **O eliminado é a recorrência**, por motivo operacional declarado: *"more parallelizable and requiring significantly less time to train"*. A atenção existia desde 2014 como acessório de uma RNN; 2017 **remove o hospedeiro**. O ganho não é representacional, é de paralelismo. 📖
+
+## Cap. 12 — Modelos de fundação
+
+**O aperto:** em 2018, visão já não treinava do zero; **PLN recomeçava do zero a cada tarefa** ✓ᵃ. **A virada:** transferir **o modelo inteiro**, não só a camada de entrada.
+
+**A ideia reaproveitável: quando o dado rotulado é o gargalo, mude o que se reaproveita, não o algoritmo.** O salto de 2018 é troca da **unidade de reuso** — da palavra para o modelo. 📖
+
+**ULMFiT** ([arXiv:1801.06146](https://arxiv.org/abs/1801.06146)) ✓ᵃ: **com 100 exemplos rotulados iguala o treino do zero com 10 000**. **BERT** ✓ᵐ: o objetivo de máscara é a **tarefa Cloze de Wilson Taylor (1953)** ⏳ — medida de legibilidade jornalística virando função de perda 65 anos depois.
+
+**Escala** ([arXiv:2001.08361](https://arxiv.org/abs/2001.08361)) ✓ᵃ: a perda cai como lei de potência *"spanning more than seven orders of magnitude"*, e **largura e profundidade têm efeito mínimo**. É o oposto do cap. 10: trinta anos de progresso por arquitetura, e a lei diz que, passado certo ponto, arquitetura é detalhe. 📖
+
+**RAG** ([arXiv:2005.11401](https://arxiv.org/abs/2005.11401)) ✓ᵃ: separa memória **paramétrica** de **não-paramétrica**. É a LSTM repetida 23 anos depois — **quando a memória embutida falha, construa um canal externo.** 📖
+
+**"Foundation model"** ([arXiv:2108.07258](https://arxiv.org/abs/2108.07258), 114 autores) ✓ᵃ: *"to underscore their critically central yet **incomplete** character"*, e o resumo já traz a autocrítica — *"incentivizes homogenization"*, e os defeitos do modelo-base *"are inherited by all adapted models downstream"*. A objeção mais citada é de Meredith Whittaker: renomearam algo que já tinha nome ⏳ — **imprensa especializada, não conferida em fala primária**. É a lição do caso OLAP: **quem batiza uma categoria decide o que ela herda de história e de crítica.** 📖
+
+## Fios (13 a 16)
+
+**13 · O quarto caso de crédito existe, e vale por ser PARCIAL — mas está BLOQUEADO.** Hochreiter mede o gradiente exponencial em junho de 1991, em alemão, numa dissertação de graduação (✓, lida no original); a citação corrente é Bengio, Simard & Frasconi (1994), em inglês. **❌ — não foi possível abrir o PDF de 1994 em três hospedeiros, e portanto não se sabe se as referências citam Hochreiter.** Sem isso, **a afirmação forte fica proibida**: o cap. 26 diz que Hochreiter mediu em 1991 em alemão e que a citação corrente é de 1994, **sem** afirmar omissão de crédito.
+> E o desfecho quebra o padrão: **Hochreiter não foi apagado** — volta em 1997 com a LSTM e leva o crédito. *Comunicar tarde custa a prioridade, não necessariamente a carreira.* É o caso **atenuado** da série. 📖
+
+**14 · O maior intervalo do livro… e a contra-prova dentro da mesma linhagem.** Hubel & Wiesel **1959** → AlexNet **2012**: **53 anos**. Mas a mesma linhagem traz a resposta mais rápida: **Transformer 2017 → BERT e GPT em 2018, cerca de um ano.** O fio 5 dizia que o gargalo é a *precisão da pergunta*; este caso acrescenta a **segunda condição — infraestrutura de reprodução compartilhada** (arXiv, código aberto, GPU comprável, benchmark comum). Com as duas, o intervalo cai de décadas para meses. 📖
+
+**15 · Restrição material, o caso mais literal do livro.** O diagrama de duas colunas da AlexNet **é um limite de 3 GB desenhado** (frase citada, ✓). Ao lado: LeCun em 1989 com ~9 760 parâmetros e três dias numa SUN-4/260; a inversão da frase em 2014; o Transformer eliminando a recorrência **para caber no paralelismo da GPU**. Emparelha com Playfair (cap. 22) e o cubo OLAP (cap. 23). 📖
+
+**16 · Um diagnóstico, quatro remédios, 25 anos.** "O gradiente é um produto, e produtos somem ou explodem" (1991) gera a LSTM (canal sem multiplicação), a inicialização (variância do produto), a ReLU (derivada 1 na região ativa) e a conexão residual (caminho aditivo). **Reconhecer o mesmo diagnóstico sob quatro remédios é a competência que o cap. 26 deve formar** — e é o argumento para ler 26, 10 e 11 em sequência. 📖
+
+## Fila de verificação (linhagem conexionista)
+
+| # | Fonte | O que fecha | Esforço |
+|---|---|---|---|
+| 1 | **Bengio, Simard & Frasconi (1994)** — as referências | ❌ → ✓/❌ no fio 13. **Hoje bloqueia a afirmação** | baixo, com hospedeiro aberto |
+| 2 | [Hochreiter & Schmidhuber (1997)](https://www.bioinf.jku.at/publications/older/2604.pdf) | ⏳ → ✓ no *constant error carousel* e no elo com 1991 | baixo |
+| 3 | [Santurkar *et al.* (2018)](https://arxiv.org/abs/1805.11604) | ✓ᵐ → ✓ no melhor caso pedagógico do cap. 26 | baixo |
+| 4 | **Hornik (1991)**, 7 pp. | ⏳ → ✓ em *o que o teorema não promete* | médio |
+| 5 | **Tese de Hochreiter, caps. 3–4** (já em disco) | o protótipo da LSTM dentro do texto de 1991 | médio (alemão técnico) |
+| 6 | **LeCun *et al.* (1989)** | ✓ᵐ → ✓ na origem postal do dado | médio (paywall) |
+| 7 | **Hubel & Wiesel (1959)** | ⏳ → ✓ na borda da lâmina de vidro | médio |
+| 8 | **Fala primária de Whittaker** | ⏳ → ✓/❌. Crítica nominal **exige** primária, como no caso OLAP | alto |
+| 9 | **Anedota do caixa de banco** (dropout) | ⏳ → ✓/❌. Ótima se fechar, **descartável se não** | alto |
+| 10 | **Corpo dos 12 artigos ✓ᵃ** | ✓ᵃ → ✓ pleno | alto |

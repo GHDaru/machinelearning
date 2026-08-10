@@ -270,6 +270,84 @@
    ]
   },
   {
+   "id": "20-e1",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/20-coleta-integracao.md",
+   "tipo": "completar",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Complete a sigla que nomeia a ordem adotada quando o armazenamento ficou barato — carregar o dado bruto primeiro e transformá-lo depois, dentro do próprio repositório analítico:\n\n`Extract → Load → Transform = ______`",
+   "opcoes": [],
+   "gabarito": "ELT|elt",
+   "porque": "No **ETL**, a transformação acontece **antes** da carga: chega ao repositório apenas o que já foi limpo, modelado e, muitas vezes, agregado — e o que ficou de fora não volta. No **ELT**, o bruto entra primeiro e as regras viram SQL dentro do repositório. A vantagem decisiva não é desempenho, é **reversibilidade**: quando a definição de \"cliente ativo\" mudar (e ela muda), você recalcula a partir do bruto em vez de pedir uma extração nova a um sistema que talvez nem exista mais. Não confunda a ordem com virtude: ELT sem catálogo, sem dono e sem controle de custo produz um repositório caro que ninguém confia.",
+   "volte_para": "#fundamentos-as-fontes-e-a-ordem-da-transformacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "20-coleta-integracao",
+   "titulo_capitulo": "20 — Coleta e Integração"
+  },
+  {
+   "id": "20-e2",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/20-coleta-integracao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Uma equipe precisa de duas coisas ao mesmo tempo: guardar cinco anos de eventos brutos de clique (JSON, com o esquema mudando a cada release do aplicativo) e servir trinta relatórios fixos ao financeiro, todo dia às 7h. Qual arranjo atende melhor?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Só warehouse: modelar os eventos de clique no esquema dimensional já na entrada."
+    },
+    {
+     "correta": true,
+     "texto": "Eventos brutos no lake (esquema na leitura) e tabelas modeladas no warehouse para os relatórios, com um catálogo ligando as duas pontas."
+    },
+    {
+     "correta": false,
+     "texto": "Só lake: byte é barato e hoje se roda SQL direto sobre os arquivos."
+    },
+    {
+     "correta": false,
+     "texto": "Nem um nem outro: basta uma réplica de leitura do banco transacional."
+    }
+   ],
+   "gabarito": "Lake para o bruto, warehouse para o relatório, catálogo ligando os dois",
+   "porque": "As duas necessidades têm perfis de custo **opostos**, e é isso que o exercício testa. O evento de clique tem esquema instável e valor por byte baixíssimo — exigir modelagem na escrita significaria remodelar a cada release e descartar campos novos que ninguém pediu ainda. O relatório do financeiro é o inverso: mesma pergunta, todo dia, no horário — aí compensa pagar caro na entrada para ler barato depois.\n\nPor que as outras erram: \"só warehouse\" transforma cada mudança do app em migração de esquema. \"Só lake\" ignora que barato **por byte** não é barato **por pergunta** — trinta relatórios diários varrendo JSON bruto custam mais em processamento do que a modelagem que se evitou, e o lake sem catálogo perde o significado dos arquivos em poucos meses. A réplica de leitura resolve só o problema dos anos 1980 (não derrubar a operação); ela não guarda histórico que a produção já apagou nem entrega o dado modelado.",
+   "volte_para": "#onde-o-dado-descansa-lake-warehouse-lakehouse",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "20-coleta-integracao",
+   "titulo_capitulo": "20 — Coleta e Integração"
+  },
+  {
+   "id": "20-e3",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/20-coleta-integracao.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Você monta o conjunto de treino de um modelo que prevê **inadimplência no momento da compra**. Os pedidos de 2025 estão no data warehouse; o cadastro vem de outro sistema, e a tabela `clientes` é sincronizada todas as noites **sobrescrevendo** a linha do cliente.\n\n```sql\nSELECT p.pedido_id, p.data_pedido, p.valor,\n       c.score_risco, c.situacao_cadastral\nFROM   pedidos p\nJOIN   clientes c ON c.cliente_id = p.cliente_id\nWHERE  p.data_pedido BETWEEN '2025-01-01' AND '2025-12-31';\n```\n\nO modelo treinado com essa tabela alcança desempenho muito acima do esperado. Explique o que está errado e o que você faria.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O `JOIN` está sintaticamente correto e semanticamente errado. O `WHERE` recorta os **pedidos** no tempo, mas nada recorta o **cadastro**: cada linha de 2025 recebe o cliente como ele está agora. Um cliente que ficou inadimplente em novembro aparece como inadimplente também na compra de janeiro — o rótulo entrou disfarçado de atributo. É o vazamento do [capítulo 02](02-dados.md) na sua forma mais comum, e ele não nasce da modelagem: nasce da integração.\n\nO desempenho \"muito acima do esperado\" é o sinal, e vale como regra de ofício: **resultado bom demais é hipótese de vazamento até prova em contrário** — vá conferir a origem das colunas antes de comemorar.\n\nA correção estrutural é dar tempo à dimensão: guardar cada versão do cadastro com validade (`valido_de`, `valido_ate`) e juntar com `p.data_pedido BETWEEN c.valido_de AND c.valido_ate`. Onde isso não existe, sirva-se de snapshots datados do cadastro, ou recalcule o atributo a partir de eventos anteriores à data do pedido. E note o que a correção exige: alguém precisa ter decidido **guardar história** lá atrás. Por isso a pergunta de procedência é feita na coleta, não na modelagem — na modelagem já é tarde.",
+   "volte_para": "#de-onde-veio-este-dado-e-quem-o-produziu",
+   "rubrica": "identifica que `clientes` é sobrescrita e portanto o JOIN traz o estado de **hoje** para uma linha de 2025;\nreconhece que `score_risco` e `situacao_cadastral` foram produzidos **depois** do momento da decisão que o modelo deve apoiar;\nnomeia isso como vazamento e liga o desempenho alto no teste à queda esperada em produção;\npropõe ao menos uma correção concreta — dimensão versionada com validade (início/fim), snapshot datado do cadastro, ou recomputar o atributo com corte no tempo do pedido;\nfaz a pergunta de procedência sobre as colunas: quem as produz, com que frequência e se são sobrescritas",
+   "versoes": null,
+   "pagina": "20-coleta-integracao",
+   "titulo_capitulo": "20 — Coleta e Integração",
+   "criterios": [
+    "identifica que `clientes` é sobrescrita e portanto o JOIN traz o estado de **hoje** para uma linha de 2025",
+    "reconhece que `score_risco` e `situacao_cadastral` foram produzidos **depois** do momento da decisão que o modelo deve apoiar",
+    "nomeia isso como vazamento e liga o desempenho alto no teste à queda esperada em produção",
+    "propõe ao menos uma correção concreta — dimensão versionada com validade (início/fim), snapshot datado do cadastro, ou recomputar o atributo com corte no tempo do pedido",
+    "faz a pergunta de procedência sobre as colunas: quem as produz, com que frequência e se são sobrescritas"
+   ]
+  },
+  {
    "id": "02-e1",
    "capitulo": 2,
    "arquivo": "livro/capitulos/02-dados.md",
@@ -561,6 +639,88 @@
    "versoes": null,
    "pagina": "22-visualizacao-storytelling",
    "titulo_capitulo": "22 — Visualização e Storytelling"
+  },
+  {
+   "id": "03-e1",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/03-representacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você treina um *random forest* para prever inadimplência. Um colega revisa o código e sugere padronizar todos os atributos numéricos (média 0, desvio 1) antes do treino, \"porque é boa prática\". O que acontece com o desempenho?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Melhora, porque as árvores comparam atributos entre si."
+    },
+    {
+     "correta": false,
+     "texto": "Piora, porque a padronização destrói a informação de escala que as árvores usam."
+    },
+    {
+     "correta": true,
+     "texto": "Fica praticamente igual — a árvore escolhe cortes dentro de um atributo por vez, e a ordem dos valores não muda."
+    },
+    {
+     "correta": false,
+     "texto": "Melhora só se houver atributos com unidades muito diferentes."
+    }
+   ],
+   "gabarito": "Fica praticamente igual",
+   "porque": "Uma árvore avalia cortes do tipo \"atributo *j* ≤ *v*\". Padronizar é uma transformação **monotônica** dentro de cada atributo: ela muda os valores, mas **não muda a ordem** deles — e portanto não muda quais divisões dos exemplos são possíveis. O corte que separava os mesmos exemplos antes continua separando os mesmos depois.\n\nA segunda alternativa é o erro simétrico e vale desmontar: a árvore **não usa** escala como informação. Ela nunca compara um atributo com outro na mesma conta — é justamente essa indiferença que a torna cômoda para tabela com unidades misturadas.\n\nLição prática: normalizar antes de uma floresta não é errado, é **inútil** — e código inútil no pipeline é código que pode quebrar, que precisa ser mantido, e que confunde quem vier depois. \"Boa prática\" sem a condição em que ela vale é superstição.",
+   "volte_para": "#2-numerica-a-escala-importa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "03-representacao",
+   "titulo_capitulo": "03 — Representação"
+  },
+  {
+   "id": "03-e2",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/03-representacao.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Uma variável categórica `regiao` tem 5 valores possíveis. Você vai usá-la numa **regressão linear com intercepto**.\n\nQuantas colunas *dummy* você deve criar para evitar a indeterminação?",
+   "opcoes": [],
+   "gabarito": "4",
+   "porque": "Com 5 colunas — uma por região — a soma delas dá exatamente 1 em toda linha, que é precisamente o que a coluna do intercepto já vale. Uma das colunas é combinação linear perfeita das outras mais o intercepto, e o sistema deixa de ter solução única: infinitos conjuntos de coeficientes produzem exatamente as mesmas previsões.\n\nOmitindo uma categoria, ela vira a **referência**, e cada coeficiente passa a significar \"o efeito desta região **em relação à** referência\". Isso não é uma perda: é o que torna o coeficiente interpretável.\n\nA regra geral é **k − 1** colunas para k categorias, quando há intercepto. Sem intercepto, use as k. E note que isso **não vale** para árvores ou para modelos regularizados, onde a redundância não impede a solução — mais um caso em que a resposta certa depende do modelo, não da variável.",
+   "volte_para": "#1-categorica-quantos-valores-diferentes-existem",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "03-representacao",
+   "titulo_capitulo": "03 — Representação",
+   "gabarito_num": {
+    "valor": 4,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "03-e3",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/03-representacao.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Uma rede de farmácias quer prever quais clientes vão abandonar o programa de fidelidade nos próximos 90 dias. A tabela disponível tem uma linha por cliente com: `cpf`, `data_cadastro`, `cidade`, `total_gasto_historico`, `numero_de_compras`.\n\nProponha **três atributos novos** construídos a partir dessas colunas ou de dados que você pediria, justifique cada um pela hipótese de negócio, e descreva como mediria se eles pagaram.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca lista transformações genéricas. A resposta forte percebe duas coisas.\n",
+   "volte_para": "#3-dominio-que-atributo-nao-esta-la",
+   "rubrica": "propõe ao menos um atributo de **razão ou média** (ticket médio = total gasto / número de compras) em vez de usar só valores absolutos;\npropõe ao menos um atributo **temporal** (dias desde a última compra, ou frequência recente contra frequência histórica) e reconhece que a data da última compra não está na tabela e precisa ser pedida;\njustifica cada atributo por uma hipótese de negócio explícita, não por \"costuma ajudar\";\ndescreve uma medição comparativa com protocolo — mesma divisão, mesmo modelo, com e sem os atributos;\nmenciona a incerteza da comparação, ou o risco de vazamento ao construir atributo temporal",
+   "versoes": null,
+   "pagina": "03-representacao",
+   "titulo_capitulo": "03 — Representação",
+   "criterios": [
+    "propõe ao menos um atributo de **razão ou média** (ticket médio = total gasto / número de compras) em vez de usar só valores absolutos",
+    "propõe ao menos um atributo **temporal** (dias desde a última compra, ou frequência recente contra frequência histórica) e reconhece que a data da última compra não está na tabela e precisa ser pedida",
+    "justifica cada atributo por uma hipótese de negócio explícita, não por \"costuma ajudar\"",
+    "descreve uma medição comparativa com protocolo — mesma divisão, mesmo modelo, com e sem os atributos",
+    "menciona a incerteza da comparação, ou o risco de vazamento ao construir atributo temporal"
+   ]
   },
   {
    "id": "04-e1",
@@ -1110,6 +1270,170 @@
    ]
   },
   {
+   "id": "23-e1",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/23-analise-multidimensional.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Você modela as vendas de uma rede de farmácias. A base tem: `valor_do_item`, `quantidade`, `nome_do_produto`, `categoria_do_produto`, `cidade_da_loja`, `data_da_venda`, `desconto_concedido`. Qual conjunto pertence à **tabela-fato**, no grão \"um item de venda\"?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "`nome_do_produto`, `categoria_do_produto`, `cidade_da_loja` — são o que o relatório mostra."
+    },
+    {
+     "correta": true,
+     "texto": "`valor_do_item`, `quantidade`, `desconto_concedido` — mais as chaves para produto, loja e tempo."
+    },
+    {
+     "correta": false,
+     "texto": "Todas as sete colunas, para evitar `JOIN` e deixar a consulta mais rápida."
+    },
+    {
+     "correta": false,
+     "texto": "`data_da_venda` e `cidade_da_loja`, porque toda análise começa por tempo e lugar."
+    }
+   ],
+   "gabarito": "As medidas (`valor_do_item`, `quantidade`, `desconto_concedido`) mais as chaves de dimensão",
+   "porque": "Vale o teste: você **somaria** valor, quantidade e desconto — são medidas, e medida mora no fato. Você **agruparia por** nome de produto, categoria e cidade — são atributos descritivos, e atributo descritivo mora na dimensão.\n\nA primeira e a última alternativas invertem os papéis: confundem \"o que aparece no relatório\" com \"o que é medido\" — o rótulo vem da dimensão justamente para que você possa trocá-lo (produto → categoria) sem tocar no fato. A terceira é o erro mais interessante, porque tem um argumento verdadeiro dentro: `JOIN` custa, e desnormalizar acelera. Só que jogar tudo no fato multiplica o texto por **milhões** de linhas, não pelas poucas centenas da dimensão — e, pior, tira do modelo o lugar onde a hierarquia produto → categoria fica declarada. Sem esse lugar, não existe roll-up: você volta a reescrever a consulta a cada pergunta.",
+   "volte_para": "#fundamentos-fato-dimensao-e-grao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "23-analise-multidimensional",
+   "titulo_capitulo": "23 — Análise Multidimensional"
+  },
+  {
+   "id": "23-e2",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/23-analise-multidimensional.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um cubo de vendas tem três dimensões, no grão mais fino: **Produto** (40 produtos, agrupados em 8 categorias), **Região** (5 regiões) e **Tempo** (12 meses).\n\nPartindo do cubo completo, você aplica um **slice** em Tempo = março e, em seguida, um **roll-up** de produto para categoria. Quantas células tem o cubo resultante?",
+   "opcoes": [],
+   "gabarito": "40 ± 0",
+   "porque": "O cubo completo tem 40 × 5 × 12 = **2 400** células. O **slice** fixa um valor de uma dimensão (março), sobrando 40 × 5 = **200**. O **roll-up** sobe Produto de 40 itens para 8 categorias: 8 × 5 = **40** células.\n\nDois erros comuns valem a atenção. O primeiro é achar que o roll-up **descarta** dado: ele não descarta, ele **agrega** — a receita das 40 células vira a receita das 8, e a soma total continua a mesma. O segundo é confundir slice com dice: se em vez de \"março\" você tivesse pedido \"março e abril, no Sul e no Sudeste\", seria um **dice**, e o resultado seria 8 × 2 × 2 = 32. E note o que o número mostra: você saiu de 2 400 células para 40 sem escrever consulta nova — foi exatamente isso que a arquitetura comprou.",
+   "volte_para": "#as-cinco-operacoes",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "23-analise-multidimensional",
+   "titulo_capitulo": "23 — Análise Multidimensional",
+   "gabarito_num": {
+    "valor": 40,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "23-e3",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/23-analise-multidimensional.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Você propõe um esquema estrela para o repositório analítico. Um colega, DBA experiente, recusa: *\"Isso viola a terceira forma normal. A categoria do produto vai estar repetida em milhares de linhas da dimensão. Se alguém renomear uma categoria, você tem anomalia de atualização. Normalize.\"*\n\nEscreva a resposta que você daria a ele — reconhecendo o que ele tem de razão.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca é \"em BI a gente desnormaliza mesmo\" — que é obedecer a um costume, não justificar uma decisão, e é exatamente o que o objetivo O3 cobra. A resposta forte começa **concedendo**: ele está certo sobre a 3NF, e a redundância é real.\n\nO argumento vem em seguida, e é sobre **qual problema cada regra resolve**. A 3NF é uma defesa contra anomalias de atualização em ambiente de escrita concorrente e imprevisível — o transacional. O repositório analítico não é esse ambiente: nele a escrita é um processo de carga único, versionado, testado e executado em janela conhecida ([capítulo 20](20-coleta-integracao.md)). Retirar uma defesa contra um ataque que não existe naquele perímetro não é descuido; é dimensionar a defesa ao risco.\n\nO caso da renomeação é onde a boa resposta se distingue da excelente: ele **não** é um contra-argumento, é um requisito — e um requisito interessante, porque muitas vezes você **não quer** propagar a mudança. Se um produto mudou de categoria em junho, reescrever a dimensão faz o relatório de janeiro mentir sobre janeiro. É o problema das *slowly changing dimensions*, e a resposta usual é guardar as duas versões com vigência, não normalizar. Fecha o caso a assimetria de tamanho: repetir \"Medicamentos\" em 800 linhas de uma dimensão custa quase nada; repeti-lo em 40 milhões de linhas do fato custaria — e por isso a estrela desnormaliza a dimensão, e só ela.",
+   "volte_para": "#estrela-e-floco-de-neve",
+   "rubrica": "reconhece que a crítica é tecnicamente correta quanto à 3NF e que a redundância existe de fato;\nexplica que a normalização protege a integridade da **escrita**, e que no repositório analítico a escrita é uma carga controlada, por um processo só, em janela conhecida — a anomalia de atualização não tem por onde entrar;\naponta o ganho concreto da estrela: menos JOIN por consulta e um modelo legível por quem faz a pergunta;\nobserva que a redundância é barata porque ocorre na **dimensão** (pequena), não no fato (milhões de linhas);\ntrata o caso da renomeação de categoria como requisito a resolver no processo de carga (ou como dimensão que muda com o tempo), não como impedimento",
+   "versoes": null,
+   "pagina": "23-analise-multidimensional",
+   "titulo_capitulo": "23 — Análise Multidimensional",
+   "criterios": [
+    "reconhece que a crítica é tecnicamente correta quanto à 3NF e que a redundância existe de fato",
+    "explica que a normalização protege a integridade da **escrita**, e que no repositório analítico a escrita é uma carga controlada, por um processo só, em janela conhecida — a anomalia de atualização não tem por onde entrar",
+    "aponta o ganho concreto da estrela: menos JOIN por consulta e um modelo legível por quem faz a pergunta",
+    "observa que a redundância é barata porque ocorre na **dimensão** (pequena), não no fato (milhões de linhas)",
+    "trata o caso da renomeação de categoria como requisito a resolver no processo de carga (ou como dimensão que muda com o tempo), não como impedimento"
+   ]
+  },
+  {
+   "id": "24-e1",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/24-series-temporais.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Você plota a série mensal de vendas de uma loja e observa: as vendas sobem de forma consistente ao longo de quatro anos, e todo dezembro é muito maior que os meses vizinhos. Qual decomposição descreve isso?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Só sazonalidade: o pico de dezembro explica o crescimento."
+    },
+    {
+     "correta": true,
+     "texto": "Tendência (crescimento de longo prazo) mais sazonalidade anual (o pico de dezembro), mais o resíduo."
+    },
+    {
+     "correta": false,
+     "texto": "Só ciclo: qualquer oscilação repetida é um ciclo."
+    },
+    {
+     "correta": false,
+     "texto": "Ruído com autocorrelação, sem componente estrutural."
+    }
+   ],
+   "gabarito": "Tendência + sazonalidade anual + resíduo",
+   "porque": "São dois fenômenos independentes acontecendo juntos, e tratá-los como um só é o erro clássico. O crescimento ao longo de quatro anos é **tendência** — a média muda de nível. O pico de dezembro é **sazonalidade**, porque tem período fixo e conhecido pelo calendário: dezembro é sempre dezembro. A terceira alternativa confunde **ciclo** com **sazonalidade**, e a diferença é operacional, não terminológica: sazonalidade você prevê olhando o calendário; ciclo tem período variável e é justamente o que Yule mostrou que pode emergir de um sistema ruidoso, sem relógio nenhum por trás. Chamar dezembro de \"ciclo\" faz você procurar um período a estimar quando ele já está dado.",
+   "volte_para": "#fundamentos-o-que-muda-quando-existe-tempo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "24-series-temporais",
+   "titulo_capitulo": "24 — Séries Temporais"
+  },
+  {
+   "id": "24-e2",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/24-series-temporais.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Vendas mensais (em milhares):\n\n| Mês | 2024 | 2025 |\n|---|---|---|\n| jan | 100 | 110 |\n| fev | 120 | 126 |\n| mar | 90 | 99 |\n\nCalcule o **MAE** (erro absoluto médio) da **previsão ingênua sazonal** — cada mês de 2025 previsto pelo mesmo mês de 2024 — nos três meses de 2025. Responda com 2 casas decimais.",
+   "opcoes": [],
+   "gabarito": "8.33 ± 0.01",
+   "porque": "As previsões são os valores de 2024: 100, 120 e 90. Os erros absolutos são |110−100| = 10, |126−120| = 6 e |99−90| = 9. O MAE é (10 + 6 + 9)/3 = 25/3 = **8,33**.\n\nAgora o que o exercício realmente ensina: compare com a **ingênua simples** (prever o valor do mês anterior). Ela previria 110 para fevereiro (erro 16) e 126 para março (erro 27) — muito pior, porque a série tem sazonalidade forte e a ingênua simples a ignora. É por aqui que relatórios ficam desonestos sem má-fé: escolhe-se a ingênua simples como linha de base, o modelo a supera com folga, e todo mundo comemora — quando a régua correta era a sazonal, que talvez o modelo nem batesse. **A linha de base tem de ser a melhor coisa trivial disponível**, não a mais fácil de vencer.",
+   "volte_para": "#a-linha-de-base-ingenua",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "24-series-temporais",
+   "titulo_capitulo": "24 — Séries Temporais",
+   "gabarito_num": {
+    "valor": 8.33,
+    "tolerancia": 0.01
+   }
+  },
+  {
+   "id": "24-e3",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/24-series-temporais.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Uma colega apresenta este protocolo para prever a demanda diária de um e-commerce:\n\n> \"Peguei 3 anos de dados diários. Criei atributos defasados (venda de 1, 7 e 30 dias atrás) e a média móvel de 30 dias, tudo calculado sobre a base completa. Depois embaralhei as linhas e fiz `train_test_split` com 20% de teste, mais um k-fold de 5 dobras para ajustar os hiperparâmetros. Deu 3,1% de erro percentual. Também rodei uma validação cruzada aleatória repetida para confirmar, e o intervalo ficou estreito.\"\n\nIdentifique os problemas do protocolo e descreva o que você faria no lugar.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia previsto, e o modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão. O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo 02](02-dados.md), onde a normalização feita antes do split contamina o teste.\n\nO detalhe que separa a boa resposta da excelente é o intervalo estreito. Ele soa como confirmação e é o contrário: **um erro sistemático medido muitas vezes continua sendo o mesmo erro, agora com um intervalo estreito em volta de um número errado**. Precisão não é validade; repetir um protocolo inválido só o torna mais convincente. E 3,1% não significa nada até se saber quanto a previsão ingênua entrega — talvez entregue 3,0%.",
+   "volte_para": "#a-validacao-nao-pode-ser-aleatoria",
+   "rubrica": "aponta que o embaralhamento quebra a ordem e permite treinar com dias posteriores ao dia previsto — vazamento do futuro para o passado;\nobserva que o k-fold aleatório repete o mesmo defeito, e que rodá-lo várias vezes não corrige nada — só mede o mesmo erro com mais precisão;\nidentifica o segundo vazamento, independente do primeiro: os atributos defasados e a média móvel foram calculados sobre a base inteira antes da divisão;\npropõe divisão cronológica e validação com origem móvel (walk-forward), com as features recalculadas dentro de cada dobra;\nexige comparação contra a previsão ingênua (simples ou sazonal) antes de aceitar os 3,1%",
+   "versoes": null,
+   "pagina": "24-series-temporais",
+   "titulo_capitulo": "24 — Séries Temporais",
+   "criterios": [
+    "aponta que o embaralhamento quebra a ordem e permite treinar com dias posteriores ao dia previsto — vazamento do futuro para o passado",
+    "observa que o k-fold aleatório repete o mesmo defeito, e que rodá-lo várias vezes não corrige nada — só mede o mesmo erro com mais precisão",
+    "identifica o segundo vazamento, independente do primeiro: os atributos defasados e a média móvel foram calculados sobre a base inteira antes da divisão",
+    "propõe divisão cronológica e validação com origem móvel (walk-forward), com as features recalculadas dentro de cada dobra",
+    "exige comparação contra a previsão ingênua (simples ou sazonal) antes de aceitar os 3,1%"
+   ]
+  },
+  {
    "id": "25-e1",
    "capitulo": 25,
    "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
@@ -1306,6 +1630,252 @@
     "aponta ao menos uma semelhança razoável com o neurônio biológico (integrar sinais, disparar ou não)",
     "aponta ao menos uma diferença importante (ausência de tempo, de química, de estrutura, ou o fato de ser uma simplificação deliberada)",
     "não trata a analogia biológica como se fosse literal"
+   ]
+  },
+  {
+   "id": "08-e1",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Seus dados têm dois grupos visíveis: um alongado, em forma de arco, com 800 pontos, e outro pequeno e denso, com 60 pontos. Você roda k-means com k=2 e o resultado corta o arco ao meio, juntando uma das metades ao grupo pequeno. Qual é o diagnóstico correto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O algoritmo convergiu para um mínimo local; basta rodar com mais inicializações."
+    },
+    {
+     "correta": false,
+     "texto": "O k está errado; com k=3 ou k=4 o arco é recuperado corretamente."
+    },
+    {
+     "correta": true,
+     "texto": "A limitação está no critério: minimizar distância ao centro premia grupos esféricos e de tamanho parecido, então nenhuma inicialização ou k conserta a partição."
+    },
+    {
+     "correta": false,
+     "texto": "Os dados precisam ser normalizados antes; a escala é a causa do corte."
+    }
+   ],
+   "gabarito": "A limitação está no critério, não na execução",
+   "porque": "A inércia — soma das distâncias quadradas ao centro — é minimizada por **bolas compactas**. Um arco tem pontos longe do próprio centro, então cortá-lo ao meio de fato **reduz** a inércia: o algoritmo não falhou, ele acertou o alvo errado.\n\nAs três alternativas erradas confundem execução com critério. Mais inicializações encontram mínimos locais melhores **do mesmo critério** — e o critério é o problema. Mais grupos fatiam o arco em pedaços mais esféricos, o que pode \"funcionar\" visualmente, mas aí você deixou de recuperar a estrutura e passou a aproximá-la por pedaços. E normalizar corrige distorção de **unidades**; aqui as unidades podem estar perfeitas e o resultado ser o mesmo, porque o problema é a **forma**. A saída real é trocar de critério — densidade, ou hierárquico com a ligação adequada — e não afinar o k-means.",
+   "volte_para": "#fundamentos-inventar-o-criterio-depois-alternar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "08-nao-supervisionado",
+   "titulo_capitulo": "08 — Aprendizado Não Supervisionado"
+  },
+  {
+   "id": "08-e2",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "De **1 000** cestas de um supermercado: **600** contêm pão, **500** contêm leite e **300** contêm os dois.\n\nCalcule o **lift** da regra `{leite} → {pão}`. Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "1.00 ± 0.01",
+   "porque": "A confiança é `300 / 500 = 0,60` — parece uma regra forte. Mas o suporte de pão sozinho é `600 / 1000 = 0,60`, e o lift é `0,60 / 0,60 = 1,00`: **exatamente nenhuma relação**.\n\nÉ a armadilha inteira num número. Saber que alguém levou leite **não muda em nada** a chance de ter levado pão: uma regra com confiança alta e lift 1 é uma descoberta sobre o item mais vendido da loja, disfarçada de descoberta sobre a relação entre dois itens. Guarde a leitura: lift > 1 é associação positiva, lift < 1 é associação **negativa** (um item afasta o outro — às vezes o achado mais útil), lift ≈ 1 é independência. E note que é o mesmo problema da seção anterior em outra roupa: sem gabarito, a métrica que parece óbvia é a errada, e vale a que se compara com uma **linha de base**.",
+   "volte_para": "#regras-de-associacao-e-a-lenda-que-quebrou",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "08-nao-supervisionado",
+   "titulo_capitulo": "08 — Aprendizado Não Supervisionado",
+   "gabarito_num": {
+    "valor": 1,
+    "tolerancia": 0.01
+   }
+  },
+  {
+   "id": "08-e3",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "Uma analista segmenta 40 mil clientes com k-means. Ela testou k de 2 a 10, escolheu **k=5** porque \"foi onde os grupos ficaram mais interpretáveis\", nomeou os cinco segmentos, e a diretoria aprovou uma campanha diferente para cada um.\n\nEscreva a crítica que você faria e o que proporia em seguida.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca troca um critério interno por outro: \"use silhueta em vez de interpretabilidade\". Mas silhueta mede a mesma compacidade que o k-means otimizou — ela pode confirmar uma partição de puro ruído, porque nunca foi projetada para dizer se a estrutura existe.\n\nA resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — o mesmo pecado do [capítulo 25](25-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que ninguém fez a pergunta decisiva: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo. E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**. Se os cinco grupos continuarem nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.",
+   "volte_para": "#validar-sem-gabarito",
+   "rubrica": "identifica que \"mais interpretável\" é um critério posterior e subjetivo, escolhido depois de ver o resultado;\nmenciona que o k-means sempre devolve k grupos, inclusive sem estrutura real nos dados;\naponta ao menos uma verificação de estabilidade (reamostrar/dividir os dados, trocar a semente, comparar partições);\npropõe ao menos um critério externo — uma variável que não entrou no agrupamento e que os grupos deveriam predizer;\nnão se limita a sugerir \"usar silhueta\" como se isso resolvesse",
+   "versoes": null,
+   "pagina": "08-nao-supervisionado",
+   "titulo_capitulo": "08 — Aprendizado Não Supervisionado",
+   "criterios": [
+    "identifica que \"mais interpretável\" é um critério posterior e subjetivo, escolhido depois de ver o resultado",
+    "menciona que o k-means sempre devolve k grupos, inclusive sem estrutura real nos dados",
+    "aponta ao menos uma verificação de estabilidade (reamostrar/dividir os dados, trocar a semente, comparar partições)",
+    "propõe ao menos um critério externo — uma variável que não entrou no agrupamento e que os grupos deveriam predizer",
+    "não se limita a sugerir \"usar silhueta\" como se isso resolvesse"
+   ]
+  },
+  {
+   "id": "13-e1",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/13-reforco.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Um agente executa três passos e recebe as recompensas **3**, **0** e **10**, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?\n\nResponda com uma casa decimal.",
+   "opcoes": [],
+   "gabarito": "11,1 ± 0,05",
+   "porque": "O retorno é a soma das recompensas, cada uma multiplicada por γ elevado ao número de passos de espera: `3 + 0,9 × 0 + 0,81 × 10 = 3 + 0 + 8,1 = 11,1`.\n\nO que interessa aqui não é a conta, é o **8,1**. A recompensa de 10 existe e é real, mas vista de hoje ela vale 8,1 — e essa diferença de 1,9 é o preço da espera. Baixe γ para 0,5 e a mesma recompensa passa a valer 2,5: o agente deixa de perseguir o prêmio do fim e vira imediatista. γ **não é um detalhe de implementação**: é onde você declara quanta paciência o agente tem, e trocá-lo muda o comportamento ótimo, não só a velocidade do treino.",
+   "volte_para": "#fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "13-reforco",
+   "titulo_capitulo": "13 — Aprendizado por Reforço",
+   "gabarito_num": {
+    "valor": 11.1,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "13-e2",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/13-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um sistema de recomendação foi treinado por reforço e, após duas semanas, converge para exibir sempre os mesmos 40 itens — os que renderam mais cliques no começo. O catálogo tem 12 mil itens. Qual é o diagnóstico mais provável?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O fator de desconto γ está alto demais, tornando o agente paciente em excesso."
+    },
+    {
+     "correta": true,
+     "texto": "Explotação em excesso: o agente parou de experimentar e ficou preso ao que funcionou primeiro, sem nunca medir os outros 11 960 itens."
+    },
+    {
+     "correta": false,
+     "texto": "A recompensa está mal calibrada e precisa ser normalizada entre 0 e 1."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é o *bootstrapping*: previsões que se alimentam de previsões sempre colapsam."
+    }
+   ],
+   "gabarito": "Explotação em excesso — o agente parou de explorar",
+   "porque": "O agente está agindo de forma **ótima segundo o que conhece** — e o que ele conhece são os itens que teve a sorte de mostrar cedo. Sobre os outros 11 960 ele não tem estimativa nenhuma, e uma estimativa que nunca é atualizada nunca vira competitiva. É o círculo vicioso característico: só se aprende o valor do que se experimenta, e só se experimenta o que já parece valioso.\n\nSobre as erradas: **γ alto** deixa o agente mais paciente, não mais repetitivo — se algo, ele o faria buscar recompensas distantes. **Normalizar a recompensa** muda a escala dos números, não a decisão de experimentar ou não. E **bootstrapping** não colapsa por definição; é o mecanismo central que faz o Q-learning funcionar sem esperar o fim do episódio.\n\nA correção prática costuma ser simples e desconfortável: garantir um piso de exploração (ε que não vai a zero) e aceitar pagar por ele — porque o custo de explorar é visível no painel e o custo de não explorar não é.",
+   "volte_para": "#explorar-ou-explotar-o-dilema-e-o-cerne-nao-um-detalhe",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "13-reforco",
+   "titulo_capitulo": "13 — Aprendizado por Reforço"
+  },
+  {
+   "id": "13-e3",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/13-reforco.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Uma transportadora quer \"usar aprendizado por reforço para otimizar a roteirização das entregas do dia\". Há histórico de 4 anos de rotas executadas, com tempos reais. Não existe simulador. Cada rota mal planejada custa horas extras e atraso com o cliente.\n\nJulgue: este problema merece reforço, ou é supervisionado (ou otimização) disfarçado? Justifique e proponha o que fazer.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca aceita o enunciado do cliente e discute qual algoritmo de reforço usar. A resposta forte percebe que o problema já vem **com gabarito**: quatro anos de rotas executadas com tempos reais são exemplos rotulados. Prever o tempo de um trecho é supervisionado clássico; escolher a melhor rota dadas as previsões é otimização de roteirização, um campo com décadas de solvers maduros.\n\nO critério que decide não é o tamanho do problema, é a **influência**: as entregas de hoje mudam a distribuição do trânsito de amanhã? Praticamente não. Sem influência, não há problema sequencial a resolver — há previsão mais decisão, exatamente a separação do [capítulo 25](25-do-modelo-a-decisao.md).\n\nE há o argumento material, que costuma encerrar a conversa antes do argumento teórico: **sem simulador, o agente aprende explorando na operação real**, e explorar aqui significa despachar rotas ruins de propósito para descobrir que são ruins. Alguém vai pagar essa conta em horas extras. Reforço volta à mesa no dia em que existir um simulador de trânsito validado — e então o trabalho difícil passa a ser mostrar que o simulador se parece com a rua.",
+   "volte_para": "#por-que-reforco-e-a-ultima-ferramenta-a-considerar",
+   "rubrica": "aplica o teste da influência — pergunta se a decisão de hoje muda o que será observado amanhã;\nidentifica a ausência de simulador e o custo alto por tentativa como impedimento prático, não como detalhe;\nreconhece que há 4 anos de dados rotulados por tempo real, o que sustenta um modelo supervisionado de previsão de tempo de percurso;\nsepara as duas metades — prever tempos (supervisionado) e escolher a rota (otimização combinatória sobre as previsões);\nNÃO recomenda reforço como primeira escolha, e diz sob que condição ele voltaria à mesa (existência de simulador validado, ou interação barata)",
+   "versoes": null,
+   "pagina": "13-reforco",
+   "titulo_capitulo": "13 — Aprendizado por Reforço",
+   "criterios": [
+    "aplica o teste da influência — pergunta se a decisão de hoje muda o que será observado amanhã",
+    "identifica a ausência de simulador e o custo alto por tentativa como impedimento prático, não como detalhe",
+    "reconhece que há 4 anos de dados rotulados por tempo real, o que sustenta um modelo supervisionado de previsão de tempo de percurso",
+    "separa as duas metades — prever tempos (supervisionado) e escolher a rota (otimização combinatória sobre as previsões)",
+    "NÃO recomenda reforço como primeira escolha, e diz sob que condição ele voltaria à mesa (existência de simulador validado, ou interação barata)"
+   ]
+  },
+  {
+   "id": "27-e1",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Sua empresa quer transformar em sistema especialista o conhecimento de três engenheiros veteranos que aprovam ou reprovam lotes de produção. Onde está o gargalo real do projeto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Na velocidade do motor de inferência, que precisará percorrer milhares de regras a cada consulta."
+    },
+    {
+     "correta": true,
+     "texto": "Na aquisição do conhecimento: os engenheiros decidem bem sem conseguir enunciar as regras que usam."
+    },
+    {
+     "correta": false,
+     "texto": "Na falta de exemplos rotulados suficientes para treinar a base de regras."
+    },
+    {
+     "correta": false,
+     "texto": "Na ausência de uma linguagem formal capaz de representar regras SE — ENTÃO."
+    }
+   ],
+   "gabarito": "Na aquisição do conhecimento — extrair do especialista as regras que ele aplica sem verbalizar",
+   "porque": "O motor de inferência é **genérico e resolvido**: o mesmo procedimento serve para diagnóstico médico e para controle de caldeira, e milhares de regras não são um problema computacional relevante. A linguagem de regras também existe desde os anos 1970. O que trava é humano — a competência de um especialista é em boa parte tácita, e o trabalho de destilá-la em regras explícitas é lento, caro e precisa ser refeito quando o processo muda.\n\nA terceira alternativa captura o mal-entendido mais comum de quem chega ao assunto vindo de aprendizado de máquina: **a base de regras não é treinada, é escrita**. É exatamente por isso que este paradigma funciona com 41 lotes de histórico — ele não usa os 41 para aprender a regra, usa-os para **testar** a regra que uma pessoa escreveu.",
+   "volte_para": "#simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "27-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "27 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "27-e2",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "O termo linguístico **\"água quente\"** é definido por uma função de pertinência **triangular**: pertinência **0** em 30 °C, **1** em 50 °C e **0** em 70 °C, com variação linear entre esses pontos.\n\nQual é o grau de pertinência de uma leitura de **44 °C** ao conjunto \"água quente\"? Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "0,70",
+   "porque": "44 °C está no ramo **ascendente** do triângulo, entre 30 °C (grau 0) e 50 °C (grau 1). A interpolação linear é `(44 − 30) / (50 − 30) = 14 / 20 = 0,70`.\n\nDois pontos que o cálculo torna concretos. Primeiro: **não há limiar**. A 43 °C o grau seria 0,65, a 45 °C seria 0,75 — nada \"vira\" quente em lugar nenhum, que era exatamente o aperto de Zadeh. Segundo: esse 0,70 **não é uma probabilidade de 70%** de a água estar quente. A temperatura é conhecida com certeza; o que é parcial é a aplicação da palavra. A mesma leitura de 44 °C pode ter grau 0,45 em \"morna\" ao mesmo tempo, e a soma passar de 1 sem que nada esteja errado.",
+   "volte_para": "#fuzzy-o-grau-entre-o-sim-e-o-nao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "27-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "27 — IA Simbólica, Fuzzy e Evolutiva",
+   "gabarito_num": {
+    "valor": 0.7,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "27-e3",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "aberta",
+   "objetivo": "O1",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Um hospital pede um sistema de apoio ao diagnóstico para uma doença rara. Há **60 casos confirmados** em dez anos de prontuários, um consenso clínico publicado que descreve quais fatores causam quais sintomas, e uma exigência do comitê de ética: **toda recomendação precisa vir acompanhada da justificativa clínica**.\n\nUm colega propõe treinar uma rede neural com os 60 casos. Escreva a recomendação que você levaria à reunião, dizendo o que usar e por quê.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca discute qual arquitetura de rede caberia em 60 exemplos. A resposta certa percebe que **a pergunta não é sobre arquitetura, é sobre onde está a informação**: ela está no consenso clínico publicado, não nos prontuários — e rede neural não tem por onde receber conhecimento que não venha em forma de exemplo.\n\nÉ a ideia reaproveitável do capítulo aplicada a uma decisão de projeto: **a representação escolhida decide qual busca é possível**. Escolher a rede neural é escolher procurar padrão em 60 pontos; escolher o grafo é escolher procurar a probabilidade que falta dentro de uma estrutura que já se sabe correta. E há o detalhe que fecha o caso: a exigência do comitê de ética **não é um requisito adicional a satisfazer depois**, é uma restrição sobre a representação. Numa rede bayesiana a justificativa sai de graça; numa rede neural ela seria uma aproximação construída à parte, defendida diante de gente que decide sobre a vida de pacientes.\n\nUm cuidado que a boa resposta menciona: os 60 casos não são inúteis. Servem para estimar algumas tabelas de probabilidade condicional e, sobretudo, para **avaliar** o sistema — o mesmo dado que é escasso demais para treinar pode ser suficiente para reprovar.",
+   "volte_para": "#bayesianas-a-incerteza-com-estrutura",
+   "rubrica": "reconhece que 60 exemplos são insuficientes para treinar uma rede neural com qualquer confiança, e que a métrica obtida nesse regime seria ela própria pouco confiável;\nidentifica que existe conhecimento estruturado disponível (o consenso clínico) que a rede neural não teria como usar;\nrecomenda uma rede bayesiana com estrutura elicitada dos especialistas, ou um sistema baseado em regras, e não a rede neural;\njustifica pela explicabilidade por construção — o caminho no grafo ou o rastro de regras É a justificativa clínica exigida;\nmenciona ao menos um uso legítimo dos 60 casos, como avaliar o sistema ou estimar tabelas de probabilidade condicional",
+   "versoes": null,
+   "pagina": "27-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "27 — IA Simbólica, Fuzzy e Evolutiva",
+   "criterios": [
+    "reconhece que 60 exemplos são insuficientes para treinar uma rede neural com qualquer confiança, e que a métrica obtida nesse regime seria ela própria pouco confiável",
+    "identifica que existe conhecimento estruturado disponível (o consenso clínico) que a rede neural não teria como usar",
+    "recomenda uma rede bayesiana com estrutura elicitada dos especialistas, ou um sistema baseado em regras, e não a rede neural",
+    "justifica pela explicabilidade por construção — o caminho no grafo ou o rastro de regras É a justificativa clínica exigida",
+    "menciona ao menos um uso legítimo dos 60 casos, como avaliar o sistema ou estimar tabelas de probabilidade condicional"
    ]
   }
  ],
