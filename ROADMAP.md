@@ -20,52 +20,35 @@ Isso impõe três mudanças de prioridade:
 2. **A ordem é a da disciplina, não a do sumário.** O número do capítulo virou identificador estável; a ordem de leitura vive nas [trilhas](livro/trilhas/analise-preditiva.md). Um mesmo capítulo serve a duas disciplinas com pesos diferentes, e capítulos distantes no sumário são vizinhos numa trilha.
 3. **Laboratórios interativos passam a ser primeira classe.** O gesto de pôr os pesos à mão e ver a reta se mover ensina o que nenhuma frase ensina. É a linha de evolução mais promissora do livro.
 
-## Estado atual — edição 0.5 (2026-08-08)
+## Estado atual — **edição 1.0 (2026-08-10)**
 
 | | |
 |---|---|
-| Capítulos | **28** · 7 completos · **1 essencial** · 20 esqueleto |
-| Interatividade | 31 exercícios · 7 vídeos · **1 laboratório** |
-| Trilhas de disciplina | 3 (Análise Preditiva, Aprendizagem de Máquina, Ciência de Dados) |
-| `ml-zero` | 4 etapas · 88 testes |
+| Capítulos | **28** · todos no nível `essencial` · nenhum em `completo` |
+| Interatividade | **91 exercícios** · 7 vídeos · 1 laboratório |
+| Seções "De onde isto veio" | **26 de 26** capítulos de método, com tabela de selos |
+| Trilhas de disciplina | 3 |
+| `ml-zero` | 5 etapas · 88 testes · Backend: 23 testes |
 | Site | 🟢 https://ghdaru.github.io/machinelearning/ |
-| Backend | 🔴 não publicado — exercícios dormentes; **laboratórios funcionam mesmo assim** |
+| Backend | 🔴 não publicado — exercícios dormentes; laboratórios funcionam |
+
+**Ciclos concluídos:** C1 (trilha de Análise Preditiva), C2 (trilha de Aprendizagem de Máquina), C7 (o capítulo 27 cobre a Unidade 02) e C8 (pesquisa histórica + retrofit). **Dívidas D6, D8 e D9 pagas.**
 
 ---
 
 ## Agora
 
-### C1 — Trilha de Análise Preditiva ao nível `essencial` ⬅ **prioridade máxima**
+### C5 — Aprofundamento: `essencial → completo` ⬅ **prioridade máxima**
 
-A disciplina está em curso. Faltam **sete capítulos** para a trilha ficar navegável de ponta a ponta:
+É o único caminho que resta para o livro melhorar, e ele **paga a dívida D10**: hoje muita fonte está selada `✓ᵐ` — conferimos que a obra existe, não que a lemos.
 
-| Capítulo | Unidade da ementa |
-|---|---|
-| [19 — O Ciclo da Ciência de Dados](livro/capitulos/19-ciclo-ciencia-de-dados.md) | I |
-| [20 — Coleta e Integração](livro/capitulos/20-coleta-integracao.md) | I |
-| [21 — Análise Exploratória](livro/capitulos/21-analise-exploratoria.md) | II |
-| [22 — Visualização e Storytelling](livro/capitulos/22-visualizacao-storytelling.md) | II |
-| [23 — Análise Multidimensional](livro/capitulos/23-analise-multidimensional.md) | II |
-| [24 — Séries Temporais](livro/capitulos/24-series-temporais.md) | III |
-| [25 — Do Modelo à Decisão](livro/capitulos/25-do-modelo-a-decisao.md) | III |
-| [03 — Representação](livro/capitulos/03-representacao.md) | III |
+A ordem é a das **filas de verificação** nas cinco notas de pesquisa em `estudos/`, que já estão ordenadas por **dúvida fechada por unidade de esforço**. Os primeiros itens são baratos e fecham muito: o guia CRISP-DM 1.0 (fecha o cap. 19 inteiro numa leitura), Stigler 1981 (fecha o fio Gauss×Legendre), Loog *et al.* 2020 (2 páginas, arXiv aberto), Kaufman *et al.* 2012 e Gebru *et al.* 2018.
 
-**Entrega por capítulo (nível `essencial`):** corpo ensinável, ≥2 exercícios corrigidos, síntese e verificação. Sem experimento próprio e sem exigência de todas as fontes ✓ — isso é o ciclo de aprofundamento.
+Promover a `completo` exige, além disso: experimento próprio no `ml-zero`, cláusula de expiração e revisão developmental.
 
-**Por que primeiro:** é a disciplina que já está sendo dada. Material ausente hoje custa aula; material aprofundado depois não custa nada.
+### C4 — Publicar o backend
 
-### C2 — Trilha de Aprendizagem de Máquina ao nível `essencial`
-
-Oito capítulos, com o peso onde a disciplina de fato aprofunda:
-
-| Capítulo | Prioridade |
-|---|---|
-| [09 — Redes Multicamadas](livro/capitulos/09-redes-neurais.md) | **alta** — sequência direta do 18, já escrito |
-| [26 — Treinar Redes Profundas](livro/capitulos/26-treinar-redes-profundas.md) | **alta** |
-| [27 — IA Simbólica, Fuzzy e Evolutiva](livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md) | alta — cobre a Unidade 02 da ementa, hoje sem nenhum material |
-| [08 — Não Supervisionado](livro/capitulos/08-nao-supervisionado.md) | média — Unidade 04, 16h |
-| [13 — Reforço](livro/capitulos/13-reforco.md) | média — Unidade 05, 16h |
-| [10 — Visão](livro/capitulos/10-visao.md) · [11 — Sequências](livro/capitulos/11-sequencias-linguagem.md) · [12 — Fundação](livro/capitulos/12-modelos-de-fundacao.md) | média — Unidade 06 |
+Destrava a correção dos **91 exercícios**, o tutor e a telemetria. Depende de uma ação do autor: aplicar o blueprint `render.yaml` e apontar `companion_backend` no `publicar/sumario.json`.
 
 ### C3 — Mais laboratórios interativos
 
@@ -87,23 +70,17 @@ Cada um roda no navegador, sem backend. Isso os torna a superfície **mais robus
 
 ## Depois
 
-### C4 — Publicar o backend
-
-Destrava a correção dos 31 exercícios, o tutor e a telemetria. Continua sendo alta alavanca, mas **saiu do primeiro lugar**: os laboratórios funcionam sem ele, e cobertura de conteúdo é o que a disciplina precisa esta semana.
-
-### C5 — Aprofundamento: `essencial → completo`
-
-Capítulo a capítulo, na ordem em que forem usados em aula: experimento próprio no `ml-zero`, fontes promovidas a ✓, cláusula de expiração, revisão developmental.
-
 ### C6 — Etapas do `ml-zero` que faltam
 
 Prioridade para as que servem às trilhas: **09** (rede em NumPy), **26** (treino profundo), **21** (EDA), **24** (séries temporais).
 
-### C7 — Parte de Inteligência Artificial
+### C7 — Parte de Inteligência Artificial *(parcialmente concluído)*
 
 O autor observa que **IA é outra disciplina**. O capítulo 27 cobre o que a ementa de Aprendizagem de Máquina exige (simbólico, fuzzy, genéticos, bayesianas). Uma Parte VI dedicada — busca, planejamento, agentes, representação de conhecimento — fica registrada como possibilidade, não como compromisso.
 
-### C8 — Sessão de pesquisa histórica e retrofit do Princípio X
+### ~~C8 — Sessão de pesquisa histórica e retrofit~~ — **CONCLUÍDO em 2026-08-10**
+
+> Cinco passadas de pesquisa em `estudos/`, retrofit nos 8 capítulos com corpo, e os níveis declarados. O registro do que a sessão única produziu — e do que a auditoria adversarial derrubou depois — está na [edição 1.0](livro/HISTORICO.md).
 
 Criado pela emenda **1.2.0** da constituição. **Uma sessão de pesquisa, não uma por capítulo** — a regra do próprio princípio: as histórias se conectam (McCulloch–Pitts → Rosenblatt → Minsky → backpropagation; Gauss/Legendre → mínimos quadrados → regressão; Tukey → EDA → visualização), e quem pesquisa capítulo a capítulo publica os dois lados sem a ligação.
 
@@ -124,12 +101,14 @@ O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está o
 | D3 | Sem exercícios de código executável | exige sandbox; hoje são *completion problems* e laboratórios |
 | D4 | Nenhum capítulo tem PDF | o motor perdeu o `pdf.mjs` na adaptação |
 | D5 | Sem tradução para inglês | fora de escopo |
-| **D6** | **Capítulo 16 (MLOps) sem vídeo verificável** | a busca não achou material conferível; um laboratório de detecção de drift resolveria |
+| ~~**D6**~~ | ~~Capítulo 16 sem vídeo verificável~~ — **resolvida**: no nível `essencial` não há cota de mídia, e nenhum vídeo foi inventado para preencher | Princípio VIII: o portão de mídia vale na promoção a `completo` |
 | **D7** | **Numeração fora de ordem no sumário** | consequência aceita de manter identificadores estáveis; mitigada pelas trilhas |
-| ~~**D8**~~ | ~~Nenhum capítulo tem "De onde isto veio"~~ — **em pagamento** no lote 2 do [ADR 0004](adr/0004-escopo-da-primeira-versao.md). Já pagos: 18, 05, 04 | a emenda 1.2.0 é posterior a eles; nível não sobe sem pagar |
+| ~~**D8**~~ | ~~Nenhum capítulo tem "De onde isto veio"~~ — **PAGA**: os 26 capítulos de método têm a seção e a tabela de selos, cobradas pelo build | a emenda 1.2.0 era posterior a eles; nível não subiu sem pagar |
 | ~~**D9**~~ | ~~20 capítulos não declaram nível~~ — **PAGA** em 2026-08-10: os 18 que faltavam declararam nível, e o build agora **falha** sem a declaração | o Princípio "níveis" exige a declaração ao leitor |
 
 | **D10** | **Selo ✓ᵐ sustentando afirmação sobre o que a obra argumenta por dentro**, em vários capítulos — quando ✓ᵐ só prova que a obra existe | achado da [auditoria adversarial](estudos/2026-08-10-auditoria-adversarial.md). Paga-se **lendo as fontes** no ciclo `essencial → completo`, não com hedge no texto. A fila de verificação da nota de pesquisa é o plano de pagamento |
+
+| **D11** | **Objetivos sem exercício próprio** — O3 no cap. 08 (PCA) e O4 no cap. 15 (lote × tempo real) | declarados pelos próprios agentes que escreveram os capítulos, em vez de preenchidos com exercício inventado |
 
 > **O que o gate ensinou, e que o plano não previa.** O ADR 0004 mandava fazer o lote 1 (capítulos novos) antes do lote 2 (retrofit dos antigos). Assim que o gate entrou no build, ele **inverteu a ordem sozinho**: declarar o nível dos 7 capítulos com corpo tornou o build vermelho na hora, e nenhum trabalho novo podia ser publicado antes de a dívida antiga ser paga.
 >

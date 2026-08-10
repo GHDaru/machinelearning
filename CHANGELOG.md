@@ -10,12 +10,12 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ### Adicionado
 - **Os 28 capítulos existem e declaram o próprio nível.** De 8 com corpo para 28
-  declarados, a maioria em `essencial`. As duas disciplinas do autor têm material
+  declarados, **todos em `essencial`**. As duas disciplinas do autor têm material
   em todos os tópicos da ementa.
 - **19 capítulos novos ou reescritos**: 03, 08, 09, 10, 11, 12, 13, 14, 15, 16,
   17, 19, 20, 21, 22, 23, 24, 25, 26, 27.
 - **"De onde isto veio"** em todos os 26 capítulos de método, com tabela de selos.
-- **Exercícios: de 31 para 82.**
+- **Exercícios: de 31 para 91.**
 - **Cinco notas de pesquisa histórica** em `estudos/`, com fila de verificação
   ordenada por dúvida fechada por unidade de esforço.
 - **Relatório da auditoria adversarial** (`estudos/2026-08-10-auditoria-adversarial.md`).

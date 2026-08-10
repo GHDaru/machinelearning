@@ -75,8 +75,8 @@ A última linha é a mais incomum e a mais importante: este livro mantém um [pl
 
 | | |
 |---|---|
-| Capítulos | **28**, todos com nível declarado — a grande maioria em `essencial` |
-| Exercícios | **85**, corrigidos no servidor |
+| Capítulos | **28**, todos com nível declarado — **todos em `essencial`** |
+| Exercícios | **91**, corrigidos no servidor |
 | Vídeos curados | 7 · Laboratórios interativos | 1 |
 | Seções "De onde isto veio" | em **todos** os capítulos de método, com tabela de selos por afirmação |
 | Etapas do `ml-zero` | 5 (88 testes verdes) · Backend: 23 testes verdes |

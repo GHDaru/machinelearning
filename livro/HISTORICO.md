@@ -10,7 +10,7 @@
 
 **Os 28 capítulos existem, e nenhum finge ser mais do que é.**
 
-O livro saiu de 8 capítulos com corpo para **28 declarados** — a maioria no nível `essencial`, cada um dizendo isso ao leitor no próprio cabeçalho. As duas disciplinas que o autor ministra têm material em todos os tópicos da ementa.
+O livro saiu de 8 capítulos com corpo para **28, todos no nível `essencial`** e todos dizendo isso ao leitor no próprio cabeçalho. Os exercícios foram de 31 para **91**. As duas disciplinas que o autor ministra têm material em todos os tópicos da ementa.
 
 **Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-10.
 

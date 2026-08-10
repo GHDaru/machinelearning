@@ -609,14 +609,22 @@ for (const i of itens) {
   const fonte = readFileSync(resolve(RAIZ, i.arquivo), "utf8");
   const nivel = (fonte.match(RE_NIVEL) || [])[1]?.toLowerCase();
   if (!nivel) { semNivel.push(i.arquivo); continue; }
-  if (!i.metodo || nivel === "esqueleto") continue;  // dispensados, e declaradamente
-  const temSecao = RE_SECAO_HISTORICA.test(fonte);
-  const temSelos = RE_TABELA_SELOS.test(fonte);
-  if (!temSecao || !temSelos) {
-    semHistoria.push(`${i.arquivo} (nível ${nivel})` +
-      (temSecao ? " — tem a seção, falta a tabela de selos" : " — falta a seção \"De onde isto veio\""));
-    continue;
+
+  // EXIGIR a seção histórica só vale para capítulo de método fora de esqueleto.
+  if (i.metodo && nivel !== "esqueleto") {
+    const temSecao = RE_SECAO_HISTORICA.test(fonte);
+    const temSelos = RE_TABELA_SELOS.test(fonte);
+    if (!temSecao || !temSelos) {
+      semHistoria.push(`${i.arquivo} (nível ${nivel})` +
+        (temSecao ? " — tem a seção, falta a tabela de selos" : " — falta a seção \"De onde isto veio\""));
+      continue;
+    }
   }
+
+  // VALIDAR os selos vale para TODO capítulo que tenha tabela de selos, método
+  // ou não. O capítulo 17 é não-método e mesmo assim sela afirmações — e a
+  // primeira versão deste gate o pulava inteiro, deixando um buraco por onde
+  // um selo inventado passaria. Dispensa da seção não é dispensa do alfabeto.
   // Allowlist, escopada À TABELA DE SELOS. Um capítulo tem outras tabelas —
   // cronologias, comparativos, filas com coluna "#" —, e varrer todas dava
   // falso positivo. O critério: um bloco contíguo de linhas de tabela que
