@@ -81,6 +81,22 @@ h2[data-callout="callout-apendice"] { border-color: var(--apend); }
 .cap-teaser { color: var(--muted); margin: 0 0 .9rem; font-size: 1.05rem; max-width: 34rem; }
 .cap-meta { display: flex; flex-wrap: wrap; gap: .45rem; font-size: .74rem; color: var(--muted); }
 .cap-meta span { border: 1px solid var(--line); border-radius: 999px; padding: .15rem .6rem; }
+/* Nível de maturidade — a constituição exige que ele chegue ao LEITOR, em
+   destaque. Por isso ele não é um chip neutro como os outros: tem cor própria
+   e peso. `esqueleto` é o mais gritante de propósito — é o que mais promete
+   menos. Passar o mouse explica o que o nível garante e o que não garante. */
+.cap-meta .chip-nivel { font-weight: 700; cursor: help; }
+.cap-meta .nivel-esqueleto { color: #8a5a00; border-color: #d9a441; background: rgba(217,164,65,.14); }
+.cap-meta .nivel-essencial { color: #35618e; border-color: #6f9dc9; background: rgba(111,157,201,.13); }
+.cap-meta .nivel-completo  { color: #2c6e49; border-color: #58a97a; background: rgba(88,169,122,.14); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cap-meta .nivel-esqueleto { color: #e0b062; }
+  :root:not([data-theme="light"]) .cap-meta .nivel-essencial { color: #8fb8dd; }
+  :root:not([data-theme="light"]) .cap-meta .nivel-completo  { color: #7cc79b; }
+}
+:root[data-theme="dark"] .cap-meta .nivel-esqueleto { color: #e0b062; }
+:root[data-theme="dark"] .cap-meta .nivel-essencial { color: #8fb8dd; }
+:root[data-theme="dark"] .cap-meta .nivel-completo  { color: #7cc79b; }
 .cap-meta .cap-dl { border: 1px solid var(--line); border-radius: 999px; padding: .15rem .6rem;
   text-decoration: none; color: var(--muted); font-weight: 600; }
 .cap-meta .cap-dl:hover { border-color: var(--prat); color: var(--prat); }

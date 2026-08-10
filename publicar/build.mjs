@@ -135,6 +135,9 @@ md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
 
 // Datação — o selo do livro vivo.
 const RE_CAPTURA = /Estado da arte capturado em/;
+// O nível declarado no cabeçalho. Lido em dois lugares: aqui, para virar
+// selo visível ao leitor; e no gate do Princípio X, lá embaixo.
+const RE_NIVEL = /\*\*Nível:\s*(esqueleto|essencial|completo)\.?\*\*/i;
 function extrairData(markdown) {
   const m = markdown.match(new RegExp("^>\\s*\\*\\*(" + RE_CAPTURA.source + "[^*]+)\\*\\*([^\\n]*)", "m"));
   return m ? (m[1] + m[2]).replace(/\[.*?\]\(.*?\)/g, "").replace(/·\s*$/, "").trim() : null;
@@ -411,7 +414,22 @@ for (let k = 0; k < itens.length; k++) {
   if (num) {
     placar.capitulos++;
     const { cap: dtCap, rev } = extrairDatas(bruto);
+    // O NÍVEL DE MATURIDADE TEM DE CHEGAR AO LEITOR.
+    // A constituição exige que um capítulo `esqueleto` ou `essencial` declare
+    // isso "em destaque, no próprio cabeçalho" — e durante a v1.0 ele não
+    // chegava: a linha vive no primeiro blockquote, e o blockquote inteiro é
+    // removido logo abaixo para virar o selo de data. O gate conferia o
+    // Markdown, não a página; declarar ao leitor virou promessa sem entrega.
+    // Aqui o nível vira selo visível, com a explicação no title.
+    const NIVEL_SELO = {
+      esqueleto: ["⚠ esqueleto", "Só objetivos e o problema: corpo, prática e fontes ainda não foram escritos."],
+      essencial: ["◐ essencial", "Corpo ensinável e prática funcionando. Falta o aprofundamento: experimento próprio, todas as fontes lidas e cláusula de expiração."],
+      completo: ["● completo", "Passou pelo portão inteiro: experimento reproduzível, fontes conferidas, expiração declarada e revisão developmental."],
+    };
+    const nivelCap = (bruto.match(RE_NIVEL) || [])[1]?.toLowerCase();
+    const selosNivel = NIVEL_SELO[nivelCap];
     const chips = [
+      selosNivel ? `<span class="chip-nivel nivel-${nivelCap}" title="${selosNivel[1]}">${selosNivel[0]}</span>` : "",
       dtCap ? `<span title="Livro vivo — ver Histórico">🕒 estado da arte ${dtCap}</span>` : "",
       rev ? `<span>revisão ${rev}</span>` : "",
       `<span>📖 ~${tempoDeLeitura(bruto)} min de leitura</span>`,
@@ -578,7 +596,6 @@ writeFileSync(resolve(SAIDA, "assets/matematica.css"),
 // Este gate deixa o build VERMELHO de propósito enquanto os capítulos antigos
 // não pagarem a dívida D8. Isso é o gate funcionando, não um bug.
 // ---------------------------------------------------------------------------
-const RE_NIVEL = /\*\*Nível:\s*(esqueleto|essencial|completo)\.?\*\*/i;
 const RE_SECAO_HISTORICA = /^##+\s+De onde isto veio/mi;
 
 // O ALFABETO DE SELOS VEM DA CONSTITUIÇÃO, não daqui (ADR 0005).
@@ -695,6 +712,25 @@ if (acentuadoEmMatematica.length) {
   console.error(`✗ ${acentuadoEmMatematica.length} fórmula(s) com caractere acentuado — o MathJax quebra a palavra no acento.`);
   acentuadoEmMatematica.forEach((q) => console.error("   " + q));
   console.error("   Saída: tire a palavra acentuada da fórmula e explique em prosa ao lado.");
+  process.exit(1);
+}
+
+// O NÍVEL TEM DE CHEGAR À PÁGINA, não só ao Markdown.
+// Este gate existe porque o anterior não bastava: ele conferia a declaração no
+// arquivo-fonte, e o nível ficou INVISÍVEL ao leitor durante toda a v1.0 —
+// a linha vive no primeiro blockquote, que o motor remove para virar o selo de
+// data. Declarar ao leitor virou promessa sem entrega, e nenhum teste viu.
+// Lição: gate que confere a ENTRADA não prova nada sobre a SAÍDA.
+const semSeloNaPagina = [];
+for (const i of itens) {
+  if (i.metodo === undefined) continue;
+  const html = readFileSync(resolve(SAIDA, `${i.slug}.html`), "utf8");
+  if (!/class="chip-nivel/.test(html)) semSeloNaPagina.push(`${i.slug}.html`);
+}
+if (semSeloNaPagina.length) {
+  console.error(`✗ ${semSeloNaPagina.length} página(s) sem o selo de nível visível ao leitor:`);
+  semSeloNaPagina.forEach((q) => console.error("   " + q));
+  console.error("   A constituição exige que o nível seja declarado ao LEITOR, em destaque.");
   process.exit(1);
 }
 

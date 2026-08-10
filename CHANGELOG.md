@@ -32,6 +32,14 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - **Esqueleto de capítulo v4 → v5.**
 
 ### Corrigido — achados da auditoria adversarial
+- **O nível de maturidade não chegava ao leitor.** A constituição exige que um
+  capítulo `esqueleto` ou `essencial` declare isso "em destaque, no cabeçalho" —
+  e durante toda a v1.0 ele ficou **invisível**: a linha vive no primeiro
+  blockquote, que o motor remove para virar o selo de data. O gate conferia o
+  Markdown, não a página. Agora o nível é um **selo colorido** no cabeçalho, com
+  explicação no `title` do que ele garante e do que não garante — e há um gate
+  que confere a **saída**, não a entrada. Achado na verificação final, olhando o
+  site publicado. **Gate que confere a entrada não prova nada sobre a saída.**
 - **Um prenome inventado** no capítulo 01 ("Selvin" Larson) — a nota de pesquisa
   nunca teve prenome. É o modo de falha que o Princípio X nomeia.
 - **Duas seções históricas sem lastro** na fonte única (caps. 03 e 25): a pesquisa
