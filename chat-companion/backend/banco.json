@@ -987,6 +987,88 @@
    "titulo_capitulo": "05 — Modelos Lineares"
   },
   {
+   "id": "05-e4",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.",
+   "opcoes": [],
+   "gabarito": "53 ± 4",
+   "porque": "O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.\n\nO número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. \"0,0188\" não diz nada a quem manda imprimir panfleto; \"53 panfletos por copo\" diz — e diz que a panfletagem provavelmente não se paga.\n\nE a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor, não panfleto. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** — pior ainda para a ideia.",
+   "volte_para": "#e-o-item-3-de-brinde",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "05-modelos-lineares",
+   "titulo_capitulo": "05 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 53,
+    "tolerancia": 4
+   }
+  },
+  {
+   "id": "05-e5",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O modelo provou que subir o preço aumenta as vendas; a correlação simples estava certa."
+    },
+    {
+     "correta": false,
+     "texto": "O coeficiente é positivo por erro numérico — com mais dados ele viraria negativo."
+    },
+    {
+     "correta": true,
+     "texto": "`preco` funciona como indicador de julho e agosto, e a temperatura do dia não captura tudo o que \"ser verão\" significa."
+    },
+    {
+     "correta": false,
+     "texto": "O problema seria resolvido padronizando os atributos antes de ajustar."
+    }
+   ],
+   "gabarito": "`preco` funciona como indicador de julho e agosto",
+   "porque": "O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação \"é alta temporada\" — férias, fluxo de rua, hábito — que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.\n\nA primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico: não é ruído, é **viés** — mais dados do mesmo tipo tornariam o coeficiente errado mais preciso, não mais correto. A quarta confunde escalas com confundimento: padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis entre si, e não mexe em qual variável está roubando o efeito da outra.\n\nControlar por uma variável só remove o confundimento que aquela variável mede.",
+   "volte_para": "#o-passo-que-deveria-salvar-e-nao-salva",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "05-modelos-lineares",
+   "titulo_capitulo": "05 — Modelos Lineares"
+  },
+  {
+   "id": "05-e6",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.\n\nEscreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Esta é a pergunta que separa \"treinei um modelo\" de \"respondi a alguém\". As três leituras que o exercício cobra estão no capítulo: o coeficiente **não é causa**, o R² alto **não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.\n\nA resposta forte não é \"não dá para saber\". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês.\n\nUma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita — é exatamente o relatório que o capítulo existe para impedir.",
+   "volte_para": "#quando-o-linear-e-a-escolha-certa",
+   "rubrica": "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis (teste), ou ao menos um recorte em que o preço varie dentro da mesma estação; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico",
+   "versoes": null,
+   "pagina": "05-modelos-lineares",
+   "titulo_capitulo": "05 — Modelos Lineares",
+   "criterios": [
+    "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação",
+    "Não usa o R² alto como argumento a favor da recomendação de preço",
+    "Diz o que faltaria — variar o preço de propósito em dias comparáveis (teste), ou ao menos um recorte em que o preço varie dentro da mesma estação",
+    "Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque",
+    "Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico"
+   ]
+  },
+  {
    "id": "06-e1",
    "capitulo": 6,
    "arquivo": "livro/capitulos/06-otimizacao.md",

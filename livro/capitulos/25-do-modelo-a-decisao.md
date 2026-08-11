@@ -147,6 +147,8 @@ Três regras para a conversa com quem não é técnico:
 - **Nunca prometa o número do teste como se fosse o de produção.** O dado de produção difere; diga isso antes que a realidade diga.
 - **Traga o cenário do erro.** Quem decide precisa saber como é um dia ruim, não só o dia médio.
 
+> **O relatório errado, em um exemplo.** Em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md), um modelo com R² de 0,982 sustenta a recomendação "aumente o preço" — porque o preço só subiu no verão, e o coeficiente positivo sobrevive até à regressão múltipla. Das seis partes do relatório acima, a única que pegaria isso é **limitações**: é lá que se escreve "o preço nunca variou fora da alta temporada, logo este modelo não estima efeito de preço". A parte que quase todo mundo corta é a que impediria a recomendação errada. O caso está no [capítulo 05](05-modelos-lineares.md#o-caso-da-limonada).
+
 ### A decisão de não lançar
 
 É uma decisão legítima e frequentemente a certa. Motivos suficientes para recusar um modelo que passa nas métricas:

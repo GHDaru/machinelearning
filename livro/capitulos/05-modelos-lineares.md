@@ -156,6 +156,98 @@ Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 
 > **volte para:** #as-quatro-coisas-que-ele-nao-diz
 :::
 
+## O caso da limonada
+
+A lista acima é fácil de ler e difícil de acreditar. Esta seção existe para você **produzir** o erro antes de aceitar que ele é um erro.
+
+O conjunto está em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md): 365 dias de uma barraca de limonada, com o tempo que fez, quantos panfletos foram distribuídos, o preço praticado e quantos copos saíram. Sem valor faltante. O dado é sintético — e é por isso que serve: as armadilhas aparecem limpas, sem ruído para escondê-las.
+
+Comece pelo que todo mundo faz — a matriz de correlação com a variável resposta:
+
+| atributo | correlação com `vendas` |
+|---|---|
+| `temperatura` | +0,990 |
+| `precipitacao` | −0,909 |
+| `panfletos` | +0,805 |
+| **`preco`** | **+0,513** |
+
+Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.**
+
+A última linha é onde o relatório morre. Ela sugere uma recomendação de negócio — *aumente o preço* — que é o oposto do que a barraca deve fazer. Antes de ler adiante, olhe o dado:
+
+| preço | dias | temperatura média | vendas médias | meses em que aparece |
+|---|---|---|---|---|
+| 0,30 | 303 | 57,0 | 23,7 | jan–jun, set–dez |
+| 0,50 | 62 | 78,8 | 33,1 | **só julho e agosto** |
+
+O preço subiu **no verão**. `preco` não é uma alavanca de decisão: é um **termômetro disfarçado**. A correlação de +0,513 mede o calor de julho, não a disposição do freguês a pagar.
+
+### O passo que deveria salvar, e não salva
+
+A resposta de manual é "controle pelas outras variáveis". Ajustando tudo junto:
+
+```
+vendas = 3,192
+       + 0,3692 · temperatura
+       − 2,2460 · precipitacao
+       + 0,0188 · panfletos
+       + 2,4143 · preco          R² = 0,982
+```
+
+O coeficiente do preço continua **positivo**. Controlar pela temperatura não desfez nada — porque a temperatura média não captura *ser julho*, e o que sobrou de julho continua morando dentro de `preco`.
+
+**Controlar por uma variável só remove o confundimento que aquela variável mede.** Se o confundidor real é "estação", e você mediu "temperatura do dia", a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma métrica avisa: o R² é 0,982.
+
+Este é o item 1 da lista anterior — *não diz causalidade* — em números, e não em advertência.
+
+### E o item 3, de brinde
+
+`temperatura` e `panfletos` correlacionam **+0,798**: em dia quente, distribuíam-se mais panfletos. O coeficiente do panfleto sai em 0,0188 — ou seja, **53 panfletos para um copo a mais**. Lido como efeito da panfletagem, é falso: parte do que ele mede é simplesmente o calor daquele dia.
+
+Colinearidade não estraga a previsão. Estraga a **leitura** — e é o modo de falha mais traiçoeiro do modelo linear, porque o erro de validação não muda.
+
+### Reproduza
+
+```python
+import pandas as pd
+df = pd.read_csv("ml-zero/dados/limonada/limonada.csv", parse_dates=["data"])
+
+df.corr(numeric_only=True)["vendas"]            # a tabela ingênua
+df.groupby("preco")[["temperatura", "vendas"]].mean()   # a revelação
+df.assign(mes=df.data.dt.month).groupby("preco").mes.unique()
+```
+
+Depois refaça o ajuste **só com julho e agosto**, onde o preço varia sem a estação variar junto. É o recorte que o dado permite — e a lição é que ele custa 303 das 365 linhas. Estimar efeito de preço exigiria **variar o preço de propósito**, em dias comparáveis. O dado observacional não tem essa informação, e nenhum modelo a inventa.
+
+:::exercicio {"id":"05-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
+Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
+
+> **gabarito:** 53 ± 4
+> **porque:** O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.
+>
+> O número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. "0,0188" não diz nada a quem manda imprimir panfleto; "53 panfletos por copo" diz — e diz que a panfletagem provavelmente não se paga.
+>
+> E a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor, não panfleto. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** — pior ainda para a ideia.
+> **volte para:** #e-o-item-3-de-brinde
+:::
+
+:::exercicio {"id":"05-e5","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?
+
+- [ ] O modelo provou que subir o preço aumenta as vendas; a correlação simples estava certa.
+- [ ] O coeficiente é positivo por erro numérico — com mais dados ele viraria negativo.
+- [x] `preco` funciona como indicador de julho e agosto, e a temperatura do dia não captura tudo o que "ser verão" significa.
+- [ ] O problema seria resolvido padronizando os atributos antes de ajustar.
+
+> **gabarito:** `preco` funciona como indicador de julho e agosto
+> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" — férias, fluxo de rua, hábito — que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
+>
+> A primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico: não é ruído, é **viés** — mais dados do mesmo tipo tornariam o coeficiente errado mais preciso, não mais correto. A quarta confunde escalas com confundimento: padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis entre si, e não mexe em qual variável está roubando o efeito da outra.
+>
+> Controlar por uma variável só remove o confundimento que aquela variável mede.
+> **volte para:** #o-passo-que-deveria-salvar-e-nao-salva
+:::
+
 ## Quando o linear é a escolha certa
 
 Não como consolo, e sim como decisão de engenharia:
@@ -169,6 +261,20 @@ Não como consolo, e sim como decisão de engenharia:
 | **Latência apertada** | uma multiplicação de vetores; ordens de grandeza mais rápido que uma floresta |
 
 O último ponto tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta que importa antes de qualquer outra — "quanto do sinal é simplesmente linear?". Se o modelo complexo ganha pouco dele, você acabou de descobrir que o problema é fácil e que o resto é custo de manutenção.
+
+:::exercicio {"id":"05-e6","tipo":"aberta","objetivo":"O4","dificuldade":"media"}
+A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.
+
+Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.
+
+> **rubrica:** Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis (teste), ou ao menos um recorte em que o preço varie dentro da mesma estação; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico
+> **porque:** Esta é a pergunta que separa "treinei um modelo" de "respondi a alguém". As três leituras que o exercício cobra estão no capítulo: o coeficiente **não é causa**, o R² alto **não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.
+>
+> A resposta forte não é "não dá para saber". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês.
+>
+> Uma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita — é exatamente o relatório que o capítulo existe para impedir.
+> **volte para:** #quando-o-linear-e-a-escolha-certa
+:::
 
 ## Mão na massa
 

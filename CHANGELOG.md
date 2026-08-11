@@ -22,6 +22,23 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Adicionado — o capítulo 05 ganhou o caso da limonada (91 → 94 exercícios)
+- **Nova seção "O caso da limonada"** em `05-modelos-lineares.md`: a lista "as
+  quatro coisas que o coeficiente não diz" deixa de ser advertência e passa a ser
+  experimento. O leitor **produz** o coeficiente errado antes de ler que é errado.
+- Mostra o que quase nenhum material mostra: **controlar pela temperatura não
+  desfaz o confundimento** — o coeficiente do preço segue +2,41 na regressão
+  múltipla, porque a temperatura do dia não captura "ser julho". Controlar por uma
+  variável só remove o confundimento que aquela variável mede.
+- **Três exercícios novos**: `05-e4` (inverter o coeficiente devolve a unidade da
+  decisão: 53 panfletos por copo), `05-e5` (por que o coeficiente do preço
+  sobrevive) e `05-e6`, aberto — a resposta que se dá à dona da barraca.
+- **`05-e6` fecha uma lacuna anterior**: o objetivo **O4 não tinha exercício
+  nenhum** no capítulo. Era o mesmo padrão da dívida D11, ainda não registrado.
+- **Ponteiros** a partir do cap. 21 (a exploração que revela o confundimento
+  precede o modelo) e do cap. 25 (a seção "limitações" é a única das seis partes
+  do relatório que impediria a recomendação errada).
+
 ### Publicado — o livro está no ar no domínio próprio, com o backend vivo
 - **https://machinelearning.ghdaru.com.br** (Vercel) e
   **https://api.machinelearning.ghdaru.com.br** (Railway + Neon em São Paulo),

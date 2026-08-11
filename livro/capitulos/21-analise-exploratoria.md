@@ -117,6 +117,8 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 > **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
 :::
 
+> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha — `df.groupby("preco")[["temperatura","vendas"]].mean()` — e ela precede qualquer modelo. O desdobramento está no [capítulo 05](05-modelos-lineares.md#o-caso-da-limonada).
+
 ## Faltantes, outliers e a fronteira entre explorar e confirmar
 
 **Faltantes.** A pergunta útil nunca é "como preencho?", é **"por que falta?"**. Falta ao acaso (o sensor caiu numa terça) é um problema de imputação. Falta por mecanismo (renda alta declarada com menos frequência) enviesa qualquer preenchimento pela média. E falta com significado — um campo que só existe para quem comprou — é vazamento disfarçado de ausência. Antes de qualquer `dropna()`, conte os faltantes **por coluna e por subgrupo**: um faltante concentrado numa região, num período ou num canal é sinal de processo quebrado, não de dado ausente.
