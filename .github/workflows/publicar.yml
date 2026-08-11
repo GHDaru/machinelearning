@@ -1,13 +1,20 @@
-name: Publicar o livro (Vercel)
+name: Publicar o livro
 
-# O site é construído pelo motor próprio (publicar/) e promovido para a Vercel.
+# O site é construído pelo motor próprio (publicar/) e publicado nos DOIS
+# destinos durante a janela de migração (ADR 0006):
 #
-# POR QUE O DEPLOY PASSA POR AQUI, e não pela integração Git da Vercel:
-# o vercel.json desliga o deploy automático do `main` (`deploymentEnabled`).
-# Se a Vercel publicasse sozinha, o site iria ao ar mesmo com os testes
-# vermelhos, e o gate do Princípio IX ("prove, não declare") viraria enfeite.
-# Aqui os portões correm ANTES da promoção. Previews de branch continuam
-# automáticos na Vercel — é o motivo de termos migrado (ADR 0006).
+#   • GitHub Pages — o endereço atual, que continua servindo o livro até o
+#     domínio novo estar de pé. Aposentado no passo 8 do DEPLOY.md, por um
+#     workflow manual que o substitui por um stub de redirecionamento.
+#   • Vercel — o destino, **só quando os segredos existirem**. Enquanto o autor
+#     não criar o projeto, este passo é PULADO em vez de falhar: um deploy
+#     vermelho não pode ser o preço de uma migração ainda em andamento.
+#
+# POR QUE A VERCEL NÃO PUBLICA SOZINHA: o vercel.json desliga o deploy
+# automático do `main`. Se ela publicasse pela integração Git, o site iria ao ar
+# mesmo com os testes vermelhos, e o gate do Princípio IX viraria enfeite. Aqui
+# os portões correm ANTES. Previews de branch continuam automáticos na Vercel —
+# é o motivo de termos migrado.
 
 on:
   push:
@@ -20,16 +27,18 @@ on:
       - ".github/workflows/publicar.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency:
   group: publicar
   cancel-in-progress: true
 
 jobs:
-  publicar:
+  construir:
     runs-on: ubuntu-latest
-    environment:
-      name: producao
-      url: https://machinelearning.ghdaru.com.br
     steps:
       - uses: actions/checkout@v4
 
@@ -53,46 +62,93 @@ jobs:
         run: npm ci
         working-directory: publicar
 
-      # Gate do banco: o banco.json versionado é o que o backend serve. Se ele
-      # divergir do Markdown, o leitor recebe correção de um exercício que não
-      # é mais o que está na página.
-      - name: Gate do banco de exercícios
+      # O banco.json versionado é o que o backend serve ao leitor. Se ele
+      # divergir do livro, o aluno abre um exercício que existe na página e
+      # recebe "não encontrado" — ou é corrigido contra um gabarito antigo.
+      - name: Gate do banco de exercícios (não pode ter derivado)
         run: node exercicios.mjs --verificar
         working-directory: publicar
 
       # O build carrega os gates do Princípio X: seção histórica obrigatória,
-      # alfabeto de selos lido da constituição, nível visível na página.
+      # alfabeto de selos lido da constituição, e o nível visível na página.
       - name: Gerar o site
         run: npm run build
         working-directory: publicar
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: docs
+          retention-days: 1
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  pages:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  vercel:
+    needs: construir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: docs
+
+      # Enquanto o projeto na Vercel não existir, este job informa e sai verde.
+      # A alternativa — falhar — deixaria o CI vermelho por uma etapa que
+      # depende de uma ação humana ainda não feita, e CI vermelho crônico
+      # ensina a equipe a ignorar CI vermelho.
       - name: Promover para a Vercel (produção)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx --yes vercel@latest deploy docs --prod --yes --archive=tgz --token="$VERCEL_TOKEN"
-
-      # SMOKE TEST BLOQUEANTE — o risco que o ADR 0006 mais teme é a
-      # degradação SILENCIOSA: se o CORS da API não aceitar o domínio do site,
-      # o chat e a correção morrem exibindo "não deu para corrigir agora", e os
-      # laboratórios continuam funcionando, mascarando a falha. Aqui isso vira
-      # deploy vermelho em vez de reclamação de aluno.
-      - name: Smoke test — a API aceita o domínio do livro?
         run: |
-          set -euo pipefail
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo "⏭  VERCEL_TOKEN ausente — migração ainda não concluída."
+            echo "   O livro continua sendo servido pelo GitHub Pages."
+            echo "   Passo a passo: chat-companion/DEPLOY.md"
+            exit 0
+          fi
+          npx --yes vercel@latest deploy docs --prod --yes --archive=tgz --token="$VERCEL_TOKEN"
+
+      # SMOKE TEST — o risco que o ADR 0006 mais teme é a degradação
+      # SILENCIOSA: se o CORS da API não aceitar o domínio do site, o chat e a
+      # correção morrem exibindo "não deu para corrigir agora", enquanto os
+      # laboratórios seguem funcionando e mascaram a falha. Aqui isso vira
+      # build vermelho em vez de reclamação de aluno.
+      - name: Smoke test — a API aceita o domínio do livro?
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          set -uo pipefail
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo "⏭  Migração em andamento — smoke test adiado."
+            exit 0
+          fi
           origem="https://machinelearning.ghdaru.com.br"
           api="https://api.machinelearning.ghdaru.com.br"
 
-          echo "→ /health"
+          echo "→ $api/health"
           curl -fsS --max-time 20 "$api/health" | tee /tmp/health.json
-          grep -q '"ok": *true' /tmp/health.json
+          grep -q '"ok": *true' /tmp/health.json || { echo "✗ /health não respondeu ok"; exit 1; }
 
           echo "→ CORS para $origem"
-          cabecalhos=$(curl -fsS --max-time 20 -X OPTIONS "$api/health" \
-            -H "Origin: $origem" -H "Access-Control-Request-Method: GET" -D- -o /dev/null)
-          echo "$cabecalhos" | grep -i "access-control-allow-origin" \
+          curl -fsS --max-time 20 -X OPTIONS "$api/health" \
+            -H "Origin: $origem" -H "Access-Control-Request-Method: GET" -D- -o /dev/null \
+            | grep -i "access-control-allow-origin" \
             || { echo "✗ A API não devolveu access-control-allow-origin para $origem."; \
-                 echo "  Confira ALLOWED_ORIGINS no Railway. O chat e a correção estão quebrados AGORA."; \
+                 echo "  Confira ALLOWED_ORIGINS no Railway — o chat e a correção estão quebrados AGORA."; \
                  exit 1; }
           echo "✓ API no ar e aceitando o domínio do livro"

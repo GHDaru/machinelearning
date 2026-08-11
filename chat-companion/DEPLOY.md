@@ -23,6 +23,8 @@ Cada passo depende do anterior, e o **último é irreversível para quem tem lin
 
 **Por quê nesta ordem:** o site novo sem a API é um livro sem correção de exercícios; a API sem CORS para o domínio novo quebra **em silêncio** (o widget diz "não deu para corrigir agora" e os laboratórios continuam funcionando, mascarando a falha). O stub no Pages vai por último porque, feito antes, deixa o livro sem nenhum endereço no ar.
 
+> **Nada quebra enquanto você não terminar.** Durante toda a migração o workflow publica **nos dois destinos**: o GitHub Pages continua servindo o livro normalmente, e o passo da Vercel é **pulado** — em verde, com um aviso — enquanto o segredo `VERCEL_TOKEN` não existir. Você pode parar no meio de qualquer passo e voltar depois.
+
 ---
 
 ## 1 · Banco no Neon (Postgres)
