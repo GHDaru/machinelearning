@@ -81,6 +81,62 @@ Uma seguradora pede um modelo para "reduzir os sinistros de automóvel". O proje
 > **volte para:** #o-problema-um-modelo-excelente-para-a-pergunta-errada
 :::
 
+:::exercicio {"id":"19-e4","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
+**Fase 1 — Entendimento do negócio.** *Que decisão vai mudar, de quem, e quando?*
+
+Uma barraca de limonada guarda, há um ano, o registro diário de tempo, panfletos distribuídos, preço praticado e copos vendidos. A dona quer "usar os dados para vender mais".
+
+Escreva os **três artefatos** que a fase 1 tem de entregar antes de alguém abrir a planilha:
+
+1. o **objetivo de negócio** (não o objetivo técnico);
+2. o **critério de sucesso**, com um número ou um limiar que dê para verificar depois;
+3. a **restrição de ação** — o que a dona **consegue** mudar, com que antecedência.
+
+> **rubrica:** o objetivo de negócio é expresso em consequência para a barraca (vender mais, perder menos, comprar melhor), e não em métrica de modelo;
+> o critério de sucesso é verificável — traz número, limiar ou comparação com o que se faz hoje;
+> a restrição de ação nomeia o que a dona controla de fato (preço, quantidade de panfletos, quanto preparar) e o que ela não controla (o tempo);
+> a resposta considera o prazo: a previsão precisa chegar antes do momento em que a decisão é tomada;
+> não confunde as três coisas entre si nem pula alguma
+> **porque:** As três respostas juntas decidem se o projeto tem chance. Um exemplo do que cada uma parece:
+>
+> **Objetivo de negócio:** "decidir quanta limonada preparar por dia, para não sobrar nem faltar". Repare que não há a palavra "modelo" — a fase 1 fala a língua de quem decide.
+>
+> **Critério de sucesso:** "errar a quantidade preparada em menos de 5 copos na maioria dos dias, contra os 12 copos de erro médio de hoje". Traz número e traz comparação com o que já existe: sem linha de base, "melhor" não quer dizer nada (capítulo 01).
+>
+> **Restrição de ação:** ela decide quanto preparar **de manhã**, antes de saber o movimento do dia. Isso muda tudo — a previsão tem de estar pronta **antes**, e só pode usar o que se sabe de manhã. Uma previsão que usa o número de panfletos efetivamente distribuídos durante o dia é inútil para decidir de manhã, por mais precisa que seja.
+>
+> É o mesmo erro do *churn* do começo do capítulo: o modelo acertava, e a informação chegava depois da hora de agir.
+> **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
+:::
+
+:::exercicio {"id":"19-e5","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
+**Fase 2 — Entendimento dos dados.** *O que existe, e dá para confiar?*
+
+O registro da barraca tem 365 linhas e sete colunas: `data`, `dia_semana`, `temperatura`, `precipitacao`, `panfletos`, `preco`, `vendas`. Nenhum valor faltante.
+
+Entregue as **três** coisas que a fase 2 exige:
+
+1. o **inventário**: o que cada coluna é, e — a pergunta que separa a fase 2 da fase 3 — **quais delas você teria em mãos no momento de decidir**;
+2. as **primeiras estatísticas** que você pediria antes de qualquer modelo, e o que cada uma responderia;
+3. pelo menos **dois problemas de qualidade ou de confiança** que você iria procurar neste conjunto específico.
+
+> **rubrica:** separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer (vendas é o alvo; panfletos e preço são decisões da dona; temperatura e precipitação dependem de previsão do tempo, não do valor observado);
+> pede estatísticas descritivas concretas — faixa, média, valores distintos, contagem por categoria — e diz o que cada uma responderia;
+> aponta pelo menos dois riscos reais do conjunto, entre: unidade da temperatura não declarada, preço com pouquíssimos valores distintos, período curto de um ano só, ausência de registro de dias fechados, dado possivelmente sintético;
+> não trata "sem valores faltantes" como prova de qualidade;
+> a resposta é sobre ESTE conjunto, não uma lista genérica de boas práticas
+> **porque:** A fase 2 não é "olhar os dados": é decidir **se dá para confiar** e **o que está faltando**. Três achados que este conjunto entrega a quem procura:
+>
+> **A unidade da temperatura não está declarada.** A faixa vai de 15 a 103. Em Fahrenheit faz sentido; em Celsius seria impossível. Reportar um coeficiente sem saber a unidade é reportar um número sem significado.
+>
+> **O preço tem só dois valores distintos** em 365 dias. Uma coluna quase constante quase não informa — e, pior, os dois valores podem estar amarrados a outra coisa (fase 3 e capítulo 05 mostram que estão: o preço mais alto só aparece em julho e agosto).
+>
+> **"Sem valores faltantes" não é atestado de qualidade.** Pode significar que os dias fechados simplesmente não viraram linha. Um ano com exatamente 365 registros e nenhuma falha é suspeito num negócio de rua — e a ausência de buracos é, ela própria, um dado sobre como o registro foi feito.
+>
+> E o item 1 é o que mais reprova em projeto real: `panfletos` só é conhecido **depois** de a dona decidir quantos distribuir. Usá-lo para prever a demanda da manhã transforma o modelo numa profecia que depende de ver o futuro.
+> **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
+:::
+
 ## As setas voltam: por que isto é um ciclo, não uma cascata
 
 O desenho do CRISP-DM tem setas entre fases vizinhas **e setas de volta**. Elas não são decoração de diagrama: são as quatro descobertas que todo projeto faz fora de ordem.
