@@ -66,7 +66,19 @@ Um **`.dockerignore`** acompanha, e a regra para editá-lo está escrita nele: o
 
 - **Build mais lento** que o Nixpacks na primeira vez (imagem base + instalação). Mitigado pela ordem das camadas: o caso comum — publicar uma edição do livro — reaproveita a camada de dependências.
 - **O `Dockerfile` vira mais uma coisa a manter.** Aceito: são 6 linhas efetivas, e elas substituem uma suposição.
-- **Não foi construído localmente** — não há daemon Docker no ambiente onde este ADR foi escrito. O que se afirma aqui é que a imagem é *determinística*, não que ela *foi provada verde*. A prova é o primeiro deploy, e o `healthcheckPath: /health` da Railway é quem a colhe: se o container não subir, o deploy não é promovido. **Esta linha deve ser substituída pelo resultado observado** assim que o passo 3 do `DEPLOY.md` for executado.
+- ~~**Não foi construído localmente**~~ — **provado em 2026-08-11**, no primeiro deploy. A imagem construiu e o serviço subiu no domínio provisório da Railway:
+
+  ```
+  GET machinelearning-production-9666.up.railway.app/health  →  200
+  {"ok": true, "llm": "openai", "store": "postgres",
+   "banco": {"exercicios": 91, "videos": 7, ...}}
+  ```
+
+  Os três campos provam coisas diferentes, e o terceiro é o que este ADR e o 0006 existem para garantir: **`exercicios: 91` só aparece se `livro/` estiver dentro do container**. Se a raiz tivesse ficado em `chat-companion/backend/`, esse número viria do `corpus.json` versionado — e envelheceria em silêncio.
+
+  A porta também se resolveu sozinha: a Railway injeta `PORT` (8080, no caso) e o `${PORT:-8000}` do `CMD` a usou. O *fallback* nunca entrou em ação, mas fica para quem rodar a imagem à mão.
+
+  O que **não** foi provado por isto: que o Nixpacks teria falhado. Não se testou a alternativa — trocou-se uma configuração não verificável por uma verificável, e é só isso que se afirma.
 
 ## O que isto ensinou
 
