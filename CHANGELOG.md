@@ -22,6 +22,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Publicado — o livro está no ar no domínio próprio, com o backend vivo
+- **https://machinelearning.ghdaru.com.br** (Vercel) e
+  **https://api.machinelearning.ghdaru.com.br** (Railway + Neon em São Paulo),
+  passos 1–7 do `DEPLOY.md` concluídos em 2026-08-11.
+- **Os 91 exercícios saíram da dormência**: correção no servidor com revelação
+  progressiva, verificada de ponta a ponta pelo domínio novo — 1ª tentativa
+  devolve "Ainda não, releia a seção"; a 2ª entrega a explicação completa.
+- Ambos os nomes resolvem **direto no provedor**, sem o proxy da Cloudflare:
+  ele impediria a verificação de posse nos dois casos, e no `api.` o certificado
+  grátis nem cobriria dois níveis de subdomínio.
+- **Falta o passo 8** — o stub no endereço antigo — deixado por último por ser o
+  único irreversível para quem tem link em circulação.
+
 ### Adicionado — conjunto de dados "Limonada" para regressão linear
 - **`ml-zero/dados/limonada/`** — 365 dias (2017) de venda de limonada com tempo,
   panfletos e preço, fornecido pelo autor para a parte de regressão linear de

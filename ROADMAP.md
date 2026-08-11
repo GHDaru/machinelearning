@@ -28,9 +28,9 @@ Isso impõe três mudanças de prioridade:
 | Interatividade | **91 exercícios** · 7 vídeos · 1 laboratório |
 | Seções "De onde isto veio" | **26 de 26** capítulos de método, com tabela de selos |
 | Trilhas de disciplina | 3 |
-| `ml-zero` | 5 etapas · 88 testes · Backend: 23 testes |
+| `ml-zero` | 5 etapas · 88 testes · Backend: 28 testes |
 | Site | 🟢 https://machinelearning.ghdaru.com.br/ |
-| Backend | 🟡 preparado — ver [DEPLOY.md](chat-companion/DEPLOY.md); falta o autor aplicar |
+| Backend | 🟢 https://api.machinelearning.ghdaru.com.br — **os 91 exercícios corrigem de verdade** |
 
 **Ciclos concluídos:** C1 (trilha de Análise Preditiva), C2 (trilha de Aprendizagem de Máquina), C7 (o capítulo 27 cobre a Unidade 02) e C8 (pesquisa histórica + retrofit). **Dívidas D6, D8 e D9 pagas.**
 
@@ -46,9 +46,11 @@ A ordem é a das **filas de verificação** nas cinco notas de pesquisa em `estu
 
 Promover a `completo` exige, além disso: experimento próprio no `ml-zero`, cláusula de expiração e revisão developmental.
 
-### C4 — Publicar o backend
+### ~~C4 — Publicar o backend~~ — **CONCLUÍDO em 2026-08-11**
 
-Destrava a correção dos **91 exercícios**, o tutor e a telemetria. O repositório já está pronto (ADR 0006): falta o autor criar as contas, os dois registros de DNS e as chaves. Passo a passo em [`chat-companion/DEPLOY.md`](chat-companion/DEPLOY.md).
+> Neon (São Paulo) + Railway + Vercel + domínio próprio, nos passos 1–7 do [`DEPLOY.md`](chat-companion/DEPLOY.md). Os **91 exercícios corrigem no servidor**, com revelação progressiva, verificada de ponta a ponta pelo domínio novo. Duas correções nasceram do próprio deploy: o [ADR 0007](adr/0007-builder-declarado-na-railway.md) (build declarado em vez de detectado) e o `og:image`, que apontava para o endereço prestes a ser aposentado.
+>
+> **Falta o passo 8** — aposentar o `ghdaru.github.io` trocando-o pelo stub de redirecionamento, e então remover essa origem de `ALLOWED_ORIGINS` no Railway. Deixado por último de propósito: é o único passo irreversível para quem tem link antigo.
 
 ### C3 — Mais laboratórios interativos
 
