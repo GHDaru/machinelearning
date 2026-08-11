@@ -250,6 +250,13 @@ A **etapa 02** do [`ml-zero`](../trilha-ml-zero.md) implementa o que este capít
 
 O item 5 é o mais incomum e o mais útil: a ficha não é um documento que alguém promete escrever, é um objeto que o pipeline recusa se estiver incompleto.
 
+
+**Notebook pronto para executar** — [`vazamento.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-02/vazamento.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-02/vazamento.ipynb)
+
+Os três vazamentos, em execução: a coluna que sabe demais, a divisão que respeita grupos e a que respeita o tempo. Traz de brinde a razão de o exemplo ter 200 linhas e não 10 — **com poucas linhas qualquer coluna separa perfeitamente por acaso**, e o detector acusaria todas.
+
+> Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
+
 ## Assista
 
 :::video {"id":"02-v1","fonte":"youtube","ref":"fSytzGwwBVw","min":6,"autor":"StatQuest with Josh Starmer","titulo":"Machine Learning Fundamentals: Cross Validation"}

@@ -217,7 +217,19 @@ df.groupby("preco")[["temperatura", "vendas"]].mean()   # a revelação
 df.assign(mes=df.data.dt.month).groupby("preco").mes.unique()
 ```
 
-Depois refaça o ajuste **só com julho e agosto**, onde o preço varia sem a estação variar junto. É o recorte que o dado permite — e a lição é que ele custa 303 das 365 linhas. Estimar efeito de preço exigiria **variar o preço de propósito**, em dias comparáveis. O dado observacional não tem essa informação, e nenhum modelo a inventa.
+Agora tente o conserto óbvio: **isolar um período em que o preço varie sem a estação variar junto**, e ajustar só ali.
+
+Ele não existe. Rode e veja:
+
+```python
+df.assign(mes=df.data.dt.month).groupby("mes").preco.nunique()   # tudo 1
+```
+
+**Nenhum mês do ano tem mais de um preço.** São 0,30 de janeiro a junho e de setembro a dezembro, 0,50 nos 62 dias de julho e agosto — exatamente os dois meses inteiros. Restringir a julho e agosto não isola o efeito do preço: deixa o preço **constante**, e um atributo que não varia não tem coeficiente.
+
+O confundimento aqui é **perfeito**: preço e estação são a mesma variável, com dois nomes. Não há recorte, controle nem modelo que separe as duas — a informação não está no dado, e nenhuma técnica a inventa. Estimar efeito de preço exigiria **variar o preço de propósito** em dias comparáveis: cobrar 0,30 e 0,50 dentro do mesmo mês.
+
+Esta é a resposta menos confortável e a mais honesta que a análise pode dar: *com estes dados, não dá — e aqui está o que precisaria ser coletado.*
 
 :::exercicio {"id":"05-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
 Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
@@ -267,10 +279,10 @@ A dona da barraca de limonada quer decidir **o preço do próximo verão** e ped
 
 Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.
 
-> **rubrica:** Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis (teste), ou ao menos um recorte em que o preço varie dentro da mesma estação; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico
+> **rubrica:** Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve: não há um único mês com dois preços; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico
 > **porque:** Esta é a pergunta que separa "treinei um modelo" de "respondi a alguém". As três leituras que o exercício cobra estão no capítulo: o coeficiente **não é causa**, o R² alto **não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.
 >
-> A resposta forte não é "não dá para saber". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês.
+> A resposta forte não é "não dá para saber". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês — que é justamente o que nunca aconteceu nestes 365 dias.
 >
 > Uma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita — é exatamente o relatório que o capítulo existe para impedir.
 > **volte para:** #quando-o-linear-e-a-escolha-certa
@@ -285,6 +297,13 @@ A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em bibliote
 - `Padronizador` que aprende no treino e **aplica** ao teste — o vazamento do capítulo 02 tornado difícil de cometer.
 
 Uma etapa para dois capítulos, porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*.
+
+
+**Notebook pronto para executar** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb)
+
+O caso da limonada do começo ao fim: a correlação que sugere *aumente o preço*, a descoberta de que o preço é um termômetro disfarçado, o controle que **não conserta**, e a verificação de que nenhum mês tem dois preços — a informação não está no dado.
+
+> Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
 
 ## Assista
 

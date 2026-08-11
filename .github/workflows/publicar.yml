@@ -50,6 +50,14 @@ jobs:
         run: pip install -q -r requirements.txt && python -m pytest -q
         working-directory: ml-zero
 
+      # O README do ml-zero afirma que os notebooks são verificados. Afirmação
+      # sem gate é promessa: este passo executa TODAS as células, a partir da
+      # pasta da etapa, como o aluno faria. Notebook que não roda é pior que
+      # notebook nenhum — ele quebra no meio da aula.
+      - name: Os notebooks rodam? (todas as células)
+        run: python tests/rodar_notebooks.py
+        working-directory: ml-zero
+
       - name: Testes do backend (inclusive o CORS do ADR 0006)
         run: pip install -q -r requirements.txt && python -m pytest tests/ -q
         working-directory: chat-companion/backend

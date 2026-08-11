@@ -157,3 +157,31 @@ Resumidas da [constituição](../.specify/memory/constitution.md):
 3. **Anti-apodrecimento** — dependências mínimas; etapas autocontidas; erro didático deliberado é comentado como tal.
 4. **Reprodutibilidade** — seed fixa, versões declaradas. Rodar duas vezes dá o mesmo número.
 5. **Serviço desde cedo** — o modelo vira endpoint; um modelo que não serve ninguém é um exercício.
+
+---
+
+## Notebooks
+
+Cada notebook roda **na sua máquina e no Colab**, sem alterar nada: a primeira célula procura o repositório subindo de pasta e, se não achar (é o caso do Colab), baixa do GitHub só os arquivos de que precisa.
+
+| Notebook | Capítulo | O que você faz |
+|---|---|---|
+| [`etapa-00/linha_de_base.ipynb`](etapa-00/linha_de_base.ipynb) | [01](../livro/01-fundamentos.md) | descobre por que 81% de acurácia pode ser péssimo |
+| [`etapa-02/vazamento.ipynb`](etapa-02/vazamento.ipynb) | [02](../livro/capitulos/02-dados.md) | os três vazamentos, e as divisões que os evitam |
+| [`etapa-05/regressao_limonada.ipynb`](etapa-05/regressao_limonada.ipynb) | [05](../livro/capitulos/05-modelos-lineares.md) e [06](../livro/capitulos/06-otimizacao.md) | o coeficiente que diz para aumentar o preço — e por que ele mente |
+| [`etapa-07/arvores_ensembles.ipynb`](etapa-07/arvores_ensembles.ipynb) | [07](../livro/capitulos/07-arvores-ensembles.md) | quatro modelos no mesmo dado, e a vantagem do ensemble encolhendo com ruído |
+| [`etapa-18/neuronio_mp.ipynb`](etapa-18/neuronio_mp.ipynb) | [18](../livro/capitulos/18-neuronio-artificial.md) | põe os pesos à mão, vê o perceptron achá-los, e trava no XOR |
+
+### Rodar na sua máquina
+
+```bash
+git clone https://github.com/GHDaru/machinelearning.git
+cd machinelearning/ml-zero
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install notebook
+jupyter notebook
+```
+
+Não é preciso instalar NumPy nem pandas para nenhum dos notebooks acima: eles usam **só a biblioteca padrão** e o código deste diretório. É a mesma regra da construção — nada entra antes de a etapa exigir.
+
+> **Os notebooks são verificados.** Todas as células de código são executadas antes de cada publicação, a partir da pasta da etapa, como o aluno faria. Notebook que não roda é pior que notebook nenhum: ele quebra no meio da aula.

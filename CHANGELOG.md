@@ -22,6 +22,31 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Adicionado — notebooks prontos para executar nas seções "Mão na massa"
+- **Quatro notebooks novos** (o cap. 18 já tinha o dele), ligados dos capítulos
+  **01, 02, 05, 06 e 07**: `linha_de_base`, `vazamento`, `regressao_limonada` e
+  `arvores_ensembles`.
+- **Rodam na máquina do aluno e no Colab sem mudar nada**: a primeira célula
+  procura o repositório subindo de pasta e, se não achar, baixa do GitHub só o
+  que precisa. Nenhum deles exige NumPy ou pandas — biblioteca padrão e o código
+  do próprio livro.
+- **Gate novo no CI**: `ml-zero/tests/rodar_notebooks.py` executa **todas** as
+  células, a partir da pasta da etapa. Notebook que não roda é pior que notebook
+  nenhum: quebra no meio da aula. O verificador achou três defeitos antes da
+  publicação — chave errada na matriz de confusão, um exemplo de vazamento com
+  10 linhas onde **toda** coluna separa por acaso, e uma quebra de sintaxe.
+
+### Corrigido — uma frase minha sobre a limonada estava errada
+- O capítulo 05 dizia para "refazer o ajuste só com julho e agosto, **onde o
+  preço varia** sem a estação variar junto". **Não varia.** Escrevendo o
+  notebook, a verificação mostrou que **nenhum mês do ano tem mais de um preço**
+  — 0,30 em dez meses, 0,50 nos 62 dias de julho e agosto.
+- A correção deixa a lição mais forte, não mais fraca: o confundimento é
+  **perfeito**, e não existe recorte, controle ou modelo que separe preço de
+  estação. A resposta honesta passa a ser *"com estes dados não dá — e aqui está
+  o que precisaria ser coletado"*. Propagado para o README do conjunto e para a
+  rubrica do exercício `05-e6`.
+
 ### Adicionado — identificação por turma, para o professor acompanhar prática (ADR 0008)
 - **`/turma AP2026-2 123456` no chat.** O anonimato continua sendo o padrão; a
   identificação é uma exceção que **o próprio aluno ativa**, e `/turma sair`

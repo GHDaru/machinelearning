@@ -166,6 +166,13 @@ A **etapa 00** do [`ml-zero`](trilha-ml-zero.md) monta o esqueleto: carregar um 
 
 Parece pouco. É o número mais importante do projeto: **nenhum modelo que não bate a linha de base merece existir**, e um número surpreendente de projetos em produção nunca calculou a sua.
 
+
+**Notebook pronto para executar** — [`linha_de_base.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-00/linha_de_base.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-00/linha_de_base.ipynb)
+
+Monta as três divisões, treina a linha de base e mostra por que **81% de acurácia pode ser um resultado péssimo** — o modelo não encontra um único positivo.
+
+> Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
+
 ## Assista
 
 :::video {"id":"01-v1","fonte":"youtube","ref":"EuBBz3bI-aA","min":7,"autor":"StatQuest with Josh Starmer","titulo":"Machine Learning Fundamentals: Bias and Variance"}

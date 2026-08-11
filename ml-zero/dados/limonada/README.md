@@ -53,6 +53,8 @@ O que o dado diz de verdade:
 
 O preço subiu **no verão**. Ele não é uma variável de decisão: é um **indicador disfarçado de estação**. A correlação positiva mede o calor, não a elasticidade.
 
+E o confundimento é **perfeito**: **nenhum mês do ano tem mais de um preço**. Não existe recorte que isole o efeito — restringir a julho e agosto deixa o preço constante, e atributo que não varia não tem coeficiente. A informação não está no dado.
+
 Pior — a armadilha sobrevive à regressão múltipla, que é onde o aluno costuma achar que está seguro:
 
 ```
@@ -74,7 +76,7 @@ O coeficiente do preço continua **positivo (+2,41)**, porque `preco` ainda carr
 
 1. Ajuste `vendas ~ temperatura`. Interprete o coeficiente **com a unidade que você não tem certeza qual é**.
 2. Acrescente `preco`. O sinal faz sentido de negócio? Investigue antes de responder.
-3. Recorte julho e agosto e refaça. O que acontece com o coeficiente do preço?
+3. Tente isolar o efeito do preço recortando julho e agosto. Descubra por que não funciona — e o que `groupby("mes").preco.nunique()` revela.
 4. Crie `verao = mes in (7,8)` e rode `vendas ~ temperatura + preco + verao`. Compare.
 5. Divida em treino/teste **por tempo** (não aleatoriamente — é série diária). O `R²` continua 0,98?
 

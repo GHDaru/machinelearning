@@ -262,6 +262,13 @@ A **etapa 07** do [`ml-zero`](../trilha-ml-zero.md) implementa os três modelos 
 
 Três lições do capítulo estão escritas como **testes que falham** se deixarem de ser verdade: bagging corta a variância pela metade ou mais; a reta não alcança a fronteira irregular; e ninguém passa do teto de Bayes — passar indicaria vazamento (cap. 02).
 
+
+**Notebook pronto para executar** — [`arvores_ensembles.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-07/arvores_ensembles.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-07/arvores_ensembles.ipynb)
+
+Os quatro modelos treinados no mesmo dado, com a AUC de cada um. A última célula aumenta o ruído e mostra a vantagem do ensemble encolher — ela é propriedade **do terreno**, não uma constante.
+
+> Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
+
 ## Assista
 
 :::video {"id":"07-v1","fonte":"youtube","ref":"3CC4N4z3GJc","min":15,"autor":"StatQuest with Josh Starmer","titulo":"Gradient Boost Part 1: Regression Main Ideas"}

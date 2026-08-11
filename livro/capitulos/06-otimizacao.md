@@ -233,6 +233,13 @@ Quem decide *o que* minimizar é o modelo, que passa a função `grad`. O otimiz
 
 O `Historico` que ele devolve é o instrumento de diagnóstico: `divergiu()`, `estagnou()`, e a lista de perdas para plotar.
 
+
+**Notebook pronto para executar** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb)
+
+É o notebook do capítulo 05 — a mesma etapa serve aos dois. Troque `solucao_fechada=True` por `False` na célula do ajuste e confira que gradiente e equações normais chegam ao mesmo lugar.
+
+> Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
+
 ## Assista
 
 :::video {"id":"06-v1","fonte":"youtube","ref":"sDv4f4s2SB8","min":24,"autor":"StatQuest with Josh Starmer","titulo":"Gradient Descent, Step-by-Step"}
