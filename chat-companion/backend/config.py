@@ -52,10 +52,20 @@ ALLOWED_ORIGINS = [
     o.strip()
     for o in os.environ.get(
         "ALLOWED_ORIGINS",
-        "https://ghdaru.github.io,http://localhost:8080,http://127.0.0.1:8080,http://localhost:8000,http://127.0.0.1:8000",
+        "https://machinelearning.ghdaru.com.br,https://ghdaru.github.io,"
+        "http://localhost:8080,http://127.0.0.1:8080,http://localhost:8000,http://127.0.0.1:8000",
     ).split(",")
     if o.strip()
 ]
+
+# As URLs de preview da Vercel mudam a cada commit, e por isso não cabem numa
+# lista fixa (ADR 0006). Sem este regex o chat quebraria em silêncio em toda
+# preview. Deixar a variável vazia desliga o mecanismo. **Nunca use `.*`** — o
+# ponto é liberar as previews DESTE projeto, não qualquer origem.
+ALLOWED_ORIGIN_REGEX = os.environ.get(
+    "ALLOWED_ORIGIN_REGEX",
+    r"^https://machinelearning-[a-z0-9-]+\.vercel\.app$",
+).strip()
 
 # --- Limites ---
 RATE_LIMIT_MSGS = _int("RATE_LIMIT_MSGS", 20)                 # msgs de chat por janela

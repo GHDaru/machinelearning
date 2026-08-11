@@ -1,0 +1,6 @@
+{
+  "name": "livro-ciencia-de-dados-e-ml",
+  "private": true,
+  "description": "Raiz do repositório. O motor do site vive em publicar/ — este arquivo existe só para fixar a versão do Node na Vercel, que lê o package.json do Root Directory.",
+  "engines": { "node": "22.x" }
+}

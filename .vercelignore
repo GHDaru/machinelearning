@@ -1,0 +1,11 @@
+# O deploy da Vercel só precisa do que constrói o site.
+ml-zero/
+chat-companion/
+benchmark/
+specs/
+estudos/
+adr/
+docs/
+.github/
+*.pyc
+__pycache__/

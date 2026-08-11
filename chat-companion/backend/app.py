@@ -34,9 +34,16 @@ from store import make_store
 from tools import Tools
 
 app = FastAPI(title="livro vivo · Machine Learning")
+# Lista fixa para produção; regex para as URLs de preview da Vercel, que mudam
+# a cada commit (ADR 0006). Sem o regex o chat quebraria em SILÊNCIO em toda
+# preview — o pior modo de falha, porque os laboratórios continuam funcionando
+# e mascaram o problema. É seguro porque `allow_credentials=False`: não há
+# cookie nem sessão autenticada a roubar, e o ativo real — a chave do modelo —
+# é protegido por rate limit, não por CORS. Nunca `*`.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.ALLOWED_ORIGINS,
+    allow_origin_regex=config.ALLOWED_ORIGIN_REGEX or None,
     allow_credentials=False,
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["*"],

@@ -1,80 +1,147 @@
-# Publicar o backend do livro vivo
+# Publicar o livro vivo
 
-> O que isto destrava: **correção dos 31 exercícios**, feedback explicativo, progresso do leitor, tutor e telemetria. Os laboratórios interativos já funcionam sem backend — eles rodam no navegador.
+> Front na **Vercel**, backend na **Railway**, banco no **Neon**, domínio **`machinelearning.ghdaru.com.br`**.
+> As decisões e as alternativas descartadas estão no [ADR 0006](../adr/0006-publicacao-vercel-railway-dominio.md). Este documento é o passo a passo.
+>
+> Baseado no [guia do livro de Engenharia de Harness](https://github.com/GHDaru/harness_engineering/blob/main/chat-companion/README.md), com **duas divergências deliberadas**, marcadas ⚠ onde aparecem.
 
-## O caminho mais curto (Render, plano gratuito)
+## A ordem importa
 
-O repositório traz um blueprint pronto em [`render.yaml`](../render.yaml).
+Cada passo depende do anterior, e o **último é irreversível para quem tem link antigo**. Não pule.
 
-1. Abra **https://dashboard.render.com/select-repo?type=blueprint**
-2. Escolha `GHDaru/machinelearning` → **Apply**
-3. Espere o build (~2 min). O Render mostra a URL, algo como `https://livro-ml-backend.onrender.com`
-4. Confira: abra `SUA-URL/health` — deve responder
-
-```json
-{"ok": true, "llm": "echo", "store": "memory",
- "banco": {"exercicios": 31, "videos": 7, ...}}
+```
+1. Neon (banco)  →  2. Chave do modelo  →  3. Railway (backend)
+                                                   ↓
+                                          4. DNS da API
+                                                   ↓
+                          5. Vercel (front)  →  6. DNS do site
+                                                   ↓
+                                          7. Smoke test
+                                                   ↓
+                                 8. Stub no Pages  ← só agora
 ```
 
-5. **Ligue o site ao backend**: em [`publicar/sumario.json`](../publicar/sumario.json), troque
+**Por quê nesta ordem:** o site novo sem a API é um livro sem correção de exercícios; a API sem CORS para o domínio novo quebra **em silêncio** (o widget diz "não deu para corrigir agora" e os laboratórios continuam funcionando, mascarando a falha). O stub no Pages vai por último porque, feito antes, deixa o livro sem nenhum endereço no ar.
 
-```json
-"companion_backend": ""
-```
-por
-```json
-"companion_backend": "https://livro-ml-backend.onrender.com"
-```
+---
 
-6. Commit e push. O deploy do Pages reconstrói, e os exercícios passam a corrigir.
+## 1 · Banco no Neon (Postgres)
 
-**Sobe sem configurar nada.** Sem chave de modelo, o adapter é `echo`; sem `DATABASE_URL`, o store é memória. Isso **já basta** para a correção dos exercícios: ela é determinística e não usa modelo nem banco.
+1. Conta em **[neon.tech](https://neon.tech)** → **New Project**, região mais próxima.
+2. **Connection Details** → copie a *connection string* (`postgresql://…?sslmode=require`).
 
-> ⚠ **O plano gratuito hiberna** após ~15 min sem tráfego, e a primeira requisição seguinte leva ~30 s. Para uso em sala, abra o site alguns minutos antes da aula — ou suba para um plano pago, que não hiberna.
+Guarde: será `DATABASE_URL`. As tabelas são criadas sozinhas na primeira subida.
 
-## O que cada variável liga
+> Sem `DATABASE_URL` o backend sobe em memória — o progresso do leitor some a cada reinício. Para uma turma, use o banco.
 
-| Variável | Sem ela | Com ela |
+## 2 · Chave do modelo (NVIDIA NIM, gratuita)
+
+1. Conta em **[build.nvidia.com](https://build.nvidia.com)**.
+2. Escolha um modelo com rótulo **Function Calling** e gere a chave `nvapi-…`.
+
+Guarde: será `OPENAI_API_KEY`.
+
+> Sem chave, o adapter cai em `echo`. **A correção dos 91 exercícios funciona mesmo assim** — ela é determinística e não usa modelo. O que fica sem chave é o tutor e a avaliação de resposta aberta.
+
+## 3 · Backend na Railway
+
+1. **[railway.app](https://railway.app)** → **New Project → Deploy from GitHub repo** → `GHDaru/machinelearning`.
+2. ⚠ **Settings → Root Directory: deixe a RAIZ do repositório** (vazio), **não** `chat-companion/backend`.
+   *Divergência do guia do harness, e a razão está no ADR 0006:* com a raiz na pasta do backend, o container não teria `livro/`, e a busca do tutor dependeria de um `corpus.json` de 815 KB versionado e regenerado a cada edição — que, esquecido, degrada a busca **sem avisar**. Com a raiz no repositório, o índice é construído ao vivo. O `railway.json` da raiz já traz os comandos certos.
+3. **Variables:**
+
+   | Variável | Valor |
+   |---|---|
+   | `LLM_ADAPTER` | `openai` |
+   | `OPENAI_BASE_URL` | `https://integrate.api.nvidia.com/v1` |
+   | `OPENAI_API_KEY` | sua chave `nvapi-…` |
+   | `LLM_MODEL` | um modelo com Function Calling |
+   | `DATABASE_URL` | a string do Neon |
+   | `ALLOWED_ORIGINS` | `https://machinelearning.ghdaru.com.br,https://ghdaru.github.io` |
+   | `ADMIN_TOKEN` | um segredo seu, para `/telemetry` e `/suggestions` |
+
+   **Mantenha `https://ghdaru.github.io` na lista até o passo 8.** Enquanto o stub não subir, é de lá que os leitores com link antigo chegam.
+
+4. **Settings → Networking → Custom Domain** → informe `api.machinelearning.ghdaru.com.br`. O Railway devolve um alvo CNAME — guarde.
+5. Confira a URL provisória: `SEU-APP.up.railway.app/health` deve responder `{"ok": true, "store": "postgres"}`.
+
+## 4 · DNS da API
+
+No provedor de `ghdaru.com.br`:
+
+| Nome | Tipo | Valor |
 |---|---|---|
-| `ALLOWED_ORIGINS` | o navegador bloqueia por CORS | o site publicado pode chamar |
-| `LLM_ADAPTER=openai` + `OPENAI_API_KEY` | tutor responde eco; resposta aberta **diz que não avaliou** | tutor real e avaliação por rubrica |
-| `DATABASE_URL` | progresso some ao reiniciar | progresso persiste entre sessões e deploys |
-| `ADMIN_TOKEN` | `/telemetry` e `/suggestions` retornam 403 | painel de uso acessível com o token |
+| `api.machinelearning` | CNAME | o alvo que o Railway mostrou |
 
-**Nenhuma delas vai para o repositório.** No `render.yaml` elas estão marcadas `sync: false`, o que faz o Render pedir o valor no painel sem versioná-lo — Princípio V da constituição.
+> **Por que a API tem subdomínio próprio.** O campo `companion_backend` do `publicar/sumario.json` é **compilado dentro do HTML de todas as páginas**. Apontar para `*.up.railway.app` significa que trocar de provedor obrigaria a **reconstruir e republicar o livro inteiro**. Com subdomínio próprio, o livro nunca carrega o nome de um fornecedor.
 
-## Persistência (opcional, mas recomendada para uma turma)
+Confira: `curl https://api.machinelearning.ghdaru.com.br/health`.
 
-Sem `DATABASE_URL`, o progresso dos alunos vive na memória do processo e some a cada reinício — inclusive quando o plano gratuito hiberna.
+## 5 · Front na Vercel
 
-Qualquer Postgres serve. No próprio Render: **New → PostgreSQL** (há plano gratuito), copie a *Internal Database URL* e cole em `DATABASE_URL`. As tabelas são criadas sozinhas na primeira subida.
+1. **[vercel.com](https://vercel.com)** → **Add New → Project** → importe `GHDaru/machinelearning`.
+2. **Root Directory: a raiz do repositório.** Não `publicar/` — o motor lê `.specify/memory/constitution.md` e `livro/`, que estão acima dela.
+3. Não preencha build nem output à mão: o [`vercel.json`](../vercel.json) já traz tudo.
+4. Deixe a primeira build rodar e confira a URL `*.vercel.app`.
 
-## Alternativas
+### Os três segredos do GitHub
 
-O backend é um processo Python comum — sobe em qualquer lugar que rode `uvicorn`:
+O deploy de **produção** não sai da Vercel: sai do workflow, depois dos testes (ADR 0006). Em **Settings → Secrets and variables → Actions** do repositório:
 
-| Plataforma | Arquivo pronto |
+| Secret | Onde achar |
 |---|---|
-| **Render** | [`render.yaml`](../render.yaml) |
-| **Railway** | [`backend/railway.json`](backend/railway.json) |
-| **Heroku / Fly / qualquer PaaS** | [`backend/Procfile`](backend/Procfile) |
-| **Docker / VPS** | `pip install -r requirements.txt && uvicorn app:app --host 0.0.0.0 --port 8000` |
+| `VERCEL_TOKEN` | Vercel → Account Settings → Tokens |
+| `VERCEL_ORG_ID` | Vercel → Project Settings → General |
+| `VERCEL_PROJECT_ID` | idem |
 
-## Antes de publicar, regenere os dois arquivos derivados
+## 6 · DNS do site
 
-O backend precisa de dois artefatos gerados a partir do livro:
+| Nome | Tipo | Valor |
+|---|---|---|
+| `machinelearning` | CNAME | `cname.vercel-dns.com.` |
+
+Na Vercel, **Project → Domains** → adicione `machinelearning.ghdaru.com.br` e marque como **Primary**. Configure o domínio `*.vercel.app` de produção como **Redirect** para ele — senão a duplicidade de conteúdo só troca de endereço.
+
+> Se o DNS estiver no Cloudflare, **desligue o proxy** (nuvem cinza) nesses dois registros.
+
+## 7 · Smoke test
+
+O workflow faz isto sozinho e **falha o deploy** se algo não responder. Para conferir à mão:
 
 ```bash
-node publicar/exercicios.mjs                     # banco.json — exercícios + gabaritos
-python chat-companion/backend/build_corpus.py    # corpus.json — texto do livro (RAG do tutor)
+curl -fsS https://api.machinelearning.ghdaru.com.br/health
+
+curl -fsS -X OPTIONS https://api.machinelearning.ghdaru.com.br/health \
+  -H "Origin: https://machinelearning.ghdaru.com.br" \
+  -H "Access-Control-Request-Method: GET" -D- -o /dev/null \
+  | grep -i access-control-allow-origin
 ```
 
-O `banco.json` é **versionado** e a CI confere que não derivou do livro. O `corpus.json` é gitignored; num deploy que clona o repositório inteiro (como o Render faz), o backend encontra `livro/` sozinho e dispensa o corpus.
+A segunda linha **precisa** devolver o cabeçalho. Sem ele, o chat e a correção estão quebrados — e você não veria pela tela, porque os laboratórios continuam funcionando.
 
-## Verificar que funcionou
+Depois, no site: abra um capítulo, responda um exercício **errado** de propósito. Deve aparecer *"Ainda não. Releia a seção indicada e tente outra vez"*. Erre de novo: vem a explicação completa. **Se isso acontecer, está tudo de pé** — a revelação progressiva é a parte que só o servidor faz.
 
-Depois de ligar o site ao backend, abra qualquer capítulo com exercício — por exemplo o [18](https://ghdaru.github.io/machinelearning/18-neuronio-artificial.html) — e responda **errado** de propósito. Deve aparecer:
+## 8 · Aposentar o endereço antigo — por último
 
-> *Ainda não. Releia a seção indicada e tente outra vez — na próxima tentativa eu explico o raciocínio completo.*
+Só quando os passos 1–7 estiverem verdes.
 
-Responda errado de novo: aí sim vem a explicação completa e a resposta esperada. **Se isso acontecer, está tudo funcionando** — a revelação progressiva é a parte que só o servidor consegue fazer.
+**Actions → "Redirecionar o GitHub Pages para o domínio próprio" → Run workflow**, digitando `SIM` no campo de confirmação.
+
+O antigo endereço passa a servir um stub que redireciona **preservando o caminho** (`/machinelearning/18-neuronio-artificial.html` cai no capítulo 18 do domínio novo), com `canonical` e `noindex`.
+
+Depois disso, remova `https://ghdaru.github.io` de `ALLOWED_ORIGINS` no Railway.
+
+---
+
+## O que fazer quando algo quebra
+
+| Sintoma | Causa provável |
+|---|---|
+| Exercício diz "não deu para corrigir agora" | CORS: `ALLOWED_ORIGINS` no Railway não tem o domínio do site |
+| Chat responde como eco | Sem `OPENAI_API_KEY`, ou `LLM_ADAPTER` diferente de `openai` |
+| Progresso some a cada visita | Sem `DATABASE_URL` — está em memória |
+| Exercício "não encontrado" | `banco.json` derivou. O gate do CI pega isso; se passou, rode `node publicar/exercicios.mjs` e comite |
+| Preview da Vercel sem chat | Esperado se `ALLOWED_ORIGIN_REGEX` não casar com a URL. Ajuste a variável no Railway |
+| Deploy verde e site velho | A Vercel não publica do `main` de propósito. Quem promove é o workflow |
+
+**Nenhuma credencial entra no repositório** (Princípio V). Se uma chave vazar, revogue-a no painel de origem antes de qualquer outra coisa.

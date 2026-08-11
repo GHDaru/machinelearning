@@ -1,8 +1,8 @@
 {
   "titulo": "Ciência de Dados e Aprendizado de Máquina",
   "subtitulo": "Um livro vivo e evolutivo para aprender fazendo — da coleta do dado ao modelo profundo",
-  "companion_backend": "",
-  "_companion_backend_nota": "URL do backend do livro vivo. Vazio = site estático: o chat e a correção de exercícios ficam indisponíveis, mas os LABORATÓRIOS continuam funcionando (rodam no navegador). Em dev local: http://127.0.0.1:8000",
+  "companion_backend": "https://api.machinelearning.ghdaru.com.br",
+  "_companion_backend_nota": "URL do backend do livro vivo. É um SUBDOMÍNIO PRÓPRIO, e não a URL da Railway, de propósito (ADR 0006): este valor é compilado dentro do HTML de todas as páginas, então apontar para *.up.railway.app obrigaria a reconstruir e republicar o livro inteiro a cada troca de provedor. Vazio = site estático: chat e correção de exercícios ficam indisponíveis, mas os LABORATÓRIOS continuam funcionando (rodam no navegador). Em dev local: http://127.0.0.1:8000",
   "_nota_numeracao": "O número do capítulo é um IDENTIFICADOR ESTÁVEL, não uma ordem de leitura. A ordem está nas partes e, sobretudo, nas trilhas por disciplina.",
   "partes": [
     {

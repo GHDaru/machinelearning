@@ -1,0 +1,15 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "_comentario": "O Root Directory do serviço na Railway é a RAIZ DO REPOSITÓRIO, e não chat-companion/backend como no guia do harness. A razão está no ADR 0006: com a raiz na pasta do backend, o container não teria livro/, e o tutor dependeria de um corpus.json de 815 KB versionado e regenerado a cada edição — que, esquecido, degrada a busca EM SILÊNCIO. Com a raiz no repositório, o índice é construído ao vivo a partir de livro/ e o corpus deixa de existir como artefato.",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "pip install -r chat-companion/backend/requirements.txt"
+  },
+  "deploy": {
+    "startCommand": "cd chat-companion/backend && uvicorn app:app --host 0.0.0.0 --port $PORT",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 100,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  }
+}

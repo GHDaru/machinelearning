@@ -1,0 +1,71 @@
+name: Redirecionar o GitHub Pages para o domínio próprio
+
+# MANUAL DE PROPÓSITO, e é o ÚLTIMO passo da migração (ADR 0006).
+#
+# Depois que o livro passa a viver em machinelearning.ghdaru.com.br, o antigo
+# endereço do Pages não deve servir uma segunda cópia do livro — isso é
+# conteúdo duplicado e confunde quem tem link antigo sobre qual é o oficial.
+#
+# Este workflow substitui o site do Pages por um stub que redireciona
+# PRESERVANDO O CAMINHO, com canonical e noindex.
+#
+# NÃO rode antes de o domínio novo estar no ar e testado: enquanto ele não
+# estiver, o Pages é o único lugar onde o livro existe.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmo:
+        description: 'Digite SIM se o domínio novo já está no ar e testado'
+        required: true
+        default: 'nao'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: inputs.confirmo == 'SIM'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Gerar o stub de redirecionamento
+        run: node publicar/redirecionar/gerar.mjs
+
+      - name: Conferir que o stub NÃO contém o livro
+        run: |
+          set -euo pipefail
+          test -f docs/index.html && test -f docs/404.html
+          # Se sobrou capítulo em docs/, o stub não substituiu o site — abortar.
+          if ls docs/*-*.html >/dev/null 2>&1; then
+            echo "✗ Ainda há páginas de capítulo em docs/. O stub deve ser o único conteúdo."
+            exit 1
+          fi
+          grep -q 'machinelearning.ghdaru.com.br' docs/index.html
+          grep -q 'noindex' docs/index.html
+          echo "✓ Stub íntegro"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

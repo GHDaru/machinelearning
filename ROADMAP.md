@@ -29,8 +29,8 @@ Isso impõe três mudanças de prioridade:
 | Seções "De onde isto veio" | **26 de 26** capítulos de método, com tabela de selos |
 | Trilhas de disciplina | 3 |
 | `ml-zero` | 5 etapas · 88 testes · Backend: 23 testes |
-| Site | 🟢 https://ghdaru.github.io/machinelearning/ |
-| Backend | 🔴 não publicado — exercícios dormentes; laboratórios funcionam |
+| Site | 🟢 https://machinelearning.ghdaru.com.br/ |
+| Backend | 🟡 preparado — ver [DEPLOY.md](chat-companion/DEPLOY.md); falta o autor aplicar |
 
 **Ciclos concluídos:** C1 (trilha de Análise Preditiva), C2 (trilha de Aprendizagem de Máquina), C7 (o capítulo 27 cobre a Unidade 02) e C8 (pesquisa histórica + retrofit). **Dívidas D6, D8 e D9 pagas.**
 
@@ -48,7 +48,7 @@ Promover a `completo` exige, além disso: experimento próprio no `ml-zero`, cl�
 
 ### C4 — Publicar o backend
 
-Destrava a correção dos **91 exercícios**, o tutor e a telemetria. Depende de uma ação do autor: aplicar o blueprint `render.yaml` e apontar `companion_backend` no `publicar/sumario.json`.
+Destrava a correção dos **91 exercícios**, o tutor e a telemetria. O repositório já está pronto (ADR 0006): falta o autor criar as contas, os dois registros de DNS e as chaves. Passo a passo em [`chat-companion/DEPLOY.md`](chat-companion/DEPLOY.md).
 
 ### C3 — Mais laboratórios interativos
 

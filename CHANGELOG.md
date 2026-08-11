@@ -6,6 +6,40 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — publicação (ADR 0006)
+- **Front na Vercel**, promovido pelo workflow **depois** dos gates — não pela
+  integração Git da Vercel. `deploymentEnabled.main: false` no `vercel.json`
+  garante que o site não vá ao ar com os testes vermelhos.
+- **Backend na Railway com raiz no repositório**, divergindo do guia do harness:
+  com a raiz na pasta do backend, o tutor dependeria de um `corpus.json` de
+  815 KB versionado e regenerado a cada edição — que, esquecido, degrada a busca
+  **em silêncio**. Com a raiz no repositório o índice é construído ao vivo.
+- **Domínio próprio** `machinelearning.ghdaru.com.br`, e **`api.machinelearning`
+  para o backend** — porque `companion_backend` é compilado dentro do HTML de
+  todas as páginas, e apontar para `*.up.railway.app` obrigaria a republicar o
+  livro inteiro a cada troca de provedor.
+- **`ALLOWED_ORIGIN_REGEX`** no backend, para as URLs de preview da Vercel, que
+  mudam a cada commit. Sem ele o chat quebraria em silêncio em toda preview.
+  Cinco testes cobrem o CORS, inclusive um que garante que o regex **não** é
+  curinga.
+- **Smoke test bloqueante** no deploy: sem o cabeçalho `access-control-allow-origin`
+  vindo da API, o deploy falha. É a mitigação do risco que o ADR mais teme —
+  degradação silenciosa, com os laboratórios funcionando e mascarando a falha.
+- **Stub de redirecionamento** para o endereço antigo do Pages, preservando o
+  caminho, com `canonical` e `noindex`. Publicado por workflow manual, e só
+  depois de o domínio novo estar no ar.
+
+### Corrigido
+- **O gate do banco de exercícios não pegava derivação.** Ele validava a sintaxe
+  do Markdown e **não comparava com o `banco.json` versionado** — que é o arquivo
+  que o backend serve ao leitor. Estava derivado de verdade: **88 exercícios no
+  banco contra 91 no livro**, então os três do capítulo 14 nunca chegariam a
+  quem estudasse. Agora o gate compara o conteúdo e falha na diferença.
+
+### Removido
+- `render.yaml` — o blueprint do Render foi substituído pelo caminho
+  Railway + Vercel do ADR 0006.
+
 ## [1.0.0] — 2026-08-10 — **a primeira versão completa**
 
 ### Adicionado

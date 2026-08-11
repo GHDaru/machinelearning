@@ -2291,6 +2291,89 @@
    ]
   },
   {
+   "id": "14-e1",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Um banco usa um ensemble de árvores para decidir crédito e gera, para cada negativa, uma explicação SHAP com os três atributos de maior contribuição. O jurídico pergunta se essa explicação pode ser apresentada como a motivação da decisão. Qual leitura é correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Sim: SHAP tem base na teoria dos jogos, então a atribuição é causal e mostra o que causou a negativa."
+    },
+    {
+     "correta": true,
+     "texto": "Não: a explicação post-hoc descreve como o modelo se comporta perto daquele caso — é aproximação, não a razão interna da decisão."
+    },
+    {
+     "correta": false,
+     "texto": "Sim, desde que as contribuições somem o desvio em relação à previsão média, o que SHAP garante."
+    },
+    {
+     "correta": false,
+     "texto": "A pergunta não se aplica: bastaria trocar por um modelo interpretável por construção, que já dispensa a análise por subgrupo."
+    }
+   ],
+   "gabarito": "É uma aproximação do comportamento do modelo, não a razão da decisão",
+   "porque": "A explicação post-hoc é um **segundo objeto**, ajustado para imitar o primeiro numa vizinhança. Pode ser fiel e útil sem ser o que ocorreu por dentro do ensemble; apresentá-la como motivação troca o modelo pelo retrato dele. A primeira alternativa confunde duas causalidades: SHAP é causal **dentro do jogo** que ele define, não no mundo.\n\nA terceira captura o erro mais sedutor — a soma exata é propriedade real e desejável, mas **coerência aritmética não é veracidade explicativa**: uma decomposição pode fechar a conta perfeitamente e ainda descrever mal o mecanismo. A quarta erra em dobro: modelo interpretável por construção resolve a explicação, **não** a justiça — regras visíveis podem produzir taxas de erro muito diferentes entre grupos, e você só descobre medindo.",
+   "volte_para": "#interpretavel-por-construcao-ou-explicado-depois",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "14-interpretabilidade-justica",
+   "titulo_capitulo": "14 — Interpretabilidade e Justiça"
+  },
+  {
+   "id": "14-e2",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+   "tipo": "numerica",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Um escore de risco foi avaliado separadamente em dois grupos, com mil pessoas cada. A tabela traz as quatro células da matriz de confusão de cada um:\n\n| Grupo | Positivo real, previsto positivo | Positivo real, previsto negativo | Negativo real, previsto positivo | Negativo real, previsto negativo |\n|---|---|---|---|---|\n| **A** (prevalência 40%) | 280 | 120 | 120 | 480 |\n| **B** (prevalência 60%) | 420 | 180 | 180 | 220 |\n\nCalcule a **taxa de falso positivo do grupo B**. Responda em fração, com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "0,45 ± 0,01",
+   "porque": "A taxa de falso positivo se calcula **sobre os negativos reais**, nunca sobre o total. No grupo B há 180 + 220 = **400** negativos reais, dos quais 180 foram previstos positivos: 180 / 400 = **0,45**. O erro mais comum é dividir por 1 000 e obter 0,18 — isso mede outra coisa.\n\nAgora faça as outras contas, porque é aqui que o capítulo se fecha. Falso positivo no grupo A: 120 / 600 = **0,20**. Valor preditivo positivo: 280 / 400 = **0,70** no A e 420 / 600 = **0,70** no B — **idênticos**. Taxa de falso negativo: 120 / 400 = **0,30** no A e 180 / 600 = **0,30** no B — **também idênticos**.\n\nOu seja: este escore trata os dois grupos igualmente em duas definições e ainda assim **erra para cima mais que o dobro** no grupo B. Nada foi sabotado, nenhum atributo sensível precisou entrar no modelo. A única diferença entre os grupos é a **prevalência**, e ela sozinha basta. É o teorema, agora em números que você conferiu com uma divisão.",
+   "volte_para": "#a-algebra-de-tres-linhas",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "14-interpretabilidade-justica",
+   "titulo_capitulo": "14 — Interpretabilidade e Justiça",
+   "gabarito_num": {
+    "valor": 0.45,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "14-e3",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "enunciado": "Um plano de saúde vai usar um escore para selecionar pacientes crônicos que entram num programa de acompanhamento intensivo — as vagas são limitadas e o programa reduz internações. A prevalência de complicação grave é **maior no grupo X** do que no grupo Y, por razões conhecidas de acesso histórico a atendimento.\n\nA diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escore significa a mesma probabilidade nos dois grupos) e **igualitário em oportunidade** (mesma taxa de acerto entre quem de fato vai complicar). Escreva a resposta que você levaria à diretoria: explique por que o pedido é impossível como está, escolha **um** dos dois critérios, e diga **quem paga a conta** da sua escolha.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca promete \"buscar um equilíbrio\" e pede mais dados. Mais dados não removem a incompatibilidade: ela decorre da diferença de prevalência, não do tamanho da amostra.\n\nA resposta forte faz três movimentos. Devolve o pedido — as duas exigências juntas equivalem a exigir prevalências iguais. Escolhe, e nomeia o preço: priorizar **igualdade de oportunidade** tende a levar mais gente do grupo X ao programa, aumentando o falso positivo lá e consumindo vagas que outros pacientes teriam; priorizar **calibração** preserva o significado do escore para quem o lê, ao custo de taxas de erro piores num dos grupos. E diz **quem paga** em pessoas e desfechos — pacientes que complicam sem entrar no programa, ou pacientes que ocupam vaga sem precisar — não em métrica. O que separa a boa da excelente é reparar que a prevalência diferente **é ela mesma resíduo de um acesso desigual anterior**: otimizar sobre ela é herdar o problema, e a ação mais valiosa pode estar fora do modelo.",
+   "volte_para": "#quando-o-teorema-diz-que-voce-tem-de-escolher",
+   "rubrica": "explica que os dois critérios não podem valer juntos porque a prevalência difere, e que isso é identidade aritmética, não limitação de engenharia;\nnomeia corretamente o que cada critério exige;\nescolhe explicitamente um critério em vez de propor um meio-termo vago;\nidentifica de forma concreta quem sofre o erro resultante — qual grupo, qual tipo de erro, qual consequência clínica;\npropõe ao menos uma ação de procedimento (registrar a escolha, reportar por subgrupo, ouvir os afetados, atacar a prevalência na origem);\nNÃO afirma que existe uma resposta tecnicamente correta",
+   "versoes": null,
+   "pagina": "14-interpretabilidade-justica",
+   "titulo_capitulo": "14 — Interpretabilidade e Justiça",
+   "criterios": [
+    "explica que os dois critérios não podem valer juntos porque a prevalência difere, e que isso é identidade aritmética, não limitação de engenharia",
+    "nomeia corretamente o que cada critério exige",
+    "escolhe explicitamente um critério em vez de propor um meio-termo vago",
+    "identifica de forma concreta quem sofre o erro resultante — qual grupo, qual tipo de erro, qual consequência clínica",
+    "propõe ao menos uma ação de procedimento (registrar a escolha, reportar por subgrupo, ouvir os afetados, atacar a prevalência na origem)",
+    "NÃO afirma que existe uma resposta tecnicamente correta"
+   ]
+  },
+  {
    "id": "15-e1",
    "capitulo": 15,
    "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
