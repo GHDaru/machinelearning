@@ -36,7 +36,7 @@ A ementa tem seis unidades; a trilha as segue, redistribuindo a carga para o que
 | # | Capítulo | Peso na disciplina |
 |---|---|---|
 | 5 | [04 — Avaliação](../capitulos/04-avaliacao.md) | revisão rápida — já visto em Análise Preditiva |
-| 6 | [05 — Modelos Lineares](../capitulos/05-modelos-lineares.md) | revisão rápida |
+| 6 | [05 — Modelos Lineares](../capitulos/05-modelos-lineares.md) e [28 — Regressão Logística](../capitulos/28-regressao-logistica.md) | revisão rápida — o 28 é pré-requisito real do capítulo 09: um neurônio com sigmoide **é** uma regressão logística |
 | 7 | [07 — Árvores e Ensembles](../capitulos/07-arvores-ensembles.md) | revisão rápida (retomado na Unidade 06) |
 | 8 | [06 — Otimização e Regularização](../capitulos/06-otimizacao.md) | **aprofundar** — é a base do treino de redes |
 | 9 | [09 — Redes Multicamadas](../capitulos/09-redes-neurais.md) | **núcleo** — a camada escondida e o backpropagation |

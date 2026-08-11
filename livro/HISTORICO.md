@@ -4,6 +4,34 @@
 >
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
+
+## Edição 1.1 — 2026-08-11 · o livro em uso, e o que o uso quebrou
+
+Primeira edição publicada **enquanto uma turma usa o livro**. Quase tudo aqui nasceu de pedido do autor em preparação de aula, e três achados vieram de **usar** em vez de revisar.
+
+**No conteúdo**
+
+- **Capítulo 05** ganhou o laboratório `05-l1` (mínimos quadrados à mão, com os quadrados do erro desenhados) e a seção **"A dedução, em cinco passos"**, do critério às equações normais.
+- **Capítulo 28 — Regressão Logística** nasceu, separado do 05 ([ADR 0009](../adr/0009-separar-linear-e-logistica.md)). Antes eram 30 linhas; agora tem história com selos, a dedução de por que a solução fechada some, e três exercícios.
+- **O caso da limonada** entrou no capítulo 05, com o conjunto de 365 dias que o autor trouxe da disciplina. Ele demonstra, com número, que **controlar por uma variável não desfaz confundimento** quando o confundidor não foi medido direito.
+- **Notebooks** em cinco etapas do `ml-zero`, executáveis na máquina do aluno e no Colab.
+- Exercícios: **91 → 96**.
+
+**O que o uso derrubou, e nenhum gate pegava**
+
+1. **Uma frase minha estava errada.** O capítulo 05 mandava "refazer o ajuste só com julho e agosto, onde o preço varia sem a estação variar junto". Não varia: **nenhum mês do ano tem mais de um preço**. Descoberto ao escrever a célula do notebook que faria isso. A correção deixou a lição mais forte — o confundimento é perfeito, e a resposta honesta passou a ser *"com estes dados não dá"*.
+2. **O banner de consentimento estava quebrado em todas as páginas** desde sempre: uma variável `tx` sombreava a função `tx()` de tradução. Como a telemetria de navegação exige consentimento, **nenhum registro jamais foi gravado**. Build verde, testes verdes, links certos — só apareceu ao dirigir a página num navegador de verdade.
+3. **O `og:image` apontava para o endereço prestes a ser aposentado.** Toda partilha em rede social viraria um retângulo vazio depois da migração, sem que nada acusasse.
+
+**Na infraestrutura**
+
+- O livro saiu do GitHub Pages para **domínio próprio**, com backend vivo: os **96 exercícios corrigem no servidor**, com revelação progressiva. ADRs [0006](../adr/0006-publicacao-vercel-railway-dominio.md) e [0007](../adr/0007-builder-declarado-na-railway.md).
+- **Identificação por turma** ([ADR 0008](../adr/0008-identificacao-por-turma.md)): o anonimato segue sendo o padrão, e o aluno pode optar por sair dele com um comando no chat.
+
+**Modelo de IA usado nesta edição:** Claude (Anthropic), em sessão conduzida pelo autor.
+
+> **A lição da edição.** As três falhas acima têm a mesma forma: **saída tecnicamente válida, comportamento errado**. Nenhum gate mecânico as pegaria, porque nenhum gate olha para o que o leitor vê. O que as achou foi *usar* — escrever o notebook, abrir o navegador, ler o HTML publicado.
+
 ## Edições
 
 ### Edição 1.0 — 2026-08-10 · A primeira versão completa (spec 006)

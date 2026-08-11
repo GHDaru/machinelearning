@@ -913,78 +913,26 @@
    "titulo_capitulo": "05 — Modelos Lineares"
   },
   {
-   "id": "05-e2",
+   "id": "05-e7",
    "capitulo": 5,
    "arquivo": "livro/capitulos/05-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
-   "dificuldade": "facil",
-   "enunciado": "Numa regressão logística, o que é linear nos atributos?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "A probabilidade prevista."
-    },
-    {
-     "correta": true,
-     "texto": "O logito — o logaritmo da razão de chances."
-    },
-    {
-     "correta": false,
-     "texto": "A classe prevista (0 ou 1)."
-    },
-    {
-     "correta": false,
-     "texto": "O erro de classificação."
-    }
-   ],
-   "gabarito": "O logito",
-   "porque": "O modelo calcula z = w·x + b (linear) e depois aplica a sigmoide para chegar à probabilidade. A sigmoide é **não linear** — é justamente ela que comprime a reta inteira no intervalo [0,1]. Portanto a probabilidade *não* é linear nos atributos; o logito é.\n\nA consequência prática aparece nos extremos. Um aumento de uma unidade num atributo muda o logito sempre na mesma quantidade, mas muda a **probabilidade** muito perto de 0,5 e quase nada perto de 0 ou de 1. Por isso \"este atributo aumenta a chance em 3 pontos percentuais\" é uma frase que só pode ser verdadeira num ponto específico, nunca em geral.",
-   "volte_para": "#regressao-logistica-o-nome-atrapalha",
+   "dificuldade": "media",
+   "enunciado": "Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).\n\nCalcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy} / S_{xx}$. Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "1.40 ± 0.02",
+   "porque": "As médias são x̄ = 2,5 e ȳ = 4. Os desvios em x são −1,5, −0,5, +0,5 e +1,5; em y são −2, −1, +1 e +2.\n\nS_xy = (−1,5)(−2) + (−0,5)(−1) + (0,5)(1) + (1,5)(2) = 3 + 0,5 + 0,5 + 3 = **7**\nS_xx = 2,25 + 0,25 + 0,25 + 2,25 = **5**\n\nLogo a = 7 / 5 = **1,4**, e o intercepto sai de b = ȳ − a·x̄ = 4 − 1,4 × 2,5 = **0,5**.\n\nConfira no laboratório acima que a reta ótima passa por (x̄, ȳ) = (2,5; 4): 1,4 × 2,5 + 0,5 = 4. Isso não é coincidência deste exemplo — é o passo 2 da dedução, e vale sempre.",
+   "volte_para": "#a-deducao-em-cinco-passos",
    "rubrica": null,
    "versoes": null,
    "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares"
-  },
-  {
-   "id": "05-e3",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
-   "tipo": "multipla-multi",
-   "objetivo": "O3",
-   "pontos": 1,
-   "dificuldade": "dificil",
-   "enunciado": "Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 para `dívida_atual`. Quais leituras são **corretas**? (marque todas que valem)",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "Um desvio-padrão a mais de dívida multiplica a razão de chances de inadimplência por aproximadamente 2."
-    },
-    {
-     "correta": false,
-     "texto": "Um desvio-padrão a mais de dívida aumenta a probabilidade de inadimplência em 70 pontos percentuais."
-    },
-    {
-     "correta": false,
-     "texto": "Reduzir a dívida do cliente reduziria o risco dele na proporção do coeficiente."
-    },
-    {
-     "correta": true,
-     "texto": "Se `dívida_atual` for muito correlacionada com `renda_comprometida`, este coeficiente pode ser instável entre reamostragens."
-    },
-    {
-     "correta": false,
-     "texto": "Como o coeficiente é o maior do modelo, dívida é a causa principal da inadimplência."
-    }
-   ],
-   "gabarito": "multiplica a razão de chances por ~2 · pode ser instável sob colinearidade",
-   "porque": "A primeira correta é a leitura literal: e^0,7 ≈ 2,01, e o efeito é sobre a **razão de chances**, não sobre a probabilidade. A segunda correta é o alerta de colinearidade — dois atributos que medem quase a mesma coisa dividem o crédito de forma arbitrária, e a divisão muda com pequenas variações nos dados sem que a métrica piore.\n\nAs três erradas são os três erros clássicos, nesta ordem de frequência: confundir logito com probabilidade (70 pontos percentuais é impossível — sequer respeita o intervalo [0,1]); ler correlação como intervenção (\"reduzir a dívida reduziria o risco\" é uma afirmação causal que o modelo não sustenta); e tratar magnitude de coeficiente como importância causal. As três aparecem em relatórios reais, e a terceira costuma aparecer no slide de recomendação.",
-   "volte_para": "#as-quatro-coisas-que-ele-nao-diz",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares"
+   "titulo_capitulo": "05 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 1.4,
+    "tolerancia": 0.02
+   }
   },
   {
    "id": "05-e4",
@@ -1067,6 +1015,115 @@
     "Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque",
     "Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico"
    ]
+  },
+  {
+   "id": "28-e1",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Numa regressão logística, o que é linear nos atributos?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A probabilidade prevista."
+    },
+    {
+     "correta": true,
+     "texto": "O logito — o logaritmo da razão de chances."
+    },
+    {
+     "correta": false,
+     "texto": "A classe prevista (0 ou 1)."
+    },
+    {
+     "correta": false,
+     "texto": "O erro de classificação."
+    }
+   ],
+   "gabarito": "O logito",
+   "porque": "O modelo calcula z = w·x + b (linear) e depois aplica a sigmoide para chegar à probabilidade. A sigmoide é **não linear** — é justamente ela que comprime a reta inteira no intervalo [0,1]. Portanto a probabilidade *não* é linear nos atributos; o logito é.\n\nA consequência prática aparece nos extremos. Um aumento de uma unidade num atributo muda o logito sempre na mesma quantidade, mas muda a **probabilidade** muito perto de 0,5 e quase nada perto de 0 ou de 1. Por isso \"este atributo aumenta a chance em 3 pontos percentuais\" é uma frase que só pode ser verdadeira num ponto específico, nunca em geral.",
+   "volte_para": "#fundamentos-a-sigmoide-e-o-logito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "28-regressao-logistica",
+   "titulo_capitulo": "28 — Regressão Logística"
+  },
+  {
+   "id": "28-e3",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "enunciado": "Por que a regressão logística não tem solução fechada, como a linear tem?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque a entropia cruzada não é diferenciável."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o problema não é convexo, e por isso não há mínimo único."
+    },
+    {
+     "correta": true,
+     "texto": "Porque, ao anular a derivada, os pesos ficam presos dentro da sigmoide — e o sistema resultante não é linear nos pesos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a solução fechada exigiria inverter uma matriz singular."
+    }
+   ],
+   "gabarito": "Os pesos ficam presos dentro da sigmoide",
+   "porque": "A condição de otimalidade tem a mesma forma da linear — soma de (previsto − observado) vezes o atributo, igual a zero. A diferença é que \"previsto\" aqui é σ(w·x + b): o peso está **dentro** de uma função não linear, e não há álgebra que o isole. O sistema é transcendental, e se resolve por iteração.\n\nAs duas primeiras alternativas invertem os fatos: a entropia cruzada **é** diferenciável, e o problema **é** convexo — há mínimo único, e é justamente por isso que o gradiente funciona bem aqui. A quarta confunde com um problema numérico da regressão linear (colinearidade perfeita torna a matriz singular), que é outra história.",
+   "volte_para": "#por-que-a-perda-muda-e-por-que-a-solucao-fechada-some",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "28-regressao-logistica",
+   "titulo_capitulo": "28 — Regressão Logística"
+  },
+  {
+   "id": "28-e2",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 para `dívida_atual`. Quais leituras são **corretas**? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Um desvio-padrão a mais de dívida multiplica a razão de chances de inadimplência por aproximadamente 2."
+    },
+    {
+     "correta": false,
+     "texto": "Um desvio-padrão a mais de dívida aumenta a probabilidade de inadimplência em 70 pontos percentuais."
+    },
+    {
+     "correta": false,
+     "texto": "Reduzir a dívida do cliente reduziria o risco dele na proporção do coeficiente."
+    },
+    {
+     "correta": true,
+     "texto": "Se `dívida_atual` for muito correlacionada com `renda_comprometida`, este coeficiente pode ser instável entre reamostragens."
+    },
+    {
+     "correta": false,
+     "texto": "Como o coeficiente é o maior do modelo, dívida é a causa principal da inadimplência."
+    }
+   ],
+   "gabarito": "multiplica a razão de chances por ~2 · pode ser instável sob colinearidade",
+   "porque": "A primeira correta é a leitura literal: e^0,7 ≈ 2,01, e o efeito é sobre a **razão de chances**, não sobre a probabilidade. A segunda correta é o alerta de colinearidade — dois atributos que medem quase a mesma coisa dividem o crédito de forma arbitrária, e a divisão muda com pequenas variações nos dados sem que a métrica piore.\n\nAs três erradas são os três erros clássicos, nesta ordem de frequência: confundir logito com probabilidade (70 pontos percentuais é impossível — sequer respeita o intervalo [0,1]); ler correlação como intervenção (\"reduzir a dívida reduziria o risco\" é uma afirmação causal que o modelo não sustenta); e tratar magnitude de coeficiente como importância causal. As três aparecem em relatórios reais, e a terceira costuma aparecer no slide de recomendação.",
+   "volte_para": "#interpretar-o-coeficiente-chance-nao-probabilidade",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "28-regressao-logistica",
+   "titulo_capitulo": "28 — Regressão Logística"
   },
   {
    "id": "06-e1",
@@ -2799,16 +2856,16 @@
    "pagina": "04-avaliacao"
   },
   {
-   "id": "05-v1",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "28-v1",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/28-regressao-logistica.md",
    "fonte": "youtube",
    "ref": "yIYKR4sgzI8",
    "titulo": "StatQuest: Logistic Regression",
    "autor": "StatQuest with Josh Starmer",
    "min": 9,
-   "porque": "O que o texto acima explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício 05-e3.",
-   "pagina": "05-modelos-lineares"
+   "porque": "O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício 28-e2.",
+   "pagina": "28-regressao-logistica"
   },
   {
    "id": "06-v1",
@@ -2836,6 +2893,24 @@
   }
  ],
  "laboratorios": [
+  {
+   "id": "05-l1",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "tipo": "regressao-linear",
+   "titulo": "Mínimos quadrados à mão",
+   "config": {
+    "id": "05-l1",
+    "tipo": "regressao-linear",
+    "titulo": "Mínimos quadrados à mão",
+    "n": 24,
+    "a": 1.8,
+    "b": 4,
+    "ruido": 3.2
+   },
+   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.\n\nTrês coisas para tentar, nesta ordem:\n\n1. **Minimize no olho.** Arraste as alças até o EQM parar de cair. Anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.\n3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em \"Ajustar automaticamente\" e compare os coeficientes com o que você tinha.\n\nUma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**",
+   "pagina": "05-modelos-lineares"
+  },
   {
    "id": "18-l1",
    "capitulo": 18,

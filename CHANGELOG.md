@@ -22,6 +22,39 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Adicionado — laboratório de mínimos quadrados, dedução do método, e o capítulo 28 (ADR 0009)
+- **Laboratório `05-l1`**: nuvem de pontos aleatória, e a reta manipulável pelos
+  **coeficientes** ou **arrastando as alças** direto no gráfico. Resíduos
+  desenhados ponto a ponto, e **os quadrados do erro como área** — o que se
+  minimiza fica literalmente visível. Cinco métricas lado a lado (SQE, EQM,
+  RMSE, EAM, R²) com **o EQM marcado como a que estamos minimizando**, mais
+  botões de ajustar automaticamente, revelar a reta ótima e sortear novos dados.
+  Roda no navegador, sem backend.
+- **"A dedução, em cinco passos"** no capítulo 05: do critério às equações
+  normais, passando pelas duas condições que a derivação entrega — a soma dos
+  resíduos é zero (**a reta passa pelo centro de massa**) e os resíduos são
+  ortogonais ao atributo. Termina no aviso que a fórmula dá de graça:
+  `a = Sxy/Sxx`, e **atributo que não varia não tem coeficiente**.
+- **Capítulo 28 — Regressão Logística**, separado do 05 (ADR 0009). Ganhou
+  história com selos, a dedução de **por que a solução fechada some** (o peso
+  fica preso dentro da sigmoide), a tabela que mostra o mesmo coeficiente
+  movendo a probabilidade em 8, 17 ou 5 pontos conforme o ponto de partida, e
+  três exercícios. Antes eram 30 linhas dentro do 05.
+- Exercícios: **94 → 96**. `05-e2` e `05-e3` viraram `28-e1` e `28-e2`; o
+  exercício novo da dedução é `05-e7` — **e não o `05-e2` vago**, porque
+  reciclar id faria as tentativas antigas apontarem para outra pergunta em
+  silêncio.
+
+### Corrigido — o banner de consentimento estava quebrado em TODAS as páginas
+- `var tx = el("span", …)` **sombreava a função `tx()`** de tradução dentro da
+  mesma função (`publicar/tema/companion.js`), e a linha seguinte tentava chamar
+  um `<span>`. Resultado: `Uncaught TypeError` em toda página do livro, banner
+  nenhum, e — porque a telemetria de navegação **exige consentimento** — nenhum
+  registro de navegação jamais gravado.
+- Nenhum gate pegava: o build compila, os testes do backend passam, os links
+  estão certos. **Só apareceu ao dirigir a página num navegador de verdade**,
+  enquanto eu verificava o laboratório novo.
+
 ### Adicionado — notebooks prontos para executar nas seções "Mão na massa"
 - **Quatro notebooks novos** (o cap. 18 já tinha o dele), ligados dos capítulos
   **01, 02, 05, 06 e 07**: `linha_de_base`, `vazamento`, `regressao_limonada` e

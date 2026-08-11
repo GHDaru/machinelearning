@@ -29,7 +29,7 @@ E, atravessando tudo, o Princípio VI: **custo zero é requisito**. Toda etapa r
 | **02** | 02 | Pipeline de dados com detecção de vazamento e split por grupo/tempo | "o resultado estava bom demais" |
 | **03** | 03 | Codificação de categóricas, escalas, atributos de domínio | "o modelo não enxerga o que importa" |
 | **04** | 04 | Comparação pareada com intervalo de confiança | "melhorou de 0,912 para 0,918" |
-| **05–06** | 05 e 06 | Linear e logística + o otimizador isolado, à mão | "chamei `fit()` e não sei o que aconteceu" · "a perda não desce" |
+| **05–06** | 05, 28 e 06 | Linear e logística + o otimizador isolado, à mão | "chamei `fit()` e não sei o que aconteceu" · "a perda não desce" |
 | **07** | 07 | Árvore, bagging e boosting; o experimento tabular do capítulo | "por que boosting ganha aqui?" |
 | **08** | 08 | k-means e PCA, com o critério de escolha de k declarado | "achei grupos, e daí?" |
 | **09** | 09 | Rede densa em NumPy: forward, backprop, update | "backprop é mágica" |

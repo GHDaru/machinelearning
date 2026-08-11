@@ -7,9 +7,11 @@
 ## Objetivos de aprendizagem
 
 - **O1.** Derivar a regressão linear como minimização do erro quadrático.
-- **O2.** Explicar por que a regressão logística é um modelo de classificação apesar do nome.
+- **O2.** Obter as equações normais da reta e calcular a inclinação e o intercepto ótimos.
 - **O3.** Interpretar os coeficientes de um modelo linear — e dizer o que eles **não** significam.
 - **O4.** Reconhecer as situações em que o modelo linear é a escolha certa, não a escolha simplória.
+
+> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [28 — Regressão Logística](28-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
 
 ## O problema: o modelo que todo mundo aprende e quase ninguém respeita
 
@@ -73,7 +75,7 @@ Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honest
 
 A solução fechada existe e está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar** — no experimento, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
 
-> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$ — inviável com muitos atributos — e porque ela **não existe** para a regressão logística, que vem a seguir. O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
+> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$ — inviável com muitos atributos — e porque ela **não existe** para a regressão logística ([capítulo 28](28-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
 
 :::exercicio {"id":"05-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
@@ -90,37 +92,73 @@ Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absol
 > **volte para:** #fundamentos-regressao-linear-como-minimizacao
 :::
 
-## Regressão logística: o nome atrapalha
+## Ponha a reta à mão
 
-A regressão logística **classifica**. O nome vem de uma pergunta razoável mal resolvida.
+Antes da fórmula, o gesto. Arraste a reta até achar que está boa, e olhe o número subir e descer enquanto você mexe.
 
-A ideia ingênua seria usar regressão linear para prever a classe (0 ou 1). Não funciona: a reta prevê 1,7 e −0,4, que não são probabilidades. A saída precisa estar em $[0,1]$.
+:::lab {"id":"05-l1","tipo":"regressao-linear","titulo":"Mínimos quadrados à mão","n":24,"a":1.8,"b":4,"ruido":3.2}
+Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.
 
-A solução é passar a saída linear por uma função que comprima a reta inteira nesse intervalo — a **sigmoide**:
+Três coisas para tentar, nesta ordem:
 
-$$p = \sigma(z) = \frac{1}{1 + e^{-z}}, \qquad z = w \cdot x + b$$
+1. **Minimize no olho.** Arraste as alças até o EQM parar de cair. Anote o valor.
+2. **Ligue "Mostrar os quadrados".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.
+3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em "Ajustar automaticamente" e compare os coeficientes com o que você tinha.
 
-Aqui está o ponto que dá nome ao modelo. Invertendo:
+Uma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**
+:::
 
-$$z = \log\frac{p}{1-p}$$
+## A dedução, em cinco passos
 
-O que é linear nos atributos **não é a probabilidade** — é o **logito**, o logaritmo da razão de chances. A regressão logística é uma regressão linear *sobre o logito*, usada para classificar.
+O laboratório mostrou que existe um fundo do poço. Esta seção mostra **por que ele existe e como chegar nele por conta**, sem tentativa e erro. É a diferença entre usar a fórmula e saber de onde ela vem.
 
-Essa distinção não é preciosismo. Ela determina como se lê um coeficiente, que é o assunto da próxima seção e a fonte de mais erros de interpretação em relatórios do que qualquer outro tópico deste livro.
+Com um atributo, a reta é $\hat{y} = ax + b$, e o critério é a soma dos quadrados dos resíduos:
 
-:::exercicio {"id":"05-e2","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
-Numa regressão logística, o que é linear nos atributos?
+$$S(a, b) = \sum_{i=1}^{n}\left(y_i - ax_i - b\right)^2$$
 
-- [ ] A probabilidade prevista.
-- [x] O logito — o logaritmo da razão de chances.
-- [ ] A classe prevista (0 ou 1).
-- [ ] O erro de classificação.
+**Passo 1 — por que há um mínimo, e um só.** $S$ é uma soma de quadrados: é uma superfície convexa em $(a, b)$, uma tigela. Tigela tem um fundo, e só um. É a razão de o laboratório sempre convergir para a mesma reta, venha você por onde vier.
 
-> **gabarito:** O logito
-> **porque:** O modelo calcula z = w·x + b (linear) e depois aplica a sigmoide para chegar à probabilidade. A sigmoide é **não linear** — é justamente ela que comprime a reta inteira no intervalo [0,1]. Portanto a probabilidade *não* é linear nos atributos; o logito é.
+**Passo 2 — no fundo, as derivadas se anulam.** Derivando em relação a $b$:
+
+$$\frac{\partial S}{\partial b} = -2\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
+
+onde $r_i = y_i - ax_i - b$ é o resíduo. **A soma dos resíduos é zero.** Dividindo por $n$: $\bar{y} = a\bar{x} + b$, ou seja,
+
+$$b = \bar{y} - a\bar{x}$$
+
+**A reta ótima passa pelo centro de massa dos dados** — sempre, em qualquer conjunto. É um resultado que se vê no laboratório: gire a reta ótima em torno de um ponto e ele será $(\bar{x}, \bar{y})$.
+
+**Passo 3 — a segunda condição.** Derivando em relação a $a$:
+
+$$\frac{\partial S}{\partial a} = -2\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
+
+**Os resíduos são ortogonais ao atributo.** Traduzindo: o que sobrou de erro **não tem mais nada de linear em $x$** — se tivesse, a reta ainda poderia melhorar. É o significado geométrico do ajuste, e vale para qualquer número de atributos.
+
+**Passo 4 — resolver o sistema.** Substituindo $b = \bar{y} - a\bar{x}$ na segunda condição e reorganizando em torno das médias:
+
+$$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2} = \frac{S_{xy}}{S_{xx}}$$
+
+Duas contas — uma soma de produtos e uma soma de quadrados — e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
+
+**Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que apareceu no caso da limonada mais adiante, onde o preço **não varia** dentro de nenhum mês.
+
+> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$ — as **equações normais** — resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
+
+:::exercicio {"id":"05-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).
+
+Calcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy} / S_{xx}$. Responda com duas casas decimais.
+
+> **gabarito:** 1.40 ± 0.02
+> **porque:** As médias são x̄ = 2,5 e ȳ = 4. Os desvios em x são −1,5, −0,5, +0,5 e +1,5; em y são −2, −1, +1 e +2.
 >
-> A consequência prática aparece nos extremos. Um aumento de uma unidade num atributo muda o logito sempre na mesma quantidade, mas muda a **probabilidade** muito perto de 0,5 e quase nada perto de 0 ou de 1. Por isso "este atributo aumenta a chance em 3 pontos percentuais" é uma frase que só pode ser verdadeira num ponto específico, nunca em geral.
-> **volte para:** #regressao-logistica-o-nome-atrapalha
+> S_xy = (−1,5)(−2) + (−0,5)(−1) + (0,5)(1) + (1,5)(2) = 3 + 0,5 + 0,5 + 3 = **7**
+> S_xx = 2,25 + 0,25 + 0,25 + 2,25 = **5**
+>
+> Logo a = 7 / 5 = **1,4**, e o intercepto sai de b = ȳ − a·x̄ = 4 − 1,4 × 2,5 = **0,5**.
+>
+> Confira no laboratório acima que a reta ótima passa por (x̄, ȳ) = (2,5; 4): 1,4 × 2,5 + 0,5 = 4. Isso não é coincidência deste exemplo — é o passo 2 da dedução, e vale sempre.
+> **volte para:** #a-deducao-em-cinco-passos
 :::
 
 ## Interpretar coeficientes — e o que eles não dizem
@@ -129,9 +167,9 @@ O modelo linear é interpretável, e é por isso que ele sobrevive em crédito, 
 
 ### O que o coeficiente diz
 
-Na **regressão linear**: aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os demais atributos constantes.
+Aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os demais atributos constantes. É a leitura mais direta que um modelo oferece — e é o motivo de o linear sobreviver em crédito, seguro e saúde.
 
-Na **logística**: aumentar $x_j$ em uma unidade multiplica a **razão de chances** por $e^{w_j}$. Um coeficiente de 0,7 significa chance multiplicada por $e^{0,7} \approx 2$ — a chance dobra. Não a probabilidade: a chance.
+> Na regressão logística a leitura é outra: o coeficiente multiplica a **razão de chances**, não a saída. Está no [capítulo 28](28-regressao-logistica.md), e confundir as duas é o erro de interpretação mais comum deste livro.
 
 ### As quatro coisas que ele não diz
 
@@ -140,21 +178,6 @@ Na **logística**: aumentar $x_j$ em uma unidade multiplica a **razão de chance
 3. **Não é confiável sob colinearidade.** Quando dois atributos são altamente correlacionados, o modelo pode dar peso alto a um e negativo ao outro, ou trocá-los completamente com uma pequena mudança nos dados. O *erro* não piora; a *interpretação* vira ruído. É o modo de falha mais traiçoeiro do modelo linear, porque a métrica não avisa.
 4. **Não vale fora da faixa observada.** Extrapolar uma reta é a forma mais fácil de produzir uma previsão absurda com aparência de rigor.
 
-:::exercicio {"id":"05-e3","tipo":"multipla-multi","objetivo":"O3","dificuldade":"dificil"}
-Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 para `dívida_atual`. Quais leituras são **corretas**? (marque todas que valem)
-
-- [x] Um desvio-padrão a mais de dívida multiplica a razão de chances de inadimplência por aproximadamente 2.
-- [ ] Um desvio-padrão a mais de dívida aumenta a probabilidade de inadimplência em 70 pontos percentuais.
-- [ ] Reduzir a dívida do cliente reduziria o risco dele na proporção do coeficiente.
-- [x] Se `dívida_atual` for muito correlacionada com `renda_comprometida`, este coeficiente pode ser instável entre reamostragens.
-- [ ] Como o coeficiente é o maior do modelo, dívida é a causa principal da inadimplência.
-
-> **gabarito:** multiplica a razão de chances por ~2 · pode ser instável sob colinearidade
-> **porque:** A primeira correta é a leitura literal: e^0,7 ≈ 2,01, e o efeito é sobre a **razão de chances**, não sobre a probabilidade. A segunda correta é o alerta de colinearidade — dois atributos que medem quase a mesma coisa dividem o crédito de forma arbitrária, e a divisão muda com pequenas variações nos dados sem que a métrica piore.
->
-> As três erradas são os três erros clássicos, nesta ordem de frequência: confundir logito com probabilidade (70 pontos percentuais é impossível — sequer respeita o intervalo [0,1]); ler correlação como intervenção ("reduzir a dívida reduziria o risco" é uma afirmação causal que o modelo não sustenta); e tratar magnitude de coeficiente como importância causal. As três aparecem em relatórios reais, e a terceira costuma aparecer no slide de recomendação.
-> **volte para:** #as-quatro-coisas-que-ele-nao-diz
-:::
 
 ## O caso da limonada
 
@@ -293,10 +316,9 @@ Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. D
 A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão:
 
 - `RegressaoLinear` com **os dois caminhos** — solução fechada por eliminação de Gauss e gradiente — para você conferir que chegam ao mesmo lugar;
-- `RegressaoLogistica` com regularização L1 e L2 e leitura por `razao_de_chances()`;
 - `Padronizador` que aprende no treino e **aplica** ao teste — o vazamento do capítulo 02 tornado difícil de cometer.
 
-Uma etapa para dois capítulos, porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*.
+A mesma etapa serve ao [capítulo 06](06-otimizacao.md), porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*. A `RegressaoLogistica`, que também mora ali, é do [capítulo 28](28-regressao-logistica.md).
 
 
 **Notebook pronto para executar** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb)
@@ -305,22 +327,18 @@ O caso da limonada do começo ao fim: a correlação que sugere *aumente o preç
 
 > Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
 
-## Assista
-
-:::video {"id":"05-v1","fonte":"youtube","ref":"yIYKR4sgzI8","min":9,"autor":"StatQuest with Josh Starmer","titulo":"StatQuest: Logistic Regression"}
-O que o texto acima explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase "o que é linear é o logito, não a probabilidade" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício 05-e3.
-:::
-
 ## Síntese — o que levar
 
 - Regressão linear minimiza **erro quadrático** — por diferenciabilidade e solução fechada, não por ser intrinsecamente mais correto.
+- A dedução dá **duas condições**: a soma dos resíduos é zero (a reta passa pelo centro de massa) e os resíduos são ortogonais ao atributo (não sobrou nada de linear em $x$).
+- $a = S_{xy}/S_{xx}$, e o denominador avisa: **atributo que não varia não tem coeficiente**.
 - Gradiente e solução fechada chegam ao mesmo lugar. O gradiente é a ferramenta **geral**; a fechada é o caso de sorte.
-- Na logística, o que é linear é o **logito**. O coeficiente multiplica a **razão de chances** por $e^{w}$.
 - Coeficiente **não** é causa, **não** é comparável sem padronização, **não** é estável sob colinearidade, e **não** vale fora da faixa observada.
 - Treine sempre um linear primeiro. Ele responde "quanto do sinal é simplesmente linear?" em minutos.
 
 ## Verificação
 
-1. Explique a um colega por que a regressão logística tem "regressão" no nome, sem usar a palavra "sigmoide".
+1. Mostre, sem consultar o texto, por que a reta de mínimos quadrados passa necessariamente pelo ponto $(\bar{x}, \bar{y})$.
 2. Você tem 180 linhas e 60 atributos. Que família de modelo você tenta primeiro, e por quê?
 3. Dois atributos do seu modelo são quase idênticos. O erro de validação está ótimo. O que pode estar errado mesmo assim?
+4. No laboratório, o que aconteceria com a reta ótima se todos os pontos tivessem o mesmo $x$? Responda pela fórmula, não pelo desenho.

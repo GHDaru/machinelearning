@@ -563,10 +563,15 @@
   function montarBanner() {
     if (consentiu()) return;
     banner = el("div", "cmp-banner");
-    var tx = el("span", null, "💬 " + CONSENT_TXT);
+    // `texto`, e não `tx`: uma variável com esse nome SOMBREIA a função tx() de
+    // tradução dentro desta função (hoisting), e a linha seguinte tentava
+    // chamar um <span>. O banner morria com TypeError em TODAS as páginas —
+    // e, sem banner, ninguém consentia, e a telemetria de navegação nunca
+    // registrava nada. Achado ao dirigir a página num navegador de verdade.
+    var texto = el("span", null, "💬 " + CONSENT_TXT);
     var bt = el("button", "cmp-banner-bt", tx("Entendi e aceito", "Got it, I accept"));
     bt.addEventListener("click", function () { aceitarConsent(); banner.remove(); banner = null; renderConsent(); oferecerTour(); });
-    banner.appendChild(tx); banner.appendChild(bt);
+    banner.appendChild(texto); banner.appendChild(bt);
     document.body.appendChild(banner);
   }
   function telemetria() {

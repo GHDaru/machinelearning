@@ -207,3 +207,28 @@
 .lab-erro { color: var(--ex-errado); font-size: .9rem; }
 
 @media print { .laboratorio .lab-corpo { display: none; } }
+
+/* ---- laboratório de regressão linear ---- */
+.lab-canvas-larga { width: 100%; touch-action: none; }
+/* O canvas deste laboratório é bem mais largo que o do neurônio, e a grade
+   `1fr auto` espremia o painel a ponto de cortar os números. Aqui o painel
+   tem largura própria e o gráfico fica com o resto. */
+.laboratorio[data-lab="regressao-linear"] .lab-corpo { grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); }
+@media (max-width: 780px) {
+  .laboratorio[data-lab="regressao-linear"] .lab-corpo { grid-template-columns: 1fr; }
+}
+.lab-botoes { display: flex; flex-wrap: wrap; gap: .4rem; margin: .8rem 0 .4rem; }
+.lab-botao {
+  font: inherit; font-size: .86rem; padding: .34rem .7rem; cursor: pointer;
+  border: 1px solid var(--borda, #d5d5d0); border-radius: 6px;
+  background: var(--fundo-suave, #fff); color: inherit;
+}
+.lab-botao:hover { border-color: #e0a24a; }
+.lab-botao-primario { border-color: #e0a24a; font-weight: 600; }
+.lab-metricas { width: 100%; border-collapse: collapse; font-size: .86rem; margin-top: .6rem; }
+.lab-metricas th { text-align: left; font-weight: 400; padding: .22rem .4rem .22rem 0; }
+.lab-metricas td { text-align: right; font-variant-numeric: tabular-nums; padding: .22rem 0; }
+.lab-metrica-alvo { background: rgba(224,162,74,.14); }
+.lab-metrica-alvo td { font-weight: 700; }
+.lab-veredito { font-size: .84rem; margin: .5rem 0 0; opacity: .9; }
+.lab-dica { font-size: .8rem; opacity: .75; margin: .4rem 0 0; }

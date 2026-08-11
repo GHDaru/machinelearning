@@ -44,9 +44,10 @@ A ementa da disciplina tem três unidades; a trilha as segue.
 | 7 | [04 — Avaliação](../capitulos/04-avaliacao.md) | **Antes de treinar**: escolher a métrica pelo custo do erro |
 | 8 | [03 — Representação](../capitulos/03-representacao.md) | O modelo só vê o que você codificou |
 | 9 | [05 — Modelos Lineares](../capitulos/05-modelos-lineares.md) | A primeira técnica, interpretável e auditável |
-| 10 | [07 — Árvores e Ensembles](../capitulos/07-arvores-ensembles.md) | A segunda técnica, e a que costuma ganhar em tabular |
-| 11 | [24 — Séries Temporais](../capitulos/24-series-temporais.md) | Se o problema tiver tempo, ele muda de regras |
-| 12 | [25 — Do Modelo à Decisão](../capitulos/25-do-modelo-a-decisao.md) | Comparar com honestidade e apresentar o resultado |
+| 10 | [28 — Regressão Logística](../capitulos/28-regressao-logistica.md) | O mesmo maquinário para classificar: o que é linear é o logito |
+| 11 | [07 — Árvores e Ensembles](../capitulos/07-arvores-ensembles.md) | A segunda técnica, e a que costuma ganhar em tabular |
+| 12 | [24 — Séries Temporais](../capitulos/24-series-temporais.md) | Se o problema tiver tempo, ele muda de regras |
+| 13 | [25 — Do Modelo à Decisão](../capitulos/25-do-modelo-a-decisao.md) | Comparar com honestidade e apresentar o resultado |
 
 **Ao final da unidade** o estudante entrega a avaliação N3 da ementa: **duas técnicas comparadas com protocolo justo, incerteza declarada, e uma recomendação defendida** — inclusive a recomendação de não usar o modelo.
 

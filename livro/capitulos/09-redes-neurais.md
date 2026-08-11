@@ -69,7 +69,7 @@ Confira nas quatro linhas: (0,0) → h=(0,1) → soma 1, não dispara. (0,1) →
 
 **A arquitetura.** Um **perceptron multicamadas** (*multilayer perceptron*, MLP) é isso, generalizado: uma camada de **entrada** (os atributos), uma ou mais camadas **escondidas** e uma camada de **saída**. Cada camada faz duas coisas, sempre nesta ordem: uma transformação linear (`Wx + b`) e uma **não-linearidade** aplicada elemento a elemento. A rede inteira é a composição dessas duas peças, repetida.
 
-A não-linearidade não é enfeite. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear** — o produto de duas matrizes é uma matriz. Sem a não-linearidade, você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo 05](05-modelos-lineares.md). Um neurônio só.
+A não-linearidade não é enfeite. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear** — o produto de duas matrizes é uma matriz. Sem a não-linearidade, você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo 28](28-regressao-logistica.md). Um neurônio só.
 
 :::exercicio {"id":"09-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma rede tem duas camadas densas empilhadas, **sem nenhuma função de ativação entre elas**. O que essa rede consegue computar?
@@ -151,7 +151,7 @@ Explique por que o teorema **não** sustenta essa conclusão, e liste o que mais
 - **O XOR do [capítulo 18](18-neuronio-artificial.md) está resolvido**: uma camada escondida traça duas fronteiras (OU e NÃO-E) e a saída as combina (E). 4 de 4.
 - A camada escondida não acrescenta retas: **reescreve as entradas** em coordenadas onde o problema vira linearmente separável.
 - **A não-linearidade é o que torna a camada uma camada.** Sem ela, camadas empilhadas colapsam numa só transformação linear.
-- Um MLP é composição de `linear → não-linearidade`, repetida. Uma unidade, sigmoide, e você tem a **regressão logística** do [capítulo 05](05-modelos-lineares.md).
+- Um MLP é composição de `linear → não-linearidade`, repetida. Uma unidade, sigmoide, e você tem a **regressão logística** do [capítulo 28](28-regressao-logistica.md).
 - O **degrau não serve** como ativação treinável: sem derivada não há gradiente.
 - **Backpropagation é a regra da cadeia com reaproveitamento.** Propaga-se o erro para trás uma vez, e cada camada reusa o que chegou — é o reaproveitamento que torna o custo viável, não a regra da cadeia em si.
 - Backpropagation **calcula** o gradiente; quem move os pesos é a otimização do [capítulo 06](06-otimizacao.md).

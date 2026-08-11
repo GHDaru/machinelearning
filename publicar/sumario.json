@@ -79,6 +79,12 @@
           "metodo": true
         },
         {
+          "arquivo": "livro/capitulos/28-regressao-logistica.md",
+          "titulo": "28 — Regressão Logística",
+          "teaser": "Classifica, apesar do nome. O que é linear é o logito.",
+          "metodo": true
+        },
+        {
           "arquivo": "livro/capitulos/06-otimizacao.md",
           "titulo": "06 — Otimização e Regularização",
           "teaser": "Como o modelo aprende — e como impedi-lo de decorar.",

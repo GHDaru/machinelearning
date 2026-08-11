@@ -44,7 +44,7 @@ Se você chegou aqui vindo de Análise Preditiva ou de Aprendizagem de Máquina 
 |---|---|---|
 | 8 | [01 — Fundamentos](../01-fundamentos.md) | generalização, viés e variância |
 | 9 | [04 — Avaliação](../capitulos/04-avaliacao.md) | métricas, e por que acurácia engana |
-| 10 | [05 — Modelos Lineares](../capitulos/05-modelos-lineares.md) | o primeiro modelo, interpretável |
+| 10 | [05 — Modelos Lineares](../capitulos/05-modelos-lineares.md) | o primeiro modelo, interpretável — com o laboratório de mínimos quadrados |
 
 ## Prática
 
