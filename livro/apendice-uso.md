@@ -30,6 +30,31 @@ A projeção pública abaixo mostra os agregados. Sem sessões, sem horários, s
 
 > Se o quadro acima estiver vazio, o backend do livro vivo não está configurado nesta publicação — o site funciona como livro estático, e nada é coletado.
 
+## A exceção: identificação por turma
+
+Tudo acima descreve o padrão, e o padrão é o anonimato. Há **uma** forma de deixar de ser anônimo, e ela depende de você digitar um comando:
+
+```
+/turma AP2026-2 123456
+```
+
+Se a sua disciplina usa este livro para acompanhar prática, esse comando associa **esta sessão** ao código da turma e à sua matrícula. A partir daí, **o professor daquela turma** passa a ver:
+
+| Ele vê | Ele **não** vê |
+|---|---|
+| quais exercícios você resolveu | o texto das suas respostas |
+| quantas tentativas levou em cada um | suas conversas com o tutor |
+| quantos acertou de primeira | o que você leu, e quando |
+
+Digite `/turma` sozinho para ler isso dentro do próprio chat antes de decidir, e `/turma sair` para desfazer a qualquer momento. Enquanto você não digitar, **nada muda** — quem chegou aqui pelo Google continua anônimo.
+
+Duas coisas ditas com todas as letras:
+
+- **A identificação é declarada, não verificada.** Não há login: você digita a matrícula que quiser. Isso é deliberado — o preço de não exigir cadastro — e é a razão de este mecanismo servir para *acompanhar prática*, não para lançar nota sozinho.
+- **Apagar a sessão apaga também o vínculo.** Não fica nome para trás.
+
+O desenho, as alternativas recusadas e as dívidas estão no [ADR 0008](../adr/0008-identificacao-por-turma.md).
+
 ## Como apagar tudo
 
 Uma ação, sem formulário e sem justificativa: **abra o companion (💬) → "Apagar meus dados"**.

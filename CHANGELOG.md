@@ -22,6 +22,29 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Adicionado — identificação por turma, para o professor acompanhar prática (ADR 0008)
+- **`/turma AP2026-2 123456` no chat.** O anonimato continua sendo o padrão; a
+  identificação é uma exceção que **o próprio aluno ativa**, e `/turma sair`
+  desfaz. Enquanto ninguém digitar, nada muda.
+- **É código, não prompt** (`chat-companion/backend/turma.py`): interpretado
+  antes do modelo, nas **duas** rotas de chat — o widget usa a `/chat/stream`, e
+  interceptar só a `/chat` teria deixado o comando cair no LLM, que responderia
+  algo plausível sobre turmas sem identificar ninguém. Um teste quebra o
+  `run_turn` de propósito para provar que a identificação sobrevive ao modelo
+  fora do ar.
+- **`GET /turma/{turma}`** (JSON ou CSV), protegido pelo `ADMIN_TOKEN`: por
+  aluno, resolvidos · tentados · tentativas · acertos de primeira · capítulos ·
+  vídeos. **Nunca o texto das respostas nem as conversas** — e há um teste que
+  procura esses conteúdos na saída e falha se achar.
+- Agrega **por aluno, não por sessão**: laboratório e celular são duas sessões
+  anônimas, a pessoa é uma. E aluno identificado sem nenhuma tentativa aparece
+  **zerado**, não ausente — ausente é dúvida, zerado é informação.
+- **19 testes novos** (backend: 28 → 47). Cobrem que apagar a sessão apaga o
+  vínculo, que sem token dá 403, e que "o que é uma turma?" não é comando.
+- **A identificação é declarada, não verificada** — dito no ADR, no apêndice de
+  uso e na resposta que o aluno lê. Serve para acompanhar prática; não substitui
+  evidência para lançar nota.
+
 ### Adicionado — o capítulo 05 ganhou o caso da limonada (91 → 94 exercícios)
 - **Nova seção "O caso da limonada"** em `05-modelos-lineares.md`: a lista "as
   quatro coisas que o coeficiente não diz" deixa de ser advertência e passa a ser

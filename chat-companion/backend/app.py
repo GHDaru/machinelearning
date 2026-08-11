@@ -21,10 +21,11 @@ from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import PlainTextResponse, StreamingResponse
 from pydantic import BaseModel
 
 import config
+import turma as turma_mod
 from capabilities import MODOS, capacidades, loop_ativo, tools_ativas
 from exercicios import Banco, corrigir
 from llm import make_llm
@@ -422,8 +423,76 @@ def _debug(achados: list, history: list, trace: list, chapter, mode: str,
     }
 
 
+def _tratar_comando_turma(inp: ChatIn) -> Optional[str]:
+    """Interpreta `/turma ...` ANTES do modelo. Retorna a resposta, ou None se a
+    mensagem não for o comando.
+
+    É código, não prompt (ADR 0008): um LLM não decide quem é aluno de quem, e a
+    identificação precisa funcionar com a chave do modelo fora do ar.
+    """
+    intencao = turma_mod.detectar(inp.message)
+    if not intencao:
+        return None
+
+    _store.ensure_session(inp.session_id)
+    acao = intencao["acao"]
+
+    if acao == "ver":
+        atual = _store.identificacao(inp.session_id)
+        if atual:
+            return (f"Você está identificado como **{atual['aluno']}** na turma "
+                    f"**{atual['turma']}**.\n\n`/turma sair` desfaz.")
+        return turma_mod.AJUDA
+    if acao == "sair":
+        _store.esquecer_identificacao(inp.session_id)
+        return turma_mod.SAIDA
+    if acao == "incompleto":
+        return turma_mod.INCOMPLETO
+
+    _store.identificar(inp.session_id, intencao["turma"], intencao["aluno"])
+    p = _store.progresso(inp.session_id)
+    return turma_mod.confirmacao(intencao["turma"], intencao["aluno"],
+                                 p["resolvidos"], len(_banco.exercicios))
+
+
+@app.get("/identificacao")
+def get_identificacao(session_id: str) -> dict:
+    """O aluno vê o próprio vínculo. Só ele — não há listagem por sessão."""
+    return {"identificacao": _store.identificacao(session_id)}
+
+
+@app.get("/turma/{turma}")
+def get_turma(turma: str, token: str = "", formato: str = "json"):
+    """Progresso da turma, para o professor. Exige ADMIN_TOKEN.
+
+    Devolve SÓ resultado agregado por aluno: quantos exercícios resolveu, em
+    quantas tentativas, quantos de primeira. **Nunca** o texto das respostas nem
+    as conversas com o tutor — é o que a mensagem de confirmação promete ao
+    aluno, e promessa que o código não cumpre é mentira, não política.
+    """
+    if not config.ADMIN_TOKEN or token != config.ADMIN_TOKEN:
+        raise HTTPException(status_code=403, detail="token inválido")
+    linhas = _store.progresso_turma(turma)
+    if formato == "csv":
+        cols = ["aluno", "resolvidos", "exercicios_tentados", "tentativas",
+                "de_primeira", "capitulos", "videos"]
+        corpo = ",".join(cols) + "\n" + "\n".join(
+            ",".join('"' + str(l[c]).replace('"', '""') + '"' if c == "aluno" else str(l[c])
+                     for c in cols) for l in linhas)
+        return PlainTextResponse(corpo, media_type="text/csv; charset=utf-8")
+    return {"turma": turma, "alunos": len(linhas),
+            "total_exercicios": len(_banco.exercicios), "progresso": linhas}
+
+
 @app.post("/chat")
 def chat(inp: ChatIn, request: Request) -> dict:
+    resposta_comando = _tratar_comando_turma(inp)
+    if resposta_comando is not None:
+        _store.append(inp.session_id, "user", inp.message)
+        _store.append(inp.session_id, "assistant", resposta_comando)
+        return {"reply": resposta_comando, "trace": ["comando: turma"], "mode": inp.mode,
+                "chapter": inp.chapter, "capabilities_ativas": [], "debug": {"modo": inp.mode}}
+
     mode, byok, history, permitidas, achados = _preparar_chat(inp, request)
     trace: list[str] = []
     try:
@@ -443,6 +512,26 @@ def chat_stream(inp: ChatIn, request: Request) -> StreamingResponse:
     {delta} / {trace} / {done} / {erro}. A resposta do assistente é persistida
     ao final do stream."""
     import json as _json
+
+    def sse1(ev: dict) -> str:
+        return "data: " + _json.dumps(ev, ensure_ascii=False) + "\n\n"
+
+    # O widget usa ESTA rota, não a /chat. Sem interceptar aqui, `/turma` cairia
+    # no modelo — que responderia algo plausível sobre turmas e não identificaria
+    # ninguém. O comando é determinístico nas duas portas ou não é comando.
+    resposta_comando = _tratar_comando_turma(inp)
+    if resposta_comando is not None:
+        _store.append(inp.session_id, "user", inp.message)
+        _store.append(inp.session_id, "assistant", resposta_comando)
+
+        def gerar_comando():
+            yield sse1({"delta": resposta_comando})
+            yield sse1({"done": True, "reply": resposta_comando, "mode": inp.mode,
+                        "chapter": inp.chapter, "capabilities_ativas": [],
+                        "debug": {"modo": inp.mode}})
+
+        return StreamingResponse(gerar_comando(), media_type="text/event-stream",
+                                 headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
     mode, byok, history, permitidas, achados = _preparar_chat(inp, request)
     trace: list[str] = []
