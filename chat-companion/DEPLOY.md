@@ -71,15 +71,28 @@ Guarde: será `OPENAI_API_KEY`.
 
 ## 4 · DNS da API
 
-No provedor de `ghdaru.com.br`:
+O DNS de `ghdaru.com.br` está na **Cloudflare**. O Railway pede **dois** registros, não um:
 
-| Nome | Tipo | Valor |
-|---|---|---|
-| `api.machinelearning` | CNAME | o alvo que o Railway mostrou |
+| Nome | Tipo | Valor | Proxy |
+|---|---|---|---|
+| `api.machinelearning` | CNAME | o alvo `*.up.railway.app` que o Railway mostrou | ☁️ **DNS only** (cinza) |
+| `_railway-verify.api.machinelearning` | TXT | `railway-verify=…` (o valor que o Railway mostrou) | — |
+
+O TXT é a prova de posse do subdomínio: sem ele o Railway não emite o certificado, e o domínio fica travado em *pending* para sempre.
+
+> ⚠ **A nuvem tem de ficar CINZA.** Com o proxy ligado (laranja), quem responde no `api.…` é a Cloudflare, não o Railway: a verificação de posse falha, porque o Railway consulta o registro e encontra IP de proxy em vez do alvo dele. E, mesmo depois de verificado, o TLS passa a ser terminado duas vezes — o que, com o modo SSL em *Flexible*, produz laço de redirecionamento. É a mesma razão pela qual o site (passo 6) também vai cinza.
 
 > **Por que a API tem subdomínio próprio.** O campo `companion_backend` do `publicar/sumario.json` é **compilado dentro do HTML de todas as páginas**. Apontar para `*.up.railway.app` significa que trocar de provedor obrigaria a **reconstruir e republicar o livro inteiro**. Com subdomínio próprio, o livro nunca carrega o nome de um fornecedor.
 
-Confira: `curl https://api.machinelearning.ghdaru.com.br/health`.
+Confira, nesta ordem — o segundo é o que importa:
+
+```bash
+# 1. o nome resolve e aponta para o Railway (não para a Cloudflare)
+getent hosts api.machinelearning.ghdaru.com.br
+
+# 2. a API responde por ele, com certificado válido
+curl -fsS https://api.machinelearning.ghdaru.com.br/health
+```
 
 ## 5 · Front na Vercel
 

@@ -44,6 +44,12 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - **Stub de redirecionamento** para o endereço antigo do Pages, preservando o
   caminho, com `canonical` e `noindex`. Publicado por workflow manual, e só
   depois de o domínio novo estar no ar.
+- **Passo 4 do `DEPLOY.md` corrigido durante a execução**: o Railway pede **dois**
+  registros (CNAME + TXT `_railway-verify`), não um — sem o TXT o certificado
+  nunca é emitido. E o DNS de `ghdaru.com.br` está na Cloudflare, então os
+  registros precisam ficar **DNS only** (nuvem cinza): com o proxy ligado, a
+  verificação de posse falha, porque o Railway encontra IP de proxy no lugar do
+  alvo dele.
 
 ### Corrigido
 - **O gate do banco de exercícios não pegava derivação.** Ele validava a sintaxe
