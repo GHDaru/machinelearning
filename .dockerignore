@@ -1,0 +1,28 @@
+# O que NÃO entra na imagem do backend.
+#
+# Regra para editar este arquivo: o backend precisa de `livro/` (índice do
+# tutor), de `chat-companion/backend/` (a aplicação e o banco.json) e de mais
+# nada. Na dúvida, excluir — só não exclua essas duas.
+
+.git
+.github
+
+# 13 MB de motor de site que o backend não usa (o site é construído na Vercel).
+publicar/node_modules
+
+# Site gerado — já é gitignored, mas o build local pode tê-lo criado.
+docs
+
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+.venv
+
+# Segredos jamais entram numa imagem (Princípio V). O `.env` é gitignored,
+# mas `COPY . /app` não sabe disso — quem sabe é este arquivo.
+.env
+**/.env
+
+# Artefatos locais da trilha prática.
+ml-zero/**/*.db
+ml-zero/**/artefatos

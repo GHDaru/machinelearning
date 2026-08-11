@@ -49,7 +49,9 @@ Guarde: será `OPENAI_API_KEY`.
 
 1. **[railway.app](https://railway.app)** → **New Project → Deploy from GitHub repo** → `GHDaru/machinelearning`.
 2. ⚠ **Settings → Root Directory: deixe a RAIZ do repositório** (vazio), **não** `chat-companion/backend`.
-   *Divergência do guia do harness, e a razão está no ADR 0006:* com a raiz na pasta do backend, o container não teria `livro/`, e a busca do tutor dependeria de um `corpus.json` de 815 KB versionado e regenerado a cada edição — que, esquecido, degrada a busca **sem avisar**. Com a raiz no repositório, o índice é construído ao vivo. O `railway.json` da raiz já traz os comandos certos.
+   *Divergência do guia do harness, e a razão está no ADR 0006:* com a raiz na pasta do backend, o container não teria `livro/`, e a busca do tutor dependeria de um `corpus.json` de 815 KB versionado e regenerado a cada edição — que, esquecido, degrada a busca **sem avisar**. Com a raiz no repositório, o índice é construído ao vivo.
+
+   Não preencha build nem start command à mão: o [`railway.json`](../railway.json) da raiz aponta para o [`Dockerfile`](../Dockerfile), que traz os dois. **Se o painel oferecer Nixpacks, não aceite** — o build aqui é declarado, não detectado, e o [ADR 0007](../adr/0007-builder-declarado-na-railway.md) diz por quê: a raiz tem `package.json` (que existe só para a Vercel) e nenhum marcador de Python no topo, então deixar a ferramenta adivinhar a linguagem é apostar num `pip: command not found` no meio deste passo.
 3. **Variables:**
 
    | Variável | Valor |
@@ -57,8 +59,8 @@ Guarde: será `OPENAI_API_KEY`.
    | `LLM_ADAPTER` | `openai` |
    | `OPENAI_BASE_URL` | `https://integrate.api.nvidia.com/v1` |
    | `OPENAI_API_KEY` | sua chave `nvapi-…` |
-   | `LLM_MODEL` | um modelo com Function Calling |
-   | `DATABASE_URL` | a string do Neon |
+   | `LLM_MODEL` | o identificador do modelo escolhido no passo 2 (ex.: `nvidia/nemotron-3-ultra-550b-a55b`) |
+   | `DATABASE_URL` | a string do Neon — a do botão **Copy**, com a senha real |
    | `ALLOWED_ORIGINS` | `https://machinelearning.ghdaru.com.br,https://ghdaru.github.io` |
    | `ADMIN_TOKEN` | um segredo seu, para `/telemetry` e `/suggestions` |
 
@@ -145,5 +147,7 @@ Depois disso, remova `https://ghdaru.github.io` de `ALLOWED_ORIGINS` no Railway.
 | Exercício "não encontrado" | `banco.json` derivou. O gate do CI pega isso; se passou, rode `node publicar/exercicios.mjs` e comite |
 | Preview da Vercel sem chat | Esperado se `ALLOWED_ORIGIN_REGEX` não casar com a URL. Ajuste a variável no Railway |
 | Deploy verde e site velho | A Vercel não publica do `main` de propósito. Quem promove é o workflow |
+| Build da Railway falha com `pip: command not found` | O serviço está usando Nixpacks em vez do `Dockerfile`. Confira **Settings → Build** e o `railway.json` da raiz (ADR 0007) |
+| `/health` responde `"store": "memory"` | O `DATABASE_URL` não chegou. Causa mais comum: foi colada a string com a senha mascarada (`******`), em vez da do botão **Copy** |
 
 **Nenhuma credencial entra no repositório** (Princípio V). Se uma chave vazar, revogue-a no painel de origem antes de qualquer outra coisa.

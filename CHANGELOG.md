@@ -6,6 +6,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o build do backend passa a ser declarado (ADR 0007)
+- **`Dockerfile` + `.dockerignore` na raiz**, e `railway.json` com
+  `builder: DOCKERFILE`. A raiz do repositório tem `package.json` (que existe só
+  para fixar o Node na Vercel) e **nenhum marcador de Python no topo** — os do
+  backend estão dois níveis abaixo. Qual linguagem a detecção automática
+  elegeria nessa combinação não é coisa que se prove sem rodar o build lá, e o
+  `buildCommand` anterior pressupunha `pip` na imagem. Achado na conferência
+  **antes** do primeiro deploy, não depois dele falhar.
+- **Removidos `chat-companion/backend/railway.json` e `Procfile`**, herdados da
+  cópia do harness. Inertes com a raiz no repositório — e prontos para funcionar
+  no dia em que alguém "consertasse" o Root Directory apontando-o para a pasta
+  do backend: o serviço subiria **verde**, sem `livro/`, com a busca do tutor
+  degradada e nenhum sinal.
+- O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
+  `COPY . /app` não sabe disso (Princípio V).
+
 ### Adicionado — publicação (ADR 0006)
 - **Front na Vercel**, promovido pelo workflow **depois** dos gates — não pela
   integração Git da Vercel. `deploymentEnabled.main: false` no `vercel.json`
