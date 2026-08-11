@@ -22,6 +22,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Adicionado — conjunto de dados "Limonada" para regressão linear
+- **`ml-zero/dados/limonada/`** — 365 dias (2017) de venda de limonada com tempo,
+  panfletos e preço, fornecido pelo autor para a parte de regressão linear de
+  Análise Preditiva. Original `.xlsx` preservado + `.csv` para código.
+- O `README.md` do conjunto documenta **três armadilhas verificadas no próprio
+  dado**, não supostas: (1) `preco` correlaciona **+0,513** com as vendas porque
+  o preço de 0,50 só aparece em **julho e agosto** — é um indicador disfarçado de
+  estação, e o confundimento **sobrevive à regressão múltipla**; (2) colinearidade
+  `temperatura`×`panfletos` de **+0,798**; (3) `R² = 0,982` sem divisão
+  treino/teste.
+- A **unidade da temperatura não é declarada** pelo arquivo. O README registra
+  Fahrenheit como leitura provável (faixa 15,1–102,9) e **não** como fato — e
+  transforma isso na primeira pergunta da aula.
+
 ### Corrigido — o `og:image` apontava para o endereço que vai ser aposentado
 - **`SITE` no `build.mjs`** passa a ser `https://machinelearning.ghdaru.com.br/`.
   Ele entra no `og:image` de **todas** as páginas e no cabeçalho da exportação em
