@@ -1,19 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-
-  "_comentario_raiz": "O Root Directory do projeto na Vercel é a RAIZ DO REPOSITÓRIO, não publicar/. O build.mjs lê .specify/memory/constitution.md (o alfabeto de selos do Princípio X) e livro/; o exercicios.mjs lê livro/. Rodando de dentro de publicar/, os dois quebrariam.",
   "installCommand": "cd publicar && npm ci",
   "buildCommand": "cd publicar && npm run build",
   "outputDirectory": "docs",
-
-  "_comentario_urls": "cleanUrls desligado de propósito: mantém paridade 1:1 com as URLs do GitHub Pages (…/18-neuronio-artificial.html), o que faz o redirecionamento do site antigo funcionar sem mapa de rotas.",
   "cleanUrls": false,
   "trailingSlash": false,
-
-  "_comentario_gate": "A Vercel NÃO publica produção sozinha a partir do main. Quem promove é o .github/workflows/publicar.yml, depois de rodar os testes do ml-zero, o gate de exercícios e o build. Sem isto, o site iria ao ar com os testes vermelhos e o Princípio IX viraria decoração. Previews de branch continuam automáticos — é o motivo de estarmos na Vercel (ADR 0006).",
   "git": { "deploymentEnabled": { "main": false } },
-
   "headers": [
     {
       "source": "/assets/(.*)",

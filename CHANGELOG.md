@@ -22,6 +22,17 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Corrigido — o `vercel.json` não podia ter comentários
+- **Removidas as três chaves `_comentario…`**: a Vercel valida o schema e recusa
+  a importação do projeto com *"should NOT have additional property"*. O Railway
+  aceita e ignora chaves desconhecidas — daí o hábito ter passado batido. Achado
+  na tela de importação, com o autor parado nela.
+- A explicação de **cada campo** foi para `publicar/README.md`, incluindo a razão
+  de `cleanUrls: false` (paridade de URL com o Pages, que é o que faz o stub de
+  redirecionamento funcionar sem mapa de rotas) e de
+  `git.deploymentEnabled.main: false` (quem promove produção é o workflow, depois
+  dos gates).
+
 ### Adicionado — publicação (ADR 0006)
 - **Front na Vercel**, promovido pelo workflow **depois** dos gates — não pela
   integração Git da Vercel. `deploymentEnabled.main: false` no `vercel.json`

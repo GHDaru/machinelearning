@@ -104,3 +104,22 @@ filtro de `paths`, e num push de criação de branch o GitHub não avalia esse
 filtro — nada conta como modificado. Use `Run workflow` (o `workflow_dispatch`
 está declarado) ou o primeiro push seguinte que toque `livro/`, `publicar/` ou
 `ml-zero/`.
+
+---
+
+## Por que o `vercel.json` é assim
+
+O arquivo não tem comentários porque **a Vercel valida o schema e recusa
+qualquer chave desconhecida** — inclusive uma chave `_comentario`. Descoberto na
+tela de importação do projeto, com o erro *"Invalid request: should NOT have
+additional property `_comentario_raiz`"*. O Railway, no `railway.json`, aceita e
+ignora; a Vercel não. A explicação de cada campo mora aqui.
+
+| Campo | Por quê |
+|---|---|
+| `framework: null` | Não é Next, não é Astro. O motor é o `build.mjs` deste diretório |
+| `installCommand` / `buildCommand` com `cd publicar` | **O Root Directory do projeto na Vercel é a RAIZ do repositório**, não `publicar/`. O `build.mjs` lê `.specify/memory/constitution.md` (o alfabeto de selos do Princípio X) e `livro/`; o `exercicios.mjs` lê `livro/`. Rodando de dentro de `publicar/`, os dois quebrariam |
+| `outputDirectory: docs` | Onde o motor escreve o site — o mesmo diretório que o GitHub Pages publica |
+| `cleanUrls: false` | Mantém paridade 1:1 com as URLs do Pages (`…/18-neuronio-artificial.html`). É o que faz o stub de redirecionamento do endereço antigo funcionar **sem mapa de rotas** |
+| `git.deploymentEnabled.main: false` | A Vercel **não** publica produção sozinha. Quem promove é o `.github/workflows/publicar.yml`, depois dos testes do `ml-zero`, do gate de exercícios e do build. Sem isto, o site iria ao ar com os testes vermelhos e o Princípio IX viraria decoração. **Previews de branch continuam automáticos — é o motivo de estarmos na Vercel** (ADR 0006) |
+| `headers` | Cache imutável para `assets/` (o nome já carrega hash), e dois cabeçalhos de segurança que o GitHub Pages não permitia declarar |
