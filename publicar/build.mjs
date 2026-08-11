@@ -35,7 +35,13 @@ itens.forEach((i) => (i.slug = slugDe(i.arquivo)));
 const slugsPublicados = new Set(itens.map((i) => i.slug));
 
 const GITHUB_BASE = "https://github.com/GHDaru/machinelearning/blob/main/";
-const SITE = "https://ghdaru.github.io/machinelearning/";
+// Endereço público do livro. Entra no `og:image` de todas as páginas e no
+// cabeçalho da exportação em Markdown. Apontava para o GitHub Pages, que no
+// passo 8 do DEPLOY.md passa a servir só um stub de redirecionamento — o
+// `capa-social.png` deixa de existir lá, e toda partilha em rede social vira um
+// retângulo vazio. Nenhum gate pegaria: a página continua respondendo 200, só a
+// prévia quebra, e quem publica o link não vê.
+const SITE = "https://machinelearning.ghdaru.com.br/";
 
 // Companion (chat + correção de exercícios + progresso). O gating real é do
 // backend; o mapa abaixo é só exibição, e espelha capabilities.py.

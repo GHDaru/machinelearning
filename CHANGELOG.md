@@ -22,6 +22,15 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Corrigido — o `og:image` apontava para o endereço que vai ser aposentado
+- **`SITE` no `build.mjs`** passa a ser `https://machinelearning.ghdaru.com.br/`.
+  Ele entra no `og:image` de **todas** as páginas e no cabeçalho da exportação em
+  Markdown, e apontava para o GitHub Pages — que no passo 8 passa a servir só um
+  stub. O `capa-social.png` deixaria de existir lá, e **toda partilha do livro em
+  rede social viraria um retângulo vazio**. Nenhum gate pegaria: a página continua
+  200, só a prévia quebra, e quem publica o link não vê. Achado lendo o HTML
+  publicado na primeira build da Vercel.
+
 ### Corrigido — o `vercel.json` não podia ter comentários
 - **Removidas as três chaves `_comentario…`**: a Vercel valida o schema e recusa
   a importação do projeto com *"should NOT have additional property"*. O Railway
