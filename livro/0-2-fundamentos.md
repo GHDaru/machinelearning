@@ -199,8 +199,24 @@ A decomposição viés–variância é um daqueles conceitos que a prosa explica
 - **Validação para decidir, teste para testemunhar.** Consultar o teste repetidamente não dá erro — só torna o número mentiroso.
 - Antes de qualquer modelo, calcule a linha de base trivial. É o piso contra o qual todo o resto se mede.
 
+:::exercicio {"id":"fundamentos-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Explique, **sem usar a palavra "overfitting"** nem sinônimo dela, por que um modelo pode ir muito bem no treino e mal em produção. A proibição é o exercício: o nome está barrado justamente porque nomear parece explicar.
+
+> **rubrica:** distingue as duas quantidades — o erro medido no que o modelo já viu e o erro esperado no que ele ainda não viu — e deixa claro que só a segunda interessa;
+> aponta ao menos um mecanismo concreto pelo qual o desempenho no treino deixa de valer fora dele — o modelo se apoiou em particularidade da amostra, ou a amostra não representava o mundo, ou o mundo mudou depois;
+> nomeia a hipótese que precisa valer para o passado informar o futuro — que os dados de produção venham da mesma distribuição — e diz o que acontece com a promessa quando ela falha;
+> não substitui a explicação pelo nome: dizer que "o modelo decorou" sem dizer **o que** foi decorado, e por que aquilo não se repete fora da amostra, não atende
+> **porque:** A palavra foi proibida porque é um atalho que fecha a pergunta em vez de responder. "Deu overfitting" rotula o sintoma e para ali — e quem para ali não consegue decidir o que fazer, porque os três mecanismos acima pedem ações diferentes: regularizar, coletar dado representativo, ou monitorar e retreinar.
+>
+> A resposta completa passa pelas duas quantidades e pela ponte entre elas. O erro de treino é **medido**; o erro futuro é **esperado**, e a esperança se apoia numa hipótese — mesma distribuição. Todo número deste livro é promessa condicional a ela, e é por isso que o capítulo insiste que métrica de teste não é certificado: é aposta com prazo.
+>
+> Repare que o terceiro mecanismo — o mundo mudou — **não é falha de treino nenhuma**: o modelo estava certo e o mundo saiu de baixo dele. Chamar isso de "overfitting" é o erro de diagnóstico mais caro do capítulo [V.3](capitulos/v-3-mlops.md), e é exatamente o que o rótulo esconde.
+> **volte para:** #fundamentos-a-hipotese-que-sustenta-tudo
+:::
+
 ## Verificação
 
-1. Explique, sem usar a palavra "overfitting", por que um modelo pode ir muito bem no treino e mal em produção.
-2. Você recebe um relatório com acurácia de 0,93 no teste. Que três perguntas você faz antes de acreditar?
-3. Um colega quer "usar o teste para escolher o melhor de três modelos, porque é o conjunto mais confiável". Onde está o erro do raciocínio?
+1. Você recebe um relatório com acurácia de 0,93 no teste. Que três perguntas você faz antes de acreditar?
+2. Um colega quer "usar o teste para escolher o melhor de três modelos, porque é o conjunto mais confiável". Onde está o erro do raciocínio?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: valem pelo desacordo que produzem numa conversa, e a resposta que interessa é a que você sustenta diante de alguém.

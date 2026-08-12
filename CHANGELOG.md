@@ -6,6 +6,43 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — onda 3: o download que entregava o gabarito
+- **O botão "⬇ md" servia o arquivo-fonte cru.** `docs/md/machine-learning.md`
+  trazia **79 gabaritos e 30 rubricas**, e o botão fica na página do capítulo,
+  ao lado do exercício que deveria custar duas tentativas. O desenho estava
+  certo — `renderizar()` protege o HTML — e a promessa era falsa, porque
+  ninguém tinha conferido a outra porta. `semGabarito()` limpa a exportação
+  (gabarito, `porque`, rubrica e a marcação `- [x]`), preservando enunciado,
+  alternativas e o `volte para`. **Gate novo**, visto falhando com 273
+  vazamentos antes de ser dado por pronto.
+- **Rubrica partida por `;` dentro do critério.** A rubrica é quebrada em `;`,
+  então `"aponta um mecanismo (A; B; C)"` virava **três critérios**. Como
+  `correto = atendidos == total`, quem respondesse exatamente o que foi pedido
+  — *um* mecanismo — falharia em dois. Atingia `ciclo-ciencia-de-dados-e5`, já
+  publicado. Gate novo: parêntese desbalanceado no critério quebra o build.
+
+### Adicionado — onda 3: a promessa dos objetivos
+- **Nove exercícios novos, 101 → 110.** Seis pagam objetivos que não tinham
+  cobrança nenhuma (D11: 20 → **14**); três fecham os órfãos abertos ao
+  reapontar exercícios mal mapeados — que o gate bidirecional da onda 1
+  detectou no mesmo instante, como projetado.
+- **[ADR 0012](adr/0012-verificacao-como-superficie-corrigida.md) — a seção
+  `## Verificação` vira superfície corrigida, uma pergunta por capítulo.** Três
+  pareceres independentes (avaliação, arquitetura, professor com turma em
+  curso) convergiram em não converter as ~87, não criar tipo novo de bloco e
+  fasear. Divergiram sobre revelar a solução; o desacordo se resolve revelando
+  **os critérios**, não a solução pronta — o exemplo trabalhado vai para o
+  corpo do capítulo, onde serve o leitor solitário sem queimar a aula seguinte.
+  Marcação por atributo `secao`, agora carregado até o `banco.json`.
+- **Rubrica de 4 critérios obrigatória** nesses desafios, sendo o quarto o
+  **anti-critério** — o movimento errado comum, nomeado.
+- **As perguntas que ficam sem correção agora dizem por quê**, em vez de o
+  leitor ter de adivinhar. Três delas continuam sem correção de propósito:
+  dependem de material que só o leitor tem à mão, e rubricar artefato que o
+  corretor não viu seria fingir correção.
+- **O índice dos ADRs voltou a existir**: tinha parado no 0003 por oito
+  registros. Índice que não acompanha é pior do que índice nenhum.
+
 ### Corrigido — onda 2: o dano direto ao aluno
 - **O laboratório do `I.4` deixou de ser sabotado pelo próprio capítulo.** O
   enunciado pedia "encontre as duas colunas surpreendentes" e **duas linhas

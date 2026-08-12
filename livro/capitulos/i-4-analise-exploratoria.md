@@ -247,8 +247,24 @@ O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada 
 - Diante de uma correlação forte, enumere as quatro explicações antes de escolher a sua — e desconfie de correlação altíssima com o alvo: costuma ser vazamento. Faltante também tem **causa**, e descobri-la vale mais que preenchê-lo.
 - Explorar gera hipóteses; confirmar exige dado que não participou da exploração. Separe a parte guardada **antes** de olhar.
 
+:::exercicio {"id":"analise-exploratoria-e7","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Explorando, você encontrou um padrão forte num segmento de clientes: quem compra pela manhã devolve muito menos. Descreva **o que precisa acontecer** antes de esse padrão virar uma afirmação na apresentação para a diretoria.
+
+> **rubrica:** exige que o padrão seja conferido em dados que **não participaram da exploração**, e diz de onde esses dados viriam (uma parte separada antes de olhar, um período posterior, uma coleta nova);
+> explica **por que** conferir nos mesmos dados não vale — a exploração já usou aquela informação para escolher a hipótese, e o padrão pode ser particularidade da amostra;
+> deixa a hipótese **declarada antes** do novo teste, incluindo o que contaria como refutação, em vez de ajustá-la depois de ver o resultado;
+> não confunde força com verdade: nem tamanho do efeito nem número de clientes no segmento são evidência de que o padrão se repete fora dali
+> **porque:** O erro que este exercício persegue não é estatístico, é de sequência. Você olhou muitos cortes possíveis, escolheu o que mais saltou, e agora quer testar **esse** — mas o dado que fez a escolha não pode também julgá-la. Quem procura em cem segmentos encontra padrão forte em alguns por sorte, e a força do padrão é justamente o que fez você reparar nele.
+>
+> Daí a divisão de trabalho do capítulo: uma fase **produz** hipóteses, outra as **julga**, e não se faz as duas com os mesmos dados. Separar a parte guardada antes de olhar não é burocracia — é a única coisa que impede a segunda fase de ser uma repetição da primeira.
+>
+> Note também o que **não** está sendo pedido: ninguém disse para você não explorar. O achado é legítimo e valioso; ele só ainda não é uma afirmação. Levar como "encontramos uma pista que vale testar" é honesto e útil; levar como "clientes da manhã devolvem menos" é apresentar um sorteio como conclusão.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
+
 ## Verificação
 
 1. Um relatório diz "ticket médio de R$ 340". Que três perguntas você faz antes de usar esse número numa decisão?
 2. Duas colunas têm correlação de 0,9. Liste as explicações possíveis e diga, para cada uma, que evidência adicional a distinguiria das demais.
-3. Você encontrou, explorando, um padrão forte num segmento de clientes. Descreva o que precisa acontecer antes de esse padrão virar uma afirmação na apresentação para a diretoria — e por que a mesma pessoa que criou o boxplot também se preocupava com validação cruzada.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: rendem mais numa discussão com alguém que discorde do que numa resposta escrita sozinho.

@@ -238,6 +238,23 @@ Escreva as **três perguntas mais importantes** que você faria antes de treinar
 > **volte para:** #a-ficha-de-dataset
 :::
 
+:::exercicio {"id":"dados-e5","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+Um banco treina um modelo de inadimplência com o histórico dos últimos cinco anos: 800 mil contratos, rótulo confiável (pagou ou não pagou), sem faltantes. A taxa de inadimplência na base é de 4%. O modelo vai decidir quem recebe crédito a partir do mês que vem.
+
+A equipe está satisfeita: a base é grande, o rótulo é objetivo e a métrica ficou ótima. **Diagnostique o problema desta coleta** e diga o que ele fará com o modelo em produção.
+
+> **rubrica:** identifica que a base só contém quem **passou por um filtro anterior** — o modelo antigo ou o gerente — e que os recusados não estão nela;
+> diz o que isso causa em produção: o modelo será usado justamente sobre candidatos do tipo que a base nunca conteve, e a confiança dele sobre essas pessoas não tem apoio nos dados;
+> distingue isso de desbalanceamento: o problema não é a proporção de 4%, é **quais exemplos puderam entrar** — e mais dados coletados do mesmo jeito pioram a situação em vez de melhorá-la;
+> propõe um gesto concreto para manter a base honesta (reservar uma fração pequena de decisões fora da recomendação do modelo) e reconhece que isso custa dinheiro
+> **porque:** Os três elogios da equipe são verdadeiros e nenhum deles toca o problema. A base é grande, o rótulo é objetivo, não falta nada — e mesmo assim ela descreve uma população que **o próprio banco selecionou**. Não existe linha, no arquivo, sobre quem teve crédito recusado, e é sobre pessoas assim que o modelo vai decidir.
+>
+> A parte que separa a boa resposta da razoável é o terceiro critério. Desbalanceamento se conserta medindo direito, e mais dados ajudam. **Viés de seleção não se conserta com mais dados** — cada novo contrato entra pela mesma porta filtrada, e o sistema fica cada vez mais confiante sobre uma fatia cada vez mais estreita do mundo. O erro cresce junto com a base, o que é exatamente o oposto da intuição.
+>
+> Repare que o diagnóstico é barato e a correção é cara: manter a base honesta exige conceder crédito, de vez em quando, a quem o modelo recusaria — e perder parte desse dinheiro de propósito. É o preço de continuar aprendendo, e a decisão é de negócio, não de modelagem. O nome do fenômeno e as consequências de arquitetura estão no [capítulo V.2](v-2-sistemas-de-ml.md).
+> **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
+:::
+
 ## Mão na massa
 
 A **etapa 02** do [`ml-zero`](../trilha-ml-zero.md) implementa o que este capítulo argumenta, em biblioteca padrão pura:

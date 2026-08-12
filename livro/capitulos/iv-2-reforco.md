@@ -71,6 +71,16 @@ Duas coisas se pode aprender. A **política** responde "o que fazer aqui?" — �
 
 **O desconto (γ).** Recompensa futura vale menos que recompensa agora, e multiplica-se cada passo por um fator γ entre 0 e 1. Isso existe por dois motivos, um matemático e um honesto: sem desconto, a soma de recompensas de um processo sem fim não converge; e, com desconto, o agente pesa o futuro do jeito que qualquer decisor sensato pesa — com desconfiança crescente, porque previsão distante é previsão pior. γ perto de 0 produz um agente imediatista; γ perto de 1, um agente paciente e mais difícil de treinar.
 
+Em números, para não ficar abstrato. O **retorno** a partir de um instante é a soma descontada do que vem depois:
+
+$$G = r_0 + \gamma r_1 + \gamma^2 r_2 + \dots$$
+
+Com $\gamma = 0{,}9$ e as recompensas $5$, $0$, $10$:
+
+$$G = 5 + 0{,}9 \times 0 + 0{,}81 \times 10 = 5 + 0 + 8{,}1 = 13{,}1$$
+
+Repare no que o desconto fez: o prêmio de 10, dois passos à frente, entrou valendo **8,1**. É o mesmo 10 do mundo, pesado pela distância.
+
 :::exercicio {"id":"reforco-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
 Um agente executa três passos e recebe as recompensas **3**, **0** e **10**, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?
 

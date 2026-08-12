@@ -123,6 +123,25 @@ A conexão residual fecha o argumento de forma quase literária: se o problema �
 
 **Otimizadores.** Adam (Kingma & Ba, 2014) mantém estimativas de primeiro e segundo momentos do gradiente e adapta o passo por parâmetro. Na prática: converge rápido e **perdoa uma taxa de aprendizado mal escolhida** — o que é exatamente sua virtude e seu risco, porque esconde diagnósticos. SGD (*Stochastic Gradient Descent*) com momento, bem ajustado e com boa agenda de taxa, ainda entrega generalização igual ou melhor em visão, ao custo de exigir mais ajuste manual. Critério honesto: **Adam para começar e para iterar rápido; SGD com momento quando o último ponto percentual importa e há orçamento para ajustar.** E nenhum dos dois conserta uma exponencial.
 
+:::exercicio {"id":"treinar-redes-profundas-e4","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Uma equipe tem duas semanas para entregar a primeira linha de base de um classificador de imagens sobre um conjunto novo: a arquitetura ainda está em discussão e ninguém tem intuição sobre a taxa de aprendizado adequada. Dois meses depois, com a arquitetura congelada e a linha de base publicada, o time disputa décimos de ponto percentual e tem máquina ociosa à noite. Qual escolha de otimizador é a mais defensável em cada momento?
+
+- [ ] SGD com momento nos dois: adaptativos generalizam pior, e generalizar é sempre o objetivo.
+- [x] Adam no primeiro momento, SGD com momento no segundo: o primeiro perdoa a taxa mal escolhida enquanto tudo ainda muda; o segundo cobra ajuste e devolve o último ponto percentual.
+- [ ] Adam nos dois: converge mais rápido, e tempo até o resultado é o critério que importa em ambos os casos.
+- [ ] Indiferente: com uma boa agenda de taxa de aprendizado, os dois chegam ao mesmo lugar no mesmo tempo.
+
+> **gabarito:** Adam no primeiro momento, SGD com momento no segundo
+> **porque:** O critério não é qual otimizador é melhor — é **o que é escasso agora**. Na primeira fase o escasso é o seu tempo, e há muitas variáveis se movendo ao mesmo tempo; um otimizador que perdoa taxa mal escolhida remove uma delas. Na segunda fase o escasso é o último ponto percentual, e existe orçamento de máquina para o ajuste manual que o SGD com momento exige.
+>
+> A primeira alternativa acerta o fato (em visão, SGD com momento bem ajustado costuma generalizar igual ou melhor) e erra a conclusão: usá-lo na fase exploratória gasta as duas semanas ajustando taxa de aprendizado de uma arquitetura que vai mudar.
+>
+> A terceira ignora que a virtude do Adam é também seu risco: **perdoar taxa mal escolhida é esconder um diagnóstico.** Na fase em que você disputa décimos, esse diagnóstico é justamente o que você quer ver.
+>
+> A quarta é a mais perigosa por soar equilibrada. Se fosse indiferente, a literatura não teria vinte anos de discussão — e nenhuma das duas escolhas conserta uma perda que não se move, porque isso não é problema de otimizador: é a exponencial da seção anterior.
+> **volte para:** #o-resto-do-kit-normalizacao-dropout-e-otimizadores
+:::
+
 ## "Funciona" e "sabemos por quê" são duas afirmações
 
 Este é o episódio mais didático do capítulo, e por isso tem seção própria.
@@ -135,7 +154,7 @@ A lição vale muito além da normalização: **"funciona" e "sabemos por quê" 
 
 A consequência prática é dura e útil: **não derive decisões de projeto de uma história de mecanismo que nunca foi testada.** Se a sua justificativa para usar um componente é a narrativa que veio no artigo, e não o efeito medido no seu problema, você está apostando na parte mais frágil da evidência.
 
-:::exercicio {"id":"treinar-redes-profundas-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"treinar-redes-profundas-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
 Uma equipe treina uma rede densa de 40 camadas com sigmoide, inicialização uniforme pequena e SGD. A perda cai de 2,30 para 2,25 na primeira época e depois não se move por 50 épocas. A acurácia fica em nível de acaso. Em três semanas, a equipe trocou o otimizador de SGD para Adam, depois para RMSProp, testou seis taxas de aprendizado e dobrou o conjunto de dados. Nada mudou.
 
 Diga o que você mediria **antes** de propor qualquer correção, qual é o diagnóstico mais provável e o que faria em seguida.

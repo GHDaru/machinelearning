@@ -55,6 +55,10 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 
 Um **filtro** (ou *kernel*) é uma matrizinha de pesos — 3×3, 5×5 — que percorre a imagem inteira. Em cada posição, multiplica-se o filtro pelo pedaço de imagem sob ele e soma-se: um número. Deslize por todas as posições e o resultado é outra imagem, o **mapa de ativação**, alto onde o padrão do filtro apareceu e baixo onde não apareceu.
 
+**Uma coisa que a palavra "matrizinha" esconde: o filtro atravessa a profundidade inteira.** Numa imagem colorida há três canais (vermelho, verde, azul), e um filtro 3×3 sobre ela não tem 9 pesos — tem $3 \times 3 \times 3 = 27$, um conjunto 3×3 para cada canal de entrada, somados num único número de saída.
+
+A regra geral: um filtro $k \times k$ sobre uma entrada de $c$ canais tem $k \times k \times c$ pesos. Uma camada com $f$ filtros tem $f \times k \times k \times c$ — mais um viés por filtro. É a conta do próximo exercício.
+
 Três consequências saem daí, e as três importam.
 
 **Conectividade local.** Cada saída olha só uma janelinha — o **campo receptivo**. Isso codifica no modelo um fato sobre imagens que a rede densa ignora: pixels vizinhos se relacionam, pixels distantes quase não.

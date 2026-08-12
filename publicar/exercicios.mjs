@@ -37,12 +37,6 @@ const posicaoDe = (arquivo) => itens.findIndex((i) => i.arquivo === arquivo) + 1
 // direções: um órfão novo quebra o build, e uma exceção que deixou de ser
 // necessária também — para que pagar a dívida obrigue a tirá-la daqui.
 const ORFAOS_ACEITOS = new Map(Object.entries({
-  "livro/0-2-fundamentos.md": ["O1"],
-  "livro/capitulos/i-2-coleta-integracao.md": ["O1"],
-  "livro/capitulos/i-3-dados.md": ["O4"],
-  "livro/capitulos/i-4-analise-exploratoria.md": ["O3"],
-  "livro/capitulos/i-5-visualizacao-storytelling.md": ["O4"],
-  "livro/capitulos/i-6-representacao.md": ["O1"],
   "livro/capitulos/ii-6-analise-multidimensional.md": ["O4"],
   "livro/capitulos/ii-7-series-temporais.md": ["O4"],
   "livro/capitulos/ii-8-do-modelo-a-decisao.md": ["O3"],
@@ -101,7 +95,27 @@ for (const item of itens) {
     }
     if (ex.tipo === "aberta") {
       ex.criterios = ex.rubrica.split(/[;\n]/).map((s) => s.replace(/^[-*]\s*/, "").trim()).filter(Boolean);
-      if (ex.criterios.length < 2) problemas.push(`${item.arquivo} · ${ex.id}: rubrica precisa de ao menos 2 critérios`);
+      // Desafio de fim de capítulo cobra produção de artefato ou demonstração,
+      // e rubrica de 2 critérios não decide nada nesse nível (ADR 0012): o
+      // quarto slot é o ANTI-CRITÉRIO — o movimento errado comum, nomeado.
+      // A rubrica é quebrada em `;` e quebra de linha. Um `;` DENTRO de um
+      // critério — tipicamente numa lista entre parênteses — parte um critério
+      // em três, e como `correto = atendidos == total`, os pedaços viram
+      // exigências conjuntas. O caso real: "aponta ao menos um mecanismo (A; B;
+      // C)" virou "aponta ao menos um mecanismo (A", "B", "C)" — e quem
+      // respondesse exatamente o pedido falharia em dois critérios.
+      // Parêntese desbalanceado é a assinatura confiável dessa quebra.
+      ex.criterios.forEach((c, i) => {
+        if ((c.match(/\(/g) || []).length !== (c.match(/\)/g) || []).length) {
+          problemas.push(`${item.arquivo} · ${ex.id}: critério ${i + 1} tem parêntese desbalanceado — ` +
+            `um ";" dentro do critério o partiu. Use vírgula ou "ou": "${c.slice(0, 60)}…"`);
+        }
+      });
+      const minimo = ex.secao === "verificacao" ? 4 : 2;
+      if (ex.criterios.length < minimo) {
+        problemas.push(`${item.arquivo} · ${ex.id}: rubrica precisa de ao menos ${minimo} critérios` +
+          (minimo === 4 ? " (desafio de fechamento — inclua o anti-critério)" : ""));
+      }
     }
     exercicios.push(ex);
   }

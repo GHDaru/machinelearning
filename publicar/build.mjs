@@ -20,7 +20,7 @@ import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
-import { renderizar, extrair } from "./interativos.mjs";
+import { renderizar, extrair, semGabarito } from "./interativos.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -495,12 +495,37 @@ mkdirSync(resolve(SAIDA, "md"), { recursive: true });
   for (const item of itens) {
     const caminho = resolve(RAIZ, item.arquivo);
     if (!existsSync(caminho)) continue;
-    const bruto = readFileSync(caminho, "utf8");
+    // Sem gabarito: o download fica ao lado do exercício, e servir o fonte
+    // cru anulava a revelação progressiva que o backend cobra.
+    const bruto = semGabarito(readFileSync(caminho, "utf8"));
     writeFileSync(resolve(SAIDA, "md", `${item.slug}.md`), bruto);
     partesMd.push(bruto.trim());
   }
   const cabecalho = `# ${sumario.titulo}\n\n> ${sumario.subtitulo}\n>\n> ${versaoDoLivro()} · fonte: https://github.com/GHDaru/machinelearning · site: ${SITE}\n\n---\n\n`;
   writeFileSync(resolve(SAIDA, "md/machine-learning.md"), cabecalho + partesMd.join("\n\n---\n\n") + "\n");
+
+  // Gate: o download não pode devolver o que a segunda tentativa cobra.
+  // Este vazamento existiu de verdade — 79 gabaritos e 30 rubricas no arquivo
+  // servido pelo botão "⬇ md", ao lado do exercício. `renderizar()` protegia o
+  // HTML e ninguém conferiu a outra porta. O gate confere a porta, não a
+  // intenção. Exemplos de sintaxe dentro de cerca são exemplos, e passam.
+  const VAZAMENTO = /^(?:>\s*\*\*(?:gabarito|porque|rubrica)\s*:\*\*|[-*]\s+\[x\])/i;
+  const vazados = [];
+  for (const item of itens) {
+    const arq = resolve(SAIDA, "md", `${item.slug}.md`);
+    if (!existsSync(arq)) continue;
+    let emCerca = false;
+    readFileSync(arq, "utf8").split("\n").forEach((linha, i) => {
+      if (/^(?:```|~~~)/.test(linha)) emCerca = !emCerca;
+      else if (!emCerca && VAZAMENTO.test(linha)) vazados.push(`docs/md/${item.slug}.md:${i + 1} — ${linha.trim().slice(0, 60)}`);
+    });
+  }
+  if (vazados.length) {
+    console.error(`✗ ${vazados.length} resposta(s) vazando no Markdown exportado:`);
+    vazados.forEach((v) => console.error("   " + v));
+    console.error("   O botão de download fica ao lado do exercício. Use semGabarito() na exportação.");
+    process.exit(1);
+  }
 }
 
 // Knowledge Graph do livro — derivado do conteúdo a cada build.
