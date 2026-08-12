@@ -190,6 +190,8 @@ const SIGLAS = {
   LSTM: "Long Short-Term Memory", GRU: "Gated Recurrent Unit", GAN: "Generative Adversarial Network",
   SVM: "Support Vector Machine", KNN: "K-Nearest Neighbors", PCA: "Principal Component Analysis",
   SGD: "Stochastic Gradient Descent", MSE: "Mean Squared Error", MAE: "Mean Absolute Error",
+  EQM: "Erro Quadrático Médio — o MSE da literatura em inglês", SQE: "Soma dos Quadrados dos Erros",
+  EAM: "Erro Absoluto Médio — o MAE da literatura em inglês",
   RMSE: "Root Mean Squared Error", MAPE: "Mean Absolute Percentage Error",
   AUC: "Area Under the Curve", ROC: "Receiver Operating Characteristic",
   RL: "Reinforcement Learning", MDP: "Markov Decision Process", PPO: "Proximal Policy Optimization",

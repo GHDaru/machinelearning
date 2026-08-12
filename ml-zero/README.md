@@ -18,7 +18,7 @@ A etapa 00 usa **só a biblioteca padrão do Python** — nem NumPy. Isso é del
 
 ## Etapa 00 — dado, divisão e linha de base
 
-**Capítulo correspondente:** [01 — Fundamentos](../livro/0-2-fundamentos.md)
+**Capítulo correspondente:** [0.2 — Fundamentos](../livro/0-2-fundamentos.md)
 
 | Arquivo | O que faz |
 |---|---|
@@ -60,7 +60,7 @@ Dizer isso em voz alta é parte do método: o Princípio I exige que a limitaç�
 
 ## Etapa 02 — vazamento e divisões honestas
 
-**Capítulo correspondente:** [02 — Dados](../livro/capitulos/i-3-dados.md)
+**Capítulo correspondente:** [I.3 — Dados](../livro/capitulos/i-3-dados.md)
 
 | Arquivo | O que faz |
 |---|---|
@@ -86,7 +86,7 @@ A `FichaDeDataset` segue a mesma filosofia: não é um documento que alguém pro
 
 ## Etapa 07 — árvore, floresta e boosting
 
-**Capítulo correspondente:** [07 — Árvores e Ensembles](../livro/capitulos/ii-5-arvores-ensembles.md)
+**Capítulo correspondente:** [II.5 — Árvores e Ensembles](../livro/capitulos/ii-5-arvores-ensembles.md)
 
 | Arquivo | O que faz |
 |---|---|
@@ -118,7 +118,7 @@ E bagging faz o que promete: a variância da predição cai de **0,04066** (árv
 
 ## Etapa 05–06 — lineares e o otimizador
 
-**Capítulos:** [05 — Modelos Lineares](../livro/capitulos/ii-2-modelos-lineares.md) e [06 — Otimização](../livro/capitulos/ii-4-otimizacao.md)
+**Capítulos:** [II.2 — Modelos Lineares](../livro/capitulos/ii-2-modelos-lineares.md) e [II.4 — Otimização](../livro/capitulos/ii-4-otimizacao.md)
 
 | Arquivo | O que faz |
 |---|---|

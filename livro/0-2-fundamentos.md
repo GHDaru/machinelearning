@@ -83,6 +83,18 @@ A razão de o teste ser separado da validação é sutil e cara de aprender na p
 
 O teste existe para ser a testemunha que não foi coagida. Toda vez que você o consulta e reage ao que viu, ele perde um pouco dessa qualidade. Não há alarme, não há erro na tela: o número simplesmente vai ficando menos verdadeiro.
 
+### Quando os dados são poucos: validação cruzada
+
+Separar um pedaço fixo para validação custa caro quando há pouca linha: o modelo treina com menos, e a estimativa fica ruidosa porque depende de quais exemplos calharam de ficar de fora.
+
+A **validação cruzada** resolve isso por rodízio. Divide-se o treino em $k$ partes iguais — cada uma é uma **dobra** (*fold*) —, treina-se em $k-1$ delas e mede-se na que sobrou. Repete-se até cada dobra ter sido a juíza uma vez. O resultado é a **média das $k$ medições**, e o **desvio entre elas** já diz quanto a estimativa é instável.
+
+Três coisas que a definição não deixa ver e custam caro:
+
+- **O teste continua fora disso, intocado.** A validação cruzada substitui a divisão de validação, não a de teste.
+- **Todo pré-processamento entra no laço.** Padronizar, imputar, codificar pelo alvo — tudo tem de ser calculado **dentro de cada dobra**, só com o treino daquela dobra. Calcular antes, com o dado inteiro, é o vazamento do [capítulo I.3](capitulos/i-3-dados.md), repetido $k$ vezes.
+- **Se houver grupo ou tempo no problema**, as dobras precisam respeitá-los. Cinco dobras embaralhadas erradas dão uma estimativa errada com intervalo estreito — pior que uma estimativa errada e obviamente incerta.
+
 :::exercicio {"id":"fundamentos-e1","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
 Uma equipe testa 40 configurações de modelo, medindo cada uma no conjunto de teste, e reporta a melhor: 94,2% de acurácia. Qual é o problema mais grave dessa prática?
 

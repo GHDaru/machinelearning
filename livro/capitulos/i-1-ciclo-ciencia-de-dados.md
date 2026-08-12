@@ -13,7 +13,7 @@
 
 ## O problema: um modelo excelente para a pergunta errada
 
-Um varejista pede um modelo de *churn*. A equipe recebe acesso ao banco, encontra a tabela de compras, define o rótulo pelo que os dados permitem — "cliente que não compra há 90 dias" — treina, mede e entrega AUC de 0,93. O relatório é bonito. O modelo nunca foi usado.
+Um varejista pede um modelo de *churn* — de abandono: prever quem vai deixar de comprar. A equipe recebe acesso ao banco, encontra a tabela de compras, define o rótulo pelo que os dados permitem — "cliente que não compra há 90 dias" — treina, mede e entrega AUC de 0,93. O relatório é bonito. O modelo nunca foi usado.
 
 O motivo apareceu na primeira reunião com a área de retenção: eles só conseguem agir sobre um cliente **na renovação do plano**, e a renovação acontece antes dos 90 dias de silêncio. Quando o modelo acusa risco, o cliente já foi embora. A lista chega tarde para todo mundo que poderia fazer algo com ela.
 
@@ -25,7 +25,7 @@ O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para torna
 
 **O aperto.** Meados dos anos 1990. Mineração de dados era um mercado novo, com dinheiro entrando e nenhum acordo sobre como se trabalha. Cada projeto reinventava seu próprio processo. Dois times na mesma empresa entregavam relatórios que não se comparavam; duas empresas não conseguiam repetir o que a outra tinha feito. Não havia como saber se um resultado ruim veio do problema, dos dados ou de alguém ter pulado uma etapa — porque não existia a lista de etapas.
 
-**O que se fazia antes.** Consultoria: cada casa trazia seu método interno, não publicado, casado com a ferramenta que vendia. E ferramenta se vendia sem método nenhum — comprava-se o *workbench*, e o cliente que descobrisse sozinho o que fazer com ele.
+**O que se fazia antes.** Consultoria: cada casa trazia seu método interno, não publicado, casado com a ferramenta que vendia. E ferramenta se vendia sem método nenhum — comprava-se o *workbench* — o pacote que reunia as ferramentas de mineração numa tela só —, e o cliente que descobrisse sozinho o que fazer com ele.
 
 **A virada.** Escrever um processo **de indústria**, e não de fornecedor. Seis fases explicitamente **cíclicas**, com *entendimento do negócio* na primeira posição e *modelagem* apenas na quarta. O documento não pertence a ninguém, não exige software algum e descreve entregas, não cliques.
 
@@ -33,7 +33,7 @@ O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para torna
 
 **O nome.** *CRoss-Industry Standard Process for Data Mining*. O "cross-industry" não é enfeite, é a tese: o processo não pode pertencer a um setor nem a um vendedor, ou volta a ser método de consultoria.
 
-Concebido no fim de 1996, virou projeto europeu com financiamento **ESPRIT** em 1997, tocado por um consórcio de cinco organizações: a ISL — depois absorvida pela SPSS, autora do Clementine, o primeiro *workbench* comercial de mineração, de 1994 —, a Teradata, a NCR, a Daimler-Benz e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
+Concebido no fim de 1996, virou projeto europeu com financiamento do **ESPRIT**, o programa europeu de pesquisa em tecnologia da informação, em 1997, tocado por um consórcio de cinco organizações: a ISL — depois absorvida pela SPSS, autora do Clementine, o primeiro *workbench* comercial de mineração, de 1994 —, a Teradata, a NCR, a Daimler-Benz e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
 
 Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora** sentadas na mesma mesa. A prova de conceito do "cross-industry" está na composição do grupo — se o mesmo processo servisse para fabricar carros e para precificar apólices, servia para o resto.
 
@@ -158,7 +158,7 @@ Para qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.
 > **gabarito:** 1
 > **porque:** Definir o que conta como evento é **entendimento do negócio**, fase 1. O que quebrou não foi a construção do rótulo: foi o acordo sobre o que se está prevendo.
 >
-> A resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *"cliente perdido é quem, para quem age?"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas de graça se o alvo continuar errado.
+> A resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *"cliente perdido é quem, para quem age?"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas **à toa** se o alvo continuar errado.
 > **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
 :::
 

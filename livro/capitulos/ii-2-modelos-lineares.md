@@ -11,17 +11,21 @@
 - **O3.** Interpretar os coeficientes de um modelo linear — e dizer o que eles **não** significam.
 - **O4.** Reconhecer as situações em que o modelo linear é a escolha certa, não a escolha simplória.
 
-> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [28 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
+> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [II.3 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
 
 ## O problema: o modelo que todo mundo aprende e quase ninguém respeita
 
-O [capítulo II.5](ii-5-arvores-ensembles.md) mostrou o modelo linear perdendo feio: 0,4963 de AUC contra 0,9392 do boosting. Se você leu aquele capítulo primeiro, saiu dele com a impressão de que linear é o modelo dos iniciantes.
+Um banco precisa negar um crédito e **explicar por quê**. A lei exige a explicação, o cliente exige a explicação, e o auditor vai pedir a conta.
 
-É a impressão errada, e este capítulo existe para corrigi-la. Naquele experimento, o dado foi **construído** com uma fronteira irregular — o terreno onde a reta não tem chance. Troque o terreno e a conclusão vira:
+O modelo campeão do concurso interno — quinhentas árvores somadas — dá a melhor previsão da casa e não produz **uma única frase** que caiba na carta de recusa. Ele acerta mais e não serve.
+
+É aqui que o modelo linear volta ao jogo, e não por caridade: ele entrega **um número por atributo**, e um número por atributo é uma frase. Some-se a isso o que raramente se diz em voz alta:
 
 - com **poucos dados por atributo**, o linear frequentemente ganha, porque tem menos o que estimar errado;
-- quando a decisão precisa ser **auditada**, ele é o único que entrega um número por atributo que alguém consegue defender numa reunião;
-- quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto ensembles precisam de correção posterior (cap. II.1).
+- quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto ensembles precisam de correção posterior ([capítulo II.1](ii-1-avaliacao.md));
+- quando a decisão precisa ser **auditada**, ele é o único que alguém consegue defender numa reunião.
+
+Guarde a cena, porque o capítulo vai cobrar o outro lado: **essa transparência tem preço, e o preço é mais alto do que parece.** Um coeficiente é fácil de ler e fácil de ler errado — e a segunda metade deste capítulo é sobre isso.
 
 E há a razão pedagógica: é no modelo linear que otimização, regularização e interpretação aparecem na forma mais limpa. Quem não entende gradiente aqui não vai entender numa rede de doze camadas.
 
@@ -63,9 +67,15 @@ O modelo é uma reta (ou um plano, ou um hiperplano):
 
 $$\hat{y} = w_1x_1 + w_2x_2 + \dots + w_dx_d + b$$
 
-Resta escolher os $w$. O critério: minimizar a soma dos erros ao quadrado.
+Aqui $\hat{y}$ é a previsão do modelo e $y$ o valor observado — **o chapéu marca sempre o que o modelo produz, e sem chapéu é o que o mundo entregou**. São $n$ exemplos e $d$ atributos.
 
-$$L(w, b) = \frac{1}{2n}\sum_{i=1}^{n}\left(\hat{y}_i - y_i\right)^2$$
+Resta escolher os $w$. O critério: minimizar o **erro quadrático médio**, o **EQM**:
+
+$$L(w, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{y}_i\right)^2$$
+
+> **Duas convenções que você vai encontrar por aí, e por que elas não mudam nada.** Muito texto escreve $\frac{1}{2n}$ em vez de $\frac{1}{n}$ — o meio existe só para cancelar o 2 que aparece ao derivar, e deixar a conta mais limpa. Outros omitem o $\frac{1}{n}$ e minimizam a **soma** (o SQE) em vez da média.
+>
+> **Multiplicar a perda por uma constante positiva não move o ponto de mínimo.** A reta ótima é a mesma nas três escalas; o que muda é o número que aparece no painel. Este livro usa o **EQM** — $\frac{1}{n}$, sem o meio — em todo lugar: no texto, na dedução e no laboratório.
 
 Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honestidade:
 
@@ -101,7 +111,7 @@ Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a
 
 Três coisas para tentar, nesta ordem:
 
-1. **Minimize no olho.** Arraste as alças até o EQM parar de cair. Anote o valor.
+1. **Minimize no olho.** Arraste as alças até o **erro quadrático médio (EQM)** parar de cair. Anote o valor.
 2. **Ligue "Mostrar os quadrados".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.
 3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em "Ajustar automaticamente" e compare os coeficientes com o que você tinha.
 
@@ -112,15 +122,15 @@ Uma pergunta para levar para a próxima seção: **por que existe uma reta ótim
 
 O laboratório mostrou que existe um fundo do poço. Esta seção mostra **por que ele existe e como chegar nele por conta**, sem tentativa e erro. É a diferença entre usar a fórmula e saber de onde ela vem.
 
-Com um atributo, a reta é $\hat{y} = ax + b$, e o critério é a soma dos quadrados dos resíduos:
+Com um só atributo o índice atrapalha mais do que ajuda, então escrevemos $a$ no lugar de $w_1$: a reta é $\hat{y} = ax + b$. O critério é o mesmo EQM de antes, com a mesma ordem do resíduo:
 
-$$S(a, b) = \sum_{i=1}^{n}\left(y_i - ax_i - b\right)^2$$
+$$L(a, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right)^2$$
 
-**Passo 1 — por que há um mínimo, e um só.** $S$ é uma soma de quadrados: é uma superfície convexa em $(a, b)$, uma tigela. Tigela tem um fundo, e só um. É a razão de o laboratório sempre convergir para a mesma reta, venha você por onde vier.
+**Passo 1 — por que há um mínimo, e um só.** $L$ é uma soma de quadrados: é uma superfície convexa em $(a, b)$, uma tigela. Tigela tem um fundo, e só um. É a razão de o laboratório sempre convergir para a mesma reta, venha você por onde vier.
 
 **Passo 2 — no fundo, as derivadas se anulam.** Derivando em relação a $b$:
 
-$$\frac{\partial S}{\partial b} = -2\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
+$$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
 
 onde $r_i = y_i - ax_i - b$ é o resíduo. **A soma dos resíduos é zero.** Dividindo por $n$: $\bar{y} = a\bar{x} + b$, ou seja,
 
@@ -130,7 +140,7 @@ $$b = \bar{y} - a\bar{x}$$
 
 **Passo 3 — a segunda condição.** Derivando em relação a $a$:
 
-$$\frac{\partial S}{\partial a} = -2\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
+$$\frac{\partial L}{\partial a} = -2\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
 
 **Os resíduos são ortogonais ao atributo.** Traduzindo: o que sobrou de erro **não tem mais nada de linear em $x$** — se tivesse, a reta ainda poderia melhorar. É o significado geométrico do ajuste, e vale para qualquer número de atributos.
 
@@ -138,9 +148,11 @@ $$\frac{\partial S}{\partial a} = -2\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right)
 
 $$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2} = \frac{S_{xy}}{S_{xx}}$$
 
+> $S_{xy}$ e $S_{xx}$ são **somas de desvios**, não a perda — a letra é a mesma por tradição, e é por isso que a perda aqui se chama $L$.
+
 Duas contas — uma soma de produtos e uma soma de quadrados — e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
 
-**Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que apareceu no caso da limonada mais adiante, onde o preço **não varia** dentro de nenhum mês.
+**Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que você vai encontrar adiante, no caso da limonada, onde o preço **não varia** dentro de nenhum mês.
 
 > **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$ — as **equações normais** — resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
 
@@ -285,7 +297,11 @@ Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesm
 
 ## Quando o linear é a escolha certa
 
-Não como consolo, e sim como decisão de engenharia:
+Não como consolo, e sim como decisão de engenharia.
+
+Antes da tabela, o contraexemplo honesto: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md), o linear faz **0,4963 de AUC** contra **0,9392** do boosting. É um massacre — e é uma afirmação sobre **aquele terreno**, não sobre o modelo. O dado de lá foi construído com uma fronteira irregular, que é exatamente onde a reta não tem chance. Troque o terreno e a conclusão vira.
+
+
 
 | Situação | Por quê |
 |---|---|

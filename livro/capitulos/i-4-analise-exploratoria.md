@@ -97,18 +97,28 @@ A linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento
 Percorra as cinco colunas e responda, para cada uma:
 
 1. A distribuição é **simétrica**? De que lado ela puxa?
-2. Há **outliers** pela cerca de 1,5 × IQR? Quantos?
+2. Há **outliers** pela regra da cerca de 1,5 × IQR? Quantos?
 3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?
 
-Duas colunas têm respostas surpreendentes. Encontre-as antes de ler a seção seguinte.
+**Duas colunas têm respostas surpreendentes.** Os exercícios logo abaixo pedem os números que só o painel mostra — abra o laboratório antes de responder, porque o enunciado não os entrega.
+:::
+
+:::exercicio {"id":"analise-exploratoria-e6","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
+Abra o laboratório e escolha a coluna **`preco`**. Quantos pontos a regra da cerca de 1,5 × IQR acusa?
+
+> **gabarito:** 62
+> **porque:** Sessenta e dois — de 365 dias. Mais de um sexto do conjunto marcado como anomalia numa coluna que, olhando o painel, tem **dois valores distintos**.
+>
+> Antes de decidir o que fazer com eles, olhe o IQR dessa coluna. É o próximo exercício, e é a lição do capítulo.
+> **volte para:** #olhe-uma-variavel-de-cada-vez
 :::
 
 :::exercicio {"id":"analise-exploratoria-e4","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
-No laboratório acima, a coluna `preco` acusa **62 outliers** pela regra de 1,5 × IQR — mais de um sexto do conjunto. Qual é a leitura correta?
+Você acabou de ver a cerca acusar 62 pontos em `preco`. Olhe, no painel do laboratório, o **IQR** e os **valores distintos** dessa coluna. Qual é a leitura correta?
 
 - [ ] São 62 erros de digitação no registro do preço, e devem ser removidos antes de modelar.
 - [ ] A regra está certa: 62 dias tiveram preço anormal, e esses dias merecem investigação individual.
-- [x] A régua quebrou: com Q1 = Q3 = 0,30, o IQR é **zero**, e qualquer valor diferente de 0,30 cai fora da cerca.
+- [x] A régua quebrou: com Q1 = Q3, o IQR é **zero**, e qualquer valor diferente do mais comum cai fora da cerca.
 - [ ] O problema é o fator 1,5; com 3,0 em vez de 1,5 os 62 pontos deixariam de ser acusados.
 
 > **gabarito:** A régua quebrou — o IQR é zero
@@ -193,17 +203,17 @@ Escreva o que você faz com esses 12 pedidos: **como decide** e **o que registra
 :::
 
 :::exercicio {"id":"analise-exploratoria-e5","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
-No laboratório, escolha a coluna **`precipitacao`**. Ela tem média 0,83 e mediana 0,74, mínimo 0,47, máximo 2,50, e a cerca de 1,5 × IQR acusa **28 pontos**.
+No laboratório, escolha a coluna **`precipitacao`** e leia o painel: média, mediana, mínimo, máximo e quantos pontos a regra da cerca de 1,5 × IQR acusa.
 
 Escreva um parágrafo de análise monovariada dessa variável, respondendo:
 
 1. a distribuição é simétrica? Para que lado puxa, e como você sabe?
 2. média ou mediana descreve melhor esta variável — e por quê?
-3. os 28 pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?
+3. os pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?
 
-> **rubrica:** identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;
+> **rubrica:** traz os números que leu no painel, em vez de falar em geral; identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;
 > escolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda;
-> reconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;
+> reconhece que os pontos acusados são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;
 > declara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo;
 > não confunde "fora da cerca" com "errado"
 > **porque:** As três respostas se encadeiam, e a terceira é a que separa quem entendeu.
@@ -223,7 +233,7 @@ Escreva um parágrafo de análise monovariada dessa variável, respondendo:
 
 **Notebook pronto para executar** — [`exploratoria_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-21/exploratoria_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-21/exploratoria_limonada.ipynb)
 
-O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada campo, contagem e nulidade, média × mediana × moda, decis e quartis (com a verificação de que P50 = Q2 = D5), histograma e boxplot desenhados juntos na mesma escala, e a cerca de 1,5 × IQR calculada coluna a coluna.
+O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada campo, contagem e nulidade, média × mediana × moda, decis e quartis (com a verificação de que P50 = Q2 = D5), histograma e boxplot desenhados juntos na mesma escala, e a regra da cerca de 1,5 × IQR calculada coluna a coluna.
 
 > Este é o **único** notebook da trilha que usa `pandas` e `matplotlib` — as duas já vêm no Colab. A razão está no [ADR 0010](https://github.com/GHDaru/machinelearning/blob/main/adr/0010-pandas-na-etapa-de-exploracao.md): o assunto aqui é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho. A conta em si — quantil, cerca, descritivas — está escrita à mão no laboratório, em 30 linhas de JavaScript.
 

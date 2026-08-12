@@ -284,7 +284,7 @@
    "enunciado": "Na fase de avaliação, a equipe descobre que rotulou como \"cliente perdido\" quem ficou 90 dias sem comprar — enquanto, para a área de retenção, perder um cliente é ele **não renovar o contrato**. O modelo prevê muito bem o rótulo que recebeu.\n\nPara qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.",
    "opcoes": [],
    "gabarito": "1",
-   "porque": "Definir o que conta como evento é **entendimento do negócio**, fase 1. O que quebrou não foi a construção do rótulo: foi o acordo sobre o que se está prevendo.\n\nA resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *\"cliente perdido é quem, para quem age?\"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas de graça se o alvo continuar errado.",
+   "porque": "Definir o que conta como evento é **entendimento do negócio**, fase 1. O que quebrou não foi a construção do rótulo: foi o acordo sobre o que se está prevendo.\n\nA resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *\"cliente perdido é quem, para quem age?\"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas **à toa** se o alvo continuar errado.",
    "volte_para": "#as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata",
    "rubrica": null,
    "versoes": null,
@@ -555,6 +555,28 @@
    }
   },
   {
+   "id": "analise-exploratoria-e6",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "enunciado": "Abra o laboratório e escolha a coluna **`preco`**. Quantos pontos a regra da cerca de 1,5 × IQR acusa?",
+   "opcoes": [],
+   "gabarito": "62",
+   "porque": "Sessenta e dois — de 365 dias. Mais de um sexto do conjunto marcado como anomalia numa coluna que, olhando o painel, tem **dois valores distintos**.\n\nAntes de decidir o que fazer com eles, olhe o IQR dessa coluna. É o próximo exercício, e é a lição do capítulo.",
+   "volte_para": "#olhe-uma-variavel-de-cada-vez",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-4-analise-exploratoria",
+   "titulo_capitulo": "I.4 — Análise Exploratória",
+   "gabarito_num": {
+    "valor": 62,
+    "tolerancia": 0
+   }
+  },
+  {
    "id": "analise-exploratoria-e4",
    "capitulo": 6,
    "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
@@ -562,7 +584,7 @@
    "objetivo": "O4",
    "pontos": 1,
    "dificuldade": "dificil",
-   "enunciado": "No laboratório acima, a coluna `preco` acusa **62 outliers** pela regra de 1,5 × IQR — mais de um sexto do conjunto. Qual é a leitura correta?",
+   "enunciado": "Você acabou de ver a cerca acusar 62 pontos em `preco`. Olhe, no painel do laboratório, o **IQR** e os **valores distintos** dessa coluna. Qual é a leitura correta?",
    "opcoes": [
     {
      "correta": false,
@@ -574,7 +596,7 @@
     },
     {
      "correta": true,
-     "texto": "A régua quebrou: com Q1 = Q3 = 0,30, o IQR é **zero**, e qualquer valor diferente de 0,30 cai fora da cerca."
+     "texto": "A régua quebrou: com Q1 = Q3, o IQR é **zero**, e qualquer valor diferente do mais comum cai fora da cerca."
     },
     {
      "correta": false,
@@ -657,19 +679,20 @@
    "objetivo": "O2",
    "pontos": 3,
    "dificuldade": "media",
-   "enunciado": "No laboratório, escolha a coluna **`precipitacao`**. Ela tem média 0,83 e mediana 0,74, mínimo 0,47, máximo 2,50, e a cerca de 1,5 × IQR acusa **28 pontos**.\n\nEscreva um parágrafo de análise monovariada dessa variável, respondendo:\n\n1. a distribuição é simétrica? Para que lado puxa, e como você sabe?\n2. média ou mediana descreve melhor esta variável — e por quê?\n3. os 28 pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?",
+   "enunciado": "No laboratório, escolha a coluna **`precipitacao`** e leia o painel: média, mediana, mínimo, máximo e quantos pontos a regra da cerca de 1,5 × IQR acusa.\n\nEscreva um parágrafo de análise monovariada dessa variável, respondendo:\n\n1. a distribuição é simétrica? Para que lado puxa, e como você sabe?\n2. média ou mediana descreve melhor esta variável — e por quê?\n3. os pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?",
    "opcoes": [],
    "gabarito": null,
    "porque": "As três respostas se encadeiam, e a terceira é a que separa quem entendeu.\n",
    "volte_para": "#faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar",
-   "rubrica": "identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;\nescolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda;\nreconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;\ndeclara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo;\nnão confunde \"fora da cerca\" com \"errado\"",
+   "rubrica": "traz os números que leu no painel, em vez de falar em geral; identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;\nescolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda;\nreconhece que os pontos acusados são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;\ndeclara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo;\nnão confunde \"fora da cerca\" com \"errado\"",
    "versoes": null,
    "pagina": "i-4-analise-exploratoria",
    "titulo_capitulo": "I.4 — Análise Exploratória",
    "criterios": [
+    "traz os números que leu no painel, em vez de falar em geral",
     "identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga",
     "escolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda",
-    "reconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro",
+    "reconhece que os pontos acusados são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro",
     "declara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo",
     "não confunde \"fora da cerca\" com \"errado\""
    ]
@@ -3023,7 +3046,7 @@
      "vendas"
     ]
    },
-   "intro": "As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.\n\nA linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.\n\nPercorra as cinco colunas e responda, para cada uma:\n\n1. A distribuição é **simétrica**? De que lado ela puxa?\n2. Há **outliers** pela cerca de 1,5 × IQR? Quantos?\n3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?\n\nDuas colunas têm respostas surpreendentes. Encontre-as antes de ler a seção seguinte.",
+   "intro": "As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.\n\nA linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.\n\nPercorra as cinco colunas e responda, para cada uma:\n\n1. A distribuição é **simétrica**? De que lado ela puxa?\n2. Há **outliers** pela regra da cerca de 1,5 × IQR? Quantos?\n3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?\n\n**Duas colunas têm respostas surpreendentes.** Os exercícios logo abaixo pedem os números que só o painel mostra — abra o laboratório antes de responder, porque o enunciado não os entrega.",
    "pagina": "i-4-analise-exploratoria"
   },
   {
@@ -3041,7 +3064,7 @@
     "b": 4,
     "ruido": 3.2
    },
-   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.\n\nTrês coisas para tentar, nesta ordem:\n\n1. **Minimize no olho.** Arraste as alças até o EQM parar de cair. Anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.\n3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em \"Ajustar automaticamente\" e compare os coeficientes com o que você tinha.\n\nUma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**",
+   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.\n\nTrês coisas para tentar, nesta ordem:\n\n1. **Minimize no olho.** Arraste as alças até o **erro quadrático médio (EQM)** parar de cair. Anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.\n3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em \"Ajustar automaticamente\" e compare os coeficientes com o que você tinha.\n\nUma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**",
    "pagina": "ii-2-modelos-lineares"
   },
   {

@@ -6,6 +6,43 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — onda 2: o dano direto ao aluno
+- **O laboratório do `I.4` deixou de ser sabotado pelo próprio capítulo.** O
+  enunciado pedia "encontre as duas colunas surpreendentes" e **duas linhas
+  depois** entregava "62 outliers" e "média 0,83, mediana 0,74, 28 pontos". O
+  leitor lia a saída em vez de produzi-la. Agora um exercício **numérico** pede
+  o número que só o painel mostra, e os seguintes partem dele. 101 exercícios.
+- **A perda tinha três escalas no `II.2`** — $\frac{1}{2n}$ no texto, sem
+  constante na dedução, e `sqe/n` no laboratório. O número que o aluno anotava
+  não era o que o capítulo definia. Unificado no **EQM** ($\frac{1}{n}$), com
+  as duas convenções alternativas explicadas e a razão de elas não moverem o
+  mínimo. `EQM`, `SQE` e `EAM` entraram no mapa de siglas.
+- **`validação cruzada` e `dobra` eram instrução sem definição** — o `I.6` manda
+  "calcule só no treino, e por dobra" e a unidade não existia no livro. Definidas
+  no `0.2`, com as três armadilhas que a definição não deixa ver.
+- **31 termos novos no glossário**, cobrindo o vocabulário de `I.3`, `I.4`,
+  `I.6`, `II.1`, `II.2` e `II.3` — os capítulos das disciplinas em curso.
+  Inclusive **chance (*odds*)**, cuja ausência derrubava a tese do `II.3`.
+- **Duas trilhas violavam pré-requisito.** Em Ciência de Dados, Fundamentos vinha
+  **depois** do capítulo de vazamento, que usa *overfitting* e validação cruzada
+  como se o leitor soubesse; em Análise Preditiva, era **leitura opcional** — e o
+  capítulo de ensembles apoia a seção inteira de bagging na decomposição
+  viés–variância, dizendo isso com todas as letras. Reordenadas.
+- **A abertura do `II.2`, a mais fraca do livro**, abria com um erro *do livro*
+  ("o capítulo II.5 mostrou o linear perdendo feio"), quatro dígitos e dois
+  jargões antes de qualquer cena — e dependia de um capítulo que a disciplina de
+  Análise Preditiva não usa. Agora abre com o banco que precisa negar crédito e
+  explicar por quê. A comparação numérica migrou para onde há contexto para ela.
+- **Duas frases diziam o contrário do pretendido**: "refeitas **de graça**" (era
+  *à toa*) e "o fenômeno que **apareceu** … mais adiante" (pretérito para o que
+  ainda vem). E **"a cerca de 1,5 × IQR"** lia-se como "aproximadamente" —
+  virou "a **regra da** cerca", com o termo técnico enfim nomeado onde é
+  apresentado.
+- Siglas expandidas na primeira ocorrência: **CRISP-DM**, **ESPRIT**, *workbench*
+  e **churn**, todos órfãos na abertura do capítulo mais introdutório da trilha.
+- **56 rótulos de link** ainda mostravam o número antigo no formato
+  `[19 — O Ciclo…]` — outro padrão que a migração não pegou.
+
 ### Adicionado — os gates da onda 1: as regras saem da prosa e entram no build
 - **Backward Design nas duas direções.** O gate proibia exercício apontando para
   objetivo inexistente e **nada** proibia objetivo sem exercício. Foi por essa

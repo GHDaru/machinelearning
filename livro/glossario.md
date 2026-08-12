@@ -65,3 +65,58 @@
 - **CRISP-DM** — *CRoss-Industry Standard Process for Data Mining*. O ciclo de seis fases publicado em 1999. 'Cross-industry' é a tese: o processo não pertence a um setor nem a um fornecedor. Capítulo I.1.
 - **CART** — *Classification and Regression Trees*. As árvores de Breiman, Friedman, Olshen e Stone (1984), nascidas da consultoria e não do seminário. Capítulo II.5.
 - **TF-IDF** — *Term Frequency – Inverse Document Frequency*. Peso que combina a frequência do termo no documento com a raridade dele na coleção. Spärck Jones inventou o IDF em 1972; Salton e Yang o nomearam. Capítulo I.6.
+
+## Acrescentados na edição 1.1 — o vocabulário das disciplinas em curso
+
+> A auditoria de didática de 2026-08-12 mediu o buraco: o glossário cobria bem o capítulo de fundamentos e quase nada dos capítulos `I.3`, `I.4`, `I.6`, `II.1`, `II.2` e `II.3` — exatamente os que as duas disciplinas usam. São estes.
+
+### Estatística descritiva e exploração
+
+| Termo | O que é |
+|---|---|
+| **Mediana** (P50) | O valor do meio quando os dados estão ordenados. É o segundo quartil e o quinto decil ao mesmo tempo. **Insensível** a valor extremo: mexer no maior número da lista não a move |
+| **Moda** | O valor mais frequente. É a única medida de centro que funciona em variável categórica — e, no varejo, é ela que responde "que preço o cliente vê com mais frequência?" |
+| **Quartil** (Q1, Q2, Q3) | Cortes que dividem os dados ordenados em quatro partes iguais. Q1 deixa 25% abaixo de si; Q3 deixa 75% |
+| **IQR** (amplitude interquartil) | Q3 − Q1: a largura da faixa que contém os **50% centrais**. Medida de dispersão que não se abala com extremos |
+| **Cerca** (*fence*) | Os limites Q1 − 1,5 × IQR e Q3 + 1,5 × IQR. O que cai fora vira ponto solto no boxplot. **É um critério escolhido, não uma verdade**: com IQR igual a zero, a cerca tem largura zero e acusa tudo |
+| **Boxplot** | Desenho de cinco elementos: caixa de Q1 a Q3, traço na mediana, bigodes até o extremo dentro da cerca, e pontos para o resto |
+| **Assimetria** | Quando a distribuição puxa para um lado. Detector barato: **média maior que a mediana** indica cauda à direita |
+| **Outlier** | Ponto distante do resto **segundo um critério declarado**. Fora da cerca não significa errado: pode ser o fenômeno (chuva forte acontece) |
+| **Análise univariada** | Olhar uma variável de cada vez — tipo, contagem, nulidade, centro, dispersão, pontas — antes de cruzar duas |
+| **Correlação** | Quanto duas variáveis andam juntas, entre −1 e +1. Mede associação linear, **não** causa, e não vê curva |
+| **Confundidor** | Variável que influencia as outras duas e cria associação sem causa. Controlar por uma variável só remove o confundimento que **aquela** variável mede |
+
+### Avaliação
+
+| Termo | O que é |
+|---|---|
+| **Matriz de confusão** | Os quatro números de um classificador binário: verdadeiros e falsos, positivos e negativos |
+| **Precisão** | Dos que o modelo acusou, quantos eram. Responde "posso confiar quando ele aponta?" |
+| **Revocação** (sensibilidade) | Dos que eram, quantos o modelo achou. Responde "quanto ele deixa passar?" |
+| **F1** | Média harmônica de precisão e revocação. Um número só, ao custo de esconder qual das duas caiu |
+| **Limiar** | O ponto de corte que transforma um escore contínuo em decisão. **Ranking e decisão são coisas diferentes** |
+| **Validação cruzada** | Rodízio em $k$ partes: treina em $k-1$, mede na que sobrou, repete. Devolve média e desvio |
+| **Dobra** (*fold*) | Cada uma das $k$ partes da validação cruzada |
+| **Bootstrap** | Reamostragem com reposição para estimar a incerteza de uma métrica |
+
+### Modelos lineares
+
+| Termo | O que é |
+|---|---|
+| **Resíduo** | O que sobrou: valor observado menos previsto. No ajuste ótimo, a soma deles é zero |
+| **EQM** (erro quadrático médio) | A média dos resíduos ao quadrado. É o **MSE** da literatura em inglês |
+| **Equações normais** | O sistema que sai de derivar a perda e igualar a zero. Resolve a regressão linear **sem iteração** |
+| **Colinearidade** | Dois atributos que medem quase a mesma coisa. O erro não piora; a **interpretação** vira ruído |
+| **Logito** | O logaritmo da razão de chances. É ele que é linear nos atributos, **não** a probabilidade |
+| **Chance** (*odds*) | Razão entre a probabilidade de ocorrer e a de não ocorrer: $p/(1-p)$. **Em português corrente "chance" significa probabilidade — aqui, não** |
+| **Razão de chances** (*odds ratio*) | O quociente entre duas chances. É o que o coeficiente da logística multiplica: $e^{w}$ |
+| **Sigmoide** | A função que comprime a reta inteira em [0, 1] |
+| **Entropia cruzada** (*log-loss*) | A perda da logística. Pune **muito** a previsão confiante e errada |
+
+### Representação
+
+| Termo | O que é |
+|---|---|
+| **One-hot** | Uma coluna por categoria, com 1 na que vale. Explode em alta cardinalidade |
+| **Embedding** | Representação densa aprendida: a categoria (ou palavra, ou item) vira um vetor de poucas dimensões, e a proximidade no vetor passa a significar semelhança |
+| **Churn** | Abandono: o cliente deixa de comprar ou cancela. O alvo mais comum em retenção |

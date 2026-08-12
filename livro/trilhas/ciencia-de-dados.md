@@ -15,36 +15,36 @@ Se você chegou aqui vindo de Análise Preditiva ou de Aprendizagem de Máquina 
 
 | # | Capítulo | Cobre |
 |---|---|---|
-| 1 | [19 — O Ciclo da Ciência de Dados](../capitulos/i-1-ciclo-ciencia-de-dados.md) | CRISP-DM, papéis, relação entre Ciência de Dados, IA e Estatística |
-| 2 | [00 — Introdução](../0-1-introducao.md) | quando ML é a resposta e quando não é |
+| 1 | [I.1 — O Ciclo da Ciência de Dados](../capitulos/i-1-ciclo-ciencia-de-dados.md) | CRISP-DM, papéis, relação entre Ciência de Dados, IA e Estatística |
+| 2 | [0.1 — Introdução](../0-1-introducao.md) | quando ML é a resposta e quando não é |
 
 ## Coleta e integração
 
 | # | Capítulo | Cobre |
 |---|---|---|
-| 3 | [20 — Coleta e Integração](../capitulos/i-2-coleta-integracao.md) | formatos, APIs, scraping, SQL e NoSQL, data lake e warehouse, bases públicas |
+| 3 | [I.2 — Coleta e Integração](../capitulos/i-2-coleta-integracao.md) | formatos, APIs, scraping, SQL e NoSQL, data lake e warehouse, bases públicas |
 
 ## Limpeza e pré-processamento
 
 | # | Capítulo | Cobre |
 |---|---|---|
-| 4 | [02 — Qualidade e Vazamento](../capitulos/i-3-dados.md) | nulos, duplicatas, ficha de dataset, viés de seleção, e o vazamento |
-| 5 | [03 — Representação](../capitulos/i-6-representacao.md) | codificação, normalização, padronização, engenharia de atributos |
+| 4 | [0.2 — Fundamentos](../0-2-fundamentos.md) | generalização, viés e variância — **antes** do capítulo de vazamento, que já usa *overfitting* e validação cruzada como se você soubesse |
+| 5 | [I.3 — Qualidade e Vazamento](../capitulos/i-3-dados.md) | nulos, duplicatas, ficha de dataset, viés de seleção, e o vazamento |
+| 6 | [I.6 — Representação](../capitulos/i-6-representacao.md) | codificação, normalização, padronização, engenharia de atributos |
 
 ## Visualização e comunicação
 
 | # | Capítulo | Cobre |
 |---|---|---|
-| 6 | [21 — Análise Exploratória](../capitulos/i-4-analise-exploratoria.md) | estatística descritiva, dispersão, correlação, outliers |
-| 7 | [22 — Visualização e Storytelling](../capitulos/i-5-visualizacao-storytelling.md) | escolha do gráfico, distorções visuais, narrativa de dados |
+| 7 | [I.4 — Análise Exploratória](../capitulos/i-4-analise-exploratoria.md) | estatística descritiva, dispersão, correlação, outliers |
+| 8 | [I.5 — Visualização e Storytelling](../capitulos/i-5-visualizacao-storytelling.md) | escolha do gráfico, distorções visuais, narrativa de dados |
 
 ## Uma primeira passada por modelagem
 
 | # | Capítulo | Cobre |
 |---|---|---|
-| 8 | [01 — Fundamentos](../0-2-fundamentos.md) | generalização, viés e variância |
-| 9 | [04 — Avaliação](../capitulos/ii-1-avaliacao.md) | métricas, e por que acurácia engana |
-| 10 | [05 — Modelos Lineares](../capitulos/ii-2-modelos-lineares.md) | o primeiro modelo, interpretável — com o laboratório de mínimos quadrados |
+| 9 | [II.1 — Avaliação](../capitulos/ii-1-avaliacao.md) | métricas, e por que acurácia engana |
+| 10 | [II.2 — Modelos Lineares](../capitulos/ii-2-modelos-lineares.md) | o primeiro modelo, interpretável — com o laboratório de mínimos quadrados |
 
 ## Prática
 

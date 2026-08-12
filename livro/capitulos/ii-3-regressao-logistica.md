@@ -10,7 +10,7 @@
 - **O2.** Interpretar um coeficiente como efeito sobre a **razão de chances**, e não sobre a probabilidade.
 - **O3.** Justificar por que a perda é a entropia cruzada e por que não há solução fechada.
 
-> Este capítulo saiu do [05 — Modelos Lineares](ii-2-modelos-lineares.md), onde dividia espaço com a regressão linear. Compartilham a forma $w \cdot x + b$ e quase nada além disso.
+> Este capítulo saiu do [II.2 — Modelos Lineares](ii-2-modelos-lineares.md), onde dividia espaço com a regressão linear. Compartilham a forma $w \cdot x + b$ e quase nada além disso.
 
 ## O problema: o classificador que finge ser regressão
 
@@ -36,7 +36,7 @@ O lado esquerdo varre a reta inteira, de $-\infty$ a $+\infty$; o direito é lin
 
 **A ideia reaproveitável.** **Quando a saída tem fronteiras e o modelo não, transforme a saída — não restrinja o modelo.** É o mesmo movimento que aparece no logaritmo de valores positivos, no *softmax* de várias classes e na função de ligação de qualquer modelo linear generalizado. A restrição vira mudança de escala, e o maquinário linear continua valendo inteiro.
 
-**O nome.** *Logit*, contração de *logistic unit*, cunhado por **Joseph Berkson** em 1944 — deliberadamente ecoando *probit* (*probability unit*), do método concorrente. O nome carrega a polêmica: era uma proposta de substituição, não de complemento. A palavra *logística* vem antes, da **curva logística** de **Pierre François Verhulst** (1838), estudando crescimento populacional limitado — a mesma curva em S, chegando aqui por outro caminho.
+**O nome.** *Logit*, contração de *logistic unit* — em português, **logito** —, cunhado por **Joseph Berkson** em 1944 — deliberadamente ecoando *probit* (*probability unit*), do método concorrente. O nome carrega a polêmica: era uma proposta de substituição, não de complemento. A palavra *logística* vem antes, da **curva logística** de **Pierre François Verhulst** (1838), estudando crescimento populacional limitado — a mesma curva em S, chegando aqui por outro caminho.
 
 **Procedência das afirmações desta seção:**
 
@@ -116,7 +116,9 @@ Por que a regressão logística não tem solução fechada, como a linear tem?
 
 ## Interpretar o coeficiente: chance, não probabilidade
 
-Aumentar $x_j$ em uma unidade multiplica a **razão de chances** por $e^{w_j}$.
+Uma definição antes da leitura, porque a palavra trabalha contra o capítulo. A **chance** (*odds*) de um evento é a razão entre a probabilidade de ele ocorrer e a de não ocorrer, $p/(1-p)$: probabilidade 0,5 é chance 1 — "um para um"; probabilidade 0,9 é chance 9. **No português do dia a dia, "chance" é sinônimo de probabilidade. Aqui não é, e essa é justamente a distinção que o capítulo existe para ensinar.** A **razão de chances** é o quociente entre duas chances.
+
+Aumentar $x_j$ em uma unidade **multiplica a chance** por $e^{w_j}$ — ou seja, produz uma razão de chances de $e^{w_j}$.
 
 Um coeficiente de 0,7 significa chance multiplicada por $e^{0{,}7} \approx 2$ — **a chance dobra**. Não a probabilidade: a chance.
 
