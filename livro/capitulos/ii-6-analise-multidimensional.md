@@ -158,7 +158,7 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 - **Estrela** vence **floco de neve** quase sempre: menos `JOIN`, modelo legível, redundância barata porque acontece na dimensão. Desnormalizar aqui **não é relaxar o rigor** — a 3NF protege a escrita, e a escrita analítica é uma carga controlada.
 - Cinco operações fechadas: **drill-down, roll-up, slice, dice, pivot**. A saída de cada uma é outro cubo, e é isso que faz a reunião fluir.
 - **Nem toda medida soma.** Estoque soma entre lojas e não soma ao longo do tempo; razão não soma em lugar nenhum — guarde os componentes, calcule depois.
-- **Trocar espaço e frescor por tempo de resposta é decisão de projeto.** O cubo é essa troca virada arquitetura — o mesmo padrão da barra de Playfair ([22](i-5-visualizacao-storytelling.md)) e do neurônio sem aprendizado ([18](iii-1-neuronio-artificial.md)).
+- **Trocar espaço e frescor por tempo de resposta é decisão de projeto.** O cubo é essa troca virada arquitetura — o mesmo padrão da barra de Playfair ([I.5](i-5-visualizacao-storytelling.md)) e do neurônio sem aprendizado ([III.1](iii-1-neuronio-artificial.md)).
 - O cubo **pré-computado** perdeu terreno para o colunar barato; o **vocabulário** do cubo não perdeu nada.
 - A categoria "OLAP" nasceu com um episódio incômodo. **Pergunte de onde veio a categoria** antes de aceitá-la como natural — e julgue a embalagem separadamente da engenharia.
 

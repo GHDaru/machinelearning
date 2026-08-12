@@ -45,7 +45,7 @@ Depois vieram os sistemas especialistas de verdade: **DENDRAL** (Stanford, a par
 >
 > **A comunidade que rejeita uma ideia raramente é a que a reabilita.** Isso não é consolo para quem tem uma ideia rejeitada; é uma instrução de busca. Se o seu método não anda, a pergunta útil talvez não seja "como convenço esta sala?", e sim "qual é a sala em que este método é obviamente útil?".
 >
-> **Repare no relógio: 22 anos e um oceano.** De Zadeh (1965) a Sendai (1987) foram 22 anos **e uma mudança de continente**. Compare com os 43 anos do [capítulo II.7](ii-7-series-temporais.md), os 59 do [03](i-6-representacao.md) e os cerca de 80 do [13](iv-2-reforco.md). O atraso aqui é curto para o padrão do livro — o que custou tempo não foi formular a ideia nem construir a ferramenta, foi **encontrar quem quisesse ouvir**. 📖
+> **Repare no relógio: 22 anos e um oceano.** De Zadeh (1965) a Sendai (1987) foram 22 anos **e uma mudança de continente**. Compare com os 43 anos do [capítulo II.7](ii-7-series-temporais.md), os 59 do [I.6](i-6-representacao.md) e os cerca de 80 do [IV.2](iv-2-reforco.md). O atraso aqui é curto para o padrão do livro — o que custou tempo não foi formular a ideia nem construir a ferramenta, foi **encontrar quem quisesse ouvir**. 📖
 
 **Procedência das afirmações desta seção:**
 

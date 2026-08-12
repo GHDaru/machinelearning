@@ -35,7 +35,7 @@ Vale ler a folha de rosto com atenção, porque ela contraria a lembrança colet
 
 **O limite do que este capítulo afirma.** A citação corrente do problema, na literatura, costuma ser Bengio, Simard & Frasconi (1994), em inglês. **Não conseguimos conferir se aquele artigo cita a tese de 1991.** Então o capítulo diz duas coisas e para: Hochreiter mediu o fenômeno em 1991, em alemão; e a citação que circula é de 1994. Ele **não afirma** que houve omissão de crédito — isso exigiria a leitura que não fizemos.
 
-E há o desfecho que quebra o padrão dos capítulos [05](ii-2-modelos-lineares.md), [18](iii-1-neuronio-artificial.md) e [08](iv-1-nao-supervisionado.md), onde crédito não segue descoberta e sim comunicação: **Hochreiter não foi apagado.** Ele volta em 1997 com a LSTM (*Long Short-Term Memory*), a partir do mesmo diagnóstico, e leva o crédito. Este é o caso **atenuado** do padrão: comunicar tarde, ou no idioma errado, custou a prioridade sobre o problema — não a carreira de quem o formulou.
+E há o desfecho que quebra o padrão dos capítulos [II.2](ii-2-modelos-lineares.md), [III.1](iii-1-neuronio-artificial.md) e [IV.1](iv-1-nao-supervisionado.md), onde crédito não segue descoberta e sim comunicação: **Hochreiter não foi apagado.** Ele volta em 1997 com a LSTM (*Long Short-Term Memory*), a partir do mesmo diagnóstico, e leva o crédito. Este é o caso **atenuado** do padrão: comunicar tarde, ou no idioma errado, custou a prioridade sobre o problema — não a carreira de quem o formulou.
 
 **Procedência das afirmações desta seção:**
 

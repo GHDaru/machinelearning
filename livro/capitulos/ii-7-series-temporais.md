@@ -35,7 +35,7 @@ Nada quebrou. O experimento é que estava errado — e de um jeito invisível. A
 >
 > Yule publica a autorregressão em **1927**. O procedimento que qualquer pessoa consegue seguir — identificar → estimar → diagnosticar — chega em **1970**, com Box & Jenkins. **Quarenta e três anos** entre a ideia e a ferramenta.
 >
-> É o formato padrão deste livro: 1962→1977 no [capítulo I.4](i-4-analise-exploratoria.md), 1943→1958 no [18](iii-1-neuronio-artificial.md), 1931→1974 no [01](../0-2-fundamentos.md) — também 43 anos.
+> É o formato padrão deste livro: 1962→1977 no [capítulo I.4](i-4-analise-exploratoria.md), 1943→1958 no [III.1](iii-1-neuronio-artificial.md), 1931→1974 no [0.2](../0-2-fundamentos.md) — também 43 anos.
 >
 > Mas o [capítulo II.5](ii-5-arvores-ensembles.md) traz a exceção que explica a regra: no *boosting* foram **sete** anos. Pergunta em 1988, resposta em 1990, algoritmo em 1995. Por quê tão rápido? Porque ali o aperto já estava formulado como **pergunta formal precisa** — "um aprendiz fraco pode ser transformado num forte?" — com os dois lados definidos o bastante para alguém responder sim ou não.
 >
@@ -48,7 +48,7 @@ Nada quebrou. O experimento é que estava errado — e de um jeito invisível. A
 | ⏳ | O aperto de 1927 (o ruído no sistema e não na medição), a análise harmônica como prática anterior e a metáfora do pêndulo que leva pancadas |
 | ✓ᵐ | Yule, *On a Method of Investigating Periodicities in Disturbed Series, with Special Reference to Wolfer's Sunspot Numbers*, Phil. Trans. Royal Society A, **226**, 267–298 (1927) — primeira aplicação de autorregressão, com defasagem 2. **Localizado e identificado; não lido** |
 | ✓ᵐ | Box & Jenkins, *Time Series Analysis: Forecasting and Control* (Holden-Day, 1970), e o acrônimo ARIMA. **Localizado e identificado; não lido** |
-| 📖 | A ideia reaproveitável, e a leitura do relógio — os 43 anos, o paralelo com os capítulos I.4, 18 e 01, e o contraste com os sete anos do [07](ii-5-arvores-ensembles.md) |
+| 📖 | A ideia reaproveitável, e a leitura do relógio — os 43 anos, o paralelo com os capítulos I.4, 18 e 01, e o contraste com os sete anos do [II.5](ii-5-arvores-ensembles.md) |
 
 ## Fundamentos: o que muda quando existe tempo
 

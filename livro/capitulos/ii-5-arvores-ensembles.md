@@ -54,7 +54,7 @@ Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: 
 
 **A ideia reaproveitável.** **Uma pergunta bem-posta sobre limites vira algoritmo.** Quando você consegue formular precisamente *"isto é possível?"*, a resposta afirmativa frequentemente já contém o *como*. Vale mais aprender isso do que decorar o AdaBoost.
 
-> **Repare no relógio.** Em quase todo o resto deste livro, a distância entre a ideia e o procedimento utilizável é de décadas: 1943→1958 no [capítulo III.1](iii-1-neuronio-artificial.md), 1927→1970 no [24](ii-7-series-temporais.md), 1931→1974 no [01](../0-2-fundamentos.md). No boosting são **sete anos** — pergunta em 1988, resposta em 1990, algoritmo em 1995.
+> **Repare no relógio.** Em quase todo o resto deste livro, a distância entre a ideia e o procedimento utilizável é de décadas: 1943→1958 no [capítulo III.1](iii-1-neuronio-artificial.md), 1927→1970 no [II.7](ii-7-series-temporais.md), 1931→1974 no [0.2](../0-2-fundamentos.md). No boosting são **sete anos** — pergunta em 1988, resposta em 1990, algoritmo em 1995.
 >
 > A diferença não é a época nem o computador. É que aqui **o aperto já estava formulado como uma pergunta formal precisa**. Quando a pergunta é vaga, a espera é longa; quando é exata, a resposta traz o método junto. Isso é uma dica prática sobre como gastar o seu tempo: afiar a pergunta costuma render mais que procurar a solução.
 

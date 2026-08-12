@@ -138,7 +138,7 @@ Complete a regra do título num gráfico de apresentação:
 ## Síntese — o que levar
 
 - A forma segue a **pergunta**: comparação → barra; evolução → linha; distribuição → histograma/boxplot; relação → dispersão; composição → às vezes pizza, quase sempre barra.
-- A **barra de Playfair nasceu de uma falta de dados** — um só ano, sem eixo do tempo. Restrição material gera forma nova, aqui como no [18](iii-1-neuronio-artificial.md) e no [23](ii-6-analise-multidimensional.md).
+- A **barra de Playfair nasceu de uma falta de dados** — um só ano, sem eixo do tempo. Restrição material gera forma nova, aqui como no [III.1](iii-1-neuronio-artificial.md) e no [II.6](ii-6-analise-multidimensional.md).
 - **Comprimento se compara melhor que ângulo.** É a razão técnica de a barra vencer a pizza quase sempre.
 - **Barra parte do zero.** Eixo truncado não falsifica número nenhum e ainda assim muda a conclusão — é a distorção mais comum e a mais fácil de flagrar.
 - Tinta sem informação compete com o dado. Cor tem três empregos (destacar, ordenar, categorizar) e nunca deve ser o **único** sinal — daltonismo e impressão em cinza.

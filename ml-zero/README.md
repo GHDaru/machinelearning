@@ -166,12 +166,12 @@ Cada notebook roda **na sua máquina e no Colab**, sem alterar nada: a primeira 
 
 | Notebook | Capítulo | O que você faz |
 |---|---|---|
-| [`etapa-00/linha_de_base.ipynb`](etapa-00/linha_de_base.ipynb) | [01](../livro/0-2-fundamentos.md) | descobre por que 81% de acurácia pode ser péssimo |
-| [`etapa-02/vazamento.ipynb`](etapa-02/vazamento.ipynb) | [02](../livro/capitulos/i-3-dados.md) | os três vazamentos, e as divisões que os evitam |
-| [`etapa-05/regressao_limonada.ipynb`](etapa-05/regressao_limonada.ipynb) | [05](../livro/capitulos/ii-2-modelos-lineares.md) e [06](../livro/capitulos/ii-4-otimizacao.md) | o coeficiente que diz para aumentar o preço — e por que ele mente |
-| [`etapa-07/arvores_ensembles.ipynb`](etapa-07/arvores_ensembles.ipynb) | [07](../livro/capitulos/ii-5-arvores-ensembles.md) | quatro modelos no mesmo dado, e a vantagem do ensemble encolhendo com ruído |
-| [`etapa-21/exploratoria_limonada.ipynb`](etapa-21/exploratoria_limonada.ipynb) | [21](../livro/capitulos/i-4-analise-exploratoria.md) | tipo, nulidade, posição, separatrizes, histograma e boxplot — e as duas colunas em que a régua de outlier engana |
-| [`etapa-18/neuronio_mp.ipynb`](etapa-18/neuronio_mp.ipynb) | [18](../livro/capitulos/iii-1-neuronio-artificial.md) | põe os pesos à mão, vê o perceptron achá-los, e trava no XOR |
+| [`etapa-00/linha_de_base.ipynb`](etapa-00/linha_de_base.ipynb) | [0.2](../livro/0-2-fundamentos.md) | descobre por que 81% de acurácia pode ser péssimo |
+| [`etapa-02/vazamento.ipynb`](etapa-02/vazamento.ipynb) | [I.3](../livro/capitulos/i-3-dados.md) | os três vazamentos, e as divisões que os evitam |
+| [`etapa-05/regressao_limonada.ipynb`](etapa-05/regressao_limonada.ipynb) | [II.2](../livro/capitulos/ii-2-modelos-lineares.md) e [II.4](../livro/capitulos/ii-4-otimizacao.md) | o coeficiente que diz para aumentar o preço — e por que ele mente |
+| [`etapa-07/arvores_ensembles.ipynb`](etapa-07/arvores_ensembles.ipynb) | [II.5](../livro/capitulos/ii-5-arvores-ensembles.md) | quatro modelos no mesmo dado, e a vantagem do ensemble encolhendo com ruído |
+| [`etapa-21/exploratoria_limonada.ipynb`](etapa-21/exploratoria_limonada.ipynb) | [I.4](../livro/capitulos/i-4-analise-exploratoria.md) | tipo, nulidade, posição, separatrizes, histograma e boxplot — e as duas colunas em que a régua de outlier engana |
+| [`etapa-18/neuronio_mp.ipynb`](etapa-18/neuronio_mp.ipynb) | [III.1](../livro/capitulos/iii-1-neuronio-artificial.md) | põe os pesos à mão, vê o perceptron achá-los, e trava no XOR |
 
 ### Rodar na sua máquina
 

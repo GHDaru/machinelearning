@@ -16,7 +16,7 @@
 
 Se cada capítulo declara a data em que fotografou o estado da arte, alguém precisa manter o placar — anotar o que foi previsto, o que se confirmou e o que se refutou.
 
-É também o capítulo que faz a pergunta desconfortável: **o que, do que você acabou de ler, tem prazo de validade curto?** A resposta honesta tem duas metades. Os fundamentos — generalização, viés e variância, o custo do erro, a separação entre quem produz e quem avalia — envelhecem devagar; alguns têm quase um século e continuam de pé. **Quase todo o resto envelhece rápido**, e o capítulo [12](iii-6-modelos-de-fundacao.md) envelhece enquanto você lê.
+É também o capítulo que faz a pergunta desconfortável: **o que, do que você acabou de ler, tem prazo de validade curto?** A resposta honesta tem duas metades. Os fundamentos — generalização, viés e variância, o custo do erro, a separação entre quem produz e quem avalia — envelhecem devagar; alguns têm quase um século e continuam de pé. **Quase todo o resto envelhece rápido**, e o capítulo [III.6](iii-6-modelos-de-fundacao.md) envelhece enquanto você lê.
 
 ## O que os especialistas erraram — e como o erro chega até você
 
@@ -46,7 +46,7 @@ O documento existe, e é o **MIT AI Memo 100, "The Summer Vision Project", de 7 
 >
 > **Não é o conteúdo da previsão que apodrece primeiro — é a procedência.** A data escorrega, o autor troca, o contexto some, e o que sobra é uma frase boa demais para o slide.
 >
-> É o mesmo padrão que o [capítulo IV.1](iv-1-nao-supervisionado.md) encontrou em "cerveja e fraldas", que o [13](iv-2-reforco.md) encontrou na origem do nome *dynamic programming*, e que o [23](ii-6-analise-multidimensional.md) encontrou no batismo do OLAP. **Quando um detalhe é bom demais para o slide, ele foi otimizado para o slide.**
+> É o mesmo padrão que o [capítulo IV.1](iv-1-nao-supervisionado.md) encontrou em "cerveja e fraldas", que o [IV.2](iv-2-reforco.md) encontrou na origem do nome *dynamic programming*, e que o [II.6](ii-6-analise-multidimensional.md) encontrou no batismo do OLAP. **Quando um detalhe é bom demais para o slide, ele foi otimizado para o slide.**
 >
 > Por isso o placar deste livro registra, para cada afirmação datada, **onde ela foi publicada e por quem** — é isso que se perde antes do resto.
 
@@ -81,12 +81,12 @@ Você lê num post: *"Estudos mostram que modelos de linguagem já superam médi
 
 | Envelhece devagar | Envelhece rápido |
 |---|---|
-| generalização e a hipótese de mesma distribuição ([01](../0-2-fundamentos.md)) | qual arquitetura é o estado da arte |
-| o custo do erro e o limiar como decisão de negócio ([04](ii-1-avaliacao.md), [25](ii-8-do-modelo-a-decisao.md)) | números de desempenho em benchmark |
-| vazamento e as divisões que respeitam a estrutura ([02](i-3-dados.md)) | qual biblioteca usar |
-| a representação como teto do que se pode aprender ([03](i-6-representacao.md)) | o tamanho de modelo considerado grande |
-| a incompatibilidade entre definições de justiça ([14](v-1-interpretabilidade-justica.md)) | o que um modelo de fundação consegue fazer ([12](iii-6-modelos-de-fundacao.md)) |
-| o diagnóstico do gradiente como produto ([26](iii-3-treinar-redes-profundas.md)) | qual o remédio da vez para treinar profundo |
+| generalização e a hipótese de mesma distribuição ([0.2](../0-2-fundamentos.md)) | qual arquitetura é o estado da arte |
+| o custo do erro e o limiar como decisão de negócio ([II.1](ii-1-avaliacao.md), [II.8](ii-8-do-modelo-a-decisao.md)) | números de desempenho em benchmark |
+| vazamento e as divisões que respeitam a estrutura ([I.3](i-3-dados.md)) | qual biblioteca usar |
+| a representação como teto do que se pode aprender ([I.6](i-6-representacao.md)) | o tamanho de modelo considerado grande |
+| a incompatibilidade entre definições de justiça ([V.1](v-1-interpretabilidade-justica.md)) | o que um modelo de fundação consegue fazer ([III.6](iii-6-modelos-de-fundacao.md)) |
+| o diagnóstico do gradiente como produto ([III.3](iii-3-treinar-redes-profundas.md)) | qual o remédio da vez para treinar profundo |
 
 Há uma regularidade nessa tabela, e ela é útil: **o que envelhece devagar é diagnóstico; o que envelhece rápido é remédio.** É a lição que o capítulo III.3 tira de Hochreiter — o texto de 1991 mediu o problema e não o resolveu, e trinta e cinco anos depois o remédio mudou quatro vezes enquanto o diagnóstico ficou de pé.
 
