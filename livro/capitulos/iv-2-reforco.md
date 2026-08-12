@@ -178,8 +178,24 @@ Julgue: este problema merece reforço, ou é supervisionado (ou otimização) di
 - *Reward hacking* não é anedota: o agente otimiza a recompensa **escrita**, não a pretendida.
 - **Fonte autêntica ≠ afirmação verdadeira.** O próprio Bellman é o caso-modelo.
 
+:::exercicio {"id":"reforco-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Explique a diferença entre aprender uma **função de valor** e aprender uma **política** diretamente, e dê uma situação concreta em que você preferiria cada uma.
+
+> **rubrica:** enuncia as duas perguntas que cada abordagem responde — valor responde "quanto vale estar aqui", política responde "o que fazer aqui" — e deixa claro que são portas opostas para o mesmo problema;
+> descreve como o método de valor **age**: ele aprende a previsão e escolhe a ação sendo guloso sobre ela, de modo que a política existe, mas é derivada e não aprendida;
+> dá ao menos uma situação concreta para cada escolha e justifica pela **estrutura do problema**, não por preferência — por exemplo, poucas ações discretas favorecem valor, e ação contínua ou política deliberadamente aleatória favorece política direta;
+> não trata as duas como etapas de um mesmo procedimento nem confunde a distinção com *on-policy* × *off-policy*, que é uma questão diferente: de qual comportamento se aprende, não do que se aprende
+> **porque:** O quarto critério é o que este exercício realmente persegue, porque as duas distinções aparecem no mesmo capítulo e se embaralham com facilidade. **Valor × política** responde *o que o método aprende*. **On-policy × off-policy** responde *sobre qual comportamento ele aprende*. São eixos independentes, e é perfeitamente possível combinar qualquer par.
+>
+> A situação concreta é o que separa quem entendeu de quem decorou. Onde as ações são poucas e discretas, calcular um valor por ação e pegar o máximo é natural e barato. Onde a ação é **contínua** — o ângulo de um leme, a dose de um medicamento —, esse máximo vira um problema de otimização a cada passo, e aprender a política diretamente evita o problema em vez de resolvê-lo repetidamente.
+>
+> Há um segundo caso que a boa resposta às vezes alcança: quando a política **ótima é aleatória**. Um método de valor guloso sempre escolhe a mesma ação no mesmo estado; se o problema exige imprevisibilidade — um jogo com adversário que aprende —, essa determinação é uma fraqueza que o método de valor não consegue expressar.
+> **volte para:** #fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move
+:::
+
 ## Verificação
 
 1. Descreva um problema do seu trabalho como MDP: quem é o agente, o que é o estado, quais são as ações e qual é a recompensa. Em seguida, diga qual das quatro peças foi mais difícil de definir — e por quê essa dificuldade é um sinal sobre o problema, não sobre você.
-2. Explique a diferença entre aprender uma função de valor e aprender uma política diretamente, e dê uma situação concreta em que você preferiria cada uma.
-3. Um colega propõe reforço para ajustar preços em tempo real num *e-commerce*. Que três perguntas você faz antes de concordar — e qual resposta faria você recusar a formulação?
+2. Um colega propõe reforço para ajustar preços em tempo real num *e-commerce*. Que três perguntas você faz antes de concordar — e qual resposta faria você recusar a formulação?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a primeira pede um problema que só você conhece, e a segunda se ganha na conversa em que você recusa a formulação.

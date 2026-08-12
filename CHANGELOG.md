@@ -19,13 +19,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   então `"aponta um mecanismo (A; B; C)"` virava **três critérios**. Como
   `correto = atendidos == total`, quem respondesse exatamente o que foi pedido
   — *um* mecanismo — falharia em dois. Atingia `ciclo-ciencia-de-dados-e5`, já
-  publicado. Gate novo: parêntese desbalanceado no critério quebra o build.
+  publicado. Gate novo: parêntese desbalanceado no critério quebra o build —
+  e ele **pegou o mesmo erro sendo cometido de novo**, uma hora depois, na
+  redação de um exercício novo. Um segundo gate (teto de 6 critérios) cobre a
+  variante que o parêntese não vê: lista com `;` sem parêntese nenhum, que
+  transformou "cite ao menos três" em oito exigências simultâneas.
 
 ### Adicionado — onda 3: a promessa dos objetivos
-- **Nove exercícios novos, 101 → 110.** Seis pagam objetivos que não tinham
-  cobrança nenhuma (D11: 20 → **14**); três fecham os órfãos abertos ao
+- **Vinte e um exercícios novos, 101 → 122.** Dezoito pagam objetivos que não
+  tinham cobrança nenhuma (**D11: 20 → 2**); três fecham os órfãos abertos ao
   reapontar exercícios mal mapeados — que o gate bidirecional da onda 1
   detectou no mesmo instante, como projetado.
+- **Os 2 órfãos restantes não são falta de exercício, e sim de conteúdo** (D16).
+  `v-2` declara "decidir entre lote e tempo real pelo requisito" e quem ensina
+  isso é o **`v-3`** — com a frase "escolhidas pelo requisito e não pelo gosto",
+  que é a redação do objetivo do outro capítulo. Escrever exercício ali seria
+  cobrar o que o capítulo não ensina; a saída é editorial, e ficou registrada.
 - **[ADR 0012](adr/0012-verificacao-como-superficie-corrigida.md) — a seção
   `## Verificação` vira superfície corrigida, uma pergunta por capítulo.** Três
   pareceres independentes (avaliação, arquitetura, professor com turma em

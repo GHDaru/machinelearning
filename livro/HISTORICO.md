@@ -25,7 +25,7 @@ Edição inteiramente de **conserto e cobrança**: nenhum capítulo novo, e o li
 
 **No conteúdo**
 
-- Exercícios: **96 → 110**. Quatorze cobrem objetivos que o livro declarava e não cobrava.
+- Exercícios: **96 → 122**. Dezoito cobrem objetivos que o livro declarava e não cobrava — a dívida caiu de 20 para **2**, e os dois que restam não são falta de exercício: são objetivos declarados em capítulos que não os ensinam.
 - **Exemplos numéricos trabalhados** entraram no corpo de quatro capítulos — antes existiam só dentro dos gabaritos, isto é, só para quem já tinha errado.
 - **Três laboratórios**: neurônio de McCulloch–Pitts, mínimos quadrados à mão, e exploração de variável sobre o conjunto da limonada.
 - A seção `## Verificação` começou a virar superfície corrigida, uma pergunta por capítulo ([ADR 0012](../adr/0012-verificacao-como-superficie-corrigida.md)), com rubrica de quatro critérios — o quarto sendo o **anti-critério**, o erro comum nomeado. As perguntas que ficam sem correção passaram a **dizer por que**.

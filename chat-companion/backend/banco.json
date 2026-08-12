@@ -1865,6 +1865,31 @@
    ]
   },
   {
+   "id": "analise-multidimensional-e4",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/ii-6-analise-multidimensional.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** O cubo já calcula, para cada loja, a média de vendas do mês e o total do trimestre. Você quer usar essas agregações como variáveis de um modelo que prevê a venda **da próxima semana** — sai de graça, já está pronto. Descreva a verificação que você faria **antes**, para não vazar o futuro para dentro do passado, e diga como a agregação teria de ser recalculada para servir ao modelo.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "É o ponto de encontro dos dois capítulos, e a armadilha é boa porque o atalho é genuinamente tentador: o cubo **já tem** o número, com desempenho que ninguém vai bater recalculando.\n\nO que ele não tem é a **assimetria temporal**. O cubo foi construído para responder ao analista, que olha o passado inteiro de uma vez e para quem \"média do mês\" significa o mês fechado. O modelo pergunta outra coisa — *o que se sabia naquele instante* — e a mesma célula, lida com essa pergunta, contém dias que ainda não tinham acontecido.\n\nRepare no terceiro critério, que é o que torna este erro caro: o vazamento **viaja dentro do atributo**. Dividir treino e teste corretamente não ajuda em nada, porque as duas partes carregam a mesma contaminação, e a validação confirma o resultado em vez de denunciá-lo. Só produção revela — e revela caro.",
+   "volte_para": "#do-cubo-ao-modelo",
+   "rubrica": "identifica que a agregação do cubo é calculada sobre o período **inteiro** — inclusive dias posteriores à data que a linha do modelo representa — e que isso coloca informação do futuro numa variável do passado;\npropõe a correção concreta: a agregação de cada linha só pode usar dados **até a data daquela linha** (janela que termina antes do alvo), o que significa recalcular por linha em vez de reaproveitar a célula do cubo;\nexplica por que o sintoma é enganoso — a métrica fica ótima, e fica ótima **também na validação**, porque o vazamento está dentro do atributo e acompanha o dado onde ele for;\nnão confunde o problema com o grão nem com desnormalização: reduzir o grão ou normalizar a tabela não conserta nada, porque o defeito é **temporal**, não estrutural",
+   "versoes": null,
+   "pagina": "ii-6-analise-multidimensional",
+   "titulo_capitulo": "II.6 — Análise Multidimensional",
+   "criterios": [
+    "identifica que a agregação do cubo é calculada sobre o período **inteiro** — inclusive dias posteriores à data que a linha do modelo representa — e que isso coloca informação do futuro numa variável do passado",
+    "propõe a correção concreta: a agregação de cada linha só pode usar dados **até a data daquela linha** (janela que termina antes do alvo), o que significa recalcular por linha em vez de reaproveitar a célula do cubo",
+    "explica por que o sintoma é enganoso — a métrica fica ótima, e fica ótima **também na validação**, porque o vazamento está dentro do atributo e acompanha o dado onde ele for",
+    "não confunde o problema com o grão nem com desnormalização: reduzir o grão ou normalizar a tabela não conserta nada, porque o defeito é **temporal**, não estrutural"
+   ]
+  },
+  {
    "id": "series-temporais-e1",
    "capitulo": 15,
    "arquivo": "livro/capitulos/ii-7-series-temporais.md",
@@ -1950,6 +1975,31 @@
    ]
   },
   {
+   "id": "series-temporais-e4",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/ii-7-series-temporais.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Um colega quer abandonar os modelos de série e resolver a previsão de demanda com um ensemble de árvores: monta janelas (vendas dos últimos 7, 14 e 28 dias), acrescenta dia da semana e feriado, e trata cada linha como uma observação independente. \"Virou tabular, agora é só treinar.\"\n\nDiga **em que condições essa transformação é legítima** e liste tudo que continua tendo de respeitar a ordem temporal mesmo depois de a tabela parecer comum.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A transformação é legítima e comum — quase toda previsão de demanda em produção é feita assim. O erro não está em fazê-la, e sim em **acreditar nela**: o formato da tabela mudou, o fenômeno não. As linhas continuam vindo de um processo em que ontem causa hoje, e continuam se sobrepondo, porque a janela de terça inclui quase os mesmos dias que a de quarta.\n\nDaí o quarto critério ser o que separa a boa resposta. Quem diz \"agora é tabular, posso embaralhar\" produz uma métrica excelente e inútil — o modelo estará prevendo dias cujos vizinhos ele já viu, que é o mesmo vazamento do começo do capítulo com outra roupa. O `train_test_split` aleatório não sabe que a tabela era uma série; **você** sabe, e é a única defesa.\n\nA condição do primeiro critério merece atenção: janelas carregam memória **curta**. Se o que decide a série é um ciclo anual e você deu 28 dias ao modelo, nenhuma árvore vai inventar o que a representação omitiu — é o teto do [capítulo I.6](i-6-representacao.md) aparecendo de novo, agora no tempo.",
+   "volte_para": "#quando-o-problema-temporal-vira-tabular",
+   "rubrica": "nomeia ao menos uma condição sob a qual a transformação é legítima — o horizonte é curto e fixo, as janelas contêm a memória que importa, e há exemplos suficientes para o modelo aprender o padrão sazonal em vez de recebê-lo pronto;\nlista os cuidados que sobrevivem à transformação: a divisão treino/teste continua sendo por tempo, a validação continua com origem móvel, e nenhuma estatística usada como atributo pode olhar além da data da linha;\nmantém a comparação com a **linha de base ingênua correta** — a tabela nova não dispensa o piso, e um ensemble que não bate a previsão ingênua sazonal não ganhou nada;\nnão conclui que \"virou tabular, então as regras de série sumiram\": a independência entre as linhas é aparência criada pela janela, não propriedade recuperada do problema",
+   "versoes": null,
+   "pagina": "ii-7-series-temporais",
+   "titulo_capitulo": "II.7 — Séries Temporais",
+   "criterios": [
+    "nomeia ao menos uma condição sob a qual a transformação é legítima — o horizonte é curto e fixo, as janelas contêm a memória que importa, e há exemplos suficientes para o modelo aprender o padrão sazonal em vez de recebê-lo pronto",
+    "lista os cuidados que sobrevivem à transformação: a divisão treino/teste continua sendo por tempo, a validação continua com origem móvel, e nenhuma estatística usada como atributo pode olhar além da data da linha",
+    "mantém a comparação com a **linha de base ingênua correta** — a tabela nova não dispensa o piso, e um ensemble que não bate a previsão ingênua sazonal não ganhou nada",
+    "não conclui que \"virou tabular, então as regras de série sumiram\": a independência entre as linhas é aparência criada pela janela, não propriedade recuperada do problema"
+   ]
+  },
+  {
    "id": "do-modelo-a-decisao-e1",
    "capitulo": 16,
    "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
@@ -2032,6 +2082,31 @@
     "NÃO recomenda lançar como está",
     "propõe ao menos uma ação concreta — reponderar/coletar dados do subgrupo, usar o modelo só como apoio com revisão humana, ou restringir o escopo declarando a limitação",
     "menciona a consequência para pessoas reais, não só a métrica"
+   ]
+  },
+  {
+   "id": "do-modelo-a-decisao-e4",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Seu modelo novo teve AUC de 0,91 contra 0,89 do atual, e a diferença **não** é maior que o ruído: os intervalos se sobrepõem. Você tem cinco minutos com a diretoria, que quer saber se troca ou não.\n\nEscreva o que você diria. A dificuldade é dupla: comunicar um empate estatístico a quem espera um vencedor, **sem** esconder a incerteza e **sem** transformar a conversa numa aula de estatística.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O quarto critério é o exercício inteiro, porque existem duas maneiras de trair o rigor e elas parecem opostas. **Arredondar para vitória** — \"o novo deu 0,91 contra 0,89\" — é a mentira por omissão que a diretoria não tem como detectar. **Refugiar-se no \"inconclusivo\"** parece honestidade, e é a outra falha: quem tem os dados e não recomenda transferiu a decisão para quem tem menos informação do que você.\n\nA saída é a que o capítulo vinha construindo: quando o desempenho empata, **a decisão não é de desempenho**. Ela passa a ser de custo, de risco e de operação — e essas são exatamente as perguntas que a diretoria sabe responder melhor do que você. Comunicar o empate direito é o que devolve a decisão para o lugar certo, com a informação certa.\n\nRepare no que **não** entra em cinco minutos: a divisão, a busca de hiperparâmetros, o teste usado para o intervalo. Nada disso é escondido — está no relatório, na parte de protocolo. Adaptar é escolher o que cabe, e a incerteza cabe sempre; o método, quase nunca.",
+   "volte_para": "#apresentar-sem-trair-o-rigor",
+   "rubrica": "comunica o resultado em consequência, não em métrica — o que muda no número de casos encontrados ou perdidos por período, e não \"AUC de 0,91\";\ndiz com todas as letras que a diferença **não se distingue do ruído**, e traduz isso em linguagem de decisão (\"os dois modelos são indistinguíveis com o que medimos\") em vez de omitir ou de expor o intervalo de confiança como se fosse autoexplicativo;\ndesloca a decisão para os critérios que **de fato** desempatam quando o desempenho empata — custo de operação, complexidade, interpretabilidade, esforço de manutenção, risco de mudança — e recomenda um caminho, em vez de devolver a dúvida para a mesa;\nnão vende o empate como vitória (\"o novo é melhor\") nem se refugia no tecnicismo (\"estatisticamente inconclusivo\") para não recomendar nada",
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão",
+   "criterios": [
+    "comunica o resultado em consequência, não em métrica — o que muda no número de casos encontrados ou perdidos por período, e não \"AUC de 0,91\"",
+    "diz com todas as letras que a diferença **não se distingue do ruído**, e traduz isso em linguagem de decisão (\"os dois modelos são indistinguíveis com o que medimos\") em vez de omitir ou de expor o intervalo de confiança como se fosse autoexplicativo",
+    "desloca a decisão para os critérios que **de fato** desempatam quando o desempenho empata — custo de operação, complexidade, interpretabilidade, esforço de manutenção, risco de mudança — e recomenda um caminho, em vez de devolver a dúvida para a mesa",
+    "não vende o empate como vitória (\"o novo é melhor\") nem se refugia no tecnicismo (\"estatisticamente inconclusivo\") para não recomendar nada"
    ]
   },
   {
@@ -2241,6 +2316,31 @@
    ]
   },
   {
+   "id": "redes-neurais-e4",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Explique backpropagation a alguém que **conhece a regra da cadeia** mas nunca viu uma rede. Diga o que é o passo para frente, o que é o passo para trás, e — a parte que decide — **onde exatamente está o reaproveitamento** que torna o custo viável.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O quarto critério existe porque a resposta mais comum é verdadeira e vazia. \"É a regra da cadeia aplicada à rede\" está certo, e não explica por que isso foi um acontecimento: a regra da cadeia é do século XVII, e as redes ficaram intratáveis por décadas mesmo com ela disponível.\n\nO que backpropagation acrescenta é **ordem de cálculo**. Aplicando a regra da cadeia ingenuamente — para cada peso, percorrer o caminho dele até a saída — o mesmo produto é recalculado incontáveis vezes, e o custo cresce com o número de pesos multiplicado pela profundidade. Propagando de trás para frente, o gradiente da camada *k* já traz condensado tudo o que vem depois dela, e o custo do passo para trás fica **da mesma ordem** do passo para frente.\n\nNote o que a boa explicação torna óbvio de graça: **por que a memória cresce com a profundidade**. Guardar os valores intermediários é o preço do reaproveitamento, e é a razão de o tamanho do lote esbarrar na placa de vídeo — um fato de engenharia que cai direto desta derivação.",
+   "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
+   "rubrica": "apresenta backpropagation como aplicação da regra da cadeia a uma composição de funções, e não como um algoritmo à parte que se decora;\ndescreve o passo para frente guardando os valores intermediários, e diz **por que** eles precisam ser guardados — são eles que as derivadas do passo para trás consomem;\nlocaliza o reaproveitamento: o gradiente de uma camada é calculado a partir do gradiente da camada seguinte, de modo que cada derivada parcial é computada **uma vez** e reutilizada por tudo que está atrás dela;\nnão deixa a explicação parar em \"é a regra da cadeia\": sem dizer o que seria o custo **sem** o reaproveitamento — recalcular o caminho inteiro para cada peso —, a explicação não mostrou o que backpropagation acrescenta",
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
+   "criterios": [
+    "apresenta backpropagation como aplicação da regra da cadeia a uma composição de funções, e não como um algoritmo à parte que se decora",
+    "descreve o passo para frente guardando os valores intermediários, e diz **por que** eles precisam ser guardados — são eles que as derivadas do passo para trás consomem",
+    "localiza o reaproveitamento: o gradiente de uma camada é calculado a partir do gradiente da camada seguinte, de modo que cada derivada parcial é computada **uma vez** e reutilizada por tudo que está atrás dela",
+    "não deixa a explicação parar em \"é a regra da cadeia\": sem dizer o que seria o custo **sem** o reaproveitamento — recalcular o caminho inteiro para cada peso —, a explicação não mostrou o que backpropagation acrescenta"
+   ]
+  },
+  {
    "id": "treinar-redes-profundas-e1",
    "capitulo": 19,
    "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
@@ -2363,6 +2463,31 @@
    ]
   },
   {
+   "id": "treinar-redes-profundas-e5",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Você usa dropout, normalização em lote e aumento de dados no mesmo treino. Para **cada um**, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso — **sem recorrer à justificativa que veio no artigo original**.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A proibição do enunciado é o exercício. Estes três componentes entram em quase todo treino por hábito, e o hábito se justifica repetindo a história que veio no artigo — o que este capítulo mostrou ser exatamente o que pode cair sem derrubar o método.\n\nTrocar a narrativa pela medição é barato e quase ninguém faz: **um treino com e sem, tudo o mais igual**. O que custa é saber *o que olhar*, e é aí que o terceiro critério pega a resposta rasa. \"Ver se melhora a acurácia\" não distingue nada — se o dropout está ajudando, o sinal é o **vão** entre treino e validação encolhendo; se a normalização está ajudando, o sinal aparece na convergência e na tolerância à taxa de aprendizado, e pode vir **sem** ganho de acurácia final.\n\nE há a consequência que só aparece medindo: os três podem se sobrepor. Aumento de dados forte já reduz o vão, e o dropout por cima pode custar capacidade sem devolver generalização. Quem herdou os três de um tutorial nunca descobre isso, porque nunca rodou o treino sem um deles.",
+   "volte_para": "#funciona-e-sabemos-por-que-sao-duas-afirmacoes",
+   "rubrica": "separa os alvos: dropout e aumento de dados atacam generalização (o vão entre treino e validação), enquanto a normalização em lote atua sobre a otimização — e não trata os três como \"regularização\" indistinta;\npropõe, para cada um, uma medição concreta e comparável — treinar com e sem o componente, tudo o mais igual, e olhar a quantidade que ele deveria mover;\ndiz **qual quantidade** deve mudar em cada caso, e não apenas \"ver se a acurácia melhora\": o vão treino–validação para dropout e aumento, a velocidade de convergência e a tolerância à taxa de aprendizado para a normalização;\nnão usa a explicação do artigo como evidência: a batch norm ajuda e a história do *internal covariate shift* não se sustenta, então justificar a escolha pelo mecanismo narrado é apoiar-se na parte mais frágil da evidência",
+   "versoes": null,
+   "pagina": "iii-3-treinar-redes-profundas",
+   "titulo_capitulo": "III.3 — Treinar Redes Profundas",
+   "criterios": [
+    "separa os alvos: dropout e aumento de dados atacam generalização (o vão entre treino e validação), enquanto a normalização em lote atua sobre a otimização — e não trata os três como \"regularização\" indistinta",
+    "propõe, para cada um, uma medição concreta e comparável — treinar com e sem o componente, tudo o mais igual, e olhar a quantidade que ele deveria mover",
+    "diz **qual quantidade** deve mudar em cada caso, e não apenas \"ver se a acurácia melhora\": o vão treino–validação para dropout e aumento, a velocidade de convergência e a tolerância à taxa de aprendizado para a normalização",
+    "não usa a explicação do artigo como evidência: a batch norm ajuda e a história do *internal covariate shift* não se sustenta, então justificar a escolha pelo mecanismo narrado é apoiar-se na parte mais frágil da evidência"
+   ]
+  },
+  {
    "id": "visao-e1",
    "capitulo": 20,
    "arquivo": "livro/capitulos/iii-4-visao.md",
@@ -2448,6 +2573,31 @@
    ]
   },
   {
+   "id": "visao-e4",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/iii-4-visao.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Você vai contar piscinas em **imagens de satélite** de uma cidade, para uma prefeitura. As imagens vêm de passagens em diferentes meses e horas do dia; o recorte de cada bairro é arbitrário.\n\n**Projete a aumentação de dados** deste problema: liste as transformações que entram, as que ficam de fora, e justifique cada decisão pelo **processo que gera as imagens** — não pelo que a biblioteca oferece.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Este problema foi escolhido porque **inverte** o caso da linha de produção. Lá, a câmera é fixa e a peça assenta quase sempre igual: rotação grande e espelhamento inventam imagens que a linha nunca produz. Aqui, vista de cima, **girar é livre** — não há \"em pé\" numa piscina vista do alto, e nenhuma orientação é privilegiada. A mesma transformação é errada num domínio e obrigatória no outro.\n\nÉ por isso que aumentação é **modelagem do domínio**, e não uma lista. A pergunta não é \"que transformações existem\", é \"**o que de fato varia no processo que gera minhas imagens?**\". Meses e horas diferentes variam iluminação e sombra; a órbita não varia perspectiva. Aumentar o que não varia gasta capacidade construindo invariância que ninguém pediu — e capacidade gasta assim sai do que importa.\n\nO quarto critério pega o modo de falha mais comum entre quem estudou o capítulo: repetir a conclusão do exemplo anterior em vez de refazer o raciocínio. A regra é transportável; a lista, não.",
+   "volte_para": "#transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz",
+   "rubrica": "inclui transformações justificadas pela variação real deste processo — rotação em qualquer ângulo e espelhamento, porque vista de cima não existe orientação canônica, e variação de brilho, contraste e sombra, porque as passagens são em meses e horas diferentes;\nexclui ao menos uma transformação com justificativa de domínio, e não de biblioteca — por exemplo, distorção de perspectiva ou mudança forte de escala, que a órbita e a altitude fixas nunca produzem;\naplica a regra do **rótulo preservado** e verifica-a caso a caso: se a transformação pudesse fazer uma piscina deixar de ser piscina (ou um telhado azul virar uma), ela não entra;\nnão copia a receita de um domínio para outro: a resposta que descarta rotação \"porque objetos têm orientação natural\" está aplicando o caso da fotografia terrestre a imagens de nadir, onde ele não vale",
+   "versoes": null,
+   "pagina": "iii-4-visao",
+   "titulo_capitulo": "III.4 — Visão Computacional",
+   "criterios": [
+    "inclui transformações justificadas pela variação real deste processo — rotação em qualquer ângulo e espelhamento, porque vista de cima não existe orientação canônica, e variação de brilho, contraste e sombra, porque as passagens são em meses e horas diferentes",
+    "exclui ao menos uma transformação com justificativa de domínio, e não de biblioteca — por exemplo, distorção de perspectiva ou mudança forte de escala, que a órbita e a altitude fixas nunca produzem",
+    "aplica a regra do **rótulo preservado** e verifica-a caso a caso: se a transformação pudesse fazer uma piscina deixar de ser piscina (ou um telhado azul virar uma), ela não entra",
+    "não copia a receita de um domínio para outro: a resposta que descarta rotação \"porque objetos têm orientação natural\" está aplicando o caso da fotografia terrestre a imagens de nadir, onde ele não vale"
+   ]
+  },
+  {
    "id": "sequencias-linguagem-e1",
    "capitulo": 21,
    "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
@@ -2530,6 +2680,31 @@
     "aponta que o caminho entre duas posições distantes passa de muitos passos para um, o que é uma mudança de topologia do gradiente, não de tamanho de memória",
     "reconhece o custo: comparações quadráticas no comprimento, contra custo linear da recorrência",
     "afirma corretamente que 2017 removeu a **recorrência** (o hospedeiro), mantendo a atenção que já existia desde 2014, e que o motivo declarado foi paralelismo/tempo de treino"
+   ]
+  },
+  {
+   "id": "sequencias-linguagem-e4",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "aberta",
+   "objetivo": "O1",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Um sistema registra, para cada sessão de um site, a lista de páginas visitadas em ordem. Um colega monta a tabela com uma linha por visita — sessão, página, tempo na página — e treina um modelo para prever se a sessão terminará em compra, tratando cada linha como observação independente.\n\nExplique, **sem usar exemplo de texto**, por que tratar esses registros como independentes destrói informação, e diga **exatamente o que se perde** ao embaralhar a ordem.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A premissa de independência é a mais silenciosa do livro: ela nunca é declarada no código, e quebrá-la não produz erro nenhum. O modelo treina, a métrica sai, e o pipeline não reclama.\n\nO que se perde é a informação **relacional**. Cada linha, isolada, é verdadeira; o que desapareceu foi o que uma linha diz sobre a seguinte. Por isso o quarto critério é o que separa a boa resposta: acrescentar `posicao = 3` informa *onde* a página estava, e não que a página anterior era o carrinho. A dependência é entre observações, e uma coluna vive dentro de uma observação.\n\nNote o que a boa resposta prepara sem saber: é exatamente esta lacuna que a recorrência tenta preencher com um estado que atravessa os passos, e que a atenção preenche deixando cada posição olhar diretamente para as outras. Quem entendeu o que a tabela apagou já entendeu o que as duas arquiteturas foram inventadas para recuperar.",
+   "volte_para": "#o-problema-a-ordem-e-informacao-e-a-memoria-se-dissolve",
+   "rubrica": "nomeia informação que existe **entre** os registros e não dentro de nenhum deles — a sequência em que as páginas apareceram, e o fato de uma página ter vindo antes ou depois de outra;\ndá ao menos um caso concreto em que a mesma coleção de páginas com ordens diferentes significa coisas diferentes — carrinho → pagamento é compra em curso, e pagamento → carrinho é desistência ou erro;\nexplica a consequência técnica: o modelo passa a estimar uma probabilidade **média por página**, e nenhuma quantidade de dados recupera a informação que a tabela apagou, porque ela não está mais lá;\nnão reduz o problema a \"faltou uma variável de ordem\": acrescentar o índice da página como coluna dá ao modelo o número, não a **dependência** entre as linhas — a premissa de independência continua violada",
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem",
+   "criterios": [
+    "nomeia informação que existe **entre** os registros e não dentro de nenhum deles — a sequência em que as páginas apareceram, e o fato de uma página ter vindo antes ou depois de outra",
+    "dá ao menos um caso concreto em que a mesma coleção de páginas com ordens diferentes significa coisas diferentes — carrinho → pagamento é compra em curso, e pagamento → carrinho é desistência ou erro",
+    "explica a consequência técnica: o modelo passa a estimar uma probabilidade **média por página**, e nenhuma quantidade de dados recupera a informação que a tabela apagou, porque ela não está mais lá",
+    "não reduz o problema a \"faltou uma variável de ordem\": acrescentar o índice da página como coluna dá ao modelo o número, não a **dependência** entre as linhas — a premissa de independência continua violada"
    ]
   },
   {
@@ -2619,6 +2794,31 @@
    ]
   },
   {
+   "id": "modelos-de-fundacao-e4",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Um colega diz que \"RAG é só colocar os documentos no prompt\". Aponte **três compromissos de arquitetura** que essa frase esconde, e diga qual deles costuma aparecer primeiro em produção.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A frase do colega é atraente porque descreve corretamente o que se **vê**: no fim, há mesmo documentos dentro de um prompt. O que ela esconde é tudo que decide **quais** documentos, e essa é a parte que se projeta, se versiona e quebra.\n\nO quarto critério persegue o atalho da moda. Janelas de contexto maiores fazem parecer que o problema evaporou — basta jogar tudo lá dentro. Mas o corte continua existindo (agora com trechos maiores), a recuperação continua decidindo a ordem, o custo por chamada cresce com o que você enfiou, e nada disso resolve o dia em que a fonte muda e o índice não.\n\nE é por isso que o compromisso que aparece primeiro raramente é o que se estuda primeiro. Fragmentação e similaridade são o que se lê nos tutoriais; **atualização** e **o que responder quando não há resposta** são o que aparece na segunda semana de produção, porque nenhum dos dois tem como se manifestar num teste feito com o índice recém-construído.",
+   "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
+   "rubrica": "identifica ao menos três decisões que são de arquitetura, e não de redação de prompt — como o documento é partido em trechos e de que tamanho, qual índice recupera e por qual critério de similaridade, quantos trechos entram e o que fazer quando não cabem, como o conteúdo é atualizado quando a fonte muda, ou o que o sistema responde quando a recuperação não traz nada relevante;\nmostra que cada compromisso tem **consequência mensurável**, e não é preferência de estilo: o corte errado parte a frase que continha a resposta, e o índice errado devolve o documento parecido em vez do documento certo;\naponta um que aparece primeiro em produção e **justifica** a escolha pela dinâmica do sistema real, e não por opinião — tipicamente a atualização do conteúdo ou o comportamento quando nada relevante é recuperado, porque os dois são invisíveis nos testes e inevitáveis no uso;\nnão reduz o problema a tamanho de janela de contexto: \"cabe mais texto agora\" muda um dos compromissos e não elimina nenhum dos outros",
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos",
+   "criterios": [
+    "identifica ao menos três decisões que são de arquitetura, e não de redação de prompt — como o documento é partido em trechos e de que tamanho, qual índice recupera e por qual critério de similaridade, quantos trechos entram e o que fazer quando não cabem, como o conteúdo é atualizado quando a fonte muda, ou o que o sistema responde quando a recuperação não traz nada relevante",
+    "mostra que cada compromisso tem **consequência mensurável**, e não é preferência de estilo: o corte errado parte a frase que continha a resposta, e o índice errado devolve o documento parecido em vez do documento certo",
+    "aponta um que aparece primeiro em produção e **justifica** a escolha pela dinâmica do sistema real, e não por opinião — tipicamente a atualização do conteúdo ou o comportamento quando nada relevante é recuperado, porque os dois são invisíveis nos testes e inevitáveis no uso",
+    "não reduz o problema a tamanho de janela de contexto: \"cabe mais texto agora\" muda um dos compromissos e não elimina nenhum dos outros"
+   ]
+  },
+  {
    "id": "nao-supervisionado-e1",
    "capitulo": 23,
    "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
@@ -2701,6 +2901,31 @@
     "aponta ao menos uma verificação de estabilidade (reamostrar/dividir os dados, trocar a semente, comparar partições)",
     "propõe ao menos um critério externo — uma variável que não entrou no agrupamento e que os grupos deveriam predizer",
     "não se limita a sugerir \"usar silhueta\" como se isso resolvesse"
+   ]
+  },
+  {
+   "id": "nao-supervisionado-e4",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Você reduziu 200 colunas a 10 componentes principais que retêm **95% da variância**, e o modelo seguinte **piorou**. Explique como isso é possível, se você \"quase não perdeu informação\".",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A frase \"quase não perdi informação\" é onde o erro mora, porque ela troca silenciosamente o significado de *informação*. O PCA maximiza variância das entradas; o modelo precisa de informação **sobre o alvo**. São grandezas diferentes, e nada garante que andem juntas.\n\nO caso limite deixa isso desconfortável: imagine uma coluna que varia pouquíssimo — um marcador raro que aparece em 2% dos casos — e que é o **único** preditor real do alvo. Ela contribui quase nada para a variância total, cai nos 5% descartados, e o relatório continua dizendo 95%. O número está certo; a conclusão que se tira dele é que estava errada.\n\nÉ o mesmo aviso do capítulo I.6 aparecendo do outro lado: **a representação decide o teto**. Aqui o teto não foi baixado por descuido, mas por um critério explícito que ninguém percebeu ser o critério errado — e é essa a razão de o capítulo insistir que redução de dimensionalidade não é uma etapa neutra de limpeza.",
+   "volte_para": "#pca-variancia-como-criterio-e-o-que-se-perde",
+   "rubrica": "identifica o que os 95% medem — variância **das entradas**, calculada sem olhar o alvo uma única vez — e conclui que reter variância não é o mesmo que reter poder preditivo;\ndescreve o mecanismo concreto: o sinal que importava para o alvo podia estar numa direção de variância pequena, e foi justamente ela que os 5% descartados levaram embora;\naponta ao menos um agravante do procedimento — a dependência de escala, que faz colunas em unidades grandes dominarem os componentes, ou a perda de interpretabilidade, que impede diagnosticar qual atributo sumiu;\nnão atribui a piora ao número de componentes: subir de 10 para 20 pode devolver o sinal por acaso, e continuar sem responder por que uma direção de variância baixa carregava o que importava",
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado",
+   "criterios": [
+    "identifica o que os 95% medem — variância **das entradas**, calculada sem olhar o alvo uma única vez — e conclui que reter variância não é o mesmo que reter poder preditivo",
+    "descreve o mecanismo concreto: o sinal que importava para o alvo podia estar numa direção de variância pequena, e foi justamente ela que os 5% descartados levaram embora",
+    "aponta ao menos um agravante do procedimento — a dependência de escala, que faz colunas em unidades grandes dominarem os componentes, ou a perda de interpretabilidade, que impede diagnosticar qual atributo sumiu",
+    "não atribui a piora ao número de componentes: subir de 10 para 20 pode devolver o sinal por acaso, e continuar sem responder por que uma direção de variância baixa carregava o que importava"
    ]
   },
   {
@@ -2789,6 +3014,31 @@
    ]
   },
   {
+   "id": "reforco-e4",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Explique a diferença entre aprender uma **função de valor** e aprender uma **política** diretamente, e dê uma situação concreta em que você preferiria cada uma.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O quarto critério é o que este exercício realmente persegue, porque as duas distinções aparecem no mesmo capítulo e se embaralham com facilidade. **Valor × política** responde *o que o método aprende*. **On-policy × off-policy** responde *sobre qual comportamento ele aprende*. São eixos independentes, e é perfeitamente possível combinar qualquer par.\n\nA situação concreta é o que separa quem entendeu de quem decorou. Onde as ações são poucas e discretas, calcular um valor por ação e pegar o máximo é natural e barato. Onde a ação é **contínua** — o ângulo de um leme, a dose de um medicamento —, esse máximo vira um problema de otimização a cada passo, e aprender a política diretamente evita o problema em vez de resolvê-lo repetidamente.\n\nHá um segundo caso que a boa resposta às vezes alcança: quando a política **ótima é aleatória**. Um método de valor guloso sempre escolhe a mesma ação no mesmo estado; se o problema exige imprevisibilidade — um jogo com adversário que aprende —, essa determinação é uma fraqueza que o método de valor não consegue expressar.",
+   "volte_para": "#fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move",
+   "rubrica": "enuncia as duas perguntas que cada abordagem responde — valor responde \"quanto vale estar aqui\", política responde \"o que fazer aqui\" — e deixa claro que são portas opostas para o mesmo problema;\ndescreve como o método de valor **age**: ele aprende a previsão e escolhe a ação sendo guloso sobre ela, de modo que a política existe, mas é derivada e não aprendida;\ndá ao menos uma situação concreta para cada escolha e justifica pela **estrutura do problema**, não por preferência — por exemplo, poucas ações discretas favorecem valor, e ação contínua ou política deliberadamente aleatória favorece política direta;\nnão trata as duas como etapas de um mesmo procedimento nem confunde a distinção com *on-policy* × *off-policy*, que é uma questão diferente: de qual comportamento se aprende, não do que se aprende",
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço",
+   "criterios": [
+    "enuncia as duas perguntas que cada abordagem responde — valor responde \"quanto vale estar aqui\", política responde \"o que fazer aqui\" — e deixa claro que são portas opostas para o mesmo problema",
+    "descreve como o método de valor **age**: ele aprende a previsão e escolhe a ação sendo guloso sobre ela, de modo que a política existe, mas é derivada e não aprendida",
+    "dá ao menos uma situação concreta para cada escolha e justifica pela **estrutura do problema**, não por preferência — por exemplo, poucas ações discretas favorecem valor, e ação contínua ou política deliberadamente aleatória favorece política direta",
+    "não trata as duas como etapas de um mesmo procedimento nem confunde a distinção com *on-policy* × *off-policy*, que é uma questão diferente: de qual comportamento se aprende, não do que se aprende"
+   ]
+  },
+  {
    "id": "ia-simbolica-fuzzy-evolutiva-e1",
    "capitulo": 25,
    "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
@@ -2871,6 +3121,31 @@
     "recomenda uma rede bayesiana com estrutura elicitada dos especialistas, ou um sistema baseado em regras, e não a rede neural",
     "justifica pela explicabilidade por construção — o caminho no grafo ou o rastro de regras É a justificativa clínica exigida",
     "menciona ao menos um uso legítimo dos 60 casos, como avaliar o sistema ou estimar tabelas de probabilidade condicional"
+   ]
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e4",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Você tem um problema de escalonamento com **40 tarefas** e um simulador que leva **8 segundos** por avaliação. Um algoritmo genético é candidato razoável? Estime a **ordem de grandeza** do custo, diga o que você mediria antes de decidir, e qual linha de base o algoritmo precisaria bater.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A pergunta parece ser sobre algoritmos genéticos e é sobre **orçamento de avaliações**. Métodos evolutivos existem para buscar onde não há gradiente, e o preço é comprarem informação uma avaliação por vez, aos milhares. Onde a avaliação é barata, isso não custa nada; onde ela leva 8 segundos, o método herda o preço multiplicado.\n\nA conta importa mais do que a conclusão. `50 × 300 × 8 s ≈ 33 horas` de simulador puro no cenário otimista, e uma ordem de grandeza acima no realista — número que muda a conversa de \"vamos tentar\" para \"vamos paralelizar, aproximar o simulador, ou usar outra coisa\". Quem responde sem estimar não tem como saber de qual dos dois lados está.\n\nE o terceiro critério é o que quase sempre falta: **busca aleatória com o mesmo orçamento**. É a linha de base honesta, é trivial de implementar, e um genético que não a supera está pagando complexidade por nada. É o mesmo hábito que o capítulo [0.2](../0-2-fundamentos.md) cobra em modelos — só que aqui a linha de base é de busca, não de predição.",
+   "volte_para": "#evolutiva-buscar-onde-nao-existe-gradiente",
+   "rubrica": "faz a conta explicitamente — uma população de algumas dezenas por algumas centenas de gerações dá dezenas de milhares de avaliações, e a 8 segundos cada isso são semanas de simulador, não horas;\nconclui a partir do número, e não da reputação do método: o custo por avaliação é o que decide, e é ele que torna o genético caro **aqui**, não uma qualidade intrínseca do algoritmo;\npropõe o que medir antes de decidir — quanto uma busca aleatória com o mesmo orçamento de avaliações consegue, e se o simulador pode ser barateado, paralelizado ou substituído por uma aproximação;\nnomeia a **linha de base** que o algoritmo precisa bater: uma heurística de escalonamento conhecida ou a busca aleatória com orçamento igual — e reconhece que ganhar da linha de base é a condição, não a métrica final",
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva",
+   "criterios": [
+    "faz a conta explicitamente — uma população de algumas dezenas por algumas centenas de gerações dá dezenas de milhares de avaliações, e a 8 segundos cada isso são semanas de simulador, não horas",
+    "conclui a partir do número, e não da reputação do método: o custo por avaliação é o que decide, e é ele que torna o genético caro **aqui**, não uma qualidade intrínseca do algoritmo",
+    "propõe o que medir antes de decidir — quanto uma busca aleatória com o mesmo orçamento de avaliações consegue, e se o simulador pode ser barateado, paralelizado ou substituído por uma aproximação",
+    "nomeia a **linha de base** que o algoritmo precisa bater: uma heurística de escalonamento conhecida ou a busca aleatória com orçamento igual — e reconhece que ganhar da linha de base é a condição, não a métrica final"
    ]
   },
   {
@@ -2957,6 +3232,31 @@
     "identifica de forma concreta quem sofre o erro resultante — qual grupo, qual tipo de erro, qual consequência clínica",
     "propõe ao menos uma ação de procedimento (registrar a escolha, reportar por subgrupo, ouvir os afetados, atacar a prevalência na origem)",
     "NÃO afirma que existe uma resposta tecnicamente correta"
+   ]
+  },
+  {
+   "id": "interpretabilidade-justica-e4",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** Um colega mostra uma explicação SHAP de uma negativa de crédito e conclui: **\"foi a renda que causou a recusa\"**. Reescreva a frase de modo tecnicamente defensável, e diga o que se perde na versão original.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A frase do colega é o erro mais comum da área, e é fácil de cometer porque a saída do SHAP **parece** uma explicação causal: um atributo, um sinal, uma magnitude. O que ela de fato reporta é como a saída **deste modelo** se decompõe em relação a uma referência — uma afirmação sobre um artefato de software, não sobre a vida do solicitante.\n\nA distância entre as duas leituras aparece num teste mental simples: se a renda daquela pessoa fosse outra, a decisão mudaria? A atribuição não responde isso. Ela diz o quanto aquele valor de renda contribuiu para afastar a saída da referência **mantida a estrutura do modelo**, que pode ter aprendido a renda como substituta de outra coisa que ninguém mediu.\n\nO quarto critério evita o pêndulo. Quem entende a crítica pela primeira vez tende a concluir que a ferramenta não presta; ela presta, e a pergunta que ela responde é útil — sobretudo para auditar o modelo. O que não se pode é **entregar a resposta dela como se fosse resposta de outra pergunta**, especialmente para alguém que teve o crédito negado e vai agir com base no que você disse.",
+   "volte_para": "#lime-e-shap-sem-formula",
+   "rubrica": "a frase reescrita atribui o efeito **ao modelo**, e não ao mundo — algo como \"neste caso, a renda foi o atributo que mais empurrou a saída do modelo para baixo, em relação à referência usada\";\ntorna explícita a **referência**: a atribuição é sempre relativa a uma linha de base (a média das saídas, ou um conjunto de fundo escolhido), e mudar essa referência muda os números;\nnomeia o que a versão original afirma sem sustentação: uma relação **causal** no mundo, que exigiria intervir na renda e observar a decisão mudar — e a explicação não observou nada disso;\nnão conclui que SHAP é inútil ou \"não explica nada\": ele responde corretamente a uma pergunta bem definida sobre a saída do modelo, e o defeito está na pergunta que o colega achou ter feito",
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça",
+   "criterios": [
+    "a frase reescrita atribui o efeito **ao modelo**, e não ao mundo — algo como \"neste caso, a renda foi o atributo que mais empurrou a saída do modelo para baixo, em relação à referência usada\"",
+    "torna explícita a **referência**: a atribuição é sempre relativa a uma linha de base (a média das saídas, ou um conjunto de fundo escolhido), e mudar essa referência muda os números",
+    "nomeia o que a versão original afirma sem sustentação: uma relação **causal** no mundo, que exigiria intervir na renda e observar a decisão mudar — e a explicação não observou nada disso",
+    "não conclui que SHAP é inútil ou \"não explica nada\": ele responde corretamente a uma pergunta bem definida sobre a saída do modelo, e o defeito está na pergunta que o colega achou ter feito"
    ]
   },
   {

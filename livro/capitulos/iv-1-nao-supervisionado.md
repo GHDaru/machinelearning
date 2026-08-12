@@ -167,8 +167,24 @@ Escreva a crítica que você faria e o que proporia em seguida.
 - "Os clusters fazem sentido" não é evidência. Teste em dados embaralhados antes de acreditar em você mesmo.
 - Da tríade 05–08–18: crédito não segue descoberta nem publicação. **Vence quem escreve a palavra que pega.**
 
+:::exercicio {"id":"nao-supervisionado-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Você reduziu 200 colunas a 10 componentes principais que retêm **95% da variância**, e o modelo seguinte **piorou**. Explique como isso é possível, se você "quase não perdeu informação".
+
+> **rubrica:** identifica o que os 95% medem — variância **das entradas**, calculada sem olhar o alvo uma única vez — e conclui que reter variância não é o mesmo que reter poder preditivo;
+> descreve o mecanismo concreto: o sinal que importava para o alvo podia estar numa direção de variância pequena, e foi justamente ela que os 5% descartados levaram embora;
+> aponta ao menos um agravante do procedimento — a dependência de escala, que faz colunas em unidades grandes dominarem os componentes, ou a perda de interpretabilidade, que impede diagnosticar qual atributo sumiu;
+> não atribui a piora ao número de componentes: subir de 10 para 20 pode devolver o sinal por acaso, e continuar sem responder por que uma direção de variância baixa carregava o que importava
+> **porque:** A frase "quase não perdi informação" é onde o erro mora, porque ela troca silenciosamente o significado de *informação*. O PCA maximiza variância das entradas; o modelo precisa de informação **sobre o alvo**. São grandezas diferentes, e nada garante que andem juntas.
+>
+> O caso limite deixa isso desconfortável: imagine uma coluna que varia pouquíssimo — um marcador raro que aparece em 2% dos casos — e que é o **único** preditor real do alvo. Ela contribui quase nada para a variância total, cai nos 5% descartados, e o relatório continua dizendo 95%. O número está certo; a conclusão que se tira dele é que estava errada.
+>
+> É o mesmo aviso do capítulo I.6 aparecendo do outro lado: **a representação decide o teto**. Aqui o teto não foi baixado por descuido, mas por um critério explícito que ninguém percebeu ser o critério errado — e é essa a razão de o capítulo insistir que redução de dimensionalidade não é uma etapa neutra de limpeza.
+> **volte para:** #pca-variancia-como-criterio-e-o-que-se-perde
+:::
+
 ## Verificação
 
 1. Um colega diz que agrupamento é "classificação sem rótulo, só um pouco mais difícil". Explique por que a diferença é de natureza, e não de grau.
-2. Você reduziu 200 colunas a 10 componentes principais que retêm 95% da variância, e o modelo seguinte piorou. Como isso é possível, se você "quase não perdeu informação"?
-3. Sua diretoria quer saber quantos segmentos de cliente existem. Descreva o critério que você declararia **antes** de rodar qualquer algoritmo, e como você defenderia esse número se ele fosse contestado.
+2. Sua diretoria quer saber quantos segmentos de cliente existem. Descreva o critério que você declararia **antes** de rodar qualquer algoritmo, e como você defenderia esse número se ele fosse contestado.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a segunda se ganha defendendo o critério diante de quem o contesta, que é exatamente o que uma resposta escrita não simula.

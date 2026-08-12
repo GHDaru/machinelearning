@@ -170,8 +170,26 @@ Um colega diz: *"Atenção é só uma forma de dar mais memória ao modelo — n
 - O preço da atenção é **quadrático no comprimento**. Dobrar o texto quadruplica o custo — e é daí que vem o preço da janela de contexto no [capítulo III.6](iii-6-modelos-de-fundacao.md).
 - **Tokenização é uma decisão de representação**, não um detalhe de pré-processamento: define o vocabulário, o comprimento da sequência, o custo por frase e o que o modelo simplesmente não consegue enxergar.
 
+:::exercicio {"id":"sequencias-linguagem-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um sistema registra, para cada sessão de um site, a lista de páginas visitadas em ordem. Um colega monta a tabela com uma linha por visita — sessão, página, tempo na página — e treina um modelo para prever se a sessão terminará em compra, tratando cada linha como observação independente.
+
+Explique, **sem usar exemplo de texto**, por que tratar esses registros como independentes destrói informação, e diga **exatamente o que se perde** ao embaralhar a ordem.
+
+> **rubrica:** nomeia informação que existe **entre** os registros e não dentro de nenhum deles — a sequência em que as páginas apareceram, e o fato de uma página ter vindo antes ou depois de outra;
+> dá ao menos um caso concreto em que a mesma coleção de páginas com ordens diferentes significa coisas diferentes — carrinho → pagamento é compra em curso, e pagamento → carrinho é desistência ou erro;
+> explica a consequência técnica: o modelo passa a estimar uma probabilidade **média por página**, e nenhuma quantidade de dados recupera a informação que a tabela apagou, porque ela não está mais lá;
+> não reduz o problema a "faltou uma variável de ordem": acrescentar o índice da página como coluna dá ao modelo o número, não a **dependência** entre as linhas — a premissa de independência continua violada
+> **porque:** A premissa de independência é a mais silenciosa do livro: ela nunca é declarada no código, e quebrá-la não produz erro nenhum. O modelo treina, a métrica sai, e o pipeline não reclama.
+>
+> O que se perde é a informação **relacional**. Cada linha, isolada, é verdadeira; o que desapareceu foi o que uma linha diz sobre a seguinte. Por isso o quarto critério é o que separa a boa resposta: acrescentar `posicao = 3` informa *onde* a página estava, e não que a página anterior era o carrinho. A dependência é entre observações, e uma coluna vive dentro de uma observação.
+>
+> Note o que a boa resposta prepara sem saber: é exatamente esta lacuna que a recorrência tenta preencher com um estado que atravessa os passos, e que a atenção preenche deixando cada posição olhar diretamente para as outras. Quem entendeu o que a tabela apagou já entendeu o que as duas arquiteturas foram inventadas para recuperar.
+> **volte para:** #o-problema-a-ordem-e-informacao-e-a-memoria-se-dissolve
+:::
+
 ## Verificação
 
-1. Explique, com um exemplo do seu próprio domínio (não de texto), por que tratar os registros como independentes destrói informação — e o que exatamente se perde ao embaralhar a ordem.
-2. Descreva a limitação de memória de uma RNN e diga por que ela **não** se resolve aumentando o tamanho do estado oculto. Em seguida, explique o que a atenção muda nesse quadro: o que ela substitui e o que ela cobra.
-3. Um colega propõe voltar a usar uma LSTM num projeto novo "porque consome menos". Que argumentos a favor e contra você apresenta, e qual característica do problema decidiria a escolha?
+1. Descreva a limitação de memória de uma RNN e diga por que ela **não** se resolve aumentando o tamanho do estado oculto. Em seguida, explique o que a atenção muda nesse quadro: o que ela substitui e o que ela cobra.
+2. Um colega propõe voltar a usar uma LSTM num projeto novo "porque consome menos". Que argumentos a favor e contra você apresenta, e qual característica do problema decidiria a escolha?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a segunda é uma discussão de projeto, e discussões de projeto se ganham diante de quem discorda.

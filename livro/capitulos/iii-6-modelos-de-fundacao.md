@@ -168,8 +168,24 @@ A liderança técnica propôs "fazer fine-tuning do modelo nas normas". Julgue a
 - O nome *foundation model* foi escolhido para marcar o caráter **central e incompleto** — e a crítica veio no próprio resumo que cunhou o termo.
 - **Um ano** entre Transformer e BERT/GPT. Pergunta precisa **mais** infraestrutura de reprodução compartilhada encurtam o intervalo de décadas para meses.
 
+:::exercicio {"id":"modelos-de-fundacao-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um colega diz que "RAG é só colocar os documentos no prompt". Aponte **três compromissos de arquitetura** que essa frase esconde, e diga qual deles costuma aparecer primeiro em produção.
+
+> **rubrica:** identifica ao menos três decisões que são de arquitetura, e não de redação de prompt — como o documento é partido em trechos e de que tamanho, qual índice recupera e por qual critério de similaridade, quantos trechos entram e o que fazer quando não cabem, como o conteúdo é atualizado quando a fonte muda, ou o que o sistema responde quando a recuperação não traz nada relevante;
+> mostra que cada compromisso tem **consequência mensurável**, e não é preferência de estilo: o corte errado parte a frase que continha a resposta, e o índice errado devolve o documento parecido em vez do documento certo;
+> aponta um que aparece primeiro em produção e **justifica** a escolha pela dinâmica do sistema real, e não por opinião — tipicamente a atualização do conteúdo ou o comportamento quando nada relevante é recuperado, porque os dois são invisíveis nos testes e inevitáveis no uso;
+> não reduz o problema a tamanho de janela de contexto: "cabe mais texto agora" muda um dos compromissos e não elimina nenhum dos outros
+> **porque:** A frase do colega é atraente porque descreve corretamente o que se **vê**: no fim, há mesmo documentos dentro de um prompt. O que ela esconde é tudo que decide **quais** documentos, e essa é a parte que se projeta, se versiona e quebra.
+>
+> O quarto critério persegue o atalho da moda. Janelas de contexto maiores fazem parecer que o problema evaporou — basta jogar tudo lá dentro. Mas o corte continua existindo (agora com trechos maiores), a recuperação continua decidindo a ordem, o custo por chamada cresce com o que você enfiou, e nada disso resolve o dia em que a fonte muda e o índice não.
+>
+> E é por isso que o compromisso que aparece primeiro raramente é o que se estuda primeiro. Fragmentação e similaridade são o que se lê nos tutoriais; **atualização** e **o que responder quando não há resposta** são o que aparece na segunda semana de produção, porque nenhum dos dois tem como se manifestar num teste feito com o índice recém-construído.
+> **volte para:** #conhecimento-nos-pesos-e-conhecimento-recuperavel
+:::
+
 ## Verificação
 
 1. Explique a diferença entre pré-treino, fine-tuning e uso via prompt em termos de **quem paga o quê**: quanto dado rotulado, quanto tempo de máquina e quanto custo por uso cada um exige. Dê um caso do seu trabalho para cada um.
 2. Descreva um sistema de busca que você usa hoje e diga como mediria se trocar busca por termos por busca com embeddings melhorou alguma coisa — qual é a linha de base, qual é o conjunto de consultas e qual número decide.
-3. Um colega diz que "RAG é só colocar os documentos no prompt". Aponte três compromissos de arquitetura que essa frase esconde, e diga qual deles costuma aparecer primeiro em produção.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: as duas pedem um caso que só você tem à mão, e rubricar um sistema que o corretor não viu seria fingir correção.

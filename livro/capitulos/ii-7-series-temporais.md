@@ -162,8 +162,26 @@ A transformação é legítima e frequentemente vence os métodos clássicos —
 - Separe **sazonalidade** (período fixo, do calendário) de **ciclo** (período variável, emergente). **Estacionariedade** é pré-requisito dos métodos clássicos, e **diferenciar** é o caminho mais curto até ela — com a previsão voltando à escala original.
 - A ideia de Yule que atravessa tudo: **o acaso pode estar dentro do mecanismo, não só no instrumento**.
 
+:::exercicio {"id":"series-temporais-e4","tipo":"aberta","objetivo":"O4","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um colega quer abandonar os modelos de série e resolver a previsão de demanda com um ensemble de árvores: monta janelas (vendas dos últimos 7, 14 e 28 dias), acrescenta dia da semana e feriado, e trata cada linha como uma observação independente. "Virou tabular, agora é só treinar."
+
+Diga **em que condições essa transformação é legítima** e liste tudo que continua tendo de respeitar a ordem temporal mesmo depois de a tabela parecer comum.
+
+> **rubrica:** nomeia ao menos uma condição sob a qual a transformação é legítima — o horizonte é curto e fixo, as janelas contêm a memória que importa, e há exemplos suficientes para o modelo aprender o padrão sazonal em vez de recebê-lo pronto;
+> lista os cuidados que sobrevivem à transformação: a divisão treino/teste continua sendo por tempo, a validação continua com origem móvel, e nenhuma estatística usada como atributo pode olhar além da data da linha;
+> mantém a comparação com a **linha de base ingênua correta** — a tabela nova não dispensa o piso, e um ensemble que não bate a previsão ingênua sazonal não ganhou nada;
+> não conclui que "virou tabular, então as regras de série sumiram": a independência entre as linhas é aparência criada pela janela, não propriedade recuperada do problema
+> **porque:** A transformação é legítima e comum — quase toda previsão de demanda em produção é feita assim. O erro não está em fazê-la, e sim em **acreditar nela**: o formato da tabela mudou, o fenômeno não. As linhas continuam vindo de um processo em que ontem causa hoje, e continuam se sobrepondo, porque a janela de terça inclui quase os mesmos dias que a de quarta.
+>
+> Daí o quarto critério ser o que separa a boa resposta. Quem diz "agora é tabular, posso embaralhar" produz uma métrica excelente e inútil — o modelo estará prevendo dias cujos vizinhos ele já viu, que é o mesmo vazamento do começo do capítulo com outra roupa. O `train_test_split` aleatório não sabe que a tabela era uma série; **você** sabe, e é a única defesa.
+>
+> A condição do primeiro critério merece atenção: janelas carregam memória **curta**. Se o que decide a série é um ciclo anual e você deu 28 dias ao modelo, nenhuma árvore vai inventar o que a representação omitiu — é o teto do [capítulo I.6](i-6-representacao.md) aparecendo de novo, agora no tempo.
+> **volte para:** #quando-o-problema-temporal-vira-tabular
+:::
+
 ## Verificação
 
 1. Explique a um colega, sem usar a palavra "vazamento", por que k-fold embaralhado dá uma métrica boa e inútil numa série temporal.
 2. Sua série tem sazonalidade semanal e uma quebra de nível há seis meses (mudança de preço). Você usaria janela expansiva ou deslizante, e qual previsão ingênua seria a linha de base honesta? Justifique as duas escolhas.
-3. Você transformou o problema em tabular com janelas e vai usar um ensemble de árvores. Liste tudo que ainda precisa respeitar a ordem temporal — e diga em que ponto do seu código cada um desses cuidados aparece.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a primeira se ganha convencendo o colega, e a segunda depende de decisões que só fazem sentido diante de uma série concreta.

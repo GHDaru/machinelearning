@@ -185,8 +185,24 @@ Diga o que você mediria **antes** de propor qualquer correção, qual é o diag
 - **A ideia exportável:** diagnóstico antes do remédio — e o diagnóstico dura mais que o remédio. Quatro gerações de solução, um único enunciado de 1991.
 - **"Funciona" e "sabemos por quê" são afirmações independentes.** A batch norm é o caso-modelo: o método sobreviveu, a explicação não.
 
+:::exercicio {"id":"treinar-redes-profundas-e5","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Você usa dropout, normalização em lote e aumento de dados no mesmo treino. Para **cada um**, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso — **sem recorrer à justificativa que veio no artigo original**.
+
+> **rubrica:** separa os alvos: dropout e aumento de dados atacam generalização (o vão entre treino e validação), enquanto a normalização em lote atua sobre a otimização — e não trata os três como "regularização" indistinta;
+> propõe, para cada um, uma medição concreta e comparável — treinar com e sem o componente, tudo o mais igual, e olhar a quantidade que ele deveria mover;
+> diz **qual quantidade** deve mudar em cada caso, e não apenas "ver se a acurácia melhora": o vão treino–validação para dropout e aumento, a velocidade de convergência e a tolerância à taxa de aprendizado para a normalização;
+> não usa a explicação do artigo como evidência: a batch norm ajuda e a história do *internal covariate shift* não se sustenta, então justificar a escolha pelo mecanismo narrado é apoiar-se na parte mais frágil da evidência
+> **porque:** A proibição do enunciado é o exercício. Estes três componentes entram em quase todo treino por hábito, e o hábito se justifica repetindo a história que veio no artigo — o que este capítulo mostrou ser exatamente o que pode cair sem derrubar o método.
+>
+> Trocar a narrativa pela medição é barato e quase ninguém faz: **um treino com e sem, tudo o mais igual**. O que custa é saber *o que olhar*, e é aí que o terceiro critério pega a resposta rasa. "Ver se melhora a acurácia" não distingue nada — se o dropout está ajudando, o sinal é o **vão** entre treino e validação encolhendo; se a normalização está ajudando, o sinal aparece na convergência e na tolerância à taxa de aprendizado, e pode vir **sem** ganho de acurácia final.
+>
+> E há a consequência que só aparece medindo: os três podem se sobrepor. Aumento de dados forte já reduz o vão, e o dropout por cima pode custar capacidade sem devolver generalização. Quem herdou os três de um tutorial nunca descobre isso, porque nunca rodou o treino sem um deles.
+> **volte para:** #funciona-e-sabemos-por-que-sao-duas-afirmacoes
+:::
+
 ## Verificação
 
 1. Uma rede de 25 camadas trava com a perda praticamente constante desde a primeira época. Descreva, em ordem, as **duas medições** que você faria antes de mexer em qualquer hiperparâmetro — e diga o que cada resultado possível eliminaria como causa.
 2. Explique por que inicializar todos os pesos com zero impede o aprendizado, e por que a resposta "sorteie valores pequenos" está incompleta. Que quantidade a inicialização precisa preservar, e por que ela muda quando a ativação passa de `tanh` para ReLU?
-3. Você usa dropout, batch norm e aumento de dados no mesmo treino. Para cada um, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso — sem recorrer à justificativa que veio no artigo original.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: valem como conversa de diagnóstico, em que a pergunta seguinte depende da sua resposta anterior.

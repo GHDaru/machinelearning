@@ -173,8 +173,27 @@ Treinar do zero ou transferir? Decida, justifique e diga o que você congelaria 
 - **Aumentação é modelagem do domínio**, não lista de transformações: só entra o que preserva o rótulo e o que de fato varia no processo real.
 - Da percepção ao problema em 53 anos; do Transformer ao BERT em cerca de um. A diferença foi **infraestrutura de reprodução compartilhada**.
 
+:::exercicio {"id":"visao-e4","tipo":"aberta","objetivo":"O4","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Você vai contar piscinas em **imagens de satélite** de uma cidade, para uma prefeitura. As imagens vêm de passagens em diferentes meses e horas do dia; o recorte de cada bairro é arbitrário.
+
+**Projete a aumentação de dados** deste problema: liste as transformações que entram, as que ficam de fora, e justifique cada decisão pelo **processo que gera as imagens** — não pelo que a biblioteca oferece.
+
+> **rubrica:** inclui transformações justificadas pela variação real deste processo — rotação em qualquer ângulo e espelhamento, porque vista de cima não existe orientação canônica, e variação de brilho, contraste e sombra, porque as passagens são em meses e horas diferentes;
+> exclui ao menos uma transformação com justificativa de domínio, e não de biblioteca — por exemplo, distorção de perspectiva ou mudança forte de escala, que a órbita e a altitude fixas nunca produzem;
+> aplica a regra do **rótulo preservado** e verifica-a caso a caso: se a transformação pudesse fazer uma piscina deixar de ser piscina (ou um telhado azul virar uma), ela não entra;
+> não copia a receita de um domínio para outro: a resposta que descarta rotação "porque objetos têm orientação natural" está aplicando o caso da fotografia terrestre a imagens de nadir, onde ele não vale
+> **porque:** Este problema foi escolhido porque **inverte** o caso da linha de produção. Lá, a câmera é fixa e a peça assenta quase sempre igual: rotação grande e espelhamento inventam imagens que a linha nunca produz. Aqui, vista de cima, **girar é livre** — não há "em pé" numa piscina vista do alto, e nenhuma orientação é privilegiada. A mesma transformação é errada num domínio e obrigatória no outro.
+>
+> É por isso que aumentação é **modelagem do domínio**, e não uma lista. A pergunta não é "que transformações existem", é "**o que de fato varia no processo que gera minhas imagens?**". Meses e horas diferentes variam iluminação e sombra; a órbita não varia perspectiva. Aumentar o que não varia gasta capacidade construindo invariância que ninguém pediu — e capacidade gasta assim sai do que importa.
+>
+> O quarto critério pega o modo de falha mais comum entre quem estudou o capítulo: repetir a conclusão do exemplo anterior em vez de refazer o raciocínio. A regra é transportável; a lista, não.
+> **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
+:::
+
 ## Verificação
 
 1. Explique, sem fórmula, por que a convolução **impõe** invariância translacional em vez de aprendê-la — e diga que preço se paga por essa imposição quando a posição absoluta do objeto importa para a tarefa.
 2. Uma colega afirma: "com poucos dados, uso menos parâmetros; por isso a convolução ajuda". A frase está certa pelo motivo errado. Corrija-a, explicando o que o compartilhamento de pesos faz com a **evidência por parâmetro**.
 3. Escolha um problema de imagem do seu contexto. Diga o que você congelaria numa rede pré-treinada e por quê, e liste três aumentações que você **descartaria** — justificando cada descarte pelo domínio, não pela biblioteca.
+
+> Estas três não são corrigidas, e a omissão é deliberada: a terceira, em especial, pede um problema que só você conhece — e rubricar um domínio que o corretor não viu seria fingir correção.

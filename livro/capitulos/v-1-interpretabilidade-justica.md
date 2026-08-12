@@ -176,8 +176,24 @@ A diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escor
 - Escolha declarada é auditável; escolha calada é a mesma escolha, sem responsável. E **não lançar** continua sendo uma saída.
 - **A matemática esperou o problema** — Shapley 1953, SHAP 2017, fórmula intacta.
 
+:::exercicio {"id":"interpretabilidade-justica-e4","tipo":"aberta","objetivo":"O2","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um colega mostra uma explicação SHAP de uma negativa de crédito e conclui: **"foi a renda que causou a recusa"**. Reescreva a frase de modo tecnicamente defensável, e diga o que se perde na versão original.
+
+> **rubrica:** a frase reescrita atribui o efeito **ao modelo**, e não ao mundo — algo como "neste caso, a renda foi o atributo que mais empurrou a saída do modelo para baixo, em relação à referência usada";
+> torna explícita a **referência**: a atribuição é sempre relativa a uma linha de base (a média das saídas, ou um conjunto de fundo escolhido), e mudar essa referência muda os números;
+> nomeia o que a versão original afirma sem sustentação: uma relação **causal** no mundo, que exigiria intervir na renda e observar a decisão mudar — e a explicação não observou nada disso;
+> não conclui que SHAP é inútil ou "não explica nada": ele responde corretamente a uma pergunta bem definida sobre a saída do modelo, e o defeito está na pergunta que o colega achou ter feito
+> **porque:** A frase do colega é o erro mais comum da área, e é fácil de cometer porque a saída do SHAP **parece** uma explicação causal: um atributo, um sinal, uma magnitude. O que ela de fato reporta é como a saída **deste modelo** se decompõe em relação a uma referência — uma afirmação sobre um artefato de software, não sobre a vida do solicitante.
+>
+> A distância entre as duas leituras aparece num teste mental simples: se a renda daquela pessoa fosse outra, a decisão mudaria? A atribuição não responde isso. Ela diz o quanto aquele valor de renda contribuiu para afastar a saída da referência **mantida a estrutura do modelo**, que pode ter aprendido a renda como substituta de outra coisa que ninguém mediu.
+>
+> O quarto critério evita o pêndulo. Quem entende a crítica pela primeira vez tende a concluir que a ferramenta não presta; ela presta, e a pergunta que ela responde é útil — sobretudo para auditar o modelo. O que não se pode é **entregar a resposta dela como se fosse resposta de outra pergunta**, especialmente para alguém que teve o crédito negado e vai agir com base no que você disse.
+> **volte para:** #lime-e-shap-sem-formula
+:::
+
 ## Verificação
 
-1. Um colega mostra uma explicação SHAP de uma negativa de crédito e conclui: "foi a renda que causou a recusa". Reescreva a frase de modo tecnicamente defensável, e diga o que se perde na versão original.
-2. Sua auditoria mostra que o modelo é bem calibrado nos dois grupos e que a taxa de falso positivo é o dobro em um deles. Um gestor pede que você "corrija o modelo até que as duas coisas fiquem iguais". O que você responde, e o que oferece no lugar?
-3. Você precisa escolher entre um ensemble com desempenho superior e um modelo de regras ligeiramente pior, num domínio em que cada decisão negativa pode ser contestada individualmente. Que critérios usaria, e em que condição a escolha se inverteria?
+1. Sua auditoria mostra que o modelo é bem calibrado nos dois grupos e que a taxa de falso positivo é o dobro em um deles. Um gestor pede que você "corrija o modelo até que as duas coisas fiquem iguais". O que você responde, e o que oferece no lugar?
+2. Você precisa escolher entre um ensemble com desempenho superior e um modelo de regras ligeiramente pior, num domínio em que cada decisão negativa pode ser contestada individualmente. Que critérios usaria, e em que condição a escolha se inverteria?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: as duas são negociações, e negociação se ganha diante de quem pede a coisa impossível.
