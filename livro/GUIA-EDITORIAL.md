@@ -15,7 +15,7 @@
 
 O v5 é o v4 **mais a seção histórica** que o Princípio X tornou obrigatória. O v4, por sua vez, era o esqueleto v3 do livro de Engenharia de Harness mais as duas seções de interatividade. A ordem não é decorativa: ela é o Backward Design tornado sumário.
 
-1. **Objetivos de aprendizagem** — 3–5, verbos de Bloom (explicar, comparar, implementar, avaliar), numerados `**O1.**`, `**O2.**`… Os identificadores são reais: cada exercício aponta para um deles, e o build falha se apontar para um que não existe.
+1. **Objetivos de aprendizagem** — 3–5, com **verbo da tabela do §2.5**, numerados `**O1.**`, `**O2.**`… Os identificadores são reais: cada exercício aponta para um deles, e o build falha se apontar para um que não existe.
 2. **O problema** — por que este assunto existe. Comece pelo erro que alguém comete sem ele.
 3. **De onde isto veio** — a história do método, em cinco elementos: **o aperto** (quem estava preso, em quê, quando) · **o que se fazia antes** · **a virada** (a ideia que destravou, sem notação) · **a ideia reaproveitável** (o padrão que serve fora deste método) · **o nome**. Fecha com a **tabela de selos** (✓ / ✓ᵐ / ⏳ / ❌ / 📖). Ver §2.4 e o Princípio X.
 4. **Fundamentos** — a intuição, depois a matemática, depois o código. Nunca a fórmula sozinha.
@@ -103,6 +103,41 @@ Conferir um DOI dá **✓ᵐ**, nunca ✓. Diferente da legenda de [`bibliografi
 **Duas armadilhas.** *Resumo de busca não é fonte* — nem para confirmar nem para desmentir; um resumo pode abreviar o original a ponto de um fato **correto** parecer errado, e corrigir a partir dele introduz o erro que você achava estar consertando. *Ler a fonte também serve para achar o que você não sabia que estava lá* — as melhores histórias estão no parágrafo que ninguém resumiu.
 
 **O teste:** o leitor termina a seção **querendo continuar**. Um livro técnico compete com a tentação de pular para a fórmula; a história é o que dá ao leitor um motivo para não pular.
+
+
+## 2.5 Verbos de objetivo — a tabela de Bloom
+
+O esqueleto pede "verbos de Bloom" desde o começo, e a tabela nunca existiu no repositório. Quem escrevia um capítulo lembrava de cabeça — e o resultado é o que a auditoria de 2026-08-12 mediu: **dos 15 objetivos declarados no nível Criar, um único tinha exercício que pede produção.** O verbo prometia *projetar* e o exercício cobrava múltipla escolha.
+
+A tabela é a **revisão de Anderson & Krathwohl (2001)**, não a pirâmide de 1956. A diferença importa: a revisão troca substantivos por verbos e acrescenta uma segunda dimensão — o **tipo de conhecimento**.
+
+| # | Processo | Verbos que se pode cobrar | O que o exercício tem de pedir |
+|---|---|---|---|
+| 1 | **Lembrar** | listar, nomear, definir, reconhecer | recuperar da memória |
+| 2 | **Entender** | explicar, resumir, classificar, exemplificar, traduzir | reformular com as próprias palavras |
+| 3 | **Aplicar** | calcular, executar, implementar, usar, ajustar | usar o procedimento num caso novo |
+| 4 | **Analisar** | decompor, comparar, diagnosticar, distinguir, derivar | separar as partes e ver a relação |
+| 5 | **Avaliar** | justificar, criticar, decidir, defender, escolher **com critério** | julgar contra um critério declarado |
+| 6 | **Criar** | projetar, construir, modelar, formular, escrever | **produzir um artefato que não existia** |
+
+### Os quatro tipos de conhecimento
+
+A segunda dimensão é a que a pirâmide esconde. Dá para "aplicar" a vida inteira sem nunca tocar o metacognitivo — que é justamente *saber quando o método não serve*, e é o que este livro mais quer ensinar.
+
+| Tipo | O que é | Onde vive no livro |
+|---|---|---|
+| **Factual** | termos, datas, quem fez o quê | "De onde isto veio" e as tabelas de selos |
+| **Conceitual** | como as ideias se relacionam | o corpo dos capítulos — a dimensão mais forte do livro |
+| **Procedimental** | como se faz | `ml-zero`, notebooks, laboratórios — **a dimensão mais fraca** |
+| **Metacognitivo** | quando usar, quando não, o que eu não sei | as cláusulas de expiração, as rubricas que pedem "o que você mediria antes" |
+
+### Três regras de escrita, e a mais importante é a terceira
+
+1. **Um verbo por objetivo.** "Calcular **e interpretar**" são dois processos; um deles sempre fica sem exercício. Dos 114 objetivos do livro, **22 empacotavam dois** — e em todos, só metade era cobrada.
+2. **Nunca "entender", "conhecer", "saber", "dominar".** Não se verificam, e o build **falha** se encontrá-los abrindo um objetivo.
+3. **O exercício define o verbo, não o contrário.** Escreva primeiro a evidência que você aceitaria; o verbo é o nome do que ela cobra. Se você declarou *"projetar"* e a evidência é uma múltipla escolha, o objetivo não era projetar — era reconhecer. **Rebaixar o verbo é honesto; inflar o verbo é promessa que o leitor descobre sozinho, tarde.**
+
+> **Cuidado com "reconhecer" e "identificar".** Em Anderson & Krathwohl são subprocessos de **Lembrar**. No livro foram usados com sentido de julgamento — e a mesma palavra gerou um exercício de nível 1 e outro de nível 5, quatro degraus de distância. Se o que você quer é julgamento, escreva **avaliar** ou **decidir**.
 
 ## 3. Regras de escrita permanentes
 

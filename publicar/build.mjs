@@ -755,6 +755,51 @@ if (semSeloNaPagina.length) {
   process.exit(1);
 }
 
+// ---- O esqueleto v5 é obrigatório, e agora é cobrado ----
+// "Fundamentos científicos" e "Fontes da indústria" desapareceram do livro sem
+// que ninguém notasse — a primeira caiu para 1 capítulo em 29, a segunda para
+// zero — porque o esqueleto vivia só na prosa do Guia Editorial. Regra que só
+// existe em prosa é regra que se esquece na terceira semana.
+// As cinco abaixo são as que o nível `essencial` garante (ADR 0004). As que
+// esperam o `completo` não entram aqui: seriam dívida cobrada antes da hora.
+const SECOES_OBRIGATORIAS = [
+  { chave: "Objetivos de aprendizagem", re: /^##\s+Objetivos de aprendizagem/im, metodo: false },
+  { chave: "O problema", re: /^##\s+O problema/im, metodo: false },
+  { chave: "De onde isto veio", re: /^##\s+De onde isto veio/im, metodo: true },
+  { chave: "Síntese", re: /^##\s+S[íi]ntese/im, metodo: false },
+  { chave: "Verificação", re: /^##\s+Verifica[çc][ãa]o/im, metodo: false },
+];
+// Bloom: verbo que não se verifica não é objetivo. Nenhum capítulo usa hoje —
+// o gate existe para que continue assim. Tabela de verbos no Guia Editorial §2.5.
+const VERBOS_VAGOS = /\*\*O\d+\.?\*\*\s+(entender|compreender|conhecer|saber|dominar|familiarizar|ter no[çc][ãa]o|aprender sobre)\b/i;
+
+const faltandoSecao = [];
+const verbosVagos = [];
+for (const i of itens) {
+  if (i.metodo === undefined) continue;
+  const caminho = resolve(RAIZ, i.arquivo);
+  if (!existsSync(caminho)) continue;
+  const fonte = readFileSync(caminho, "utf8");
+  for (const sec of SECOES_OBRIGATORIAS) {
+    if (sec.metodo && !i.metodo) continue;
+    if (!sec.re.test(fonte)) faltandoSecao.push(`${i.arquivo} -> "## ${sec.chave}"`);
+  }
+  const vago = fonte.match(VERBOS_VAGOS);
+  if (vago) verbosVagos.push(`${i.arquivo} -> "${vago[1]}"`);
+}
+if (faltandoSecao.length || verbosVagos.length) {
+  if (faltandoSecao.length) {
+    console.error(`✗ ${faltandoSecao.length} seção(ões) obrigatória(s) do esqueleto v5 faltando:`);
+    faltandoSecao.forEach((q) => console.error("   " + q));
+  }
+  if (verbosVagos.length) {
+    console.error(`✗ ${verbosVagos.length} objetivo(s) com verbo não verificável:`);
+    verbosVagos.forEach((q) => console.error("   " + q));
+    console.error('   Troque por um verbo de Bloom que se possa cobrar (Guia Editorial §2.5).');
+  }
+  process.exit(1);
+}
+
 // O "volte para:" de cada exercício devolve o leitor à âncora exata da seção
 // que ele precisa reler — o Guia Editorial o chama de "o gesto mais útil do
 // livro". Uma âncora que não existe leva a lugar nenhum, silenciosamente: a

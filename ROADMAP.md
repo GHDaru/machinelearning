@@ -110,7 +110,8 @@ O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está o
 
 | **D10** | **Selo ✓ᵐ sustentando afirmação sobre o que a obra argumenta por dentro**, em vários capítulos — quando ✓ᵐ só prova que a obra existe | achado da [auditoria adversarial](estudos/2026-08-10-auditoria-adversarial.md). Paga-se **lendo as fontes** no ciclo `essencial → completo`, não com hedge no texto. A fila de verificação da nota de pesquisa é o plano de pagamento |
 
-| **D11** | **Objetivos sem exercício próprio** — O3 no cap. 08 (PCA) e O4 no cap. 15 (lote × tempo real) | declarados pelos próprios agentes que escreveram os capítulos, em vez de preenchidos com exercício inventado |
+| **D11** | **20 objetivos sem exercício próprio**, em 20 capítulos — não 2, como esta linha declarou até 2026-08-12 | achado pela auditoria de Bloom. O gate do `exercicios.mjs` agora **cobra**: órfão novo quebra o build, e a lista de exceções tem de encolher quando a dívida é paga |
+| **D13** | **15 objetivos de nível Criar cobrados abaixo do nível** — só 1 dos 15 tem exercício que pede produção; 4 não têm evidência alguma no livro | achado da auditoria de Bloom. Ou o exercício sobe, ou o verbo desce — e as duas coisas são trabalho de conteúdo, não de gate |
 
 > **O que o gate ensinou, e que o plano não previa.** O ADR 0004 mandava fazer o lote 1 (capítulos novos) antes do lote 2 (retrofit dos antigos). Assim que o gate entrou no build, ele **inverteu a ordem sozinho**: declarar o nível dos 7 capítulos com corpo tornou o build vermelho na hora, e nenhum trabalho novo podia ser publicado antes de a dívida antiga ser paga.
 >

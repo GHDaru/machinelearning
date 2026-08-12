@@ -6,6 +6,40 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — os gates da onda 1: as regras saem da prosa e entram no build
+- **Backward Design nas duas direções.** O gate proibia exercício apontando para
+  objetivo inexistente e **nada** proibia objetivo sem exercício. Foi por essa
+  porta que 18 dívidas entraram sem registro: o roadmap declarava 2 objetivos
+  órfãos, e o livro tinha **20**. A lista `ORFAOS_ACEITOS` é a dívida cobrada —
+  órfão novo quebra o build, **e exceção que deixou de ser necessária também**,
+  para que pagar a dívida obrigue a tirá-la da lista.
+- **Seções obrigatórias do esqueleto v5** viram gate. "Fundamentos científicos"
+  caiu para 1 capítulo em 29 e "Fontes da indústria" para zero sem ninguém
+  notar, porque o esqueleto vivia só na prosa do Guia Editorial.
+- **Verbo não verificável falha o build**: "entender", "conhecer", "saber",
+  "dominar" abrindo um objetivo. Nenhum capítulo usa hoje — o gate existe para
+  que continue assim.
+- Os três foram **provados quebrando de propósito**: objetivo órfão novo, exceção
+  obsoleta, seção removida e verbo vago.
+
+### Adicionado — a tabela de verbos de Bloom (Guia Editorial §2.5)
+- O esqueleto pedia "verbos de Bloom" desde o começo e **a tabela nunca existiu
+  no repositório**. É a revisão de **Anderson & Krathwohl (2001)**, com as duas
+  dimensões — os seis processos e os quatro tipos de conhecimento.
+- Três regras, e a terceira é a que corrige o defeito medido: **o exercício
+  define o verbo, não o contrário.** Rebaixar o verbo é honesto; inflar é
+  promessa que o leitor descobre sozinho, tarde.
+- Alerta explícito sobre "reconhecer"/"identificar": em Anderson & Krathwohl são
+  subprocessos de **Lembrar**, e no livro geraram exercícios separados por quatro
+  degraus a partir da mesma palavra.
+
+### Corrigido — dívidas do roadmap que estavam sub-declaradas
+- **D11: de 2 para 20 objetivos órfãos.** O projeto define o próprio nível de
+  maturidade pela honestidade da declaração; 18 dívidas não declaradas
+  contradizem a regra que autoriza publicar em `essencial`.
+- **D13, nova**: 15 objetivos de nível Criar cobrados abaixo do nível — só 1 dos
+  15 tem exercício que pede produção, e 4 não têm evidência alguma no livro.
+
 ### Alterado — numeração por parte, e o id do exercício desatado do número (ADR 0011)
 - **`05-modelos-lineares` → `ii-2-modelos-lineares`**, e o título vira **II.2**.
   A medição que motivou: **as 29 posições do sumário estavam fora de ordem** —

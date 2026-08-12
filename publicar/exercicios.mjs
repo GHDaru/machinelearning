@@ -27,6 +27,39 @@ const itens = sumario.partes.flatMap((p) => p.itens).filter((i) => i.arquivo);
 // Posição de leitura (1..N), não o número do título — ver ADR 0011.
 const posicaoDe = (arquivo) => itens.findIndex((i) => i.arquivo === arquivo) + 1;
 
+// Backward Design é a regra do projeto: objetivos -> evidências -> conteúdo. O
+// gate abaixo era UNIDIRECIONAL — proibia exercício apontando para objetivo
+// inexistente, e nada proibia objetivo sem exercício. Foi por essa porta que 18
+// dívidas entraram sem registro: o roadmap declarava 2 objetivos órfãos e o
+// livro tinha 20.
+//
+// A lista de exceções é a dívida COBRADA, não registrada. Falha nas DUAS
+// direções: um órfão novo quebra o build, e uma exceção que deixou de ser
+// necessária também — para que pagar a dívida obrigue a tirá-la daqui.
+const ORFAOS_ACEITOS = new Map(Object.entries({
+  "livro/0-2-fundamentos.md": ["O1"],
+  "livro/capitulos/i-2-coleta-integracao.md": ["O1"],
+  "livro/capitulos/i-3-dados.md": ["O4"],
+  "livro/capitulos/i-4-analise-exploratoria.md": ["O3"],
+  "livro/capitulos/i-5-visualizacao-storytelling.md": ["O4"],
+  "livro/capitulos/i-6-representacao.md": ["O1"],
+  "livro/capitulos/ii-6-analise-multidimensional.md": ["O4"],
+  "livro/capitulos/ii-7-series-temporais.md": ["O4"],
+  "livro/capitulos/ii-8-do-modelo-a-decisao.md": ["O3"],
+  "livro/capitulos/iii-2-redes-neurais.md": ["O2"],
+  "livro/capitulos/iii-3-treinar-redes-profundas.md": ["O3"],
+  "livro/capitulos/iii-4-visao.md": ["O4"],
+  "livro/capitulos/iii-5-sequencias-linguagem.md": ["O1"],
+  "livro/capitulos/iii-6-modelos-de-fundacao.md": ["O3"],
+  "livro/capitulos/iv-1-nao-supervisionado.md": ["O3"],
+  "livro/capitulos/iv-2-reforco.md": ["O3"],
+  "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md": ["O4"],
+  "livro/capitulos/v-1-interpretabilidade-justica.md": ["O2"],
+  "livro/capitulos/v-2-sistemas-de-ml.md": ["O4"],
+  "livro/capitulos/v-3-mlops.md": ["O2"],
+}));
+
+const objetivosPorArquivo = new Map();
 const exercicios = [];
 const videos = [];
 const laboratorios = [];
@@ -53,6 +86,7 @@ for (const item of itens) {
   // Objetivos declarados no capítulo: `- **O1.** ...` na seção Objetivos.
   const objetivos = new Set();
   for (const m of bruto.matchAll(/^[-*]\s+\*\*(O\d+)\.?\*\*/gm)) objetivos.add(m[1]);
+  objetivosPorArquivo.set(item.arquivo, objetivos);
 
   for (const ex of lote.exercicios) {
     ex.pagina = slug;
@@ -78,6 +112,31 @@ for (const item of itens) {
   for (const l of lote.laboratorios) {
     l.pagina = slug;
     laboratorios.push(l);
+  }
+}
+
+// ---- Backward Design nas DUAS direções ----
+const cobertos = new Map();
+for (const ex of exercicios) {
+  if (!cobertos.has(ex.arquivo)) cobertos.set(ex.arquivo, new Set());
+  cobertos.get(ex.arquivo).add(ex.objetivo);
+}
+for (const [arquivo, objetivos] of objetivosPorArquivo) {
+  const tem = cobertos.get(arquivo) || new Set();
+  const aceitos = new Set(ORFAOS_ACEITOS.get(arquivo) || []);
+  for (const o of [...objetivos].filter((x) => !tem.has(x))) {
+    if (!aceitos.has(o)) {
+      problemas.push(`${arquivo}: objetivo ${o} não tem nenhum exercício. ` +
+        `Escreva o exercício, ou declare a dívida em ORFAOS_ACEITOS — e no roadmap.`);
+    }
+  }
+  for (const o of aceitos) {
+    if (!objetivos.has(o)) {
+      problemas.push(`${arquivo}: ORFAOS_ACEITOS lista ${o}, que não existe mais no capítulo.`);
+    } else if (tem.has(o)) {
+      problemas.push(`${arquivo}: ${o} já tem exercício — tire-o de ORFAOS_ACEITOS. ` +
+        `Dívida paga que continua na lista esconde a próxima.`);
+    }
   }
 }
 
