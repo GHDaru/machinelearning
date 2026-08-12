@@ -555,6 +555,41 @@
    }
   },
   {
+   "id": "21-e4",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "enunciado": "No laboratório acima, a coluna `preco` acusa **62 outliers** pela regra de 1,5 × IQR — mais de um sexto do conjunto. Qual é a leitura correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "São 62 erros de digitação no registro do preço, e devem ser removidos antes de modelar."
+    },
+    {
+     "correta": false,
+     "texto": "A regra está certa: 62 dias tiveram preço anormal, e esses dias merecem investigação individual."
+    },
+    {
+     "correta": true,
+     "texto": "A régua quebrou: com Q1 = Q3 = 0,30, o IQR é **zero**, e qualquer valor diferente de 0,30 cai fora da cerca."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é o fator 1,5; com 3,0 em vez de 1,5 os 62 pontos deixariam de ser acusados."
+    }
+   ],
+   "gabarito": "A régua quebrou — o IQR é zero",
+   "porque": "A coluna tem **dois** valores em 365 dias: 0,30 em 303 deles e 0,50 nos 62 de julho e agosto. Como mais de 75% das linhas valem 0,30, o primeiro e o terceiro quartis coincidem: Q1 = Q3 = 0,30, logo **IQR = 0** e a cerca vira o intervalo [0,30 ; 0,30]. Tudo que não é exatamente 0,30 é acusado.\n\nOs 62 dias não são anomalia: são a alta temporada, e o preço foi uma **decisão** da dona. Removê-los apagaria julho e agosto do conjunto — dois dos meses mais importantes do negócio.\n\nA última alternativa é a mais instrutiva entre as erradas: com IQR igual a zero, **qualquer** multiplicador dá cerca de largura zero. 3,0 × 0 continua sendo 0. O problema não é a folga, é a régua.\n\nA lição do capítulo, em uma frase: **critério de outlier é escolha declarada, não verdade estatística.** A regra de 1,5 × IQR pressupõe uma distribuição contínua e razoavelmente espalhada. Aplicada a uma variável quase constante — ou a uma categórica disfarçada de número — ela produz um resultado tecnicamente correto e completamente sem sentido.",
+   "volte_para": "#olhe-uma-variavel-de-cada-vez",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "21-analise-exploratoria",
+   "titulo_capitulo": "21 — Análise Exploratória"
+  },
+  {
    "id": "21-e2",
    "capitulo": 21,
    "arquivo": "livro/capitulos/21-analise-exploratoria.md",
@@ -612,6 +647,31 @@
     "propõe um critério declarado e reprodutível (regra escrita, contagem de linhas afetadas), não \"limpei os outliers\"",
     "considera o efeito da decisão sobre a métrica e sobre a escolha entre média e mediana",
     "menciona documentar a decisão para quem for reproduzir ou revisar"
+   ]
+  },
+  {
+   "id": "21-e5",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "media",
+   "enunciado": "No laboratório, escolha a coluna **`precipitacao`**. Ela tem média 0,83 e mediana 0,74, mínimo 0,47, máximo 2,50, e a cerca de 1,5 × IQR acusa **28 pontos**.\n\nEscreva um parágrafo de análise monovariada dessa variável, respondendo:\n\n1. a distribuição é simétrica? Para que lado puxa, e como você sabe?\n2. média ou mediana descreve melhor esta variável — e por quê?\n3. os 28 pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "As três respostas se encadeiam, e a terceira é a que separa quem entendeu.\n",
+   "volte_para": "#faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar",
+   "rubrica": "identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;\nescolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda;\nreconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;\ndeclara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo;\nnão confunde \"fora da cerca\" com \"errado\"",
+   "versoes": null,
+   "pagina": "21-analise-exploratoria",
+   "titulo_capitulo": "21 — Análise Exploratória",
+   "criterios": [
+    "identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga",
+    "escolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda",
+    "reconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro",
+    "declara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo",
+    "não confunde \"fora da cerca\" com \"errado\""
    ]
   },
   {
@@ -2945,6 +3005,27 @@
   }
  ],
  "laboratorios": [
+  {
+   "id": "21-l1",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "tipo": "explorar-variavel",
+   "titulo": "Análise monovariada — venda de limonada",
+   "config": {
+    "id": "21-l1",
+    "tipo": "explorar-variavel",
+    "titulo": "Análise monovariada — venda de limonada",
+    "colunas": [
+     "temperatura",
+     "precipitacao",
+     "panfletos",
+     "preco",
+     "vendas"
+    ]
+   },
+   "intro": "As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.\n\nA linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.\n\nPercorra as cinco colunas e responda, para cada uma:\n\n1. A distribuição é **simétrica**? De que lado ela puxa?\n2. Há **outliers** pela cerca de 1,5 × IQR? Quantos?\n3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?\n\nDuas colunas têm respostas surpreendentes. Encontre-as antes de ler a seção seguinte.",
+   "pagina": "21-analise-exploratoria"
+  },
   {
    "id": "05-l1",
    "capitulo": 5,

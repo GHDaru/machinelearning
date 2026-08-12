@@ -12,3 +12,9 @@ numpy>=2.0
 # etapa 15 em diante — o modelo vira serviço
 fastapi>=0.115
 uvicorn[standard]>=0.30
+
+# etapa 21 — exploração: ler distribuição, não desenhar gráfico (ADR 0010).
+# É a ÚNICA etapa que sai da biblioteca padrão. Já vêm no Colab, então a
+# trilha continua rodando sem instalar nada lá.
+pandas>=2.2
+matplotlib>=3.8

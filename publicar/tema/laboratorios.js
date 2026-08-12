@@ -558,9 +558,240 @@
       document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
   }
 
+
+  // -------------------------------------------------- explorar uma variável
+
+  /* Análise monovariada sobre o conjunto REAL do livro.
+
+     O capítulo diz que a média mente e a mediana aguenta, que assimetria se vê
+     no histograma e que outlier se define por critério declarado. Aqui o leitor
+     troca de coluna e VÊ as três coisas mudarem — inclusive um caso em que a
+     média e a mediana quase coincidem e outro em que não.
+
+     Os dados vêm de `dados/limonada.csv`, publicado pelo build. Inventar
+     números tiraria do laboratório exatamente o que ele ensina. */
+
+  function quantil(ordenado, q) {           // interpolação linear (tipo 7, o do R e do numpy)
+    if (!ordenado.length) return NaN;
+    var pos = (ordenado.length - 1) * q;
+    var base = Math.floor(pos), resto = pos - base;
+    return ordenado[base + 1] !== undefined
+      ? ordenado[base] + resto * (ordenado[base + 1] - ordenado[base])
+      : ordenado[base];
+  }
+
+  function descritivas(vals) {
+    var v = vals.slice().sort(function (a, b) { return a - b; });
+    var n = v.length;
+    var media = v.reduce(function (a, b) { return a + b; }, 0) / n;
+    var q1 = quantil(v, 0.25), med = quantil(v, 0.5), q3 = quantil(v, 0.75);
+    var iqr = q3 - q1;
+    var dp = Math.sqrt(v.reduce(function (a, x) { return a + (x - media) * (x - media); }, 0) / n);
+    var cont = {}, moda = null, maxc = 0;
+    v.forEach(function (x) { cont[x] = (cont[x] || 0) + 1; if (cont[x] > maxc) { maxc = cont[x]; moda = x; } });
+    var linf = q1 - 1.5 * iqr, lsup = q3 + 1.5 * iqr;
+    return {
+      n: n, media: media, mediana: med, moda: moda, moda_freq: maxc,
+      min: v[0], max: v[n - 1], q1: q1, q3: q3, iqr: iqr, dp: dp,
+      p10: quantil(v, 0.10), p90: quantil(v, 0.90),
+      linf: linf, lsup: lsup,
+      outliers: v.filter(function (x) { return x < linf || x > lsup; }),
+      distintos: Object.keys(cont).length, ord: v,
+    };
+  }
+
+  function explorarVariavel(raiz, cfg) {
+    var COLUNAS = cfg.colunas || ["temperatura", "precipitacao", "panfletos", "preco", "vendas"];
+    var estado = { coluna: COLUNAS[0], dados: null, bins: 12 };
+
+    var corpo = el("div", "lab-corpo");
+    var painel = el("div", "lab-painel");
+    var visual = el("div", "lab-visual");
+    corpo.appendChild(painel);
+    corpo.appendChild(visual);
+
+    var sel = document.createElement("select");
+    sel.className = "lab-select";
+    COLUNAS.forEach(function (c) {
+      var o = document.createElement("option");
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", function () { estado.coluna = sel.value; desenhar(); });
+    var selWrap = el("label", "lab-campo");
+    selWrap.appendChild(el("span", "lab-campo-rot", "Variável"));
+    selWrap.appendChild(sel);
+    painel.appendChild(selWrap);
+
+    painel.appendChild(campo("classes do histograma", estado.bins, 1, function (v) {
+      estado.bins = Math.max(3, Math.min(40, Math.round(v) || 12));
+      desenhar();
+    }));
+
+    var placar = el("div", "lab-placar");
+    painel.appendChild(placar);
+
+    var canvas = document.createElement("canvas");
+    canvas.width = 560; canvas.height = 420;
+    canvas.className = "lab-canvas lab-canvas-larga";
+    visual.appendChild(canvas);
+
+    var aviso = el("p", "lab-dica", "Carregando o conjunto…");
+    visual.appendChild(aviso);
+
+    function desenhar() {
+      if (!estado.dados) return;
+      var vals = estado.dados.map(function (l) { return parseFloat(l[estado.coluna]); })
+                             .filter(function (x) { return isFinite(x); });
+      if (!vals.length) {                       // coluna ausente ou não numérica
+        aviso.textContent = 'A coluna "' + estado.coluna + '" não tem valores numéricos legíveis.';
+        placar.innerHTML = "";
+        return;
+      }
+      var d = descritivas(vals);
+      var ctx = canvas.getContext("2d");
+      var W = canvas.width, H = canvas.height;
+      var escuro = document.documentElement.getAttribute("data-tema") === "escuro";
+      var corFundo = escuro ? "#1d1f22" : "#f7f7f5";
+      var corEixo = escuro ? "#4a4d52" : "#c9c9c4";
+      var corTexto = escuro ? "#9a9a97" : "#6a6a6a";
+      var corBarra = escuro ? "rgba(125,179,213,.75)" : "rgba(47,111,159,.72)";
+      var corMedia = "#e0a24a";
+      var corMediana = escuro ? "#6fc08a" : "#2e8b57";
+
+      ctx.clearRect(0, 0, W, H); ctx.fillStyle = corFundo; ctx.fillRect(0, 0, W, H);
+
+      var m = 48, hHist = 250, topoBox = hHist + 70;
+      var lo = d.min, hi = d.max;
+      if (hi === lo) { hi = lo + 1; }
+      function px(v) { return m + (v - lo) / (hi - lo) * (W - 2 * m); }
+
+      // ---- histograma ----
+      var k = estado.bins, contagem = new Array(k).fill(0);
+      vals.forEach(function (x) {
+        var i = Math.min(k - 1, Math.floor((x - lo) / (hi - lo) * k));
+        contagem[i]++;
+      });
+      var maxc = Math.max.apply(null, contagem);
+      var larg = (W - 2 * m) / k;
+      ctx.fillStyle = corBarra;
+      contagem.forEach(function (c, i) {
+        var h = (c / maxc) * (hHist - 40);
+        ctx.fillRect(m + i * larg + 1, hHist - h, larg - 2, h);
+      });
+      ctx.strokeStyle = corEixo; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(m, hHist); ctx.lineTo(W - m, hHist); ctx.stroke();
+
+      // média e mediana sobre o histograma
+      [[d.media, corMedia, "media"], [d.mediana, corMediana, "mediana"]].forEach(function (t, i) {
+        ctx.strokeStyle = t[1]; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+        ctx.beginPath(); ctx.moveTo(px(t[0]), 18); ctx.lineTo(px(t[0]), hHist); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = t[1]; ctx.font = "12px system-ui, sans-serif";
+        ctx.fillText(t[2], px(t[0]) + 4, 16 + i * 14);
+      });
+
+      // ---- boxplot ----
+      var yb = topoBox, alt = 46;
+      ctx.strokeStyle = corEixo; ctx.lineWidth = 1.5;
+      // bigodes: até o ponto mais extremo DENTRO da cerca
+      var dentro = d.ord.filter(function (x) { return x >= d.linf && x <= d.lsup; });
+      var bmin = dentro.length ? dentro[0] : d.min;
+      var bmax = dentro.length ? dentro[dentro.length - 1] : d.max;
+      ctx.beginPath();
+      ctx.moveTo(px(bmin), yb + alt / 2); ctx.lineTo(px(d.q1), yb + alt / 2);
+      ctx.moveTo(px(d.q3), yb + alt / 2); ctx.lineTo(px(bmax), yb + alt / 2);
+      ctx.moveTo(px(bmin), yb + 10); ctx.lineTo(px(bmin), yb + alt - 10);
+      ctx.moveTo(px(bmax), yb + 10); ctx.lineTo(px(bmax), yb + alt - 10);
+      ctx.stroke();
+      ctx.fillStyle = escuro ? "rgba(125,179,213,.28)" : "rgba(47,111,159,.20)";
+      ctx.fillRect(px(d.q1), yb, px(d.q3) - px(d.q1), alt);
+      ctx.strokeStyle = corEixo;
+      ctx.strokeRect(px(d.q1), yb, px(d.q3) - px(d.q1), alt);
+      ctx.strokeStyle = corMediana; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(px(d.mediana), yb); ctx.lineTo(px(d.mediana), yb + alt); ctx.stroke();
+      ctx.fillStyle = "#c0392b";
+      d.outliers.forEach(function (x) {
+        ctx.beginPath(); ctx.arc(px(x), yb + alt / 2, 3.5, 0, Math.PI * 2); ctx.fill();
+      });
+
+      ctx.fillStyle = corTexto; ctx.font = "12px system-ui, sans-serif";
+      // Caixa degenerada (IQR = 0) empilharia os dois rótulos no mesmo pixel.
+      // Um rótulo só, dizendo o que aconteceu, ensina mais que dois ilegíveis.
+      if (px(d.q3) - px(d.q1) < 24) {
+        ctx.fillText("Q1 = Q3", px(d.q1) - 20, yb - 6);
+      } else {
+        ctx.fillText("Q1", px(d.q1) - 8, yb - 6);
+        ctx.fillText("Q3", px(d.q3) - 8, yb - 6);
+      }
+      ctx.fillText("P50", px(d.mediana) - 10, yb + alt + 16);
+      ctx.fillText(lo.toFixed(1), m - 4, hHist + 18);
+      ctx.fillText(hi.toFixed(1), W - m - 20, hHist + 18);
+
+      // ---- placar ----
+      function f(v) { return isFinite(v) ? (Math.abs(v) >= 100 ? v.toFixed(0) : v.toFixed(2)) : "—"; }
+      var assim = d.media - d.mediana;
+      var lado = Math.abs(assim) < 0.02 * (d.max - d.min) ? "aproximadamente simétrica"
+               : (assim > 0 ? "assimétrica à <b>direita</b> (média &gt; mediana)"
+                            : "assimétrica à <b>esquerda</b> (média &lt; mediana)");
+      placar.innerHTML =
+        '<table class="lab-metricas"><tbody>' +
+        "<tr><th>n</th><td>" + d.n + "</td></tr>" +
+        "<tr><th>valores distintos</th><td>" + d.distintos + "</td></tr>" +
+        '<tr class="lab-metrica-alvo"><th>média</th><td>' + f(d.media) + "</td></tr>" +
+        '<tr class="lab-metrica-alvo"><th>mediana (P50)</th><td>' + f(d.mediana) + "</td></tr>" +
+        "<tr><th>moda</th><td>" + f(d.moda) + " (×" + d.moda_freq + ")</td></tr>" +
+        "<tr><th>desvio-padrão</th><td>" + f(d.dp) + "</td></tr>" +
+        "<tr><th>mínimo · máximo</th><td>" + f(d.min) + " · " + f(d.max) + "</td></tr>" +
+        "<tr><th>Q1 · Q3</th><td>" + f(d.q1) + " · " + f(d.q3) + "</td></tr>" +
+        "<tr><th>IQR</th><td>" + f(d.iqr) + "</td></tr>" +
+        "<tr><th>P10 · P90</th><td>" + f(d.p10) + " · " + f(d.p90) + "</td></tr>" +
+        "<tr><th>cerca (1,5 × IQR)</th><td>" + f(d.linf) + " · " + f(d.lsup) + "</td></tr>" +
+        "<tr><th>outliers</th><td>" + d.outliers.length + "</td></tr>" +
+        "</tbody></table>" +
+        '<p class="lab-veredito">Distribuição ' + lado + ". " +
+        (d.outliers.length
+          ? "<b>" + d.outliers.length + "</b> ponto(s) fora da cerca de 1,5 × IQR — em vermelho no boxplot."
+          : "Nenhum ponto fora da cerca de 1,5 × IQR.") + "</p>";
+      aviso.textContent = "Histograma em cima, boxplot embaixo, na mesma escala horizontal. " +
+        "A linha tracejada laranja é a média; a verde, a mediana.";
+    }
+
+    raiz.appendChild(corpo);
+
+    var caminho = cfg.dados || "dados/limonada.csv";
+    fetch(caminho).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    }).then(function (txt) {
+      // `.trim()` em cada campo, e não só na string inteira: com terminador
+      // CRLF, o `\r` fica colado no ÚLTIMO nome de coluna, e a chave vira
+      // "vendas\r". O acesso a `l["vendas"]` devolvia undefined, a coluna
+      // inteira virava NaN — e o painel continuava exibindo os números da
+      // coluna anterior, porque o desenho quebrava antes de atualizá-lo.
+      // Valor errado exibido com confiança é pior que erro na tela.
+      var linhas = txt.trim().split(/\r?\n/);
+      var cab = linhas[0].split(",").map(function (c) { return c.trim(); });
+      estado.dados = linhas.slice(1).map(function (l) {
+        var v = l.split(","), o = {};
+        cab.forEach(function (c, i) { o[c] = (v[i] || "").trim(); });
+        return o;
+      });
+      desenhar();
+    }).catch(function () {
+      aviso.textContent = "Não consegui carregar " + caminho +
+        ". Abrindo o arquivo direto do disco (file://) o navegador bloqueia a leitura — " +
+        "use o livro publicado, ou sirva a pasta com um servidor local.";
+    });
+
+    new MutationObserver(function () { desenhar(); }).observe(
+      document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
+  }
+
   // ------------------------------------------------------------- registro
 
-  var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear };
+  var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
+                "explorar-variavel": explorarVariavel };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

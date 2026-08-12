@@ -1,5 +1,9 @@
 # O deploy da Vercel só precisa do que constrói o site.
-ml-zero/
+# ml-zero/ NÃO entra aqui: o build lê `ml-zero/dados/limonada/limonada.csv`
+# e o publica em `docs/dados/`, para o laboratório do capítulo 21. Excluindo a
+# pasta, o build da Vercel (que é o das PREVIEWS) quebraria com ENOENT — e a
+# produção continuaria verde, porque ela é construída no GitHub Actions, com o
+# repositório inteiro. Falha só na preview é a pior de diagnosticar.
 chat-companion/
 benchmark/
 specs/

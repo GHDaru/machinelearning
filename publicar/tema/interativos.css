@@ -213,9 +213,11 @@
 /* O canvas deste laboratório é bem mais largo que o do neurônio, e a grade
    `1fr auto` espremia o painel a ponto de cortar os números. Aqui o painel
    tem largura própria e o gráfico fica com o resto. */
-.laboratorio[data-lab="regressao-linear"] .lab-corpo { grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); }
+.laboratorio[data-lab="regressao-linear"] .lab-corpo,
+.laboratorio[data-lab="explorar-variavel"] .lab-corpo { grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); }
 @media (max-width: 780px) {
-  .laboratorio[data-lab="regressao-linear"] .lab-corpo { grid-template-columns: 1fr; }
+  .laboratorio[data-lab="regressao-linear"] .lab-corpo,
+  .laboratorio[data-lab="explorar-variavel"] .lab-corpo { grid-template-columns: 1fr; }
 }
 .lab-botoes { display: flex; flex-wrap: wrap; gap: .4rem; margin: .8rem 0 .4rem; }
 .lab-botao {

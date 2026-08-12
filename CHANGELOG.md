@@ -22,6 +22,47 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - O `.dockerignore` exclui `.env` explicitamente: o arquivo é gitignored, mas
   `COPY . /app` não sabe disso (Princípio V).
 
+### Adicionado — análise monovariada: laboratório, dois exercícios e notebook (cap. 21)
+- **Laboratório `21-l1`** sobre o conjunto **real** da limonada, servido pelo
+  próprio site: seletor de coluna, **histograma e boxplot na mesma escala**, e o
+  painel completo — n, distintos, média, mediana, moda, desvio-padrão, Q1/Q3,
+  IQR, P10/P90, cerca de 1,5 × IQR e contagem de outliers. Média e mediana
+  aparecem como linhas tracejadas sobre o histograma: o afastamento entre elas é
+  a assimetria, visível de graça.
+- **`21-e4`** cobra o caso que o dado entrega de bandeja: `preco` acusa **62
+  outliers** porque **Q1 = Q3 = 0,30 e o IQR é zero** — a régua quebrou, não os
+  dados. E aumentar o fator de 1,5 para 3,0 não muda nada: três vezes zero
+  continua zero.
+- **`21-e5`** (aberta) usa `precipitacao`, onde a regra acusa 28 pontos **por
+  construção** — distribuição assimétrica, cauda longa, chuva forte é fenômeno e
+  não erro. A rubrica exige **critério declarado**, não remoção por reflexo.
+- **Notebook `etapa-21/exploratoria_limonada.ipynb`**, com o caminho da aula:
+  tipo de cada campo → contagem e nulidade → posição → separatrizes (incluindo a
+  verificação de que P50 = Q2 = D5) → histograma e boxplot → a cerca coluna a
+  coluna.
+- **ADR 0010**: esta é a **única** etapa que usa `pandas` e `matplotlib`. O
+  assunto é *ler distribuição*; desenhar histograma à mão ensinaria sobre
+  desenho. A conta em si — quantil, cerca, descritivas — está escrita à mão no
+  laboratório, em 30 linhas.
+
+### Corrigido — três defeitos que só apareceram ao dirigir o navegador
+- **A última coluna do CSV era inacessível.** O arquivo estava com terminador
+  `CRLF`, então o `\r` colava no nome da última coluna e a chave virava
+  `"vendas\r"`. O laboratório lia `undefined`, a coluna inteira virava `NaN` — e
+  **o painel continuava exibindo os números da coluna anterior**, porque o
+  desenho quebrava antes de atualizá-lo. Valor errado exibido com confiança é
+  pior que erro na tela. O CSV foi regravado com `LF` e o parser passou a
+  limpar cada campo.
+- **O painel do laboratório novo nascia espremido**: a regra de largura escrita
+  para o laboratório do capítulo 05 estava presa ao seletor daquele laboratório.
+- **`ml-zero/` estava no `.vercelignore`**, e o build agora lê o CSV de lá. A
+  produção não quebraria (é construída no GitHub Actions, com o repositório
+  inteiro) — **só as previews**, que é a falha mais difícil de diagnosticar.
+- O **verificador de notebooks** passou a rodar **um processo por notebook**: a
+  versão anterior limpava `sys.modules` entre eles e quebrava no primeiro
+  `import numpy` (extensão em C não recarrega). Processo próprio é também o que
+  o Jupyter dá ao aluno.
+
 ### Adicionado — laboratório de mínimos quadrados, dedução do método, e o capítulo 28 (ADR 0009)
 - **Laboratório `05-l1`**: nuvem de pontos aleatória, e a reta manipulável pelos
   **coeficientes** ou **arrastando as alças** direto no gráfico. Resíduos

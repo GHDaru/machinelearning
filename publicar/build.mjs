@@ -388,6 +388,12 @@ for (const arq of [
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
 }
+// Conjuntos de dados que os laboratórios leem no navegador. O laboratório de
+// exploração do capítulo 21 precisa do dado REAL — inventar números tiraria
+// dele exatamente o que ensina: as assimetrias e os outliers deste conjunto.
+mkdirSync(resolve(SAIDA, "dados"), { recursive: true });
+cpSync(resolve(RAIZ, "ml-zero/dados/limonada/limonada.csv"), resolve(SAIDA, "dados/limonada.csv"));
+
 writeFileSync(resolve(SAIDA, ".nojekyll"), "");
 
 let gerados = 0;

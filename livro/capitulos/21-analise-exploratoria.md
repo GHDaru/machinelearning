@@ -85,6 +85,43 @@ Qual é a **mediana** desse conjunto?
 > **volte para:** #fundamentos-a-media-mente-a-mediana-aguenta
 :::
 
+## Olhe uma variável de cada vez
+
+A análise monovariada é a primeira coisa que se faz e a que mais se pula. Antes de cruzar duas colunas, olhe **uma**: que tipo é, quantos valores distintos tem, onde está o centro, quanto ela varia, e o que há nas pontas.
+
+:::lab {"id":"21-l1","tipo":"explorar-variavel","titulo":"Análise monovariada — venda de limonada","colunas":["temperatura","precipitacao","panfletos","preco","vendas"]}
+As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.
+
+A linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.
+
+Percorra as cinco colunas e responda, para cada uma:
+
+1. A distribuição é **simétrica**? De que lado ela puxa?
+2. Há **outliers** pela cerca de 1,5 × IQR? Quantos?
+3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?
+
+Duas colunas têm respostas surpreendentes. Encontre-as antes de ler a seção seguinte.
+:::
+
+:::exercicio {"id":"21-e4","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
+No laboratório acima, a coluna `preco` acusa **62 outliers** pela regra de 1,5 × IQR — mais de um sexto do conjunto. Qual é a leitura correta?
+
+- [ ] São 62 erros de digitação no registro do preço, e devem ser removidos antes de modelar.
+- [ ] A regra está certa: 62 dias tiveram preço anormal, e esses dias merecem investigação individual.
+- [x] A régua quebrou: com Q1 = Q3 = 0,30, o IQR é **zero**, e qualquer valor diferente de 0,30 cai fora da cerca.
+- [ ] O problema é o fator 1,5; com 3,0 em vez de 1,5 os 62 pontos deixariam de ser acusados.
+
+> **gabarito:** A régua quebrou — o IQR é zero
+> **porque:** A coluna tem **dois** valores em 365 dias: 0,30 em 303 deles e 0,50 nos 62 de julho e agosto. Como mais de 75% das linhas valem 0,30, o primeiro e o terceiro quartis coincidem: Q1 = Q3 = 0,30, logo **IQR = 0** e a cerca vira o intervalo [0,30 ; 0,30]. Tudo que não é exatamente 0,30 é acusado.
+>
+> Os 62 dias não são anomalia: são a alta temporada, e o preço foi uma **decisão** da dona. Removê-los apagaria julho e agosto do conjunto — dois dos meses mais importantes do negócio.
+>
+> A última alternativa é a mais instrutiva entre as erradas: com IQR igual a zero, **qualquer** multiplicador dá cerca de largura zero. 3,0 × 0 continua sendo 0. O problema não é a folga, é a régua.
+>
+> A lição do capítulo, em uma frase: **critério de outlier é escolha declarada, não verdade estatística.** A regra de 1,5 × IQR pressupõe uma distribuição contínua e razoavelmente espalhada. Aplicada a uma variável quase constante — ou a uma categórica disfarçada de número — ela produz um resultado tecnicamente correto e completamente sem sentido.
+> **volte para:** #olhe-uma-variavel-de-cada-vez
+:::
+
 ## Correlação: o que ela mede e o que ela não prova
 
 A correlação de Pearson resume, num número entre −1 e 1, o quanto duas variáveis andam juntas **em linha reta**. As duas palavras finais são a armadilha inteira: uma relação forte e curva — um U perfeito, por exemplo — pode dar correlação próxima de zero. Correlação zero não significa "não há relação"; significa "não há relação *linear*".
@@ -154,6 +191,41 @@ Escreva o que você faz com esses 12 pedidos: **como decide** e **o que registra
 > Repare no efeito colateral que quase sempre escapa: se as vendas corporativas ficam, o alvo é fortemente assimétrico, e otimizar erro quadrático médio faz o modelo perseguir a cauda. A decisão sobre outliers e a escolha da métrica são a **mesma** decisão tomada duas vezes.
 > **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
 :::
+
+:::exercicio {"id":"21-e5","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
+No laboratório, escolha a coluna **`precipitacao`**. Ela tem média 0,83 e mediana 0,74, mínimo 0,47, máximo 2,50, e a cerca de 1,5 × IQR acusa **28 pontos**.
+
+Escreva um parágrafo de análise monovariada dessa variável, respondendo:
+
+1. a distribuição é simétrica? Para que lado puxa, e como você sabe?
+2. média ou mediana descreve melhor esta variável — e por quê?
+3. os 28 pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?
+
+> **rubrica:** identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;
+> escolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda;
+> reconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;
+> declara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo;
+> não confunde "fora da cerca" com "errado"
+> **porque:** As três respostas se encadeiam, e a terceira é a que separa quem entendeu.
+>
+> **Simetria:** média 0,83 > mediana 0,74. Quando a média fica à direita da mediana, há cauda à direita — poucos dias de chuva muito acima do normal puxam a média, e a mediana nem se mexe. É a mesma mecânica da rua do começo do capítulo, em escala menor.
+>
+> **Qual medida:** a mediana. "Num dia típico chove 0,74" descreve o que se vê; "chove em média 0,83" descreve um dia que quase não existe.
+>
+> **Os 28 pontos:** são dias de chuva forte. Chuva forte **acontece** — a distribuição da precipitação é naturalmente assimétrica, e a regra de 1,5 × IQR acusa muito em distribuição assimétrica **por construção**, já que ela foi pensada para dados aproximadamente simétricos. Remover esses dias tiraria do conjunto justamente as observações que explicam as piores vendas do ano.
+>
+> A resposta forte não é "manter" nem "remover": é **declarar o critério**. Por exemplo: *"mantenho, porque são fenômeno e não erro; marco com uma coluna `chuva_forte` para poder verificar depois se o modelo erra mais nesses dias"*. Isso é decisão auditável — e é o que o capítulo pede quando diz que outlier se resolve com critério declarado.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
+
+
+## Mão na massa
+
+**Notebook pronto para executar** — [`exploratoria_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-21/exploratoria_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-21/exploratoria_limonada.ipynb)
+
+O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada campo, contagem e nulidade, média × mediana × moda, decis e quartis (com a verificação de que P50 = Q2 = D5), histograma e boxplot desenhados juntos na mesma escala, e a cerca de 1,5 × IQR calculada coluna a coluna.
+
+> Este é o **único** notebook da trilha que usa `pandas` e `matplotlib` — as duas já vêm no Colab. A razão está no [ADR 0010](https://github.com/GHDaru/machinelearning/blob/main/adr/0010-pandas-na-etapa-de-exploracao.md): o assunto aqui é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho. A conta em si — quantil, cerca, descritivas — está escrita à mão no laboratório, em 30 linhas de JavaScript.
 
 ## Síntese — o que levar
 
