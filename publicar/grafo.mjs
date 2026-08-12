@@ -48,7 +48,11 @@ function contar(re, texto) {
 }
 
 export function gerarGrafo(itens, RAIZ, versao) {
-  const capitulos = itens.filter((i) => /^\s*\d+\s*—/.test(i.titulo));
+  // Um capítulo é o que tem "<numeração> — Título". A numeração passou a ser
+  // por parte (ADR 0011), então o nó é identificado pelo SLUG — que é estável e
+  // não depende de o número ser um inteiro.
+  const capitulos = itens.filter((i) => /^\s*(?:\d+|[0IVXLC]+\.\d+)\s*—/i.test(i.titulo));
+  const porSlug = new Map(capitulos.map((c) => [c.slug, c]));
   const nos = [];
   const arestas = [];
   const addAresta = (de, para, peso) => {
@@ -56,8 +60,7 @@ export function gerarGrafo(itens, RAIZ, versao) {
   };
 
   for (const c of capitulos) {
-    const num = c.titulo.match(/^\s*(\d+)/)[1];
-    nos.push({ id: "cap-" + num, tipo: "capitulo", rotulo: c.titulo, url: c.slug + ".html" });
+    nos.push({ id: "cap-" + c.slug, tipo: "capitulo", rotulo: c.titulo, url: c.slug + ".html" });
   }
   for (const co of CONCEITOS) nos.push({ id: co.id, tipo: "conceito", rotulo: co.rotulo, url: "glossario.html" });
   ETAPAS.forEach((e, i) => {
@@ -68,16 +71,17 @@ export function gerarGrafo(itens, RAIZ, versao) {
   for (const c of capitulos) {
     const caminho = resolve(RAIZ, c.arquivo);
     if (!existsSync(caminho)) continue;
-    const num = c.titulo.match(/^\s*(\d+)/)[1];
-    const id = "cap-" + num;
+    const id = "cap-" + c.slug;
     // corpo sem blocos de código (código cita nomes por razões mecânicas, não conceituais)
     const texto = readFileSync(caminho, "utf8").replace(/```[\s\S]*?```/g, " ");
 
-    // capítulo → capítulo ("cap. NN" / "capítulo NN")
+    // capítulo → capítulo: agora pelo LINK, não pela menção "cap. NN". É mais
+    // fiel — uma referência que o autor linkou é uma dependência declarada, e a
+    // menção solta no meio de uma frase nem sempre é.
     const porCap = {};
-    for (const m of texto.matchAll(/\bcap(?:ítulos?|s?\.)\s*(\d{1,2})\b/gi)) {
-      const alvo = String(parseInt(m[1], 10)).padStart(2, "0");
-      if (alvo !== num && capitulos.some((x) => x.titulo.trim().startsWith(alvo))) porCap[alvo] = (porCap[alvo] || 0) + 1;
+    for (const m of texto.matchAll(/\(([a-z0-9-]+)\.md(?:#[a-z0-9-]*)?\)/gi)) {
+      const alvo = m[1].toLowerCase();
+      if (alvo !== c.slug && porSlug.has(alvo)) porCap[alvo] = (porCap[alvo] || 0) + 1;
     }
     for (const alvo of Object.keys(porCap)) addAresta(id, "cap-" + alvo, porCap[alvo]);
 

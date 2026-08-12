@@ -1,9 +1,9 @@
 {
  "exercicios": [
   {
-   "id": "00-e1",
-   "capitulo": 0,
-   "arquivo": "livro/00-introducao.md",
+   "id": "introducao-e1",
+   "capitulo": 1,
+   "arquivo": "livro/0-1-introducao.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -32,13 +32,13 @@
    "volte_para": "#quando-nao-usar-machine-learning",
    "rubrica": null,
    "versoes": null,
-   "pagina": "00-introducao",
-   "titulo_capitulo": "00 — Introdução"
+   "pagina": "0-1-introducao",
+   "titulo_capitulo": "0.1 — Introdução"
   },
   {
-   "id": "00-e2",
-   "capitulo": 0,
-   "arquivo": "livro/00-introducao.md",
+   "id": "introducao-e2",
+   "capitulo": 1,
+   "arquivo": "livro/0-1-introducao.md",
    "tipo": "multipla-multi",
    "objetivo": "O1",
    "pontos": 1,
@@ -71,13 +71,13 @@
    "volte_para": "#o-que-muda-quando-a-regra-e-aprendida",
    "rubrica": null,
    "versoes": null,
-   "pagina": "00-introducao",
-   "titulo_capitulo": "00 — Introdução"
+   "pagina": "0-1-introducao",
+   "titulo_capitulo": "0.1 — Introdução"
   },
   {
-   "id": "00-e3",
-   "capitulo": 0,
-   "arquivo": "livro/00-introducao.md",
+   "id": "introducao-e3",
+   "capitulo": 1,
+   "arquivo": "livro/0-1-introducao.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -89,8 +89,8 @@
    "volte_para": "#como-este-livro-funciona",
    "rubrica": "identifica uma regra concreta que é difícil de enunciar explicitamente;\ndescreve uma fonte de exemplos plausível e disponível, não hipotética;\npropõe uma medida de sucesso observável, e não um adjetivo (\"bom\", \"preciso\");\na medida proposta tem alguma relação com a consequência no mundo, não só com o modelo",
    "versoes": null,
-   "pagina": "00-introducao",
-   "titulo_capitulo": "00 — Introdução",
+   "pagina": "0-1-introducao",
+   "titulo_capitulo": "0.1 — Introdução",
    "criterios": [
     "identifica uma regra concreta que é difícil de enunciar explicitamente",
     "descreve uma fonte de exemplos plausível e disponível, não hipotética",
@@ -99,9 +99,9 @@
    ]
   },
   {
-   "id": "01-e1",
-   "capitulo": 1,
-   "arquivo": "livro/01-fundamentos.md",
+   "id": "fundamentos-e1",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
    "tipo": "multipla",
    "objetivo": "O4",
    "pontos": 1,
@@ -130,13 +130,13 @@
    "volte_para": "#as-tres-divisoes-e-por-que-sao-tres",
    "rubrica": null,
    "versoes": null,
-   "pagina": "01-fundamentos",
-   "titulo_capitulo": "01 — Fundamentos"
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
   },
   {
-   "id": "01-e2",
-   "capitulo": 1,
-   "arquivo": "livro/01-fundamentos.md",
+   "id": "fundamentos-e2",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -165,13 +165,13 @@
    "volte_para": "#o-diagnostico-pratico",
    "rubrica": null,
    "versoes": null,
-   "pagina": "01-fundamentos",
-   "titulo_capitulo": "01 — Fundamentos"
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
   },
   {
-   "id": "01-e3",
-   "capitulo": 1,
-   "arquivo": "livro/01-fundamentos.md",
+   "id": "fundamentos-e3",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
    "tipo": "completar",
    "objetivo": "O3",
    "pontos": 1,
@@ -183,13 +183,13 @@
    "volte_para": "#a-decomposicao-vies-variancia",
    "rubrica": null,
    "versoes": null,
-   "pagina": "01-fundamentos",
-   "titulo_capitulo": "01 — Fundamentos"
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
   },
   {
-   "id": "19-e1",
-   "capitulo": 19,
-   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "id": "ciclo-ciencia-de-dados-e1",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -214,17 +214,17 @@
     }
    ],
    "gabarito": "Descobrir qual decisão vai mudar, quem a toma e quando",
-   "porque": "\"Reduzir sinistros\" não é um problema de mineração de dados — é um objetivo de negócio, e dele saem alvos completamente diferentes: prever quem vai bater o carro, recusar propostas de risco, reprecificar apólices na renovação, priorizar vistoria. Cada um exige rótulo, dado e prazo distintos. Sem essa conversa você não escolhe entre eles: você herda o alvo que a tabela mais acessível permitir.\n\nA alternativa mais tentadora é a última — o [capítulo 04](04-avaliacao.md) insiste em definir a métrica **antes** de treinar, e isso está certo. Mas a métrica se escolhe pelo custo do erro, e o custo do erro é informação de negócio: quem paga um falso positivo aqui, o cliente recusado ou a seguradora? Definir métrica sem a fase 1 é escolher no chute e chamar de rigor. Inventariar tabelas é a fase 2; treinar uma linha de base é a fase 4 — as duas são trabalho útil, na hora errada.",
+   "porque": "\"Reduzir sinistros\" não é um problema de mineração de dados — é um objetivo de negócio, e dele saem alvos completamente diferentes: prever quem vai bater o carro, recusar propostas de risco, reprecificar apólices na renovação, priorizar vistoria. Cada um exige rótulo, dado e prazo distintos. Sem essa conversa você não escolhe entre eles: você herda o alvo que a tabela mais acessível permitir.\n\nA alternativa mais tentadora é a última — o [capítulo II.1](ii-1-avaliacao.md) insiste em definir a métrica **antes** de treinar, e isso está certo. Mas a métrica se escolhe pelo custo do erro, e o custo do erro é informação de negócio: quem paga um falso positivo aqui, o cliente recusado ou a seguradora? Definir métrica sem a fase 1 é escolher no chute e chamar de rigor. Inventariar tabelas é a fase 2; treinar uma linha de base é a fase 4 — as duas são trabalho útil, na hora errada.",
    "volte_para": "#o-problema-um-modelo-excelente-para-a-pergunta-errada",
    "rubrica": null,
    "versoes": null,
-   "pagina": "19-ciclo-ciencia-de-dados",
-   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados"
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
   },
   {
-   "id": "19-e4",
-   "capitulo": 19,
-   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "id": "ciclo-ciencia-de-dados-e4",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
    "tipo": "aberta",
    "objetivo": "O2",
    "pontos": 3,
@@ -236,8 +236,8 @@
    "volte_para": "#fundamentos-as-seis-fases-e-o-que-cada-uma-entrega",
    "rubrica": "o objetivo de negócio é expresso em consequência para a barraca (vender mais, perder menos, comprar melhor), e não em métrica de modelo;\no critério de sucesso é verificável — traz número, limiar ou comparação com o que se faz hoje;\na restrição de ação nomeia o que a dona controla de fato (preço, quantidade de panfletos, quanto preparar) e o que ela não controla (o tempo);\na resposta considera o prazo: a previsão precisa chegar antes do momento em que a decisão é tomada;\nnão confunde as três coisas entre si nem pula alguma",
    "versoes": null,
-   "pagina": "19-ciclo-ciencia-de-dados",
-   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados",
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados",
    "criterios": [
     "o objetivo de negócio é expresso em consequência para a barraca (vender mais, perder menos, comprar melhor), e não em métrica de modelo",
     "o critério de sucesso é verificável — traz número, limiar ou comparação com o que se faz hoje",
@@ -247,9 +247,9 @@
    ]
   },
   {
-   "id": "19-e5",
-   "capitulo": 19,
-   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "id": "ciclo-ciencia-de-dados-e5",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
    "tipo": "aberta",
    "objetivo": "O1",
    "pontos": 3,
@@ -257,12 +257,12 @@
    "enunciado": "**Fase 2 — Entendimento dos dados.** *O que existe, e dá para confiar?*\n\nO registro da barraca tem 365 linhas e sete colunas: `data`, `dia_semana`, `temperatura`, `precipitacao`, `panfletos`, `preco`, `vendas`. Nenhum valor faltante.\n\nEntregue as **três** coisas que a fase 2 exige:\n\n1. o **inventário**: o que cada coluna é, e — a pergunta que separa a fase 2 da fase 3 — **quais delas você teria em mãos no momento de decidir**;\n2. as **primeiras estatísticas** que você pediria antes de qualquer modelo, e o que cada uma responderia;\n3. pelo menos **dois problemas de qualidade ou de confiança** que você iria procurar neste conjunto específico.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "A fase 2 não é \"olhar os dados\": é decidir **se dá para confiar** e **o que está faltando**. Três achados que este conjunto entrega a quem procura:\n\n**A unidade da temperatura não está declarada.** A faixa vai de 15 a 103. Em Fahrenheit faz sentido; em Celsius seria impossível. Reportar um coeficiente sem saber a unidade é reportar um número sem significado.\n\n**O preço tem só dois valores distintos** em 365 dias. Uma coluna quase constante quase não informa — e, pior, os dois valores podem estar amarrados a outra coisa (fase 3 e capítulo 05 mostram que estão: o preço mais alto só aparece em julho e agosto).\n\n**\"Sem valores faltantes\" não é atestado de qualidade.** Pode significar que os dias fechados simplesmente não viraram linha. Um ano com exatamente 365 registros e nenhuma falha é suspeito num negócio de rua — e a ausência de buracos é, ela própria, um dado sobre como o registro foi feito.\n\nE o item 1 é o que mais reprova em projeto real: `panfletos` só é conhecido **depois** de a dona decidir quantos distribuir. Usá-lo para prever a demanda da manhã transforma o modelo numa profecia que depende de ver o futuro.",
+   "porque": "A fase 2 não é \"olhar os dados\": é decidir **se dá para confiar** e **o que está faltando**. Três achados que este conjunto entrega a quem procura:\n\n**A unidade da temperatura não está declarada.** A faixa vai de 15 a 103. Em Fahrenheit faz sentido; em Celsius seria impossível. Reportar um coeficiente sem saber a unidade é reportar um número sem significado.\n\n**O preço tem só dois valores distintos** em 365 dias. Uma coluna quase constante quase não informa — e, pior, os dois valores podem estar amarrados a outra coisa (fase 3 e capítulo II.2 mostram que estão: o preço mais alto só aparece em julho e agosto).\n\n**\"Sem valores faltantes\" não é atestado de qualidade.** Pode significar que os dias fechados simplesmente não viraram linha. Um ano com exatamente 365 registros e nenhuma falha é suspeito num negócio de rua — e a ausência de buracos é, ela própria, um dado sobre como o registro foi feito.\n\nE o item 1 é o que mais reprova em projeto real: `panfletos` só é conhecido **depois** de a dona decidir quantos distribuir. Usá-lo para prever a demanda da manhã transforma o modelo numa profecia que depende de ver o futuro.",
    "volte_para": "#fundamentos-as-seis-fases-e-o-que-cada-uma-entrega",
    "rubrica": "separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer (vendas é o alvo; panfletos e preço são decisões da dona; temperatura e precipitação dependem de previsão do tempo, não do valor observado);\npede estatísticas descritivas concretas — faixa, média, valores distintos, contagem por categoria — e diz o que cada uma responderia;\naponta pelo menos dois riscos reais do conjunto, entre: unidade da temperatura não declarada, preço com pouquíssimos valores distintos, período curto de um ano só, ausência de registro de dias fechados, dado possivelmente sintético;\nnão trata \"sem valores faltantes\" como prova de qualidade;\na resposta é sobre ESTE conjunto, não uma lista genérica de boas práticas",
    "versoes": null,
-   "pagina": "19-ciclo-ciencia-de-dados",
-   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados",
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados",
    "criterios": [
     "separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer (vendas é o alvo",
     "panfletos e preço são decisões da dona",
@@ -274,9 +274,9 @@
    ]
   },
   {
-   "id": "19-e2",
-   "capitulo": 19,
-   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "id": "ciclo-ciencia-de-dados-e2",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
@@ -288,17 +288,17 @@
    "volte_para": "#as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata",
    "rubrica": null,
    "versoes": null,
-   "pagina": "19-ciclo-ciencia-de-dados",
-   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados",
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados",
    "gabarito_num": {
     "valor": 1,
     "tolerancia": 0
    }
   },
   {
-   "id": "19-e3",
-   "capitulo": 19,
-   "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
+   "id": "ciclo-ciencia-de-dados-e3",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -310,8 +310,8 @@
    "volte_para": "#quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo",
    "rubrica": "atribui as fases 2 e 3 majoritariamente ao engenheiro de dados;\natribui as fases 4 e 5 ao cientista de dados;\natribui a fase 6 ao engenheiro de ML, com monitoramento;\nidentifica a fase 1 (entendimento do negócio) como a que fica sem dono natural neste trio;\npropõe uma solução concreta — trazer a área de retenção para a fase 1, ou o cientista de dados assumir formalmente a conversa — em vez de só apontar o problema;\njustifica com a consequência: sem dono na fase 1, o time otimiza um alvo que ninguém pediu",
    "versoes": null,
-   "pagina": "19-ciclo-ciencia-de-dados",
-   "titulo_capitulo": "19 — O Ciclo da Ciência de Dados",
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados",
    "criterios": [
     "atribui as fases 2 e 3 majoritariamente ao engenheiro de dados",
     "atribui as fases 4 e 5 ao cientista de dados",
@@ -322,9 +322,9 @@
    ]
   },
   {
-   "id": "20-e1",
-   "capitulo": 20,
-   "arquivo": "livro/capitulos/20-coleta-integracao.md",
+   "id": "coleta-integracao-e1",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/i-2-coleta-integracao.md",
    "tipo": "completar",
    "objetivo": "O3",
    "pontos": 1,
@@ -336,13 +336,13 @@
    "volte_para": "#fundamentos-as-fontes-e-a-ordem-da-transformacao",
    "rubrica": null,
    "versoes": null,
-   "pagina": "20-coleta-integracao",
-   "titulo_capitulo": "20 — Coleta e Integração"
+   "pagina": "i-2-coleta-integracao",
+   "titulo_capitulo": "I.2 — Coleta e Integração"
   },
   {
-   "id": "20-e2",
-   "capitulo": 20,
-   "arquivo": "livro/capitulos/20-coleta-integracao.md",
+   "id": "coleta-integracao-e2",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/i-2-coleta-integracao.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -371,13 +371,13 @@
    "volte_para": "#onde-o-dado-descansa-lake-warehouse-lakehouse",
    "rubrica": null,
    "versoes": null,
-   "pagina": "20-coleta-integracao",
-   "titulo_capitulo": "20 — Coleta e Integração"
+   "pagina": "i-2-coleta-integracao",
+   "titulo_capitulo": "I.2 — Coleta e Integração"
   },
   {
-   "id": "20-e3",
-   "capitulo": 20,
-   "arquivo": "livro/capitulos/20-coleta-integracao.md",
+   "id": "coleta-integracao-e3",
+   "capitulo": 4,
+   "arquivo": "livro/capitulos/i-2-coleta-integracao.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -385,12 +385,12 @@
    "enunciado": "Você monta o conjunto de treino de um modelo que prevê **inadimplência no momento da compra**. Os pedidos de 2025 estão no data warehouse; o cadastro vem de outro sistema, e a tabela `clientes` é sincronizada todas as noites **sobrescrevendo** a linha do cliente.\n\n```sql\nSELECT p.pedido_id, p.data_pedido, p.valor,\n       c.score_risco, c.situacao_cadastral\nFROM   pedidos p\nJOIN   clientes c ON c.cliente_id = p.cliente_id\nWHERE  p.data_pedido BETWEEN '2025-01-01' AND '2025-12-31';\n```\n\nO modelo treinado com essa tabela alcança desempenho muito acima do esperado. Explique o que está errado e o que você faria.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "O `JOIN` está sintaticamente correto e semanticamente errado. O `WHERE` recorta os **pedidos** no tempo, mas nada recorta o **cadastro**: cada linha de 2025 recebe o cliente como ele está agora. Um cliente que ficou inadimplente em novembro aparece como inadimplente também na compra de janeiro — o rótulo entrou disfarçado de atributo. É o vazamento do [capítulo 02](02-dados.md) na sua forma mais comum, e ele não nasce da modelagem: nasce da integração.\n\nO desempenho \"muito acima do esperado\" é o sinal, e vale como regra de ofício: **resultado bom demais é hipótese de vazamento até prova em contrário** — vá conferir a origem das colunas antes de comemorar.\n\nA correção estrutural é dar tempo à dimensão: guardar cada versão do cadastro com validade (`valido_de`, `valido_ate`) e juntar com `p.data_pedido BETWEEN c.valido_de AND c.valido_ate`. Onde isso não existe, sirva-se de snapshots datados do cadastro, ou recalcule o atributo a partir de eventos anteriores à data do pedido. E note o que a correção exige: alguém precisa ter decidido **guardar história** lá atrás. Por isso a pergunta de procedência é feita na coleta, não na modelagem — na modelagem já é tarde.",
+   "porque": "O `JOIN` está sintaticamente correto e semanticamente errado. O `WHERE` recorta os **pedidos** no tempo, mas nada recorta o **cadastro**: cada linha de 2025 recebe o cliente como ele está agora. Um cliente que ficou inadimplente em novembro aparece como inadimplente também na compra de janeiro — o rótulo entrou disfarçado de atributo. É o vazamento do [capítulo I.3](i-3-dados.md) na sua forma mais comum, e ele não nasce da modelagem: nasce da integração.\n\nO desempenho \"muito acima do esperado\" é o sinal, e vale como regra de ofício: **resultado bom demais é hipótese de vazamento até prova em contrário** — vá conferir a origem das colunas antes de comemorar.\n\nA correção estrutural é dar tempo à dimensão: guardar cada versão do cadastro com validade (`valido_de`, `valido_ate`) e juntar com `p.data_pedido BETWEEN c.valido_de AND c.valido_ate`. Onde isso não existe, sirva-se de snapshots datados do cadastro, ou recalcule o atributo a partir de eventos anteriores à data do pedido. E note o que a correção exige: alguém precisa ter decidido **guardar história** lá atrás. Por isso a pergunta de procedência é feita na coleta, não na modelagem — na modelagem já é tarde.",
    "volte_para": "#de-onde-veio-este-dado-e-quem-o-produziu",
    "rubrica": "identifica que `clientes` é sobrescrita e portanto o JOIN traz o estado de **hoje** para uma linha de 2025;\nreconhece que `score_risco` e `situacao_cadastral` foram produzidos **depois** do momento da decisão que o modelo deve apoiar;\nnomeia isso como vazamento e liga o desempenho alto no teste à queda esperada em produção;\npropõe ao menos uma correção concreta — dimensão versionada com validade (início/fim), snapshot datado do cadastro, ou recomputar o atributo com corte no tempo do pedido;\nfaz a pergunta de procedência sobre as colunas: quem as produz, com que frequência e se são sobrescritas",
    "versoes": null,
-   "pagina": "20-coleta-integracao",
-   "titulo_capitulo": "20 — Coleta e Integração",
+   "pagina": "i-2-coleta-integracao",
+   "titulo_capitulo": "I.2 — Coleta e Integração",
    "criterios": [
     "identifica que `clientes` é sobrescrita e portanto o JOIN traz o estado de **hoje** para uma linha de 2025",
     "reconhece que `score_risco` e `situacao_cadastral` foram produzidos **depois** do momento da decisão que o modelo deve apoiar",
@@ -400,9 +400,9 @@
    ]
   },
   {
-   "id": "02-e1",
-   "capitulo": 2,
-   "arquivo": "livro/capitulos/02-dados.md",
+   "id": "dados-e1",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/i-3-dados.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -431,13 +431,13 @@
    "volte_para": "#1-alvo-disfarcado-a-coluna-que-so-existe-depois",
    "rubrica": null,
    "versoes": null,
-   "pagina": "02-dados",
-   "titulo_capitulo": "02 — Qualidade e Vazamento"
+   "pagina": "i-3-dados",
+   "titulo_capitulo": "I.3 — Qualidade e Vazamento"
   },
   {
-   "id": "02-e2",
-   "capitulo": 2,
-   "arquivo": "livro/capitulos/02-dados.md",
+   "id": "dados-e2",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/i-3-dados.md",
    "tipo": "multipla-multi",
    "objetivo": "O1",
    "pontos": 1,
@@ -470,13 +470,13 @@
    "volte_para": "#2-pre-processamento-antes-da-divisao-o-vazamento-silencioso",
    "rubrica": null,
    "versoes": null,
-   "pagina": "02-dados",
-   "titulo_capitulo": "02 — Qualidade e Vazamento"
+   "pagina": "i-3-dados",
+   "titulo_capitulo": "I.3 — Qualidade e Vazamento"
   },
   {
-   "id": "02-e3",
-   "capitulo": 2,
-   "arquivo": "livro/capitulos/02-dados.md",
+   "id": "dados-e3",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/i-3-dados.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -505,13 +505,13 @@
    "volte_para": "#a-divisao-que-respeita-a-estrutura-dos-dados",
    "rubrica": null,
    "versoes": null,
-   "pagina": "02-dados",
-   "titulo_capitulo": "02 — Qualidade e Vazamento"
+   "pagina": "i-3-dados",
+   "titulo_capitulo": "I.3 — Qualidade e Vazamento"
   },
   {
-   "id": "02-e4",
-   "capitulo": 2,
-   "arquivo": "livro/capitulos/02-dados.md",
+   "id": "dados-e4",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/i-3-dados.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -523,8 +523,8 @@
    "volte_para": "#a-ficha-de-dataset",
    "rubrica": "questiona o rótulo automático e o teto que a regra de geração impõe;\nnota que descartar as 3 estrelas remove justamente os casos ambíguos, inflando a métrica;\nlevanta ao menos uma questão de origem, licença ou representatividade da base;\ncada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas",
    "versoes": null,
-   "pagina": "02-dados",
-   "titulo_capitulo": "02 — Qualidade e Vazamento",
+   "pagina": "i-3-dados",
+   "titulo_capitulo": "I.3 — Qualidade e Vazamento",
    "criterios": [
     "questiona o rótulo automático e o teto que a regra de geração impõe",
     "nota que descartar as 3 estrelas remove justamente os casos ambíguos, inflando a métrica",
@@ -533,9 +533,9 @@
    ]
   },
   {
-   "id": "21-e1",
-   "capitulo": 21,
-   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "id": "analise-exploratoria-e1",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
    "tipo": "numerica",
    "objetivo": "O1",
    "pontos": 1,
@@ -547,17 +547,17 @@
    "volte_para": "#fundamentos-a-media-mente-a-mediana-aguenta",
    "rubrica": null,
    "versoes": null,
-   "pagina": "21-analise-exploratoria",
-   "titulo_capitulo": "21 — Análise Exploratória",
+   "pagina": "i-4-analise-exploratoria",
+   "titulo_capitulo": "I.4 — Análise Exploratória",
    "gabarito_num": {
     "valor": 4,
     "tolerancia": 0
    }
   },
   {
-   "id": "21-e4",
-   "capitulo": 21,
-   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "id": "analise-exploratoria-e4",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
    "tipo": "multipla",
    "objetivo": "O4",
    "pontos": 1,
@@ -586,13 +586,13 @@
    "volte_para": "#olhe-uma-variavel-de-cada-vez",
    "rubrica": null,
    "versoes": null,
-   "pagina": "21-analise-exploratoria",
-   "titulo_capitulo": "21 — Análise Exploratória"
+   "pagina": "i-4-analise-exploratoria",
+   "titulo_capitulo": "I.4 — Análise Exploratória"
   },
   {
-   "id": "21-e2",
-   "capitulo": 21,
-   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "id": "analise-exploratoria-e2",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -621,13 +621,13 @@
    "volte_para": "#correlacao-o-que-ela-mede-e-o-que-ela-nao-prova",
    "rubrica": null,
    "versoes": null,
-   "pagina": "21-analise-exploratoria",
-   "titulo_capitulo": "21 — Análise Exploratória"
+   "pagina": "i-4-analise-exploratoria",
+   "titulo_capitulo": "I.4 — Análise Exploratória"
   },
   {
-   "id": "21-e3",
-   "capitulo": 21,
-   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "id": "analise-exploratoria-e3",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -639,8 +639,8 @@
    "volte_para": "#faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar",
    "rubrica": "investiga a origem de cada ponto antes de decidir, em vez de aplicar uma regra automática;\ndistingue explicitamente erro de medida, evento raro legítimo e alvo de interesse;\npropõe um critério declarado e reprodutível (regra escrita, contagem de linhas afetadas), não \"limpei os outliers\";\nconsidera o efeito da decisão sobre a métrica e sobre a escolha entre média e mediana;\nmenciona documentar a decisão para quem for reproduzir ou revisar",
    "versoes": null,
-   "pagina": "21-analise-exploratoria",
-   "titulo_capitulo": "21 — Análise Exploratória",
+   "pagina": "i-4-analise-exploratoria",
+   "titulo_capitulo": "I.4 — Análise Exploratória",
    "criterios": [
     "investiga a origem de cada ponto antes de decidir, em vez de aplicar uma regra automática",
     "distingue explicitamente erro de medida, evento raro legítimo e alvo de interesse",
@@ -650,9 +650,9 @@
    ]
   },
   {
-   "id": "21-e5",
-   "capitulo": 21,
-   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "id": "analise-exploratoria-e5",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
    "tipo": "aberta",
    "objetivo": "O2",
    "pontos": 3,
@@ -664,8 +664,8 @@
    "volte_para": "#faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar",
    "rubrica": "identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga;\nescolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda;\nreconhece que os 28 pontos são dias de chuva forte, isto é, **variação legítima do fenômeno**, e não erro de registro;\ndeclara um critério explícito para a decisão (manter, marcar, transformar) em vez de remover por reflexo;\nnão confunde \"fora da cerca\" com \"errado\"",
    "versoes": null,
-   "pagina": "21-analise-exploratoria",
-   "titulo_capitulo": "21 — Análise Exploratória",
+   "pagina": "i-4-analise-exploratoria",
+   "titulo_capitulo": "I.4 — Análise Exploratória",
    "criterios": [
     "identifica assimetria à direita, e justifica pela média ser maior que a mediana (ou pela cauda longa do histograma), não por impressão visual vaga",
     "escolhe a mediana como descrição mais fiel, ligando a escolha à assimetria — a média é puxada pela cauda",
@@ -675,9 +675,9 @@
    ]
   },
   {
-   "id": "22-e1",
-   "capitulo": 22,
-   "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
+   "id": "visualizacao-storytelling-e1",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/i-5-visualizacao-storytelling.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -706,13 +706,13 @@
    "volte_para": "#fundamentos-a-pergunta-escolhe-o-grafico",
    "rubrica": null,
    "versoes": null,
-   "pagina": "22-visualizacao-storytelling",
-   "titulo_capitulo": "22 — Visualização e Storytelling"
+   "pagina": "i-5-visualizacao-storytelling",
+   "titulo_capitulo": "I.5 — Visualização e Storytelling"
   },
   {
-   "id": "22-e2",
-   "capitulo": 22,
-   "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
+   "id": "visualizacao-storytelling-e2",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/i-5-visualizacao-storytelling.md",
    "tipo": "aberta",
    "objetivo": "O2",
    "pontos": 3,
@@ -724,8 +724,8 @@
    "volte_para": "#como-um-grafico-mente-sem-dizer-uma-mentira",
    "rubrica": "identifica o eixo Y truncado como o problema central;\nexplica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores;\nobserva que a variação real é pequena (cerca de 1,1 ponto, ~1%) e que a impressão visual (~11×) não corresponde a ela;\npropõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível;\nmenciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)",
    "versoes": null,
-   "pagina": "22-visualizacao-storytelling",
-   "titulo_capitulo": "22 — Visualização e Storytelling",
+   "pagina": "i-5-visualizacao-storytelling",
+   "titulo_capitulo": "I.5 — Visualização e Storytelling",
    "criterios": [
     "identifica o eixo Y truncado como o problema central",
     "explica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores",
@@ -735,9 +735,9 @@
    ]
   },
   {
-   "id": "22-e3",
-   "capitulo": 22,
-   "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
+   "id": "visualizacao-storytelling-e3",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/i-5-visualizacao-storytelling.md",
    "tipo": "completar",
    "objetivo": "O3",
    "pontos": 1,
@@ -749,13 +749,13 @@
    "volte_para": "#o-grafico-que-decide",
    "rubrica": null,
    "versoes": null,
-   "pagina": "22-visualizacao-storytelling",
-   "titulo_capitulo": "22 — Visualização e Storytelling"
+   "pagina": "i-5-visualizacao-storytelling",
+   "titulo_capitulo": "I.5 — Visualização e Storytelling"
   },
   {
-   "id": "03-e1",
-   "capitulo": 3,
-   "arquivo": "livro/capitulos/03-representacao.md",
+   "id": "representacao-e1",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/i-6-representacao.md",
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
@@ -784,13 +784,13 @@
    "volte_para": "#2-numerica-a-escala-importa",
    "rubrica": null,
    "versoes": null,
-   "pagina": "03-representacao",
-   "titulo_capitulo": "03 — Representação"
+   "pagina": "i-6-representacao",
+   "titulo_capitulo": "I.6 — Representação"
   },
   {
-   "id": "03-e2",
-   "capitulo": 3,
-   "arquivo": "livro/capitulos/03-representacao.md",
+   "id": "representacao-e2",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/i-6-representacao.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -802,17 +802,17 @@
    "volte_para": "#1-categorica-quantos-valores-diferentes-existem",
    "rubrica": null,
    "versoes": null,
-   "pagina": "03-representacao",
-   "titulo_capitulo": "03 — Representação",
+   "pagina": "i-6-representacao",
+   "titulo_capitulo": "I.6 — Representação",
    "gabarito_num": {
     "valor": 4,
     "tolerancia": 0
    }
   },
   {
-   "id": "03-e3",
-   "capitulo": 3,
-   "arquivo": "livro/capitulos/03-representacao.md",
+   "id": "representacao-e3",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/i-6-representacao.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -824,8 +824,8 @@
    "volte_para": "#3-dominio-que-atributo-nao-esta-la",
    "rubrica": "propõe ao menos um atributo de **razão ou média** (ticket médio = total gasto / número de compras) em vez de usar só valores absolutos;\npropõe ao menos um atributo **temporal** (dias desde a última compra, ou frequência recente contra frequência histórica) e reconhece que a data da última compra não está na tabela e precisa ser pedida;\njustifica cada atributo por uma hipótese de negócio explícita, não por \"costuma ajudar\";\ndescreve uma medição comparativa com protocolo — mesma divisão, mesmo modelo, com e sem os atributos;\nmenciona a incerteza da comparação, ou o risco de vazamento ao construir atributo temporal",
    "versoes": null,
-   "pagina": "03-representacao",
-   "titulo_capitulo": "03 — Representação",
+   "pagina": "i-6-representacao",
+   "titulo_capitulo": "I.6 — Representação",
    "criterios": [
     "propõe ao menos um atributo de **razão ou média** (ticket médio = total gasto / número de compras) em vez de usar só valores absolutos",
     "propõe ao menos um atributo **temporal** (dias desde a última compra, ou frequência recente contra frequência histórica) e reconhece que a data da última compra não está na tabela e precisa ser pedida",
@@ -835,9 +835,9 @@
    ]
   },
   {
-   "id": "04-e1",
-   "capitulo": 4,
-   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "id": "avaliacao-e1",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/ii-1-avaliacao.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -866,13 +866,13 @@
    "volte_para": "#a-linha-de-base-que-voce-precisa-bater",
    "rubrica": null,
    "versoes": null,
-   "pagina": "04-avaliacao",
-   "titulo_capitulo": "04 — Avaliação"
+   "pagina": "ii-1-avaliacao",
+   "titulo_capitulo": "II.1 — Avaliação"
   },
   {
-   "id": "04-e2",
-   "capitulo": 4,
-   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "id": "avaliacao-e2",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/ii-1-avaliacao.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -884,17 +884,17 @@
    "volte_para": "#fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva",
    "rubrica": null,
    "versoes": null,
-   "pagina": "04-avaliacao",
-   "titulo_capitulo": "04 — Avaliação",
+   "pagina": "ii-1-avaliacao",
+   "titulo_capitulo": "II.1 — Avaliação",
    "gabarito_num": {
     "valor": 0.75,
     "tolerancia": 0.01
    }
   },
   {
-   "id": "04-e3",
-   "capitulo": 4,
-   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "id": "avaliacao-e3",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/ii-1-avaliacao.md",
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
@@ -923,13 +923,13 @@
    "volte_para": "#worked-example-a-mesma-matriz-tres-leituras",
    "rubrica": null,
    "versoes": null,
-   "pagina": "04-avaliacao",
-   "titulo_capitulo": "04 — Avaliação"
+   "pagina": "ii-1-avaliacao",
+   "titulo_capitulo": "II.1 — Avaliação"
   },
   {
-   "id": "04-e4",
-   "capitulo": 4,
-   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "id": "avaliacao-e4",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/ii-1-avaliacao.md",
    "tipo": "multipla-multi",
    "objetivo": "O4",
    "pontos": 1,
@@ -962,13 +962,13 @@
    "volte_para": "#ranking-decisao-e-calibracao-tres-coisas-diferentes",
    "rubrica": null,
    "versoes": null,
-   "pagina": "04-avaliacao",
-   "titulo_capitulo": "04 — Avaliação"
+   "pagina": "ii-1-avaliacao",
+   "titulo_capitulo": "II.1 — Avaliação"
   },
   {
-   "id": "04-e5",
-   "capitulo": 4,
-   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "id": "avaliacao-e5",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/ii-1-avaliacao.md",
    "tipo": "aberta",
    "objetivo": "O5",
    "pontos": 3,
@@ -980,8 +980,8 @@
    "volte_para": "#metrica-e-uma-estimativa-reporte-a-incerteza",
    "rubrica": "questiona se a diferença de 0,017 é maior que a incerteza da medição;\npropõe um procedimento concreto para estimar essa incerteza (bootstrap, validação cruzada ou teste pareado);\nobserva que os dois modelos foram medidos no mesmo conjunto, o que permite comparação pareada e reduz a variância da comparação;\nconsidera ao menos um fator além da métrica (custo de troca, latência, interpretabilidade, calibração, comportamento por subgrupo)",
    "versoes": null,
-   "pagina": "04-avaliacao",
-   "titulo_capitulo": "04 — Avaliação",
+   "pagina": "ii-1-avaliacao",
+   "titulo_capitulo": "II.1 — Avaliação",
    "criterios": [
     "questiona se a diferença de 0,017 é maior que a incerteza da medição",
     "propõe um procedimento concreto para estimar essa incerteza (bootstrap, validação cruzada ou teste pareado)",
@@ -990,9 +990,9 @@
    ]
   },
   {
-   "id": "05-e1",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "modelos-lineares-e1",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1021,13 +1021,13 @@
    "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
    "rubrica": null,
    "versoes": null,
-   "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares"
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "05-e7",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "modelos-lineares-e7",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -1039,17 +1039,17 @@
    "volte_para": "#a-deducao-em-cinco-passos",
    "rubrica": null,
    "versoes": null,
-   "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares",
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
    "gabarito_num": {
     "valor": 1.4,
     "tolerancia": 0.02
    }
   },
   {
-   "id": "05-e4",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "modelos-lineares-e4",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
@@ -1061,17 +1061,17 @@
    "volte_para": "#e-o-item-3-de-brinde",
    "rubrica": null,
    "versoes": null,
-   "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares",
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
    "gabarito_num": {
     "valor": 53,
     "tolerancia": 4
    }
   },
   {
-   "id": "05-e5",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "modelos-lineares-e5",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
@@ -1100,13 +1100,13 @@
    "volte_para": "#o-passo-que-deveria-salvar-e-nao-salva",
    "rubrica": null,
    "versoes": null,
-   "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares"
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "05-e6",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "modelos-lineares-e6",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 1,
@@ -1118,8 +1118,8 @@
    "volte_para": "#quando-o-linear-e-a-escolha-certa",
    "rubrica": "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve: não há um único mês com dois preços; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico",
    "versoes": null,
-   "pagina": "05-modelos-lineares",
-   "titulo_capitulo": "05 — Modelos Lineares",
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
    "criterios": [
     "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação",
     "Não usa o R² alto como argumento a favor da recomendação de preço",
@@ -1129,9 +1129,9 @@
    ]
   },
   {
-   "id": "28-e1",
-   "capitulo": 28,
-   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "id": "regressao-logistica-e1",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/ii-3-regressao-logistica.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1160,13 +1160,13 @@
    "volte_para": "#fundamentos-a-sigmoide-e-o-logito",
    "rubrica": null,
    "versoes": null,
-   "pagina": "28-regressao-logistica",
-   "titulo_capitulo": "28 — Regressão Logística"
+   "pagina": "ii-3-regressao-logistica",
+   "titulo_capitulo": "II.3 — Regressão Logística"
   },
   {
-   "id": "28-e3",
-   "capitulo": 28,
-   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "id": "regressao-logistica-e3",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/ii-3-regressao-logistica.md",
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
@@ -1195,13 +1195,13 @@
    "volte_para": "#por-que-a-perda-muda-e-por-que-a-solucao-fechada-some",
    "rubrica": null,
    "versoes": null,
-   "pagina": "28-regressao-logistica",
-   "titulo_capitulo": "28 — Regressão Logística"
+   "pagina": "ii-3-regressao-logistica",
+   "titulo_capitulo": "II.3 — Regressão Logística"
   },
   {
-   "id": "28-e2",
-   "capitulo": 28,
-   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "id": "regressao-logistica-e2",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/ii-3-regressao-logistica.md",
    "tipo": "multipla-multi",
    "objetivo": "O2",
    "pontos": 1,
@@ -1234,13 +1234,13 @@
    "volte_para": "#interpretar-o-coeficiente-chance-nao-probabilidade",
    "rubrica": null,
    "versoes": null,
-   "pagina": "28-regressao-logistica",
-   "titulo_capitulo": "28 — Regressão Logística"
+   "pagina": "ii-3-regressao-logistica",
+   "titulo_capitulo": "II.3 — Regressão Logística"
   },
   {
-   "id": "06-e1",
-   "capitulo": 6,
-   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "id": "otimizacao-e1",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -1269,13 +1269,13 @@
    "volte_para": "#diagnostico-pela-curva-de-perda",
    "rubrica": null,
    "versoes": null,
-   "pagina": "06-otimizacao",
-   "titulo_capitulo": "06 — Otimização e Regularização"
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
   },
   {
-   "id": "06-e2",
-   "capitulo": 6,
-   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "id": "otimizacao-e2",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
@@ -1304,13 +1304,13 @@
    "volte_para": "#l2-encolhe-todos-l1-zera-alguns",
    "rubrica": null,
    "versoes": null,
-   "pagina": "06-otimizacao",
-   "titulo_capitulo": "06 — Otimização e Regularização"
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
   },
   {
-   "id": "06-e3",
-   "capitulo": 6,
-   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "id": "otimizacao-e3",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
    "tipo": "multipla-multi",
    "objetivo": "O4",
    "pontos": 1,
@@ -1339,17 +1339,17 @@
     }
    ],
    "gabarito": "monitorar validação · regularização por trajetória · precisa de limiar mínimo",
-   "porque": "As três corretas são as que a implementação da etapa 05–06 tornou concretas — e as duas últimas foram descobertas na marra, não planejadas.\n\n**Validação, não treino**: com dados separáveis a perda de treino cai indefinidamente, e o critério mediria memória.\n**Regularização por trajetória**: os pesos crescem ao longo do treino, então parar antes seleciona um modelo menos complexo — o mesmo efeito de penalizar, sem penalizar.\n**Limiar mínimo**: sem `min_delta`, uma melhora de 4e-10 conta como progresso e o critério nunca dispara.\n\nAs erradas: early stopping **complementa** L1/L2 e é rotineiro usá-los juntos — ele controla *quando* parar, elas controlam *para onde* ir. E ele vale para qualquer modelo treinado iterativamente, incluindo o gradient boosting do [capítulo 07](07-arvores-ensembles.md), onde é a forma padrão de escolher o número de árvores.",
+   "porque": "As três corretas são as que a implementação da etapa 05–06 tornou concretas — e as duas últimas foram descobertas na marra, não planejadas.\n\n**Validação, não treino**: com dados separáveis a perda de treino cai indefinidamente, e o critério mediria memória.\n**Regularização por trajetória**: os pesos crescem ao longo do treino, então parar antes seleciona um modelo menos complexo — o mesmo efeito de penalizar, sem penalizar.\n**Limiar mínimo**: sem `min_delta`, uma melhora de 4e-10 conta como progresso e o critério nunca dispara.\n\nAs erradas: early stopping **complementa** L1/L2 e é rotineiro usá-los juntos — ele controla *quando* parar, elas controlam *para onde* ir. E ele vale para qualquer modelo treinado iterativamente, incluindo o gradient boosting do [capítulo II.5](ii-5-arvores-ensembles.md), onde é a forma padrão de escolher o número de árvores.",
    "volte_para": "#early-stopping-a-regularizacao-de-graca",
    "rubrica": null,
    "versoes": null,
-   "pagina": "06-otimizacao",
-   "titulo_capitulo": "06 — Otimização e Regularização"
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
   },
   {
-   "id": "06-e4",
-   "capitulo": 6,
-   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "id": "otimizacao-e4",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
    "tipo": "completar",
    "objetivo": "O1",
    "pontos": 1,
@@ -1361,13 +1361,13 @@
    "volte_para": "#fundamentos-descer-sem-enxergar-a-paisagem",
    "rubrica": null,
    "versoes": null,
-   "pagina": "06-otimizacao",
-   "titulo_capitulo": "06 — Otimização e Regularização"
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
   },
   {
-   "id": "07-e1",
-   "capitulo": 7,
-   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "id": "arvores-ensembles-e1",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1396,13 +1396,13 @@
    "volte_para": "#fundamentos-como-a-arvore-escolhe-cada-corte",
    "rubrica": null,
    "versoes": null,
-   "pagina": "07-arvores-ensembles",
-   "titulo_capitulo": "07 — Árvores e Ensembles"
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
   },
   {
-   "id": "07-e2",
-   "capitulo": 7,
-   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "id": "arvores-ensembles-e2",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -1431,13 +1431,13 @@
    "volte_para": "#bagging-e-boosting-atacam-erros-diferentes",
    "rubrica": null,
    "versoes": null,
-   "pagina": "07-arvores-ensembles",
-   "titulo_capitulo": "07 — Árvores e Ensembles"
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
   },
   {
-   "id": "07-e3",
-   "capitulo": 7,
-   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "id": "arvores-ensembles-e3",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
    "tipo": "multipla-multi",
    "objetivo": "O2",
    "pontos": 1,
@@ -1470,13 +1470,13 @@
    "volte_para": "#bagging-a-media-de-modelos-descorrelacionados",
    "rubrica": null,
    "versoes": null,
-   "pagina": "07-arvores-ensembles",
-   "titulo_capitulo": "07 — Árvores e Ensembles"
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
   },
   {
-   "id": "07-e4",
-   "capitulo": 7,
-   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "id": "arvores-ensembles-e4",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
@@ -1488,17 +1488,17 @@
    "volte_para": "#a-ordem-de-ajuste-que-economiza-tempo",
    "rubrica": null,
    "versoes": null,
-   "pagina": "07-arvores-ensembles",
-   "titulo_capitulo": "07 — Árvores e Ensembles",
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles",
    "gabarito_num": {
     "valor": 200,
     "tolerancia": 5
    }
   },
   {
-   "id": "07-e5",
-   "capitulo": 7,
-   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "id": "arvores-ensembles-e5",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -1510,8 +1510,8 @@
    "volte_para": "#fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular",
    "rubrica": "recomenda começar por um modelo de árvore/boosting, com linha de base antes;\nsustenta a recomendação em evidência citável, não em preferência pessoal;\nmenciona ao menos um dos três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos) e não apenas o placar;\ndeclara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta;\nconsidera o custo de iteração dentro do prazo, e não só a métrica final",
    "versoes": null,
-   "pagina": "07-arvores-ensembles",
-   "titulo_capitulo": "07 — Árvores e Ensembles",
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles",
    "criterios": [
     "recomenda começar por um modelo de árvore/boosting, com linha de base antes",
     "sustenta a recomendação em evidência citável, não em preferência pessoal",
@@ -1521,9 +1521,9 @@
    ]
   },
   {
-   "id": "23-e1",
-   "capitulo": 23,
-   "arquivo": "livro/capitulos/23-analise-multidimensional.md",
+   "id": "analise-multidimensional-e1",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/ii-6-analise-multidimensional.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1552,13 +1552,13 @@
    "volte_para": "#fundamentos-fato-dimensao-e-grao",
    "rubrica": null,
    "versoes": null,
-   "pagina": "23-analise-multidimensional",
-   "titulo_capitulo": "23 — Análise Multidimensional"
+   "pagina": "ii-6-analise-multidimensional",
+   "titulo_capitulo": "II.6 — Análise Multidimensional"
   },
   {
-   "id": "23-e2",
-   "capitulo": 23,
-   "arquivo": "livro/capitulos/23-analise-multidimensional.md",
+   "id": "analise-multidimensional-e2",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/ii-6-analise-multidimensional.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -1570,17 +1570,17 @@
    "volte_para": "#as-cinco-operacoes",
    "rubrica": null,
    "versoes": null,
-   "pagina": "23-analise-multidimensional",
-   "titulo_capitulo": "23 — Análise Multidimensional",
+   "pagina": "ii-6-analise-multidimensional",
+   "titulo_capitulo": "II.6 — Análise Multidimensional",
    "gabarito_num": {
     "valor": 40,
     "tolerancia": 0
    }
   },
   {
-   "id": "23-e3",
-   "capitulo": 23,
-   "arquivo": "livro/capitulos/23-analise-multidimensional.md",
+   "id": "analise-multidimensional-e3",
+   "capitulo": 14,
+   "arquivo": "livro/capitulos/ii-6-analise-multidimensional.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -1588,12 +1588,12 @@
    "enunciado": "Você propõe um esquema estrela para o repositório analítico. Um colega, DBA experiente, recusa: *\"Isso viola a terceira forma normal. A categoria do produto vai estar repetida em milhares de linhas da dimensão. Se alguém renomear uma categoria, você tem anomalia de atualização. Normalize.\"*\n\nEscreva a resposta que você daria a ele — reconhecendo o que ele tem de razão.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "A resposta fraca é \"em BI a gente desnormaliza mesmo\" — que é obedecer a um costume, não justificar uma decisão, e é exatamente o que o objetivo O3 cobra. A resposta forte começa **concedendo**: ele está certo sobre a 3NF, e a redundância é real.\n\nO argumento vem em seguida, e é sobre **qual problema cada regra resolve**. A 3NF é uma defesa contra anomalias de atualização em ambiente de escrita concorrente e imprevisível — o transacional. O repositório analítico não é esse ambiente: nele a escrita é um processo de carga único, versionado, testado e executado em janela conhecida ([capítulo 20](20-coleta-integracao.md)). Retirar uma defesa contra um ataque que não existe naquele perímetro não é descuido; é dimensionar a defesa ao risco.\n\nO caso da renomeação é onde a boa resposta se distingue da excelente: ele **não** é um contra-argumento, é um requisito — e um requisito interessante, porque muitas vezes você **não quer** propagar a mudança. Se um produto mudou de categoria em junho, reescrever a dimensão faz o relatório de janeiro mentir sobre janeiro. É o problema das *slowly changing dimensions*, e a resposta usual é guardar as duas versões com vigência, não normalizar. Fecha o caso a assimetria de tamanho: repetir \"Medicamentos\" em 800 linhas de uma dimensão custa quase nada; repeti-lo em 40 milhões de linhas do fato custaria — e por isso a estrela desnormaliza a dimensão, e só ela.",
+   "porque": "A resposta fraca é \"em BI a gente desnormaliza mesmo\" — que é obedecer a um costume, não justificar uma decisão, e é exatamente o que o objetivo O3 cobra. A resposta forte começa **concedendo**: ele está certo sobre a 3NF, e a redundância é real.\n\nO argumento vem em seguida, e é sobre **qual problema cada regra resolve**. A 3NF é uma defesa contra anomalias de atualização em ambiente de escrita concorrente e imprevisível — o transacional. O repositório analítico não é esse ambiente: nele a escrita é um processo de carga único, versionado, testado e executado em janela conhecida ([capítulo I.2](i-2-coleta-integracao.md)). Retirar uma defesa contra um ataque que não existe naquele perímetro não é descuido; é dimensionar a defesa ao risco.\n\nO caso da renomeação é onde a boa resposta se distingue da excelente: ele **não** é um contra-argumento, é um requisito — e um requisito interessante, porque muitas vezes você **não quer** propagar a mudança. Se um produto mudou de categoria em junho, reescrever a dimensão faz o relatório de janeiro mentir sobre janeiro. É o problema das *slowly changing dimensions*, e a resposta usual é guardar as duas versões com vigência, não normalizar. Fecha o caso a assimetria de tamanho: repetir \"Medicamentos\" em 800 linhas de uma dimensão custa quase nada; repeti-lo em 40 milhões de linhas do fato custaria — e por isso a estrela desnormaliza a dimensão, e só ela.",
    "volte_para": "#estrela-e-floco-de-neve",
    "rubrica": "reconhece que a crítica é tecnicamente correta quanto à 3NF e que a redundância existe de fato;\nexplica que a normalização protege a integridade da **escrita**, e que no repositório analítico a escrita é uma carga controlada, por um processo só, em janela conhecida — a anomalia de atualização não tem por onde entrar;\naponta o ganho concreto da estrela: menos JOIN por consulta e um modelo legível por quem faz a pergunta;\nobserva que a redundância é barata porque ocorre na **dimensão** (pequena), não no fato (milhões de linhas);\ntrata o caso da renomeação de categoria como requisito a resolver no processo de carga (ou como dimensão que muda com o tempo), não como impedimento",
    "versoes": null,
-   "pagina": "23-analise-multidimensional",
-   "titulo_capitulo": "23 — Análise Multidimensional",
+   "pagina": "ii-6-analise-multidimensional",
+   "titulo_capitulo": "II.6 — Análise Multidimensional",
    "criterios": [
     "reconhece que a crítica é tecnicamente correta quanto à 3NF e que a redundância existe de fato",
     "explica que a normalização protege a integridade da **escrita**, e que no repositório analítico a escrita é uma carga controlada, por um processo só, em janela conhecida — a anomalia de atualização não tem por onde entrar",
@@ -1603,9 +1603,9 @@
    ]
   },
   {
-   "id": "24-e1",
-   "capitulo": 24,
-   "arquivo": "livro/capitulos/24-series-temporais.md",
+   "id": "series-temporais-e1",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/ii-7-series-temporais.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1634,13 +1634,13 @@
    "volte_para": "#fundamentos-o-que-muda-quando-existe-tempo",
    "rubrica": null,
    "versoes": null,
-   "pagina": "24-series-temporais",
-   "titulo_capitulo": "24 — Séries Temporais"
+   "pagina": "ii-7-series-temporais",
+   "titulo_capitulo": "II.7 — Séries Temporais"
   },
   {
-   "id": "24-e2",
-   "capitulo": 24,
-   "arquivo": "livro/capitulos/24-series-temporais.md",
+   "id": "series-temporais-e2",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/ii-7-series-temporais.md",
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
@@ -1652,17 +1652,17 @@
    "volte_para": "#a-linha-de-base-ingenua",
    "rubrica": null,
    "versoes": null,
-   "pagina": "24-series-temporais",
-   "titulo_capitulo": "24 — Séries Temporais",
+   "pagina": "ii-7-series-temporais",
+   "titulo_capitulo": "II.7 — Séries Temporais",
    "gabarito_num": {
     "valor": 8.33,
     "tolerancia": 0.01
    }
   },
   {
-   "id": "24-e3",
-   "capitulo": 24,
-   "arquivo": "livro/capitulos/24-series-temporais.md",
+   "id": "series-temporais-e3",
+   "capitulo": 15,
+   "arquivo": "livro/capitulos/ii-7-series-temporais.md",
    "tipo": "aberta",
    "objetivo": "O2",
    "pontos": 3,
@@ -1670,12 +1670,12 @@
    "enunciado": "Uma colega apresenta este protocolo para prever a demanda diária de um e-commerce:\n\n> \"Peguei 3 anos de dados diários. Criei atributos defasados (venda de 1, 7 e 30 dias atrás) e a média móvel de 30 dias, tudo calculado sobre a base completa. Depois embaralhei as linhas e fiz `train_test_split` com 20% de teste, mais um k-fold de 5 dobras para ajustar os hiperparâmetros. Deu 3,1% de erro percentual. Também rodei uma validação cruzada aleatória repetida para confirmar, e o intervalo ficou estreito.\"\n\nIdentifique os problemas do protocolo e descreva o que você faria no lugar.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia previsto, e o modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão. O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo 02](02-dados.md), onde a normalização feita antes do split contamina o teste.\n\nO detalhe que separa a boa resposta da excelente é o intervalo estreito. Ele soa como confirmação e é o contrário: **um erro sistemático medido muitas vezes continua sendo o mesmo erro, agora com um intervalo estreito em volta de um número errado**. Precisão não é validade; repetir um protocolo inválido só o torna mais convincente. E 3,1% não significa nada até se saber quanto a previsão ingênua entrega — talvez entregue 3,0%.",
+   "porque": "Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia previsto, e o modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão. O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo I.3](i-3-dados.md), onde a normalização feita antes do split contamina o teste.\n\nO detalhe que separa a boa resposta da excelente é o intervalo estreito. Ele soa como confirmação e é o contrário: **um erro sistemático medido muitas vezes continua sendo o mesmo erro, agora com um intervalo estreito em volta de um número errado**. Precisão não é validade; repetir um protocolo inválido só o torna mais convincente. E 3,1% não significa nada até se saber quanto a previsão ingênua entrega — talvez entregue 3,0%.",
    "volte_para": "#a-validacao-nao-pode-ser-aleatoria",
    "rubrica": "aponta que o embaralhamento quebra a ordem e permite treinar com dias posteriores ao dia previsto — vazamento do futuro para o passado;\nobserva que o k-fold aleatório repete o mesmo defeito, e que rodá-lo várias vezes não corrige nada — só mede o mesmo erro com mais precisão;\nidentifica o segundo vazamento, independente do primeiro: os atributos defasados e a média móvel foram calculados sobre a base inteira antes da divisão;\npropõe divisão cronológica e validação com origem móvel (walk-forward), com as features recalculadas dentro de cada dobra;\nexige comparação contra a previsão ingênua (simples ou sazonal) antes de aceitar os 3,1%",
    "versoes": null,
-   "pagina": "24-series-temporais",
-   "titulo_capitulo": "24 — Séries Temporais",
+   "pagina": "ii-7-series-temporais",
+   "titulo_capitulo": "II.7 — Séries Temporais",
    "criterios": [
     "aponta que o embaralhamento quebra a ordem e permite treinar com dias posteriores ao dia previsto — vazamento do futuro para o passado",
     "observa que o k-fold aleatório repete o mesmo defeito, e que rodá-lo várias vezes não corrige nada — só mede o mesmo erro com mais precisão",
@@ -1685,9 +1685,9 @@
    ]
   },
   {
-   "id": "25-e1",
-   "capitulo": 25,
-   "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
+   "id": "do-modelo-a-decisao-e1",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1716,13 +1716,13 @@
    "volte_para": "#a-diferenca-e-maior-que-o-ruido",
    "rubrica": null,
    "versoes": null,
-   "pagina": "25-do-modelo-a-decisao",
-   "titulo_capitulo": "25 — Do Modelo à Decisão"
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
   },
   {
-   "id": "25-e2",
-   "capitulo": 25,
-   "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
+   "id": "do-modelo-a-decisao-e2",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -1734,17 +1734,17 @@
    "volte_para": "#da-metrica-ao-dinheiro",
    "rubrica": null,
    "versoes": null,
-   "pagina": "25-do-modelo-a-decisao",
-   "titulo_capitulo": "25 — Do Modelo à Decisão",
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão",
    "gabarito_num": {
     "valor": 0.17,
     "tolerancia": 0
    }
   },
   {
-   "id": "25-e3",
-   "capitulo": 25,
-   "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
+   "id": "do-modelo-a-decisao-e3",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -1752,12 +1752,12 @@
    "enunciado": "Seu modelo de triagem de currículos alcança 0,89 de AUC no conjunto de teste, bem acima da triagem manual atual. Ao segmentar o resultado, você descobre que o desempenho é **0,91 para candidatos formados nas cinco universidades mais frequentes na base histórica** e **0,63 para os demais**.\n\nEscreva a recomendação que você levaria à diretoria — incluindo o que você recomenda fazer e por quê.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "A resposta fraca compara 0,89 com a triagem manual e recomenda lançar. A resposta forte percebe que **a média esconde a decisão**: para 0,63 de AUC o modelo está perto do acaso, e \"perto do acaso\" aplicado a currículos significa descartar gente por sorteio — enquanto a empresa acredita estar usando um sistema de 0,89.\n\nO ponto mais fino, e o que separa uma boa resposta de uma excelente: o modelo provavelmente **não está errado sobre os dados** — ele aprendeu corretamente um padrão que existe no histórico. Aprendeu **quem a empresa costumava contratar**. É exatamente o vazamento do [capítulo 02](02-dados.md) em versão social: o modelo capturou o processo de coleta em vez do fenômeno. E a decisão de lançar ou não **não é técnica** — é a mesma lição da seção \"De onde isto veio\": alguém precisa dizer quanto custa cada erro, e aqui o custo recai sobre pessoas que não estão na sala.",
+   "porque": "A resposta fraca compara 0,89 com a triagem manual e recomenda lançar. A resposta forte percebe que **a média esconde a decisão**: para 0,63 de AUC o modelo está perto do acaso, e \"perto do acaso\" aplicado a currículos significa descartar gente por sorteio — enquanto a empresa acredita estar usando um sistema de 0,89.\n\nO ponto mais fino, e o que separa uma boa resposta de uma excelente: o modelo provavelmente **não está errado sobre os dados** — ele aprendeu corretamente um padrão que existe no histórico. Aprendeu **quem a empresa costumava contratar**. É exatamente o vazamento do [capítulo I.3](i-3-dados.md) em versão social: o modelo capturou o processo de coleta em vez do fenômeno. E a decisão de lançar ou não **não é técnica** — é a mesma lição da seção \"De onde isto veio\": alguém precisa dizer quanto custa cada erro, e aqui o custo recai sobre pessoas que não estão na sala.",
    "volte_para": "#a-decisao-de-nao-lancar",
    "rubrica": "identifica que a média de 0,89 esconde um desempenho ruim num subgrupo;\nreconhece que o subgrupo pior corresponde a quem já era minoria na base histórica, o que caracteriza aprendizado do processo de seleção passado e não da competência dos candidatos;\nNÃO recomenda lançar como está;\npropõe ao menos uma ação concreta — reponderar/coletar dados do subgrupo, usar o modelo só como apoio com revisão humana, ou restringir o escopo declarando a limitação;\nmenciona a consequência para pessoas reais, não só a métrica",
    "versoes": null,
-   "pagina": "25-do-modelo-a-decisao",
-   "titulo_capitulo": "25 — Do Modelo à Decisão",
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão",
    "criterios": [
     "identifica que a média de 0,89 esconde um desempenho ruim num subgrupo",
     "reconhece que o subgrupo pior corresponde a quem já era minoria na base histórica, o que caracteriza aprendizado do processo de seleção passado e não da competência dos candidatos",
@@ -1767,9 +1767,9 @@
    ]
   },
   {
-   "id": "18-e1",
-   "capitulo": 18,
-   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "id": "neuronio-artificial-e1",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
@@ -1798,13 +1798,13 @@
    "volte_para": "#por-que-o-xor-e-impossivel",
    "rubrica": null,
    "versoes": null,
-   "pagina": "18-neuronio-artificial",
-   "titulo_capitulo": "18 — O Neurônio Artificial"
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial"
   },
   {
-   "id": "18-e2",
-   "capitulo": 18,
-   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "id": "neuronio-artificial-e2",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
    "tipo": "multipla",
    "objetivo": "O4",
    "pontos": 1,
@@ -1830,16 +1830,16 @@
    ],
    "gabarito": "Empilhar camadas, com backpropagation para treiná-las",
    "porque": "A limitação era da **arquitetura**, não do neurônio. Com uma camada intermediária, duas fronteiras se combinam e o XOR se resolve. Isso já era sabido em 1969; o que faltava era um jeito **prático de treinar** os pesos das camadas escondidas — e é isso que o backpropagation, popularizado em 1986, entrega.\n\nA última alternativa merece atenção porque está **quase** certa e é o erro mais interessante: trocar o degrau por uma função contínua (como a sigmoide) é de fato **necessário** — sem derivada não há gradiente, e sem gradiente não há backpropagation. Mas sozinha ela não resolve nada: uma regressão logística é exatamente um neurônio com ativação contínua, e continua sem resolver o XOR. A ativação contínua é condição para o remédio, não o remédio.",
-   "volte_para": "#a-historia-entusiasmo-inverno-e-a-saida",
+   "volte_para": "#a-linha-ate-1986-e-o-que-ela-ensina-sobre-credito",
    "rubrica": null,
    "versoes": null,
-   "pagina": "18-neuronio-artificial",
-   "titulo_capitulo": "18 — O Neurônio Artificial"
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial"
   },
   {
-   "id": "18-e3",
-   "capitulo": 18,
-   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "id": "neuronio-artificial-e3",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -1851,17 +1851,17 @@
    "volte_para": "#mao-na-massa-encontre-os-pesos-voce-mesmo",
    "rubrica": null,
    "versoes": null,
-   "pagina": "18-neuronio-artificial",
-   "titulo_capitulo": "18 — O Neurônio Artificial",
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial",
    "gabarito_num": {
     "valor": 1,
     "tolerancia": 0
    }
   },
   {
-   "id": "18-e4",
-   "capitulo": 18,
-   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "id": "neuronio-artificial-e4",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
    "tipo": "aberta",
    "objetivo": "O1",
    "pontos": 3,
@@ -1873,8 +1873,8 @@
    "volte_para": "#o-problema-pode-uma-maquina-pensar-em-logica",
    "rubrica": "descreve a operação corretamente: soma ponderada das entradas comparada a um limiar;\nmenciona que os pesos determinam a importância de cada entrada;\naponta ao menos uma semelhança razoável com o neurônio biológico (integrar sinais, disparar ou não);\naponta ao menos uma diferença importante (ausência de tempo, de química, de estrutura, ou o fato de ser uma simplificação deliberada);\nnão trata a analogia biológica como se fosse literal",
    "versoes": null,
-   "pagina": "18-neuronio-artificial",
-   "titulo_capitulo": "18 — O Neurônio Artificial",
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial",
    "criterios": [
     "descreve a operação corretamente: soma ponderada das entradas comparada a um limiar",
     "menciona que os pesos determinam a importância de cada entrada",
@@ -1884,9 +1884,9 @@
    ]
   },
   {
-   "id": "09-e1",
-   "capitulo": 9,
-   "arquivo": "livro/capitulos/09-redes-neurais.md",
+   "id": "redes-neurais-e1",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -1911,17 +1911,17 @@
     }
    ],
    "gabarito": "Exatamente o mesmo que uma única camada linear",
-   "porque": "Aplicar `W₂(W₁x + b₁) + b₂` é aplicar `(W₂W₁)x + (W₂b₁ + b₂)`. O produto de duas matrizes é uma matriz: a composição colapsa. Você pagou o dobro de parâmetros e de tempo de treino para obter um modelo linear.\n\nAs erradas todas confundem **profundidade** com **poder de representação**. O teorema exige a não-linearidade — é ela que impede o colapso; sem ativação, o teorema simplesmente não se aplica. O XOR continua impossível pelo mesmo motivo do [capítulo 18](18-neuronio-artificial.md): a função computada ainda é uma reta, e reta nenhuma separa cantos opostos. E \"fronteiras paralelas\" é uma imagem sedutora e falsa — não há duas fronteiras, há uma.\n\nA moral prática: **a não-linearidade é o que torna a camada uma camada.** Empilhar transformações lineares não constrói hierarquia nenhuma.",
+   "porque": "Aplicar `W₂(W₁x + b₁) + b₂` é aplicar `(W₂W₁)x + (W₂b₁ + b₂)`. O produto de duas matrizes é uma matriz: a composição colapsa. Você pagou o dobro de parâmetros e de tempo de treino para obter um modelo linear.\n\nAs erradas todas confundem **profundidade** com **poder de representação**. O teorema exige a não-linearidade — é ela que impede o colapso; sem ativação, o teorema simplesmente não se aplica. O XOR continua impossível pelo mesmo motivo do [capítulo III.1](iii-1-neuronio-artificial.md): a função computada ainda é uma reta, e reta nenhuma separa cantos opostos. E \"fronteiras paralelas\" é uma imagem sedutora e falsa — não há duas fronteiras, há uma.\n\nA moral prática: **a não-linearidade é o que torna a camada uma camada.** Empilhar transformações lineares não constrói hierarquia nenhuma.",
    "volte_para": "#fundamentos-a-camada-escondida-e-o-xor-resolvido",
    "rubrica": null,
    "versoes": null,
-   "pagina": "09-redes-neurais",
-   "titulo_capitulo": "09 — Redes Multicamadas"
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
   },
   {
-   "id": "09-e2",
-   "capitulo": 9,
-   "arquivo": "livro/capitulos/09-redes-neurais.md",
+   "id": "redes-neurais-e2",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
@@ -1933,17 +1933,17 @@
    "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
    "rubrica": null,
    "versoes": null,
-   "pagina": "09-redes-neurais",
-   "titulo_capitulo": "09 — Redes Multicamadas",
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
    "gabarito_num": {
     "valor": 43,
     "tolerancia": 0
    }
   },
   {
-   "id": "09-e3",
-   "capitulo": 9,
-   "arquivo": "livro/capitulos/09-redes-neurais.md",
+   "id": "redes-neurais-e3",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -1951,12 +1951,12 @@
    "enunciado": "Um colega justifica a escolha da arquitetura assim: *\"pelo teorema da aproximação universal, uma camada escondida basta — então se o modelo não está aprendendo, é porque faltam unidades.\"*\n\nExplique por que o teorema **não** sustenta essa conclusão, e liste o que mais pode estar impedindo o treino.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "O teorema é uma afirmação sobre o **conjunto de funções representáveis** por uma arquitetura. A frase do colega é uma afirmação sobre o **procedimento de busca**. São perguntas diferentes, e a segunda é a que atrapalha na prática.\n\n\"Não construtivo\" é o termo exato: garante-se que o objeto existe sem dar receita para construí-lo. O teorema não dá o número de unidades — e o número que serve pode ser proibitivo. Não dá os pesos. Não promete que o gradiente descendente, saindo da inicialização que você usou, chegue lá.\n\nUma boa resposta enumera as suspeitas alternativas antes de mexer no tamanho: inicialização (pesos todos iguais quebram a simetria e todas as unidades aprendem a mesma coisa), gradiente que some ou explode ao atravessar camadas, taxa de aprendizado grande demais ou pequena demais, atributos em escalas muito diferentes, rótulos com ruído. E propõe o teste barato que decide entre capacidade e bug: **tente decorar 50 exemplos**. Se a rede não consegue nem isso, acrescentar unidades não vai salvar — há um defeito no caminho do gradiente.\n\nÉ esta a distinção que explica os vinte anos entre 1986 e as redes profundas que funcionam ([capítulo 26](26-treinar-redes-profundas.md)). O espaço de hipóteses sempre continha a solução. O que faltava era como chegar nela.",
+   "porque": "O teorema é uma afirmação sobre o **conjunto de funções representáveis** por uma arquitetura. A frase do colega é uma afirmação sobre o **procedimento de busca**. São perguntas diferentes, e a segunda é a que atrapalha na prática.\n\n\"Não construtivo\" é o termo exato: garante-se que o objeto existe sem dar receita para construí-lo. O teorema não dá o número de unidades — e o número que serve pode ser proibitivo. Não dá os pesos. Não promete que o gradiente descendente, saindo da inicialização que você usou, chegue lá.\n\nUma boa resposta enumera as suspeitas alternativas antes de mexer no tamanho: inicialização (pesos todos iguais quebram a simetria e todas as unidades aprendem a mesma coisa), gradiente que some ou explode ao atravessar camadas, taxa de aprendizado grande demais ou pequena demais, atributos em escalas muito diferentes, rótulos com ruído. E propõe o teste barato que decide entre capacidade e bug: **tente decorar 50 exemplos**. Se a rede não consegue nem isso, acrescentar unidades não vai salvar — há um defeito no caminho do gradiente.\n\nÉ esta a distinção que explica os vinte anos entre 1986 e as redes profundas que funcionam ([capítulo III.3](iii-3-treinar-redes-profundas.md)). O espaço de hipóteses sempre continha a solução. O que faltava era como chegar nela.",
    "volte_para": "#quantas-camadas-e-quantas-unidades-a-decisao-e-empirica",
    "rubrica": "distingue **representabilidade** (a função está no espaço de hipóteses) de **treinabilidade** (o procedimento de busca chega até ela);\naponta que o teorema é **não construtivo** — não diz quantas unidades, nem como achar os pesos;\ncita ao menos dois impedimentos que não são capacidade: inicialização ruim, gradiente que some ou explode, otimização presa, dados insuficientes ou mal escalados, perda ou taxa de aprendizado inadequadas;\nreconhece que \"faltam unidades\" é uma hipótese testável — e diz como testá-la (tentar overfitar um subconjunto pequeno);\nnão afirma que o teorema está errado, apenas que ele responde a outra pergunta",
    "versoes": null,
-   "pagina": "09-redes-neurais",
-   "titulo_capitulo": "09 — Redes Multicamadas",
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
    "criterios": [
     "distingue **representabilidade** (a função está no espaço de hipóteses) de **treinabilidade** (o procedimento de busca chega até ela)",
     "aponta que o teorema é **não construtivo** — não diz quantas unidades, nem como achar os pesos",
@@ -1966,9 +1966,9 @@
    ]
   },
   {
-   "id": "26-e1",
-   "capitulo": 26,
-   "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
+   "id": "treinar-redes-profundas-e1",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -1980,17 +1980,17 @@
    "volte_para": "#fundamentos-o-gradiente-e-um-produto-e-produtos-sao-traicoeiros",
    "rubrica": null,
    "versoes": null,
-   "pagina": "26-treinar-redes-profundas",
-   "titulo_capitulo": "26 — Treinar Redes Profundas",
+   "pagina": "iii-3-treinar-redes-profundas",
+   "titulo_capitulo": "III.3 — Treinar Redes Profundas",
    "gabarito_num": {
     "valor": 10,
     "tolerancia": 0.4
    }
   },
   {
-   "id": "26-e2",
-   "capitulo": 26,
-   "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
+   "id": "treinar-redes-profundas-e2",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -2019,13 +2019,13 @@
    "volte_para": "#inicializacao-por-que-zero-nao-funciona-e-por-que-a-variancia-importa",
    "rubrica": null,
    "versoes": null,
-   "pagina": "26-treinar-redes-profundas",
-   "titulo_capitulo": "26 — Treinar Redes Profundas"
+   "pagina": "iii-3-treinar-redes-profundas",
+   "titulo_capitulo": "III.3 — Treinar Redes Profundas"
   },
   {
-   "id": "26-e3",
-   "capitulo": 26,
-   "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
+   "id": "treinar-redes-profundas-e3",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -2037,8 +2037,8 @@
    "volte_para": "#o-kit-de-conserto-um-diagnostico-quatro-remedios-vinte-e-cinco-anos",
    "rubrica": "propõe **medir antes de corrigir** — norma do gradiente por camada, e/ou distribuição das ativações por camada, comparando o topo com o fundo da rede;\nidentifica o desaparecimento do gradiente como diagnóstico mais provável, ligando-o à sigmoide (derivada ≤ 0,25) elevada a ~40 camadas;\nexplica **por que a troca de otimizador não podia funcionar**: otimizador reescala o passo, não restaura sinal que chegou como 10⁻²⁰ — nenhum hiperparâmetro conserta uma exponencial;\npropõe correções que atacam o produto (ReLU, inicialização He, conexões residuais, normalização), não hiperparâmetros;\ndistingue os sintomas: perda travada = gradiente sumindo; perda em `NaN` = gradiente explodindo, e aí o remédio é o grampo",
    "versoes": null,
-   "pagina": "26-treinar-redes-profundas",
-   "titulo_capitulo": "26 — Treinar Redes Profundas",
+   "pagina": "iii-3-treinar-redes-profundas",
+   "titulo_capitulo": "III.3 — Treinar Redes Profundas",
    "criterios": [
     "propõe **medir antes de corrigir** — norma do gradiente por camada, e/ou distribuição das ativações por camada, comparando o topo com o fundo da rede",
     "identifica o desaparecimento do gradiente como diagnóstico mais provável, ligando-o à sigmoide (derivada ≤ 0,25) elevada a ~40 camadas",
@@ -2049,9 +2049,9 @@
    ]
   },
   {
-   "id": "10-e1",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/10-visao.md",
+   "id": "visao-e1",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/iii-4-visao.md",
    "tipo": "numerica",
    "objetivo": "O2",
    "pontos": 1,
@@ -2063,17 +2063,17 @@
    "volte_para": "#fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete",
    "rubrica": null,
    "versoes": null,
-   "pagina": "10-visao",
-   "titulo_capitulo": "10 — Visão Computacional",
+   "pagina": "iii-4-visao",
+   "titulo_capitulo": "III.4 — Visão Computacional",
    "gabarito_num": {
     "valor": 1728,
     "tolerancia": 0
    }
   },
   {
-   "id": "10-e2",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/10-visao.md",
+   "id": "visao-e2",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/iii-4-visao.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -2102,13 +2102,13 @@
    "volte_para": "#o-diagrama-que-e-um-limite-de-memoria-desenhado",
    "rubrica": null,
    "versoes": null,
-   "pagina": "10-visao",
-   "titulo_capitulo": "10 — Visão Computacional"
+   "pagina": "iii-4-visao",
+   "titulo_capitulo": "III.4 — Visão Computacional"
   },
   {
-   "id": "10-e3",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/10-visao.md",
+   "id": "visao-e3",
+   "capitulo": 20,
+   "arquivo": "livro/capitulos/iii-4-visao.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -2116,12 +2116,12 @@
    "enunciado": "Uma indústria quer classificar peças metálicas em \"com trinca\" / \"sem trinca\" a partir de fotos da linha de produção. Há **800 imagens rotuladas** por um inspetor experiente — 640 sem trinca, 160 com. Novas fotos custam caro para rotular. A câmera é fixa, a peça sempre entra na mesma orientação.\n\nTreinar do zero ou transferir? Decida, justifique e diga o que você congelaria e que aumentações usaria.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "Com 800 imagens, treinar do zero é estimar milhões de parâmetros a partir de quase nada — e o resultado previsível é uma rede que decora as 800. A rede pré-treinada chega sabendo bordas, texturas e cantos, que é **exatamente** o vocabulário de uma trinca. Você está treinando um classificador sobre features prontas, não uma rede.\n\nCongele o corpo, treine só a cabeça. Se sobrar dado e paciência, descongele as últimas camadas com taxa de aprendizado uma ou duas ordens de grandeza menor. Descongelar tudo de saída é o modo clássico de destruir o que se veio buscar.\n\nNas aumentações, o enunciado é uma armadilha útil: **a câmera é fixa e a orientação é constante**. Rotações grandes e espelhamentos geram imagens que a linha nunca vai produzir — capacidade gasta em invariância que ninguém pediu. O que faz sentido é o que **de fato varia na linha**: brilho e contraste (a iluminação oscila), pequenas translações e rotações de poucos graus (a peça assenta um pouco torta), ruído leve. Aumentação boa é modelagem da variação real do processo, não uma lista de transformações copiada de um tutorial.\n\nPor fim, 640/160 é 80/20: um modelo que responde \"sem trinca\" sempre acerta 80%. Acurácia aqui não mede nada — vale revocação da classe rara, e o [capítulo 04](04-avaliacao.md) trata do resto.",
+   "porque": "Com 800 imagens, treinar do zero é estimar milhões de parâmetros a partir de quase nada — e o resultado previsível é uma rede que decora as 800. A rede pré-treinada chega sabendo bordas, texturas e cantos, que é **exatamente** o vocabulário de uma trinca. Você está treinando um classificador sobre features prontas, não uma rede.\n\nCongele o corpo, treine só a cabeça. Se sobrar dado e paciência, descongele as últimas camadas com taxa de aprendizado uma ou duas ordens de grandeza menor. Descongelar tudo de saída é o modo clássico de destruir o que se veio buscar.\n\nNas aumentações, o enunciado é uma armadilha útil: **a câmera é fixa e a orientação é constante**. Rotações grandes e espelhamentos geram imagens que a linha nunca vai produzir — capacidade gasta em invariância que ninguém pediu. O que faz sentido é o que **de fato varia na linha**: brilho e contraste (a iluminação oscila), pequenas translações e rotações de poucos graus (a peça assenta um pouco torta), ruído leve. Aumentação boa é modelagem da variação real do processo, não uma lista de transformações copiada de um tutorial.\n\nPor fim, 640/160 é 80/20: um modelo que responde \"sem trinca\" sempre acerta 80%. Acurácia aqui não mede nada — vale revocação da classe rara, e o [capítulo II.1](ii-1-avaliacao.md) trata do resto.",
    "volte_para": "#transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz",
    "rubrica": "decide por transferência e sustenta a decisão com a ordem de grandeza dos dados (800 exemplos contra os milhões que o pré-treino já viu);\njustifica com a hierarquia de features — bordas e texturas são genéricas a imagens, e trinca é essencialmente um padrão de textura/borda;\npropõe congelar o corpo e treinar só a cabeça primeiro, com descongelamento parcial e taxa baixa depois, se houver folga;\nescolhe aumentações que preservam o rótulo neste domínio e justifica pelo menos uma exclusão à luz da câmera fixa e da orientação constante;\nreconhece o desbalanceamento 640/160 e propõe tratamento (peso de classe ou métrica adequada), sem se guiar por acurácia",
    "versoes": null,
-   "pagina": "10-visao",
-   "titulo_capitulo": "10 — Visão Computacional",
+   "pagina": "iii-4-visao",
+   "titulo_capitulo": "III.4 — Visão Computacional",
    "criterios": [
     "decide por transferência e sustenta a decisão com a ordem de grandeza dos dados (800 exemplos contra os milhões que o pré-treino já viu)",
     "justifica com a hierarquia de features — bordas e texturas são genéricas a imagens, e trinca é essencialmente um padrão de textura/borda",
@@ -2131,9 +2131,9 @@
    ]
   },
   {
-   "id": "11-e1",
-   "capitulo": 11,
-   "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+   "id": "sequencias-linguagem-e1",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -2162,13 +2162,13 @@
    "volte_para": "#fundamentos-a-recorrencia-o-estado-oculto-e-o-gradiente-que-some-no-tempo",
    "rubrica": null,
    "versoes": null,
-   "pagina": "11-sequencias-linguagem",
-   "titulo_capitulo": "11 — Sequências e Linguagem"
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
   },
   {
-   "id": "11-e2",
-   "capitulo": 11,
-   "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+   "id": "sequencias-linguagem-e2",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
    "tipo": "numerica",
    "objetivo": "O4",
    "pontos": 1,
@@ -2180,17 +2180,17 @@
    "volte_para": "#o-transformer-remover-o-hospedeiro",
    "rubrica": null,
    "versoes": null,
-   "pagina": "11-sequencias-linguagem",
-   "titulo_capitulo": "11 — Sequências e Linguagem",
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem",
    "gabarito_num": {
     "valor": 64,
     "tolerancia": 0
    }
   },
   {
-   "id": "11-e3",
-   "capitulo": 11,
-   "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
+   "id": "sequencias-linguagem-e3",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -2202,8 +2202,8 @@
    "volte_para": "#do-gargalo-a-atencao-seq2seq-e-o-vetor-de-tamanho-fixo",
    "rubrica": "identifica que a atenção substitui **compressão** (um vetor de tamanho fixo resumindo tudo) por **acesso ponderado** a todas as posições preservadas;\ndescreve o mecanismo como consulta × chaves → pesos que somam 1 → média ponderada dos valores, isto é, busca suave e derivável;\naponta que o caminho entre duas posições distantes passa de muitos passos para um, o que é uma mudança de topologia do gradiente, não de tamanho de memória;\nreconhece o custo: comparações quadráticas no comprimento, contra custo linear da recorrência;\nafirma corretamente que 2017 removeu a **recorrência** (o hospedeiro), mantendo a atenção que já existia desde 2014, e que o motivo declarado foi paralelismo/tempo de treino",
    "versoes": null,
-   "pagina": "11-sequencias-linguagem",
-   "titulo_capitulo": "11 — Sequências e Linguagem",
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem",
    "criterios": [
     "identifica que a atenção substitui **compressão** (um vetor de tamanho fixo resumindo tudo) por **acesso ponderado** a todas as posições preservadas",
     "descreve o mecanismo como consulta × chaves → pesos que somam 1 → média ponderada dos valores, isto é, busca suave e derivável",
@@ -2213,9 +2213,9 @@
    ]
   },
   {
-   "id": "12-e1",
-   "capitulo": 12,
-   "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+   "id": "modelos-de-fundacao-e1",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -2244,13 +2244,13 @@
    "volte_para": "#fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido",
    "rubrica": null,
    "versoes": null,
-   "pagina": "12-modelos-de-fundacao",
-   "titulo_capitulo": "12 — Modelos de Fundação e Generativos"
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
   },
   {
-   "id": "12-e2",
-   "capitulo": 12,
-   "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+   "id": "modelos-de-fundacao-e2",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
    "tipo": "numerica",
    "objetivo": "O1",
    "pontos": 1,
@@ -2262,17 +2262,17 @@
    "volte_para": "#adaptar-as-tres-portas-e-o-que-cada-uma-custa",
    "rubrica": null,
    "versoes": null,
-   "pagina": "12-modelos-de-fundacao",
-   "titulo_capitulo": "12 — Modelos de Fundação e Generativos",
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos",
    "gabarito_num": {
     "valor": 100,
     "tolerancia": 0
    }
   },
   {
-   "id": "12-e3",
-   "capitulo": 12,
-   "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
+   "id": "modelos-de-fundacao-e3",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -2284,8 +2284,8 @@
    "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
    "rubrica": "identifica que o conhecimento muda toda semana, o que torna qualquer conhecimento congelado nos pesos obsoleto entre treinos;\nreconhece a exigência de citar a fonte como incompatível com conhecimento paramétrico, que não devolve procedência;\nrecomenda recuperação (RAG) como arquitetura principal, e não como ajuste de prompt;\nsepara os dois papéis — recuperação fornece fato, fine-tuning (ou prompt) ajusta formato e tom da resposta;\npropõe medir as duas etapas separadamente: qualidade do recuperador (o trecho certo apareceu entre os recuperados?) e qualidade da resposta (ela é sustentada pelo trecho citado?);\nmenciona ao menos um modo de falha residual — recuperador traz documento errado, norma revogada ainda no índice, resposta convicta sobre trecho inadequado",
    "versoes": null,
-   "pagina": "12-modelos-de-fundacao",
-   "titulo_capitulo": "12 — Modelos de Fundação e Generativos",
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos",
    "criterios": [
     "identifica que o conhecimento muda toda semana, o que torna qualquer conhecimento congelado nos pesos obsoleto entre treinos",
     "reconhece a exigência de citar a fonte como incompatível com conhecimento paramétrico, que não devolve procedência",
@@ -2296,9 +2296,9 @@
    ]
   },
   {
-   "id": "08-e1",
-   "capitulo": 8,
-   "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+   "id": "nao-supervisionado-e1",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -2327,13 +2327,13 @@
    "volte_para": "#fundamentos-inventar-o-criterio-depois-alternar",
    "rubrica": null,
    "versoes": null,
-   "pagina": "08-nao-supervisionado",
-   "titulo_capitulo": "08 — Aprendizado Não Supervisionado"
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
   },
   {
-   "id": "08-e2",
-   "capitulo": 8,
-   "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+   "id": "nao-supervisionado-e2",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
    "tipo": "numerica",
    "objetivo": "O1",
    "pontos": 1,
@@ -2345,17 +2345,17 @@
    "volte_para": "#regras-de-associacao-e-a-lenda-que-quebrou",
    "rubrica": null,
    "versoes": null,
-   "pagina": "08-nao-supervisionado",
-   "titulo_capitulo": "08 — Aprendizado Não Supervisionado",
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado",
    "gabarito_num": {
     "valor": 1,
     "tolerancia": 0.01
    }
   },
   {
-   "id": "08-e3",
-   "capitulo": 8,
-   "arquivo": "livro/capitulos/08-nao-supervisionado.md",
+   "id": "nao-supervisionado-e3",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -2363,12 +2363,12 @@
    "enunciado": "Uma analista segmenta 40 mil clientes com k-means. Ela testou k de 2 a 10, escolheu **k=5** porque \"foi onde os grupos ficaram mais interpretáveis\", nomeou os cinco segmentos, e a diretoria aprovou uma campanha diferente para cada um.\n\nEscreva a crítica que você faria e o que proporia em seguida.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "A resposta fraca troca um critério interno por outro: \"use silhueta em vez de interpretabilidade\". Mas silhueta mede a mesma compacidade que o k-means otimizou — ela pode confirmar uma partição de puro ruído, porque nunca foi projetada para dizer se a estrutura existe.\n\nA resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — o mesmo pecado do [capítulo 25](25-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que ninguém fez a pergunta decisiva: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo. E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**. Se os cinco grupos continuarem nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.",
+   "porque": "A resposta fraca troca um critério interno por outro: \"use silhueta em vez de interpretabilidade\". Mas silhueta mede a mesma compacidade que o k-means otimizou — ela pode confirmar uma partição de puro ruído, porque nunca foi projetada para dizer se a estrutura existe.\n\nA resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — o mesmo pecado do [capítulo II.8](ii-8-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que ninguém fez a pergunta decisiva: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo. E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**. Se os cinco grupos continuarem nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.",
    "volte_para": "#validar-sem-gabarito",
    "rubrica": "identifica que \"mais interpretável\" é um critério posterior e subjetivo, escolhido depois de ver o resultado;\nmenciona que o k-means sempre devolve k grupos, inclusive sem estrutura real nos dados;\naponta ao menos uma verificação de estabilidade (reamostrar/dividir os dados, trocar a semente, comparar partições);\npropõe ao menos um critério externo — uma variável que não entrou no agrupamento e que os grupos deveriam predizer;\nnão se limita a sugerir \"usar silhueta\" como se isso resolvesse",
    "versoes": null,
-   "pagina": "08-nao-supervisionado",
-   "titulo_capitulo": "08 — Aprendizado Não Supervisionado",
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado",
    "criterios": [
     "identifica que \"mais interpretável\" é um critério posterior e subjetivo, escolhido depois de ver o resultado",
     "menciona que o k-means sempre devolve k grupos, inclusive sem estrutura real nos dados",
@@ -2378,9 +2378,9 @@
    ]
   },
   {
-   "id": "13-e1",
-   "capitulo": 13,
-   "arquivo": "livro/capitulos/13-reforco.md",
+   "id": "reforco-e1",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
    "tipo": "numerica",
    "objetivo": "O1",
    "pontos": 1,
@@ -2392,17 +2392,17 @@
    "volte_para": "#fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move",
    "rubrica": null,
    "versoes": null,
-   "pagina": "13-reforco",
-   "titulo_capitulo": "13 — Aprendizado por Reforço",
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço",
    "gabarito_num": {
     "valor": 11.1,
     "tolerancia": 0
    }
   },
   {
-   "id": "13-e2",
-   "capitulo": 13,
-   "arquivo": "livro/capitulos/13-reforco.md",
+   "id": "reforco-e2",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -2431,13 +2431,13 @@
    "volte_para": "#explorar-ou-explotar-o-dilema-e-o-cerne-nao-um-detalhe",
    "rubrica": null,
    "versoes": null,
-   "pagina": "13-reforco",
-   "titulo_capitulo": "13 — Aprendizado por Reforço"
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
   },
   {
-   "id": "13-e3",
-   "capitulo": 13,
-   "arquivo": "livro/capitulos/13-reforco.md",
+   "id": "reforco-e3",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
    "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 3,
@@ -2445,12 +2445,12 @@
    "enunciado": "Uma transportadora quer \"usar aprendizado por reforço para otimizar a roteirização das entregas do dia\". Há histórico de 4 anos de rotas executadas, com tempos reais. Não existe simulador. Cada rota mal planejada custa horas extras e atraso com o cliente.\n\nJulgue: este problema merece reforço, ou é supervisionado (ou otimização) disfarçado? Justifique e proponha o que fazer.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "A resposta fraca aceita o enunciado do cliente e discute qual algoritmo de reforço usar. A resposta forte percebe que o problema já vem **com gabarito**: quatro anos de rotas executadas com tempos reais são exemplos rotulados. Prever o tempo de um trecho é supervisionado clássico; escolher a melhor rota dadas as previsões é otimização de roteirização, um campo com décadas de solvers maduros.\n\nO critério que decide não é o tamanho do problema, é a **influência**: as entregas de hoje mudam a distribuição do trânsito de amanhã? Praticamente não. Sem influência, não há problema sequencial a resolver — há previsão mais decisão, exatamente a separação do [capítulo 25](25-do-modelo-a-decisao.md).\n\nE há o argumento material, que costuma encerrar a conversa antes do argumento teórico: **sem simulador, o agente aprende explorando na operação real**, e explorar aqui significa despachar rotas ruins de propósito para descobrir que são ruins. Alguém vai pagar essa conta em horas extras. Reforço volta à mesa no dia em que existir um simulador de trânsito validado — e então o trabalho difícil passa a ser mostrar que o simulador se parece com a rua.",
+   "porque": "A resposta fraca aceita o enunciado do cliente e discute qual algoritmo de reforço usar. A resposta forte percebe que o problema já vem **com gabarito**: quatro anos de rotas executadas com tempos reais são exemplos rotulados. Prever o tempo de um trecho é supervisionado clássico; escolher a melhor rota dadas as previsões é otimização de roteirização, um campo com décadas de solvers maduros.\n\nO critério que decide não é o tamanho do problema, é a **influência**: as entregas de hoje mudam a distribuição do trânsito de amanhã? Praticamente não. Sem influência, não há problema sequencial a resolver — há previsão mais decisão, exatamente a separação do [capítulo II.8](ii-8-do-modelo-a-decisao.md).\n\nE há o argumento material, que costuma encerrar a conversa antes do argumento teórico: **sem simulador, o agente aprende explorando na operação real**, e explorar aqui significa despachar rotas ruins de propósito para descobrir que são ruins. Alguém vai pagar essa conta em horas extras. Reforço volta à mesa no dia em que existir um simulador de trânsito validado — e então o trabalho difícil passa a ser mostrar que o simulador se parece com a rua.",
    "volte_para": "#por-que-reforco-e-a-ultima-ferramenta-a-considerar",
    "rubrica": "aplica o teste da influência — pergunta se a decisão de hoje muda o que será observado amanhã;\nidentifica a ausência de simulador e o custo alto por tentativa como impedimento prático, não como detalhe;\nreconhece que há 4 anos de dados rotulados por tempo real, o que sustenta um modelo supervisionado de previsão de tempo de percurso;\nsepara as duas metades — prever tempos (supervisionado) e escolher a rota (otimização combinatória sobre as previsões);\nNÃO recomenda reforço como primeira escolha, e diz sob que condição ele voltaria à mesa (existência de simulador validado, ou interação barata)",
    "versoes": null,
-   "pagina": "13-reforco",
-   "titulo_capitulo": "13 — Aprendizado por Reforço",
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço",
    "criterios": [
     "aplica o teste da influência — pergunta se a decisão de hoje muda o que será observado amanhã",
     "identifica a ausência de simulador e o custo alto por tentativa como impedimento prático, não como detalhe",
@@ -2460,9 +2460,9 @@
    ]
   },
   {
-   "id": "27-e1",
-   "capitulo": 27,
-   "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
+   "id": "ia-simbolica-fuzzy-evolutiva-e1",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -2491,13 +2491,13 @@
    "volte_para": "#simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia",
    "rubrica": null,
    "versoes": null,
-   "pagina": "27-ia-simbolica-fuzzy-evolutiva",
-   "titulo_capitulo": "27 — IA Simbólica, Fuzzy e Evolutiva"
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
   },
   {
-   "id": "27-e2",
-   "capitulo": 27,
-   "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
+   "id": "ia-simbolica-fuzzy-evolutiva-e2",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
@@ -2509,17 +2509,17 @@
    "volte_para": "#fuzzy-o-grau-entre-o-sim-e-o-nao",
    "rubrica": null,
    "versoes": null,
-   "pagina": "27-ia-simbolica-fuzzy-evolutiva",
-   "titulo_capitulo": "27 — IA Simbólica, Fuzzy e Evolutiva",
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva",
    "gabarito_num": {
     "valor": 0.7,
     "tolerancia": 0
    }
   },
   {
-   "id": "27-e3",
-   "capitulo": 27,
-   "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
+   "id": "ia-simbolica-fuzzy-evolutiva-e3",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
    "tipo": "aberta",
    "objetivo": "O1",
    "pontos": 3,
@@ -2531,8 +2531,8 @@
    "volte_para": "#bayesianas-a-incerteza-com-estrutura",
    "rubrica": "reconhece que 60 exemplos são insuficientes para treinar uma rede neural com qualquer confiança, e que a métrica obtida nesse regime seria ela própria pouco confiável;\nidentifica que existe conhecimento estruturado disponível (o consenso clínico) que a rede neural não teria como usar;\nrecomenda uma rede bayesiana com estrutura elicitada dos especialistas, ou um sistema baseado em regras, e não a rede neural;\njustifica pela explicabilidade por construção — o caminho no grafo ou o rastro de regras É a justificativa clínica exigida;\nmenciona ao menos um uso legítimo dos 60 casos, como avaliar o sistema ou estimar tabelas de probabilidade condicional",
    "versoes": null,
-   "pagina": "27-ia-simbolica-fuzzy-evolutiva",
-   "titulo_capitulo": "27 — IA Simbólica, Fuzzy e Evolutiva",
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva",
    "criterios": [
     "reconhece que 60 exemplos são insuficientes para treinar uma rede neural com qualquer confiança, e que a métrica obtida nesse regime seria ela própria pouco confiável",
     "identifica que existe conhecimento estruturado disponível (o consenso clínico) que a rede neural não teria como usar",
@@ -2542,9 +2542,9 @@
    ]
   },
   {
-   "id": "14-e1",
-   "capitulo": 14,
-   "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+   "id": "interpretabilidade-justica-e1",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -2573,13 +2573,13 @@
    "volte_para": "#interpretavel-por-construcao-ou-explicado-depois",
    "rubrica": null,
    "versoes": null,
-   "pagina": "14-interpretabilidade-justica",
-   "titulo_capitulo": "14 — Interpretabilidade e Justiça"
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
   },
   {
-   "id": "14-e2",
-   "capitulo": 14,
-   "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+   "id": "interpretabilidade-justica-e2",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
    "tipo": "numerica",
    "objetivo": "O4",
    "pontos": 1,
@@ -2591,17 +2591,17 @@
    "volte_para": "#a-algebra-de-tres-linhas",
    "rubrica": null,
    "versoes": null,
-   "pagina": "14-interpretabilidade-justica",
-   "titulo_capitulo": "14 — Interpretabilidade e Justiça",
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça",
    "gabarito_num": {
     "valor": 0.45,
     "tolerancia": 0
    }
   },
   {
-   "id": "14-e3",
-   "capitulo": 14,
-   "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
+   "id": "interpretabilidade-justica-e3",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -2613,8 +2613,8 @@
    "volte_para": "#quando-o-teorema-diz-que-voce-tem-de-escolher",
    "rubrica": "explica que os dois critérios não podem valer juntos porque a prevalência difere, e que isso é identidade aritmética, não limitação de engenharia;\nnomeia corretamente o que cada critério exige;\nescolhe explicitamente um critério em vez de propor um meio-termo vago;\nidentifica de forma concreta quem sofre o erro resultante — qual grupo, qual tipo de erro, qual consequência clínica;\npropõe ao menos uma ação de procedimento (registrar a escolha, reportar por subgrupo, ouvir os afetados, atacar a prevalência na origem);\nNÃO afirma que existe uma resposta tecnicamente correta",
    "versoes": null,
-   "pagina": "14-interpretabilidade-justica",
-   "titulo_capitulo": "14 — Interpretabilidade e Justiça",
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça",
    "criterios": [
     "explica que os dois critérios não podem valer juntos porque a prevalência difere, e que isso é identidade aritmética, não limitação de engenharia",
     "nomeia corretamente o que cada critério exige",
@@ -2625,9 +2625,9 @@
    ]
   },
   {
-   "id": "15-e1",
-   "capitulo": 15,
-   "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+   "id": "sistemas-de-ml-e1",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -2656,13 +2656,13 @@
    "volte_para": "#fundamentos-o-que-e-o-sistema-alem-do-modelo",
    "rubrica": null,
    "versoes": null,
-   "pagina": "15-sistemas-de-ml",
-   "titulo_capitulo": "15 — Sistemas de ML"
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
   },
   {
-   "id": "15-e2",
-   "capitulo": 15,
-   "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+   "id": "sistemas-de-ml-e2",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
    "tipo": "multipla-multi",
    "objetivo": "O3",
    "pontos": 1,
@@ -2695,13 +2695,13 @@
    "volte_para": "#o-contrato-entre-treino-e-servico",
    "rubrica": null,
    "versoes": null,
-   "pagina": "15-sistemas-de-ml",
-   "titulo_capitulo": "15 — Sistemas de ML"
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
   },
   {
-   "id": "15-e3",
-   "capitulo": 15,
-   "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
+   "id": "sistemas-de-ml-e3",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
    "tipo": "aberta",
    "objetivo": "O2",
    "pontos": 3,
@@ -2713,8 +2713,8 @@
    "volte_para": "#as-dividas-que-tem-nome",
    "rubrica": "identifica a pipeline jungle (raspagens + junções + amostragem crescendo por acréscimo);\nidentifica a cascata de correções e explica que melhorar o modelo de base agora piora as camadas acima;\nidentifica os consumidores não declarados (o time de precificação) e o risco que isso cria para qualquer mudança;\nidentifica a dívida de configuração (600 linhas fora do repositório, sem revisão, sem versão);\nmenciona a dependência de dados frágil da planilha do comercial e a ausência de contrato/validação;\npropõe uma ordem de pagamento com justificativa — e não apenas uma lista",
    "versoes": null,
-   "pagina": "15-sistemas-de-ml",
-   "titulo_capitulo": "15 — Sistemas de ML",
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML",
    "criterios": [
     "identifica a pipeline jungle (raspagens + junções + amostragem crescendo por acréscimo)",
     "identifica a cascata de correções e explica que melhorar o modelo de base agora piora as camadas acima",
@@ -2725,9 +2725,9 @@
    ]
   },
   {
-   "id": "16-e1",
-   "capitulo": 16,
-   "arquivo": "livro/capitulos/16-mlops.md",
+   "id": "mlops-e1",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -2756,13 +2756,13 @@
    "volte_para": "#fundamentos-versionar-registrar-servir",
    "rubrica": null,
    "versoes": null,
-   "pagina": "16-mlops",
-   "titulo_capitulo": "16 — MLOps"
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
   },
   {
-   "id": "16-e2",
-   "capitulo": 16,
-   "arquivo": "livro/capitulos/16-mlops.md",
+   "id": "mlops-e2",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -2770,12 +2770,12 @@
    "enunciado": "Você opera um modelo que prevê, na assinatura do contrato, se um cliente vai ficar inadimplente. O **rótulo verdadeiro só existe 90 dias depois** — é o prazo para a primeira parcela vencer e o atraso ser confirmado.\n\nDescreva como você monitora esse modelo **durante os 90 dias**, e o que faria disparar uma investigação antes do rótulo chegar.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "A resposta fraca diz \"acompanho a acurácia semanalmente\" — impossível, porque **não há rótulo para comparar**. Essa é a armadilha do exercício e o erro real mais comum de painel de ML: exibir uma métrica de desempenho que, nos primeiros 90 dias, está sendo calculada sobre um recorte enviesado (só os casos que já venceram, que são justamente os contratos mais antigos).\n\nA resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada — os contratos de março avaliados juntos — e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo 02](02-dados.md) dentro do próprio monitoramento.",
+   "porque": "A resposta fraca diz \"acompanho a acurácia semanalmente\" — impossível, porque **não há rótulo para comparar**. Essa é a armadilha do exercício e o erro real mais comum de painel de ML: exibir uma métrica de desempenho que, nos primeiros 90 dias, está sendo calculada sobre um recorte enviesado (só os casos que já venceram, que são justamente os contratos mais antigos).\n\nA resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada — os contratos de março avaliados juntos — e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo I.3](i-3-dados.md) dentro do próprio monitoramento.",
    "volte_para": "#monitorar-em-tres-camadas",
    "rubrica": "reconhece explicitamente que a métrica de desempenho não pode ser calculada no intervalo, e não propõe calculá-la;\npropõe monitorar a distribuição das **entradas** contra a janela de referência do treino;\npropõe monitorar a distribuição das **saídas** (probabilidades previstas ou taxa de positivos);\ncita ao menos um sinal proxy ou parcial (sinais precoces de atraso, cancelamentos, reclamações, taxa de aprovação por segmento);\nreconhece que esses sinais são alarme e não veredito, e diz o que faria em seguida (investigar, segurar promoção, comparar com o campeão anterior)",
    "versoes": null,
-   "pagina": "16-mlops",
-   "titulo_capitulo": "16 — MLOps",
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps",
    "criterios": [
     "reconhece explicitamente que a métrica de desempenho não pode ser calculada no intervalo, e não propõe calculá-la",
     "propõe monitorar a distribuição das **entradas** contra a janela de referência do treino",
@@ -2785,9 +2785,9 @@
    ]
   },
   {
-   "id": "16-e3",
-   "capitulo": 16,
-   "arquivo": "livro/capitulos/16-mlops.md",
+   "id": "mlops-e3",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
    "tipo": "multipla-multi",
    "objetivo": "O4",
    "pontos": 1,
@@ -2820,13 +2820,13 @@
    "volte_para": "#retreinar-e-implantar-sem-quebrar",
    "rubrica": null,
    "versoes": null,
-   "pagina": "16-mlops",
-   "titulo_capitulo": "16 — MLOps"
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
   },
   {
-   "id": "17-e1",
-   "capitulo": 17,
-   "arquivo": "livro/capitulos/17-fronteira.md",
+   "id": "fronteira-e1",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
    "tipo": "multipla",
    "objetivo": "O2",
    "pontos": 1,
@@ -2855,13 +2855,13 @@
    "volte_para": "#o-que-os-especialistas-erraram-e-como-o-erro-chega-ate-voce",
    "rubrica": null,
    "versoes": null,
-   "pagina": "17-fronteira",
-   "titulo_capitulo": "17 — Fronteira e Expiração"
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
   },
   {
-   "id": "17-e2",
-   "capitulo": 17,
-   "arquivo": "livro/capitulos/17-fronteira.md",
+   "id": "fronteira-e2",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
@@ -2873,8 +2873,8 @@
    "volte_para": "#o-que-envelhece-rapido-e-o-que-nao-envelhece",
    "rubrica": "identifica ao menos um elemento durável e justifica pela natureza dele (diagnóstico, restrição estrutural, propriedade matemática), não por gosto;\nidentifica ao menos um elemento com prazo e diz por que (depende de hardware, de escala, de biblioteca, de convenção da comunidade);\npropõe uma **observação falsificável** para cada previsão — algo que, se acontecesse, mostraria que a previsão estava errada;\nnão trata \"fundamentos duram\" como slogan, mas aplica ao conteúdo concreto do capítulo escolhido",
    "versoes": null,
-   "pagina": "17-fronteira",
-   "titulo_capitulo": "17 — Fronteira e Expiração",
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração",
    "criterios": [
     "identifica ao menos um elemento durável e justifica pela natureza dele (diagnóstico, restrição estrutural, propriedade matemática), não por gosto",
     "identifica ao menos um elemento com prazo e diz por que (depende de hardware, de escala, de biblioteca, de convenção da comunidade)",
@@ -2883,9 +2883,9 @@
    ]
   },
   {
-   "id": "17-e3",
-   "capitulo": 17,
-   "arquivo": "livro/capitulos/17-fronteira.md",
+   "id": "fronteira-e3",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
@@ -2914,105 +2914,105 @@
    "volte_para": "#o-placar-deste-livro",
    "rubrica": null,
    "versoes": null,
-   "pagina": "17-fronteira",
-   "titulo_capitulo": "17 — Fronteira e Expiração"
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
   }
  ],
  "videos": [
   {
-   "id": "00-v1",
-   "capitulo": 0,
-   "arquivo": "livro/00-introducao.md",
+   "id": "introducao-v1",
+   "capitulo": 1,
+   "arquivo": "livro/0-1-introducao.md",
    "fonte": "youtube",
    "ref": "Gv9_4yMHFhI",
    "titulo": "A Gentle Introduction to Machine Learning",
    "autor": "StatQuest with Josh Starmer",
    "min": 6,
    "porque": "Uma visão geral de seis minutos que fixa o vocabulário — treino, teste, predição — **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.",
-   "pagina": "00-introducao"
+   "pagina": "0-1-introducao"
   },
   {
-   "id": "01-v1",
-   "capitulo": 1,
-   "arquivo": "livro/01-fundamentos.md",
+   "id": "fundamentos-v1",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
    "fonte": "youtube",
    "ref": "EuBBz3bI-aA",
    "titulo": "Machine Learning Fundamentals: Bias and Variance",
    "autor": "StatQuest with Josh Starmer",
    "min": 7,
    "porque": "A decomposição viés–variância é um daqueles conceitos que a prosa explica e o **gráfico** fixa. O vídeo mostra ajustes sucessivos ao mesmo conjunto de pontos, e a intuição visual de \"a curva balança demais quando os dados mudam\" é o que faz o termo *variância* deixar de ser jargão e virar algo que você reconhece de longe num gráfico de treino.",
-   "pagina": "01-fundamentos"
+   "pagina": "0-2-fundamentos"
   },
   {
-   "id": "02-v1",
-   "capitulo": 2,
-   "arquivo": "livro/capitulos/02-dados.md",
+   "id": "dados-v1",
+   "capitulo": 5,
+   "arquivo": "livro/capitulos/i-3-dados.md",
    "fonte": "youtube",
    "ref": "fSytzGwwBVw",
    "titulo": "Machine Learning Fundamentals: Cross Validation",
    "autor": "StatQuest with Josh Starmer",
    "min": 6,
-   "porque": "O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este vídeo mostra a **mecânica** de dividir e de rodar validação cruzada, com os blocos se movendo na tela. Vale como base concreta antes do exercício 02-e3 — e repare, enquanto assiste, que a animação assume dados sem estrutura temporal nem de grupo. É o caso mais simples, e é por isso que ele é o mais ensinado.",
-   "pagina": "02-dados"
+   "porque": "O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este vídeo mostra a **mecânica** de dividir e de rodar validação cruzada, com os blocos se movendo na tela. Vale como base concreta antes do exercício dados-e3 — e repare, enquanto assiste, que a animação assume dados sem estrutura temporal nem de grupo. É o caso mais simples, e é por isso que ele é o mais ensinado.",
+   "pagina": "i-3-dados"
   },
   {
-   "id": "04-v1",
-   "capitulo": 4,
-   "arquivo": "livro/capitulos/04-avaliacao.md",
+   "id": "avaliacao-v1",
+   "capitulo": 9,
+   "arquivo": "livro/capitulos/ii-1-avaliacao.md",
    "fonte": "youtube",
    "ref": "4jRBRDbJemM",
    "titulo": "ROC and AUC, Clearly Explained!",
    "autor": "StatQuest with Josh Starmer",
    "min": 16,
-   "porque": "A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício 04-e4.",
-   "pagina": "04-avaliacao"
+   "porque": "A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício avaliacao-e4.",
+   "pagina": "ii-1-avaliacao"
   },
   {
-   "id": "28-v1",
-   "capitulo": 28,
-   "arquivo": "livro/capitulos/28-regressao-logistica.md",
+   "id": "regressao-logistica-v1",
+   "capitulo": 11,
+   "arquivo": "livro/capitulos/ii-3-regressao-logistica.md",
    "fonte": "youtube",
    "ref": "yIYKR4sgzI8",
    "titulo": "StatQuest: Logistic Regression",
    "autor": "StatQuest with Josh Starmer",
    "min": 9,
-   "porque": "O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício 28-e2.",
-   "pagina": "28-regressao-logistica"
+   "porque": "O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício regressao-logistica-e2.",
+   "pagina": "ii-3-regressao-logistica"
   },
   {
-   "id": "06-v1",
-   "capitulo": 6,
-   "arquivo": "livro/capitulos/06-otimizacao.md",
+   "id": "otimizacao-v1",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
    "fonte": "youtube",
    "ref": "sDv4f4s2SB8",
    "titulo": "Gradient Descent, Step-by-Step",
    "autor": "StatQuest with Josh Starmer",
    "min": 24,
    "porque": "Vinte e quatro minutos, e valem cada um. O vídeo faz a conta **à mão**, passo a passo, num exemplo minúsculo: calcula o gradiente, dá o passo, recalcula. É o que a fórmula `w ← w − η∇L` esconde — que ela descreve um procedimento repetitivo e concreto, não uma operação abstrata. Se o gradiente ainda parece magia, é este material que resolve.",
-   "pagina": "06-otimizacao"
+   "pagina": "ii-4-otimizacao"
   },
   {
-   "id": "07-v1",
-   "capitulo": 7,
-   "arquivo": "livro/capitulos/07-arvores-ensembles.md",
+   "id": "arvores-ensembles-v1",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
    "fonte": "youtube",
    "ref": "3CC4N4z3GJc",
    "titulo": "Gradient Boost Part 1: Regression Main Ideas",
    "autor": "StatQuest with Josh Starmer",
    "min": 15,
-   "porque": "Boosting é o conceito deste capítulo que a prosa explica mal, porque ele é um processo **iterativo** — e prosa é linear. O vídeo constrói o modelo passo a passo numa tabela pequena: previsão inicial, resíduo, árvore no resíduo, nova previsão, novo resíduo. Ver a coluna de resíduos encolhendo a cada rodada é o que transforma \"cada árvore corrige a anterior\" de frase decorada em mecanismo entendido. Assista antes do exercício 07-e4.",
-   "pagina": "07-arvores-ensembles"
+   "porque": "Boosting é o conceito deste capítulo que a prosa explica mal, porque ele é um processo **iterativo** — e prosa é linear. O vídeo constrói o modelo passo a passo numa tabela pequena: previsão inicial, resíduo, árvore no resíduo, nova previsão, novo resíduo. Ver a coluna de resíduos encolhendo a cada rodada é o que transforma \"cada árvore corrige a anterior\" de frase decorada em mecanismo entendido. Assista antes do exercício arvores-ensembles-e4.",
+   "pagina": "ii-5-arvores-ensembles"
   }
  ],
  "laboratorios": [
   {
-   "id": "21-l1",
-   "capitulo": 21,
-   "arquivo": "livro/capitulos/21-analise-exploratoria.md",
+   "id": "analise-exploratoria-l1",
+   "capitulo": 6,
+   "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
    "tipo": "explorar-variavel",
    "titulo": "Análise monovariada — venda de limonada",
    "config": {
-    "id": "21-l1",
+    "id": "analise-exploratoria-l1",
     "tipo": "explorar-variavel",
     "titulo": "Análise monovariada — venda de limonada",
     "colunas": [
@@ -3024,16 +3024,16 @@
     ]
    },
    "intro": "As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.\n\nA linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.\n\nPercorra as cinco colunas e responda, para cada uma:\n\n1. A distribuição é **simétrica**? De que lado ela puxa?\n2. Há **outliers** pela cerca de 1,5 × IQR? Quantos?\n3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?\n\nDuas colunas têm respostas surpreendentes. Encontre-as antes de ler a seção seguinte.",
-   "pagina": "21-analise-exploratoria"
+   "pagina": "i-4-analise-exploratoria"
   },
   {
-   "id": "05-l1",
-   "capitulo": 5,
-   "arquivo": "livro/capitulos/05-modelos-lineares.md",
+   "id": "modelos-lineares-l1",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "regressao-linear",
    "titulo": "Mínimos quadrados à mão",
    "config": {
-    "id": "05-l1",
+    "id": "modelos-lineares-l1",
     "tipo": "regressao-linear",
     "titulo": "Mínimos quadrados à mão",
     "n": 24,
@@ -3042,22 +3042,22 @@
     "ruido": 3.2
    },
    "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.\n\nTrês coisas para tentar, nesta ordem:\n\n1. **Minimize no olho.** Arraste as alças até o EQM parar de cair. Anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.\n3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em \"Ajustar automaticamente\" e compare os coeficientes com o que você tinha.\n\nUma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**",
-   "pagina": "05-modelos-lineares"
+   "pagina": "ii-2-modelos-lineares"
   },
   {
-   "id": "18-l1",
-   "capitulo": 18,
-   "arquivo": "livro/capitulos/18-neuronio-artificial.md",
+   "id": "neuronio-artificial-l1",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
    "tipo": "neuronio-mp",
    "titulo": "Neurônio de McCulloch–Pitts",
    "config": {
-    "id": "18-l1",
+    "id": "neuronio-artificial-l1",
     "tipo": "neuronio-mp",
     "titulo": "Neurônio de McCulloch–Pitts",
     "funcao": "AND"
    },
    "intro": "Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.\n\nSua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.\n\nComece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.",
-   "pagina": "18-neuronio-artificial"
+   "pagina": "iii-1-neuronio-artificial"
   }
  ],
  "gerado_de": "livro/"

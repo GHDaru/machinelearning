@@ -1,6 +1,8 @@
 # ADR 0009 — Separar regressão linear e logística em dois capítulos
 
-**Data:** 2026-08-11 · **Estado:** aceito
+**Data:** 2026-08-11 · **Estado:** aceito, com a regra de numeração **superada pelo [ADR 0011](0011-numeracao-por-parte.md)**
+
+> **Nota de 2026-08-12.** A decisão de separar os dois capítulos continua valendo inteira. O que mudou foi o argumento do número: este ADR escolheu o "28" por ser o próximo livre, apoiado na regra de identificador estável. A medição do dia seguinte mostrou que **as 29 posições do livro estavam fora de ordem**, e a regra foi substituída por numeração por parte — o capítulo 28 virou **II.3**.
 
 ## Contexto
 

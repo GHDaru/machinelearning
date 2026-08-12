@@ -24,7 +24,8 @@ const SO_VERIFICAR = process.argv.includes("--verificar");
 
 const sumario = JSON.parse(readFileSync(resolve(AQUI, "sumario.json"), "utf8"));
 const itens = sumario.partes.flatMap((p) => p.itens).filter((i) => i.arquivo);
-const capituloDe = (titulo) => parseInt((String(titulo).match(/^\s*(\d+)/) || [])[1], 10) || 0;
+// Posição de leitura (1..N), não o número do título — ver ADR 0011.
+const posicaoDe = (arquivo) => itens.findIndex((i) => i.arquivo === arquivo) + 1;
 
 const exercicios = [];
 const videos = [];
@@ -35,7 +36,7 @@ for (const item of itens) {
   const caminho = resolve(RAIZ, item.arquivo);
   if (!existsSync(caminho)) continue;
   const bruto = readFileSync(caminho, "utf8");
-  const cap = capituloDe(item.titulo);
+  const cap = posicaoDe(item.arquivo);
   const slug = basename(item.arquivo).replace(/\.md$/, "").toLowerCase();
 
   let lote;

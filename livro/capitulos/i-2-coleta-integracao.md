@@ -1,4 +1,4 @@
-# 20 — Coleta e Integração de Dados
+# I.2 — Coleta e Integração
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -17,7 +17,7 @@ Uma rede de varejo pede um modelo de recompra. A equipe precisa de uma linha por
 
 A equipe faz o que parece óbvio: junta por nome. O resultado sai em duas horas e parece bom. Semanas depois alguém descobre que 12% da base virou dois clientes diferentes, e um punhado de homônimos virou um cliente só — com o histórico de compras de duas pessoas somado. O modelo aprendeu de um mundo que não existe.
 
-Este é o capítulo menos glamouroso do livro e um dos que mais decidem o prazo do projeto. Ele cobre as fases 2 e 3 do ciclo do [capítulo 19](19-ciclo-ciencia-de-dados.md) — entender e preparar os dados —, e o erro que previne não é de algoritmo: é acreditar que "trazer o dado" é uma tarefa de cópia. Não é. É uma tarefa de **reconciliação**, porque cada sistema tem a sua própria noção do que é um cliente, uma data e um valor ausente.
+Este é o capítulo menos glamouroso do livro e um dos que mais decidem o prazo do projeto. Ele cobre as fases 2 e 3 do ciclo do [capítulo I.1](i-1-ciclo-ciencia-de-dados.md) — entender e preparar os dados —, e o erro que previne não é de algoritmo: é acreditar que "trazer o dado" é uma tarefa de cópia. Não é. É uma tarefa de **reconciliação**, porque cada sistema tem a sua própria noção do que é um cliente, uma data e um valor ausente.
 
 ## De onde isto veio
 
@@ -37,7 +37,7 @@ E aqui está a parte mais útil desta seção, justamente por não ter vencedor.
 
 **Inmon** defende uma arquitetura *hub-and-spoke*: um warehouse central **normalizado**, fiel ao modelo corporativo, e *data marts* dependentes a jusante, montados a partir dele para cada área. **Ralph Kimball** defende a *bus matrix*: o warehouse **inteiro** em forma dimensional, feito de marts que se ligam por **dimensões conformadas** — a mesma dimensão "cliente", com a mesma chave e o mesmo significado, usada por todos.
 
-Repare no que os dois **concordam**: modelagem dimensional serve, e é ela que faz o cubo do [capítulo 23](23-analise-multidimensional.md) responder rápido. A discordância é sobre **onde ela entra** — no fim do caminho ou desde a porta de entrada.
+Repare no que os dois **concordam**: modelagem dimensional serve, e é ela que faz o cubo do [capítulo II.6](ii-6-analise-multidimensional.md) responder rápido. A discordância é sobre **onde ela entra** — no fim do caminho ou desde a porta de entrada.
 
 Na prática, quase todo warehouse grande é **híbrido**. E o híbrido não é o fracasso de um projeto que não escolheu lado: é o sedimento de decisões tomadas por equipes diferentes, em épocas diferentes, sob restrições diferentes — a que tinha prazo e fez o mart direto; a que herdou dez fontes e precisou de uma camada normalizada para conciliá-las. Quando você chegar a uma empresa e encontrar as duas coisas convivendo, a leitura correta não é "está errado", é "aqui houve história". Sua pergunta deve ser qual restrição produziu cada pedaço, e se ela ainda vale.
 
@@ -71,7 +71,7 @@ Escolhida a porta, resta a pergunta de ordem: transformar antes ou depois de gra
 
 **ELT** (*Extract, Load, Transform*) carrega o bruto e transforma **dentro** do repositório, quase sempre em SQL. A ordem inverteu quando o armazenamento ficou barato e o motor analítico ficou forte: passou a ser mais barato guardar tudo e derivar depois do que decidir cedo o que interessa. O ganho real é poder **re-derivar** — mudou a regra, você recalcula a partir do bruto em vez de pedir uma nova extração. O preço é honesto e precisa ser dito: você paga para armazenar dado que ninguém pediu, e sem catálogo e sem dono ninguém sabe qual das dezessete tabelas `cliente` é a boa.
 
-:::exercicio {"id":"20-e1","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
+:::exercicio {"id":"coleta-integracao-e1","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
 Complete a sigla que nomeia a ordem adotada quando o armazenamento ficou barato — carregar o dado bruto primeiro e transformá-lo depois, dentro do próprio repositório analítico:
 
 `Extract → Load → Transform = ______`
@@ -93,7 +93,7 @@ Os três guardam dados, e a diferença que importa é **quando o esquema é cobr
 
 O warehouse cobra caro na entrada e devolve confiança: se a linha entrou, ela está no formato combinado. O lake cobra barato na entrada e transfere o problema para quem lê — e é exatamente por isso que um lake sem catálogo vira o pântano de que todo mundo fala: não é o volume que o mata, é a **ausência de quem responda pelo significado de cada arquivo**. O lakehouse é a tentativa de ficar com os dois: arquivos abertos e baratos, mais uma camada de tabela que garante transação, evolução de esquema e viagem no tempo. Ele não elimina a decisão — apenas move o custo para a governança.
 
-:::exercicio {"id":"20-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"coleta-integracao-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma equipe precisa de duas coisas ao mesmo tempo: guardar cinco anos de eventos brutos de clique (JSON, com o esquema mudando a cada release do aplicativo) e servir trinta relatórios fixos ao financeiro, todo dia às 7h. Qual arranjo atende melhor?
 
 - [ ] Só warehouse: modelar os eventos de clique no esquema dimensional já na entrada.
@@ -114,17 +114,17 @@ Extrair é engenharia; integrar é semântica. Três problemas aparecem em todo 
 
 **Uma entidade, várias chaves.** O `João Silva` do início do capítulo. Quando existe uma chave forte compartilhada (CPF, CNPJ, número do contrato), use-a e acabou. Quando não existe, o casamento é **probabilístico**: normalize o texto, compare nome, data de nascimento e endereço, calcule uma pontuação de similaridade e escolha um limiar. E esse limiar não é técnico — limiar alto deixa duplicata na base, limiar baixo funde duas pessoas. Decida com quem paga a conta do erro, e **registre a regra**, porque em seis meses ninguém lembra por que dois cadastros viraram um.
 
-**Granularidade, e o que se perde ao agregar cedo.** O grão é o fato mais fino que a tabela guarda: um item de um pedido, ou o total do dia por loja. Agregar é irreversível — quem guardou só o total diário por loja não consegue mais responder quais produtos são comprados juntos, nem qual foi o efeito de uma promoção sobre um item. A regra prática: **guarde no grão mais fino que couber no orçamento**; agregar depois é uma consulta, desagregar depois é uma coleta nova. É o mesmo grão que o cubo do [capítulo 23](23-analise-multidimensional.md) vai fatiar.
+**Granularidade, e o que se perde ao agregar cedo.** O grão é o fato mais fino que a tabela guarda: um item de um pedido, ou o total do dia por loja. Agregar é irreversível — quem guardou só o total diário por loja não consegue mais responder quais produtos são comprados juntos, nem qual foi o efeito de uma promoção sobre um item. A regra prática: **guarde no grão mais fino que couber no orçamento**; agregar depois é uma consulta, desagregar depois é uma coleta nova. É o mesmo grão que o cubo do [capítulo II.6](ii-6-analise-multidimensional.md) vai fatiar.
 
-**Idempotência e reprocessamento.** Todo pipeline roda de novo — a fonte chegou atrasada, o job caiu no meio, alguém corrigiu o arquivo de ontem. Rodar duas vezes tem de produzir o mesmo estado que rodar uma. `INSERT` puro não é idempotente: reprocessar duplica o faturamento. As duas formas baratas de conseguir isso são `MERGE` por chave de negócio e **sobrescrita da partição inteira** do período reprocessado. Sem isso, o pipeline só é confiável enquanto nunca falhar — e a fila de streaming, que entrega "ao menos uma vez", garante que ele vai falhar. Monitorar essa reexecução é assunto do [capítulo 16](16-mlops.md).
+**Idempotência e reprocessamento.** Todo pipeline roda de novo — a fonte chegou atrasada, o job caiu no meio, alguém corrigiu o arquivo de ontem. Rodar duas vezes tem de produzir o mesmo estado que rodar uma. `INSERT` puro não é idempotente: reprocessar duplica o faturamento. As duas formas baratas de conseguir isso são `MERGE` por chave de negócio e **sobrescrita da partição inteira** do período reprocessado. Sem isso, o pipeline só é confiável enquanto nunca falhar — e a fila de streaming, que entrega "ao menos uma vez", garante que ele vai falhar. Monitorar essa reexecução é assunto do [capítulo V.3](v-3-mlops.md).
 
 ### De onde veio este dado, e quem o produziu?
 
-É a pergunta que abre o [capítulo 02](02-dados.md), e é aqui que ela nasce — porque o vazamento mais comum de todos não vem de um erro de modelagem: vem de **juntar tabelas sem respeitar o tempo**.
+É a pergunta que abre o [capítulo I.3](i-3-dados.md), e é aqui que ela nasce — porque o vazamento mais comum de todos não vem de um erro de modelagem: vem de **juntar tabelas sem respeitar o tempo**.
 
 Uma tabela de dimensão que é atualizada no lugar (sem histórico) carrega sempre o estado de **hoje**. Um `JOIN` sem recorte temporal cola esse estado de hoje em um fato de doze meses atrás — e o modelo passa a ver, no momento da compra, uma informação que só existiu depois dela. O sintoma é sempre o mesmo: métrica excelente no teste, desempenho medíocre em produção. Por isso a procedência não é burocracia de licença — embora a licença também importe, e nenhuma base pública deva ser usada sem ler a sua. De cada coluna que entra no seu conjunto de treino, saiba responder: **quem a produz, com que frequência, e ela é sobrescrita ou versionada?** Se você não sabe, você não sabe em que instante ela passou a valer.
 
-:::exercicio {"id":"20-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"coleta-integracao-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Você monta o conjunto de treino de um modelo que prevê **inadimplência no momento da compra**. Os pedidos de 2025 estão no data warehouse; o cadastro vem de outro sistema, e a tabela `clientes` é sincronizada todas as noites **sobrescrevendo** a linha do cliente.
 
 ```sql
@@ -142,7 +142,7 @@ O modelo treinado com essa tabela alcança desempenho muito acima do esperado. E
 > nomeia isso como vazamento e liga o desempenho alto no teste à queda esperada em produção;
 > propõe ao menos uma correção concreta — dimensão versionada com validade (início/fim), snapshot datado do cadastro, ou recomputar o atributo com corte no tempo do pedido;
 > faz a pergunta de procedência sobre as colunas: quem as produz, com que frequência e se são sobrescritas
-> **porque:** O `JOIN` está sintaticamente correto e semanticamente errado. O `WHERE` recorta os **pedidos** no tempo, mas nada recorta o **cadastro**: cada linha de 2025 recebe o cliente como ele está agora. Um cliente que ficou inadimplente em novembro aparece como inadimplente também na compra de janeiro — o rótulo entrou disfarçado de atributo. É o vazamento do [capítulo 02](02-dados.md) na sua forma mais comum, e ele não nasce da modelagem: nasce da integração.
+> **porque:** O `JOIN` está sintaticamente correto e semanticamente errado. O `WHERE` recorta os **pedidos** no tempo, mas nada recorta o **cadastro**: cada linha de 2025 recebe o cliente como ele está agora. Um cliente que ficou inadimplente em novembro aparece como inadimplente também na compra de janeiro — o rótulo entrou disfarçado de atributo. É o vazamento do [capítulo I.3](i-3-dados.md) na sua forma mais comum, e ele não nasce da modelagem: nasce da integração.
 >
 > O desempenho "muito acima do esperado" é o sinal, e vale como regra de ofício: **resultado bom demais é hipótese de vazamento até prova em contrário** — vá conferir a origem das colunas antes de comemorar.
 >

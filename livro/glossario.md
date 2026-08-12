@@ -56,12 +56,12 @@
 
 ## Acrescentados na edição 1.0
 
-- **ARIMA** — *AutoRegressive Integrated Moving Average*. Família de modelos de série temporal com três peças: autorregressivo (o passado prevê o presente), integrado (diferenciar para estabilizar) e média móvel (o erro passado também informa). Capítulo 24.
-- **ACF / PACF** — *Autocorrelation / Partial Autocorrelation Function*. Funções de autocorrelação e autocorrelação parcial — as ferramentas de diagnóstico que dizem quantas defasagens o modelo precisa. Capítulo 24.
-- **OLAP** — *Online Analytical Processing*. Análise multidimensional sobre cubos: dimensões, medidas e agregação pré-computada. Contrasta com OLTP, o processamento transacional. Capítulo 23.
-- **OLTP** — *Online Transaction Processing*. O sistema otimizado para registrar, não para perguntar. A tensão entre ele e a análise é a origem do data warehouse. Capítulo 20.
-- **ELT** — *Extract, Load, Transform*. Inversão do ETL: carrega-se primeiro e transforma-se depois, viável quando armazenamento ficou barato. Capítulo 20.
-- **EDA** — *Exploratory Data Analysis*. Análise exploratória de dados — a tradição que Tukey nomeou em 1962 e sistematizou em 1977. Capítulo 21.
-- **CRISP-DM** — *CRoss-Industry Standard Process for Data Mining*. O ciclo de seis fases publicado em 1999. 'Cross-industry' é a tese: o processo não pertence a um setor nem a um fornecedor. Capítulo 19.
-- **CART** — *Classification and Regression Trees*. As árvores de Breiman, Friedman, Olshen e Stone (1984), nascidas da consultoria e não do seminário. Capítulo 07.
-- **TF-IDF** — *Term Frequency – Inverse Document Frequency*. Peso que combina a frequência do termo no documento com a raridade dele na coleção. Spärck Jones inventou o IDF em 1972; Salton e Yang o nomearam. Capítulo 03.
+- **ARIMA** — *AutoRegressive Integrated Moving Average*. Família de modelos de série temporal com três peças: autorregressivo (o passado prevê o presente), integrado (diferenciar para estabilizar) e média móvel (o erro passado também informa). Capítulo II.7.
+- **ACF / PACF** — *Autocorrelation / Partial Autocorrelation Function*. Funções de autocorrelação e autocorrelação parcial — as ferramentas de diagnóstico que dizem quantas defasagens o modelo precisa. Capítulo II.7.
+- **OLAP** — *Online Analytical Processing*. Análise multidimensional sobre cubos: dimensões, medidas e agregação pré-computada. Contrasta com OLTP, o processamento transacional. Capítulo II.6.
+- **OLTP** — *Online Transaction Processing*. O sistema otimizado para registrar, não para perguntar. A tensão entre ele e a análise é a origem do data warehouse. Capítulo I.2.
+- **ELT** — *Extract, Load, Transform*. Inversão do ETL: carrega-se primeiro e transforma-se depois, viável quando armazenamento ficou barato. Capítulo I.2.
+- **EDA** — *Exploratory Data Analysis*. Análise exploratória de dados — a tradição que Tukey nomeou em 1962 e sistematizou em 1977. Capítulo I.4.
+- **CRISP-DM** — *CRoss-Industry Standard Process for Data Mining*. O ciclo de seis fases publicado em 1999. 'Cross-industry' é a tese: o processo não pertence a um setor nem a um fornecedor. Capítulo I.1.
+- **CART** — *Classification and Regression Trees*. As árvores de Breiman, Friedman, Olshen e Stone (1984), nascidas da consultoria e não do seminário. Capítulo II.5.
+- **TF-IDF** — *Term Frequency – Inverse Document Frequency*. Peso que combina a frequência do termo no documento com a raridade dele na coleção. Spärck Jones inventou o IDF em 1972; Salton e Yang o nomearam. Capítulo I.6.

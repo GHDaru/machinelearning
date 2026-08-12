@@ -1,4 +1,4 @@
-# 17 — Fronteira e Expiração
+# V.4 — Fronteira e Expiração
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -16,7 +16,7 @@
 
 Se cada capítulo declara a data em que fotografou o estado da arte, alguém precisa manter o placar — anotar o que foi previsto, o que se confirmou e o que se refutou.
 
-É também o capítulo que faz a pergunta desconfortável: **o que, do que você acabou de ler, tem prazo de validade curto?** A resposta honesta tem duas metades. Os fundamentos — generalização, viés e variância, o custo do erro, a separação entre quem produz e quem avalia — envelhecem devagar; alguns têm quase um século e continuam de pé. **Quase todo o resto envelhece rápido**, e o capítulo [12](12-modelos-de-fundacao.md) envelhece enquanto você lê.
+É também o capítulo que faz a pergunta desconfortável: **o que, do que você acabou de ler, tem prazo de validade curto?** A resposta honesta tem duas metades. Os fundamentos — generalização, viés e variância, o custo do erro, a separação entre quem produz e quem avalia — envelhecem devagar; alguns têm quase um século e continuam de pé. **Quase todo o resto envelhece rápido**, e o capítulo [12](iii-6-modelos-de-fundacao.md) envelhece enquanto você lê.
 
 ## O que os especialistas erraram — e como o erro chega até você
 
@@ -46,7 +46,7 @@ O documento existe, e é o **MIT AI Memo 100, "The Summer Vision Project", de 7 
 >
 > **Não é o conteúdo da previsão que apodrece primeiro — é a procedência.** A data escorrega, o autor troca, o contexto some, e o que sobra é uma frase boa demais para o slide.
 >
-> É o mesmo padrão que o [capítulo 08](08-nao-supervisionado.md) encontrou em "cerveja e fraldas", que o [13](13-reforco.md) encontrou na origem do nome *dynamic programming*, e que o [23](23-analise-multidimensional.md) encontrou no batismo do OLAP. **Quando um detalhe é bom demais para o slide, ele foi otimizado para o slide.**
+> É o mesmo padrão que o [capítulo IV.1](iv-1-nao-supervisionado.md) encontrou em "cerveja e fraldas", que o [13](iv-2-reforco.md) encontrou na origem do nome *dynamic programming*, e que o [23](ii-6-analise-multidimensional.md) encontrou no batismo do OLAP. **Quando um detalhe é bom demais para o slide, ele foi otimizado para o slide.**
 >
 > Por isso o placar deste livro registra, para cada afirmação datada, **onde ela foi publicada e por quem** — é isso que se perde antes do resto.
 
@@ -58,9 +58,9 @@ O documento existe, e é o **MIT AI Memo 100, "The Summer Vision Project", de 7 
 | ✓ᵐ | O **MIT AI Memo 100**, *The Summer Vision Project*, 07/07/1966, assinado por **Seymour Papert** — obra, autoria e data. **O PDF não abriu** (o repositório devolveu erro) |
 | ⏳ | Que a previsão de "três a oito anos" foi publicada na *Life* de 20/11/1970, em reportagem de Brad Darrach, **e** que Minsky contestou o artigo — a negativa chega por fonte de segunda mão, e a revista **não foi aberta** |
 | ⏳ | Que a versão popular da lenda do "verão da visão" atribui o memorando a Minsky e a um aluno só |
-| 📖 | A leitura de que a **procedência apodrece antes do conteúdo**, e a ligação com os caps. 08, 13 e 23 |
+| 📖 | A leitura de que a **procedência apodrece antes do conteúdo**, e a ligação com os caps. IV.1, 13 e 23 |
 
-:::exercicio {"id":"17-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"fronteira-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Você lê num post: *"Estudos mostram que modelos de linguagem já superam médicos em diagnóstico."* Qual é a **primeira** pergunta a fazer?
 
 - [ ] Qual modelo foi usado, e em qual versão?
@@ -81,18 +81,18 @@ Você lê num post: *"Estudos mostram que modelos de linguagem já superam médi
 
 | Envelhece devagar | Envelhece rápido |
 |---|---|
-| generalização e a hipótese de mesma distribuição ([01](../01-fundamentos.md)) | qual arquitetura é o estado da arte |
-| o custo do erro e o limiar como decisão de negócio ([04](04-avaliacao.md), [25](25-do-modelo-a-decisao.md)) | números de desempenho em benchmark |
-| vazamento e as divisões que respeitam a estrutura ([02](02-dados.md)) | qual biblioteca usar |
-| a representação como teto do que se pode aprender ([03](03-representacao.md)) | o tamanho de modelo considerado grande |
-| a incompatibilidade entre definições de justiça ([14](14-interpretabilidade-justica.md)) | o que um modelo de fundação consegue fazer ([12](12-modelos-de-fundacao.md)) |
-| o diagnóstico do gradiente como produto ([26](26-treinar-redes-profundas.md)) | qual o remédio da vez para treinar profundo |
+| generalização e a hipótese de mesma distribuição ([01](../0-2-fundamentos.md)) | qual arquitetura é o estado da arte |
+| o custo do erro e o limiar como decisão de negócio ([04](ii-1-avaliacao.md), [25](ii-8-do-modelo-a-decisao.md)) | números de desempenho em benchmark |
+| vazamento e as divisões que respeitam a estrutura ([02](i-3-dados.md)) | qual biblioteca usar |
+| a representação como teto do que se pode aprender ([03](i-6-representacao.md)) | o tamanho de modelo considerado grande |
+| a incompatibilidade entre definições de justiça ([14](v-1-interpretabilidade-justica.md)) | o que um modelo de fundação consegue fazer ([12](iii-6-modelos-de-fundacao.md)) |
+| o diagnóstico do gradiente como produto ([26](iii-3-treinar-redes-profundas.md)) | qual o remédio da vez para treinar profundo |
 
-Há uma regularidade nessa tabela, e ela é útil: **o que envelhece devagar é diagnóstico; o que envelhece rápido é remédio.** É a lição que o capítulo 26 tira de Hochreiter — o texto de 1991 mediu o problema e não o resolveu, e trinta e cinco anos depois o remédio mudou quatro vezes enquanto o diagnóstico ficou de pé.
+Há uma regularidade nessa tabela, e ela é útil: **o que envelhece devagar é diagnóstico; o que envelhece rápido é remédio.** É a lição que o capítulo III.3 tira de Hochreiter — o texto de 1991 mediu o problema e não o resolveu, e trinta e cinco anos depois o remédio mudou quatro vezes enquanto o diagnóstico ficou de pé.
 
 Aplique isso ao que você acabou de estudar. **Se você aprendeu a reconhecer o aperto, você aprendeu a parte durável.** Se aprendeu só o procedimento, aprendeu a parte com prazo.
 
-:::exercicio {"id":"17-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"fronteira-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
 Escolha **um** capítulo deste livro que você leu. Escreva o que nele você espera que **ainda seja verdade em 2036**, o que espera que **esteja obsoleto**, e — a parte que importa — **qual observação futura faria você mudar de ideia** sobre cada um.
 
 > **rubrica:** identifica ao menos um elemento durável e justifica pela natureza dele (diagnóstico, restrição estrutural, propriedade matemática), não por gosto;
@@ -115,7 +115,7 @@ Isso tem um custo que vale nomear. **Um livro que registra as próprias previsõ
 
 A dívida atual está declarada no [roadmap](../../ROADMAP.md), e a maior delas é honesta o bastante para aparecer aqui: **boa parte das fontes históricas deste livro está selada ✓ᵐ**, o que significa que conferimos que a obra existe e não que a lemos por inteiro. O ciclo de aprofundamento existe para pagar isso, uma fonte por vez.
 
-:::exercicio {"id":"17-e3","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"fronteira-e3","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Um capítulo declara: *"Estado da arte capturado em 2026-08."* O que exatamente essa data promete?
 
 - [ ] Que todas as informações do capítulo eram verdadeiras em agosto de 2026.

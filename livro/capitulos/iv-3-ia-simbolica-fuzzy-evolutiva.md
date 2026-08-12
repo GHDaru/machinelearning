@@ -1,4 +1,4 @@
-# 27 — IA Simbólica, Fuzzy e Evolutiva
+# IV.3 — IA Simbólica, Fuzzy e Evolutiva
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -37,7 +37,7 @@ Depois vieram os sistemas especialistas de verdade: **DENDRAL** (Stanford, a par
 
 **4. As bayesianas — raciocinar sob incerteza sem explodir a tabela conjunta.** Judea Pearl, "Bayesian Networks: A Model of Self-Activated Memory for Evidential Reasoning", relatório técnico **CSD-850017** da UCLA, apresentado na Cognitive Science Society em **abril de 1985** ✓ᵐ — é ali que o termo aparece. Livro em 1988; Prêmio Turing em 2011. O aperto: a distribuição conjunta de *n* variáveis binárias exige 2ⁿ − 1 números. Com 30 variáveis, mais de um bilhão. **A virada** foi perceber que quase todos esses números são redundantes, porque a maioria das variáveis é **condicionalmente independente** das demais — e que essa independência pode ser *desenhada*, como um grafo. Em 1985, falar de probabilidade dentro da IA era estar **fora do mainstream** ⏳.
 
-**A ideia reaproveitável, e é uma só para as quatro.** **A representação escolhida decide qual busca é possível.** Nenhuma das quatro tradições inventou um otimizador melhor. Cada uma inventou uma **forma de escrever o problema** que tornou a busca tratável: estado-e-operador tornou a prova buscável; o grau de pertinência tornou o predicado vago computável; a população tornou o espaço sem gradiente percorrível; o grafo de independências tornou a inferência probabilística viável. É a lição do [capítulo 03](03-representacao.md) vista de outro ângulo — lá, a representação decide o que o modelo consegue aprender; aqui, decide o que o algoritmo consegue procurar. 📖
+**A ideia reaproveitável, e é uma só para as quatro.** **A representação escolhida decide qual busca é possível.** Nenhuma das quatro tradições inventou um otimizador melhor. Cada uma inventou uma **forma de escrever o problema** que tornou a busca tratável: estado-e-operador tornou a prova buscável; o grau de pertinência tornou o predicado vago computável; a população tornou o espaço sem gradiente percorrível; o grafo de independências tornou a inferência probabilística viável. É a lição do [capítulo I.6](i-6-representacao.md) vista de outro ângulo — lá, a representação decide o que o modelo consegue aprender; aqui, decide o que o algoritmo consegue procurar. 📖
 
 > ### A rejeição tem geografia
 >
@@ -45,7 +45,7 @@ Depois vieram os sistemas especialistas de verdade: **DENDRAL** (Stanford, a par
 >
 > **A comunidade que rejeita uma ideia raramente é a que a reabilita.** Isso não é consolo para quem tem uma ideia rejeitada; é uma instrução de busca. Se o seu método não anda, a pergunta útil talvez não seja "como convenço esta sala?", e sim "qual é a sala em que este método é obviamente útil?".
 >
-> **Repare no relógio: 22 anos e um oceano.** De Zadeh (1965) a Sendai (1987) foram 22 anos **e uma mudança de continente**. Compare com os 43 anos do [capítulo 24](24-series-temporais.md), os 59 do [03](03-representacao.md) e os cerca de 80 do [13](13-reforco.md). O atraso aqui é curto para o padrão do livro — o que custou tempo não foi formular a ideia nem construir a ferramenta, foi **encontrar quem quisesse ouvir**. 📖
+> **Repare no relógio: 22 anos e um oceano.** De Zadeh (1965) a Sendai (1987) foram 22 anos **e uma mudança de continente**. Compare com os 43 anos do [capítulo II.7](ii-7-series-temporais.md), os 59 do [03](i-6-representacao.md) e os cerca de 80 do [13](iv-2-reforco.md). O atraso aqui é curto para o padrão do livro — o que custou tempo não foi formular a ideia nem construir a ferramenta, foi **encontrar quem quisesse ouvir**. 📖
 
 **Procedência das afirmações desta seção:**
 
@@ -75,11 +75,11 @@ Duas direções de encadeamento:
 | **Para a frente** (*forward chaining*) | parte dos fatos conhecidos e dispara toda regra cuja condição foi satisfeita, gerando fatos novos | monitoramento, alarme, configuração — chega um dado, o que ele implica? |
 | **Para trás** (*backward chaining*) | parte de uma hipótese e procura as regras que a sustentam, perguntando pelo que falta | diagnóstico — quero saber se é isto, o que preciso medir? |
 
-O encadeamento para trás dá de graça a coisa que o resto do livro custa caro para obter: a **explicação**. O rastro de regras que sustentou a conclusão *é* a justificativa, na mesma linguagem em que o especialista fala. Compare com o esforço do [capítulo 14](14-interpretabilidade-justica.md) para extrair explicação aproximada de um modelo que não a produz.
+O encadeamento para trás dá de graça a coisa que o resto do livro custa caro para obter: a **explicação**. O rastro de regras que sustentou a conclusão *é* a justificativa, na mesma linguagem em que o especialista fala. Compare com o esforço do [capítulo V.1](v-1-interpretabilidade-justica.md) para extrair explicação aproximada de um modelo que não a produz.
 
-E aqui está o gargalo que derrubou a promessa comercial da década de 1980: **a aquisição do conhecimento**. Escrever a base exige um engenheiro de conhecimento entrevistando um especialista — e o especialista decide bem sem conseguir enunciar as regras que usa. O motor era a parte fácil. Enquanto isso, este era o paradigma dominante da IA: as tradições deste capítulo ocuparam justamente o vazio deixado pelo inverno conexionista do [capítulo 18](18-neuronio-artificial.md).
+E aqui está o gargalo que derrubou a promessa comercial da década de 1980: **a aquisição do conhecimento**. Escrever a base exige um engenheiro de conhecimento entrevistando um especialista — e o especialista decide bem sem conseguir enunciar as regras que usa. O motor era a parte fácil. Enquanto isso, este era o paradigma dominante da IA: as tradições deste capítulo ocuparam justamente o vazio deixado pelo inverno conexionista do [capítulo III.1](iii-1-neuronio-artificial.md).
 
-:::exercicio {"id":"27-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Sua empresa quer transformar em sistema especialista o conhecimento de três engenheiros veteranos que aprovam ou reprovam lotes de produção. Onde está o gargalo real do projeto?
 
 - [ ] Na velocidade do motor de inferência, que precisará percorrer milhares de regras a cada consulta.
@@ -104,7 +104,7 @@ Sobre isso se constrói a **variável linguística**: "temperatura" deixa de ser
 
 O ganho de engenharia é que as regras são escritas na linguagem do operador da máquina, não na do teórico de controle. Foi isso que a linha Namboku pôs para andar: um controle de frenagem que o técnico de manutenção consegue ler.
 
-:::exercicio {"id":"27-e2","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e2","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
 O termo linguístico **"água quente"** é definido por uma função de pertinência **triangular**: pertinência **0** em 30 °C, **1** em 50 °C e **0** em 70 °C, com variação linear entre esses pontos.
 
 Qual é o grau de pertinência de uma leitura de **44 °C** ao conjunto "água quente"? Responda com duas casas decimais.
@@ -120,7 +120,7 @@ Qual é o grau de pertinência de uma leitura de **44 °C** ao conjunto "água q
 
 Um algoritmo genético mantém uma **população** de soluções candidatas, cada uma codificada como uma sequência. A cada geração: avalia cada candidata com uma **função de aptidão**, **seleciona** as melhores com alguma aleatoriedade, gera filhas por **cruzamento** (combinar pedaços de duas candidatas) e **mutação** (perturbar uma), e repete. Não há derivada em lugar nenhum — só avaliação, comparação e variação.
 
-Isso delimita bem quando vale a pena. **Vale** quando o espaço de busca não tem gradiente utilizável: variáveis discretas, problemas combinatórios (roteamento, escalonamento, seleção de atributos), funções com muitos ótimos locais, ou uma função de aptidão que é uma **caixa-preta** — um simulador, um jogo, ou, como em Rechenberg, um túnel de vento com uma peça de metal dentro. **Não vale** quando existe gradiente: se você pode derivar, derive; o [capítulo 06](06-otimizacao.md) faz em minutos o que uma população levaria horas para tatear.
+Isso delimita bem quando vale a pena. **Vale** quando o espaço de busca não tem gradiente utilizável: variáveis discretas, problemas combinatórios (roteamento, escalonamento, seleção de atributos), funções com muitos ótimos locais, ou uma função de aptidão que é uma **caixa-preta** — um simulador, um jogo, ou, como em Rechenberg, um túnel de vento com uma peça de metal dentro. **Não vale** quando existe gradiente: se você pode derivar, derive; o [capítulo II.4](ii-4-otimizacao.md) faz em minutos o que uma população levaria horas para tatear.
 
 Os dois custos a declarar antes de começar: o algoritmo genético **não dá garantia de ótimo** e é **caro em número de avaliações** — se cada avaliação é um ensaio físico ou uma simulação de dez minutos, a conta é o projeto inteiro. E ele traz um punhado de hiperparâmetros próprios (tamanho da população, taxa de mutação, pressão de seleção) que precisam ser ajustados por fora, o que é irônico: um método de busca que exige uma busca para ser configurado.
 
@@ -128,7 +128,7 @@ Os dois custos a declarar antes de começar: o algoritmo genético **não dá ga
 
 Uma **rede bayesiana** tem duas peças: um **grafo dirigido acíclico**, em que cada nó é uma variável e cada seta é uma dependência direta, e uma **tabela de probabilidade condicional** por nó, dizendo a distribuição daquela variável dados os valores de seus pais. Só isso. As independências que o grafo declara são o que dispensa os outros bilhões de números da tabela conjunta.
 
-O que essa estrutura permite, e uma rede neural do [capítulo 09](09-redes-neurais.md) não permite:
+O que essa estrutura permite, e uma rede neural do [capítulo III.2](iii-2-redes-neurais.md) não permite:
 
 - **Inferência em qualquer direção.** A mesma rede que calcula "dada a doença, qual a chance deste sintoma?" responde "dado o sintoma, qual a chance da doença?". Uma rede neural treinada de entrada para saída faz um caminho só; para inverter, você treina outra.
 - **Raciocínio sobre intervenção.** É diferente *observar* que o barômetro caiu e *forçar* o ponteiro do barômetro com a mão. O grafo distingue as duas coisas; um modelo que só aprendeu correlação, não.
@@ -141,13 +141,13 @@ O preço: alguém precisa **escrever o grafo** — e voltamos ao gargalo da aqui
 
 Três razões, e nenhuma delas é nostalgia.
 
-**Interpretabilidade por construção.** Regras, graus de pertinência e grafos causais são legíveis porque foram **escritos para ser lidos** — a explicação não é extraída depois, ela é o próprio objeto. Onde há regulador, auditoria ou responsabilidade civil, isso muda o cálculo do projeto inteiro ([capítulo 14](14-interpretabilidade-justica.md)).
+**Interpretabilidade por construção.** Regras, graus de pertinência e grafos causais são legíveis porque foram **escritos para ser lidos** — a explicação não é extraída depois, ela é o próprio objeto. Onde há regulador, auditoria ou responsabilidade civil, isso muda o cálculo do projeto inteiro ([capítulo V.1](v-1-interpretabilidade-justica.md)).
 
 **Funcionamento com pouco dado.** Um sistema de regras, um controlador fuzzy e uma rede bayesiana com estrutura desenhada por especialista funcionam com **zero** exemplos de treino — e usam o histórico disponível para o que ele de fato serve nesse regime: **testar**, não estimar. Aqueles 41 lotes do início do capítulo não davam para aprender; davam muito bem para avaliar.
 
 **A fusão com aprendizado.** A direção mais viva hoje é **neuro-simbólica**: rede neural onde há dado e percepção, estrutura simbólica onde há regra e restrição — o modelo aprendido propõe, o componente simbólico verifica e recusa o que viola a regra. É também o padrão que ancora modelos de linguagem em ferramentas formais. 📖
 
-:::exercicio {"id":"27-e3","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e3","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"dificil"}
 Um hospital pede um sistema de apoio ao diagnóstico para uma doença rara. Há **60 casos confirmados** em dez anos de prontuários, um consenso clínico publicado que descreve quais fatores causam quais sintomas, e uma exigência do comitê de ética: **toda recomendação precisa vir acompanhada da justificativa clínica**.
 
 Um colega propõe treinar uma rede neural com os 60 casos. Escreva a recomendação que você levaria à reunião, dizendo o que usar e por quê.
@@ -167,7 +167,7 @@ Um colega propõe treinar uma rede neural com os 60 casos. Escreva a recomendaç
 
 ## Síntese — o que levar
 
-- **A representação escolhida decide qual busca é possível.** Nenhuma das quatro tradições inventou um otimizador melhor; cada uma inventou uma forma de **escrever o problema**. É o [capítulo 03](03-representacao.md) visto do lado da busca.
+- **A representação escolhida decide qual busca é possível.** Nenhuma das quatro tradições inventou um otimizador melhor; cada uma inventou uma forma de **escrever o problema**. É o [capítulo I.6](i-6-representacao.md) visto do lado da busca.
 - **Nem todo problema de IA é problema de aprendizado.** Quando a informação está na cabeça de um especialista, num consenso publicado ou numa estrutura causal conhecida, aprendizado supervisionado não tem por onde recebê-la.
 - **Simbólica**: base de conhecimento separada do motor de inferência; encadeamento para a frente para monitorar, para trás para diagnosticar. Explicação de graça, e o gargalo é a **aquisição**.
 - **Fuzzy**: pertinência entre 0 e 1 modela **vagueza**, não incerteza — e as duas não se confundem. Medir mais elimina incerteza; não elimina vagueza.

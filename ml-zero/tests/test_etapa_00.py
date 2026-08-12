@@ -36,7 +36,7 @@ def test_seeds_diferentes_geram_conjuntos_diferentes():
 
 def test_prevalencia_fica_na_faixa_desbalanceada_desejada():
     # O processo foi calibrado para ~20% de positivos: desbalanceado o
-    # suficiente para o cap. 04 ter o que dizer.
+    # suficiente para o cap. II.1 ter o que dizer.
     p = gerar(n=4000).prevalencia()
     assert 0.10 < p < 0.35
 

@@ -1,4 +1,4 @@
-"""Etapa 07 — o experimento que o capítulo 07 cita.
+"""Etapa 07 — o experimento que o capítulo II.5 cita.
 
     python etapa-07/rodar.py
 
@@ -6,7 +6,7 @@ Compara, no mesmo dado tabular, quatro modelos e a linha de base; e mede a
 estabilidade de cada um sob reamostragem, que é onde bagging e boosting se
 distinguem.
 
-Toda afirmação numérica do capítulo 07 sai daqui (Princípio I). Seeds fixas:
+Toda afirmação numérica do capítulo II.5 sai daqui (Princípio I). Seeds fixas:
 rodar duas vezes dá o mesmo resultado.
 """
 

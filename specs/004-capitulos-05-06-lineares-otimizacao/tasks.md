@@ -1,4 +1,4 @@
-# Tasks 004 — Capítulos 05 e 06
+# Tasks 004 — Capítulos II.2 e 06
 
 - [x] **T401** `Padronizador` que aprende no treino e aplica ao teste · *verif.:* 4 testes
 - [x] **T402** `RegressaoLinear` com equações normais (Gauss à mão) · *verif.:* recupera coeficientes verdadeiros
@@ -9,6 +9,6 @@
 - [x] **T407** Corrigir `divergiu()` — olhava só a última época · *verif.:* detecta explosão no meio
 - [x] **T408** Adicionar `min_delta` ao early stopping · *verif.:* critério passa a disparar
 - [x] **T409** Adicionar `monitorar` (validação) ao early stopping · *verif.:* teste com dado ruidoso
-- [x] **T410** Capítulo 05 com 3 exercícios e 1 vídeo · *verif.:* gate do banco
-- [x] **T411** Capítulo 06 com 4 exercícios e 1 vídeo · *verif.:* gate do banco
+- [x] **T410** Capítulo II.2 com 3 exercícios e 1 vídeo · *verif.:* gate do banco
+- [x] **T411** Capítulo II.4 com 4 exercícios e 1 vídeo · *verif.:* gate do banco
 - [x] **T412** Registro: HISTORICO, CHANGELOG, ROADMAP, videoteca, trilha · *verif.:* leitura

@@ -1,7 +1,7 @@
 """Etapa 05–06 — modelos lineares e o otimizador que os treina.
 
 Uma etapa para dois capítulos, porque são o mesmo objeto visto de dois ângulos:
-o capítulo 05 pergunta *que função o modelo representa*; o 06, *como se chega
+o capítulo II.2 pergunta *que função o modelo representa*; o 06, *como se chega
 aos coeficientes*. Separá-los em duas etapas duplicaria o código sem separar
 nada.
 
@@ -37,7 +37,7 @@ class Padronizador:
     """(x − média) / desvio, aprendido SÓ no treino.
 
     Vive aqui, e não solto num script, para tornar impossível o vazamento do
-    capítulo 02: quem chama `fit` recebe um objeto que já sabe o que aplicar
+    capítulo I.3: quem chama `fit` recebe um objeto que já sabe o que aplicar
     ao teste. O caminho errado exige esforço extra, que é como deve ser.
     """
 
@@ -73,7 +73,7 @@ class Padronizador:
 @dataclass
 class Historico:
     """O que aconteceu durante o treino. É o instrumento de diagnóstico do
-    capítulo 06: divergiu, estagnou, ou convergiu?"""
+    capítulo II.4: divergiu, estagnou, ou convergiu?"""
 
     perdas: list[float] = field(default_factory=list)
     monitorado: list[float] = field(default_factory=list)
@@ -127,7 +127,7 @@ def descida_de_gradiente(
 
     `paciencia` liga o **early stopping**: pare quando a perda não melhorar por
     N épocas. É a regularização mais barata que existe — não custa nada e
-    frequentemente é a que mais rende (cap. 06).
+    frequentemente é a que mais rende (cap. II.4).
 
     `min_delta` é o que torna o early stopping utilizável: sem ele, uma melhora
     de 4e-10 por época conta como progresso e o critério nunca dispara. O que
@@ -300,7 +300,7 @@ class RegressaoLogistica:
     o logaritmo da razão de chances —, e é aí que a relação volta a ser linear.
 
     Regularização L1 e L2 disponíveis. A diferença entre as duas é o assunto
-    do capítulo 06 e está visível no que cada uma faz aos coeficientes:
+    do capítulo II.4 e está visível no que cada uma faz aos coeficientes:
     L2 encolhe todos, L1 zera alguns.
     """
 
@@ -401,7 +401,7 @@ class RegressaoLogistica:
 
         É a leitura honesta de um coeficiente logístico. Dizer "aumenta a
         probabilidade em w" é errado — a relação linear está no logito, não na
-        probabilidade (cap. 05).
+        probabilidade (cap. II.2).
         """
         return [math.exp(w) for w in self.pesos]
 

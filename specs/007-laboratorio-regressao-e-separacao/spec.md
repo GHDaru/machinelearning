@@ -10,9 +10,9 @@ O pedido do autor, em uso real de sala:
 
 Três necessidades distintas, e uma delas explica as outras duas.
 
-**1. O capítulo 05 ensina o método pelo resultado, não pela dedução.** Ele afirma que a reta minimiza o erro quadrático, mostra a fórmula da perda e informa que existe solução fechada — mas **não deriva nada**. O leitor recebe as equações normais como fato revelado. O laboratório do capítulo 18 provou o antídoto: o estudante que põe os pesos à mão e trava no XOR **descobre** a impossibilidade em vez de ser informado dela.
+**1. O capítulo II.2 ensina o método pelo resultado, não pela dedução.** Ele afirma que a reta minimiza o erro quadrático, mostra a fórmula da perda e informa que existe solução fechada — mas **não deriva nada**. O leitor recebe as equações normais como fato revelado. O laboratório do capítulo III.1 provou o antídoto: o estudante que põe os pesos à mão e trava no XOR **descobre** a impossibilidade em vez de ser informado dela.
 
-**2. O capítulo 05 carrega dois modelos.** Regressão linear e logística dividem o mesmo capítulo porque compartilham a forma `w·x + b`. Só que respondem perguntas diferentes (quanto × qual), têm perdas diferentes, saídas em unidades diferentes e — o ponto que decide — **uma tem solução fechada e a outra não**. Espremidos num capítulo só, a logística ganha 30 linhas e nenhum laboratório.
+**2. O capítulo II.2 carrega dois modelos.** Regressão linear e logística dividem o mesmo capítulo porque compartilham a forma `w·x + b`. Só que respondem perguntas diferentes (quanto × qual), têm perdas diferentes, saídas em unidades diferentes e — o ponto que decide — **uma tem solução fechada e a outra não**. Espremidos num capítulo só, a logística ganha 30 linhas e nenhum laboratório.
 
 **3. Um capítulo com dois modelos não cabe num laboratório só.** A interação que ensina a reta (arrastar e ver o erro cair) não é a que ensina a sigmoide.
 
@@ -29,7 +29,7 @@ Três necessidades distintas, e uma delas explica as outras duas.
 | A7 | Existe botão que **revela a reta ótima** | reta de referência em cor distinta, com o EQM dela |
 | A8 | Existe botão que **ajusta automaticamente** os coeficientes | os campos passam a valer a solução fechada |
 | A9 | Roda **sem backend** | funciona com a API fora do ar |
-| A10 | O capítulo 05 tem uma seção de **dedução** do método | derivação das equações normais, do critério ao resultado |
+| A10 | O capítulo II.2 tem uma seção de **dedução** do método | derivação das equações normais, do critério ao resultado |
 | A11 | Regressão logística é um **capítulo próprio** | arquivo, número estável, entrada no sumário |
 | A12 | Nenhum link do livro aponta para uma âncora que deixou de existir | `npm run build` valida links internos e falha |
 | A13 | O capítulo novo cumpre o Princípio X | seção "De onde isto veio" com tabela de selos; o build cobra |
@@ -46,5 +46,5 @@ Três necessidades distintas, e uma delas explica as outras duas.
 | Risco | Mitigação |
 |---|---|
 | Separar quebra links de outros capítulos para as âncoras da logística | o gate de links internos do build falha; foi assim que os quatro pontos foram encontrados |
-| O exercício `05-e2` é de logística e muda de capítulo | vira `28-e1`; tentativas antigas no banco ficam órfãs — aceito e registrado no ADR 0009 |
+| O exercício `modelos-lineares-e2` é de logística e muda de capítulo | vira `regressao-logistica-e1`; tentativas antigas no banco ficam órfãs — aceito e registrado no ADR 0009 |
 | O capítulo novo nasce devendo o Princípio X | escrever a seção histórica **no mesmo lote**, com selos honestos — não ✓ onde só houve metadado |

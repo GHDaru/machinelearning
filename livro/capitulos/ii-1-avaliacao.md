@@ -1,10 +1,10 @@
-# 04 — Avaliação
+# II.1 — Avaliação
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](../HISTORICO.md)
 >
 > **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
 
-> **Capítulo-piloto do esqueleto v4.** É aqui que o formato do livro foi validado antes de ser exigido dos demais — como o cap. 04 foi o piloto do livro de Engenharia de Harness, e pela mesma razão: avaliação é o assunto em que a diferença entre "achar que entendeu" e "entender" aparece mais rápido.
+> **Capítulo-piloto do esqueleto v4.** É aqui que o formato do livro foi validado antes de ser exigido dos demais — como o cap. II.1 foi o piloto do livro de Engenharia de Harness, e pela mesma razão: avaliação é o assunto em que a diferença entre "achar que entendeu" e "entender" aparece mais rápido.
 
 ## Objetivos de aprendizagem
 
@@ -32,7 +32,7 @@ Antes de qualquer métrica sofisticada, calcule o que um classificador trivial a
 
 Se o modelo não bate a linha de base, ele não tem valor — independentemente de quantos dígitos a acurácia tenha. Registre esse número no início do projeto e mantenha-o visível em todo relatório. É o gesto mais barato de higiene metodológica que existe, e o mais frequentemente pulado.
 
-:::exercicio {"id":"04-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"avaliacao-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge 99,5% de acurácia no teste. Qual leitura é correta?
 
 - [ ] O modelo é excelente: erra menos de 1 caso em 200.
@@ -116,7 +116,7 @@ Três leituras do mesmo modelo, e todas verdadeiras:
 
 **A métrica certa é a que responde à pergunta cujo erro custa caro.** Numa triagem, FN mata e FP custa dinheiro — então revocação manda, com precisão como restrição orçamentária. Num filtro de spam, é o inverso: o FN é um email chato na caixa de entrada, o FP é uma fatura perdida na pasta de lixo. Mesmo formalismo, prioridades opostas.
 
-:::exercicio {"id":"04-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"avaliacao-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Um classificador produziu a seguinte matriz de confusão: VP = 45, FP = 15, FN = 30, VN = 410.
 
 Qual é a **precisão**? Responda com 2 casas decimais.
@@ -126,7 +126,7 @@ Qual é a **precisão**? Responda com 2 casas decimais.
 > **volte para:** #fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva
 :::
 
-:::exercicio {"id":"04-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"avaliacao-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Um sistema faz a triagem inicial de currículos, descartando candidatos antes de qualquer olhar humano. Qual métrica deve orientar a decisão de limiar, e por quê?
 
 - [ ] Precisão: é caro entrevistar candidatos ruins.
@@ -153,7 +153,7 @@ Um classificador quase sempre produz um **escore** contínuo, e só vira decisã
 
 > **Cláusula de expiração.** Escrevo em 2026 que AUC-PR é a escolha padrão para classes raras e que a calibração é tratada como etapa pós-treino (Platt, isotônica). Se, na próxima revisão, os modelos de uso geral estiverem entregando escores bem calibrados sem etapa dedicada, esta seção muda de recomendação. Acompanhamento no [placar de expiração](../HISTORICO.md).
 
-:::exercicio {"id":"04-e4","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
+:::exercicio {"id":"avaliacao-e4","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
 Um modelo tem AUC-ROC de 0,95 no teste. Quais conclusões são **legítimas** a partir só desse número? (marque todas que valem)
 
 - [x] O modelo ordena bem: positivos tendem a receber escores maiores que negativos.
@@ -178,7 +178,7 @@ Duas práticas baratas resolvem quase tudo:
 
 Regra prática que vale como norma editorial deste livro: **duas métricas sem intervalos não podem ser comparadas.** "Melhorou de 0,912 para 0,918" é uma frase sem conteúdo até que se saiba se o ruído da medição é maior que 0,006.
 
-:::exercicio {"id":"04-e5","tipo":"aberta","objetivo":"O5","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"avaliacao-e5","tipo":"aberta","objetivo":"O5","pontos":3,"dificuldade":"dificil"}
 Sua equipe compara dois modelos no mesmo conjunto de teste de 800 exemplos: o modelo A tem F1 = 0,812 e o modelo B, F1 = 0,829. Alguém propõe substituir A por B em produção.
 
 Escreva a resposta que você daria: **o que falta saber** antes dessa decisão, e **como você obteria** essa informação.
@@ -199,14 +199,14 @@ A **etapa 04** do [`ml-zero`](../trilha-ml-zero.md) implementa, em NumPy puro e 
 2. `precisao`, `revocacao`, `f1` derivadas dela;
 3. `curva_pr` e `auc_pr` por varredura de limiares;
 4. `bootstrap_ic(metrica, y_true, y_score, n=1000)` — o intervalo de confiança;
-5. a comparação pareada entre dois modelos que o exercício 04-e5 pediu.
+5. a comparação pareada entre dois modelos que o exercício avaliacao-e5 pediu.
 
 Implementar precisão e revocação uma vez, à mão, é o antídoto mais duradouro contra trocá-las — que é o erro mais comum do capítulo, inclusive entre praticantes experientes.
 
 ## Assista
 
-:::video {"id":"04-v1","fonte":"youtube","ref":"4jRBRDbJemM","min":16,"autor":"StatQuest with Josh Starmer","titulo":"ROC and AUC, Clearly Explained!"}
-A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício 04-e4.
+:::video {"id":"avaliacao-v1","fonte":"youtube","ref":"4jRBRDbJemM","min":16,"autor":"StatQuest with Josh Starmer","titulo":"ROC and AUC, Clearly Explained!"}
+A curva ROC é o conceito deste capítulo que menos sobrevive à explicação em prosa. O vídeo constrói a curva **ponto a ponto**, deslizando o limiar e mostrando a matriz de confusão mudar junto — e é essa animação que faz cair a ficha de que ROC não é uma métrica de um modelo, mas o retrato de *todos os limiares de uma vez*. Assista antes do exercício avaliacao-e4.
 :::
 
 ## Síntese — o que levar

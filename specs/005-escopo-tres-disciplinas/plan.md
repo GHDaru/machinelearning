@@ -6,7 +6,7 @@
 
 | Princípio | Como cumpre | Risco |
 |---|---|---|
-| **I — Evidência** | McCulloch & Pitts (1943) conferido na fonte e ✓. O capítulo 18 não faz afirmação empírica sem fonte; a história é narrada com datas verificáveis. | Narrar história de memória. Mitigado: a referência central foi conferida; as demais entram ⏳ e **não sustentam afirmação**. |
+| **I — Evidência** | McCulloch & Pitts (1943) conferido na fonte e ✓. O capítulo III.1 não faz afirmação empírica sem fonte; a história é narrada com datas verificáveis. | Narrar história de memória. Mitigado: a referência central foi conferida; as demais entram ⏳ e **não sustentam afirmação**. |
 | **II — Experimento executável** | O laboratório **é** o experimento: o leitor executa e verifica. | — |
 | **III — Método pedagógico** | O laboratório vem **antes** da explicação (descoberta primeiro, nome depois) — carga cognitiva aplicada ao desenho da página, não só ao texto. | — |
 | **IV — Livro vivo** | Nível declarado no cabeçalho; edição 0.5 no HISTORICO com o modelo de IA. | — |
@@ -32,7 +32,7 @@
 
 1. Runtime dos laboratórios e o widget do neurônio.
 2. Bloco `:::lab` no parser, no build e no extrator.
-3. Capítulo 18 com o laboratório antes da explicação.
+3. Capítulo III.1 com o laboratório antes da explicação.
 4. Nova estrutura: título, partes, 9 esqueletos novos.
 5. Trilhas por disciplina, mapeadas às ementas.
 6. Emenda constitucional 1.1.0 e Guia Editorial.

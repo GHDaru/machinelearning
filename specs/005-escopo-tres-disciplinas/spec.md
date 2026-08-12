@@ -19,7 +19,7 @@ Há também um achado de sala de aula que muda o desenho: numa aula sobre McCull
 - **R3** Níveis de maturidade declarados, para cobrir o programa sem baixar o rigor em silêncio.
 - **R4** Laboratório interativo como bloco de primeira classe, rodando **sem backend**.
 - **R5** Primeiro laboratório: neurônio de McCulloch–Pitts, com o XOR como descoberta.
-- **R6** Capítulo 18 escrito ao nível `essencial`, com história, exercícios e o laboratório.
+- **R6** Capítulo III.1 escrito ao nível `essencial`, com história, exercícios e o laboratório.
 
 ## Critérios de aceite
 
@@ -38,7 +38,7 @@ Há também um achado de sala de aula que muda o desenho: numa aula sobre McCull
 
 **Os números dos capítulos não são renumerados.** Renumerar quebraria os ids dos 31 exercícios (que embutem o número do capítulo) e as âncoras já publicadas. O número vira **identificador estável** e a ordem vive nas trilhas — o que o autor pediu explicitamente ("não precisa ser linear").
 
-**IA fica fora, com uma exceção.** O autor observa que Inteligência Artificial é outra disciplina. O capítulo 27 cobre o que a ementa de Aprendizagem de Máquina exige (simbólico, fuzzy, genéticos, bayesianas); uma Parte VI dedicada fica registrada como possibilidade.
+**IA fica fora, com uma exceção.** O autor observa que Inteligência Artificial é outra disciplina. O capítulo IV.3 cobre o que a ementa de Aprendizagem de Máquina exige (simbólico, fuzzy, genéticos, bayesianas); uma Parte VI dedicada fica registrada como possibilidade.
 
 ## Fora de escopo
 

@@ -1,4 +1,4 @@
-# 19 — O Ciclo da Ciência de Dados
+# I.1 — O Ciclo da Ciência de Dados
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-08 · [histórico](../HISTORICO.md)
 >
@@ -17,7 +17,7 @@ Um varejista pede um modelo de *churn*. A equipe recebe acesso ao banco, encontr
 
 O motivo apareceu na primeira reunião com a área de retenção: eles só conseguem agir sobre um cliente **na renovação do plano**, e a renovação acontece antes dos 90 dias de silêncio. Quando o modelo acusa risco, o cliente já foi embora. A lista chega tarde para todo mundo que poderia fazer algo com ela.
 
-Nenhuma métrica do [capítulo 04](04-avaliacao.md) capturaria isso. O modelo é bom; o alvo é que responde a uma pergunta que ninguém tinha. E repare no mecanismo do erro: a equipe começou **pelos dados disponíveis**, e o rótulo saiu do que era fácil de calcular, não do que era possível decidir.
+Nenhuma métrica do [capítulo II.1](ii-1-avaliacao.md) capturaria isso. O modelo é bom; o alvo é que responde a uma pergunta que ninguém tinha. E repare no mecanismo do erro: a equipe começou **pelos dados disponíveis**, e o rótulo saiu do que era fácil de calcular, não do que era possível decidir.
 
 O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para tornar esse erro difícil de cometer. Ele coloca *entendimento do negócio* como fase 1 e *modelagem* como fase 4 — e essa ordem é a lição inteira do capítulo.
 
@@ -37,7 +37,7 @@ Concebido no fim de 1996, virou projeto europeu com financiamento **ESPRIT** em 
 
 Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora** sentadas na mesma mesa. A prova de conceito do "cross-industry" está na composição do grupo — se o mesmo processo servisse para fabricar carros e para precificar apólices, servia para o resto.
 
-> **A restrição material gerou a forma.** O CRISP-DM não é fruto de uma boa ideia solta: é resposta a um mercado sem linguagem comum. O livro já viu isso duas vezes — no [capítulo 22](22-visualizacao-storytelling.md), Playfair inventa o gráfico de barras porque **não tinha** a série temporal que os outros gráficos exigiam; no [capítulo 18](18-neuronio-artificial.md), o neurônio de 1943 nasce sem aprendizado porque não havia como treinar coisa alguma. Falta de recurso é o que mais produz forma nova.
+> **A restrição material gerou a forma.** O CRISP-DM não é fruto de uma boa ideia solta: é resposta a um mercado sem linguagem comum. O livro já viu isso duas vezes — no [capítulo I.5](i-5-visualizacao-storytelling.md), Playfair inventa o gráfico de barras porque **não tinha** a série temporal que os outros gráficos exigiam; no [capítulo III.1](iii-1-neuronio-artificial.md), o neurônio de 1943 nasce sem aprendizado porque não havia como treinar coisa alguma. Falta de recurso é o que mais produz forma nova.
 
 **Procedência das afirmações desta seção:**
 
@@ -62,11 +62,11 @@ Uma fase não termina quando o tempo acaba — termina quando ela **entrega** o 
 | 5 | **Avaliação** | isto resolve o problema da fase 1? | decisão de seguir, iterar ou parar |
 | 6 | **Implantação** | como isto chega a quem decide, e continua funcionando? | sistema em produção, monitoramento, plano de manutenção |
 
-Três fases já têm capítulo próprio neste livro. A **preparação dos dados** é o assunto do [capítulo 02](02-dados.md) e do [capítulo 20](20-coleta-integracao.md). A **avaliação** técnica — matriz de confusão, métrica escolhida pelo custo do erro — é o [capítulo 04](04-avaliacao.md). A **implantação** é o [capítulo 15](15-sistemas-de-ml.md) e o [capítulo 16](16-mlops.md).
+Três fases já têm capítulo próprio neste livro. A **preparação dos dados** é o assunto do [capítulo I.3](i-3-dados.md) e do [capítulo I.2](i-2-coleta-integracao.md). A **avaliação** técnica — matriz de confusão, métrica escolhida pelo custo do erro — é o [capítulo II.1](ii-1-avaliacao.md). A **implantação** é o [capítulo V.2](v-2-sistemas-de-ml.md) e o [capítulo V.3](v-3-mlops.md).
 
 E vale separar duas coisas que o vocabulário mistura. A métrica que você calcula dentro da fase 4 responde *"o modelo aprendeu?"*. A fase 5 responde *"e daí?"* — se o ganho de AUC vira dinheiro, se a lista chega a tempo de alguém agir, se o critério escrito na fase 1 foi atingido. Um modelo pode passar na primeira e reprovar na segunda. Foi exatamente o que aconteceu com o *churn* do início do capítulo.
 
-:::exercicio {"id":"19-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"ciclo-ciencia-de-dados-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma seguradora pede um modelo para "reduzir os sinistros de automóvel". O projeto tem seis semanas. O que o CRISP-DM manda fazer na primeira?
 
 - [ ] Levantar as tabelas disponíveis no *data warehouse* e medir a qualidade de cada campo.
@@ -77,11 +77,11 @@ Uma seguradora pede um modelo para "reduzir os sinistros de automóvel". O proje
 > **gabarito:** Descobrir qual decisão vai mudar, quem a toma e quando
 > **porque:** "Reduzir sinistros" não é um problema de mineração de dados — é um objetivo de negócio, e dele saem alvos completamente diferentes: prever quem vai bater o carro, recusar propostas de risco, reprecificar apólices na renovação, priorizar vistoria. Cada um exige rótulo, dado e prazo distintos. Sem essa conversa você não escolhe entre eles: você herda o alvo que a tabela mais acessível permitir.
 >
-> A alternativa mais tentadora é a última — o [capítulo 04](04-avaliacao.md) insiste em definir a métrica **antes** de treinar, e isso está certo. Mas a métrica se escolhe pelo custo do erro, e o custo do erro é informação de negócio: quem paga um falso positivo aqui, o cliente recusado ou a seguradora? Definir métrica sem a fase 1 é escolher no chute e chamar de rigor. Inventariar tabelas é a fase 2; treinar uma linha de base é a fase 4 — as duas são trabalho útil, na hora errada.
+> A alternativa mais tentadora é a última — o [capítulo II.1](ii-1-avaliacao.md) insiste em definir a métrica **antes** de treinar, e isso está certo. Mas a métrica se escolhe pelo custo do erro, e o custo do erro é informação de negócio: quem paga um falso positivo aqui, o cliente recusado ou a seguradora? Definir métrica sem a fase 1 é escolher no chute e chamar de rigor. Inventariar tabelas é a fase 2; treinar uma linha de base é a fase 4 — as duas são trabalho útil, na hora errada.
 > **volte para:** #o-problema-um-modelo-excelente-para-a-pergunta-errada
 :::
 
-:::exercicio {"id":"19-e4","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"ciclo-ciencia-de-dados-e4","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
 **Fase 1 — Entendimento do negócio.** *Que decisão vai mudar, de quem, e quando?*
 
 Uma barraca de limonada guarda, há um ano, o registro diário de tempo, panfletos distribuídos, preço praticado e copos vendidos. A dona quer "usar os dados para vender mais".
@@ -101,7 +101,7 @@ Escreva os **três artefatos** que a fase 1 tem de entregar antes de alguém abr
 >
 > **Objetivo de negócio:** "decidir quanta limonada preparar por dia, para não sobrar nem faltar". Repare que não há a palavra "modelo" — a fase 1 fala a língua de quem decide.
 >
-> **Critério de sucesso:** "errar a quantidade preparada em menos de 5 copos na maioria dos dias, contra os 12 copos de erro médio de hoje". Traz número e traz comparação com o que já existe: sem linha de base, "melhor" não quer dizer nada (capítulo 01).
+> **Critério de sucesso:** "errar a quantidade preparada em menos de 5 copos na maioria dos dias, contra os 12 copos de erro médio de hoje". Traz número e traz comparação com o que já existe: sem linha de base, "melhor" não quer dizer nada (capítulo 0.2).
 >
 > **Restrição de ação:** ela decide quanto preparar **de manhã**, antes de saber o movimento do dia. Isso muda tudo — a previsão tem de estar pronta **antes**, e só pode usar o que se sabe de manhã. Uma previsão que usa o número de panfletos efetivamente distribuídos durante o dia é inútil para decidir de manhã, por mais precisa que seja.
 >
@@ -109,7 +109,7 @@ Escreva os **três artefatos** que a fase 1 tem de entregar antes de alguém abr
 > **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
 :::
 
-:::exercicio {"id":"19-e5","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"ciclo-ciencia-de-dados-e5","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
 **Fase 2 — Entendimento dos dados.** *O que existe, e dá para confiar?*
 
 O registro da barraca tem 365 linhas e sete colunas: `data`, `dia_semana`, `temperatura`, `precipitacao`, `panfletos`, `preco`, `vendas`. Nenhum valor faltante.
@@ -129,7 +129,7 @@ Entregue as **três** coisas que a fase 2 exige:
 >
 > **A unidade da temperatura não está declarada.** A faixa vai de 15 a 103. Em Fahrenheit faz sentido; em Celsius seria impossível. Reportar um coeficiente sem saber a unidade é reportar um número sem significado.
 >
-> **O preço tem só dois valores distintos** em 365 dias. Uma coluna quase constante quase não informa — e, pior, os dois valores podem estar amarrados a outra coisa (fase 3 e capítulo 05 mostram que estão: o preço mais alto só aparece em julho e agosto).
+> **O preço tem só dois valores distintos** em 365 dias. Uma coluna quase constante quase não informa — e, pior, os dois valores podem estar amarrados a outra coisa (fase 3 e capítulo II.2 mostram que estão: o preço mais alto só aparece em julho e agosto).
 >
 > **"Sem valores faltantes" não é atestado de qualidade.** Pode significar que os dias fechados simplesmente não viraram linha. Um ano com exatamente 365 registros e nenhuma falha é suspeito num negócio de rua — e a ausência de buracos é, ela própria, um dado sobre como o registro foi feito.
 >
@@ -144,13 +144,13 @@ O desenho do CRISP-DM tem setas entre fases vizinhas **e setas de volta**. Elas 
 - **Fase 2 → fase 1.** Você abre os dados e descobre que a pergunta não é respondível: o campo que definiria o alvo só existe a partir de 2024, ou é preenchido à mão em 30% dos casos. A pergunta precisa mudar antes que qualquer coisa seja treinada.
 - **Fase 4 → fase 3.** O laço mais frequente do ciclo. Todo erro que o modelo comete devolve trabalho para a preparação — um atributo novo, um vazamento a tapar, um recorte de amostra a corrigir.
 - **Fase 5 → fase 1.** O modelo funciona e não serve: chega tarde, prevê o que ninguém pode acionar, ou o ganho não paga o custo operacional.
-- **Fase 6 → tudo.** Em produção, o mundo muda debaixo do modelo — comportamento, catálogo, política de preço. É o *drift* do [capítulo 16](16-mlops.md), e é a razão de o CRISP-DM ser um círculo e não uma reta: a implantação reabre o ciclo, ela não o encerra.
+- **Fase 6 → tudo.** Em produção, o mundo muda debaixo do modelo — comportamento, catálogo, política de preço. É o *drift* do [capítulo V.3](v-3-mlops.md), e é a razão de o CRISP-DM ser um círculo e não uma reta: a implantação reabre o ciclo, ela não o encerra.
 
 A consequência prática vale a regra: **a fase 3 é a mais revisitada**, porque cada volta da modelagem cai nela. Quanto tempo isso representa, o CRISP-DM não promete — e este livro não repete a porcentagem que circula por aí sem tê-la medido.
 
 Tratar o ciclo como cascata tem um custo específico e previsível: você descobre na semana seis o que custaria uma reunião na semana um.
 
-:::exercicio {"id":"19-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
+:::exercicio {"id":"ciclo-ciencia-de-dados-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
 Na fase de avaliação, a equipe descobre que rotulou como "cliente perdido" quem ficou 90 dias sem comprar — enquanto, para a área de retenção, perder um cliente é ele **não renovar o contrato**. O modelo prevê muito bem o rótulo que recebeu.
 
 Para qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.
@@ -169,15 +169,15 @@ Os cargos que o mercado usa não são especializações por técnica — são **
 | Papel | Onde vive | O que entrega |
 |---|---|---|
 | **Analista / dono do problema** | fases 1 e 5 | o critério de sucesso e o veredito sobre se ele foi atingido |
-| **Engenheiro de dados** | fases 2 e 3 | as fontes confiáveis e o pipeline que as mantém ([cap. 20](20-coleta-integracao.md)) |
+| **Engenheiro de dados** | fases 2 e 3 | as fontes confiáveis e o pipeline que as mantém ([cap. I.2](i-2-coleta-integracao.md)) |
 | **Cientista de dados** | fases 3, 4 e 5 | atributos, modelo, e a leitura honesta do resultado |
-| **Engenheiro de ML** | fases 4 e 6 | o modelo servindo em produção, monitorado ([cap. 15](15-sistemas-de-ml.md), [cap. 16](16-mlops.md)) |
+| **Engenheiro de ML** | fases 4 e 6 | o modelo servindo em produção, monitorado ([cap. V.2](v-2-sistemas-de-ml.md), [cap. V.3](v-3-mlops.md)) |
 
 Duas leituras saem da tabela. A primeira: **a fase 3 é onde os papéis se encontram** — o engenheiro entrega a fonte, o cientista constrói o atributo — e por isso é onde mais se perde trabalho quando ninguém combinou quem faz o quê.
 
 A segunda é mais séria. Num time só de gente técnica, **a fase 1 fica sem dono**. Ninguém foi contratado para descobrir qual decisão vai mudar, e o ciclo começa pela fase 2 — que é exatamente o erro da primeira seção deste capítulo. Em time pequeno, uma pessoa ocupa vários papéis, e isso funciona; o que não funciona é uma fase sem responsável declarado.
 
-:::exercicio {"id":"19-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"ciclo-ciencia-de-dados-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
 Um time de três pessoas — um engenheiro de dados, um cientista de dados e um engenheiro de ML — vai retomar o projeto de *churn* do começo do capítulo.
 
 Distribua as seis fases entre os três, aponte a fase que corre risco de ficar **sem dono** e diga como você resolveria isso.

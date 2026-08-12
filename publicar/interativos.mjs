@@ -9,7 +9,7 @@
 //
 // Sintaxe (ver livro/BANCO-DE-EXERCICIOS.md):
 //
-//   :::exercicio {"id":"04-e1","tipo":"multipla","objetivo":"O2"}
+//   :::exercicio {"id":"avaliacao-e1","tipo":"multipla","objetivo":"O2"}
 //   Enunciado em Markdown.
 //
 //   - [ ] Alternativa errada
@@ -20,11 +20,11 @@
 //   > **volte para:** #ancora-da-secao
 //   :::
 //
-//   :::video {"id":"04-v1","fonte":"youtube","ref":"ID","min":10,"autor":"...","titulo":"..."}
+//   :::video {"id":"avaliacao-v1","fonte":"youtube","ref":"ID","min":10,"autor":"...","titulo":"..."}
 //   O que este vídeo resolve que o texto não resolve.
 //   :::
 //
-//   :::lab {"id":"09-l1","tipo":"neuronio-mp","titulo":"...","funcao":"AND"}
+//   :::lab {"id":"redes-neurais-l1","tipo":"neuronio-mp","titulo":"...","funcao":"AND"}
 //   O que manipular aqui ensina, e o que o leitor deve tentar descobrir.
 //   :::
 //

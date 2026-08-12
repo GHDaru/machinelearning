@@ -1,4 +1,4 @@
-# 02 — Dados
+# I.3 — Qualidade e Vazamento
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
 >
@@ -114,7 +114,7 @@ Acontece mais do que se imagina:
 
 O terceiro caso é o que mais engana, porque não parece duplicata — são linhas genuinamente diferentes. Mas se o modelo aprende a reconhecer *o cliente* em vez de *o comportamento*, ele vai bem no teste e mal com clientes novos, que é a única coisa que importa.
 
-:::exercicio {"id":"02-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"dados-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma equipe prevê inadimplência em 30 dias. O modelo atinge 0,96 de AUC — três vezes melhor que qualquer tentativa anterior. Entre os atributos está `dias_de_atraso_atual`. Qual é a leitura mais provável?
 
 - [ ] O modelo é excelente; `dias_de_atraso_atual` é de fato um bom preditor.
@@ -129,7 +129,7 @@ Uma equipe prevê inadimplência em 30 dias. O modelo atinge 0,96 de AUC — tr�
 > **volte para:** #1-alvo-disfarcado-a-coluna-que-so-existe-depois
 :::
 
-:::exercicio {"id":"02-e2","tipo":"multipla-multi","objetivo":"O1","dificuldade":"dificil"}
+:::exercicio {"id":"dados-e2","tipo":"multipla-multi","objetivo":"O1","dificuldade":"dificil"}
 Quais destas práticas introduzem vazamento? (marque todas que valem)
 
 - [x] Preencher valores ausentes com a mediana calculada sobre o dataset inteiro, antes de dividir.
@@ -168,11 +168,11 @@ A pergunta que decide isso é: **o que vai ser novo em produção?** Se o sistem
 
 ### E a estratificação
 
-Preservar a proporção de classes nos três conjuntos. Barato, quase sempre certo, e imprescindível quando a classe positiva é rara: sem ela, o teste pode acabar com um punhado de positivos e a métrica vira loteria — o problema que o [capítulo 04](04-avaliacao.md) trata com intervalo de confiança.
+Preservar a proporção de classes nos três conjuntos. Barato, quase sempre certo, e imprescindível quando a classe positiva é rara: sem ela, o teste pode acabar com um punhado de positivos e a métrica vira loteria — o problema que o [capítulo II.1](ii-1-avaliacao.md) trata com intervalo de confiança.
 
 **Atenção à ordem de precedência.** Quando há tempo *e* grupo *e* desbalanceamento, tempo manda. Não se estratifica uma série temporal: forçar a proporção de classes no futuro é assumir que você já sabe qual será ela — e essa é a coisa que você está tentando descobrir.
 
-:::exercicio {"id":"02-e3","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+:::exercicio {"id":"dados-e3","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
 Um hospital quer prever readmissão em 30 dias. A base tem 50.000 internações de 12.000 pacientes, coletadas ao longo de 4 anos. O sistema vai atender pacientes que chegam pela primeira vez. Qual divisão é a correta?
 
 - [ ] Embaralhar as 50.000 internações e dividir 70/15/15, estratificando pelo alvo.
@@ -211,15 +211,15 @@ A pergunta 5 merece um parágrafo. Se o alvo foi rotulado por uma regra automát
 
 ## O viés de seleção: aprender com quem já está lá
 
-O desbalanceamento é o problema fácil: uma classe é rara, e o [capítulo 04](04-avaliacao.md) já mostrou como medir sem se enganar.
+O desbalanceamento é o problema fácil: uma classe é rara, e o [capítulo II.1](ii-1-avaliacao.md) já mostrou como medir sem se enganar.
 
 O problema difícil é o **viés de seleção** — quando a forma como os exemplos entraram na base não representa a população em que o modelo vai operar.
 
 O caso clássico e cruel: um banco quer prever inadimplência e treina com o histórico dos **clientes a quem concedeu crédito**. Mas quem recebeu crédito passou por um filtro — o modelo antigo, ou o gerente. Os dados não contêm os que foram recusados, e são exatamente esses que o novo modelo precisa avaliar. O sistema aprende sobre uma população que já foi filtrada por ele mesmo, e fica cada vez mais confiante sobre uma fatia cada vez mais estreita do mundo.
 
-Isso tem nome — *feedback loop* — e o [capítulo 15](15-sistemas-de-ml.md) trata das consequências arquiteturais. Aqui basta o diagnóstico e o gesto mínimo: **reservar uma fração pequena de decisões aleatórias**, fora da recomendação do modelo, para manter a base honesta. Custa dinheiro. É o preço de continuar aprendendo.
+Isso tem nome — *feedback loop* — e o [capítulo V.2](v-2-sistemas-de-ml.md) trata das consequências arquiteturais. Aqui basta o diagnóstico e o gesto mínimo: **reservar uma fração pequena de decisões aleatórias**, fora da recomendação do modelo, para manter a base honesta. Custa dinheiro. É o preço de continuar aprendendo.
 
-:::exercicio {"id":"02-e4","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"dados-e4","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
 Você recebeu uma base de 200.000 avaliações de produtos, rotuladas como "positiva" ou "negativa", para treinar um classificador de sentimento. O rótulo foi gerado automaticamente: avaliações de 4–5 estrelas viraram "positiva", de 1–2 estrelas viraram "negativa", e as de 3 estrelas foram descartadas.
 
 Escreva as **três perguntas mais importantes** que você faria antes de treinar, e diga o que cada resposta mudaria na sua decisão.
@@ -259,8 +259,8 @@ Os três vazamentos, em execução: a coluna que sabe demais, a divisão que res
 
 ## Assista
 
-:::video {"id":"02-v1","fonte":"youtube","ref":"fSytzGwwBVw","min":6,"autor":"StatQuest with Josh Starmer","titulo":"Machine Learning Fundamentals: Cross Validation"}
-O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este vídeo mostra a **mecânica** de dividir e de rodar validação cruzada, com os blocos se movendo na tela. Vale como base concreta antes do exercício 02-e3 — e repare, enquanto assiste, que a animação assume dados sem estrutura temporal nem de grupo. É o caso mais simples, e é por isso que ele é o mais ensinado.
+:::video {"id":"dados-v1","fonte":"youtube","ref":"fSytzGwwBVw","min":6,"autor":"StatQuest with Josh Starmer","titulo":"Machine Learning Fundamentals: Cross Validation"}
+O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este vídeo mostra a **mecânica** de dividir e de rodar validação cruzada, com os blocos se movendo na tela. Vale como base concreta antes do exercício dados-e3 — e repare, enquanto assiste, que a animação assume dados sem estrutura temporal nem de grupo. É o caso mais simples, e é por isso que ele é o mais ensinado.
 :::
 
 ## Síntese — o que levar

@@ -1,6 +1,6 @@
 """Testes da etapa 02 — divisões honestas e detecção de vazamento.
 
-Os testes são o gabarito da etapa. Vários deles são a afirmação do capítulo 02
+Os testes são o gabarito da etapa. Vários deles são a afirmação do capítulo I.3
 escrita como asserção executável: se o texto diz que embaralhar uma série é
 fraude metodológica, existe aqui um teste que falha quando alguém embaralha.
 """
@@ -158,7 +158,7 @@ def test_guarda_negativa_falha_alto():
 # ------------------------------------------------- a lição da etapa, executável
 
 def test_a_licao_da_etapa_embaralhar_por_linha_vaza_o_sujeito():
-    """A afirmação central do capítulo 02, como asserção.
+    """A afirmação central do capítulo I.3, como asserção.
 
     Com várias linhas por sujeito, a divisão ingênua (embaralhar linhas)
     espalha o mesmo sujeito pelos três conjuntos. A divisão por grupo, não.

@@ -1,4 +1,4 @@
-# 23 — Análise Multidimensional
+# II.6 — Análise Multidimensional
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -27,7 +27,7 @@ O erro que este capítulo previne é tratar isso como problema de otimização d
 
 **A virada.** Parar de tratar o dado como *tabelas* e passar a tratá-lo como **cubo**: eixos (as **dimensões** — produto, região, tempo) e **medidas** (o que se soma — receita, quantidade). Com as agregações **pré-computadas**, mudar de pergunta deixa de ser reescrever a consulta e vira **navegar**: descer o nível de detalhe, subir, fatiar, girar.
 
-**A ideia reaproveitável.** **Trocar espaço e frescor por tempo de resposta é uma decisão de projeto, não um detalhe.** O cubo é essa troca tornada arquitetura: ele ocupa mais disco, duplica dado e responde com números de ontem — em troca de responder *agora*. É o mesmo padrão do [capítulo 22](22-visualizacao-storytelling.md), onde Playfair inventa a barra por falta de dados, e do [capítulo 18](18-neuronio-artificial.md), onde o neurônio nasce sem aprendizado porque não havia como treinar: **restrição material gera forma nova**, e a forma sobrevive à restrição que a criou.
+**A ideia reaproveitável.** **Trocar espaço e frescor por tempo de resposta é uma decisão de projeto, não um detalhe.** O cubo é essa troca tornada arquitetura: ele ocupa mais disco, duplica dado e responde com números de ontem — em troca de responder *agora*. É o mesmo padrão do [capítulo I.5](i-5-visualizacao-storytelling.md), onde Playfair inventa a barra por falta de dados, e do [capítulo III.1](iii-1-neuronio-artificial.md), onde o neurônio nasce sem aprendizado porque não havia como treinar: **restrição material gera forma nova**, e a forma sobrevive à restrição que a criou.
 
 **O nome.** *Online Analytical Processing* (OLAP) é cunhado no relatório de **1993** de **E. F. Codd, S. B. Codd e C. T. Salley**, *"Providing OLAP to User-Analysts: An IT Mandate"*, que também lista **12 regras** para o que seria um produto OLAP legítimo. Codd é o mesmo Codd do modelo relacional — o que dá ao documento uma autoridade imediata.
 
@@ -49,7 +49,7 @@ E aqui entra a parte incômoda, com o cuidado que ela exige.
 | ⏳ | O patrocínio da Arbor Software (fabricante do Essbase, lançado no ano anterior), a coincidência entre as 12 regras e o produto, o patrocínio não declarado, a apuração da *Computerworld* e a retirada do artigo — **relato consistente em fontes secundárias; a primária não foi aberta** |
 | ⏳ | Que a prática anterior fosse SQL com muitos `GROUP BY` sobre o transacional, reescrito a cada pergunta nova |
 | ⏳ | A virada do cubo — dimensões, medidas, agregação pré-computada e navegação por drill-down / roll-up / slice / dice |
-| 📖 | A leitura de que "trocar espaço e frescor por tempo de resposta é uma decisão de projeto", e o paralelo com os capítulos 18 e 22 (restrição material gera forma nova) |
+| 📖 | A leitura de que "trocar espaço e frescor por tempo de resposta é uma decisão de projeto", e o paralelo com os capítulos III.1 e 22 (restrição material gera forma nova) |
 | 📖 | A lição extraída do episódio: perguntar de onde veio a categoria antes de aceitá-la como natural — e julgar embalagem e engenharia em separado |
 | 📖 | A leitura de que o cubo pré-computado perdeu terreno para a consulta direta em armazenamento colunar |
 
@@ -69,9 +69,9 @@ No **esquema estrela**, a tabela-fato fica no centro e cada dimensão é **uma �
 
 No **floco de neve**, cada dimensão é normalizada em várias tabelas (Produto → Subcategoria → Categoria), sem repetição.
 
-O floco é mais "correto" segundo a terceira forma normal. E a estrela quase sempre vence, por três razões: menos `JOIN` por consulta, um modelo que um analista de negócio consegue ler sozinho, e a percepção de que **a redundância aqui é barata** — a dimensão é pequena, e o que ela repete é texto, não a fonte da verdade. A normalização existe para proteger a **escrita** de anomalias; no repositório analítico, a escrita é uma carga controlada, feita por um processo só, em janela conhecida (ver [capítulo 20](20-coleta-integracao.md)). A anomalia que a 3NF previne simplesmente não tem por onde entrar. **Desnormalizar aqui não é relaxar o rigor: é aplicá-lo a um problema diferente.**
+O floco é mais "correto" segundo a terceira forma normal. E a estrela quase sempre vence, por três razões: menos `JOIN` por consulta, um modelo que um analista de negócio consegue ler sozinho, e a percepção de que **a redundância aqui é barata** — a dimensão é pequena, e o que ela repete é texto, não a fonte da verdade. A normalização existe para proteger a **escrita** de anomalias; no repositório analítico, a escrita é uma carga controlada, feita por um processo só, em janela conhecida (ver [capítulo I.2](i-2-coleta-integracao.md)). A anomalia que a 3NF previne simplesmente não tem por onde entrar. **Desnormalizar aqui não é relaxar o rigor: é aplicá-lo a um problema diferente.**
 
-:::exercicio {"id":"23-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"analise-multidimensional-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Você modela as vendas de uma rede de farmácias. A base tem: `valor_do_item`, `quantidade`, `nome_do_produto`, `categoria_do_produto`, `cidade_da_loja`, `data_da_venda`, `desconto_concedido`. Qual conjunto pertence à **tabela-fato**, no grão "um item de venda"?
 
 - [ ] `nome_do_produto`, `categoria_do_produto`, `cidade_da_loja` — são o que o relatório mostra.
@@ -104,7 +104,7 @@ Repare no que mudou em relação ao SQL do início do capítulo: as cinco opera�
 
 Uma nota de leitura editorial (📖), para você não sair daqui achando que precisa construir um cubo: **o cubo pré-computado perdeu bastante terreno.** Quando o armazenamento **colunar** e o processamento distribuído ficaram baratos, varrer bilhões de linhas na hora deixou de ser proibitivo — e a agregação prévia passou a custar mais do que rende, em espaço, em manutenção e em atraso do dado. O que **não** perdeu terreno é a parte que interessa: fato, dimensão, grão, hierarquia e as cinco operações continuam sendo o vocabulário da análise, mesmo quando a resposta é calculada na hora. A implementação envelheceu; o modelo, não.
 
-:::exercicio {"id":"23-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"analise-multidimensional-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Um cubo de vendas tem três dimensões, no grão mais fino: **Produto** (40 produtos, agrupados em 8 categorias), **Região** (5 regiões) e **Tempo** (12 meses).
 
 Partindo do cubo completo, você aplica um **slice** em Tempo = março e, em seguida, um **roll-up** de produto para categoria. Quantas células tem o cubo resultante?
@@ -130,9 +130,9 @@ Um painel que soma coluna semi-aditiva ao longo do tempo é um dos erros mais si
 
 ### Do cubo ao modelo
 
-O cubo responde "o que aconteceu"; o modelo preditivo responde "o que vai acontecer" — e os dois consomem o **mesmo** trabalho de base. A tabela que um modelo consome é, quase sempre, um cubo **achatado num grão escolhido**: uma linha por entidade-e-instante, medidas agregadas em janelas (receita nos últimos 30 dias, número de compras no trimestre) e atributos vindos das dimensões. Duas armadilhas na travessia. A primeira: **o grão do cubo vira o grão do dataset**, e um grão grosso demais impede o modelo de existir. A segunda, e mais grave: agregar sem respeitar o **corte de tempo** é o vazamento do [capítulo 02](02-dados.md) na forma mais fácil de cometer — se a janela de agregação inclui informação posterior ao instante da previsão, seu modelo tem um desempenho excelente e inútil.
+O cubo responde "o que aconteceu"; o modelo preditivo responde "o que vai acontecer" — e os dois consomem o **mesmo** trabalho de base. A tabela que um modelo consome é, quase sempre, um cubo **achatado num grão escolhido**: uma linha por entidade-e-instante, medidas agregadas em janelas (receita nos últimos 30 dias, número de compras no trimestre) e atributos vindos das dimensões. Duas armadilhas na travessia. A primeira: **o grão do cubo vira o grão do dataset**, e um grão grosso demais impede o modelo de existir. A segunda, e mais grave: agregar sem respeitar o **corte de tempo** é o vazamento do [capítulo I.3](i-3-dados.md) na forma mais fácil de cometer — se a janela de agregação inclui informação posterior ao instante da previsão, seu modelo tem um desempenho excelente e inútil.
 
-:::exercicio {"id":"23-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"analise-multidimensional-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Você propõe um esquema estrela para o repositório analítico. Um colega, DBA experiente, recusa: *"Isso viola a terceira forma normal. A categoria do produto vai estar repetida em milhares de linhas da dimensão. Se alguém renomear uma categoria, você tem anomalia de atualização. Normalize."*
 
 Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razão.
@@ -144,7 +144,7 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 > trata o caso da renomeação de categoria como requisito a resolver no processo de carga (ou como dimensão que muda com o tempo), não como impedimento
 > **porque:** A resposta fraca é "em BI a gente desnormaliza mesmo" — que é obedecer a um costume, não justificar uma decisão, e é exatamente o que o objetivo O3 cobra. A resposta forte começa **concedendo**: ele está certo sobre a 3NF, e a redundância é real.
 >
-> O argumento vem em seguida, e é sobre **qual problema cada regra resolve**. A 3NF é uma defesa contra anomalias de atualização em ambiente de escrita concorrente e imprevisível — o transacional. O repositório analítico não é esse ambiente: nele a escrita é um processo de carga único, versionado, testado e executado em janela conhecida ([capítulo 20](20-coleta-integracao.md)). Retirar uma defesa contra um ataque que não existe naquele perímetro não é descuido; é dimensionar a defesa ao risco.
+> O argumento vem em seguida, e é sobre **qual problema cada regra resolve**. A 3NF é uma defesa contra anomalias de atualização em ambiente de escrita concorrente e imprevisível — o transacional. O repositório analítico não é esse ambiente: nele a escrita é um processo de carga único, versionado, testado e executado em janela conhecida ([capítulo I.2](i-2-coleta-integracao.md)). Retirar uma defesa contra um ataque que não existe naquele perímetro não é descuido; é dimensionar a defesa ao risco.
 >
 > O caso da renomeação é onde a boa resposta se distingue da excelente: ele **não** é um contra-argumento, é um requisito — e um requisito interessante, porque muitas vezes você **não quer** propagar a mudança. Se um produto mudou de categoria em junho, reescrever a dimensão faz o relatório de janeiro mentir sobre janeiro. É o problema das *slowly changing dimensions*, e a resposta usual é guardar as duas versões com vigência, não normalizar. Fecha o caso a assimetria de tamanho: repetir "Medicamentos" em 800 linhas de uma dimensão custa quase nada; repeti-lo em 40 milhões de linhas do fato custaria — e por isso a estrela desnormaliza a dimensão, e só ela.
 > **volte para:** #estrela-e-floco-de-neve
@@ -158,7 +158,7 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 - **Estrela** vence **floco de neve** quase sempre: menos `JOIN`, modelo legível, redundância barata porque acontece na dimensão. Desnormalizar aqui **não é relaxar o rigor** — a 3NF protege a escrita, e a escrita analítica é uma carga controlada.
 - Cinco operações fechadas: **drill-down, roll-up, slice, dice, pivot**. A saída de cada uma é outro cubo, e é isso que faz a reunião fluir.
 - **Nem toda medida soma.** Estoque soma entre lojas e não soma ao longo do tempo; razão não soma em lugar nenhum — guarde os componentes, calcule depois.
-- **Trocar espaço e frescor por tempo de resposta é decisão de projeto.** O cubo é essa troca virada arquitetura — o mesmo padrão da barra de Playfair ([22](22-visualizacao-storytelling.md)) e do neurônio sem aprendizado ([18](18-neuronio-artificial.md)).
+- **Trocar espaço e frescor por tempo de resposta é decisão de projeto.** O cubo é essa troca virada arquitetura — o mesmo padrão da barra de Playfair ([22](i-5-visualizacao-storytelling.md)) e do neurônio sem aprendizado ([18](iii-1-neuronio-artificial.md)).
 - O cubo **pré-computado** perdeu terreno para o colunar barato; o **vocabulário** do cubo não perdeu nada.
 - A categoria "OLAP" nasceu com um episódio incômodo. **Pergunte de onde veio a categoria** antes de aceitá-la como natural — e julgue a embalagem separadamente da engenharia.
 
@@ -167,4 +167,4 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 1. Escolha um sistema que você conhece e diga qual seria o **grão** da tabela-fato. Depois diga o que se perde ao subir um nível — e quem vai reclamar primeiro.
 2. Dê um exemplo, do seu contexto, de medida **semi-aditiva**. Em quais dimensões ela soma, e o que se calcula naquela em que não soma?
 3. O colega da farmácia diz que o cubo é dispensável porque "hoje o banco colunar aguenta". Em que ele tem razão, e o que continua valendo do modelo dimensional mesmo sem cubo pré-computado?
-4. Você usaria as agregações do cubo como variáveis de um modelo preditivo ([capítulo 21](21-analise-exploratoria.md) antes, [capítulo 02](02-dados.md) como alerta). Que verificação você faria **antes**, para não vazar o futuro para dentro do passado?
+4. Você usaria as agregações do cubo como variáveis de um modelo preditivo ([capítulo I.4](i-4-analise-exploratoria.md) antes, [capítulo I.3](i-3-dados.md) como alerta). Que verificação você faria **antes**, para não vazar o futuro para dentro do passado?

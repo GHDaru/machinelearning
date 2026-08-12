@@ -1,4 +1,4 @@
-# 18 — O Neurônio Artificial
+# III.1 — O Neurônio Artificial
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-08 · [histórico](../HISTORICO.md)
 >
@@ -66,11 +66,11 @@ Duas coisas valem ficar: **o neurônio artificial é treze anos mais velho que o
 
 Rosenblatt provou que, **se o problema for linearmente separável**, o perceptron converge em número finito de passos. A prova é sólida e a condição é a chave — mas o entusiasmo de 1958 leu só a primeira parte, e a imprensa prometeu máquinas conscientes. Onze anos depois, *Perceptrons* demonstrou com rigor o que você vai descobrir no laboratório abaixo: uma camada não computa o XOR. **O argumento estava correto**; a leitura que se fez dele foi mais ampla do que os autores demonstraram, o financiamento migrou para a IA simbólica, e veio o **inverno da IA**.
 
-A saída, em 1986, tem uma moral que vale além da história: **a limitação nunca foi do neurônio, era da arquitetura de uma camada só.** O [capítulo 09](09-redes-neurais.md) constrói a rede multicamada que resolve isso.
+A saída, em 1986, tem uma moral que vale além da história: **a limitação nunca foi do neurônio, era da arquitetura de uma camada só.** O [capítulo III.2](iii-2-redes-neurais.md) constrói a rede multicamada que resolve isso.
 
 E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram** o backpropagation; a descrição é de Linnainmaa, dezesseis anos antes, em finlandês, sem mencionar redes neurais. Jürgen Schmidhuber, que passou anos reivindicando a atribuição correta, resume assim: **não é o primeiro inventor que leva o crédito, é o último reinventor.**
 
-> **O espelho disto está no [capítulo 05](05-modelos-lineares.md).** Lá, Gauss descobriu os mínimos quadrados antes e **perdeu** a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar faz parte do método, não da burocracia.
+> **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss descobriu os mínimos quadrados antes e **perdeu** a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar faz parte do método, não da burocracia.
 
 > **Sobre "um italiano em 1979".** Essa memória circula, e não encontrei quem a sustente. O que existe em 1979 são as publicações de Werbos (americano) e o neocognitron de Fukushima (japonês, em inglês no ano seguinte); a prioridade de 1970 é de Linnainmaa, finlandês. Se você tiver a referência, ela entra aqui — até lá o livro registra a dúvida em vez de escolher uma versão.
 
@@ -92,7 +92,7 @@ Antes de ler qualquer explicação, brinque. Ajuste `w₁`, `w₂` e `θ` até a
 
 Comece pelo **E (AND)**: o neurônio deve disparar só quando as duas entradas forem 1.
 
-:::lab {"id":"18-l1","tipo":"neuronio-mp","titulo":"Neurônio de McCulloch–Pitts","funcao":"AND"}
+:::lab {"id":"neuronio-artificial-l1","tipo":"neuronio-mp","titulo":"Neurônio de McCulloch–Pitts","funcao":"AND"}
 Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.
 
 Sua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.
@@ -104,7 +104,7 @@ Comece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos
 
 **Primeiro:** não existe *a* resposta certa. Para o AND, `w₁=1, w₂=1, θ=2` funciona; `w₁=0,6, w₂=0,6, θ=1` também; `w₁=3, w₂=2, θ=4,5` também. Infinitas retas separam aqueles quatro pontos — e essa multiplicidade não é defeito, é a natureza do problema. É a mesma razão pela qual dois modelos treinados com sementes diferentes chegam a coeficientes diferentes e à mesma qualidade.
 
-**Segundo:** você estava fazendo, à mão, exatamente o que o gradiente descendente do [capítulo 06](06-otimizacao.md) faz sozinho — mover a fronteira até que os erros acabem. A diferença é que você olhava a tabela inteira e ajustava por intuição; o algoritmo olha um erro por vez e ajusta por regra fixa.
+**Segundo:** você estava fazendo, à mão, exatamente o que o gradiente descendente do [capítulo II.4](ii-4-otimizacao.md) faz sozinho — mover a fronteira até que os erros acabem. A diferença é que você olhava a tabela inteira e ajustava por intuição; o algoritmo olha um erro por vez e ajusta por regra fixa.
 
 **Terceiro — e este é o ponto do capítulo:** no XOR você travou em 3 de 4.
 
@@ -118,9 +118,9 @@ Uma reta divide o plano em dois lados. Para resolver o XOR ela precisaria deixar
 
 O nome técnico é **separabilidade linear**. AND, OR, NAND e NOR são linearmente separáveis; XOR não é. E um neurônio de McCulloch–Pitts — ou um perceptron, ou uma regressão logística — traça **exatamente uma reta**.
 
-> É a mesma limitação que o [capítulo 07](07-arvores-ensembles.md) mediu com outro vocabulário: naquele experimento, o modelo linear ficou em 0,4963 de AUC — acaso — porque a fronteira verdadeira era não-monotônica. Aqui você vê a razão em quatro pontos, em vez de em uma tabela de resultados.
+> É a mesma limitação que o [capítulo II.5](ii-5-arvores-ensembles.md) mediu com outro vocabulário: naquele experimento, o modelo linear ficou em 0,4963 de AUC — acaso — porque a fronteira verdadeira era não-monotônica. Aqui você vê a razão em quatro pontos, em vez de em uma tabela de resultados.
 
-:::exercicio {"id":"18-e1","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"neuronio-artificial-e1","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR?
 
 - [ ] Porque o XOR exige pesos negativos, e o modelo só admite pesos positivos.
@@ -135,7 +135,7 @@ Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR
 > **volte para:** #por-que-o-xor-e-impossivel
 :::
 
-:::exercicio {"id":"18-e2","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+:::exercicio {"id":"neuronio-artificial-e2","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
 O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (1969)?
 
 - [ ] Computadores mais rápidos, que permitiram testar mais pesos.
@@ -147,10 +147,10 @@ O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (196
 > **porque:** A limitação era da **arquitetura**, não do neurônio. Com uma camada intermediária, duas fronteiras se combinam e o XOR se resolve. Isso já era sabido em 1969; o que faltava era um jeito **prático de treinar** os pesos das camadas escondidas — e é isso que o backpropagation, popularizado em 1986, entrega.
 >
 > A última alternativa merece atenção porque está **quase** certa e é o erro mais interessante: trocar o degrau por uma função contínua (como a sigmoide) é de fato **necessário** — sem derivada não há gradiente, e sem gradiente não há backpropagation. Mas sozinha ela não resolve nada: uma regressão logística é exatamente um neurônio com ativação contínua, e continua sem resolver o XOR. A ativação contínua é condição para o remédio, não o remédio.
-> **volte para:** #a-historia-entusiasmo-inverno-e-a-saida
+> **volte para:** #a-linha-ate-1986-e-o-que-ela-ensina-sobre-credito
 :::
 
-:::exercicio {"id":"18-e3","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+:::exercicio {"id":"neuronio-artificial-e3","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
 Você quer construir a função **OU (OR)** com pesos `w₁ = 1` e `w₂ = 1`.
 
 Qual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar corretamente?
@@ -162,7 +162,7 @@ Qual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar c
 > **volte para:** #mao-na-massa-encontre-os-pesos-voce-mesmo
 :::
 
-:::exercicio {"id":"18-e4","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"neuronio-artificial-e4","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
 Explique, para alguém que nunca viu redes neurais, **o que um neurônio artificial faz** — e diga em que ele se parece e em que ele **não** se parece com um neurônio biológico.
 
 > **rubrica:** descreve a operação corretamente: soma ponderada das entradas comparada a um limiar;

@@ -12,7 +12,7 @@ biblioteca padrão:
 
 O ponto do arquivo é o contraste. Rode e veja o perceptron encontrar, em
 poucas passadas, os pesos que você levou minutos para achar à mão no
-laboratório do capítulo 18 — e falhar para sempre no XOR, por mais épocas que
+laboratório do capítulo III.1 — e falhar para sempre no XOR, por mais épocas que
 você dê a ele.
 
 Sem NumPy: são listas de dois números. Colocar uma dependência aqui esconderia
@@ -179,7 +179,7 @@ def main() -> None:
     print("  saída 1 estão em CANTOS OPOSTOS do quadrado, e nenhuma reta")
     print("  separa cantos opostos. Minsky & Papert demonstraram isso em 1969.")
     print("\n  A saída veio em 1986, e não era um neurônio melhor:")
-    print("  era OUTRA CAMADA. É o capítulo 09.")
+    print("  era OUTRA CAMADA. É o capítulo III.2.")
 
 
 if __name__ == "__main__":

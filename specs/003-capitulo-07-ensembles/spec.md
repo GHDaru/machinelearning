@@ -1,10 +1,10 @@
-# Spec 003 — Capítulo 07: Árvores e Ensembles
+# Spec 003 — Capítulo II.5: Árvores e Ensembles
 
 **Branch:** `003-capitulo-07-ensembles` · **Raia:** plena · **Data:** 2026-08-05
 
 ## O quê
 
-Escrever o capítulo 07 e implementar a etapa 07 do `ml-zero`: árvore, floresta e boosting do zero, mais o experimento que sustenta as afirmações do capítulo.
+Escrever o capítulo II.5 e implementar a etapa 07 do `ml-zero`: árvore, floresta e boosting do zero, mais o experimento que sustenta as afirmações do capítulo.
 
 ## Por quê
 
@@ -34,4 +34,4 @@ A maioria dos problemas reais de ML em empresas é tabular, e a resposta padrão
 ## Fora de escopo
 
 - Comparação empírica própria contra deep learning — exigiria treinar redes, e o Princípio VI proíbe depender de GPU. A comparação vem por citação, e o capítulo diz isso.
-- XGBoost/LightGBM. A etapa implementa o algoritmo; a biblioteca de produção é assunto do capítulo 16.
+- XGBoost/LightGBM. A etapa implementa o algoritmo; a biblioteca de produção é assunto do capítulo V.3.

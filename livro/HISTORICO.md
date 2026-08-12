@@ -11,7 +11,7 @@ Primeira edição publicada **enquanto uma turma usa o livro**. Quase tudo aqui 
 
 **No conteúdo**
 
-- **Capítulo 05** ganhou o laboratório `05-l1` (mínimos quadrados à mão, com os quadrados do erro desenhados) e a seção **"A dedução, em cinco passos"**, do critério às equações normais.
+- **Capítulo 05** ganhou o laboratório `modelos-lineares-l1` (mínimos quadrados à mão, com os quadrados do erro desenhados) e a seção **"A dedução, em cinco passos"**, do critério às equações normais.
 - **Capítulo 28 — Regressão Logística** nasceu, separado do 05 ([ADR 0009](../adr/0009-separar-linear-e-logistica.md)). Antes eram 30 linhas; agora tem história com selos, a dedução de por que a solução fechada some, e três exercícios.
 - **O caso da limonada** entrou no capítulo 05, com o conjunto de 365 dias que o autor trouxe da disciplina. Ele demonstra, com número, que **controlar por uma variável não desfaz confundimento** quando o confundidor não foi medido direito.
 - **Notebooks** em cinco etapas do `ml-zero`, executáveis na máquina do aluno e no Colab.

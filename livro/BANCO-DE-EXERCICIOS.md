@@ -34,7 +34,7 @@ A fonte única da sintaxe é [`publicar/interativos.mjs`](../publicar/interativo
 Um bloco começa com `:::exercicio` seguido de atributos JSON e termina com `:::`.
 
 ```markdown
-:::exercicio {"id":"04-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"avaliacao-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge
 99,5% de acurácia. Qual leitura é correta?
 
@@ -47,7 +47,7 @@ Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge
 > acurácia — o modelo com 99,5% está **abaixo** do classificador que não faz nada.
 > Acurácia mede acertos totais e, quando uma classe domina, ela mede sobretudo a
 > prevalência. Para esse caso, olhe precisão e revocação da classe rara.
-> **volte para:** #a-linha-de-base-que-voce-precisa-bater
+> **volte para:** #os-cinco-tipos
 :::
 ```
 
@@ -98,7 +98,7 @@ Sem tolerância declarada, exige-se o valor exato. A resposta é lida de forma t
 *Completion problem* no sentido de Sweller: o andaime está posto, falta a peça. Alternativas aceitas separadas por `|`. A comparação ignora caixa, acentos e espaços extras.
 
 ```markdown
-:::exercicio {"id":"06-e2","tipo":"completar","objetivo":"O3"}
+:::exercicio {"id":"otimizacao-e2","tipo":"completar","objetivo":"O3"}
 Complete o termo que impede os pesos de crescerem sem limite:
 
 `perda_total = perda_de_dados + λ · ______(w)`
@@ -113,7 +113,7 @@ Complete o termo que impede os pesos de crescerem sem limite:
 Avaliada pelo modelo **contra a rubrica escrita pelo autor** — nunca contra "o que o modelo acha que é uma boa resposta". O leitor recebe a lista de critérios com ✔ e ○, e um comentário curto.
 
 ```markdown
-:::exercicio {"id":"01-e3","tipo":"aberta","objetivo":"O4","pontos":3}
+:::exercicio {"id":"fundamentos-e3","tipo":"aberta","objetivo":"O4","pontos":3}
 Explique, para uma pessoa de produto, por que um modelo com 99% de acurácia
 no teste pode falhar no primeiro mês em produção.
 
@@ -131,7 +131,7 @@ Sem modelo configurado, a rota devolve uma avaliação honesta-vazia: diz que n�
 ## Vídeos
 
 ```markdown
-:::video {"id":"04-v1","fonte":"youtube","ref":"4jRBRDbJemM","min":16,"autor":"StatQuest","titulo":"ROC and AUC, clearly explained"}
+:::video {"id":"avaliacao-v1","fonte":"youtube","ref":"4jRBRDbJemM","min":16,"autor":"StatQuest","titulo":"ROC and AUC, clearly explained"}
 Resolve a intuição **geométrica** da curva ROC — o texto trata do trade-off
 algebricamente, e ver o limiar deslizando faz a moeda cair.
 :::
@@ -155,7 +155,7 @@ O player é uma **fachada**: nada é pedido ao servidor de origem antes do cliqu
 A terceira superfície: exercício pergunta e corrige, vídeo mostra, **laboratório deixa manipular**.
 
 ```markdown
-:::lab {"id":"18-l1","tipo":"neuronio-mp","titulo":"Neurônio de McCulloch–Pitts","funcao":"AND"}
+:::lab {"id":"neuronio-artificial-l1","tipo":"neuronio-mp","titulo":"Neurônio de McCulloch–Pitts","funcao":"AND"}
 O que manipular aqui ensina — e o que o leitor deve **descobrir sozinho**.
 :::
 ```

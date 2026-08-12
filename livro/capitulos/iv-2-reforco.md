@@ -1,4 +1,4 @@
-# 13 — Aprendizado por Reforço
+# IV.2 — Aprendizado por Reforço
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -33,7 +33,7 @@ Isso tem nome: **atribuição de crédito temporal**. E o que faz dele um proble
 
 **A cronologia, e o maior intervalo do livro.** Edward Thorndike descreve o *trial-and-error* seletivo — tentar alternativas e escolher comparando consequências — na tese de **1898**, formulado como "lei do efeito" em **1911**. Richard Bellman publica *Dynamic Programming* em **1957**, junto com a "maldição da dimensionalidade" que limita o método. Richard Sutton formaliza os métodos de diferença temporal em **1988**. Christopher Watkins apresenta o **Q-learning** na tese de **1989**, descrevendo-o como um método incremental para programação dinâmica. Depois vem a prática: **TD-Gammon** (Tesauro, 1992) aprendendo gamão por auto-jogo puro; o **DQN** da Atari (arXiv 2013, *Nature* em 26/02/2015); o **AlphaGo** (*Nature*, janeiro de 2016).
 
-De Thorndike (1898) a Watkins (1989) são **cerca de 80 anos** — o maior intervalo registrado neste livro. Compare: 59 anos no [capítulo 03](03-representacao.md) (Harris → word2vec), 43 anos no [capítulo 24](24-series-temporais.md) (Yule → Box-Jenkins) e apenas 7 no boosting do [capítulo 07](07-arvores-ensembles.md). O padrão é consistente e vale como diagnóstico: **o intervalo encurta quando o aperto já está escrito como pergunta formal precisa**. Thorndike tinha um fenômeno observado; o boosting tinha uma pergunta com resposta sim/não. Oitenta anos foi o preço de transformar observação em enunciado.
+De Thorndike (1898) a Watkins (1989) são **cerca de 80 anos** — o maior intervalo registrado neste livro. Compare: 59 anos no [capítulo I.6](i-6-representacao.md) (Harris → word2vec), 43 anos no [capítulo II.7](ii-7-series-temporais.md) (Yule → Box-Jenkins) e apenas 7 no boosting do [capítulo II.5](ii-5-arvores-ensembles.md). O padrão é consistente e vale como diagnóstico: **o intervalo encurta quando o aperto já está escrito como pergunta formal precisa**. Thorndike tinha um fenômeno observado; o boosting tinha uma pergunta com resposta sim/não. Oitenta anos foi o preço de transformar observação em enunciado.
 
 ### A lenda do nome "dynamic programming" — a fonte é autêntica, a cronologia não fecha
 
@@ -71,7 +71,7 @@ Duas coisas se pode aprender. A **política** responde "o que fazer aqui?" — �
 
 **O desconto (γ).** Recompensa futura vale menos que recompensa agora, e multiplica-se cada passo por um fator γ entre 0 e 1. Isso existe por dois motivos, um matemático e um honesto: sem desconto, a soma de recompensas de um processo sem fim não converge; e, com desconto, o agente pesa o futuro do jeito que qualquer decisor sensato pesa — com desconfiança crescente, porque previsão distante é previsão pior. γ perto de 0 produz um agente imediatista; γ perto de 1, um agente paciente e mais difícil de treinar.
 
-:::exercicio {"id":"13-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"reforco-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
 Um agente executa três passos e recebe as recompensas **3**, **0** e **10**, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?
 
 Responda com uma casa decimal.
@@ -89,7 +89,7 @@ O agente só conhece o valor de uma ação se a experimentar. Mas cada experimen
 
 A receita mais simples é a **ε-gulosa**: com probabilidade ε escolha uma ação ao acaso, no resto do tempo escolha a melhor conhecida — e reduza ε ao longo do treino. É rudimentar e ainda assim é o suficiente para a maioria dos casos.
 
-Repare que **este dilema não existe em nenhum outro capítulo do livro**. No aprendizado supervisionado, os dados chegam prontos e o modelo não influencia o que verá em seguida. Aqui, **o comportamento do agente determina os dados do agente**. É por isso que o alvo se move: a distribuição de treino é uma função do que se aprendeu até agora — condição bem diferente da otimização de superfície estável do [capítulo 06](06-otimizacao.md).
+Repare que **este dilema não existe em nenhum outro capítulo do livro**. No aprendizado supervisionado, os dados chegam prontos e o modelo não influencia o que verá em seguida. Aqui, **o comportamento do agente determina os dados do agente**. É por isso que o alvo se move: a distribuição de treino é uma função do que se aprendeu até agora — condição bem diferente da otimização de superfície estável do [capítulo II.4](ii-4-otimizacao.md).
 
 ### Q-learning e a atualização por diferença temporal
 
@@ -97,7 +97,7 @@ O **Q-learning** mantém uma estimativa `Q(estado, ação)`: quanto vale tomar a
 
 Em uma frase, a distinção que confunde todo mundo: **on-policy** aprende sobre a política que está de fato executando (inclusive suas explorações atrapalhadas); **off-policy** — o caso do Q-learning — aprende sobre a política ótima *enquanto* se comporta de outro jeito, o que permite aprender com experiência velha ou de terceiros.
 
-:::exercicio {"id":"13-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"reforco-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Um sistema de recomendação foi treinado por reforço e, após duas semanas, converge para exibir sempre os mesmos 40 itens — os que renderam mais cliques no começo. O catálogo tem 12 mil itens. Qual é o diagnóstico mais provável?
 
 - [ ] O fator de desconto γ está alto demais, tornando o agente paciente em excesso.
@@ -118,7 +118,7 @@ Um sistema de recomendação foi treinado por reforço e, após duas semanas, co
 
 O Q-learning tabular guarda um número por par (estado, ação). Isso funciona enquanto der para listar os estados. Numa tela de vídeo game de 84×84 pixels, não dá — e a tabela também tem um defeito mais profundo que o tamanho: ela **não generaliza**. Duas telas quase idênticas ocupam duas células sem relação nenhuma, e a experiência ganha numa não ajuda em nada na outra.
 
-O **DQN** (*Deep Q-Network*) substitui a tabela por uma rede neural que recebe o estado e devolve os valores das ações. O ganho não é memória: é **generalização entre estados parecidos** — a mesma virtude que a rede tem no [capítulo 09](09-redes-neurais.md), aplicada a uma previsão de valor em vez de a um rótulo. Foi isso que fez o mesmo algoritmo, sem ajuste por jogo, aprender dezenas de jogos de Atari a partir dos pixels.
+O **DQN** (*Deep Q-Network*) substitui a tabela por uma rede neural que recebe o estado e devolve os valores das ações. O ganho não é memória: é **generalização entre estados parecidos** — a mesma virtude que a rede tem no [capítulo III.2](iii-2-redes-neurais.md), aplicada a uma previsão de valor em vez de a um rótulo. Foi isso que fez o mesmo algoritmo, sem ajuste por jogo, aprender dezenas de jogos de Atari a partir dos pixels.
 
 O preço é instabilidade. Quando o alvo do aprendizado é produzido pela própria rede que está sendo treinada, o treino pode divergir com facilidade — e boa parte da engenharia do DQN existe só para segurar isso.
 
@@ -132,11 +132,11 @@ Esta é a seção mais útil deste capítulo na vida prática, e ela vai contra 
 
 **É instável para treinar.** Duas execuções com a mesma configuração e sementes diferentes podem terminar em lugares diferentes. Isso transforma depuração em trabalho de paciência.
 
-**E a maioria dos problemas de empresa é supervisionado disfarçado.** O teste é direto: *as minhas decisões mudam o que eu vou observar depois?* Se não mudam, não há problema sequencial — há um problema de previsão seguido de uma regra de decisão, e o [capítulo 25](25-do-modelo-a-decisao.md) resolve isso melhor, mais barato e com muito mais controle. Bellman e Wald, aliás, são a mesma família: decidir sob incerteza com uma função que precifica.
+**E a maioria dos problemas de empresa é supervisionado disfarçado.** O teste é direto: *as minhas decisões mudam o que eu vou observar depois?* Se não mudam, não há problema sequencial — há um problema de previsão seguido de uma regra de decisão, e o [capítulo II.8](ii-8-do-modelo-a-decisao.md) resolve isso melhor, mais barato e com muito mais controle. Bellman e Wald, aliás, são a mesma família: decidir sob incerteza com uma função que precifica.
 
-**E existe *reward hacking*.** O agente otimiza **a recompensa que você escreveu**, não a que você pretendia. Se o número recompensa cliques, ele produzirá cliques — inclusive por caminhos que ninguém quis. Especificar recompensa é escrever um contrato com um advogado literal e incansável, e é aí que mora o modo de falha característico da formulação. Onde reforço tem funcionado fora dos jogos é justamente onde a recompensa é a parte difícil e recebeu tratamento sério — o **RLHF** dos modelos de linguagem, no [capítulo 12](12-modelos-de-fundacao.md).
+**E existe *reward hacking*.** O agente otimiza **a recompensa que você escreveu**, não a que você pretendia. Se o número recompensa cliques, ele produzirá cliques — inclusive por caminhos que ninguém quis. Especificar recompensa é escrever um contrato com um advogado literal e incansável, e é aí que mora o modo de falha característico da formulação. Onde reforço tem funcionado fora dos jogos é justamente onde a recompensa é a parte difícil e recebeu tratamento sério — o **RLHF** dos modelos de linguagem, no [capítulo III.6](iii-6-modelos-de-fundacao.md).
 
-:::exercicio {"id":"13-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"reforco-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Uma transportadora quer "usar aprendizado por reforço para otimizar a roteirização das entregas do dia". Há histórico de 4 anos de rotas executadas, com tempos reais. Não existe simulador. Cada rota mal planejada custa horas extras e atraso com o cliente.
 
 Julgue: este problema merece reforço, ou é supervisionado (ou otimização) disfarçado? Justifique e proponha o que fazer.
@@ -148,7 +148,7 @@ Julgue: este problema merece reforço, ou é supervisionado (ou otimização) di
 > NÃO recomenda reforço como primeira escolha, e diz sob que condição ele voltaria à mesa (existência de simulador validado, ou interação barata)
 > **porque:** A resposta fraca aceita o enunciado do cliente e discute qual algoritmo de reforço usar. A resposta forte percebe que o problema já vem **com gabarito**: quatro anos de rotas executadas com tempos reais são exemplos rotulados. Prever o tempo de um trecho é supervisionado clássico; escolher a melhor rota dadas as previsões é otimização de roteirização, um campo com décadas de solvers maduros.
 >
-> O critério que decide não é o tamanho do problema, é a **influência**: as entregas de hoje mudam a distribuição do trânsito de amanhã? Praticamente não. Sem influência, não há problema sequencial a resolver — há previsão mais decisão, exatamente a separação do [capítulo 25](25-do-modelo-a-decisao.md).
+> O critério que decide não é o tamanho do problema, é a **influência**: as entregas de hoje mudam a distribuição do trânsito de amanhã? Praticamente não. Sem influência, não há problema sequencial a resolver — há previsão mais decisão, exatamente a separação do [capítulo II.8](ii-8-do-modelo-a-decisao.md).
 >
 > E há o argumento material, que costuma encerrar a conversa antes do argumento teórico: **sem simulador, o agente aprende explorando na operação real**, e explorar aqui significa despachar rotas ruins de propósito para descobrir que são ruins. Alguém vai pagar essa conta em horas extras. Reforço volta à mesa no dia em que existir um simulador de trânsito validado — e então o trabalho difícil passa a ser mostrar que o simulador se parece com a rua.
 > **volte para:** #por-que-reforco-e-a-ultima-ferramenta-a-considerar

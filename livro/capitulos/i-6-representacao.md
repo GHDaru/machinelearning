@@ -1,4 +1,4 @@
-# 03 — Representação
+# I.6 — Representação
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -35,7 +35,7 @@ O exemplo canônico é a data. Como inteiro (`1721692800`), ela é quase inútil
 >
 > **Harris tinha o argumento.** Dezessete páginas de definições formais e exemplos trabalhados, em 1954. **Firth tinha a frase**, três anos depois. E todo mundo cita Firth.
 >
-> É a terceira vez que este livro tropeça no mesmo padrão. No [capítulo 05](05-modelos-lineares.md), Gauss descobre os mínimos quadrados e Legendre leva a prioridade por ter publicado. No [capítulo 18](18-neuronio-artificial.md), Linnainmaa descreve a retropropagação e Rumelhart leva o crédito por ter popularizado. Aqui, o argumento inteiro é de um e a citação é do outro.
+> É a terceira vez que este livro tropeça no mesmo padrão. No [capítulo II.2](ii-2-modelos-lineares.md), Gauss descobre os mínimos quadrados e Legendre leva a prioridade por ter publicado. No [capítulo III.1](iii-1-neuronio-artificial.md), Linnainmaa descreve a retropropagação e Rumelhart leva o crédito por ter popularizado. Aqui, o argumento inteiro é de um e a citação é do outro.
 >
 > **O que circula não é a contribuição: é a forma citável da contribuição.** Isso não é cinismo, é instrução prática — se você quer que a sua ideia seja usada, ela precisa caber numa frase que alguém consiga repetir. A frase não substitui o argumento; ela é o veículo dele.
 
@@ -43,7 +43,7 @@ O exemplo canônico é a data. Como inteiro (`1721692800`), ela é quase inútil
 
 A hipótese distribucional é de **1954**. O **word2vec** — Mikolov, Chen, Corrado e Dean — é de **janeiro de 2013**, com a regularidade que ficou famosa: *rei − homem + mulher ≈ rainha*.
 
-São **cinquenta e nove anos**, um dos maiores intervalos registrados neste livro — maior que os 43 de Yule → Box–Jenkins ([capítulo 24](24-series-temporais.md)) e que os 43 de Larson → Stone ([capítulo 01](../01-fundamentos.md)). No meio do caminho, a linha vetorial foi sendo construída: **1972**, Karen Spärck Jones mostra que **especificidade é estatística, não semântica** — pesa-se o termo pela raridade na coleção; **1973**, Salton e Yang multiplicam a frequência do termo por aquela fórmula e batizam o resultado de *idf*; **1975**, o modelo de espaço vetorial é formalizado no sistema SMART, em Cornell.
+São **cinquenta e nove anos**, um dos maiores intervalos registrados neste livro — maior que os 43 de Yule → Box–Jenkins ([capítulo II.7](ii-7-series-temporais.md)) e que os 43 de Larson → Stone ([capítulo 0.2](../0-2-fundamentos.md)). No meio do caminho, a linha vetorial foi sendo construída: **1972**, Karen Spärck Jones mostra que **especificidade é estatística, não semântica** — pesa-se o termo pela raridade na coleção; **1973**, Salton e Yang multiplicam a frequência do termo por aquela fórmula e batizam o resultado de *idf*; **1975**, o modelo de espaço vetorial é formalizado no sistema SMART, em Cornell.
 
 Repare no detalhe do TF-IDF: **ela inventou, eles nomearam.** O padrão de novo.
 
@@ -71,7 +71,7 @@ O nome vem do circuito digital, onde a única combinação válida é ter exatam
 
 > **A armadilha das dummies tem 69 anos e continua sendo a primeira em que o aluno pisa.** Se você criar uma coluna para **cada** valor **e** mantiver o intercepto, as colunas somam exatamente 1 em toda linha — informação perfeitamente redundante. Numa regressão isso torna a solução indeterminada. A regra é: **omita uma categoria, ou tire o intercepto.** Nunca os dois, nunca nenhum.
 
-Para **alta cardinalidade** (CEP, código de produto, ID de usuário — milhares de valores), one-hot explode: você ganha dez mil colunas quase vazias e um modelo que decora. As saídas são agrupar por frequência (tudo que aparece pouco vira "outros"), codificar pelo alvo — com um cuidado que o [capítulo 02](02-dados.md) já explicou —, ou aprender um **embedding**.
+Para **alta cardinalidade** (CEP, código de produto, ID de usuário — milhares de valores), one-hot explode: você ganha dez mil colunas quase vazias e um modelo que decora. As saídas são agrupar por frequência (tudo que aparece pouco vira "outros"), codificar pelo alvo — com um cuidado que o [capítulo I.3](i-3-dados.md) já explicou —, ou aprender um **embedding**.
 
 > **Codificação pelo alvo é vazamento esperando acontecer.** Substituir a categoria pela média do alvo naquela categoria usa a resposta como entrada. Se a média for calculada com o dado inteiro, você vazou. Calcule **só no treino**, e por dobra.
 
@@ -81,10 +81,10 @@ Depende inteiramente do modelo, e essa é a resposta que quase ninguém dá.
 
 | Modelo | Normalizar muda? | Por quê |
 |---|---|---|
-| Regressão com gradiente | **muito** | escalas díspares deformam a paisagem e a descida ziguezagueia ([cap. 06](06-otimizacao.md)) |
+| Regressão com gradiente | **muito** | escalas díspares deformam a paisagem e a descida ziguezagueia ([cap. II.4](ii-4-otimizacao.md)) |
 | Regularização L1/L2 | **muito** | a penalidade compara coeficientes; sem escala comum, ela pune o atributo de unidade pequena |
 | k-NN, k-means, SVM | **muito** | dependem de distância, e distância soma unidades diferentes |
-| Árvores e ensembles | **nada** | cada corte olha **um** atributo por vez, e a ordem não muda com escala ([cap. 07](07-arvores-ensembles.md)) |
+| Árvores e ensembles | **nada** | cada corte olha **um** atributo por vez, e a ordem não muda com escala ([cap. II.5](ii-5-arvores-ensembles.md)) |
 
 A consequência prática é útil: se o seu pipeline normaliza antes de um *random forest*, você não fez mal — fez trabalho à toa, e adicionou uma peça que pode quebrar.
 
@@ -92,9 +92,9 @@ A consequência prática é útil: se o seu pipeline normaliza antes de um *rand
 
 É aqui que o conhecimento de negócio entra, e onde o ganho costuma ser maior. Razões em vez de valores absolutos (*ticket* médio em vez de total e contagem separados), diferenças temporais (dias desde a última compra), agregações por grupo (gasto do cliente sobre a média da região dele).
 
-**E medir se pagou.** Atributo novo se justifica por experimento, não por plausibilidade: mesma divisão, mesmo protocolo, e a diferença comparada com o ruído ([cap. 25](25-do-modelo-a-decisao.md)).
+**E medir se pagou.** Atributo novo se justifica por experimento, não por plausibilidade: mesma divisão, mesmo protocolo, e a diferença comparada com o ruído ([cap. II.8](ii-8-do-modelo-a-decisao.md)).
 
-:::exercicio {"id":"03-e1","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"representacao-e1","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Você treina um *random forest* para prever inadimplência. Um colega revisa o código e sugere padronizar todos os atributos numéricos (média 0, desvio 1) antes do treino, "porque é boa prática". O que acontece com o desempenho?
 
 - [ ] Melhora, porque as árvores comparam atributos entre si.
@@ -111,7 +111,7 @@ Você treina um *random forest* para prever inadimplência. Um colega revisa o c
 > **volte para:** #2-numerica-a-escala-importa
 :::
 
-:::exercicio {"id":"03-e2","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+:::exercicio {"id":"representacao-e2","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
 Uma variável categórica `regiao` tem 5 valores possíveis. Você vai usá-la numa **regressão linear com intercepto**.
 
 Quantas colunas *dummy* você deve criar para evitar a indeterminação?
@@ -127,13 +127,13 @@ Quantas colunas *dummy* você deve criar para evitar a indeterminação?
 
 ## O artesanato mudou de lugar, não desapareceu
 
-A promessa do aprendizado de representações — o contraponto moderno, formulado por Bengio, Courville e Vincent em 2013 — é **aprender** a representação em vez de fabricá-la à mão. Em texto e imagem, a promessa se cumpriu de forma espetacular: ninguém mais escreve detector de borda à mão ([cap. 10](10-visao.md)).
+A promessa do aprendizado de representações — o contraponto moderno, formulado por Bengio, Courville e Vincent em 2013 — é **aprender** a representação em vez de fabricá-la à mão. Em texto e imagem, a promessa se cumpriu de forma espetacular: ninguém mais escreve detector de borda à mão ([cap. III.4](iii-4-visao.md)).
 
 Mas em **dado tabular** — a maior parte do trabalho real de empresa — o artesanato continua, e continua decidindo o resultado.
 
 **E mesmo onde a promessa se cumpriu, ela mudou o artesanato de lugar em vez de eliminá-lo.** Quem monta o corpus decide o que conta como *contexto*; quem define a janela de um *embedding* decide o que é "companhia"; quem escolhe o que entra na tabela decide o que existe. É exatamente o trabalho que Harris fazia à mão em 1954, com outra ferramenta.
 
-:::exercicio {"id":"03-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"representacao-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
 Uma rede de farmácias quer prever quais clientes vão abandonar o programa de fidelidade nos próximos 90 dias. A tabela disponível tem uma linha por cliente com: `cpf`, `data_cadastro`, `cidade`, `total_gasto_historico`, `numero_de_compras`.
 
 Proponha **três atributos novos** construídos a partir dessas colunas ou de dados que você pediria, justifique cada um pela hipótese de negócio, e descreva como mediria se eles pagaram.
@@ -149,7 +149,7 @@ Proponha **três atributos novos** construídos a partir dessas colunas ou de da
 >
 > **Segunda, e é a que separa:** a tabela **não tem a data da última compra**, e sem ela quase não há como prever abandono — recência é o sinal mais forte que existe para esse problema. Perceber a **ausência** vale mais que propor dez transformações do que está presente. É a lição de abertura do capítulo: o modelo só vê o que você mostrou, e informação que não foi coletada nenhum algoritmo recupera.
 >
-> Sobre a medição: comparar com e sem os atributos exige o protocolo do [capítulo 25](25-do-modelo-a-decisao.md) — mesma divisão, mesmo orçamento de busca, e a diferença confrontada com o ruído. E todo atributo temporal precisa ser calculado **na data de corte** de cada exemplo, nunca com o histórico completo, sob pena do vazamento do [capítulo 02](02-dados.md).
+> Sobre a medição: comparar com e sem os atributos exige o protocolo do [capítulo II.8](ii-8-do-modelo-a-decisao.md) — mesma divisão, mesmo orçamento de busca, e a diferença confrontada com o ruído. E todo atributo temporal precisa ser calculado **na data de corte** de cada exemplo, nunca com o histórico completo, sob pena do vazamento do [capítulo I.3](i-3-dados.md).
 > **volte para:** #3-dominio-que-atributo-nao-esta-la
 :::
 

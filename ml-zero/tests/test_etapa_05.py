@@ -1,6 +1,6 @@
 """Testes da etapa 05–06 — modelos lineares e o otimizador.
 
-Vários deles são afirmações dos capítulos 05 e 06 escritas como asserção: se
+Vários deles são afirmações dos capítulos II.2 e 06 escritas como asserção: se
 "L1 zera coeficientes e L2 apenas encolhe" deixar de ser verdade, o build cai.
 """
 
@@ -75,7 +75,7 @@ def test_coluna_constante_nao_explode():
 
 
 def test_padronizador_aplica_ao_teste_o_que_aprendeu_no_treino():
-    """A regra do capítulo 02: o teste é aplicado, nunca consultado."""
+    """A regra do capítulo I.3: o teste é aplicado, nunca consultado."""
     p = Padronizador().fit([[0.0], [10.0]])
     assert p.transform([[5.0]]) == [[0.0]]      # 5 é a média do TREINO
     assert p.transform([[15.0]])[0][0] == 2.0   # 2 desvios acima
@@ -99,7 +99,7 @@ def test_solucao_fechada_recupera_os_coeficientes_verdadeiros(regressao_conhecid
 
 
 def test_gradiente_chega_ao_mesmo_lugar_da_solucao_fechada(regressao_conhecida):
-    """A lição do capítulo 06: gradiente é *um jeito* de resolver, não *o* jeito."""
+    """A lição do capítulo II.4: gradiente é *um jeito* de resolver, não *o* jeito."""
     X, y = regressao_conhecida
     fechada = RegressaoLinear(solucao_fechada=True).fit(X, y)
     gradiente = RegressaoLinear(solucao_fechada=False, taxa=0.3, epocas=2000).fit(X, y)
@@ -274,7 +274,7 @@ def test_a_licao_1_l1_zera_coeficientes_e_l2_apenas_encolhe():
 
 
 def test_a_licao_2_padronizar_muda_o_gradiente_e_nao_muda_a_arvore():
-    """Por que o capítulo 03 manda padronizar para modelos com gradiente.
+    """Por que o capítulo I.6 manda padronizar para modelos com gradiente.
 
     Com atributos em escalas muito diferentes, o gradiente zigue-zagueia e a
     mesma taxa que funcionava passa a não funcionar.

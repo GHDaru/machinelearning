@@ -1,4 +1,4 @@
-# 01 — Fundamentos
+# 0.2 — Fundamentos
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](HISTORICO.md)
 >
@@ -43,7 +43,7 @@ Só que ela sobe **e depois desce de novo**. Belkin, Hsu, Ma e Mandal (*PNAS*, 2
 
 > **E o crédito, de novo.** Loog, Viering, Mey, Krijthe e Tax publicaram *"A brief prehistory of double descent"* (*PNAS*, 2020) contestando que o fenômeno tivesse sido historicamente negligenciado — a física estatística de redes neurais já o havia observado.
 >
-> É a terceira vez que este livro encontra o mesmo padrão. Gauss perde a prioridade dos mínimos quadrados para Legendre no [capítulo 05](capitulos/05-modelos-lineares.md); Linnainmaa perde o crédito do backpropagation para quem o popularizou, no [capítulo 18](capitulos/18-neuronio-artificial.md); e aqui, em **2019**, acontece de novo — desta vez à luz do dia, com todos os artigos indexados e acessíveis. Se ocorre hoje, com essa infraestrutura toda, não era problema de correio lento no século XIX. **Crédito segue comunicação, não descoberta** — e este é o caso contemporâneo que torna os outros dois inegáveis.
+> É a terceira vez que este livro encontra o mesmo padrão. Gauss perde a prioridade dos mínimos quadrados para Legendre no [capítulo II.2](capitulos/ii-2-modelos-lineares.md); Linnainmaa perde o crédito do backpropagation para quem o popularizou, no [capítulo III.1](capitulos/iii-1-neuronio-artificial.md); e aqui, em **2019**, acontece de novo — desta vez à luz do dia, com todos os artigos indexados e acessíveis. Se ocorre hoje, com essa infraestrutura toda, não era problema de correio lento no século XIX. **Crédito segue comunicação, não descoberta** — e este é o caso contemporâneo que torna os outros dois inegáveis.
 
 **Procedência das afirmações desta seção:**
 
@@ -65,9 +65,9 @@ Se essa hipótese vale, minimizar o erro nos exemplos que você tem é uma aprox
 
 Se a hipótese não vale, tudo o que vem depois é decoração. E ela **frequentemente não vale**:
 
-- Você treinou com dados de 2024 e opera em 2026 (o mundo mudou — *drift*, cap. 16).
-- Você treinou com clientes que a empresa já tinha e vai operar sobre clientes novos (viés de seleção, cap. 02).
-- Você treinou com fotos bem iluminadas e vai operar no escuro (mudança de domínio, cap. 10).
+- Você treinou com dados de 2024 e opera em 2026 (o mundo mudou — *drift*, cap. V.3).
+- Você treinou com clientes que a empresa já tinha e vai operar sobre clientes novos (viés de seleção, cap. I.3).
+- Você treinou com fotos bem iluminadas e vai operar no escuro (mudança de domínio, cap. III.4).
 
 Guarde isto: **a métrica de teste é uma promessa condicional.** Ela diz "se o futuro se parecer com este conjunto, o erro será aproximadamente este". Quando alguém reporta uma métrica sem dizer sob qual condição ela vale, está reportando meia informação.
 
@@ -83,7 +83,7 @@ A razão de o teste ser separado da validação é sutil e cara de aprender na p
 
 O teste existe para ser a testemunha que não foi coagida. Toda vez que você o consulta e reage ao que viu, ele perde um pouco dessa qualidade. Não há alarme, não há erro na tela: o número simplesmente vai ficando menos verdadeiro.
 
-:::exercicio {"id":"01-e1","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+:::exercicio {"id":"fundamentos-e1","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
 Uma equipe testa 40 configurações de modelo, medindo cada uma no conjunto de teste, e reporta a melhor: 94,2% de acurácia. Qual é o problema mais grave dessa prática?
 
 - [ ] Nenhum: testar muitas configurações é justamente o que se deve fazer.
@@ -117,13 +117,13 @@ O sintoma é visível nas duas curvas de erro:
 | baixo | baixo | bom — verifique se não há vazamento | vá ao teste, **uma vez** |
 | alto | baixo | quase sempre um bug | investigue a divisão dos dados antes de comemorar |
 
-A última linha merece atenção. Erro de validação *melhor* que o de treino costuma indicar que os conjuntos não são comparáveis — uma divisão mal feita, um vazamento invertido, ou regularização forte aplicada só no treino. É um resultado bom demais, e resultados bons demais são a pista mais confiável de que algo está errado (cap. 02).
+A última linha merece atenção. Erro de validação *melhor* que o de treino costuma indicar que os conjuntos não são comparáveis — uma divisão mal feita, um vazamento invertido, ou regularização forte aplicada só no treino. É um resultado bom demais, e resultados bons demais são a pista mais confiável de que algo está errado (cap. I.3).
 
-**Uma advertência sobre a decomposição.** A ideia de que mais capacidade sempre aumenta a variância é uma simplificação útil — e é *falsa* no regime das redes modernas. Modelos muito grandes, treinados muito além do ponto de interpolação, frequentemente voltam a generalizar bem, num fenômeno chamado **double descent** ([Belkin et al., 2019](https://doi.org/10.1073/pnas.1903070116), ✓). A intuição viés–variância continua sendo a melhor ferramenta de diagnóstico para o regime clássico — que é onde vive a maior parte do trabalho tabular deste livro — mas **não é uma lei universal**, e o capítulo 09 volta ao assunto.
+**Uma advertência sobre a decomposição.** A ideia de que mais capacidade sempre aumenta a variância é uma simplificação útil — e é *falsa* no regime das redes modernas. Modelos muito grandes, treinados muito além do ponto de interpolação, frequentemente voltam a generalizar bem, num fenômeno chamado **double descent** ([Belkin et al., 2019](https://doi.org/10.1073/pnas.1903070116), ✓). A intuição viés–variância continua sendo a melhor ferramenta de diagnóstico para o regime clássico — que é onde vive a maior parte do trabalho tabular deste livro — mas **não é uma lei universal**, e o capítulo III.2 volta ao assunto.
 
 > **Cláusula de expiração.** Escrevo em 2026 que a decomposição viés–variância é a ferramenta de diagnóstico dominante na prática tabular, e que o *double descent* é entendido como fenômeno do regime superparametrizado. Se, na próxima revisão, existir uma teoria unificada que preveja quantitativamente o comportamento de generalização nos dois regimes, esta seção precisa ser reescrita — não apenas emendada. Acompanhamento no [placar de expiração](HISTORICO.md).
 
-:::exercicio {"id":"01-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"fundamentos-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Um modelo atinge 0,98 de acurácia no treino e 0,71 na validação. Qual é o diagnóstico e a primeira ação razoável?
 
 - [ ] Viés alto: aumentar a capacidade do modelo.
@@ -136,7 +136,7 @@ Um modelo atinge 0,98 de acurácia no treino e 0,71 na validação. Qual é o di
 > **volte para:** #o-diagnostico-pratico
 :::
 
-:::exercicio {"id":"01-e3","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
+:::exercicio {"id":"fundamentos-e3","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
 Complete o termo que falta na decomposição do erro esperado de um modelo:
 
 `erro esperado ≈ viés² + ______ + ruído irredutível`
@@ -156,7 +156,7 @@ Estes termos aparecem em todos os capítulos seguintes. Estão também no [Gloss
 - **Modelo** — a função que mapeia atributos ao alvo, mais os parâmetros que a especificam.
 - **Parâmetro** — o que o treino ajusta (pesos). **Hiperparâmetro** — o que você escolhe antes do treino (taxa de aprendizado, profundidade). A confusão entre os dois causa metade dos erros de metodologia.
 - **Função de perda** — a medida do quanto uma predição errou; é o que a otimização minimiza.
-- **Métrica** — a medida que interessa a **você**. Nem sempre é a perda; quase nunca deveria ser (cap. 04).
+- **Métrica** — a medida que interessa a **você**. Nem sempre é a perda; quase nunca deveria ser (cap. II.1).
 
 A distinção entre perda e métrica é a fonte de mal-entendidos mais persistente para quem está começando. A perda precisa ser diferenciável e bem-comportada para o otimizador; a métrica precisa ser interpretável e ligada à consequência no mundo. São propósitos diferentes, e otimizar a primeira esperando melhorar a segunda é uma aposta — às vezes boa, nunca automática.
 
@@ -175,7 +175,7 @@ Monta as três divisões, treina a linha de base e mostra por que **81% de acur�
 
 ## Assista
 
-:::video {"id":"01-v1","fonte":"youtube","ref":"EuBBz3bI-aA","min":7,"autor":"StatQuest with Josh Starmer","titulo":"Machine Learning Fundamentals: Bias and Variance"}
+:::video {"id":"fundamentos-v1","fonte":"youtube","ref":"EuBBz3bI-aA","min":7,"autor":"StatQuest with Josh Starmer","titulo":"Machine Learning Fundamentals: Bias and Variance"}
 A decomposição viés–variância é um daqueles conceitos que a prosa explica e o **gráfico** fixa. O vídeo mostra ajustes sucessivos ao mesmo conjunto de pontos, e a intuição visual de "a curva balança demais quando os dados mudam" é o que faz o termo *variância* deixar de ser jargão e virar algo que você reconhece de longe num gráfico de treino.
 :::
 

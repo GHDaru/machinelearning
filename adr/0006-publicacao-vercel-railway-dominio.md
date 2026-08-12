@@ -24,7 +24,7 @@ Princípio VI (custo zero é requisito): plano Hobby é US$ 0, e o *lock-in* é 
 
 Dois sites com o mesmo conteúdo é conteúdo duplicado de verdade, e o Pages **não faz 301**. Apagar também é ruim: há links antigos em circulação.
 
-Solução: o Pages passa a servir **um stub** com `canonical`, `noindex` e redirecionamento que **preserva o caminho** — `/machinelearning/18-neuronio-artificial.html` cai em `.../18-neuronio-artificial.html` no domínio novo. Um `404.html` cobre todos os *deep links*, porque é o que o Pages serve para qualquer caminho inexistente.
+Solução: o Pages passa a servir **um stub** com `canonical`, `noindex` e redirecionamento que **preserva o caminho** — `/machinelearning/iii-1-neuronio-artificial.html` cai em `.../iii-1-neuronio-artificial.html` no domínio novo. Um `404.html` cobre todos os *deep links*, porque é o que o Pages serve para qualquer caminho inexistente.
 
 ### 3. Build na Vercel a partir da **raiz do repositório**
 

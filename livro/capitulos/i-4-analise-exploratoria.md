@@ -1,4 +1,4 @@
-# 21 — Análise Exploratória
+# I.4 — Análise Exploratória
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -37,7 +37,7 @@ Antes de modelar, **olhe**. É a etapa que quase todo mundo pula e quase todo mu
 | **entre 1962 e 1977** | O material circula em cerca de três edições mimeografadas e pelas mãos dos alunos dele |
 | **1977** | *Exploratory Data Analysis*, Addison-Wesley — [o livro](https://www.stat.berkeley.edu/~brill/Papers/EDASage.pdf) que virou a referência do assunto |
 
-Repare no intervalo: **quinze anos** entre o manifesto e o livro. É o mesmo formato de 1943→1958 no [capítulo 18](18-neuronio-artificial.md) (neurônio → perceptron) e de 1927→1970 no [capítulo 24](24-series-temporais.md). **O intervalo é o conteúdo**: a ideia precisou de mais de uma década, de três rodadas de material mimeografado e de uma geração de alunos para deixar de ser heresia e virar cadeira de graduação. Tukey ainda reaparece na pré-história da validação cruzada ([capítulo 01](../01-fundamentos.md)) — a mesma intuição, aplicada a outro problema: não julgue com o dado que já foi usado para escolher.
+Repare no intervalo: **quinze anos** entre o manifesto e o livro. É o mesmo formato de 1943→1958 no [capítulo III.1](iii-1-neuronio-artificial.md) (neurônio → perceptron) e de 1927→1970 no [capítulo II.7](ii-7-series-temporais.md). **O intervalo é o conteúdo**: a ideia precisou de mais de uma década, de três rodadas de material mimeografado e de uma geração de alunos para deixar de ser heresia e virar cadeira de graduação. Tukey ainda reaparece na pré-história da validação cruzada ([capítulo 0.2](../0-2-fundamentos.md)) — a mesma intuição, aplicada a outro problema: não julgue com o dado que já foi usado para escolher.
 
 **Procedência das afirmações desta seção:**
 
@@ -69,7 +69,7 @@ O desvio-padrão eleva as diferenças ao quadrado — o que dá ao ponto extremo
 
 **Assimetria é a regra, não a exceção.** Renda, tempo de resposta de API, valor de compra, número de sessões por usuário: quase tudo que tem piso em zero e não tem teto forma uma **cauda longa** à direita. Nessas distribuições, média > mediana sempre, e reportar a média é reportar a cauda.
 
-:::exercicio {"id":"21-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"analise-exploratoria-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
 Os salários mensais (em milhares de reais) de sete funcionários de uma equipe são:
 
 `3, 3, 4, 4, 5, 6, 40`
@@ -89,7 +89,7 @@ Qual é a **mediana** desse conjunto?
 
 A análise monovariada é a primeira coisa que se faz e a que mais se pula. Antes de cruzar duas colunas, olhe **uma**: que tipo é, quantos valores distintos tem, onde está o centro, quanto ela varia, e o que há nas pontas.
 
-:::lab {"id":"21-l1","tipo":"explorar-variavel","titulo":"Análise monovariada — venda de limonada","colunas":["temperatura","precipitacao","panfletos","preco","vendas"]}
+:::lab {"id":"analise-exploratoria-l1","tipo":"explorar-variavel","titulo":"Análise monovariada — venda de limonada","colunas":["temperatura","precipitacao","panfletos","preco","vendas"]}
 As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.
 
 A linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.
@@ -103,7 +103,7 @@ Percorra as cinco colunas e responda, para cada uma:
 Duas colunas têm respostas surpreendentes. Encontre-as antes de ler a seção seguinte.
 :::
 
-:::exercicio {"id":"21-e4","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
+:::exercicio {"id":"analise-exploratoria-e4","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
 No laboratório acima, a coluna `preco` acusa **62 outliers** pela regra de 1,5 × IQR — mais de um sexto do conjunto. Qual é a leitura correta?
 
 - [ ] São 62 erros de digitação no registro do preço, e devem ser removidos antes de modelar.
@@ -135,9 +135,9 @@ E depois há a frase que todo mundo sabe repetir e quase ninguém aplica na hora
 3. **Há um confundidor** que causa as duas — o clássico: venda de sorvete e afogamentos sobem juntos porque é verão.
 4. **É coincidência amostral** — teste 200 pares de variáveis e algumas parecerão correlacionadas por acaso.
 
-Há ainda um quinto caso, específico de quem constrói modelos: **correlação altíssima com o alvo costuma ser vazamento**, não sorte. Se uma coluna prevê o alvo quase perfeitamente, a primeira hipótese não é "achei o atributo de ouro", é "essa coluna foi preenchida *depois* do desfecho" — o [capítulo 02](02-dados.md) trata disso.
+Há ainda um quinto caso, específico de quem constrói modelos: **correlação altíssima com o alvo costuma ser vazamento**, não sorte. Se uma coluna prevê o alvo quase perfeitamente, a primeira hipótese não é "achei o atributo de ouro", é "essa coluna foi preenchida *depois* do desfecho" — o [capítulo I.3](i-3-dados.md) trata disso.
 
-:::exercicio {"id":"21-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"analise-exploratoria-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação entre si praticamente idênticas às de outro par de colunas. Que conclusão é legítima?
 
 - [ ] As duas relações têm a mesma forma; os resumos numéricos determinam o gráfico.
@@ -154,7 +154,7 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 > **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
 :::
 
-> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha — `df.groupby("preco")[["temperatura","vendas"]].mean()` — e ela precede qualquer modelo. O desdobramento está no [capítulo 05](05-modelos-lineares.md#o-caso-da-limonada).
+> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha — `df.groupby("preco")[["temperatura","vendas"]].mean()` — e ela precede qualquer modelo. O desdobramento está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
 
 ## Faltantes, outliers e a fronteira entre explorar e confirmar
 
@@ -170,11 +170,11 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 
 A regra de 1,5 × IQR do boxplot **marca candidatos, não decide nada**. Decidir exige critério declarado por escrito: o que foi removido, por qual regra, quantas linhas, e o que acontece com o resultado se a regra mudar. "Limpei os outliers" não é descrição de método; é a ausência de uma.
 
-**E a fronteira.** Se você olha quarenta gráficos e escolhe o padrão mais forte, você não achou o efeito mais forte: achou o **extremo do ruído** — a coincidência amostral do item 4 acima, agora garimpada de propósito. É a armadilha que a dupla de Tukey existe para prevenir. A regra prática é simples e barata: **separe uma parte dos dados antes de começar a olhar** e não a toque; explore no resto à vontade; escreva a hipótese **antes** de testá-la na parte guardada. Explorar produz candidatas; confirmar exige dado que não participou da escolha. Fazer as duas coisas no mesmo conjunto é o mesmo erro que o [capítulo 04](04-avaliacao.md) combate quando o limiar é escolhido no teste.
+**E a fronteira.** Se você olha quarenta gráficos e escolhe o padrão mais forte, você não achou o efeito mais forte: achou o **extremo do ruído** — a coincidência amostral do item 4 acima, agora garimpada de propósito. É a armadilha que a dupla de Tukey existe para prevenir. A regra prática é simples e barata: **separe uma parte dos dados antes de começar a olhar** e não a toque; explore no resto à vontade; escreva a hipótese **antes** de testá-la na parte guardada. Explorar produz candidatas; confirmar exige dado que não participou da escolha. Fazer as duas coisas no mesmo conjunto é o mesmo erro que o [capítulo II.1](ii-1-avaliacao.md) combate quando o limiar é escolhido no teste.
 
-O produto legítimo de uma boa exploração não é uma conclusão — é uma **lista de hipóteses ordenada por quanto valeria confirmá-las**, mais uma lista de problemas de dado a consertar. Transformar essa lista em gráfico que convence é o [capítulo 22](22-visualizacao-storytelling.md).
+O produto legítimo de uma boa exploração não é uma conclusão — é uma **lista de hipóteses ordenada por quanto valeria confirmá-las**, mais uma lista de problemas de dado a consertar. Transformar essa lista em gráfico que convence é o [capítulo I.5](i-5-visualizacao-storytelling.md).
 
-:::exercicio {"id":"21-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"analise-exploratoria-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
 Você explora a base de vendas de uma rede de lojas e encontra 12 pedidos (de 400 mil) com valor acima de R$ 500 mil — a mediana dos pedidos é R$ 180. O modelo a treinar prevê o valor do próximo pedido de um cliente.
 
 Escreva o que você faz com esses 12 pedidos: **como decide** e **o que registra**.
@@ -192,7 +192,7 @@ Escreva o que você faz com esses 12 pedidos: **como decide** e **o que registra
 > **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
 :::
 
-:::exercicio {"id":"21-e5","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"analise-exploratoria-e5","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
 No laboratório, escolha a coluna **`precipitacao`**. Ela tem média 0,83 e mediana 0,74, mínimo 0,47, máximo 2,50, e a cerca de 1,5 × IQR acusa **28 pontos**.
 
 Escreva um parágrafo de análise monovariada dessa variável, respondendo:

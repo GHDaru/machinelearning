@@ -1,4 +1,4 @@
-# 26 — Treinar Redes Profundas
+# III.3 — Treinar Redes Profundas
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -35,7 +35,7 @@ Vale ler a folha de rosto com atenção, porque ela contraria a lembrança colet
 
 **O limite do que este capítulo afirma.** A citação corrente do problema, na literatura, costuma ser Bengio, Simard & Frasconi (1994), em inglês. **Não conseguimos conferir se aquele artigo cita a tese de 1991.** Então o capítulo diz duas coisas e para: Hochreiter mediu o fenômeno em 1991, em alemão; e a citação que circula é de 1994. Ele **não afirma** que houve omissão de crédito — isso exigiria a leitura que não fizemos.
 
-E há o desfecho que quebra o padrão dos capítulos [05](05-modelos-lineares.md), [18](18-neuronio-artificial.md) e [08](08-nao-supervisionado.md), onde crédito não segue descoberta e sim comunicação: **Hochreiter não foi apagado.** Ele volta em 1997 com a LSTM (*Long Short-Term Memory*), a partir do mesmo diagnóstico, e leva o crédito. Este é o caso **atenuado** do padrão: comunicar tarde, ou no idioma errado, custou a prioridade sobre o problema — não a carreira de quem o formulou.
+E há o desfecho que quebra o padrão dos capítulos [05](ii-2-modelos-lineares.md), [18](iii-1-neuronio-artificial.md) e [08](iv-1-nao-supervisionado.md), onde crédito não segue descoberta e sim comunicação: **Hochreiter não foi apagado.** Ele volta em 1997 com a LSTM (*Long Short-Term Memory*), a partir do mesmo diagnóstico, e leva o crédito. Este é o caso **atenuado** do padrão: comunicar tarde, ou no idioma errado, custou a prioridade sobre o problema — não a carreira de quem o formulou.
 
 **Procedência das afirmações desta seção:**
 
@@ -47,7 +47,7 @@ E há o desfecho que quebra o padrão dos capítulos [05](05-modelos-lineares.md
 | ✓ᵐ | Glorot & Bengio (AISTATS 2010); Nair & Hinton (ICML 2010); Glorot, Bordes & Bengio (AISTATS 2011); Kingma & Ba (2014); Srivastava, Hinton *et al.* (JMLR 2014); Ioffe & Szegedy (2015); He, Zhang, Ren & Sun (ICCV 2015) — metadados conferidos, artigos não abertos |
 | ✓ᵐ | Santurkar *et al.*, *How Does Batch Normalization Help Optimization? (No, It Is Not About Internal Covariate Shift)* — [arXiv:1805.11604](https://arxiv.org/abs/1805.11604) |
 | ⏳ | "Adam" como *adaptive moment estimation*; e a anedota do caixa de banco que roda de guichê para impedir conluio, contada como origem do dropout — não conferida em fala primária |
-| 📖 | A leitura de que o diagnóstico de 1991 sobreviveu a quatro gerações de remédio, e de que este é o caso **atenuado** do padrão de crédito dos capítulos 05, 08 e 18 |
+| 📖 | A leitura de que o diagnóstico de 1991 sobreviveu a quatro gerações de remédio, e de que este é o caso **atenuado** do padrão de crédito dos capítulos II.2, 08 e 18 |
 
 ## Fundamentos: o gradiente é um produto, e produtos são traiçoeiros
 
@@ -57,9 +57,9 @@ Some multiplique. A derivada da sigmoide vale no máximo 0,25, e só no ponto ce
 
 O outro lado da mesma moeda é a **explosão**. Se os fatores forem maiores que 1, o produto cresce na mesma velocidade, e o sintoma é diferente e inconfundível: a perda salta, vira `inf` e depois `NaN`, tipicamente em poucas iterações. A explosão tem remédio de uma linha — o **grampo de gradiente** (*gradient clipping*): se a norma do gradiente passar de um limite, reescale-a para o limite. Isso funciona porque a direção continua boa; só o tamanho estava absurdo. **A explosão é o caso fácil, e é sintomática: ela grita.** O desaparecimento é silencioso, e por isso é o problema caro.
 
-Tudo isto é a otimização do [capítulo 06](06-otimizacao.md) — mesma descida, mesma perda, mesmo gradiente. O que a profundidade acrescenta não é uma teoria nova; é uma **cadeia longa de multiplicações** entre o erro e o parâmetro que você quer ajustar.
+Tudo isto é a otimização do [capítulo II.4](ii-4-otimizacao.md) — mesma descida, mesma perda, mesmo gradiente. O que a profundidade acrescenta não é uma teoria nova; é uma **cadeia longa de multiplicações** entre o erro e o parâmetro que você quer ajustar.
 
-:::exercicio {"id":"26-e1","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+:::exercicio {"id":"treinar-redes-profundas-e1","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
 Numa rede com sigmoide, suponha que cada camada atravessada multiplique o gradiente por **0,25** (o melhor caso da sigmoide). A partir de quantas camadas o gradiente que chega à primeira fica **abaixo de um milionésimo** (10⁻⁶) do que saiu da última?
 
 Responda com um número inteiro de camadas.
@@ -79,7 +79,7 @@ Mas *qual* sorteio, e essa é a pergunta de verdade. Pesos grandes demais satura
 
 Cinco anos depois, He *et al.* (2015) apontam a letra miúda: a dedução de Xavier supunha ativação **linear**, o que **é inválido sob ReLU** — que zera metade das entradas e, com isso, corta a variância pela metade. Daí a inicialização He, com o fator 2 que compensa exatamente essa perda. Não é um truque melhor: é a mesma conta refeita sob a hipótese certa.
 
-:::exercicio {"id":"26-e2","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"treinar-redes-profundas-e2","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma equipe troca a ativação de uma rede de 30 camadas de `tanh` para `ReLU` e mantém a inicialização de Xavier/Glorot, que vinha funcionando. O treino, que antes convergia devagar, agora estagna. Qual é a explicação mais precisa?
 
 - [ ] A ReLU é inadequada para redes muito profundas; acima de ~20 camadas só ativações saturantes funcionam.
@@ -108,10 +108,10 @@ Aqui está a competência que este capítulo quer formar: **reconhecer o mesmo d
 
 | Remédio | Como ataca o produto | Onde está no livro |
 |---|---|---|
-| **LSTM** (1997) | cria um canal de memória por onde o erro passa **sem ser multiplicado** | [cap. 11](11-sequencias-linguagem.md) |
+| **LSTM** (1997) | cria um canal de memória por onde o erro passa **sem ser multiplicado** | [cap. III.5](iii-5-sequencias-linguagem.md) |
 | **Inicialização** (Xavier 2010, He 2015) | escolhe a variância inicial para que o produto **não encolha nem cresça** | seção acima |
 | **ReLU** (2010–2011) | derivada **1** na região ativa: o fator deixa de reduzir | seção acima |
-| **Conexão residual** (2015) | acrescenta um caminho **aditivo** que atravessa o bloco intacto | [cap. 10](10-visao.md) |
+| **Conexão residual** (2015) | acrescenta um caminho **aditivo** que atravessa o bloco intacto | [cap. III.4](iii-4-visao.md) |
 
 A conexão residual fecha o argumento de forma quase literária: se o problema é multiplicação, some. `saída = bloco(x) + x` dá ao gradiente uma rota direta até as camadas do fundo, e foi isso que tornou rotineiro treinar redes de mais de cem camadas. Com ela, He *et al.* (2015) reportam 4,94% de erro top-5 no ImageNet — **o primeiro resultado a passar o humano reportado, de 5,1%**.
 
@@ -131,11 +131,11 @@ Ioffe & Szegedy (2015) explicaram a *batch normalization* por um mecanismo: o **
 
 Em 2018, Santurkar *et al.* publicam *How Does Batch Normalization Help Optimization? (No, It Is Not About Internal Covariate Shift)* e mostram que **o método funciona e a explicação não se sustenta**. A batch norm continua ajudando; a razão pela qual ajuda foi outra.
 
-A lição vale muito além da normalização: **"funciona" e "sabemos por quê" são afirmações independentes, e a segunda pode cair sem derrubar a primeira.** É o mesmo padrão do Cauchy do [capítulo 06](06-otimizacao.md), que publicou o método do gradiente em 1847 sem prova de convergência — método correto, justificativa incompleta, décadas de uso proveitoso no meio.
+A lição vale muito além da normalização: **"funciona" e "sabemos por quê" são afirmações independentes, e a segunda pode cair sem derrubar a primeira.** É o mesmo padrão do Cauchy do [capítulo II.4](ii-4-otimizacao.md), que publicou o método do gradiente em 1847 sem prova de convergência — método correto, justificativa incompleta, décadas de uso proveitoso no meio.
 
 A consequência prática é dura e útil: **não derive decisões de projeto de uma história de mecanismo que nunca foi testada.** Se a sua justificativa para usar um componente é a narrativa que veio no artigo, e não o efeito medido no seu problema, você está apostando na parte mais frágil da evidência.
 
-:::exercicio {"id":"26-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"treinar-redes-profundas-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Uma equipe treina uma rede densa de 40 camadas com sigmoide, inicialização uniforme pequena e SGD. A perda cai de 2,30 para 2,25 na primeira época e depois não se move por 50 épocas. A acurácia fica em nível de acaso. Em três semanas, a equipe trocou o otimizador de SGD para Adam, depois para RMSProp, testou seis taxas de aprendizado e dobrou o conjunto de dados. Nada mudou.
 
 Diga o que você mediria **antes** de propor qualquer correção, qual é o diagnóstico mais provável e o que faria em seguida.

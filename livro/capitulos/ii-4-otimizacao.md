@@ -1,4 +1,4 @@
-# 06 — Otimização e Regularização
+# II.4 — Otimização e Regularização
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
 >
@@ -27,13 +27,13 @@ Este capítulo é sobre duas coisas que parecem opostas e são complementares: *
 
 **A virada.** Se a função nunca é negativa, **não é preciso resolvê-la — basta fazê-la decrescer**. Nas palavras dele: *"Para achar os valores de x, y, z… que verificarão a equação u = 0, bastará fazer decrescer indefinidamente a função u, até que ela se anule."* Descer contra a derivada, um passo pequeno de cada vez.
 
-**A ideia reaproveitável.** **Trocar "resolver" por "melhorar repetidamente".** Quando a solução fechada não existe, ou existe e explode em complexidade, aceita-se um procedimento que só garante *ficar melhor a cada passo*. É a troca fundadora de quase todo o Machine Learning — e a razão de o capítulo 05 ter duas implementações: a equação normal, que resolve, e o gradiente, que melhora.
+**A ideia reaproveitável.** **Trocar "resolver" por "melhorar repetidamente".** Quando a solução fechada não existe, ou existe e explode em complexidade, aceita-se um procedimento que só garante *ficar melhor a cada passo*. É a troca fundadora de quase todo o Machine Learning — e a razão de o capítulo II.2 ter duas implementações: a equação normal, que resolve, e o gradiente, que melhora.
 
 **O nome.** O artigo se chama *"Méthode générale pour la résolution des systèmes d'équations simultanées"* (C. R. Acad. Sci. Paris, 25:536–538, 1847). "Método geral" — a palavra *gradiente* não está no título.
 
 > **Dois detalhes que mudam como você lê este capítulo.**
 >
-> **O primeiro:** para um sistema de várias equações, Cauchy manda minimizar a soma dos quadrados dos resíduos. Ou seja — **o capítulo 06 executa o objetivo que o [capítulo 05](05-modelos-lineares.md) inventou.** Legendre e Gauss definiram *o que* é a melhor curva; Cauchy, quarenta anos depois, deu o *como* chegar nela sem resolver nada.
+> **O primeiro:** para um sistema de várias equações, Cauchy manda minimizar a soma dos quadrados dos resíduos. Ou seja — **o capítulo II.4 executa o objetivo que o [capítulo II.2](ii-2-modelos-lineares.md) inventou.** Legendre e Gauss definiram *o que* é a melhor curva; Cauchy, quarenta anos depois, deu o *como* chegar nela sem resolver nada.
 >
 > **O segundo, e é o melhor antídoto que este livro tem contra a reverência:** Cauchy **não prova que o método converge, e sabe disso.** Ele escreve que se limita, por ora, a indicar os princípios, propondo-se a voltar ao assunto *"num próximo Memória"*. Esse próximo memorial, ao que se sabe, **nunca existiu**. O matemático mais rigoroso do século XIX publicou um algoritmo sem garantia e não voltou. Método não nasce provado — nasce funcionando, e a prova vem depois, se vier.
 
@@ -45,7 +45,7 @@ Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Ken
 
 **A ideia reaproveitável do bloco inteiro:** **aceitar erro sistemático de propósito para comprar estabilidade.** Tikhonov, ridge e LASSO são o mesmo gesto — o dado não determina a resposta, então você **impõe** uma preferência externa e assume o viés que ela introduz. É por isso que regularização não é um truque de implementação: é uma declaração sobre o que você acredita antes de ver os dados.
 
-> **A ponte com o [capítulo 07](07-arvores-ensembles.md) é Breiman, e é uma ideia só: instabilidade.** Ele classificou os métodos entre estáveis (ridge) e instáveis (seleção de subconjunto), com o garrote no meio. Do lado "encolher coeficientes" nasce o LASSO, aqui. Do lado "instabilidade é oportunidade, não defeito" nasce o *bagging*, lá. **O mesmo diagnóstico gerou dois métodos em dois capítulos** — e conhecer o diagnóstico vale mais que conhecer os dois métodos.
+> **A ponte com o [capítulo II.5](ii-5-arvores-ensembles.md) é Breiman, e é uma ideia só: instabilidade.** Ele classificou os métodos entre estáveis (ridge) e instáveis (seleção de subconjunto), com o garrote no meio. Do lado "encolher coeficientes" nasce o LASSO, aqui. Do lado "instabilidade é oportunidade, não defeito" nasce o *bagging*, lá. **O mesmo diagnóstico gerou dois métodos em dois capítulos** — e conhecer o diagnóstico vale mais que conhecer os dois métodos.
 
 **Procedência das afirmações desta seção:**
 
@@ -57,7 +57,7 @@ Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Ken
 | ⏳ | Que "ridge" vem das cristas dos gráficos de superfície de resposta |
 | ⏳ | Que o LASSO herda do *non-negative garrote* de Breiman (1995) |
 | ❌ | **Early stopping**: procurei e não localizei atribuição primária confiável. O capítulo ensina o método sem lhe atribuir inventor |
-| 📖 | As duas ideias reaproveitáveis, a ligação com o cap. 05 e a ponte com o cap. 07 |
+| 📖 | As duas ideias reaproveitáveis, a ligação com o cap. II.2 e a ponte com o cap. II.5 |
 
 ## Fundamentos: descer, sem enxergar a paisagem
 
@@ -109,7 +109,7 @@ Duas razões, e ambas valem entender. A perda logística é **limitada**: quando
 
 A lição prática: **"não explodiu" não é evidência de que a taxa está boa.** Confie na curva, não na ausência de NaN.
 
-:::exercicio {"id":"06-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"otimizacao-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 A curva de perda de treino desce rapidamente nas primeiras épocas e depois oscila para cima e para baixo sem estabilizar, mantendo-se num patamar alto. Qual é o diagnóstico mais provável?
 
 - [ ] Overfitting: o modelo decorou o treino.
@@ -130,7 +130,7 @@ Minimizar o erro no treino até o fim é decorar. Regularizar é acrescentar à 
 
 $$L_{\text{total}} = L_{\text{dados}} + \lambda \cdot \Omega(w)$$
 
-O $\lambda$ controla o quanto você prefere um modelo simples a um modelo que ajusta bem. É o botão que anda na reta viés–variância do [capítulo 01](../01-fundamentos.md): $\lambda$ alto empurra para viés, $\lambda$ baixo para variância.
+O $\lambda$ controla o quanto você prefere um modelo simples a um modelo que ajusta bem. É o botão que anda na reta viés–variância do [capítulo 0.2](../0-2-fundamentos.md): $\lambda$ alto empurra para viés, $\lambda$ baixo para variância.
 
 ### L2 encolhe todos; L1 zera alguns
 
@@ -152,7 +152,7 @@ Medimos, num problema com 2 atributos úteis e 8 de puro ruído:
 
 E o L1 preservou os dois coeficientes úteis. Não é sorte: ele elimina preferencialmente o que não paga o próprio custo na perda.
 
-:::exercicio {"id":"06-e2","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"otimizacao-e2","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Você tem 300 atributos, suspeita que a maioria é irrelevante, e precisa entregar um modelo que a equipe consiga explicar. Qual regularização escolher, e por quê?
 
 - [ ] L2, porque é mais estável numericamente.
@@ -187,7 +187,7 @@ Pior: mesmo observando validação, o critério **só tem o que detectar se houv
 
 > **A lição geral, que vale além do early stopping.** Um instrumento de diagnóstico pressupõe que o problema exista. Testar o instrumento num cenário sem o problema não valida nada — e pode passar a falsa impressão de que ele está quebrado.
 
-:::exercicio {"id":"06-e3","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
+:::exercicio {"id":"otimizacao-e3","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
 Quais afirmações sobre early stopping são corretas? (marque todas que valem)
 
 - [x] Deve ser monitorado na validação, não no treino.
@@ -203,11 +203,11 @@ Quais afirmações sobre early stopping são corretas? (marque todas que valem)
 > **Regularização por trajetória**: os pesos crescem ao longo do treino, então parar antes seleciona um modelo menos complexo — o mesmo efeito de penalizar, sem penalizar.
 > **Limiar mínimo**: sem `min_delta`, uma melhora de 4e-10 conta como progresso e o critério nunca dispara.
 >
-> As erradas: early stopping **complementa** L1/L2 e é rotineiro usá-los juntos — ele controla *quando* parar, elas controlam *para onde* ir. E ele vale para qualquer modelo treinado iterativamente, incluindo o gradient boosting do [capítulo 07](07-arvores-ensembles.md), onde é a forma padrão de escolher o número de árvores.
+> As erradas: early stopping **complementa** L1/L2 e é rotineiro usá-los juntos — ele controla *quando* parar, elas controlam *para onde* ir. E ele vale para qualquer modelo treinado iterativamente, incluindo o gradient boosting do [capítulo II.5](ii-5-arvores-ensembles.md), onde é a forma padrão de escolher o número de árvores.
 > **volte para:** #early-stopping-a-regularizacao-de-graca
 :::
 
-:::exercicio {"id":"06-e4","tipo":"completar","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"otimizacao-e4","tipo":"completar","objetivo":"O1","dificuldade":"facil"}
 Complete o nome do hiperparâmetro que define o **tamanho do passo** na atualização abaixo:
 
 `w ← w − ______ × ∇L(w)`
@@ -236,13 +236,13 @@ O `Historico` que ele devolve é o instrumento de diagnóstico: `divergiu()`, `e
 
 **Notebook pronto para executar** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb)
 
-É o notebook do capítulo 05 — a mesma etapa serve aos dois. Troque `solucao_fechada=True` por `False` na célula do ajuste e confira que gradiente e equações normais chegam ao mesmo lugar.
+É o notebook do capítulo II.2 — a mesma etapa serve aos dois. Troque `solucao_fechada=True` por `False` na célula do ajuste e confira que gradiente e equações normais chegam ao mesmo lugar.
 
 > Na sua máquina: `pip install notebook` e `jupyter notebook`, ou abra a pasta no VS Code. O notebook **não precisa do repositório clonado** — se você estiver no Colab, ele baixa sozinho os arquivos de que precisa. Como rodar a trilha inteira: [`ml-zero`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/README.md).
 
 ## Assista
 
-:::video {"id":"06-v1","fonte":"youtube","ref":"sDv4f4s2SB8","min":24,"autor":"StatQuest with Josh Starmer","titulo":"Gradient Descent, Step-by-Step"}
+:::video {"id":"otimizacao-v1","fonte":"youtube","ref":"sDv4f4s2SB8","min":24,"autor":"StatQuest with Josh Starmer","titulo":"Gradient Descent, Step-by-Step"}
 Vinte e quatro minutos, e valem cada um. O vídeo faz a conta **à mão**, passo a passo, num exemplo minúsculo: calcula o gradiente, dá o passo, recalcula. É o que a fórmula `w ← w − η∇L` esconde — que ela descreve um procedimento repetitivo e concreto, não uma operação abstrata. Se o gradiente ainda parece magia, é este material que resolve.
 :::
 

@@ -1,4 +1,4 @@
-# 24 — Séries Temporais
+# II.7 — Séries Temporais
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -17,7 +17,7 @@ Um analista prevê a demanda mensal de um centro de distribuição. Carrega cinc
 
 Nada quebrou. O experimento é que estava errado — e de um jeito invisível. Ao embaralhar, ele pôs dezembro de 2025 no treino e junho de 2025 no teste: o modelo previu junho **sabendo o que aconteceu em dezembro**. Em produção esse conhecimento não existe, porque dezembro ainda não aconteceu.
 
-É o vazamento do [capítulo 02](02-dados.md) na sua forma mais fácil de cometer e mais difícil de perceber. A divisão aleatória — a coisa certa a fazer em quase todo o resto do livro — aqui é exatamente o defeito, e não deixa rastro: nenhum aviso, nenhuma exceção, nenhum número absurdo. Só uma métrica boa demais que ninguém questiona, porque métrica boa é o que todo mundo estava esperando. Este capítulo é sobre o que muda quando os dados têm **ordem**.
+É o vazamento do [capítulo I.3](i-3-dados.md) na sua forma mais fácil de cometer e mais difícil de perceber. A divisão aleatória — a coisa certa a fazer em quase todo o resto do livro — aqui é exatamente o defeito, e não deixa rastro: nenhum aviso, nenhuma exceção, nenhum número absurdo. Só uma métrica boa demais que ninguém questiona, porque métrica boa é o que todo mundo estava esperando. Este capítulo é sobre o que muda quando os dados têm **ordem**.
 
 ## De onde isto veio
 
@@ -35,9 +35,9 @@ Nada quebrou. O experimento é que estava errado — e de um jeito invisível. A
 >
 > Yule publica a autorregressão em **1927**. O procedimento que qualquer pessoa consegue seguir — identificar → estimar → diagnosticar — chega em **1970**, com Box & Jenkins. **Quarenta e três anos** entre a ideia e a ferramenta.
 >
-> É o formato padrão deste livro: 1962→1977 no [capítulo 21](21-analise-exploratoria.md), 1943→1958 no [18](18-neuronio-artificial.md), 1931→1974 no [01](../01-fundamentos.md) — também 43 anos.
+> É o formato padrão deste livro: 1962→1977 no [capítulo I.4](i-4-analise-exploratoria.md), 1943→1958 no [18](iii-1-neuronio-artificial.md), 1931→1974 no [01](../0-2-fundamentos.md) — também 43 anos.
 >
-> Mas o [capítulo 07](07-arvores-ensembles.md) traz a exceção que explica a regra: no *boosting* foram **sete** anos. Pergunta em 1988, resposta em 1990, algoritmo em 1995. Por quê tão rápido? Porque ali o aperto já estava formulado como **pergunta formal precisa** — "um aprendiz fraco pode ser transformado num forte?" — com os dois lados definidos o bastante para alguém responder sim ou não.
+> Mas o [capítulo II.5](ii-5-arvores-ensembles.md) traz a exceção que explica a regra: no *boosting* foram **sete** anos. Pergunta em 1988, resposta em 1990, algoritmo em 1995. Por quê tão rápido? Porque ali o aperto já estava formulado como **pergunta formal precisa** — "um aprendiz fraco pode ser transformado num forte?" — com os dois lados definidos o bastante para alguém responder sim ou não.
 >
 > **O gargalo nunca é o tempo nem o computador. É a precisão da pergunta.** Yule tinha uma intuição excelente e vaga; Kearns e Valiant tinham um enunciado. Quarenta e três anos contra sete.
 
@@ -48,7 +48,7 @@ Nada quebrou. O experimento é que estava errado — e de um jeito invisível. A
 | ⏳ | O aperto de 1927 (o ruído no sistema e não na medição), a análise harmônica como prática anterior e a metáfora do pêndulo que leva pancadas |
 | ✓ᵐ | Yule, *On a Method of Investigating Periodicities in Disturbed Series, with Special Reference to Wolfer's Sunspot Numbers*, Phil. Trans. Royal Society A, **226**, 267–298 (1927) — primeira aplicação de autorregressão, com defasagem 2. **Localizado e identificado; não lido** |
 | ✓ᵐ | Box & Jenkins, *Time Series Analysis: Forecasting and Control* (Holden-Day, 1970), e o acrônimo ARIMA. **Localizado e identificado; não lido** |
-| 📖 | A ideia reaproveitável, e a leitura do relógio — os 43 anos, o paralelo com os capítulos 21, 18 e 01, e o contraste com os sete anos do [07](07-arvores-ensembles.md) |
+| 📖 | A ideia reaproveitável, e a leitura do relógio — os 43 anos, o paralelo com os capítulos I.4, 18 e 01, e o contraste com os sete anos do [07](ii-5-arvores-ensembles.md) |
 
 ## Fundamentos: o que muda quando existe tempo
 
@@ -61,7 +61,7 @@ Uma série é uma sequência de observações **ordenadas**, e a ordem é inform
 | **Ciclo** | oscilação de período **variável** | dura anos, não fecha em calendário |
 | **Ruído** | o que sobra | sem estrutura aproveitável |
 
-A distinção entre sazonalidade e ciclo é a herança direta de Yule, e é a mais confundida. Sazonalidade tem calendário: dezembro é dezembro. Ciclo não tem — é o pêndulo levando pancadas, e prever quando ele vira é bem mais difícil do que prever dezembro. Antes de qualquer modelo, **desenhe a série**: é o [capítulo 21](21-analise-exploratoria.md) aplicado ao tempo, e tendência, sazonalidade, quebras de nível e buracos de coleta aparecem num gráfico de linha em cinco segundos — nenhum deles aparece numa tabela de médias.
+A distinção entre sazonalidade e ciclo é a herança direta de Yule, e é a mais confundida. Sazonalidade tem calendário: dezembro é dezembro. Ciclo não tem — é o pêndulo levando pancadas, e prever quando ele vira é bem mais difícil do que prever dezembro. Antes de qualquer modelo, **desenhe a série**: é o [capítulo I.4](i-4-analise-exploratoria.md) aplicado ao tempo, e tendência, sazonalidade, quebras de nível e buracos de coleta aparecem num gráfico de linha em cinco segundos — nenhum deles aparece numa tabela de médias.
 
 ### Estacionariedade e a diferenciação
 
@@ -73,7 +73,7 @@ A ferramenta padrão é a **diferenciação**: em vez de modelar o valor, modele
 
 A **função de autocorrelação (ACF)** mede a correlação da série com ela mesma defasada de *k* períodos. É um gráfico, e responde de graça uma pergunta cara: **quanto do passado ainda importa?** Uma ACF que cai devagar e nunca zera denuncia tendência (falta diferenciar); um pico solitário na defasagem 12, em dado mensal, é sazonalidade anual gritando. Já a **autocorrelação parcial (PACF)** remove o efeito das defasagens intermediárias — a correlação entre hoje e três dias atrás **descontando** ontem e anteontem. É ela que sugere quantos termos autorregressivos usar; a defasagem 2 de Yule saiu de um raciocínio desse tipo.
 
-:::exercicio {"id":"24-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"series-temporais-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Você plota a série mensal de vendas de uma loja e observa: as vendas sobem de forma consistente ao longo de quatro anos, e todo dezembro é muito maior que os meses vizinhos. Qual decomposição descreve isso?
 
 - [ ] Só sazonalidade: o pico de dezembro explica o crescimento.
@@ -100,7 +100,7 @@ treino [==========]              teste [==]
 treino [============]                 teste [==]
 ```
 
-Cada rodada treina com tudo até a origem e avalia no bloco seguinte. Você ganha várias medidas, e com elas a **incerteza** que o [capítulo 04](04-avaliacao.md) exige — e não só um ponto.
+Cada rodada treina com tudo até a origem e avalia no bloco seguinte. Você ganha várias medidas, e com elas a **incerteza** que o [capítulo II.1](ii-1-avaliacao.md) exige — e não só um ponto.
 
 **Janela expansiva ou deslizante?** A expansiva (acima) acumula todo o histórico; a **deslizante** mantém o tamanho fixo e descarta o passado remoto. Expansiva quando o processo é estável e dado é escasso; deslizante quando o regime mudou — uma pandemia, uma troca de precificação, um concorrente novo. Dado antigo de um regime morto não é dado a mais, é viés.
 
@@ -110,7 +110,7 @@ Um detalhe que engana gente experiente: **atributos defasados têm de respeitar 
 
 Antes de qualquer modelo, meça o que a **previsão ingênua** entrega: *amanhã é igual a hoje*. Se houver sazonalidade, a versão honesta é a **ingênua sazonal**: *este dezembro é igual ao dezembro passado*. Ela é surpreendentemente difícil de bater — em séries com muita inércia o último valor já carrega quase tudo o que se sabe. E o incômodo desta seção é este: **muito modelo publicado não bate essa linha**, porque ninguém a calculou. Compare-se sempre à ingênua **do tipo certo**: pôr um modelo sazonal contra a ingênua simples é escolher o adversário fraco.
 
-:::exercicio {"id":"24-e2","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"series-temporais-e2","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
 Vendas mensais (em milhares):
 
 | Mês | 2024 | 2025 |
@@ -128,7 +128,7 @@ Calcule o **MAE** (erro absoluto médio) da **previsão ingênua sazonal** — c
 > **volte para:** #a-linha-de-base-ingenua
 :::
 
-:::exercicio {"id":"24-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"series-temporais-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
 Uma colega apresenta este protocolo para prever a demanda diária de um e-commerce:
 
 > "Peguei 3 anos de dados diários. Criei atributos defasados (venda de 1, 7 e 30 dias atrás) e a média móvel de 30 dias, tudo calculado sobre a base completa. Depois embaralhei as linhas e fiz `train_test_split` com 20% de teste, mais um k-fold de 5 dobras para ajustar os hiperparâmetros. Deu 3,1% de erro percentual. Também rodei uma validação cruzada aleatória repetida para confirmar, e o intervalo ficou estreito."
@@ -140,7 +140,7 @@ Identifique os problemas do protocolo e descreva o que você faria no lugar.
 > identifica o segundo vazamento, independente do primeiro: os atributos defasados e a média móvel foram calculados sobre a base inteira antes da divisão;
 > propõe divisão cronológica e validação com origem móvel (walk-forward), com as features recalculadas dentro de cada dobra;
 > exige comparação contra a previsão ingênua (simples ou sazonal) antes de aceitar os 3,1%
-> **porque:** Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia previsto, e o modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão. O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo 02](02-dados.md), onde a normalização feita antes do split contamina o teste.
+> **porque:** Há **dois** vazamentos, e quem enxerga só um entrega meia resposta. O primeiro é a ordem: embaralhar coloca no treino dias que vieram **depois** do dia previsto, e o modelo aprende a interpolar entre vizinhos temporais que, em produção, ainda não existirão. O segundo é mais silencioso e sobrevive mesmo a quem corrige o primeiro: a **média móvel calculada antes da divisão**. Cada linha do treino carrega uma estatística que já viu o período de teste. Você pode dividir cronologicamente de forma impecável e ainda assim vazar por aqui — é o mesmo mecanismo do [capítulo I.3](i-3-dados.md), onde a normalização feita antes do split contamina o teste.
 >
 > O detalhe que separa a boa resposta da excelente é o intervalo estreito. Ele soa como confirmação e é o contrário: **um erro sistemático medido muitas vezes continua sendo o mesmo erro, agora com um intervalo estreito em volta de um número errado**. Precisão não é validade; repetir um protocolo inválido só o torna mais convincente. E 3,1% não significa nada até se saber quanto a previsão ingênua entrega — talvez entregue 3,0%.
 > **volte para:** #a-validacao-nao-pode-ser-aleatoria
@@ -148,7 +148,7 @@ Identifique os problemas do protocolo e descreva o que você faria no lugar.
 
 ## Quando o problema temporal vira tabular
 
-Boa parte do trabalho prático não usa ARIMA. Usa-se **janelamento**: cada linha vira "os *k* valores anteriores + atributos de calendário", e o alvo é o valor seguinte. A partir daí, qualquer regressor do [capítulo 07](07-arvores-ensembles.md) serve.
+Boa parte do trabalho prático não usa ARIMA. Usa-se **janelamento**: cada linha vira "os *k* valores anteriores + atributos de calendário", e o alvo é o valor seguinte. A partir daí, qualquer regressor do [capítulo II.5](ii-5-arvores-ensembles.md) serve.
 
 A transformação é legítima e frequentemente vence os métodos clássicos — desde que **o protocolo de validação continue temporal**. É aí que mora o perigo: assim que o problema *parece* tabular, o reflexo de embaralhar volta. A tabela esconde a ordem; a ordem continua lá. E declare o **horizonte**: prever 1 passo à frente e prever 30 são problemas diferentes, com erros diferentes — um modelo excelente em 1 passo pode ser inútil em 30, e reportar só o primeiro número é omissão.
 

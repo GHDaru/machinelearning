@@ -1,4 +1,4 @@
-# 25 — Do Modelo à Decisão
+# II.8 — Do Modelo à Decisão
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -35,13 +35,13 @@ Na Inglaterra, **Patrick Blackett** monta em **agosto de 1940**, no Anti-Aircraf
 
 **O nome.** *Operational research* no Reino Unido, *operations research* nos Estados Unidos — a diferença de nome guarda a diferença de origem. Já **"análise de decisão"** é cunhada só em **1966**, por **Ronald Howard**, e o detalhe é saboroso: o nome do campo nasce **dentro** de uma conferência de Pesquisa Operacional.
 
-> ### O capítulo 04 e este são a mesma história, cortada em dois
+> ### O capítulo II.1 e este são a mesma história, cortada em dois
 >
 > Blackett entrou em **1934** no comitê Tizard, cuja marca foi justamente **supervisionar o desenvolvimento do radar** antes da guerra. Só depois, em 1940, montou o Circus.
 >
-> **A mesma pessoa, no mesmo comitê, diante do mesmo problema.** Chegou o sinal — o que se faz com ele? O [capítulo 04](04-avaliacao.md) conta o lado do **botão de ganho**: onde pôr o limiar, e como a curva ROC mapeia essa troca. Este conta o lado do **comando**: quanto custa cada erro, e quem tem autoridade para dizer isso.
+> **A mesma pessoa, no mesmo comitê, diante do mesmo problema.** Chegou o sinal — o que se faz com ele? O [capítulo II.1](ii-1-avaliacao.md) conta o lado do **botão de ganho**: onde pôr o limiar, e como a curva ROC mapeia essa troca. Este conta o lado do **comando**: quanto custa cada erro, e quem tem autoridade para dizer isso.
 >
-> **O limiar do capítulo 04 é a matriz de custo deste capítulo vista de perfil.**
+> **O limiar do capítulo II.1 é a matriz de custo deste capítulo vista de perfil.**
 
 ### A matriz de custo, e o erro que atravessou décadas
 
@@ -63,7 +63,7 @@ Um conjunto de dados usado em aula há décadas circula com uma matriz de custo 
 | ✓ᵐ | O Statistical Research Group de Columbia (1942) e seus integrantes |
 | ⏳ | O estudo da blindagem dos bombardeiros (1943) como caso canônico de viés de sobrevivência |
 | ❌ | A **origem da curva de lift**: procurei inventor, data e publicação, e **não achei atribuição primária**. O que se apura é ambiente, não autoria — RFM atribuído a George Cullinan por volta de 1961 no marketing direto (⏳), e a análise por decis consolidada no *database marketing* dos anos 1980–90 (⏳) |
-| 📖 | A leitura de que os capítulos 04 e 25 são uma história só, e de que o limiar é a matriz de custo vista de perfil |
+| 📖 | A leitura de que os capítulos II.1 e 25 são uma história só, e de que o limiar é a matriz de custo vista de perfil |
 
 ## Fundamentos: comparar duas técnicas sem se enganar
 
@@ -79,13 +79,13 @@ Comparação justa tem três exigências, e violar qualquer uma invalida o resul
 
 Modelo A dá 0,913 e modelo B dá 0,907. A é melhor?
 
-Provavelmente **você não sabe**. Métrica calculada num conjunto de teste é uma **estimativa**, e estimativa tem incerteza — como o [capítulo 04](04-avaliacao.md) mostrou. Com 500 exemplos de teste, uma diferença de 0,006 costuma estar dentro do ruído.
+Provavelmente **você não sabe**. Métrica calculada num conjunto de teste é uma **estimativa**, e estimativa tem incerteza — como o [capítulo II.1](ii-1-avaliacao.md) mostrou. Com 500 exemplos de teste, uma diferença de 0,006 costuma estar dentro do ruído.
 
 O procedimento honesto é o **bootstrap pareado**: reamostre o conjunto de teste com reposição, recalcule a métrica dos **dois** modelos na mesma reamostragem, e guarde a diferença. Repita mil vezes. Se o intervalo das diferenças cruza o zero, **os modelos empataram** — e dizer isso é um resultado, não um fracasso.
 
 O detalhe que faz o método funcionar é o *pareado*: avaliar os dois na **mesma** reamostragem cancela a variação que vem do conjunto e isola a que vem do modelo.
 
-:::exercicio {"id":"25-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"do-modelo-a-decisao-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Você comparou dois modelos no mesmo conjunto de teste: A deu 0,913 de AUC e B deu 0,907. O bootstrap pareado com mil reamostragens devolveu um intervalo de 95% para a diferença (A − B) de **[−0,004; +0,016]**. O que reportar?
 
 - [ ] Que A é melhor que B, porque a estimativa pontual da diferença é positiva.
@@ -119,9 +119,9 @@ Três avisos que economizam retrabalho:
 
 **Custos mudam; o modelo não precisa mudar junto.** Se a matriz muda de trimestre, você recalcula o limiar sobre as mesmas probabilidades. É a maior vantagem prática de separar o modelo (que ordena) da decisão (que corta).
 
-**Probabilidade mal calibrada estraga tudo.** O cálculo do limiar ótimo pressupõe que 0,7 signifique 70%. Ensembles costumam não cumprir isso — ver [capítulo 04](04-avaliacao.md). Calibre antes de contabilizar.
+**Probabilidade mal calibrada estraga tudo.** O cálculo do limiar ótimo pressupõe que 0,7 signifique 70%. Ensembles costumam não cumprir isso — ver [capítulo II.1](ii-1-avaliacao.md). Calibre antes de contabilizar.
 
-:::exercicio {"id":"25-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"do-modelo-a-decisao-e2","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Um modelo prevê inadimplência. Aprovar um cliente **bom** dá lucro de **R$ 200**. Aprovar um cliente **mau** dá prejuízo de **R$ 1 000**. Negar não gera lucro nem prejuízo (R$ 0), qualquer que seja o cliente.
 
 Acima de qual **probabilidade de inadimplência** vale mais negar do que aprovar? Responda em fração, com duas casas decimais.
@@ -147,17 +147,17 @@ Três regras para a conversa com quem não é técnico:
 - **Nunca prometa o número do teste como se fosse o de produção.** O dado de produção difere; diga isso antes que a realidade diga.
 - **Traga o cenário do erro.** Quem decide precisa saber como é um dia ruim, não só o dia médio.
 
-> **O relatório errado, em um exemplo.** Em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md), um modelo com R² de 0,982 sustenta a recomendação "aumente o preço" — porque o preço só subiu no verão, e o coeficiente positivo sobrevive até à regressão múltipla. Das seis partes do relatório acima, a única que pegaria isso é **limitações**: é lá que se escreve "o preço nunca variou fora da alta temporada, logo este modelo não estima efeito de preço". A parte que quase todo mundo corta é a que impediria a recomendação errada. O caso está no [capítulo 05](05-modelos-lineares.md#o-caso-da-limonada).
+> **O relatório errado, em um exemplo.** Em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md), um modelo com R² de 0,982 sustenta a recomendação "aumente o preço" — porque o preço só subiu no verão, e o coeficiente positivo sobrevive até à regressão múltipla. Das seis partes do relatório acima, a única que pegaria isso é **limitações**: é lá que se escreve "o preço nunca variou fora da alta temporada, logo este modelo não estima efeito de preço". A parte que quase todo mundo corta é a que impediria a recomendação errada. O caso está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
 
 ### A decisão de não lançar
 
 É uma decisão legítima e frequentemente a certa. Motivos suficientes para recusar um modelo que passa nas métricas:
 
-o ganho não paga o custo de manter; o desempenho é bom no geral e **ruim num subgrupo que importa** (ver [capítulo 14](14-interpretabilidade-justica.md)); ninguém consegue explicar uma decisão individual quando for contestada; ou não há como monitorar o modelo depois de implantado (ver [capítulo 16](16-mlops.md)).
+o ganho não paga o custo de manter; o desempenho é bom no geral e **ruim num subgrupo que importa** (ver [capítulo V.1](v-1-interpretabilidade-justica.md)); ninguém consegue explicar uma decisão individual quando for contestada; ou não há como monitorar o modelo depois de implantado (ver [capítulo V.3](v-3-mlops.md)).
 
 Defender essa recusa exige exatamente o mesmo aparato de defender o lançamento: números, protocolo e critério explícito. **"Não vamos lançar" com evidência é trabalho concluído**, não trabalho perdido.
 
-:::exercicio {"id":"25-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"do-modelo-a-decisao-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
 Seu modelo de triagem de currículos alcança 0,89 de AUC no conjunto de teste, bem acima da triagem manual atual. Ao segmentar o resultado, você descobre que o desempenho é **0,91 para candidatos formados nas cinco universidades mais frequentes na base histórica** e **0,63 para os demais**.
 
 Escreva a recomendação que você levaria à diretoria — incluindo o que você recomenda fazer e por quê.
@@ -169,7 +169,7 @@ Escreva a recomendação que você levaria à diretoria — incluindo o que voc�
 > menciona a consequência para pessoas reais, não só a métrica
 > **porque:** A resposta fraca compara 0,89 com a triagem manual e recomenda lançar. A resposta forte percebe que **a média esconde a decisão**: para 0,63 de AUC o modelo está perto do acaso, e "perto do acaso" aplicado a currículos significa descartar gente por sorteio — enquanto a empresa acredita estar usando um sistema de 0,89.
 >
-> O ponto mais fino, e o que separa uma boa resposta de uma excelente: o modelo provavelmente **não está errado sobre os dados** — ele aprendeu corretamente um padrão que existe no histórico. Aprendeu **quem a empresa costumava contratar**. É exatamente o vazamento do [capítulo 02](02-dados.md) em versão social: o modelo capturou o processo de coleta em vez do fenômeno. E a decisão de lançar ou não **não é técnica** — é a mesma lição da seção "De onde isto veio": alguém precisa dizer quanto custa cada erro, e aqui o custo recai sobre pessoas que não estão na sala.
+> O ponto mais fino, e o que separa uma boa resposta de uma excelente: o modelo provavelmente **não está errado sobre os dados** — ele aprendeu corretamente um padrão que existe no histórico. Aprendeu **quem a empresa costumava contratar**. É exatamente o vazamento do [capítulo I.3](i-3-dados.md) em versão social: o modelo capturou o processo de coleta em vez do fenômeno. E a decisão de lançar ou não **não é técnica** — é a mesma lição da seção "De onde isto veio": alguém precisa dizer quanto custa cada erro, e aqui o custo recai sobre pessoas que não estão na sala.
 > **volte para:** #a-decisao-de-nao-lancar
 :::
 

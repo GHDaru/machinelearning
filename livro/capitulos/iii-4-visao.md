@@ -1,4 +1,4 @@
-# 10 — Visão Computacional
+# III.4 — Visão Computacional
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -13,7 +13,7 @@
 
 ## O problema: o mesmo gato, dez mil vezes
 
-Uma foto de 224×224 pixels coloridos são 150 528 números. Ligue isso a uma camada densa de 128 unidades, como no [capítulo 09](09-redes-neurais.md), e você acaba de escrever 19 milhões de pesos — para uma única camada, a primeira.
+Uma foto de 224×224 pixels coloridos são 150 528 números. Ligue isso a uma camada densa de 128 unidades, como no [capítulo III.2](iii-2-redes-neurais.md), e você acaba de escrever 19 milhões de pesos — para uma única camada, a primeira.
 
 O tamanho é o problema menor. O problema maior é o que essa camada **acredita**: que cada pixel é uma variável independente, sem vizinho. Embaralhe as 150 528 posições com uma permutação fixa e treine de novo — a rede densa aprende exatamente igual. Para ela, a imagem nunca foi uma imagem; foi uma lista.
 
@@ -27,13 +27,13 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 
 **A virada.** O córtex não detecta pontos: detecta **bordas com orientação**. Uma célula responde a uma barra inclinada a 30°, e cala diante da mesma barra a 90°. E há hierarquia — as "células simples", presas a uma posição, alimentam "células complexas", que respondem à mesma orientação **em qualquer lugar** do campo receptivo. Estrutura mais primitiva feita de partes, tolerância à posição construída em cima.
 
-**A ideia reaproveitável.** *A primitiva certa não é a mais elementar.* O ponto é mais simples que a borda — e é a primitiva **errada**. Achar a unidade mínima da **representação** não é o mesmo trabalho que achar a unidade mínima do **sinal**, e confundir as duas é o erro de projeto mais caro que existe. É o [capítulo 03](03-representacao.md) inteiro, dito por um eletrodo.
+**A ideia reaproveitável.** *A primitiva certa não é a mais elementar.* O ponto é mais simples que a borda — e é a primitiva **errada**. Achar a unidade mínima da **representação** não é o mesmo trabalho que achar a unidade mínima do **sinal**, e confundir as duas é o erro de projeto mais caro que existe. É o [capítulo I.6](i-6-representacao.md) inteiro, dito por um eletrodo.
 
 **O nome.** "Célula simples" e "célula complexa" são deles. Em 1979/80, Kunihiko Fukushima empilha essas duas em cascata no **neocognitron** e chama as camadas de **S-cells** e **C-cells** — os nomes atravessaram da biologia para a engenharia sem tradução.
 
-**A linha.** Hubel & Wiesel (1959) → neocognitron de Fukushima (1979/80), já com S/C-cells alternadas e treinado **sem retropropagação** (ver [capítulo 18](18-neuronio-artificial.md)) → LeCun e colegas (1989) treinam uma rede convolucional em **CEPs manuscritos do Serviço Postal dos EUA**: 7 291 imagens de 16×16, cerca de 9 760 parâmetros, **três dias numa SUN-4/260** → LeNet-5 (1998) → AlexNet (2012) → ResNet (2016).
+**A linha.** Hubel & Wiesel (1959) → neocognitron de Fukushima (1979/80), já com S/C-cells alternadas e treinado **sem retropropagação** (ver [capítulo III.1](iii-1-neuronio-artificial.md)) → LeCun e colegas (1989) treinam uma rede convolucional em **CEPs manuscritos do Serviço Postal dos EUA**: 7 291 imagens de 16×16, cerca de 9 760 parâmetros, **três dias numa SUN-4/260** → LeNet-5 (1998) → AlexNet (2012) → ResNet (2016).
 
-**O intervalo, e é um dos maiores do livro.** De Hubel & Wiesel a AlexNet vão **53 anos**. Compare com os 59 do [capítulo 03](03-representacao.md), os ~80 do [capítulo 13](13-reforco.md), os 43 do [capítulo 24](24-series-temporais.md). Agora a contra-prova, que vem no [capítulo 12](12-modelos-de-fundacao.md): do Transformer (2017) a BERT e GPT (2018) passou-se **cerca de um ano**. A diferença não é a qualidade das ideias. É que em 2017 já existia **infraestrutura de reprodução compartilhada** — arXiv, código aberto, GPU comprável, benchmark comum — além da pergunta precisa. Meio século da história desta área foi, em boa parte, o tempo de construir isso.
+**O intervalo, e é um dos maiores do livro.** De Hubel & Wiesel a AlexNet vão **53 anos**. Compare com os 59 do [capítulo I.6](i-6-representacao.md), os ~80 do [capítulo IV.2](iv-2-reforco.md), os 43 do [capítulo II.7](ii-7-series-temporais.md). Agora a contra-prova, que vem no [capítulo III.6](iii-6-modelos-de-fundacao.md): do Transformer (2017) a BERT e GPT (2018) passou-se **cerca de um ano**. A diferença não é a qualidade das ideias. É que em 2017 já existia **infraestrutura de reprodução compartilhada** — arXiv, código aberto, GPU comprável, benchmark comum — além da pergunta precisa. Meio século da história desta área foi, em boa parte, o tempo de construir isso.
 
 **Procedência das afirmações desta seção:**
 
@@ -48,7 +48,7 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 | ⏳ | Que a busca anterior era por um "detector de ponto", por suposição de que a visão se compõe a partir de pixels |
 | ⏳ | Que o neocognitron foi treinado sem retropropagação |
 | 📖 | A leitura de que "a primitiva certa não é a mais elementar" é a ideia exportável do episódio |
-| 📖 | A leitura do intervalo de 53 anos contra o ~1 ano do [capítulo 12](12-modelos-de-fundacao.md) como evidência de que **infraestrutura de reprodução** encurta o intervalo |
+| 📖 | A leitura do intervalo de 53 anos contra o ~1 ano do [capítulo III.6](iii-6-modelos-de-fundacao.md) como evidência de que **infraestrutura de reprodução** encurta o intervalo |
 | ✓ | **Tudo o que este capítulo atribui ao artigo da AlexNet** — o limite de 3 GB da GTX 580, a decisão de partir a rede em duas GPUs, os cinco a seis dias de treino, a ReLU seis vezes mais rápida que a tangente hiperbólica no CIFAR-10, e os 15,3% contra 26,2% de erro top-5 — vem do [PDF original do NIPS 2012](https://proceedings.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf), **lido**. As frases entre aspas na seção seguinte são transcrições literais |
 
 ## Fundamentos: o filtro que desliza e o peso que se repete
@@ -65,7 +65,7 @@ Três consequências saem daí, e as três importam.
 
 Repare no que isso é: uma **restrição** imposta de fora. A camada convolucional é uma camada densa proibida de fazer quase tudo o que poderia — pesos amarrados uns aos outros, conexões distantes zeradas. A restrição não é o preço do desempenho; é a **fonte** dele. Uma rede com menos liberdade e a hipótese certa embutida vence uma rede livre que precisa descobrir a hipótese a partir de dados que ninguém tem.
 
-:::exercicio {"id":"10-e1","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+:::exercicio {"id":"visao-e1","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
 Uma imagem colorida de 224×224 tem 3 canais. Considere uma camada convolucional com **64 filtros de 3×3**, aplicada a essa entrada.
 
 Quantos **pesos** (ignorando os vieses) essa camada tem?
@@ -93,11 +93,11 @@ Três decisões carregaram o resultado, e todas as três são de engenharia, nã
 
 Agora o detalhe que fecha o capítulo. Todo curso reproduz o diagrama da AlexNet em **duas colunas paralelas** e o discute como decisão de arquitetura. O artigo diz o que ele é, em duas frases: *"A single GTX 580 GPU has only 3GB of memory, which limits the maximum size of the networks that can be trained on it. (…) Therefore we spread the net across two GPUs."*
 
-📖 **O diagrama mais reproduzido da visão computacional é um limite de 3 gigabytes desenhado.** É o caso mais literal deste livro de restrição material gerando forma nova — ao lado de Playfair inventando o gráfico de barras porque não tinha os dados de série temporal ([capítulo 22](22-visualizacao-storytelling.md)) e do cubo OLAP pré-computando agregados porque a consulta era lenta demais ([capítulo 23](23-analise-multidimensional.md)). A forma sobrevive à restrição que a gerou, e a geração seguinte a estuda como se fosse princípio.
+📖 **O diagrama mais reproduzido da visão computacional é um limite de 3 gigabytes desenhado.** É o caso mais literal deste livro de restrição material gerando forma nova — ao lado de Playfair inventando o gráfico de barras porque não tinha os dados de série temporal ([capítulo I.5](i-5-visualizacao-storytelling.md)) e do cubo OLAP pré-computando agregados porque a consulta era lenta demais ([capítulo II.6](ii-6-analise-multidimensional.md)). A forma sobrevive à restrição que a gerou, e a geração seguinte a estuda como se fosse princípio.
 
-Quatro anos depois, a **ResNet** ataca outro problema — e a formulação dele é mais instrutiva que a solução. Empilhando mais camadas, a acurácia **de treino** piorava. Treino, não teste: isso **descarta sobreajuste** como explicação, porque um modelo que sobreajusta vai bem no treino por definição. O nome disso é **degradação**, e a resposta foram as conexões residuais: 152 camadas, 3,57% de erro. É o [capítulo 26](26-treinar-redes-profundas.md) aparecendo dentro deste.
+Quatro anos depois, a **ResNet** ataca outro problema — e a formulação dele é mais instrutiva que a solução. Empilhando mais camadas, a acurácia **de treino** piorava. Treino, não teste: isso **descarta sobreajuste** como explicação, porque um modelo que sobreajusta vai bem no treino por definição. O nome disso é **degradação**, e a resposta foram as conexões residuais: 152 camadas, 3,57% de erro. É o [capítulo III.3](iii-3-treinar-redes-profundas.md) aparecendo dentro deste.
 
-:::exercicio {"id":"10-e2","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"visao-e2","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma equipe empilha camadas numa rede convolucional: 20, depois 34, depois 56 camadas. O erro **no conjunto de treino** piora a cada aumento. Qual é a leitura correta?
 
 - [ ] A rede está sobreajustando: profundidade demais para os dados disponíveis.
@@ -133,9 +133,9 @@ O erro típico é descongelar tudo com a taxa de aprendizado padrão: os gradien
 
 **Aumentação de dados** entra pelo mesmo motivo — poucos exemplos. Você gera variações artificiais que **preservam o rótulo**: recortes, pequenas rotações, mudanças de brilho. A regra é uma só e é sobre o seu domínio, não sobre a biblioteca: *a transformação preserva o rótulo aqui?* Espelhar horizontalmente uma foto de gato dá um gato. Espelhar um dígito manuscrito ou um caractere destrói o rótulo. Girar 180° uma célula ao microscópio é inofensivo; girar 180° uma radiografia de tórax produz uma imagem que não existe na clínica — e treinar com ela gasta capacidade em invariâncias falsas.
 
-Uma nota de estado da arte: desde 2020 os **Vision Transformers (ViT)** disputam esse espaço, tratando a imagem como sequência de retalhos em vez de impor convolução ([capítulo 11](11-sequencias-linguagem.md)). Eles trocam a hipótese embutida por dados e escala. Para o projeto com 800 imagens, porém, a decisão prática não muda: transferir continua sendo o caminho, mude só de que modelo.
+Uma nota de estado da arte: desde 2020 os **Vision Transformers (ViT)** disputam esse espaço, tratando a imagem como sequência de retalhos em vez de impor convolução ([capítulo III.5](iii-5-sequencias-linguagem.md)). Eles trocam a hipótese embutida por dados e escala. Para o projeto com 800 imagens, porém, a decisão prática não muda: transferir continua sendo o caminho, mude só de que modelo.
 
-:::exercicio {"id":"10-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"visao-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Uma indústria quer classificar peças metálicas em "com trinca" / "sem trinca" a partir de fotos da linha de produção. Há **800 imagens rotuladas** por um inspetor experiente — 640 sem trinca, 160 com. Novas fotos custam caro para rotular. A câmera é fixa, a peça sempre entra na mesma orientação.
 
 Treinar do zero ou transferir? Decida, justifique e diga o que você congelaria e que aumentações usaria.
@@ -151,7 +151,7 @@ Treinar do zero ou transferir? Decida, justifique e diga o que você congelaria 
 >
 > Nas aumentações, o enunciado é uma armadilha útil: **a câmera é fixa e a orientação é constante**. Rotações grandes e espelhamentos geram imagens que a linha nunca vai produzir — capacidade gasta em invariância que ninguém pediu. O que faz sentido é o que **de fato varia na linha**: brilho e contraste (a iluminação oscila), pequenas translações e rotações de poucos graus (a peça assenta um pouco torta), ruído leve. Aumentação boa é modelagem da variação real do processo, não uma lista de transformações copiada de um tutorial.
 >
-> Por fim, 640/160 é 80/20: um modelo que responde "sem trinca" sempre acerta 80%. Acurácia aqui não mede nada — vale revocação da classe rara, e o [capítulo 04](04-avaliacao.md) trata do resto.
+> Por fim, 640/160 é 80/20: um modelo que responde "sem trinca" sempre acerta 80%. Acurácia aqui não mede nada — vale revocação da classe rara, e o [capítulo II.1](ii-1-avaliacao.md) trata do resto.
 > **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
 :::
 

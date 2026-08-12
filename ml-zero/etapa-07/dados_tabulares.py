@@ -1,4 +1,4 @@
-"""Etapa 07 — um dado tabular com a estrutura que o capítulo 07 discute.
+"""Etapa 07 — um dado tabular com a estrutura que o capítulo II.5 discute.
 
 **Por que não reusar o dado da etapa 00.** Reusar seria mais elegante, e seria
 errado. Duas razões, medidas antes de decidir (Princípio I):
@@ -96,7 +96,7 @@ def gerar(n: int = 3000, seed: int = SEED, ruido: float = RUIDO) -> Tabular:
 def dividir(dados: Tabular, frac_treino: float = 0.7, seed: int = SEED
             ) -> tuple[Tabular, Tabular]:
     """Treino/validação estratificado. Aqui cada linha é independente — não há
-    grupo nem tempo —, então embaralhar é legítimo. O capítulo 02 explica
+    grupo nem tempo —, então embaralhar é legítimo. O capítulo I.3 explica
     quando deixa de ser."""
     rng = random.Random(seed)
     por_classe: dict[int, list[int]] = {}
@@ -122,7 +122,7 @@ def p_verdadeiro(x: list[float]) -> float:
     """A probabilidade real do rótulo, antes do ruído.
 
     Existe porque nós escrevemos o processo — é o que permite calcular o teto
-    de Bayes e saber quando parar de otimizar (cap. 01, ruído irredutível).
+    de Bayes e saber quando parar de otimizar (cap. 0.2, ruído irredutível).
     """
     consumo, horario, regiao = x[0], x[1], x[2]
     fora_do_comercial = horario < 6 or horario > 20

@@ -1,4 +1,4 @@
-# 00 — Introdução
+# 0.1 — Introdução
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](HISTORICO.md)
 >
@@ -18,7 +18,7 @@ Agora tente escrever a regra que distingue a foto de um gato da foto de um cacho
 
 **Machine Learning é o que se faz quando a regra existe mas ninguém consegue escrevê-la.** Em vez de codificar a regra, você mostra exemplos e deixa que um procedimento de otimização encontre uma regra que os explique — na esperança de que ela também explique exemplos que você ainda não viu.
 
-Essa esperança tem nome: **generalização**. É o assunto do capítulo 01, e é o problema central de todo o resto do livro. Quase todo erro caro em ML é, no fundo, uma falha de generalização disfarçada de outra coisa.
+Essa esperança tem nome: **generalização**. É o assunto do capítulo 0.2, e é o problema central de todo o resto do livro. Quase todo erro caro em ML é, no fundo, uma falha de generalização disfarçada de outra coisa.
 
 ### O que muda quando a regra é aprendida
 
@@ -30,7 +30,7 @@ Essa esperança tem nome: **generalização**. É o assunto do capítulo 01, e �
 | O que dá errado | bug: o programa faz o que você escreveu, não o que você quis | o modelo aprende algo que era verdade nos seus dados e não é verdade no mundo |
 | Como envelhece | envelhece quando o requisito muda | envelhece sozinho, quando o mundo muda (*drift*) |
 
-A última linha é a que pega as equipes desprevenidas. Um sistema convencional que funcionou ontem funciona amanhã. Um modelo que funcionou ontem pode estar errado amanhã sem que uma linha de código tenha mudado — porque quem mudou foi o mundo do qual ele aprendeu. É por isso que o capítulo 16 existe.
+A última linha é a que pega as equipes desprevenidas. Um sistema convencional que funcionou ontem funciona amanhã. Um modelo que funcionou ontem pode estar errado amanhã sem que uma linha de código tenha mudado — porque quem mudou foi o mundo do qual ele aprendeu. É por isso que o capítulo V.3 existe.
 
 ## Quando **não** usar Machine Learning
 
@@ -38,12 +38,12 @@ Um livro de ML que não diz isso na primeira página está vendendo, não ensina
 
 - **A regra é escrevível.** Se você consegue enunciar a regra, escreva-a. Ela será mais rápida, mais barata, auditável e não vai degradar sozinha. "Aprender" uma regra que você já sabe é engenharia ao contrário.
 - **Errar é inaceitável.** Modelos erram por construção — a questão nunca é *se*, é *quanto* e *em quê*. Onde o erro é catastrófico e não há revisão humana no caminho, o custo do erro precisa ser projetado antes do modelo.
-- **Você não tem exemplos.** Não há ML sem dados rotulados, medidos ou observados do fenômeno certo. Dado emprestado de outro contexto é a origem mais comum de fracasso silencioso (capítulo 02).
-- **Ninguém consegue dizer o que é "bom".** Se a equipe não consegue definir a métrica antes de treinar, o projeto vai otimizar o que for fácil de medir — e isso raramente é o que importa (capítulo 04).
+- **Você não tem exemplos.** Não há ML sem dados rotulados, medidos ou observados do fenômeno certo. Dado emprestado de outro contexto é a origem mais comum de fracasso silencioso (capítulo I.3).
+- **Ninguém consegue dizer o que é "bom".** Se a equipe não consegue definir a métrica antes de treinar, o projeto vai otimizar o que for fácil de medir — e isso raramente é o que importa (capítulo II.1).
 
 Os quatro casos acima são, empiricamente, mais comuns do que os projetos que de fato precisam de ML. Reconhecê-los é uma habilidade, não um obstáculo.
 
-:::exercicio {"id":"00-e1","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+:::exercicio {"id":"introducao-e1","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
 Uma equipe precisa validar se um número de cartão de crédito é sintaticamente válido antes de enviá-lo ao adquirente. Alguém propõe treinar um classificador com milhões de cartões válidos e inválidos. Qual é a melhor avaliação dessa proposta?
 
 - [ ] Boa ideia: com dados suficientes, o modelo aprenderia a regra melhor do que um humano escreveria.
@@ -56,7 +56,7 @@ Uma equipe precisa validar se um número de cartão de crédito é sintaticament
 > **volte para:** #quando-nao-usar-machine-learning
 :::
 
-:::exercicio {"id":"00-e2","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"introducao-e2","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
 Quais afirmações descrevem diferenças **estruturais** entre um sistema aprendido e um sistema programado? (marque todas que valem)
 
 - [x] No sistema aprendido, a regra vive em parâmetros ajustados a partir de exemplos.
@@ -98,7 +98,7 @@ A tentação é ler tudo e praticar depois. A pesquisa sobre carga cognitiva diz
 
 Ler sem praticar produz a sensação de competência sem a competência. É o modo de falha mais comum do estudo técnico, e o único que o leitor não consegue detectar sozinho — porque a sensação é idêntica.
 
-:::exercicio {"id":"00-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"introducao-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
 Descreva um problema do seu trabalho ou da sua área de interesse que você acredita ser candidato a Machine Learning. Diga **qual regra ninguém consegue escrever**, **que exemplos existiriam** para aprender com eles, e **o que significaria "funcionar"** — em termos de uma medida, não de uma impressão.
 
 > **rubrica:** identifica uma regra concreta que é difícil de enunciar explicitamente;
@@ -111,7 +111,7 @@ Descreva um problema do seu trabalho ou da sua área de interesse que você acre
 
 ## Assista
 
-:::video {"id":"00-v1","fonte":"youtube","ref":"Gv9_4yMHFhI","min":6,"autor":"StatQuest with Josh Starmer","titulo":"A Gentle Introduction to Machine Learning"}
+:::video {"id":"introducao-v1","fonte":"youtube","ref":"Gv9_4yMHFhI","min":6,"autor":"StatQuest with Josh Starmer","titulo":"A Gentle Introduction to Machine Learning"}
 Uma visão geral de seis minutos que fixa o vocabulário — treino, teste, predição — **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.
 :::
 
@@ -119,11 +119,11 @@ Uma visão geral de seis minutos que fixa o vocabulário — treino, teste, pred
 
 O livro é dividido em três partes, com uma progressão deliberada de andaime — cada parte remove um apoio que a anterior oferecia.
 
-**Parte I — O ciclo do aprendizado supervisionado** (caps. 02–07). O núcleo. Dados, representação, avaliação, modelos lineares, otimização, ensembles. Ao final desta parte você resolve, do começo ao fim e com honestidade metodológica, a maioria dos problemas reais de ML que aparecem em empresas — que são tabulares, não são deep learning, e falham por causa de dados, não de modelo.
+**Parte I — O ciclo do aprendizado supervisionado** (caps. I.3–07). O núcleo. Dados, representação, avaliação, modelos lineares, otimização, ensembles. Ao final desta parte você resolve, do começo ao fim e com honestidade metodológica, a maioria dos problemas reais de ML que aparecem em empresas — que são tabulares, não são deep learning, e falham por causa de dados, não de modelo.
 
-**Parte II — Sem rótulo, e profundo** (caps. 08–12). Agrupamento e redução de dimensionalidade; depois redes neurais construídas em NumPy, visão, sequências e a chegada dos modelos de fundação. O objetivo aqui não é competir com bibliotecas — é você ter visto o motor antes de dirigir o carro.
+**Parte II — Sem rótulo, e profundo** (caps. IV.1–12). Agrupamento e redução de dimensionalidade; depois redes neurais construídas em NumPy, visão, sequências e a chegada dos modelos de fundação. O objetivo aqui não é competir com bibliotecas — é você ter visto o motor antes de dirigir o carro.
 
-**Parte III — Machine Learning no mundo real** (caps. 13–17). Reforço, interpretabilidade e justiça, design de sistemas, MLOps, e a fronteira. É a parte que separa "treinei um modelo" de "opero um sistema que aprende".
+**Parte III — Machine Learning no mundo real** (caps. IV.2–17). Reforço, interpretabilidade e justiça, design de sistemas, MLOps, e a fronteira. É a parte que separa "treinei um modelo" de "opero um sistema que aprende".
 
 Em paralelo, a trilha [`ml-zero`](trilha-ml-zero.md) constrói, etapa por etapa, um sistema completo: dado bruto → linha de base → avaliação honesta → modelo → serviço com API → monitoramento. Uma etapa por capítulo, tudo em CPU, sem chave paga (Princípio VI — custo zero é requisito, não cortesia).
 

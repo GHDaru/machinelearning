@@ -1,6 +1,6 @@
 """Etapa 02 — divisões honestas e detecção de vazamento.
 
-O capítulo 02 argumenta que a divisão precisa respeitar a estrutura dos dados
+O capítulo I.3 argumenta que a divisão precisa respeitar a estrutura dos dados
 e que vazamento não dá erro. Este módulo transforma esses dois argumentos em
 código que **falha alto** quando a regra é violada.
 
@@ -62,7 +62,7 @@ def detectar_vazamento_obvio(colunas: dict[str, Sequence[Any]], y: Sequence[int]
 
         # Sinal A: a melhor regra de decisão de UMA coluna acerta quase tudo?
         acerto = _melhor_acerto_de_uma_coluna(valores, y)
-        base = max(Counter(y).values()) / len(y)  # a linha de base trivial (cap. 04)
+        base = max(Counter(y).values()) / len(y)  # a linha de base trivial (cap. II.1)
         if acerto >= limiar_correlacao and acerto > base + 0.05:
             suspeitas.append(Suspeita(
                 nome,
@@ -236,7 +236,7 @@ def vazou_entre(grupos: Sequence[Any], *particoes: Iterable[int]) -> set[str]:
 
 @dataclass
 class FichaDeDataset:
-    """As sete perguntas do capítulo 02, como objeto executável.
+    """As sete perguntas do capítulo I.3, como objeto executável.
 
     A diferença entre isto e um documento é que um documento é uma promessa e
     isto é um portão: `validar()` levanta se alguma resposta faltar. A ficha

@@ -1,10 +1,10 @@
-# Spec 002 — Capítulo 02: Dados
+# Spec 002 — Capítulo I.3: Dados
 
-**Branch:** `002-capitulo-02-dados` · **Raia:** plena · **Data:** 2026-08-05
+**Branch:** `002-capitulo-i-3-dados` · **Raia:** plena · **Data:** 2026-08-05
 
 ## O quê
 
-Escrever o capítulo 02 (Dados) no esqueleto v4 e implementar a etapa 02 do `ml-zero`.
+Escrever o capítulo I.3 (Dados) no esqueleto v4 e implementar a etapa 02 do `ml-zero`.
 
 ## Por quê
 

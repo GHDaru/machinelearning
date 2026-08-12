@@ -5,7 +5,7 @@ acerta o modelo que não faz nada?**
 
 Sem ele, "94% de acurácia" é uma frase sem referência. Com ele, você sabe na
 hora se 94% é excelente (linha de base 50%) ou constrangedor (linha de base
-90%). O cap. 04 inteiro é uma expansão desta ideia.
+90%). O cap. II.1 inteiro é uma expansão desta ideia.
 
 Note que `MajorityBaseline` é um modelo de verdade: tem `fit` e `predict`,
 como qualquer outro. Isso não é ironia — é a interface que a etapa 05 vai
@@ -73,11 +73,11 @@ def acuracia(y_true: list[int], y_pred: list[int]) -> float:
 
 
 def matriz_confusao(y_true: list[int], y_pred: list[int]) -> dict[str, int]:
-    """Os quatro números de que toda métrica binária deriva (cap. 04).
+    """Os quatro números de que toda métrica binária deriva (cap. II.1).
 
     Aparece já na etapa 00 porque a linha de base precisa ser lida por eles:
     "sempre a classe majoritária" tem acurácia alta e revocação **zero** na
-    classe rara — e é exatamente esse contraste que motiva o capítulo 04.
+    classe rara — e é exatamente esse contraste que motiva o capítulo II.1.
     """
     if len(y_true) != len(y_pred):
         raise ValueError("y_true e y_pred têm tamanhos diferentes")

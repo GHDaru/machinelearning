@@ -9,12 +9,12 @@ escrevemos, com seed fixa. A escolha é deliberada e tem três razões:
      conjunto, hoje e daqui a dois anos, independentemente de um servidor
      externo continuar no ar.
   3. **Conhecemos a verdade.** Como nós geramos o processo, sabemos qual é o
-     ruído irredutível — o que permite, no capítulo 01, comparar o erro do
+     ruído irredutível — o que permite, no capítulo 0.2, comparar o erro do
      modelo com o teto teórico. Com dado real isso é impossível.
 
 O preço é honesto e precisa ser dito: **dado sintético não tem as patologias
 do dado real** — sem valores ausentes traiçoeiros, sem vazamento acidental,
-sem viés de coleta. Essas patologias entram a partir da etapa 02 (cap. 02),
+sem viés de coleta. Essas patologias entram a partir da etapa 02 (cap. I.3),
 com dados reais. Aqui, o objetivo é outro: montar o esqueleto metodológico.
 
 Só biblioteca padrão. NumPy entra na etapa 05, quando o algoritmo exigir.
@@ -65,7 +65,7 @@ def gerar(n: int = 4000, seed: int = SEED, prob_ruido: float = PROB_RUIDO) -> Co
 
         # Processo verdadeiro: quanto maior o uso do limite e menor a renda e o
         # tempo de casa, maior o risco. Coeficientes escolhidos à mão para dar
-        # uma prevalência de ~20% — desbalanceada o suficiente para o cap. 04
+        # uma prevalência de ~20% — desbalanceada o suficiente para o cap. II.1
         # ter o que dizer, equilibrada o suficiente para a etapa 00 ser simples.
         z = 2.6 * uso - 0.55 * math.log(renda) - 0.012 * meses + 2.1
         p = 1 / (1 + math.exp(-z))
@@ -92,10 +92,10 @@ def dividir(dados: Conjunto, frac_treino: float = 0.6, frac_validacao: float = 0
 
     **Estratificação.** A proporção de positivos é preservada nos três
     conjuntos. Sem isso, com classe rara, o teste pode acabar com pouquíssimos
-    positivos, e a métrica vira loteria. É a mesma razão pela qual o cap. 04
+    positivos, e a métrica vira loteria. É a mesma razão pela qual o cap. II.1
     insiste que teste pequeno exige intervalo de confiança.
 
-    O que esta função *ainda não* faz — e o cap. 02 vai exigir — é respeitar
+    O que esta função *ainda não* faz — e o cap. I.3 vai exigir — é respeitar
     grupo e tempo. Embaralhar linhas de um mesmo cliente entre treino e teste,
     ou embaralhar uma série temporal, é vazamento. Aqui cada linha é um cliente
     independente, então embaralhar é legítimo. Não copie esta função para um

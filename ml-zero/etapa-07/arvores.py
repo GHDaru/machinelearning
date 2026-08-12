@@ -1,6 +1,6 @@
 """Etapa 07 — árvore, floresta e boosting, do zero.
 
-Três modelos em ~250 linhas de biblioteca padrão, na ordem em que o capítulo 07
+Três modelos em ~250 linhas de biblioteca padrão, na ordem em que o capítulo II.5
 os apresenta:
 
   1. `Arvore`   — uma árvore de decisão (CART com impureza de Gini).
@@ -8,7 +8,7 @@ os apresenta:
   3. `Boosting` — árvores sequenciais sobre o resíduo. Ataca **viés**.
 
 O ponto pedagógico não é ter três classificadores: é que bagging e boosting
-atacam **parcelas diferentes do erro** (cap. 01), e isso é visível nos números
+atacam **parcelas diferentes do erro** (cap. 0.2), e isso é visível nos números
 que `rodar.py` imprime — a árvore sozinha oscila muito entre seeds, a floresta
 quase não oscila, e o boosting alcança o que nenhuma árvore isolada alcança.
 
@@ -186,7 +186,7 @@ class Floresta:
     Cada árvore vê uma reamostragem com reposição dos dados e um subconjunto
     dos atributos em cada nó. Sozinha, cada árvore é pior que a árvore única
     treinada em tudo — a média delas é melhor. Esse é o contraintuitivo do
-    bagging, e é consequência direta da decomposição do capítulo 01.
+    bagging, e é consequência direta da decomposição do capítulo 0.2.
     """
 
     def __init__(self, n_arvores: int = 30, max_profundidade: int = 8,
@@ -236,7 +236,7 @@ class Boosting:
     Cada árvore nova é ajustada ao **resíduo** (y − p) das anteriores, no espaço
     do logito. A `taxa` encolhe a contribuição de cada árvore: aprender devagar
     e por muitas etapas generaliza melhor que aprender rápido em poucas — é
-    regularização por outro nome (cap. 06).
+    regularização por outro nome (cap. II.4).
     """
 
     def __init__(self, n_arvores: int = 60, taxa: float = 0.1,
@@ -295,7 +295,7 @@ def _sigmoide(z: float) -> float:
 def auc(y_true: Sequence[int], escores: Sequence[float]) -> float:
     """AUC-ROC pelo método dos postos (Mann–Whitney), com empates tratados.
 
-    Definição operacional do capítulo 04: a probabilidade de um positivo
+    Definição operacional do capítulo II.1: a probabilidade de um positivo
     sorteado ao acaso receber escore maior que um negativo sorteado ao acaso.
     """
     if len(y_true) != len(escores):

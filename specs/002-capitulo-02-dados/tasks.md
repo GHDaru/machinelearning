@@ -1,4 +1,4 @@
-# Tasks 002 — Capítulo 02: Dados
+# Tasks 002 — Capítulo I.3: Dados
 
 - [x] **T201** Capítulo no esqueleto v4, cobrindo O1–O4 · *verif.:* build
 - [x] **T202** 4 exercícios, um por objetivo, com feedback explicativo · *verif.:* gate do banco

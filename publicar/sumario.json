@@ -3,20 +3,20 @@
   "subtitulo": "Um livro vivo e evolutivo para aprender fazendo — da coleta do dado ao modelo profundo",
   "companion_backend": "https://api.machinelearning.ghdaru.com.br",
   "_companion_backend_nota": "URL do backend do livro vivo. É um SUBDOMÍNIO PRÓPRIO, e não a URL da Railway, de propósito (ADR 0006): este valor é compilado dentro do HTML de todas as páginas, então apontar para *.up.railway.app obrigaria a reconstruir e republicar o livro inteiro a cada troca de provedor. Vazio = site estático: chat e correção de exercícios ficam indisponíveis, mas os LABORATÓRIOS continuam funcionando (rodam no navegador). Em dev local: http://127.0.0.1:8000",
-  "_nota_numeracao": "O número do capítulo é um IDENTIFICADOR ESTÁVEL, não uma ordem de leitura. A ordem está nas partes e, sobretudo, nas trilhas por disciplina.",
+  "_nota_numeracao": "O capítulo é identificado por PARTE e posição dentro dela (II.2), e o arquivo segue o mesmo padrão (ii-2-modelos-lineares.md). Inserir um capítulo desloca só os vizinhos da mesma parte. O id do exercício NÃO carrega a numeração — vem do nome (modelos-lineares-e1) e sobrevive a qualquer renumeração. Ver ADR 0011.",
   "partes": [
     {
       "nome": "Abertura",
       "itens": [
         {
-          "arquivo": "livro/00-introducao.md",
-          "titulo": "00 — Introdução",
+          "arquivo": "livro/0-1-introducao.md",
+          "titulo": "0.1 — Introdução",
           "teaser": "O que é aprender de dados, e como usar este livro.",
           "metodo": false
         },
         {
-          "arquivo": "livro/01-fundamentos.md",
-          "titulo": "01 — Fundamentos",
+          "arquivo": "livro/0-2-fundamentos.md",
+          "titulo": "0.2 — Fundamentos",
           "teaser": "Generalização, viés e variância: o problema central.",
           "metodo": true
         }
@@ -26,38 +26,38 @@
       "nome": "Parte I — Ciência de Dados: do dado ao entendimento",
       "itens": [
         {
-          "arquivo": "livro/capitulos/19-ciclo-ciencia-de-dados.md",
-          "titulo": "19 — O Ciclo da Ciência de Dados",
+          "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+          "titulo": "I.1 — O Ciclo da Ciência de Dados",
           "teaser": "CRISP-DM: por que o modelo é a quinta etapa, não a primeira.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/20-coleta-integracao.md",
-          "titulo": "20 — Coleta e Integração",
+          "arquivo": "livro/capitulos/i-2-coleta-integracao.md",
+          "titulo": "I.2 — Coleta e Integração",
           "teaser": "Arquivos, APIs, bancos SQL e NoSQL, data lake e warehouse.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/02-dados.md",
-          "titulo": "02 — Qualidade e Vazamento",
+          "arquivo": "livro/capitulos/i-3-dados.md",
+          "titulo": "I.3 — Qualidade e Vazamento",
           "teaser": "O resultado bom demais, e as divisões que não mentem.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/21-analise-exploratoria.md",
-          "titulo": "21 — Análise Exploratória",
+          "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",
+          "titulo": "I.4 — Análise Exploratória",
           "teaser": "Estatística descritiva e o hábito de olhar antes de modelar.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/22-visualizacao-storytelling.md",
-          "titulo": "22 — Visualização e Storytelling",
+          "arquivo": "livro/capitulos/i-5-visualizacao-storytelling.md",
+          "titulo": "I.5 — Visualização e Storytelling",
           "teaser": "O gráfico que decide, e a narrativa que convence.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/03-representacao.md",
-          "titulo": "03 — Representação",
+          "arquivo": "livro/capitulos/i-6-representacao.md",
+          "titulo": "I.6 — Representação",
           "teaser": "Como o mundo vira vetor — e o que se perde no caminho.",
           "metodo": true
         }
@@ -67,50 +67,50 @@
       "nome": "Parte II — Análise Preditiva",
       "itens": [
         {
-          "arquivo": "livro/capitulos/04-avaliacao.md",
-          "titulo": "04 — Avaliação",
+          "arquivo": "livro/capitulos/ii-1-avaliacao.md",
+          "titulo": "II.1 — Avaliação",
           "teaser": "O que significa \"bom\", e por que acurácia mente.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/05-modelos-lineares.md",
-          "titulo": "05 — Modelos Lineares",
+          "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+          "titulo": "II.2 — Modelos Lineares",
           "teaser": "A reta que explica muito mais do que parece.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/28-regressao-logistica.md",
-          "titulo": "28 — Regressão Logística",
+          "arquivo": "livro/capitulos/ii-3-regressao-logistica.md",
+          "titulo": "II.3 — Regressão Logística",
           "teaser": "Classifica, apesar do nome. O que é linear é o logito.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/06-otimizacao.md",
-          "titulo": "06 — Otimização e Regularização",
+          "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+          "titulo": "II.4 — Otimização e Regularização",
           "teaser": "Como o modelo aprende — e como impedi-lo de decorar.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/07-arvores-ensembles.md",
-          "titulo": "07 — Árvores e Ensembles",
+          "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+          "titulo": "II.5 — Árvores e Ensembles",
           "teaser": "Por que boosting ainda ganha em dados tabulares.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/23-analise-multidimensional.md",
-          "titulo": "23 — Análise Multidimensional",
+          "arquivo": "livro/capitulos/ii-6-analise-multidimensional.md",
+          "titulo": "II.6 — Análise Multidimensional",
           "teaser": "OLAP, cubos e o repositório que sustenta a análise.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/24-series-temporais.md",
-          "titulo": "24 — Séries Temporais",
+          "arquivo": "livro/capitulos/ii-7-series-temporais.md",
+          "titulo": "II.7 — Séries Temporais",
           "teaser": "Prever o futuro sem trapacear com ele.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/25-do-modelo-a-decisao.md",
-          "titulo": "25 — Do Modelo à Decisão",
+          "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+          "titulo": "II.8 — Do Modelo à Decisão",
           "teaser": "Comparar técnicas, escolher uma e defender a escolha.",
           "metodo": true
         }
@@ -120,38 +120,38 @@
       "nome": "Parte III — Redes Neurais e Deep Learning",
       "itens": [
         {
-          "arquivo": "livro/capitulos/18-neuronio-artificial.md",
-          "titulo": "18 — O Neurônio Artificial",
+          "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+          "titulo": "III.1 — O Neurônio Artificial",
           "teaser": "De McCulloch–Pitts ao perceptron, com as mãos nos pesos.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/09-redes-neurais.md",
-          "titulo": "09 — Redes Multicamadas",
+          "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+          "titulo": "III.2 — Redes Multicamadas",
           "teaser": "A camada escondida que resolve o XOR, e o backpropagation.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/26-treinar-redes-profundas.md",
-          "titulo": "26 — Treinar Redes Profundas",
+          "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
+          "titulo": "III.3 — Treinar Redes Profundas",
           "teaser": "Inicialização, normalização, dropout e otimizadores adaptativos.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/10-visao.md",
-          "titulo": "10 — Visão Computacional",
+          "arquivo": "livro/capitulos/iii-4-visao.md",
+          "titulo": "III.4 — Visão Computacional",
           "teaser": "Convolução, e o poder de aproveitar o que já foi treinado.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/11-sequencias-linguagem.md",
-          "titulo": "11 — Sequências e Linguagem",
+          "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+          "titulo": "III.5 — Sequências e Linguagem",
           "teaser": "De RNN a Transformer: por que a atenção venceu.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/12-modelos-de-fundacao.md",
-          "titulo": "12 — Modelos de Fundação e Generativos",
+          "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+          "titulo": "III.6 — Modelos de Fundação e Generativos",
           "teaser": "Embeddings, fine-tuning, RAG e LLMs.",
           "metodo": true
         }
@@ -161,20 +161,20 @@
       "nome": "Parte IV — Além do supervisionado",
       "itens": [
         {
-          "arquivo": "livro/capitulos/08-nao-supervisionado.md",
-          "titulo": "08 — Aprendizado Não Supervisionado",
+          "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+          "titulo": "IV.1 — Aprendizado Não Supervisionado",
           "teaser": "Estrutura sem gabarito: agrupar, associar, reduzir.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/13-reforco.md",
-          "titulo": "13 — Aprendizado por Reforço",
+          "arquivo": "livro/capitulos/iv-2-reforco.md",
+          "titulo": "IV.2 — Aprendizado por Reforço",
           "teaser": "MDP, Q-learning e DQN: aprender por consequência.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/27-ia-simbolica-fuzzy-evolutiva.md",
-          "titulo": "27 — IA Simbólica, Fuzzy e Evolutiva",
+          "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+          "titulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva",
           "teaser": "Sistemas de conhecimento, lógica nebulosa, genéticos, bayesianas.",
           "metodo": true
         }
@@ -184,26 +184,26 @@
       "nome": "Parte V — No mundo real",
       "itens": [
         {
-          "arquivo": "livro/capitulos/14-interpretabilidade-justica.md",
-          "titulo": "14 — Interpretabilidade e Justiça",
+          "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+          "titulo": "V.1 — Interpretabilidade e Justiça",
           "teaser": "Explicar a decisão e medir a quem ela prejudica.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/15-sistemas-de-ml.md",
-          "titulo": "15 — Sistemas de ML",
+          "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+          "titulo": "V.2 — Sistemas de ML",
           "teaser": "O modelo é a fração pequena. Os outros 95%.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/16-mlops.md",
-          "titulo": "16 — MLOps",
+          "arquivo": "livro/capitulos/v-3-mlops.md",
+          "titulo": "V.3 — MLOps",
           "teaser": "Versionar, servir, monitorar, detectar drift.",
           "metodo": true
         },
         {
-          "arquivo": "livro/capitulos/17-fronteira.md",
-          "titulo": "17 — Fronteira e Expiração",
+          "arquivo": "livro/capitulos/v-4-fronteira.md",
+          "titulo": "V.4 — Fronteira e Expiração",
           "teaser": "O que ainda não sabemos — e o placar das previsões.",
           "metodo": false
         }

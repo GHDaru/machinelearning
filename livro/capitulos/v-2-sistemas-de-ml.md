@@ -1,4 +1,4 @@
-# 15 — Sistemas de ML
+# V.2 — Sistemas de ML
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -33,7 +33,7 @@ Nada disso é bug. Nada disso aparece num teste. E, principalmente, **nada disso
 
 > ### A leitura que fecha (📖)
 >
-> A figura 1 do artigo de 2015 é o par da AlexNet do [capítulo 10](10-visao.md). **Duas imagens que atravessaram um campo inteiro**: uma é um limite de 3 GB desenhado; a outra é uma caixa preta pequena no meio de treze retângulos. **Nenhuma das duas é um resultado — as duas são argumentos visuais**, e é por isso que sobreviveram. Um resultado é superado pelo resultado seguinte; um argumento visual só cai quando o argumento deixa de valer.
+> A figura 1 do artigo de 2015 é o par da AlexNet do [capítulo III.4](iii-4-visao.md). **Duas imagens que atravessaram um campo inteiro**: uma é um limite de 3 GB desenhado; a outra é uma caixa preta pequena no meio de treze retângulos. **Nenhuma das duas é um resultado — as duas são argumentos visuais**, e é por isso que sobreviveram. Um resultado é superado pelo resultado seguinte; um argumento visual só cai quando o argumento deixa de valer.
 
 **Procedência das afirmações desta seção:**
 
@@ -55,7 +55,7 @@ O que ocupa o espaço restante, componente a componente:
 
 | Componente | O que faz | Onde falha |
 |---|---|---|
-| **Coleta** | trazer o dado de onde ele nasce (ver [cap. 20](20-coleta-integracao.md)) | fonte muda de esquema sem avisar |
+| **Coleta** | trazer o dado de onde ele nasce (ver [cap. I.2](i-2-coleta-integracao.md)) | fonte muda de esquema sem avisar |
 | **Validação de dados** | recusar o que está fora do contrato | não existe, e o lixo entra calado |
 | **Extração de atributos** | transformar dado bruto em entrada do modelo | calculado de um jeito no treino, de outro no serviço |
 | **Infraestrutura de serviço** | responder à chamada | latência, versão errada em produção |
@@ -74,7 +74,7 @@ A razão é seca. Para dependência de código existe ferramenta — o compilado
 
 Nenhuma entrada é realmente independente: mudar qualquer coisa muda tudo. E o princípio **não se limita aos sinais de entrada** — vale para hiperparâmetros, configurações de aprendizado, métodos de amostragem, limiares de convergência e seleção de dados. Remover um atributo aparentemente inútil não devolve o modelo anterior menos aquele atributo: devolve **outro modelo**.
 
-:::exercicio {"id":"15-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"sistemas-de-ml-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Você vai apresentar a arquitetura do sistema de recomendação da empresa. Qual descrição é fiel ao que um sistema de ML em produção é?
 
 - [ ] O modelo é o sistema; coleta, serviço e monitoramento são detalhes de implantação.
@@ -109,7 +109,7 @@ Três movimentos, em ordem de retorno por esforço.
 
 **1. Versione o dado e a configuração como você versiona código.** Configuração revisada e no repositório é a recomendação literal do artigo. Dado versionado é o que permite responder à pergunta que sempre aparece depois de um incidente: *com qual dado exatamente este modelo foi treinado?* Sem versão, essa pergunta não tem resposta — só opinião.
 
-**2. Escreva contratos de entrada.** Um contrato declara, para cada atributo, o tipo, a faixa aceitável, a taxa de nulos tolerada e quem é o dono. O que o contrato compra é o compilador que não existe: com ele, uma mudança silenciosa na fonte vira **falha ruidosa** na sua fronteira, e não uma degradação lenta seis semanas depois. É o mesmo assunto de qualidade e vazamento do [capítulo 02](02-dados.md), agora escrito como código executável.
+**2. Escreva contratos de entrada.** Um contrato declara, para cada atributo, o tipo, a faixa aceitável, a taxa de nulos tolerada e quem é o dono. O que o contrato compra é o compilador que não existe: com ele, uma mudança silenciosa na fonte vira **falha ruidosa** na sua fronteira, e não uma degradação lenta seis semanas depois. É o mesmo assunto de qualidade e vazamento do [capítulo I.3](i-3-dados.md), agora escrito como código executável.
 
 **3. Apague código morto.** Atributo que não é mais usado, ramo experimental que nunca saiu, modelo que ninguém consulta. Cada um deles é superfície para o CACE agir e para um consumidor não declarado aparecer. Apagar é a única forma de pagamento de dívida que não cria dívida nova.
 
@@ -121,7 +121,7 @@ A formulação canônica está nas *Rules of Machine Learning*, de Martin Zinkev
 
 A *feature store* é a versão de plataforma dessa ideia: uma camada compartilhada que serve o mesmo atributo ao treino e à inferência. O termo aparece publicamente em setembro de 2017, na descrição do Michelangelo, plataforma de ML do Uber (⏳). O custo é que ela é mais uma peça de encanamento para manter — e o CACE também vale para ela.
 
-:::exercicio {"id":"15-e2","tipo":"multipla-multi","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"sistemas-de-ml-e2","tipo":"multipla-multi","objetivo":"O3","dificuldade":"media"}
 Sua equipe calcula `media_de_compras_90d` num job Spark noturno para treinar, e reimplementa o mesmo atributo em Java no serviço de inferência. Quais medidas atacam de fato o *train/serve skew*? Marque todas que valem.
 
 - [x] Extrair o cálculo do atributo para um único componente usado pelos dois caminhos.
@@ -137,7 +137,7 @@ Sua equipe calcula `media_de_compras_90d` num job Spark noturno para treinar, e 
 > **volte para:** #o-contrato-entre-treino-e-servico
 :::
 
-:::exercicio {"id":"15-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"sistemas-de-ml-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
 Um sistema de previsão de demanda funciona assim: um job diário raspa três bancos internos e uma planilha do time comercial, junta tudo e amostra os últimos 18 meses. Sobre a saída do modelo de demanda, um segundo modelo aplica uma correção sazonal, e um terceiro corrige a correção para as lojas do Nordeste. O time de precificação lê a tabela final — o time de demanda descobriu isso no mês passado. O comportamento do sistema é regido por um arquivo `params.yaml` de 600 linhas que fica na máquina do analista sênior.
 
 Liste as dívidas ocultas deste sistema, **usando os nomes do capítulo**, e diga por onde você começaria a pagar — justificando a ordem.
@@ -165,7 +165,7 @@ Liste as dívidas ocultas deste sistema, **usando os nomes do capítulo**, e dig
 - *Glue code*, *pipeline jungle*, cascata de correções, consumidores não declarados e configuração: cinco custos que você já paga — agora com nome. E **configuração é código**: revisão e repositório, sempre.
 - Contra *train/serve skew*, **reutilize o código** entre treino e serviço. Documentar a fórmula duas vezes não é contrato.
 - Apagar código morto é a única forma de pagar dívida sem criar dívida nova.
-- A operação contínua desse sistema — o que monitorar, quando retreinar, como implantar — é o [capítulo 16](16-mlops.md), a sequência direta deste. A decisão de **não lançar** está no [capítulo 25](25-do-modelo-a-decisao.md).
+- A operação contínua desse sistema — o que monitorar, quando retreinar, como implantar — é o [capítulo V.3](v-3-mlops.md), a sequência direta deste. A decisão de **não lançar** está no [capítulo II.8](ii-8-do-modelo-a-decisao.md).
 
 ## Verificação
 

@@ -1,4 +1,4 @@
-# 16 — MLOps
+# V.3 — MLOps
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -15,9 +15,9 @@
 
 O modelo passou na validação. Foi para produção. Três semanas depois, o desempenho medido no mundo real é bem pior que o do relatório — e ninguém consegue explicar.
 
-A tentação é reabrir o modelo. É quase sempre o lugar errado de procurar. **A causa costuma não estar no modelo**: está em dois intervalos que ninguém mediu. O intervalo entre **treinar e servir** — onde o atributo calculado de um jeito no notebook é calculado de outro jeito na API, o mesmo vazamento do [capítulo 02](02-dados.md) reaparecendo com outro nome. E o intervalo entre **servir hoje e servir daqui a três meses** — onde o mundo muda e o modelo não sabe disso.
+A tentação é reabrir o modelo. É quase sempre o lugar errado de procurar. **A causa costuma não estar no modelo**: está em dois intervalos que ninguém mediu. O intervalo entre **treinar e servir** — onde o atributo calculado de um jeito no notebook é calculado de outro jeito na API, o mesmo vazamento do [capítulo I.3](i-3-dados.md) reaparecendo com outro nome. E o intervalo entre **servir hoje e servir daqui a três meses** — onde o mundo muda e o modelo não sabe disso.
 
-Este capítulo é a sequência direta do [capítulo 15](15-sistemas-de-ml.md): lá, o diagnóstico de que o sistema é maior que o modelo; aqui, o procedimento para operá-lo.
+Este capítulo é a sequência direta do [capítulo V.2](v-2-sistemas-de-ml.md): lá, o diagnóstico de que o sistema é maior que o modelo; aqui, o procedimento para operá-lo.
 
 ## De onde isto veio
 
@@ -37,13 +37,13 @@ A versão repetida em dezenas de fontes de indústria é que **"MLOps foi cunhad
 
 A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was held in Ghent, Belgium in 2009"*, com **Patrick Debois** listado como fundador na página oficial ✓ᵃ. Já a história de a abreviação "#devops" ter nascido da necessidade de caber numa hashtag de Twitter é ⏳ — consistente entre fontes secundárias, sem primária.
 
-> **A leitura (📖):** este é o **sexto caso** do padrão *"crédito segue o vocabulário"* que atravessa o livro — e o mais extremo. Nos cinco anteriores (Gauss × Legendre no cap. [05](05-modelos-lineares.md), Linnainmaa × Rumelhart no [18](18-neuronio-artificial.md), Harris × Firth no [03](03-representacao.md), o *double descent* no [01](../01-fundamentos.md) e o k-means com seis pretendentes no [08](08-nao-supervisionado.md)), o crédito foi para a pessoa errada.
+> **A leitura (📖):** este é o **sexto caso** do padrão *"crédito segue o vocabulário"* que atravessa o livro — e o mais extremo. Nos cinco anteriores (Gauss × Legendre no cap. [05](ii-2-modelos-lineares.md), Linnainmaa × Rumelhart no [18](iii-1-neuronio-artificial.md), Harris × Firth no [03](i-6-representacao.md), o *double descent* no [01](../0-2-fundamentos.md) e o k-means com seis pretendentes no [08](iv-1-nao-supervisionado.md)), o crédito foi para a pessoa errada.
 >
 > **Aqui o campo não tinha um autor para o nome e fabricou um retroativamente**, escolhendo o artigo mais citado da vizinhança. E a atribuição sobreviveu apesar de ser **falsificável em trinta segundos** por quem tivesse o PDF aberto e uma busca de texto.
 
 **Concept drift tem nome desde 1986.** Schlimmer & Granger publicam naquele ano dois trabalhos: *"Beyond Incremental Processing: Tracking Concept Drift"* (AAAI-86 — o termo está no título) e *"Incremental learning from noisy data"* (*Machine Learning* 1(3):317–354). O survey que organizou o campo é o de Gama, Žliobaitė, Bifet, Pechenizkiy & Bouchachia (*ACM Computing Surveys* 46(4), art. 44, 2014) ✓ᵐ. **De 1986 a 2014: vinte e oito anos entre o nome e a síntese.**
 
-**E o procedimento veio rápido.** *The ML Test Score* — Breck, Cai, Nielsen, Salib & **Sculley**, IEEE Big Data 2017 — traz **28 testes e necessidades de monitoramento** pontuados ✓ᵐ. Repare no subtítulo: *"…and Technical Debt Reduction"*. É explicitamente a continuação do [capítulo 15](15-sistemas-de-ml.md): mesmo autor sênior, dois anos depois, transformando o diagnóstico em checklist. **Diagnóstico (2015) → procedimento (2017): dois anos.** Compare com as décadas do resto do livro — quando o diagnóstico é preciso *e* já existe infraestrutura, o procedimento chega rápido. É o mesmo fio dos capítulos [07](07-arvores-ensembles.md) e [12](12-modelos-de-fundacao.md).
+**E o procedimento veio rápido.** *The ML Test Score* — Breck, Cai, Nielsen, Salib & **Sculley**, IEEE Big Data 2017 — traz **28 testes e necessidades de monitoramento** pontuados ✓ᵐ. Repare no subtítulo: *"…and Technical Debt Reduction"*. É explicitamente a continuação do [capítulo V.2](v-2-sistemas-de-ml.md): mesmo autor sênior, dois anos depois, transformando o diagnóstico em checklist. **Diagnóstico (2015) → procedimento (2017): dois anos.** Compare com as décadas do resto do livro — quando o diagnóstico é preciso *e* já existe infraestrutura, o procedimento chega rápido. É o mesmo fio dos capítulos [07](ii-5-arvores-ensembles.md) e [12](iii-6-modelos-de-fundacao.md).
 
 **Procedência das afirmações desta seção:**
 
@@ -74,7 +74,7 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 
 A escolha manda no resto da arquitetura. Batch tolera atributo caro; online não — se calcular o atributo custa 800 ms, o modelo online já perdeu, por mais preciso que seja.
 
-:::exercicio {"id":"16-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"mlops-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Um auditor pergunta: *"este modelo em produção foi treinado com quais dados?"*. O time tem o código no Git, o modelo salvo em disco e os notebooks de treino. O que falta para responder com segurança?
 
 - [ ] Nada: basta rodar o notebook de novo e olhar o resultado.
@@ -94,16 +94,16 @@ Um auditor pergunta: *"este modelo em produção foi treinado com quais dados?"*
 Monitoramento de ML não é um painel: são **três** painéis, com donos e tempos diferentes.
 
 1. **Saúde do serviço** — taxa de erro, latência, disponibilidade. Quebra em segundos e é a camada que todo time já sabe montar.
-2. **Qualidade do dado de entrada** — esquema, faixas, proporção de nulos, cardinalidade de categóricas. Quebra em horas e é a que mais pega falha real, porque a maior parte dos incidentes de ML é um campo que mudou de unidade ou passou a chegar vazio (ver [capítulo 20](20-coleta-integracao.md)).
-3. **Desempenho do modelo** — a métrica do [capítulo 04](04-avaliacao.md). E aqui está a dificuldade central: **ela só pode ser calculada quando o rótulo chega**, o que pode levar semanas ou meses.
+2. **Qualidade do dado de entrada** — esquema, faixas, proporção de nulos, cardinalidade de categóricas. Quebra em horas e é a que mais pega falha real, porque a maior parte dos incidentes de ML é um campo que mudou de unidade ou passou a chegar vazio (ver [capítulo I.2](i-2-coleta-integracao.md)).
+3. **Desempenho do modelo** — a métrica do [capítulo II.1](ii-1-avaliacao.md). E aqui está a dificuldade central: **ela só pode ser calculada quando o rótulo chega**, o que pode levar semanas ou meses.
 
 **Os três tipos de drift.** *Drift de dados* (ou de covariáveis): a distribuição da **entrada** muda — chegam clientes de outro perfil. *Drift de conceito*: a relação entre entrada e saída muda — o mesmo perfil de cliente passa a se comportar de outro jeito. *Drift de rótulo*: a distribuição da **saída** muda — a fraude que era 0,3% da base virou 2%.
 
-O drift é exatamente a quebra da hipótese que o [capítulo 01](../01-fundamentos.md) coloca na fundação: treino e produção vindo da mesma distribuição. Nada no modelo protege contra isso, porque a hipótese é anterior ao modelo.
+O drift é exatamente a quebra da hipótese que o [capítulo 0.2](../0-2-fundamentos.md) coloca na fundação: treino e produção vindo da mesma distribuição. Nada no modelo protege contra isso, porque a hipótese é anterior ao modelo.
 
 **Detectar sem rótulo.** Enquanto o rótulo não chega, sobra o que não depende dele: comparar a **distribuição da entrada** de hoje com a de referência (a janela de treino), atributo a atributo, e comparar a **distribuição da saída** — o histograma das probabilidades previstas. Se o modelo começa a prever positivo com o dobro da frequência de antes, algo mudou, mesmo que ninguém ainda saiba se ele está certo. É um alarme, não um veredito: drift de entrada **não implica** queda de desempenho, e queda de desempenho pode acontecer sem drift visível na entrada.
 
-:::exercicio {"id":"16-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"mlops-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Você opera um modelo que prevê, na assinatura do contrato, se um cliente vai ficar inadimplente. O **rótulo verdadeiro só existe 90 dias depois** — é o prazo para a primeira parcela vencer e o atraso ser confirmado.
 
 Descreva como você monitora esse modelo **durante os 90 dias**, e o que faria disparar uma investigação antes do rótulo chegar.
@@ -115,7 +115,7 @@ Descreva como você monitora esse modelo **durante os 90 dias**, e o que faria d
 > reconhece que esses sinais são alarme e não veredito, e diz o que faria em seguida (investigar, segurar promoção, comparar com o campeão anterior)
 > **porque:** A resposta fraca diz "acompanho a acurácia semanalmente" — impossível, porque **não há rótulo para comparar**. Essa é a armadilha do exercício e o erro real mais comum de painel de ML: exibir uma métrica de desempenho que, nos primeiros 90 dias, está sendo calculada sobre um recorte enviesado (só os casos que já venceram, que são justamente os contratos mais antigos).
 >
-> A resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada — os contratos de março avaliados juntos — e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo 02](02-dados.md) dentro do próprio monitoramento.
+> A resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada — os contratos de março avaliados juntos — e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo I.3](i-3-dados.md) dentro do próprio monitoramento.
 > **volte para:** #monitorar-em-tres-camadas
 :::
 
@@ -123,7 +123,7 @@ Descreva como você monitora esse modelo **durante os 90 dias**, e o que faria d
 
 **Retreino por gatilho ou por calendário?** Por gatilho — quando o monitoramento acusa drift ou queda de métrica — é a resposta certa quando existe monitoramento confiável e o rótulo chega em tempo útil. Por calendário é o padrão honesto quando não existe: um retreino mensal é uma aposta, mas é melhor que esperar a reclamação. Os dois exigem a mesma coisa: **o retreino precisa ser um pipeline que roda sozinho**, não um notebook que alguém reabre.
 
-E vale a regra que o [capítulo 25](25-do-modelo-a-decisao.md) impõe: **retreinar não é a única resposta**. Se o que mudou foi o custo do erro, recalcule o limiar; o modelo pode continuar o mesmo.
+E vale a regra que o [capítulo II.8](ii-8-do-modelo-a-decisao.md) impõe: **retreinar não é a única resposta**. Se o que mudou foi o custo do erro, recalcule o limiar; o modelo pode continuar o mesmo.
 
 **Implantação segura.** Três instrumentos, do mais barato ao mais caro:
 
@@ -133,7 +133,7 @@ E vale a regra que o [capítulo 25](25-do-modelo-a-decisao.md) impõe: **retrein
 
 O plano de rollback é o item que quase todo time escreve durante o incidente, quando já é tarde. **Escreva antes**: qual métrica dispara a volta, qual é o limite, quem tem autoridade para acionar e quanto tempo leva. Um plano que depende de retreinar não é plano de rollback — é um segundo incidente.
 
-:::exercicio {"id":"16-e3","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+:::exercicio {"id":"mlops-e3","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
 Você vai promover uma nova versão de um modelo de recomendação. Quais práticas reduzem o risco **antes** de o usuário ser afetado?
 
 - [x] Rodar o modelo novo em sombra, comparando as respostas com as do atual sem entregá-las a ninguém.

@@ -12,7 +12,7 @@
 
 - [x] **T201** Constituição de 9 princípios (didática do harness + processo do Maestro + interatividade) · *verif.:* Constitution Check do plano
 - [x] **T202** `CLAUDE.md` com fluxo, raias e mapa do repositório · *verif.:* leitura
-- [x] **T203** Guia Editorial com o esqueleto v4 · *verif.:* o cap. 04 o segue
+- [x] **T203** Guia Editorial com o esqueleto v4 · *verif.:* o cap. II.1 o segue
 - [x] **T204** `BANCO-DE-EXERCICIOS.md` documentando a sintaxe · *verif.:* exemplos batem com o parser
 
 ## Fase 3 — Estrutura
@@ -34,9 +34,9 @@
 
 ## Fase 5 — Conteúdo-piloto
 
-- [x] **T501** Cap. 00 — Introdução (3 exercícios, 1 vídeo) · *verif.:* build
-- [x] **T502** Cap. 01 — Fundamentos (3 exercícios, 1 vídeo) · *verif.:* build
-- [x] **T503** Cap. 04 — Avaliação, piloto do v4 (5 exercícios, 1 vídeo) · *verif.:* build
+- [x] **T501** Cap. 0.1 — Introdução (3 exercícios, 1 vídeo) · *verif.:* build
+- [x] **T502** Cap. 0.2 — Fundamentos (3 exercícios, 1 vídeo) · *verif.:* build
+- [x] **T503** Cap. II.1 — Avaliação, piloto do v4 (5 exercícios, 1 vídeo) · *verif.:* build
 - [x] **T504** Verificar os ids dos 3 vídeos por busca antes de citá-los · *verif.:* busca registrada na sessão
 - [x] **T505** Bibliografia com 5 referências ✓ conferidas e as demais ⏳ · *verif.:* nenhuma afirmação do corpo apoiada em ⏳
 

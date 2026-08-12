@@ -66,7 +66,7 @@ def test_nao_confunde_conversa_com_comando(msg):
 
 def test_sem_comando_ninguem_e_identificado(cli):
     cli.post("/exercicio/tentativa",
-             json={"session_id": "s1", "exercicio_id": "05-e1", "resposta": "qualquer"})
+             json={"session_id": "s1", "exercicio_id": "modelos-lineares-e1", "resposta": "qualquer"})
     assert cli.get("/identificacao", params={"session_id": "s1"}).json()["identificacao"] is None
     r = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
     assert r["progresso"] == []
@@ -88,7 +88,7 @@ def test_identifica_e_o_professor_ve_o_progresso(cli):
     # duas tentativas erradas e uma certa em outro exercício
     for _ in range(2):
         cli.post("/exercicio/tentativa",
-                 json={"session_id": "s1", "exercicio_id": "05-e1", "resposta": "errada"})
+                 json={"session_id": "s1", "exercicio_id": "modelos-lineares-e1", "resposta": "errada"})
 
     r = cli.get("/turma/AP2026-2", params={"token": TOKEN}).json()
     assert r["alunos"] == 1
@@ -103,7 +103,7 @@ def test_o_professor_nao_ve_resposta_nem_conversa(cli):
     chat(cli, "s1", "/turma AP2026 123456")
     chat(cli, "s1", "uma pergunta qualquer para o tutor")
     cli.post("/exercicio/tentativa",
-             json={"session_id": "s1", "exercicio_id": "05-e1",
+             json={"session_id": "s1", "exercicio_id": "modelos-lineares-e1",
                    "resposta": "TEXTO-SECRETO-DA-RESPOSTA"})
 
     bruto = cli.get("/turma/AP2026", params={"token": TOKEN}).text
@@ -120,7 +120,7 @@ def test_duas_sessoes_do_mesmo_aluno_viram_uma_linha(cli):
     for sid in ("lab", "celular"):
         chat(cli, sid, "/turma AP2026 123456")
         cli.post("/exercicio/tentativa",
-                 json={"session_id": sid, "exercicio_id": "05-e1", "resposta": "errada"})
+                 json={"session_id": sid, "exercicio_id": "modelos-lineares-e1", "resposta": "errada"})
 
     r = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
     assert r["alunos"] == 1

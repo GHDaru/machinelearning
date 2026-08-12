@@ -70,7 +70,7 @@ O coeficiente do preço continua **positivo (+2,41)**, porque `preco` ainda carr
 
 ### Armadilha 3 — o `R²` alto que não é mérito do modelo
 
-`R² = 0,982` é excelente e não prova nada sobre generalização: não há divisão treino/teste aqui, e o dado é sintético. Serve para introduzir o que os capítulos [01](../../../livro/01-fundamentos.md) e [04](../../../livro/capitulos/04-avaliacao.md) cobram — divisão honesta e métrica fora da amostra.
+`R² = 0,982` é excelente e não prova nada sobre generalização: não há divisão treino/teste aqui, e o dado é sintético. Serve para introduzir o que os capítulos [01](../../../livro/0-2-fundamentos.md) e [04](../../../livro/capitulos/ii-1-avaliacao.md) cobram — divisão honesta e métrica fora da amostra.
 
 ## Perguntas de aula, na ordem
 

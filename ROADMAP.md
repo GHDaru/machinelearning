@@ -17,7 +17,7 @@ O livro passou a servir a duas disciplinas **em curso**, ministradas pelo autor:
 Isso impõe três mudanças de prioridade:
 
 1. **Cobertura antes de profundidade.** Uma disciplina em andamento precisa de material em todos os tópicos, não de sete capítulos perfeitos e vinte ausentes. A constituição foi emendada (1.1.0) para permitir isso **sem baixar o rigor em silêncio**: cada capítulo declara seu nível — `esqueleto`, `essencial` ou `completo` — no próprio cabeçalho.
-2. **A ordem é a da disciplina, não a do sumário.** O número do capítulo virou identificador estável; a ordem de leitura vive nas [trilhas](livro/trilhas/analise-preditiva.md). Um mesmo capítulo serve a duas disciplinas com pesos diferentes, e capítulos distantes no sumário são vizinhos numa trilha.
+2. **A ordem é a da disciplina, não a do sumário.** A numeração é por **parte e posição** (`II.2`, ver [ADR 0011](adr/0011-numeracao-por-parte.md)); a ordem de leitura de cada disciplina vive nas [trilhas](livro/trilhas/analise-preditiva.md). Um mesmo capítulo serve a duas disciplinas com pesos diferentes, e capítulos distantes no sumário são vizinhos numa trilha.
 3. **Laboratórios interativos passam a ser primeira classe.** O gesto de pôr os pesos à mão e ver a reta se mover ensina o que nenhuma frase ensina. É a linha de evolução mais promissora do livro.
 
 ## Estado atual — **edição 1.0 (2026-08-10)**
@@ -104,7 +104,7 @@ O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está o
 | D4 | Nenhum capítulo tem PDF | o motor perdeu o `pdf.mjs` na adaptação |
 | D5 | Sem tradução para inglês | fora de escopo |
 | ~~**D6**~~ | ~~Capítulo 16 sem vídeo verificável~~ — **resolvida**: no nível `essencial` não há cota de mídia, e nenhum vídeo foi inventado para preencher | Princípio VIII: o portão de mídia vale na promoção a `completo` |
-| **D7** | **Numeração fora de ordem no sumário** | consequência aceita de manter identificadores estáveis; mitigada pelas trilhas |
+| ~~**D7**~~ | ~~Numeração fora de ordem no sumário~~ — **PAGA** em 2026-08-12: numeração por parte ([ADR 0011](adr/0011-numeracao-por-parte.md)). As 29 posições estavam fora de ordem, não algumas | o id do exercício foi desatado do número, então renumerar deixou de ameaçar o progresso do leitor |
 | ~~**D8**~~ | ~~Nenhum capítulo tem "De onde isto veio"~~ — **PAGA**: os 26 capítulos de método têm a seção e a tabela de selos, cobradas pelo build | a emenda 1.2.0 era posterior a eles; nível não subiu sem pagar |
 | ~~**D9**~~ | ~~20 capítulos não declaram nível~~ — **PAGA** em 2026-08-10: os 18 que faltavam declararam nível, e o build agora **falha** sem a declaração | o Princípio "níveis" exige a declaração ao leitor |
 
@@ -115,6 +115,8 @@ O capítulo **18** é o piloto: já tem linha do tempo com DOIs, mas ela está o
 > **O que o gate ensinou, e que o plano não previa.** O ADR 0004 mandava fazer o lote 1 (capítulos novos) antes do lote 2 (retrofit dos antigos). Assim que o gate entrou no build, ele **inverteu a ordem sozinho**: declarar o nível dos 7 capítulos com corpo tornou o build vermelho na hora, e nenhum trabalho novo podia ser publicado antes de a dívida antiga ser paga.
 >
 > Isso é o gate funcionando como projetado — e é a diferença entre uma dívida *registrada* e uma dívida *cobrada*. Uma fica no roadmap; a outra impede o próximo commit.
+
+| **D12** | **A numeração das etapas do `ml-zero` ficou órfã** — `etapa-05` serve o capítulo `II.2` | consequência do ADR 0011; o conserto é o mesmo princípio: a pasta passa a ter nome, não número |
 
 ## O que este projeto **não** vai fazer
 

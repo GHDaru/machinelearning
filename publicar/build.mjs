@@ -52,11 +52,15 @@ const COMPANION_CAPS = [
   { chave: "exercicios", rotulo: "Correção de exercícios", libera: 0 },
   { chave: "progresso", rotulo: "Seu progresso", libera: 0 },
   { chave: "plano_estudo", rotulo: "Plano de estudo", libera: 0 },
-  { chave: "dados", rotulo: "Diagnóstico de dados", libera: 2 },
-  { chave: "metricas", rotulo: "Calculadora de métricas", libera: 4 },
-  { chave: "matematica", rotulo: "Contas passo a passo", libera: 6 },
+  { chave: "dados", rotulo: "Diagnóstico de dados", libera: 5 },
+  { chave: "metricas", rotulo: "Calculadora de métricas", libera: 9 },
+  { chave: "matematica", rotulo: "Contas passo a passo", libera: 12 },
 ];
-const capituloDe = (titulo) => parseInt((String(titulo).match(/^\s*(\d+)/) || [])[1], 10) || 0;
+// O "capítulo" que o companion e a telemetria usam é a POSIÇÃO DE LEITURA
+// (1..29), não mais o número do título. Desde a numeração por parte (ADR 0011)
+// o título começa com "II.2", e o gating por capítulo precisa de um inteiro
+// crescente — que é justamente a ordem em que o leitor chega às capacidades.
+const posicaoDe = (item) => itens.findIndex((i) => i.arquivo === item.arquivo) + 1;
 
 function companionSnippet(chapter) {
   const cfg = JSON.stringify({ backend: COMPANION_BACKEND, chapter, mode: "progressivo", lang: "pt", capabilities: COMPANION_CAPS });
@@ -236,7 +240,12 @@ function abrirSiglas(html) {
 const dividirTitulo = (t) => {
   const p = t.split("—");
   if (p.length < 2) return { num: "", texto: t.trim() };
-  return { num: /^\s*\d+\s*$/.test(p[0]) ? p[0].trim() : "", texto: p.slice(1).join("—").trim() };
+  // Aceita a numeração por parte ("II.2", "0.1") e o formato legado ("05").
+  // Sem isto o `num` sai vazio, o cabeçalho inteiro do capítulo não é montado —
+  // e com ele some o SELO DE NÍVEL, que a constituição manda mostrar ao leitor.
+  // Foi exatamente o que o gate da página pegou na migração do ADR 0011.
+  const eNumero = /^\s*(?:\d+|[0IVXLC]+\.\d+)\s*$/i.test(p[0]);
+  return { num: eNumero ? p[0].trim() : "", texto: p.slice(1).join("—").trim() };
 };
 
 function pagina({ tituloPagina, corpo, navLateral, prev, next, data, ehIndex, chapter = 0, slug = "", hero = null }) {
@@ -389,7 +398,7 @@ for (const arq of [
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
 }
 // Conjuntos de dados que os laboratórios leem no navegador. O laboratório de
-// exploração do capítulo 21 precisa do dado REAL — inventar números tiraria
+// exploração do capítulo I.4 precisa do dado REAL — inventar números tiraria
 // dele exatamente o que ensina: as assimetrias e os outliers deste conjunto.
 mkdirSync(resolve(SAIDA, "dados"), { recursive: true });
 cpSync(resolve(RAIZ, "ml-zero/dados/limonada/limonada.csv"), resolve(SAIDA, "dados/limonada.csv"));
@@ -407,7 +416,7 @@ for (let k = 0; k < itens.length; k++) {
     continue;
   }
   const bruto = readFileSync(caminho, "utf8");
-  const cap = capituloDe(item.titulo);
+  const cap = posicaoDe(item);
   const data = extrairData(bruto);
 
   // Contagem para o placar da capa (só o que existe de fato).
@@ -518,8 +527,8 @@ const blocosCartao = sumario.partes
 const pillsEnt = sumario.partes.filter((p) => !PARTES_CARTAO.has(p.nome)).flatMap((p) => p.itens).map(pillEnt).join("");
 
 const TRILHA = [
-  ["01-fundamentos.html", "Trilha · 1", "Entender", "Generalização, viés e variância: o problema central."],
-  ["04-avaliacao.html", "Trilha · 2", "Medir", "O que significa &quot;bom&quot; — e por que acurácia mente."],
+  ["0-2-fundamentos.html", "Trilha · 1", "Entender", "Generalização, viés e variância: o problema central."],
+  ["ii-1-avaliacao.html", "Trilha · 2", "Medir", "O que significa &quot;bom&quot; — e por que acurácia mente."],
   ["banco-de-exercicios.html", "Trilha · 3", "Praticar", "Exercícios corrigidos, com feedback que explica."],
   ["trilha-ml-zero.html", "Trilha · 4", "Construir", "ml-zero: do NumPy cru ao modelo servido."],
 ];
@@ -651,7 +660,7 @@ for (const i of itens) {
   }
 
   // VALIDAR os selos vale para TODO capítulo que tenha tabela de selos, método
-  // ou não. O capítulo 17 é não-método e mesmo assim sela afirmações — e a
+  // ou não. O capítulo V.4 é não-método e mesmo assim sela afirmações — e a
   // primeira versão deste gate o pulava inteiro, deixando um buraco por onde
   // um selo inventado passaria. Dispensa da seção não é dispensa do alfabeto.
   // Allowlist, escopada À TABELA DE SELOS. Um capítulo tem outras tabelas —
@@ -743,6 +752,30 @@ if (semSeloNaPagina.length) {
   console.error(`✗ ${semSeloNaPagina.length} página(s) sem o selo de nível visível ao leitor:`);
   semSeloNaPagina.forEach((q) => console.error("   " + q));
   console.error("   A constituição exige que o nível seja declarado ao LEITOR, em destaque.");
+  process.exit(1);
+}
+
+// O "volte para:" de cada exercício devolve o leitor à âncora exata da seção
+// que ele precisa reler — o Guia Editorial o chama de "o gesto mais útil do
+// livro". Uma âncora que não existe leva a lugar nenhum, silenciosamente: a
+// página abre, o navegador não rola, e o leitor acha que a culpa é dele.
+// Duas estavam quebradas quando este gate foi escrito, uma delas há semanas.
+const ancorasRuins = [];
+for (const i of itens) {
+  const caminho = resolve(RAIZ, i.arquivo);
+  if (!existsSync(caminho)) continue;
+  const fonte = readFileSync(caminho, "utf8");
+  const titulos = new Set(
+    [...fonte.matchAll(/^#{1,4}\s+(.+)$/gm)].map((m) =>
+      m[1].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")));
+  for (const m of fonte.matchAll(/\*\*volte para:\*\*\s*#([a-z0-9-]+)/g)) {
+    if (!titulos.has(m[1])) ancorasRuins.push(`${i.arquivo} -> #${m[1]}`);
+  }
+}
+if (ancorasRuins.length) {
+  console.error(`✗ ${ancorasRuins.length} âncora(s) "volte para" apontando para seção inexistente:`);
+  ancorasRuins.forEach((q) => console.error("   " + q));
   process.exit(1);
 }
 

@@ -18,7 +18,7 @@ A etapa 00 usa **só a biblioteca padrão do Python** — nem NumPy. Isso é del
 
 ## Etapa 00 — dado, divisão e linha de base
 
-**Capítulo correspondente:** [01 — Fundamentos](../livro/01-fundamentos.md)
+**Capítulo correspondente:** [01 — Fundamentos](../livro/0-2-fundamentos.md)
 
 | Arquivo | O que faz |
 |---|---|
@@ -46,7 +46,7 @@ Leia os dois números **juntos**: **81% de acurácia** e **0% de revocação**.
 
 O "modelo" acerta quatro em cada cinco previsões — e não encontra um único caso positivo, que é exatamente o que se queria encontrar. Um relatório que citasse só o primeiro número estaria tecnicamente correto e completamente enganoso.
 
-Este é o piso do projeto. Qualquer modelo das etapas seguintes precisa **bater 0,81 de acurácia E ter revocação maior que zero**. Um dos dois não basta — e é por isso que o [capítulo 04](../livro/capitulos/04-avaliacao.md) existe.
+Este é o piso do projeto. Qualquer modelo das etapas seguintes precisa **bater 0,81 de acurácia E ter revocação maior que zero**. Um dos dois não basta — e é por isso que o [capítulo II.1](../livro/capitulos/ii-1-avaliacao.md) existe.
 
 O teto também é conhecido: o gerador injeta 8% de ruído irredutível de propósito, o que põe o máximo alcançável em torno de 0,96. Ter piso e teto explícitos é um luxo que só o dado sintético permite, e é a razão de a etapa 00 usá-lo.
 
@@ -54,13 +54,13 @@ O teto também é conhecido: o gerador injeta 8% de ruído irredutível de prop�
 
 **Ganha-se:** custo zero, sem rede, reprodutibilidade perfeita, e o conhecimento do processo verdadeiro — o que permite comparar o erro do modelo com o teto teórico.
 
-**Perde-se:** dado sintético não tem as patologias do dado real. Sem valores ausentes traiçoeiros, sem vazamento acidental, sem viés de coleta. Essas patologias entram a partir da **etapa 02**, com dados reais, quando o [capítulo 02](../livro/capitulos/02-dados.md) tiver preparado o terreno.
+**Perde-se:** dado sintético não tem as patologias do dado real. Sem valores ausentes traiçoeiros, sem vazamento acidental, sem viés de coleta. Essas patologias entram a partir da **etapa 02**, com dados reais, quando o [capítulo I.3](../livro/capitulos/i-3-dados.md) tiver preparado o terreno.
 
 Dizer isso em voz alta é parte do método: o Princípio I exige que a limitação do experimento seja declarada junto com o resultado.
 
 ## Etapa 02 — vazamento e divisões honestas
 
-**Capítulo correspondente:** [02 — Dados](../livro/capitulos/02-dados.md)
+**Capítulo correspondente:** [02 — Dados](../livro/capitulos/i-3-dados.md)
 
 | Arquivo | O que faz |
 |---|---|
@@ -86,13 +86,13 @@ A `FichaDeDataset` segue a mesma filosofia: não é um documento que alguém pro
 
 ## Etapa 07 — árvore, floresta e boosting
 
-**Capítulo correspondente:** [07 — Árvores e Ensembles](../livro/capitulos/07-arvores-ensembles.md)
+**Capítulo correspondente:** [07 — Árvores e Ensembles](../livro/capitulos/ii-5-arvores-ensembles.md)
 
 | Arquivo | O que faz |
 |---|---|
 | [`etapa-07/arvores.py`](etapa-07/arvores.py) | `Arvore` (Gini + MSE), `Floresta` (bagging), `Boosting` (perda logística), `auc` por postos |
 | [`etapa-07/dados_tabulares.py`](etapa-07/dados_tabulares.py) | Gerador com atributos inúteis, interação e quebra |
-| [`etapa-07/linear.py`](etapa-07/linear.py) | Régua linear — referência para o capítulo 05 |
+| [`etapa-07/linear.py`](etapa-07/linear.py) | Régua linear — referência para o capítulo II.2 |
 | [`etapa-07/rodar.py`](etapa-07/rodar.py) | O experimento do capítulo (~4 min) |
 | [`tests/test_etapa_07.py`](tests/test_etapa_07.py) | 21 testes (rápidos: usam dado pequeno) |
 
@@ -118,7 +118,7 @@ E bagging faz o que promete: a variância da predição cai de **0,04066** (árv
 
 ## Etapa 05–06 — lineares e o otimizador
 
-**Capítulos:** [05 — Modelos Lineares](../livro/capitulos/05-modelos-lineares.md) e [06 — Otimização](../livro/capitulos/06-otimizacao.md)
+**Capítulos:** [05 — Modelos Lineares](../livro/capitulos/ii-2-modelos-lineares.md) e [06 — Otimização](../livro/capitulos/ii-4-otimizacao.md)
 
 | Arquivo | O que faz |
 |---|---|
@@ -136,7 +136,7 @@ descida_de_gradiente(grad, n_parametros, n_exemplos, taxa, epocas,
 
 Quem decide *o que* minimizar é o modelo, que passa `grad`. Essa separação não foi projetada — apareceu quando linear e logística precisaram do mesmo laço com perdas diferentes. É a regra 2 (arquitetura por refatoração) acontecendo na prática.
 
-E três achados que vieram de testes falhando, todos no capítulo 06:
+E três achados que vieram de testes falhando, todos no capítulo II.4:
 
 1. A perda logística é **limitada**: taxa 500 satura em vez de explodir, enquanto erro quadrático a taxa 50 diverge.
 2. Early stopping monitorando **treino** nunca dispara em dado separável.
@@ -166,12 +166,12 @@ Cada notebook roda **na sua máquina e no Colab**, sem alterar nada: a primeira 
 
 | Notebook | Capítulo | O que você faz |
 |---|---|---|
-| [`etapa-00/linha_de_base.ipynb`](etapa-00/linha_de_base.ipynb) | [01](../livro/01-fundamentos.md) | descobre por que 81% de acurácia pode ser péssimo |
-| [`etapa-02/vazamento.ipynb`](etapa-02/vazamento.ipynb) | [02](../livro/capitulos/02-dados.md) | os três vazamentos, e as divisões que os evitam |
-| [`etapa-05/regressao_limonada.ipynb`](etapa-05/regressao_limonada.ipynb) | [05](../livro/capitulos/05-modelos-lineares.md) e [06](../livro/capitulos/06-otimizacao.md) | o coeficiente que diz para aumentar o preço — e por que ele mente |
-| [`etapa-07/arvores_ensembles.ipynb`](etapa-07/arvores_ensembles.ipynb) | [07](../livro/capitulos/07-arvores-ensembles.md) | quatro modelos no mesmo dado, e a vantagem do ensemble encolhendo com ruído |
-| [`etapa-21/exploratoria_limonada.ipynb`](etapa-21/exploratoria_limonada.ipynb) | [21](../livro/capitulos/21-analise-exploratoria.md) | tipo, nulidade, posição, separatrizes, histograma e boxplot — e as duas colunas em que a régua de outlier engana |
-| [`etapa-18/neuronio_mp.ipynb`](etapa-18/neuronio_mp.ipynb) | [18](../livro/capitulos/18-neuronio-artificial.md) | põe os pesos à mão, vê o perceptron achá-los, e trava no XOR |
+| [`etapa-00/linha_de_base.ipynb`](etapa-00/linha_de_base.ipynb) | [01](../livro/0-2-fundamentos.md) | descobre por que 81% de acurácia pode ser péssimo |
+| [`etapa-02/vazamento.ipynb`](etapa-02/vazamento.ipynb) | [02](../livro/capitulos/i-3-dados.md) | os três vazamentos, e as divisões que os evitam |
+| [`etapa-05/regressao_limonada.ipynb`](etapa-05/regressao_limonada.ipynb) | [05](../livro/capitulos/ii-2-modelos-lineares.md) e [06](../livro/capitulos/ii-4-otimizacao.md) | o coeficiente que diz para aumentar o preço — e por que ele mente |
+| [`etapa-07/arvores_ensembles.ipynb`](etapa-07/arvores_ensembles.ipynb) | [07](../livro/capitulos/ii-5-arvores-ensembles.md) | quatro modelos no mesmo dado, e a vantagem do ensemble encolhendo com ruído |
+| [`etapa-21/exploratoria_limonada.ipynb`](etapa-21/exploratoria_limonada.ipynb) | [21](../livro/capitulos/i-4-analise-exploratoria.md) | tipo, nulidade, posição, separatrizes, histograma e boxplot — e as duas colunas em que a régua de outlier engana |
+| [`etapa-18/neuronio_mp.ipynb`](etapa-18/neuronio_mp.ipynb) | [18](../livro/capitulos/iii-1-neuronio-artificial.md) | põe os pesos à mão, vê o perceptron achá-los, e trava no XOR |
 
 ### Rodar na sua máquina
 

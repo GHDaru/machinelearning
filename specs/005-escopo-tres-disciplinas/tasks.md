@@ -6,7 +6,7 @@
 - [x] **T504** Redesenho ao trocar o tema (canvas não herda CSS) · *verif.:* MutationObserver
 - [x] **T505** Bloco `:::lab` no parser, build e extrator · *verif.:* 1 laboratório no banco
 - [x] **T506** CSS dos laboratórios, com `@media print` · *verif.:* build
-- [x] **T507** Capítulo 18 nível `essencial`, laboratório **antes** da explicação · *verif.:* gate
+- [x] **T507** Capítulo III.1 nível `essencial`, laboratório **antes** da explicação · *verif.:* gate
 - [x] **T508** McCulloch & Pitts conferido e ✓ · *verif.:* bibliografia
 - [x] **T509** Novo título, 5 partes, 28 capítulos no sumário · *verif.:* 40 páginas
 - [x] **T510** Nove capítulos-esqueleto (19–27) com objetivos · *verif.:* build

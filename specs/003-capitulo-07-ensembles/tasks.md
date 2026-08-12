@@ -1,4 +1,4 @@
-# Tasks 003 — Capítulo 07: Árvores e Ensembles
+# Tasks 003 — Capítulo II.5: Árvores e Ensembles
 
 - [x] **T301** Medir o teto de Bayes do dado da etapa 00 antes de decidir trocá-lo · *verif.:* nota em `estudos/`
 - [x] **T302** Gerador tabular com atributos inúteis, interação e quebra · *verif.:* 3 testes

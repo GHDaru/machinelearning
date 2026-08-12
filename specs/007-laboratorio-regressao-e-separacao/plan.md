@@ -27,11 +27,11 @@
 
 ## Ordem de execução
 
-O gate do Princípio X inverte a ordem ingênua: **não dá para criar o capítulo 28 e escrever a história depois** — o build falha antes. Então:
+O gate do Princípio X inverte a ordem ingênua: **não dá para criar o capítulo II.3 e escrever a história depois** — o build falha antes. Então:
 
 1. Laboratório (`publicar/tema/laboratorios.js` + CSS) — independente do resto.
-2. Dedução no capítulo 05, com o laboratório ancorado antes dela.
-3. Capítulo 28 **completo de uma vez**: corpo + história com selos + exercícios + vídeo.
-4. Capítulo 05 perde a logística; objetivos, síntese e verificação reescritos.
+2. Dedução no capítulo II.2, com o laboratório ancorado antes dela.
+3. Capítulo II.3 **completo de uma vez**: corpo + história com selos + exercícios + vídeo.
+4. Capítulo II.2 perde a logística; objetivos, síntese e verificação reescritos.
 5. Sumário, trilhas e links de outros capítulos.
 6. Build, gate do banco, testes, notebooks.

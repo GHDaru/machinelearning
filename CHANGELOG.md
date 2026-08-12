@@ -6,6 +6,40 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado — numeração por parte, e o id do exercício desatado do número (ADR 0011)
+- **`05-modelos-lineares` → `ii-2-modelos-lineares`**, e o título vira **II.2**.
+  A medição que motivou: **as 29 posições do sumário estavam fora de ordem** —
+  não algumas. Inserir um capítulo agora desloca só os vizinhos da mesma parte.
+- **O id do exercício deixou de carregar o número**: `05-e1` → `modelos-lineares-e1`.
+  Se seguisse a numeração, inserir um capítulo no meio de uma parte renumeraria
+  os exercícios seguintes e **o progresso de cada aluno apontaria para exercícios
+  inexistentes** — a cada inserção, para sempre. Números para humanos, nomes
+  para máquinas.
+- **O "capítulo" do companion virou posição de leitura** (1..29). O gating de
+  capacidades passou de 2/4/6 para 5/9/12 — que é o que ele sempre quis dizer.
+- **29 endereços antigos quebram**, por decisão explícita do autor (13 tentativas
+  registradas em produção; redirecionar custaria uma tabela de-para para sempre).
+- **Dívida D7 paga. Dívida D12 aberta**: a numeração das pastas do `ml-zero`
+  ficou órfã (`etapa-05` serve o `II.2`).
+
+### Adicionado — gate: âncora `volte para` inexistente falha o build
+- O `volte para:` devolve o leitor à seção exata que ele precisa reler, e o Guia
+  Editorial o chama de "o gesto mais útil do livro". Âncora inexistente **não dá
+  erro**: a página abre, não rola, e o leitor acha que a culpa é dele.
+- **Duas estavam quebradas** quando o gate foi escrito — achadas pelos pareceres
+  de didática, não por teste. Provei o gate quebrando uma âncora de propósito.
+
+### Corrigido — quatro acoplamentos ao número, que só apareceram quando ele mudou
+- **`dividirTitulo` exigia prefixo só de dígitos.** Com "II.2" ele devolvia
+  vazio, o cabeçalho do capítulo não era montado — e junto sumia o **selo de
+  nível**. O gate do Princípio X pegou, nas 29 páginas de uma vez. Segunda vez
+  que esse gate salva exatamente essa promessa.
+- **O grafo do livro** identificava nós por número e ligava capítulos por menção
+  textual ("cap. 05"). Passou a identificar por slug e a ligar **por link** —
+  mais fiel: referência linkada é dependência declarada; menção solta nem sempre.
+- **O gating de capacidades** nos dois lados (motor e backend).
+- **Os testes do backend** citavam `05-e1` literal.
+
 ### Corrigido — o build do backend passa a ser declarado (ADR 0007)
 - **`Dockerfile` + `.dockerignore` na raiz**, e `railway.json` com
   `builder: DOCKERFILE`. A raiz do repositório tem `package.json` (que existe só
@@ -145,7 +179,7 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   evidência para lançar nota.
 
 ### Adicionado — o capítulo 05 ganhou o caso da limonada (91 → 94 exercícios)
-- **Nova seção "O caso da limonada"** em `05-modelos-lineares.md`: a lista "as
+- **Nova seção "O caso da limonada"** em `ii-2-modelos-lineares.md`: a lista "as
   quatro coisas que o coeficiente não diz" deixa de ser advertência e passa a ser
   experimento. O leitor **produz** o coeficiente errado antes de ler que é errado.
 - Mostra o que quase nenhum material mostra: **controlar pela temperatura não

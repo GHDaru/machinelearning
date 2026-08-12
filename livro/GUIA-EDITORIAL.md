@@ -69,7 +69,7 @@ Um laboratório roda inteiro no navegador. Não há gabarito a esconder — o ga
 
 - O bloco declara **o que manipular ali ensina** e, sobretudo, **o que o leitor deve descobrir sozinho**. Um laboratório que explica antes de deixar brincar desperdiça o próprio mecanismo.
 - Ponha o laboratório **antes** da explicação, não depois. A descoberta vem primeiro; o texto confirma e nomeia.
-- Prefira laboratórios em que **o fracasso ensine**. O melhor exemplo do livro é o XOR no capítulo 18: o leitor trava em 3 de 4 e descobre a impossibilidade com as próprias mãos — o que nenhuma frase entrega.
+- Prefira laboratórios em que **o fracasso ensine**. O melhor exemplo do livro é o XOR no capítulo III.1: o leitor trava em 3 de 4 e descobre a impossibilidade com as próprias mãos — o que nenhuma frase entrega.
 - Quando não houver vídeo verificável para um tema, **o laboratório cumpre a cota de mídia**. Inventar uma referência para preencher cota é violação do Princípio I.
 
 Sintaxe em [`BANCO-DE-EXERCICIOS.md`](BANCO-DE-EXERCICIOS.md); os widgets vivem em `publicar/tema/laboratorios.js`.
@@ -94,7 +94,7 @@ Materializa o **Princípio X**. Portão do nível `essencial`, para todo capítu
 
 Conferir um DOI dá **✓ᵐ**, nunca ✓. Diferente da legenda de [`bibliografia.md`](bibliografia.md), que responde a outra pergunta ("esta referência pode sustentar uma afirmação?"): lá um ✓ conferido só por identificador equivale a ✓ᵐ aqui.
 
-**❌ é permitido e às vezes é o melhor que há.** Exemplo real, no capítulo 18: a atribuição do backpropagation a "um italiano em 1979" não foi confirmada — o capítulo diz que procurou e não achou, e lista o que existe (Linnainmaa 1970, Werbos 1974, Fukushima 1979/80). Lacuna admitida em voz alta vale mais que suposição com cara de fato.
+**❌ é permitido e às vezes é o melhor que há.** Exemplo real, no capítulo III.1: a atribuição do backpropagation a "um italiano em 1979" não foi confirmada — o capítulo diz que procurou e não achou, e lista o que existe (Linnainmaa 1970, Werbos 1974, Fukushima 1979/80). Lacuna admitida em voz alta vale mais que suposição com cara de fato.
 
 **Três proibições.** Gênio solitário (história ruim e geralmente falsa: métodos nascem de instituições, encomendas, prazos e restrições materiais — e é isso que ensina) · curiosidade decorativa (se o parágrafo sai sem o leitor perder compreensão ou julgamento, é enfeite) · misturar registro ("a literatura atribui a X" ≠ "X publicou em 19NN", e as duas não podem parecer iguais no texto).
 

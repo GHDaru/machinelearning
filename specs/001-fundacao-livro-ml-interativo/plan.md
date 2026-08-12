@@ -6,9 +6,9 @@
 
 | Princípio | Como este plano cumpre | Risco |
 |---|---|---|
-| **I — Evidência acima de retórica** | Números do cap. 04 vêm de matriz calculada no próprio texto; a linha de base do `ml-zero` vem de `rodar.py`. Bibliografia com status; 5 referências ✓ conferidas na fonte, demais ⏳ e **proibidas de sustentar afirmação**. | Tentação de citar de memória ao escrever os esqueletos. Mitigado: o esqueleto não cita. |
-| **II — Fonte-base é o experimento** | Etapa 00 gera os números que o cap. 01 usa. Seed fixa, sem rede. | — |
-| **III — Método pedagógico** | Esqueleto v4 obrigatório; cap. 04 é o piloto. Objetivos declarados em **todos** os capítulos, inclusive esqueletos. | — |
+| **I — Evidência acima de retórica** | Números do cap. II.1 vêm de matriz calculada no próprio texto; a linha de base do `ml-zero` vem de `rodar.py`. Bibliografia com status; 5 referências ✓ conferidas na fonte, demais ⏳ e **proibidas de sustentar afirmação**. | Tentação de citar de memória ao escrever os esqueletos. Mitigado: o esqueleto não cita. |
+| **II — Fonte-base é o experimento** | Etapa 00 gera os números que o cap. 0.2 usa. Seed fixa, sem rede. | — |
+| **III — Método pedagógico** | Esqueleto v4 obrigatório; cap. II.1 é o piloto. Objetivos declarados em **todos** os capítulos, inclusive esqueletos. | — |
 | **IV — Livro vivo** | Selo de captura nos capítulos escritos; `HISTORICO.md` com placar de expiração (2 cláusulas abertas) e versão do modelo de IA registrada. | — |
 | **V — Segurança e dados** | Zero segredos; `.env.example` sem valores; dado sintético na etapa 00; progresso anônimo com apagamento em cascata. | Rota de correção pode virar superfície de abuso. Mitigado: rate limit por sessão e IP. |
 | **VI — Neutralidade e acessibilidade** | Etapa 00 só com biblioteca padrão; backend sobe sem chave; vídeos gratuitos. | — |

@@ -1,4 +1,4 @@
-# 22 — Visualização e Storytelling
+# I.5 — Visualização e Storytelling
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -15,7 +15,7 @@
 
 Uma análise que ninguém entende não muda decisão nenhuma — e uma análise que não muda decisão nenhuma não valeu o custo.
 
-O [capítulo 21](21-analise-exploratoria.md) é olhar para **descobrir**: você desenha vinte gráficos feios, para si mesmo, e joga dezenove fora. Este capítulo é outra coisa: mostrar para **convencer**. O público é outro, o tempo de atenção é outro, e o erro também é outro. Lá o risco era não ver o padrão; aqui o risco é o leitor ver um padrão que não existe — e decidir com base nele. O [capítulo 25](25-do-modelo-a-decisao.md) é onde a decisão acontece de fato; este é a ponte.
+O [capítulo I.4](i-4-analise-exploratoria.md) é olhar para **descobrir**: você desenha vinte gráficos feios, para si mesmo, e joga dezenove fora. Este capítulo é outra coisa: mostrar para **convencer**. O público é outro, o tempo de atenção é outro, e o erro também é outro. Lá o risco era não ver o padrão; aqui o risco é o leitor ver um padrão que não existe — e decidir com base nele. O [capítulo II.8](ii-8-do-modelo-a-decisao.md) é onde a decisão acontece de fato; este é a ponte.
 
 Visualização é interface. Como toda interface, ela pode ser honesta ou pode enganar — inclusive sem que ninguém tenha querido enganar.
 
@@ -29,7 +29,7 @@ Visualização é interface. Como toda interface, ela pode ser honesta ou pode e
 
 **A ideia reaproveitável — e é o achado deste capítulo: uma restrição de dados pode gerar uma forma nova.** O atlas de Playfair é feito de séries temporais: 34 pranchas de importação e exportação ao longo dos anos, todas em linha. Mas para a **Escócia** ele tinha os dados de **um único ano (1781)**. Sem eixo do tempo não há linha a traçar. A saída foi desenhar 34 **barras**, uma para cada sentido do comércio com 17 parceiros. Beniger & Robyn resumem: *"Playfair was driven to this invention by a lack of data"*. Ou seja: **a barra não é uma linha simplificada — é a resposta a uma pergunta que a linha não podia responder.** Guarde isso, porque é a razão de o próximo tópico existir: cada forma responde a um tipo de pergunta, e usar a forma errada é responder outra coisa.
 
-É o mesmo padrão do [capítulo 18](18-neuronio-artificial.md) — McCulloch e Pitts fazem um neurônio **sem aprendizado** porque não havia como treinar — e do [capítulo 23](23-analise-multidimensional.md), onde o cubo OLAP pré-computa porque a consulta era lenta demais. Restrição material gera forma nova; e a forma sobrevive à restrição que a criou.
+É o mesmo padrão do [capítulo III.1](iii-1-neuronio-artificial.md) — McCulloch e Pitts fazem um neurônio **sem aprendizado** porque não havia como treinar — e do [capítulo II.6](ii-6-analise-multidimensional.md), onde o cubo OLAP pré-computa porque a consulta era lenta demais. Restrição material gera forma nova; e a forma sobrevive à restrição que a criou.
 
 **O nome.** *The Commercial and Political Atlas*, 1786 (com uma edição preliminar privada em 1785). O próprio Playfair explicou por que insistia: *"As the knowledge of mankind increases, and transactions multiply, it becomes more and more desirable to abbreviate and facilitate the modes of conveying information."*
 
@@ -41,7 +41,7 @@ Visualização é interface. Como toda interface, ela pode ser honesta ou pode e
 | ⏳ | Que antes disso o padrão fosse a tabela lida linha a linha |
 | ⏳ | A citação de Beniger & Robyn (1978), *"driven to this invention by a lack of data"*, tomada de [friendly.github.io/HistDataVis](https://friendly.github.io/HistDataVis/ch05-playfair.html) — fonte secundária que cita a primária; **não conferida** em Beniger & Robyn |
 | ⏳ | A frase do próprio Playfair — citada de forma consistente em várias secundárias; **não conferida** na edição de 1786 |
-| 📖 | A leitura de que "uma restrição de dados pode gerar uma forma nova", e o paralelo com os capítulos 18 e 23 |
+| 📖 | A leitura de que "uma restrição de dados pode gerar uma forma nova", e o paralelo com os capítulos III.1 e 23 |
 
 ## Fundamentos: a pergunta escolhe o gráfico
 
@@ -55,7 +55,7 @@ Não se escolhe gráfico por gosto nem por variedade. Escolhe-se pela pergunta q
 | **Relação** — X anda junto com Y? | dispersão | dois eixos, um ponto por observação |
 | **Composição** — de que isto é feito? | barra empilhada; pizza **às vezes** | só vale quando as partes somam um todo com significado |
 
-O **boxplot** dessa tabela é de Tukey, e é o mesmo do [capítulo 21](21-analise-exploratoria.md) — lá como ferramenta de descoberta, aqui como forma de comunicar espalhamento sem despejar a base inteira na tela.
+O **boxplot** dessa tabela é de Tukey, e é o mesmo do [capítulo I.4](i-4-analise-exploratoria.md) — lá como ferramenta de descoberta, aqui como forma de comunicar espalhamento sem despejar a base inteira na tela.
 
 ### Por que a pizza quase sempre perde
 
@@ -63,7 +63,7 @@ A pizza codifica quantidade em **ângulo** (e área). A barra codifica em **comp
 
 A regra prática: a pizza só se sustenta com **duas ou três** categorias, quando o todo importa mais que a ordem ("dois terços da receita vêm de um produto"). Fora disso, use barra. E nunca ponha pizza em 3D com fatia destacada: a perspectiva aumenta a área das fatias da frente, ou seja, o enfeite muda o número lido.
 
-:::exercicio {"id":"22-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"visualizacao-storytelling-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Você quer mostrar **como o tempo de resposta da API se espalha** entre as requisições — se há cauda longa, onde estão os piores casos. Qual forma responde a essa pergunta?
 
 - [ ] Um gráfico de pizza com a fatia de cada faixa de tempo.
@@ -90,7 +90,7 @@ Nenhum dos truques abaixo falsifica um número. Todos mudam a conclusão.
 
 **Cor sem propósito.** Cor é para **destacar** (uma série importa, o resto é cinza), para **ordenar** (escala contínua clara→escura) ou para **categorizar** (poucas cores distintas). Escolher paleta arco-íris para dados ordenados inventa fronteiras que não existem. E cerca de um em cada doze homens tem alguma forma de daltonismo: **nunca use verde/vermelho como o único sinal** de bom/ruim — acrescente forma, posição ou rótulo. Um gráfico que só funciona colorido também não funciona impresso em preto e branco.
 
-:::exercicio {"id":"22-e2","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"visualizacao-storytelling-e2","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
 Um gerente leva à diretoria um gráfico de **barras** com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em **88** e termina em **89,5**. Não há nota de rodapé. O título é "Satisfação do cliente". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.
 
 Julgue o gráfico: o que está errado, por que engana, e como você o refaria.
@@ -123,7 +123,7 @@ E a mesma análise se conta de dois jeitos, sem mudar de conclusão. Para o **ti
 
 Às vezes a melhor visualização é **nenhuma**: quando a resposta é um número só ("o churn foi de 4,1%"), o gráfico só adiciona tinta.
 
-:::exercicio {"id":"22-e3","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
+:::exercicio {"id":"visualizacao-storytelling-e3","tipo":"completar","objetivo":"O3","dificuldade":"facil"}
 Complete a regra do título num gráfico de apresentação:
 
 `O título de um gráfico que decide deve ser a ______, e não o rótulo dos dados.`
@@ -138,12 +138,12 @@ Complete a regra do título num gráfico de apresentação:
 ## Síntese — o que levar
 
 - A forma segue a **pergunta**: comparação → barra; evolução → linha; distribuição → histograma/boxplot; relação → dispersão; composição → às vezes pizza, quase sempre barra.
-- A **barra de Playfair nasceu de uma falta de dados** — um só ano, sem eixo do tempo. Restrição material gera forma nova, aqui como no [18](18-neuronio-artificial.md) e no [23](23-analise-multidimensional.md).
+- A **barra de Playfair nasceu de uma falta de dados** — um só ano, sem eixo do tempo. Restrição material gera forma nova, aqui como no [18](iii-1-neuronio-artificial.md) e no [23](ii-6-analise-multidimensional.md).
 - **Comprimento se compara melhor que ângulo.** É a razão técnica de a barra vencer a pizza quase sempre.
 - **Barra parte do zero.** Eixo truncado não falsifica número nenhum e ainda assim muda a conclusão — é a distorção mais comum e a mais fácil de flagrar.
 - Tinta sem informação compete com o dado. Cor tem três empregos (destacar, ordenar, categorizar) e nunca deve ser o **único** sinal — daltonismo e impressão em cinza.
 - Um gráfico de apresentação tem **uma** mensagem, e ela vai no **título**. Rótulo de dados terceiriza a conclusão para a plateia.
-- Explorar (cap. 21) é para você; comunicar (este) é para quem decide (cap. 25). Muda o público, muda o gráfico — não a conclusão.
+- Explorar (cap. I.4) é para você; comunicar (este) é para quem decide (cap. II.8). Muda o público, muda o gráfico — não a conclusão.
 
 ## Verificação
 

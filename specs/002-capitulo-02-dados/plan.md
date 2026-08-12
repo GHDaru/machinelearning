@@ -1,4 +1,4 @@
-# Plan 002 — Capítulo 02: Dados
+# Plan 002 — Capítulo I.3: Dados
 
 **Spec:** [spec.md](spec.md) · **Raia:** plena · **Data:** 2026-08-05
 

@@ -1,4 +1,4 @@
-# 07 — Árvores e Ensembles
+# II.5 — Árvores e Ensembles
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
 >
@@ -54,13 +54,13 @@ Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: 
 
 **A ideia reaproveitável.** **Uma pergunta bem-posta sobre limites vira algoritmo.** Quando você consegue formular precisamente *"isto é possível?"*, a resposta afirmativa frequentemente já contém o *como*. Vale mais aprender isso do que decorar o AdaBoost.
 
-> **Repare no relógio.** Em quase todo o resto deste livro, a distância entre a ideia e o procedimento utilizável é de décadas: 1943→1958 no [capítulo 18](18-neuronio-artificial.md), 1927→1970 no [24](24-series-temporais.md), 1931→1974 no [01](../01-fundamentos.md). No boosting são **sete anos** — pergunta em 1988, resposta em 1990, algoritmo em 1995.
+> **Repare no relógio.** Em quase todo o resto deste livro, a distância entre a ideia e o procedimento utilizável é de décadas: 1943→1958 no [capítulo III.1](iii-1-neuronio-artificial.md), 1927→1970 no [24](ii-7-series-temporais.md), 1931→1974 no [01](../0-2-fundamentos.md). No boosting são **sete anos** — pergunta em 1988, resposta em 1990, algoritmo em 1995.
 >
 > A diferença não é a época nem o computador. É que aqui **o aperto já estava formulado como uma pergunta formal precisa**. Quando a pergunta é vaga, a espera é longa; quando é exata, a resposta traz o método junto. Isso é uma dica prática sobre como gastar o seu tempo: afiar a pergunta costuma render mais que procurar a solução.
 
-### E a ponte com o capítulo 06
+### E a ponte com o capítulo II.4
 
-Bagging — *bootstrap aggregating*, Breiman, 1996 — vem do mesmo diagnóstico que produziu o LASSO no [capítulo 06](06-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
+Bagging — *bootstrap aggregating*, Breiman, 1996 — vem do mesmo diagnóstico que produziu o LASSO no [capítulo II.4](ii-4-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
 
 Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularização. Do lado **"instabilidade é insumo"** saiu o bagging: se o modelo varia muito com o dado, então **perturbe de propósito** e tire a média. Random Forests (2001) é a mesma frase dita de novo, com uma perturbação a mais. **O mesmo diagnóstico, dois métodos, dois capítulos.**
 
@@ -73,7 +73,7 @@ Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularizaç�
 | ⏳ | A pergunta de Kearns & Valiant (1988) e sua formulação como manuscrito sobre *hypothesis boosting* |
 | ⏳ | O desafio de Michie a Quinlan e o final Rei-Torre × Rei-Cavalo; a filiação do ID3 ao CLS de Hunt (1966) |
 | ❌ | O **nome do projeto de consultoria específico** que gerou o CART — procurei e não achei em primária |
-| 📖 | As três ideias reaproveitáveis, a leitura sobre o relógio do boosting e a ponte com o capítulo 06 |
+| 📖 | As três ideias reaproveitáveis, a leitura sobre o relógio do boosting e a ponte com o capítulo II.4 |
 
 > **Números deste capítulo.** Todos saem de [`ml-zero/etapa-07/rodar.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-07/rodar.py), com seed fixa. Rodar duas vezes dá o mesmo resultado (Princípio II).
 
@@ -98,10 +98,10 @@ $$\text{ganho} = \text{Gini}(\text{pai}) - \frac{n_e}{n}\text{Gini}(\text{esq}) 
 Três consequências que explicam quase todo comportamento de árvore:
 
 1. **O corte é local e definitivo.** A árvore nunca desfaz uma decisão anterior. Por isso ela é rápida e por isso ela às vezes erra feio: um corte ruim no topo compromete tudo abaixo.
-2. **Escala não importa.** Multiplicar um atributo por mil não muda a ordem dos valores, e o corte depende só da ordem. É por isso que árvores dispensam normalização — ao contrário de tudo que usa distância ou gradiente (cap. 03 e 06).
+2. **Escala não importa.** Multiplicar um atributo por mil não muda a ordem dos valores, e o corte depende só da ordem. É por isso que árvores dispensam normalização — ao contrário de tudo que usa distância ou gradiente (cap. I.6 e 06).
 3. **Atributos inúteis são ignorados de graça.** Se nenhum corte de um atributo dá ganho, ele simplesmente não aparece na árvore. Guarde este ponto: ele volta no fim do capítulo.
 
-:::exercicio {"id":"07-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"arvores-ensembles-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Um nó contém 100 exemplos, 50 de cada classe. Um corte candidato produz um filho com 50 exemplos (45 positivos, 5 negativos) e outro com 50 (5 positivos, 45 negativos). Qual é o ganho de Gini desse corte?
 
 - [ ] 0,000 — o corte não ajuda, porque cada filho ainda tem as duas classes.
@@ -118,7 +118,7 @@ Um nó contém 100 exemplos, 50 de cada classe. Um corte candidato produz um fil
 
 ## Uma árvore sozinha tem variância alta
 
-Árvore profunda decora. Isso já era esperado do [capítulo 01](../01-fundamentos.md) — mais capacidade, mais variância. O que o capítulo 01 não mostrou é **quanto**.
+Árvore profunda decora. Isso já era esperado do [capítulo 0.2](../0-2-fundamentos.md) — mais capacidade, mais variância. O que o capítulo 0.2 não mostrou é **quanto**.
 
 Medindo a variância da predição, Var[f̂(x)], sobre 5 reamostragens *bootstrap* do treino:
 
@@ -158,9 +158,9 @@ Comece com uma previsão constante. Calcule o **resíduo** — o quanto cada exe
 
 Cada árvore é deliberadamente fraca: profundidade 3, no experimento. Sozinha, ela vale 0,9201 de AUC. **Cinquenta delas, somadas com passo 0,2, chegam a 0,9392** — 99,9% do teto teórico. É viés atacado por acumulação de correções, não por capacidade individual.
 
-A **taxa de aprendizado** η encolhe cada contribuição. Passo pequeno com muitas árvores generaliza melhor que passo grande com poucas — o mesmo fenômeno que o [capítulo 06](06-otimizacao.md) trata como regularização.
+A **taxa de aprendizado** η encolhe cada contribuição. Passo pequeno com muitas árvores generaliza melhor que passo grande com poucas — o mesmo fenômeno que o [capítulo II.4](ii-4-otimizacao.md) trata como regularização.
 
-:::exercicio {"id":"07-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"arvores-ensembles-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC na validação. Aumentam para 500 árvores. O que se espera?
 
 - [ ] A AUC vai cair, porque 500 árvores causam overfitting.
@@ -177,7 +177,7 @@ Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC n
 > **volte para:** #bagging-e-boosting-atacam-erros-diferentes
 :::
 
-:::exercicio {"id":"07-e3","tipo":"multipla-multi","objetivo":"O2","dificuldade":"dificil"}
+:::exercicio {"id":"arvores-ensembles-e3","tipo":"multipla-multi","objetivo":"O2","dificuldade":"dificil"}
 Quais afirmações sobre a floresta aleatória são corretas? (marque todas que valem)
 
 - [x] Cada árvore individual é tipicamente pior que uma única árvore treinada em todos os dados.
@@ -208,7 +208,7 @@ O erro caro é começar pelo item 4 — mexer em regularização com profundidad
 
 E use **early stopping** desde o começo: em vez de escolher o número de árvores por busca, treine muitas e pare quando a validação parar de melhorar. É o hiperparâmetro que se ajusta sozinho.
 
-:::exercicio {"id":"07-e4","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"arvores-ensembles-e4","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
 Um modelo de boosting foi treinado com taxa de aprendizado η = 0,2 e 50 árvores. Você decide reduzir a taxa para 0,05, mantendo o mesmo "caminho percorrido" pelo modelo. Aproximadamente quantas árvores serão necessárias?
 
 > **gabarito:** 200 ± 5
@@ -234,7 +234,7 @@ Repare que o experimento deste capítulo foi construído com exatamente as carac
 
 > **Cláusula de expiração.** Escrevo em 2026 que gradient boosting é a escolha padrão para tabular de porte médio, sustentado por Grinsztajn et al. (2022). Esta é a afirmação com maior chance de envelhecer neste livro: há trabalho ativo em arquiteturas tabulares e em modelos de fundação para tabular. O gatilho de revisão é claro: **um benchmark independente, com o mesmo rigor de busca de hiperparâmetros, mostrando vantagem consistente de um método não-árvore em dados de porte médio**. Acompanhamento no [placar de expiração](../HISTORICO.md).
 
-:::exercicio {"id":"07-e5","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"arvores-ensembles-e5","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Sua equipe tem 8.000 linhas, 40 colunas tabulares, e um prazo de duas semanas. Um colega propõe começar por uma rede neural profunda, argumentando que "deep learning é o estado da arte".
 
 Escreva a resposta que você daria: qual sua **recomendação**, com que **evidência**, e em que **condição** você mudaria de ideia.
@@ -260,7 +260,7 @@ A **etapa 07** do [`ml-zero`](../trilha-ml-zero.md) implementa os três modelos 
 4. `auc` — pelo método dos postos, com empates tratados;
 5. `rodar.py` — o experimento inteiro, que produz a tabela deste capítulo.
 
-Três lições do capítulo estão escritas como **testes que falham** se deixarem de ser verdade: bagging corta a variância pela metade ou mais; a reta não alcança a fronteira irregular; e ninguém passa do teto de Bayes — passar indicaria vazamento (cap. 02).
+Três lições do capítulo estão escritas como **testes que falham** se deixarem de ser verdade: bagging corta a variância pela metade ou mais; a reta não alcança a fronteira irregular; e ninguém passa do teto de Bayes — passar indicaria vazamento (cap. I.3).
 
 
 **Notebook pronto para executar** — [`arvores_ensembles.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-07/arvores_ensembles.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-07/arvores_ensembles.ipynb)
@@ -271,8 +271,8 @@ Os quatro modelos treinados no mesmo dado, com a AUC de cada um. A última célu
 
 ## Assista
 
-:::video {"id":"07-v1","fonte":"youtube","ref":"3CC4N4z3GJc","min":15,"autor":"StatQuest with Josh Starmer","titulo":"Gradient Boost Part 1: Regression Main Ideas"}
-Boosting é o conceito deste capítulo que a prosa explica mal, porque ele é um processo **iterativo** — e prosa é linear. O vídeo constrói o modelo passo a passo numa tabela pequena: previsão inicial, resíduo, árvore no resíduo, nova previsão, novo resíduo. Ver a coluna de resíduos encolhendo a cada rodada é o que transforma "cada árvore corrige a anterior" de frase decorada em mecanismo entendido. Assista antes do exercício 07-e4.
+:::video {"id":"arvores-ensembles-v1","fonte":"youtube","ref":"3CC4N4z3GJc","min":15,"autor":"StatQuest with Josh Starmer","titulo":"Gradient Boost Part 1: Regression Main Ideas"}
+Boosting é o conceito deste capítulo que a prosa explica mal, porque ele é um processo **iterativo** — e prosa é linear. O vídeo constrói o modelo passo a passo numa tabela pequena: previsão inicial, resíduo, árvore no resíduo, nova previsão, novo resíduo. Ver a coluna de resíduos encolhendo a cada rodada é o que transforma "cada árvore corrige a anterior" de frase decorada em mecanismo entendido. Assista antes do exercício arvores-ensembles-e4.
 :::
 
 ## Síntese — o que levar

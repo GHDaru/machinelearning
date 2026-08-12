@@ -144,7 +144,7 @@ Só quando os passos 1–7 estiverem verdes.
 
 **Actions → "Redirecionar o GitHub Pages para o domínio próprio" → Run workflow**, digitando `SIM` no campo de confirmação.
 
-O antigo endereço passa a servir um stub que redireciona **preservando o caminho** (`/machinelearning/18-neuronio-artificial.html` cai no capítulo 18 do domínio novo), com `canonical` e `noindex`.
+O antigo endereço passa a servir um stub que redireciona **preservando o caminho** (`/machinelearning/iii-1-neuronio-artificial.html` cai no capítulo 18 do domínio novo), com `canonical` e `noindex`.
 
 Depois disso, remova `https://ghdaru.github.io` de `ALLOWED_ORIGINS` no Railway.
 

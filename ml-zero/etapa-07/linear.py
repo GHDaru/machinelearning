@@ -1,13 +1,13 @@
 """Régua linear — presente aqui só para comparação.
 
-O modelo linear é construído com cuidado no **capítulo 05**, e o gradiente que
+O modelo linear é construído com cuidado no **capítulo II.2**, e o gradiente que
 o treina, no **06**. Esta versão mínima existe na etapa 07 por um motivo: sem
 uma régua, "boosting vai bem" não significa nada. Com ela, a afirmação do
-capítulo 07 fica mensurável — a fronteira é irregular, e a reta não a alcança.
+capítulo II.5 fica mensurável — a fronteira é irregular, e a reta não a alcança.
 
 Referência para a frente, portanto, e deliberadamente enxuta: escala os
 atributos, roda gradiente descendente em lote e para. Nada de regularização,
-nada de otimizador esperto — isso é assunto do capítulo 06.
+nada de otimizador esperto — isso é assunto do capítulo II.4.
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ class LogisticaSimples:
             raise ValueError("não dá para aprender com zero exemplos")
         n, d = len(y), len(X[0])
         # padroniza: sem isso, atributos em escalas diferentes fazem o gradiente
-        # zigue-zaguear — a dor que o capítulo 06 formaliza
+        # zigue-zaguear — a dor que o capítulo II.4 formaliza
         self._media = [sum(linha[j] for linha in X) / n for j in range(d)]
         self._desvio = []
         for j in range(d):

@@ -150,7 +150,7 @@ def test_boosting_com_taxa_menor_precisa_de_mais_arvores(dados_pequenos):
 # ---------------------------------------------- as lições da etapa, executáveis
 
 def test_a_licao_1_bagging_reduz_a_variancia(dados_pequenos):
-    """A afirmação do capítulo 01 medida no capítulo 07.
+    """A afirmação do capítulo 0.2 medida no capítulo II.5.
 
     **Como medir importa.** A primeira versão deste teste colapsava cada
     reamostragem numa AUC e comparava o desvio-padrão dessas AUCs. Com poucas
@@ -186,7 +186,7 @@ def test_a_licao_1_bagging_reduz_a_variancia(dados_pequenos):
 
 
 def test_a_licao_2_a_reta_nao_alcanca_uma_fronteira_irregular(dados_pequenos):
-    """O argumento central do capítulo 07, como asserção.
+    """O argumento central do capítulo II.5, como asserção.
 
     A regra verdadeira é não-monotônica: consumo MUITO alto (fora do horário
     comercial) e consumo MUITO baixo são ambos anomalia. Nenhuma reta expressa
@@ -208,7 +208,7 @@ def test_a_licao_2_a_reta_nao_alcanca_uma_fronteira_irregular(dados_pequenos):
 
 
 def test_a_licao_3_o_teto_de_bayes_e_conhecido_e_ninguem_deveria_passar_dele(dados_pequenos):
-    """Só é possível porque nós escrevemos o processo gerador (cap. 01)."""
+    """Só é possível porque nós escrevemos o processo gerador (cap. 0.2)."""
     treino, val = dados_pequenos
     teto = auc(val.y, [p_verdadeiro(x) for x in val.X])
     assert 0.85 < teto < 1.0

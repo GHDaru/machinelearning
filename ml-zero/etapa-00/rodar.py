@@ -50,7 +50,7 @@ def main() -> None:
     print(f"Leia os dois números juntos: {acc:.1%} de acurácia e {revocacao:.0%} de")
     print("revocação. O 'modelo' acerta a maioria e não encontra NENHUM caso")
     print("positivo — que é justamente o que se queria encontrar. Este é o")
-    print("problema que o capítulo 04 resolve.")
+    print("problema que o capítulo II.1 resolve.")
     print()
     teto = 1 - PROB_RUIDO / 2
     print(f"Teto teórico deste problema  ~{teto:.4f}")

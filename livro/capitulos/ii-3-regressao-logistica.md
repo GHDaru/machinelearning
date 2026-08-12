@@ -1,4 +1,4 @@
-# 28 — Regressão Logística
+# II.3 — Regressão Logística
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-11 · [histórico](../HISTORICO.md)
 >
@@ -10,7 +10,7 @@
 - **O2.** Interpretar um coeficiente como efeito sobre a **razão de chances**, e não sobre a probabilidade.
 - **O3.** Justificar por que a perda é a entropia cruzada e por que não há solução fechada.
 
-> Este capítulo saiu do [05 — Modelos Lineares](05-modelos-lineares.md), onde dividia espaço com a regressão linear. Compartilham a forma $w \cdot x + b$ e quase nada além disso.
+> Este capítulo saiu do [05 — Modelos Lineares](ii-2-modelos-lineares.md), onde dividia espaço com a regressão linear. Compartilham a forma $w \cdot x + b$ e quase nada além disso.
 
 ## O problema: o classificador que finge ser regressão
 
@@ -66,7 +66,7 @@ $$z = \log\frac{p}{1-p}$$
 
 O que é linear nos atributos **não é a probabilidade** — é o **logito**, o logaritmo da razão de chances. A regressão logística é uma regressão linear *sobre o logito*, usada para classificar.
 
-:::exercicio {"id":"28-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+:::exercicio {"id":"regressao-logistica-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Numa regressão logística, o que é linear nos atributos?
 
 - [ ] A probabilidade prevista.
@@ -83,7 +83,7 @@ Numa regressão logística, o que é linear nos atributos?
 
 ## Por que a perda muda, e por que a solução fechada some
 
-O [capítulo 05](05-modelos-lineares.md#a-deducao-em-cinco-passos) deduziu a reta ótima em cinco passos, e o quarto entregou uma fórmula. Aqui o mesmo caminho **não chega ao fim** — e vale entender onde ele para.
+O [capítulo II.2](ii-2-modelos-lineares.md#a-deducao-em-cinco-passos) deduziu a reta ótima em cinco passos, e o quarto entregou uma fórmula. Aqui o mesmo caminho **não chega ao fim** — e vale entender onde ele para.
 
 **Primeiro, a perda.** Usar erro quadrático sobre a saída da sigmoide dá uma superfície **não convexa**: aparecem mínimos locais, e o otimizador pode parar num deles. A perda usada é a **entropia cruzada** (ou *log-loss*):
 
@@ -95,11 +95,11 @@ Ela é convexa em $w$, e tem uma leitura direta: pune **muito** a previsão conf
 
 $$\sum_{i=1}^{n}\left(\sigma(w \cdot x_i + b) - y_i\right)x_i = 0$$
 
-que tem a **mesma forma** da condição do capítulo 05 — resíduo ortogonal ao atributo. Só que aqui o "resíduo" contém $\sigma(\cdot)$, e $w$ está **dentro** de uma função não linear. Não há como isolar $w$: o sistema é transcendental.
+que tem a **mesma forma** da condição do capítulo II.2 — resíduo ortogonal ao atributo. Só que aqui o "resíduo" contém $\sigma(\cdot)$, e $w$ está **dentro** de uma função não linear. Não há como isolar $w$: o sistema é transcendental.
 
-É por isso que a logística **não tem** equações normais, e o gradiente deixa de ser uma alternativa elegante para virar a única saída. A frase do capítulo 05 — *"o gradiente é a ferramenta geral; a solução fechada é o caso de sorte"* — recebe aqui a sua demonstração.
+É por isso que a logística **não tem** equações normais, e o gradiente deixa de ser uma alternativa elegante para virar a única saída. A frase do capítulo II.2 — *"o gradiente é a ferramenta geral; a solução fechada é o caso de sorte"* — recebe aqui a sua demonstração.
 
-:::exercicio {"id":"28-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+:::exercicio {"id":"regressao-logistica-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Por que a regressão logística não tem solução fechada, como a linear tem?
 
 - [ ] Porque a entropia cruzada não é diferenciável.
@@ -130,9 +130,9 @@ A diferença é grande e é onde os relatórios erram:
 
 O mesmo coeficiente move a probabilidade em 8, 17 e 5 pontos percentuais, dependendo de onde se estava. Por isso "este atributo aumenta o risco em X pontos" é uma frase sem sentido fora de um ponto específico.
 
-E tudo o que o [capítulo 05](05-modelos-lineares.md#as-quatro-coisas-que-ele-nao-diz) diz sobre o que o coeficiente **não** significa continua valendo aqui, palavra por palavra: não é causa, não é comparável sem padronização, não é estável sob colinearidade e não vale fora da faixa observada.
+E tudo o que o [capítulo II.2](ii-2-modelos-lineares.md#as-quatro-coisas-que-ele-nao-diz) diz sobre o que o coeficiente **não** significa continua valendo aqui, palavra por palavra: não é causa, não é comparável sem padronização, não é estável sob colinearidade e não vale fora da faixa observada.
 
-:::exercicio {"id":"28-e2","tipo":"multipla-multi","objetivo":"O2","dificuldade":"dificil"}
+:::exercicio {"id":"regressao-logistica-e2","tipo":"multipla-multi","objetivo":"O2","dificuldade":"dificil"}
 Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 para `dívida_atual`. Quais leituras são **corretas**? (marque todas que valem)
 
 - [x] Um desvio-padrão a mais de dívida multiplica a razão de chances de inadimplência por aproximadamente 2.
@@ -150,14 +150,14 @@ Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 
 
 ## Mão na massa
 
-A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) traz `RegressaoLogistica` em biblioteca padrão, com regularização L1 e L2 e leitura por `razao_de_chances()`. O otimizador é o mesmo da linear — só a função de perda muda, que é o ponto da arquitetura do [capítulo 06](06-otimizacao.md).
+A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) traz `RegressaoLogistica` em biblioteca padrão, com regularização L1 e L2 e leitura por `razao_de_chances()`. O otimizador é o mesmo da linear — só a função de perda muda, que é o ponto da arquitetura do [capítulo II.4](ii-4-otimizacao.md).
 
 **Notebook** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) cobre a linear. Um notebook próprio para a logística está na fila; enquanto isso, o caminho é importar `RegressaoLogistica` da mesma etapa e ajustar contra um rótulo binário.
 
 ## Assista
 
-:::video {"id":"28-v1","fonte":"youtube","ref":"yIYKR4sgzI8","min":9,"autor":"StatQuest with Josh Starmer","titulo":"StatQuest: Logistic Regression"}
-O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase "o que é linear é o logito, não a probabilidade" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício 28-e2.
+:::video {"id":"regressao-logistica-v1","fonte":"youtube","ref":"yIYKR4sgzI8","min":9,"autor":"StatQuest with Josh Starmer","titulo":"StatQuest: Logistic Regression"}
+O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase "o que é linear é o logito, não a probabilidade" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício regressao-logistica-e2.
 :::
 
 ## Síntese — o que levar
@@ -173,4 +173,4 @@ O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito
 1. Explique por que a regressão logística tem "regressão" no nome, sem usar a palavra "sigmoide".
 2. Um coeficiente vale 1,1. Um colega diz que o atributo "aumenta o risco em 110%". O que está errado na frase, e qual seria a correta?
 3. Por que usar erro quadrático com a sigmoide é uma má ideia — e qual das duas razões (convexidade ou punição do erro confiante) você considera a mais grave?
-4. Onde exatamente a dedução do capítulo 05 para de funcionar aqui?
+4. Onde exatamente a dedução do capítulo II.2 para de funcionar aqui?

@@ -6,7 +6,10 @@ Duas modalidades:
     *fading* do 4C/ID e a carga cognitiva virando comportamento: o tutor não
     oferece um atalho que o leitor ainda não tem base para julgar.
 
-Cada capacidade declara em que capítulo é liberada e quais tools habilita.
+Cada capacidade declara em que POSIÇÃO DE LEITURA (1..N) é liberada, e quais
+tools habilita. Era o número do capítulo até a numeração por parte (ADR 0011);
+com "II.2" no título, o gating passou a usar a ordem do sumário — que é, aliás,
+o que ele sempre quis dizer: "depois que o leitor passou por tantos capítulos".
 O widget usa `capacidades(chapter, mode)` para mostrar "o que posso fazer agora".
 `tools_ativas` e `loop_ativo` decidem o comportamento real do turno.
 
@@ -31,12 +34,12 @@ REGISTRO = [
      "descricao": "Sei o que você já resolveu e o que ficou pendente — de forma anônima."},
     {"chave": "plano_estudo", "rotulo": "Plano de estudo", "libera": 0, "tools": (),
      "descricao": "Monto uma ordem de leitura e prática a partir do seu objetivo declarado."},
-    {"chave": "dados", "rotulo": "Diagnóstico de dados", "libera": 2, "tools": ("checar_split",),
+    {"chave": "dados", "rotulo": "Diagnóstico de dados", "libera": 5, "tools": ("checar_split",),
      "descricao": "Ajudo a farejar vazamento, desbalanceamento e divisão mal-feita."},
-    {"chave": "metricas", "rotulo": "Calculadora de métricas", "libera": 4,
+    {"chave": "metricas", "rotulo": "Calculadora de métricas", "libera": 9,
      "tools": ("metricas_classificacao",),
      "descricao": "Calculo precisão, revocação, F1 e acurácia a partir da matriz de confusão."},
-    {"chave": "matematica", "rotulo": "Contas passo a passo", "libera": 6, "tools": ("calcular",),
+    {"chave": "matematica", "rotulo": "Contas passo a passo", "libera": 12, "tools": ("calcular",),
      "descricao": "Faço a aritmética do exercício sem você abrir a calculadora."},
 ]
 

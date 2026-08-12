@@ -1,4 +1,4 @@
-# 05 — Modelos Lineares
+# II.2 — Modelos Lineares
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
 >
@@ -11,17 +11,17 @@
 - **O3.** Interpretar os coeficientes de um modelo linear — e dizer o que eles **não** significam.
 - **O4.** Reconhecer as situações em que o modelo linear é a escolha certa, não a escolha simplória.
 
-> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [28 — Regressão Logística](28-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
+> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [28 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
 
 ## O problema: o modelo que todo mundo aprende e quase ninguém respeita
 
-O [capítulo 07](07-arvores-ensembles.md) mostrou o modelo linear perdendo feio: 0,4963 de AUC contra 0,9392 do boosting. Se você leu aquele capítulo primeiro, saiu dele com a impressão de que linear é o modelo dos iniciantes.
+O [capítulo II.5](ii-5-arvores-ensembles.md) mostrou o modelo linear perdendo feio: 0,4963 de AUC contra 0,9392 do boosting. Se você leu aquele capítulo primeiro, saiu dele com a impressão de que linear é o modelo dos iniciantes.
 
 É a impressão errada, e este capítulo existe para corrigi-la. Naquele experimento, o dado foi **construído** com uma fronteira irregular — o terreno onde a reta não tem chance. Troque o terreno e a conclusão vira:
 
 - com **poucos dados por atributo**, o linear frequentemente ganha, porque tem menos o que estimar errado;
 - quando a decisão precisa ser **auditada**, ele é o único que entrega um número por atributo que alguém consegue defender numa reunião;
-- quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto ensembles precisam de correção posterior (cap. 04).
+- quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto ensembles precisam de correção posterior (cap. II.1).
 
 E há a razão pedagógica: é no modelo linear que otimização, regularização e interpretação aparecem na forma mais limpa. Quem não entende gradiente aqui não vai entender numa rede de doze camadas.
 
@@ -43,7 +43,7 @@ E há a razão pedagógica: é no modelo linear que otimização, regularizaçã
 
 Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes. A avaliação histórica moderna é que Gauss provavelmente **tinha** o método antes e **falhou em comunicá-lo**.
 
-> **O espelho disto está no [capítulo 18](18-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e Schmidhuber resume: *não é o primeiro inventor que leva o crédito, é o último reinventor*. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
+> **O espelho disto está no [capítulo III.1](iii-1-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e Schmidhuber resume: *não é o primeiro inventor que leva o crédito, é o último reinventor*. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
 >
 > Juntos, os dois dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação.** Vale para o seu trabalho: o experimento que você não registrou, datou e tornou reproduzível é, na prática, um experimento que não aconteceu. É a razão de este livro exigir script, *seed* e saída colada — e não é burocracia.
 
@@ -55,7 +55,7 @@ Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se
 | ✓ᵐ | [Stigler, "Gauss and the Invention of Least Squares", *Annals of Statistics*, 1981](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full) — localizado e identificado, **não lido** |
 | ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820 |
 | ⏳ | A avaliação de que Gauss tinha o método antes mas falhou em comunicá-lo |
-| 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo 18 |
+| 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo III.1 |
 
 ## Fundamentos: regressão linear como minimização
 
@@ -75,9 +75,9 @@ Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honest
 
 A solução fechada existe e está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar** — no experimento, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
 
-> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$ — inviável com muitos atributos — e porque ela **não existe** para a regressão logística ([capítulo 28](28-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
+> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$ — inviável com muitos atributos — e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
 
-:::exercicio {"id":"05-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
 
 - [ ] Porque o erro quadrático é sempre menor que o absoluto.
@@ -96,7 +96,7 @@ Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absol
 
 Antes da fórmula, o gesto. Arraste a reta até achar que está boa, e olhe o número subir e descer enquanto você mexe.
 
-:::lab {"id":"05-l1","tipo":"regressao-linear","titulo":"Mínimos quadrados à mão","n":24,"a":1.8,"b":4,"ruido":3.2}
+:::lab {"id":"modelos-lineares-l1","tipo":"regressao-linear","titulo":"Mínimos quadrados à mão","n":24,"a":1.8,"b":4,"ruido":3.2}
 Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.
 
 Três coisas para tentar, nesta ordem:
@@ -144,7 +144,7 @@ Duas contas — uma soma de produtos e uma soma de quadrados — e a reta está 
 
 > **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$ — as **equações normais** — resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
 
-:::exercicio {"id":"05-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).
 
 Calcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy} / S_{xx}$. Responda com duas casas decimais.
@@ -169,7 +169,7 @@ O modelo linear é interpretável, e é por isso que ele sobrevive em crédito, 
 
 Aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os demais atributos constantes. É a leitura mais direta que um modelo oferece — e é o motivo de o linear sobreviver em crédito, seguro e saúde.
 
-> Na regressão logística a leitura é outra: o coeficiente multiplica a **razão de chances**, não a saída. Está no [capítulo 28](28-regressao-logistica.md), e confundir as duas é o erro de interpretação mais comum deste livro.
+> Na regressão logística a leitura é outra: o coeficiente multiplica a **razão de chances**, não a saída. Está no [capítulo II.3](ii-3-regressao-logistica.md), e confundir as duas é o erro de interpretação mais comum deste livro.
 
 ### As quatro coisas que ele não diz
 
@@ -254,7 +254,7 @@ O confundimento aqui é **perfeito**: preço e estação são a mesma variável,
 
 Esta é a resposta menos confortável e a mais honesta que a análise pode dar: *com estes dados, não dá — e aqui está o que precisaria ser coletado.*
 
-:::exercicio {"id":"05-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
+:::exercicio {"id":"modelos-lineares-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
 Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
 
 > **gabarito:** 53 ± 4
@@ -266,7 +266,7 @@ Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para v
 > **volte para:** #e-o-item-3-de-brinde
 :::
 
-:::exercicio {"id":"05-e5","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+:::exercicio {"id":"modelos-lineares-e5","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
 Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?
 
 - [ ] O modelo provou que subir o preço aumenta as vendas; a correlação simples estava certa.
@@ -291,13 +291,13 @@ Não como consolo, e sim como decisão de engenharia:
 |---|---|
 | **Poucos dados por atributo** | menos parâmetros, menos variância. Com 200 linhas e 50 colunas, o ensemble decora |
 | **Necessidade de auditoria** | um número por atributo, defensável e questionável. Exigência regulatória em crédito e seguro |
-| **Probabilidade que vira dinheiro** | sai razoavelmente calibrado; ensembles frequentemente não (cap. 04) |
+| **Probabilidade que vira dinheiro** | sai razoavelmente calibrado; ensembles frequentemente não (cap. II.1) |
 | **Linha de base obrigatória** | é a régua contra a qual o modelo complexo precisa se justificar |
 | **Latência apertada** | uma multiplicação de vetores; ordens de grandeza mais rápido que uma floresta |
 
 O último ponto tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta que importa antes de qualquer outra — "quanto do sinal é simplesmente linear?". Se o modelo complexo ganha pouco dele, você acabou de descobrir que o problema é fácil e que o resto é custo de manutenção.
 
-:::exercicio {"id":"05-e6","tipo":"aberta","objetivo":"O4","dificuldade":"media"}
+:::exercicio {"id":"modelos-lineares-e6","tipo":"aberta","objetivo":"O4","dificuldade":"media"}
 A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.
 
 Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.
@@ -316,9 +316,9 @@ Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. D
 A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão:
 
 - `RegressaoLinear` com **os dois caminhos** — solução fechada por eliminação de Gauss e gradiente — para você conferir que chegam ao mesmo lugar;
-- `Padronizador` que aprende no treino e **aplica** ao teste — o vazamento do capítulo 02 tornado difícil de cometer.
+- `Padronizador` que aprende no treino e **aplica** ao teste — o vazamento do capítulo I.3 tornado difícil de cometer.
 
-A mesma etapa serve ao [capítulo 06](06-otimizacao.md), porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*. A `RegressaoLogistica`, que também mora ali, é do [capítulo 28](28-regressao-logistica.md).
+A mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md), porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*. A `RegressaoLogistica`, que também mora ali, é do [capítulo II.3](ii-3-regressao-logistica.md).
 
 
 **Notebook pronto para executar** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb)

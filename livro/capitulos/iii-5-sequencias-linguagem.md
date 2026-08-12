@@ -1,4 +1,4 @@
-# 11 — Sequências e Linguagem
+# III.5 — Sequências e Linguagem
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -17,7 +17,7 @@
 
 Isso quebra a premissa que sustentava todos os modelos até aqui: a de que cada exemplo é uma linha independente numa tabela, e que a ordem das colunas não carrega informação. Em texto, áudio e série temporal, **a ordem é o dado**. O exemplo não é a palavra: é a palavra *no lugar onde ela está*, condicionada a tudo que veio antes.
 
-O segundo problema aparece assim que você tenta resolver o primeiro. Suponha uma rede que lê a frase palavra por palavra e vai atualizando um resumo interno do que já leu. Agora dê a ela esta frase: *"A conta que a auditoria contratada pelo conselho no ano passado revisou está **errada**."* Para concordar "conta" com "errada", a rede precisa lembrar de uma palavra vista onze posições atrás. Ela não lembra. E o motivo não é falta de capacidade — é o diagnóstico do [capítulo 26](26-treinar-redes-profundas.md), o gradiente que morre ao atravessar muitas camadas, aparecendo aqui numa dimensão diferente.
+O segundo problema aparece assim que você tenta resolver o primeiro. Suponha uma rede que lê a frase palavra por palavra e vai atualizando um resumo interno do que já leu. Agora dê a ela esta frase: *"A conta que a auditoria contratada pelo conselho no ano passado revisou está **errada**."* Para concordar "conta" com "errada", a rede precisa lembrar de uma palavra vista onze posições atrás. Ela não lembra. E o motivo não é falta de capacidade — é o diagnóstico do [capítulo III.3](iii-3-treinar-redes-profundas.md), o gradiente que morre ao atravessar muitas camadas, aparecendo aqui numa dimensão diferente.
 
 **É o mesmo problema, na dimensão tempo.** Cada passo da sequência é uma camada a mais no caminho de volta do erro.
 
@@ -41,13 +41,13 @@ O segundo problema aparece assim que você tenta resolver o primeiro. Suponha um
 
 **A terceira virada, e o que ela de fato removeu.** Em 2017, Vaswani e colegas propõem uma arquitetura *"based solely on attention mechanisms, **dispensing with recurrence and convolutions entirely**"*. O motivo declarado é operacional, não representacional: ser *"more parallelizable and requiring significantly less time to train"* — com 41,8 BLEU obtidos em *"3.5 days on eight GPUs"*.
 
-📖 **A leitura que fecha.** O que "Attention Is All You Need" eliminou foi a **recorrência** — não a convolução, e muito menos a atenção. A atenção já existia desde 2014, mas como **acessório de uma rede recorrente**; 2017 **remove o hospedeiro** e mantém o acessório. E o ganho anunciado não é de expressividade: é de **paralelismo**. A recorrência obriga a processar um passo por vez, porque o passo *t* depende do resultado do passo *t−1*; a GPU quer todos os passos ao mesmo tempo. É restrição material gerando forma nova outra vez — a mesma mecânica da AlexNet no [capítulo 10](10-visao.md) e do Playfair no [capítulo 22](22-visualizacao-storytelling.md).
+📖 **A leitura que fecha.** O que "Attention Is All You Need" eliminou foi a **recorrência** — não a convolução, e muito menos a atenção. A atenção já existia desde 2014, mas como **acessório de uma rede recorrente**; 2017 **remove o hospedeiro** e mantém o acessório. E o ganho anunciado não é de expressividade: é de **paralelismo**. A recorrência obriga a processar um passo por vez, porque o passo *t* depende do resultado do passo *t−1*; a GPU quer todos os passos ao mesmo tempo. É restrição material gerando forma nova outra vez — a mesma mecânica da AlexNet no [capítulo III.4](iii-4-visao.md) e do Playfair no [capítulo I.5](i-5-visualizacao-storytelling.md).
 
 **Procedência das afirmações desta seção:**
 
 | Selo | Afirmação |
 |---|---|
-| ✓ | O gradiente que some ao longo dos passos é o mesmo diagnóstico do [capítulo 26](26-treinar-redes-profundas.md), aplicado à dimensão tempo |
+| ✓ | O gradiente que some ao longo dos passos é o mesmo diagnóstico do [capítulo III.3](iii-3-treinar-redes-profundas.md), aplicado à dimensão tempo |
 | ✓ | O capítulo 4 da tese de Hochreiter (**1991**) intitula-se *"Konstanter Fehlerrückfluß"* — o problema estava nomeado seis anos antes da LSTM |
 | ✓ᵃ | Bahdanau, Cho & Bengio, *Neural Machine Translation by Jointly Learning to Align and Translate*, [arXiv:1409.0473](https://arxiv.org/abs/1409.0473), 01/09/2014 — o resumo **não contém** a palavra "attention"; fala em *fixed-length vector* como gargalo, em *(soft-)search* e no modelo **RNNsearch** |
 | ✓ᵃ | Vaswani et al., *Attention Is All You Need*, [arXiv:1706.03762](https://arxiv.org/abs/1706.03762), 12/06/2017 — *"dispensing with recurrence and convolutions entirely"*, *"more parallelizable"*, 41,8 BLEU em *"3.5 days on eight GPUs"* |
@@ -77,7 +77,7 @@ A LSTM parte de um estado que atravessa os passos **sendo somado, não multiplic
 
 A **GRU** (*Gated Recurrent Unit*) é a mesma ideia com menos peças: funde esquecer e escrever numa comporta só e dispensa a separação entre estado interno e saída. Menos parâmetros, treino mais rápido, comportamento parecido na maioria das tarefas. A escolha entre as duas quase nunca é o que decide um projeto — o que decide é se você precisa de recorrência.
 
-:::exercicio {"id":"11-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"sequencias-linguagem-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma RNN simples é treinada para classificar avaliações de produto e vai bem em textos curtos, mas erra sistematicamente quando a negação aparece no começo de um parágrafo longo ("Não recomendo… *[80 palavras]* …o acabamento é bonito"). Qual é o diagnóstico correto?
 
 - [ ] A rede tem poucos parâmetros; basta aumentar o tamanho do estado oculto.
@@ -116,11 +116,11 @@ Três peças completam a arquitetura:
 
 - **Cabeças múltiplas** (*multi-head*). Vários mecanismos de atenção em paralelo, cada um com sua própria projeção de consultas, chaves e valores. Uma média ponderada só produz **uma** mistura; várias cabeças permitem que uma posição atenda simultaneamente a relações diferentes — concordância numa cabeça, referência do pronome noutra — sem que uma apague a outra.
 - **Codificação posicional**. Aqui está a conta a pagar: sem recorrência, **nada no modelo sabe a ordem**. A autoatenção enxerga um conjunto, não uma sequência — troque as palavras de lugar e ela devolve os mesmos resultados, permutados. Como a ordem *é* o problema do capítulo, a posição precisa ser reinjetada explicitamente, somada à representação de cada elemento. A recorrência codificava a ordem de graça, no próprio formato; o Transformer paga por ela.
-- **Paralelismo**. A recorrência é sequencial por definição: o passo *t* espera o *t−1*. A autoatenção calcula todas as comparações de uma vez, como uma multiplicação de matrizes — exatamente a operação em que a GPU é boa. Não é que o Transformer aprenda o que a LSTM não aprendia: é que ele **cabe no hardware**, e por isso pôde ser treinado em dados e tamanhos que a recorrência nunca alcançaria. É a mesma lição do [capítulo 10](10-visao.md): a restrição material escolhe a arquitetura vencedora.
+- **Paralelismo**. A recorrência é sequencial por definição: o passo *t* espera o *t−1*. A autoatenção calcula todas as comparações de uma vez, como uma multiplicação de matrizes — exatamente a operação em que a GPU é boa. Não é que o Transformer aprenda o que a LSTM não aprendia: é que ele **cabe no hardware**, e por isso pôde ser treinado em dados e tamanhos que a recorrência nunca alcançaria. É a mesma lição do [capítulo III.4](iii-4-visao.md): a restrição material escolhe a arquitetura vencedora.
 
-**E o preço.** Se cada posição compara-se com todas, o número de comparações cresce com o **quadrado** do comprimento da sequência. Dobrar o texto quadruplica o custo da atenção. Esse é o limite estrutural que organiza boa parte da pesquisa desde então — e a razão de "janela de contexto" ser uma métrica comercial no [capítulo 12](12-modelos-de-fundacao.md), e não um detalhe técnico.
+**E o preço.** Se cada posição compara-se com todas, o número de comparações cresce com o **quadrado** do comprimento da sequência. Dobrar o texto quadruplica o custo da atenção. Esse é o limite estrutural que organiza boa parte da pesquisa desde então — e a razão de "janela de contexto" ser uma métrica comercial no [capítulo III.6](iii-6-modelos-de-fundacao.md), e não um detalhe técnico.
 
-:::exercicio {"id":"11-e2","tipo":"numerica","objetivo":"O4","dificuldade":"facil"}
+:::exercicio {"id":"sequencias-linguagem-e2","tipo":"numerica","objetivo":"O4","dificuldade":"facil"}
 Numa camada de autoatenção, cada posição da sequência é comparada com todas as posições. Se o comprimento da sequência passa de **512** para **4096** elementos, por qual fator o número de comparações da atenção é multiplicado?
 
 Responda com um número inteiro.
@@ -134,13 +134,13 @@ Responda com um número inteiro.
 
 ## Tokenização: o texto vira número antes de qualquer coisa
 
-Nada disso opera sobre letras. Antes de qualquer arquitetura, o texto é cortado em **tokens** — pedaços do tamanho de uma palavra curta, um prefixo, um sufixo — e cada token vira um índice, que vira um vetor (o *embedding* do [capítulo 03](03-representacao.md), onde a hipótese distribucional de Harris, de 1954, já dizia que o significado de uma palavra está na companhia que ela mantém).
+Nada disso opera sobre letras. Antes de qualquer arquitetura, o texto é cortado em **tokens** — pedaços do tamanho de uma palavra curta, um prefixo, um sufixo — e cada token vira um índice, que vira um vetor (o *embedding* do [capítulo I.6](i-6-representacao.md), onde a hipótese distribucional de Harris, de 1954, já dizia que o significado de uma palavra está na companhia que ela mantém).
 
 A escolha do corte é uma decisão de representação com consequências que ninguém revisita depois. Cortar em palavras inteiras produz vocabulário gigante e nenhuma resposta para a palavra nunca vista. Cortar em caracteres resolve isso e alonga a sequência — e comprimento, na seção anterior, tem preço quadrático. Os esquemas de **subpalavra** ficam no meio: palavras comuns viram um token só, palavras raras se decompõem em pedaços conhecidos.
 
 Duas consequências práticas que voltam para morder: idiomas mal representados no vocabulário gastam **mais tokens para dizer a mesma coisa** — e, como se cobra por token e o custo cresce com o comprimento, a mesma frase sai mais cara em português que em inglês. E tarefas que dependem de olhar dentro da palavra (contar letras, rimar, soletrar) são difíceis não por falta de inteligência do modelo, mas porque **a letra não é uma unidade que ele enxerga**.
 
-:::exercicio {"id":"11-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"sequencias-linguagem-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Um colega diz: *"Atenção é só uma forma de dar mais memória ao modelo — no fundo é uma LSTM melhorzinha."* Explique por que essa leitura está errada, usando (a) o que a atenção substitui, (b) o que ela custa e (c) o que o artigo de 2017 de fato removeu.
 
 > **rubrica:** identifica que a atenção substitui **compressão** (um vetor de tamanho fixo resumindo tudo) por **acesso ponderado** a todas as posições preservadas;
@@ -160,14 +160,14 @@ Um colega diz: *"Atenção é só uma forma de dar mais memória ao modelo — n
 
 - **A ordem é informação.** O exemplo não é o elemento: é o elemento *na posição em que está*. Isso quebra a premissa de independência que sustentava os capítulos anteriores.
 - A RNN carrega um **estado oculto** — memória de tamanho fixo que é sobrescrita a cada passo.
-- O gradiente que some no tempo é o **mesmo diagnóstico** do [capítulo 26](26-treinar-redes-profundas.md): cada passo é uma camada a mais no caminho de volta do erro.
+- O gradiente que some no tempo é o **mesmo diagnóstico** do [capítulo III.3](iii-3-treinar-redes-profundas.md): cada passo é uma camada a mais no caminho de volta do erro.
 - **A ideia exportável:** *a solução veio do formato da falha, não da tarefa*. A LSTM foi desenhada contra uma exponencial, não contra a linguagem. Um defeito bem nomeado é meio método — e o nome ("refluxo constante do erro") veio **seis anos** antes da arquitetura.
 - **LSTM e GRU** somam um caminho por onde o erro reflui sem encolher, com comportas contínuas para esquecer, escrever e ler. Aliviam o teto de memória; não o eliminam.
 - **Seq2seq** transformou tradução em codificar → decodificar, e revelou o gargalo do **vetor de tamanho fixo**. O truque de inverter a frase de origem é gambiarra confessa — e sintoma de que o problema era distância.
 - **Atenção = acesso, não compressão.** Consulta, chaves e valores; pesos que somam 1; média ponderada. O caminho entre duas posições distantes passa a ter **um** passo.
-- **O Transformer removeu a recorrência, não a atenção.** A atenção existia desde 2014 como acessório de uma RNN; 2017 tirou o hospedeiro. O motivo declarado foi **paralelismo** — a mesma restrição material que decidiu a visão computacional no [capítulo 10](10-visao.md).
+- **O Transformer removeu a recorrência, não a atenção.** A atenção existia desde 2014 como acessório de uma RNN; 2017 tirou o hospedeiro. O motivo declarado foi **paralelismo** — a mesma restrição material que decidiu a visão computacional no [capítulo III.4](iii-4-visao.md).
 - **Sem recorrência, ninguém sabe a ordem**: por isso a codificação posicional existe. A recorrência codificava ordem de graça; aqui se paga por ela.
-- O preço da atenção é **quadrático no comprimento**. Dobrar o texto quadruplica o custo — e é daí que vem o preço da janela de contexto no [capítulo 12](12-modelos-de-fundacao.md).
+- O preço da atenção é **quadrático no comprimento**. Dobrar o texto quadruplica o custo — e é daí que vem o preço da janela de contexto no [capítulo III.6](iii-6-modelos-de-fundacao.md).
 - **Tokenização é uma decisão de representação**, não um detalhe de pré-processamento: define o vocabulário, o comprimento da sequência, o custo por frase e o que o modelo simplesmente não consegue enxergar.
 
 ## Verificação

@@ -1,4 +1,4 @@
-# Plan 004 — Capítulos 05 e 06
+# Plan 004 — Capítulos II.2 e 06
 
 **Spec:** [spec.md](spec.md) · **Raia:** plena · **Data:** 2026-08-05
 

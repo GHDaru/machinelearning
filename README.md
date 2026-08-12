@@ -35,36 +35,36 @@ A última linha é a mais incomum e a mais importante: este livro mantém um [pl
 ### Abertura
 | | |
 |---|---|
-| [00 — Introdução](livro/00-introducao.md) | O que é aprender de dados, quando **não** usar ML, e como usar este livro |
-| [01 — Fundamentos](livro/01-fundamentos.md) | Generalização, viés e variância, as três divisões dos dados |
+| [00 — Introdução](livro/0-1-introducao.md) | O que é aprender de dados, quando **não** usar ML, e como usar este livro |
+| [01 — Fundamentos](livro/0-2-fundamentos.md) | Generalização, viés e variância, as três divisões dos dados |
 
 ### Parte I — O ciclo do aprendizado supervisionado
 | | |
 |---|---|
-| [02 — Dados](livro/capitulos/02-dados.md) | Coleta, qualidade e o vazamento que engana todo mundo |
-| [03 — Representação](livro/capitulos/03-representacao.md) | Como o mundo vira vetor — e o que se perde no caminho |
-| [**04 — Avaliação**](livro/capitulos/04-avaliacao.md) | O que significa "bom", e por que acurácia mente — **capítulo-piloto** |
-| [05 — Modelos Lineares](livro/capitulos/05-modelos-lineares.md) | A reta que explica muito mais do que parece |
-| [06 — Otimização e Regularização](livro/capitulos/06-otimizacao.md) | Como o modelo aprende — e como impedi-lo de decorar |
-| [07 — Árvores e Ensembles](livro/capitulos/07-arvores-ensembles.md) | Por que boosting ainda ganha em dados tabulares |
+| [02 — Dados](livro/capitulos/i-3-dados.md) | Coleta, qualidade e o vazamento que engana todo mundo |
+| [03 — Representação](livro/capitulos/i-6-representacao.md) | Como o mundo vira vetor — e o que se perde no caminho |
+| [**04 — Avaliação**](livro/capitulos/ii-1-avaliacao.md) | O que significa "bom", e por que acurácia mente — **capítulo-piloto** |
+| [05 — Modelos Lineares](livro/capitulos/ii-2-modelos-lineares.md) | A reta que explica muito mais do que parece |
+| [06 — Otimização e Regularização](livro/capitulos/ii-4-otimizacao.md) | Como o modelo aprende — e como impedi-lo de decorar |
+| [07 — Árvores e Ensembles](livro/capitulos/ii-5-arvores-ensembles.md) | Por que boosting ainda ganha em dados tabulares |
 
 ### Parte II — Sem rótulo, e profundo
 | | |
 |---|---|
-| [08 — Não Supervisionado](livro/capitulos/08-nao-supervisionado.md) | Estrutura sem gabarito: agrupar e reduzir |
-| [09 — Redes Neurais](livro/capitulos/09-redes-neurais.md) | Do perceptron ao backpropagation, em NumPy |
-| [10 — Visão Computacional](livro/capitulos/10-visao.md) | Convolução, e o poder de aproveitar o que já foi treinado |
-| [11 — Sequências e Linguagem](livro/capitulos/11-sequencias-linguagem.md) | De RNN a Transformer: por que a atenção venceu |
-| [12 — Modelos de Fundação](livro/capitulos/12-modelos-de-fundacao.md) | Embeddings, fine-tuning e RAG |
+| [08 — Não Supervisionado](livro/capitulos/iv-1-nao-supervisionado.md) | Estrutura sem gabarito: agrupar e reduzir |
+| [09 — Redes Neurais](livro/capitulos/iii-2-redes-neurais.md) | Do perceptron ao backpropagation, em NumPy |
+| [10 — Visão Computacional](livro/capitulos/iii-4-visao.md) | Convolução, e o poder de aproveitar o que já foi treinado |
+| [11 — Sequências e Linguagem](livro/capitulos/iii-5-sequencias-linguagem.md) | De RNN a Transformer: por que a atenção venceu |
+| [12 — Modelos de Fundação](livro/capitulos/iii-6-modelos-de-fundacao.md) | Embeddings, fine-tuning e RAG |
 
 ### Parte III — Machine Learning no mundo real
 | | |
 |---|---|
-| [13 — Aprendizado por Reforço](livro/capitulos/13-reforco.md) | Aprender por consequência, não por gabarito |
-| [14 — Interpretabilidade e Justiça](livro/capitulos/14-interpretabilidade-justica.md) | Explicar a decisão e medir a quem ela prejudica |
-| [15 — Sistemas de ML](livro/capitulos/15-sistemas-de-ml.md) | O modelo é a fração pequena. Os outros 95% |
-| [16 — MLOps](livro/capitulos/16-mlops.md) | Versionar, servir, monitorar, detectar drift |
-| [17 — Fronteira e Expiração](livro/capitulos/17-fronteira.md) | O que ainda não sabemos — e o placar das previsões |
+| [13 — Aprendizado por Reforço](livro/capitulos/iv-2-reforco.md) | Aprender por consequência, não por gabarito |
+| [14 — Interpretabilidade e Justiça](livro/capitulos/v-1-interpretabilidade-justica.md) | Explicar a decisão e medir a quem ela prejudica |
+| [15 — Sistemas de ML](livro/capitulos/v-2-sistemas-de-ml.md) | O modelo é a fração pequena. Os outros 95% |
+| [16 — MLOps](livro/capitulos/v-3-mlops.md) | Versionar, servir, monitorar, detectar drift |
+| [17 — Fronteira e Expiração](livro/capitulos/v-4-fronteira.md) | O que ainda não sabemos — e o placar das previsões |
 
 ### Aparato
 [Trilha `ml-zero`](livro/trilha-ml-zero.md) · [Banco de Exercícios](livro/BANCO-DE-EXERCICIOS.md) · [Videoteca](livro/videoteca.md) · [Bibliografia](livro/bibliografia.md) · [Glossário](livro/glossario.md) · [Guia Editorial](livro/GUIA-EDITORIAL.md) · [Histórico](livro/HISTORICO.md) · [Uso do livro](livro/apendice-uso.md) · [Autor](livro/autor.md)

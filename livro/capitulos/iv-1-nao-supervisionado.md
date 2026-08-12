@@ -1,4 +1,4 @@
-# 08 — Aprendizado Não Supervisionado
+# IV.1 — Aprendizado Não Supervisionado
 
 > **Estado da arte capturado em 2026-08** · última revisão 2026-08-10 · [histórico](../HISTORICO.md)
 >
@@ -40,7 +40,7 @@ A consequência é desconfortável. Quase sempre é possível encontrar grupos: 
 | 1965 | **Forgy** | Primeiro a propor o k-means discreto. Bock registra que **o resumo da palestra não menciona explicitamente o algoritmo**: o conteúdo é conhecido apenas por descrição de terceiros |
 | 1967 | **MacQueen** | Cunha o nome — para outro algoritmo |
 
-**A leitura deste livro.** Os capítulos [05](05-modelos-lineares.md) (Gauss × Legendre) e [18](18-neuronio-artificial.md) (Linnainmaa × Rumelhart) contam a mesma história com **dois** pretendentes. Aqui há **seis**, em quatro campos isolados, e o nome vencedor foi cunhado para um algoritmo diferente. Os três casos, juntos, fecham a tríade e dizem o que nenhum diz sozinho: **não vence quem descobre, nem quem publica primeiro, nem sequer quem descreve o método que virou padrão. Vence quem escreve a palavra que pega.**
+**A leitura deste livro.** Os capítulos [05](ii-2-modelos-lineares.md) (Gauss × Legendre) e [18](iii-1-neuronio-artificial.md) (Linnainmaa × Rumelhart) contam a mesma história com **dois** pretendentes. Aqui há **seis**, em quatro campos isolados, e o nome vencedor foi cunhado para um algoritmo diferente. Os três casos, juntos, fecham a tríade e dizem o que nenhum diz sozinho: **não vence quem descobre, nem quem publica primeiro, nem sequer quem descreve o método que virou padrão. Vence quem escreve a palavra que pega.**
 
 **Do lado hierárquico**, o aperto era político-científico. **Sokal & Sneath**, em *Principles of Numerical Taxonomy* (1963), motivaram a pesquisa mundial em clustering ao tirar a classificação das mãos da autoridade e torná-la **reproduzível a partir de caracteres medidos**. O objetivo não era achar grupos: era acabar com a discussão sobre quem tinha o direito de defini-los. **Do lado da redução de dimensionalidade**, dois problemas diferentes, 32 anos, a mesma decomposição: **Pearson (1901)** chegou por geometria — a reta ou o plano de melhor ajuste a uma nuvem de pontos; **Hotelling (1933)** chegou por álgebra, com motivação psicométrica, e é dele o nome "componentes principais".
 
@@ -53,7 +53,7 @@ A consequência é desconfortável. Quase sempre é possível encontrar grupos: 
 | ✓ᵐ | A publicação tardia de Lloyd (1957 → 1982) |
 | ✓ᵐ | Pearson (1901) e Hotelling (1933) como as duas formulações de componentes principais, e o nome vindo de Hotelling |
 | ⏳ | Que antes disso se classificava por julgamento do especialista, com a autoridade do taxonomista valendo como critério |
-| 📖 | A tríade com os capítulos 05 e 18, e a leitura de que vence quem escreve a palavra que pega |
+| 📖 | A tríade com os capítulos II.2 e 18, e a leitura de que vence quem escreve a palavra que pega |
 
 ## Fundamentos: inventar o critério, depois alternar
 
@@ -63,7 +63,7 @@ O k-means declara o critério antes de tudo: **a soma das distâncias quadradas 
 
 **Ele só enxerga grupos esféricos e de tamanho parecido.** Isso está no *critério*, não no código. Minimizar distância quadrada ao centro premia bolas compactas; um grupo alongado será cortado ao meio, e um grupo grande será dividido para "pagar" a fusão de dois pequenos. Nenhum valor de k conserta isso.
 
-**Distância depende de escala.** Uma coluna em reais e outra em anos não são comparáveis: quem tem números maiores domina a distância e decide os grupos sozinha. **Normalizar não é higiene, é parte da definição do critério** — ver [capítulo 03](03-representacao.md).
+**Distância depende de escala.** Uma coluna em reais e outra em anos não são comparáveis: quem tem números maiores domina a distância e decide os grupos sozinha. **Normalizar não é higiene, é parte da definição do critério** — ver [capítulo I.6](i-6-representacao.md).
 
 ### Quando você não quer fixar k: o dendrograma
 
@@ -75,9 +75,9 @@ O preço: a fusão é irreversível (um erro no início se propaga até o fim) e
 
 A análise de componentes principais (PCA) resolve o problema de Pearson: achar as direções em que os dados mais variam e reescrevê-los nelas, em ordem. Ficar com as primeiras é reduzir a dimensionalidade — menos colunas, quase a mesma dispersão.
 
-O que se perde tem três nomes. **Variância**, e você sabe quanto: é o número que a biblioteca informa. **Interpretabilidade** — cada componente é uma mistura de todas as variáveis originais, e "0,4 × renda − 0,3 × idade + …" não é um conceito que se leve a uma reunião. E o mais traiçoeiro: **variância não é o mesmo que informação útil**. A direção que mais varia pode ser justamente a que menos separa o que importa; PCA não sabe qual é o seu problema, porque ninguém contou a ele. PCA é uma decisão de **representação**, e vale para ela tudo o que o [capítulo 03](03-representacao.md) diz — inclusive a sensibilidade à escala.
+O que se perde tem três nomes. **Variância**, e você sabe quanto: é o número que a biblioteca informa. **Interpretabilidade** — cada componente é uma mistura de todas as variáveis originais, e "0,4 × renda − 0,3 × idade + …" não é um conceito que se leve a uma reunião. E o mais traiçoeiro: **variância não é o mesmo que informação útil**. A direção que mais varia pode ser justamente a que menos separa o que importa; PCA não sabe qual é o seu problema, porque ninguém contou a ele. PCA é uma decisão de **representação**, e vale para ela tudo o que o [capítulo I.6](i-6-representacao.md) diz — inclusive a sensibilidade à escala.
 
-:::exercicio {"id":"08-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+:::exercicio {"id":"nao-supervisionado-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Seus dados têm dois grupos visíveis: um alongado, em forma de arco, com 800 pontos, e outro pequeno e denso, com 60 pontos. Você roda k-means com k=2 e o resultado corta o arco ao meio, juntando uma das metades ao grupo pequeno. Qual é o diagnóstico correto?
 
 - [ ] O algoritmo convergiu para um mínimo local; basta rodar com mais inicializações.
@@ -100,7 +100,7 @@ Regras de associação nasceram de um aperto comercial concreto: o que os itens 
 - **confiança** — entre as cestas que têm A, em quantas aparece B. Parece a métrica principal. Não é.
 - **lift** — a confiança **dividida** pela frequência de B em geral. Responde a pergunta certa: *ter A muda a chance de ter B?* Lift 1 significa **nenhuma relação**.
 
-A armadilha é confiança alta com lift 1. Se 60% de todas as cestas têm pão, uma regra `{leite} → {pão}` com 60% de confiança parece forte e não descobriu nada: pão está em 60% das cestas *de qualquer maneira*. Confiança alta mede a **popularidade de B**, não a relação entre os dois. É a versão de mercearia da linha de base do [capítulo 04](04-avaliacao.md).
+A armadilha é confiança alta com lift 1. Se 60% de todas as cestas têm pão, uma regra `{leite} → {pão}` com 60% de confiança parece forte e não descobriu nada: pão está em 60% das cestas *de qualquer maneira*. Confiança alta mede a **popularidade de B**, não a relação entre os dois. É a versão de mercearia da linha de base do [capítulo II.1](ii-1-avaliacao.md).
 
 ### Cerveja e fraldas: verdadeira até a descoberta, inventada a partir da ação
 
@@ -108,7 +108,7 @@ Todo curso conta esta história. Vale separar o que se sustenta do que não se s
 
 **A parte que todo mundo ensina é falsa.** "Puseram a cerveja ao lado das fraldas e as vendas subiram" — isto não aconteceu. Power, que entrevistou o autor do estudo, afirma que a Osco **não** explorou a relação movendo produtos, e Blischok confirma que **nunca fizeram nada com ela** (❌). Um participante ainda registra que o líder da equipe, ao falar com prospects, **não distinguia entre as afinidades testadas e as hipóteses** (⏳). A lenda nasceu no discurso de vendas, e isso está documentado.
 
-Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de três coisas que o mercado trata como uma só — **correlação achada ≠ decisão tomada ≠ efeito medido**. O estudo produziu a primeira; a segunda nunca ocorreu; a terceira, portanto, não existe — e é justamente ela que todo mundo repete como resultado. É o mesmo padrão do [capítulo 23](23-analise-multidimensional.md), onde a categoria "OLAP" também foi fabricada pelo marketing: a técnica era boa, a embalagem é que não se sustenta.
+Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de três coisas que o mercado trata como uma só — **correlação achada ≠ decisão tomada ≠ efeito medido**. O estudo produziu a primeira; a segunda nunca ocorreu; a terceira, portanto, não existe — e é justamente ela que todo mundo repete como resultado. É o mesmo padrão do [capítulo II.6](ii-6-analise-multidimensional.md), onde a categoria "OLAP" também foi fabricada pelo marketing: a técnica era boa, a embalagem é que não se sustenta.
 
 | Selo | Afirmação |
 |---|---|
@@ -117,7 +117,7 @@ Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de 
 | ⏳ | Que o rearranjo de gôndola **não aconteceu** — a negativa é sustentada pela apuração de Power, mas **por fonte secundária**. `❌` seria dizer que não achamos fonte; aqui há fonte, e ela nega. A distinção importa: **não é o mesmo desconhecer e ter apurado que não** |
 | ✓ᵐ | Agrawal, Imieliński & Swami (SIGMOD 1993) e Apriori (Agrawal & Srikant, VLDB 1994) |
 
-:::exercicio {"id":"08-e2","tipo":"numerica","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"nao-supervisionado-e2","tipo":"numerica","objetivo":"O1","dificuldade":"media"}
 De **1 000** cestas de um supermercado: **600** contêm pão, **500** contêm leite e **300** contêm os dois.
 
 Calcule o **lift** da regra `{leite} → {pão}`. Responda com duas casas decimais.
@@ -139,7 +139,7 @@ Aqui está a dificuldade que separa este capítulo de todos os anteriores. Na cl
 
 **E o alerta principal:** *"os clusters fazem sentido"* é a forma mais fácil de se enganar em análise de dados. Você reconhece histórias em grupos aleatórios com uma facilidade constrangedora — dê nomes a quatro grupos de ruído e o quarto vira "os clientes de alto potencial ainda não ativados". O antídoto é declarar o critério **antes** e testá-lo fora: os grupos se mantêm numa amostra separada? Eles predizem alguma variável que **não** entrou no agrupamento (churn, receita futura, retorno de campanha)? Um critério externo vale mais que cotovelo e silhueta somados, porque é o único que pode dar errado.
 
-:::exercicio {"id":"08-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"nao-supervisionado-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
 Uma analista segmenta 40 mil clientes com k-means. Ela testou k de 2 a 10, escolheu **k=5** porque "foi onde os grupos ficaram mais interpretáveis", nomeou os cinco segmentos, e a diretoria aprovou uma campanha diferente para cada um.
 
 Escreva a crítica que você faria e o que proporia em seguida.
@@ -151,7 +151,7 @@ Escreva a crítica que você faria e o que proporia em seguida.
 > não se limita a sugerir "usar silhueta" como se isso resolvesse
 > **porque:** A resposta fraca troca um critério interno por outro: "use silhueta em vez de interpretabilidade". Mas silhueta mede a mesma compacidade que o k-means otimizou — ela pode confirmar uma partição de puro ruído, porque nunca foi projetada para dizer se a estrutura existe.
 >
-> A resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — o mesmo pecado do [capítulo 25](25-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que ninguém fez a pergunta decisiva: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo. E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**. Se os cinco grupos continuarem nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.
+> A resposta forte percebe **duas** coisas. Primeiro, que o critério foi escolhido depois de ver o resultado — o mesmo pecado do [capítulo II.8](ii-8-do-modelo-a-decisao.md), escolher a régua depois de conhecer os números, aqui agravado porque não há gabarito para desmentir ninguém. Segundo, que ninguém fez a pergunta decisiva: **os grupos sobrevivem fora deste conjunto de dados?** Divida a base, agrupe as duas metades separadamente e veja se as partições concordam; ou verifique se os segmentos predizem algo que não entrou no modelo. E há o teste que fecha o argumento, barato e humilhante: rode o mesmo procedimento em dados **embaralhados**. Se os cinco grupos continuarem nomeáveis, o que a analista descobriu foi a própria capacidade de contar histórias.
 > **volte para:** #validar-sem-gabarito
 :::
 

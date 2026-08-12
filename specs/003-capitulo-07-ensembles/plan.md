@@ -1,4 +1,4 @@
-# Plan 003 — Capítulo 07: Árvores e Ensembles
+# Plan 003 — Capítulo II.5: Árvores e Ensembles
 
 **Spec:** [spec.md](spec.md) · **Raia:** plena · **Data:** 2026-08-05
 
@@ -24,9 +24,9 @@
 
 **A etapa 00 não foi alterada.** Sua lição depende daquele dado e já está publicada. Trocar dado publicado para um experimento novo ficar bonito é o caminho mais curto para perder a confiança do leitor.
 
-**Régua linear na etapa 07, antes do capítulo 05.** Sem uma régua, "boosting vai bem" não significa nada. `linear.py` é deliberadamente mínimo e declara-se como referência para a frente.
+**Régua linear na etapa 07, antes do capítulo II.2.** Sem uma régua, "boosting vai bem" não significa nada. `linear.py` é deliberadamente mínimo e declara-se como referência para a frente.
 
-**Variância medida como Var[f̂(x)], não como desvio da AUC.** A primeira versão do teste comparava o desvio-padrão de AUCs entre reamostragens e falhava por falta de poder estatístico — o desvio de 4 pontos é ele próprio ruidoso. A variância da predição usa todos os pontos de validação e é literalmente a parcela da decomposição do capítulo 01.
+**Variância medida como Var[f̂(x)], não como desvio da AUC.** A primeira versão do teste comparava o desvio-padrão de AUCs entre reamostragens e falhava por falta de poder estatístico — o desvio de 4 pontos é ele próprio ruidoso. A variância da predição usa todos os pontos de validação e é literalmente a parcela da decomposição do capítulo 0.2.
 
 ## Fases
 
