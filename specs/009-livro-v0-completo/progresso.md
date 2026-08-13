@@ -57,7 +57,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | **ok** | **n/a** |
 | 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |

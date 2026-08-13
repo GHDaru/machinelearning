@@ -35,7 +35,9 @@ Este é o capítulo menos glamouroso do livro e um dos que mais decidem o prazo 
 
 E aqui está a parte mais útil desta seção, justamente por não ter vencedor.
 
-**Inmon** defende uma arquitetura *hub-and-spoke*: um warehouse central normalizado, fiel ao modelo corporativo, e *data marts* dependentes a jusante, montados a partir dele para cada área. **Kimball** defende a *bus matrix*: o warehouse inteiro em forma dimensional, feito de marts que se ligam por **dimensões conformadas**, isto é, a mesma dimensão "cliente", com a mesma chave e o mesmo significado, usada por todos.
+**Inmon** defende uma arquitetura *hub-and-spoke*: um warehouse central normalizado, fiel ao modelo corporativo, e *data marts* dependentes a jusante, montados a partir dele para cada área.
+
+**Kimball** defende a arquitetura de barramento, e este lado dá para citar da fonte. O Kimball Group a define como algo que *"decomposes the DW/BI planning process into manageable pieces by focusing on business processes, while delivering integration via standardized conformed dimensions that are reused across processes"*. A peça que costura tudo é a dimensão conformada, e a definição dela é mais estreita que a paráfrase habitual: *"Dimension tables conform when attributes in separate dimension tables have the same column names and domain contents."* São os mesmos nomes de coluna e o mesmo domínio de valores, e não apenas "a mesma ideia de cliente".
 
 Repare no que os dois **concordam**: modelagem dimensional serve, e é ela que faz o cubo do [capítulo II.6](ii-6-analise-multidimensional.md) responder rápido. A discordância é sobre **onde ela entra** — no fim do caminho ou desde a porta de entrada.
 
@@ -48,8 +50,10 @@ Na prática, quase todo warehouse grande é **híbrido**. E o híbrido não é o
 | ⏳ | O aperto dos anos 1980–90: consulta analítica competindo com a carga transacional na mesma máquina, a ponto de degradar a operação |
 | ⏳ | A prática anterior do relatório extraído da produção em janela noturna |
 | ⏳ | A virada arquitetural — separar o repositório de análise do de operação, aceitando a redundância |
-| ⏳ | Bill Inmon como "pai do data warehouse" e *Building the Data Warehouse* (1992) |
-| ⏳ | O conteúdo das duas posições (Inmon *hub-and-spoke* com marts dependentes; Kimball *bus matrix* com dimensões conformadas) e o acordo dos dois quanto à utilidade da modelagem dimensional. **Apurado em fontes secundárias de qualidade desigual; nenhum dos dois livros foi aberto** |
+| ✓ᵐ | *Building the Data Warehouse*, de **William H. Inmon**, Wiley, **1992**, e *The Data Warehouse Toolkit*, de **Ralph Kimball**, Wiley, **1996** — ficha das duas obras conferida em catálogo |
+| ✓ | O lado **Kimball** da disputa, e os dois trechos citados entre aspas, nas páginas de técnicas do próprio [Kimball Group](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/enterprise-data-warehouse-bus-architecture/): a arquitetura de barramento e a definição de dimensão conformada |
+| ⏳ | Bill Inmon como "pai do data warehouse". A atribuição é corrente e tem lastro documental (prêmio da DAMA International, 2002), mas **não foi conferida em primária** |
+| ⏳ | O lado **Inmon** da disputa (*hub-and-spoke* com marts dependentes) e o acordo dos dois quanto à utilidade da modelagem dimensional. **Assimetria declarada:** o lado Kimball está citado do site dos próprios autores, e o lado Inmon continua apurado em fonte secundária, com nenhum dos dois livros aberto |
 | 📖 | A ideia reaproveitável ("otimizar para escrever e otimizar para ler são objetivos em conflito") |
 | 📖 | A leitura de que o warehouse híbrido é a norma e um sedimento de restrições, não um defeito de projeto |
 

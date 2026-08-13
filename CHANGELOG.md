@@ -19,6 +19,18 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — o capítulo I.2 sai de cinco ⏳ e ganha o lado que dá para citar
+- **O lado Kimball da disputa passou a ✓**, com duas definições citadas das páginas
+  de técnicas dos próprios autores: a arquitetura de barramento e a dimensão
+  conformada. A definição de dimensão conformada é **mais estreita** que a paráfrase
+  que o capítulo usava: *"same column names and domain contents"*, e não "a mesma
+  chave e o mesmo significado". O texto foi ajustado à fonte.
+- **As duas obras ganharam ficha conferida** em catálogo: Inmon, *Building the Data
+  Warehouse*, Wiley, 1992; Kimball, *The Data Warehouse Toolkit*, Wiley, 1996.
+- **A assimetria ficou declarada ao leitor:** o lado Kimball está citado do site dos
+  autores e o lado Inmon continua em fonte secundária. Onde só um lado de uma
+  controvérsia está verificado, o capítulo diz qual.
+
 ### Corrigido — dois fatos do capítulo I.1, derrubados pelo guia CRISP-DM
 - **O consórcio tinha quatro membros, não cinco.** O capítulo listava ISL, Teradata,
   NCR, Daimler-Benz e OHRA. A página de propriedade do guia lista NCR,
