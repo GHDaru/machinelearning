@@ -25,15 +25,15 @@ O erro que este capítulo previne é esse: **o cientista de dados escolher o lim
 
 **O aperto.** Guerra, 1940–43, duas frentes independentes com o mesmo problema: *o que fazer com um número*.
 
-Na Inglaterra, **Patrick Blackett** monta em **agosto de 1940**, no Anti-Aircraft Command, um grupo de sete cientistas — físicos, um astrônomo, um fisiologista, um matemático — apelidado **"Blackett's Circus"**. Em março de 1941 repete a receita no Coastal Command, contra os submarinos alemães. Nos Estados Unidos, o **Statistical Research Group** reúne em Columbia, no verão de 1942, gente como **Wald, Savage, Friedman e Hotelling** para decidir blindagem de bombardeiro, mistura de munição e regras de inspeção por amostragem.
+Na Inglaterra, **Patrick Blackett** monta em agosto de 1940, no Anti-Aircraft Command, um grupo de sete cientistas (físicos, um astrônomo, um fisiologista, um matemático) apelidado **"Blackett's Circus"**. Em março de 1941 repete a receita no Coastal Command, contra os submarinos alemães. Nos Estados Unidos, o **Statistical Research Group** reúne em Columbia, no verão de 1942, gente como Wald, Savage, Friedman e Hotelling para decidir blindagem de bombardeiro, mistura de munição e regras de inspeção por amostragem.
 
 **O que se fazia antes.** Decisão de comando por experiência e hierarquia. E, do lado da estatística, dois problemas tratados separadamente e **sem preço**: estimar um parâmetro e testar uma hipótese.
 
-**A virada.** Abraham Wald mostra, em **1939**, que estimar e testar são **casos particulares de um mesmo problema: decidir**. E para isso ele precisa de algo que a estatística clássica não tinha — uma **função que diz quanto custa errar**. Erro deixa de ser categoria lógica (certo/errado) e vira **grandeza econômica**.
+**A virada.** Abraham Wald mostra, em 1939, que estimar e testar são casos particulares de um mesmo problema: decidir. E para isso ele precisa de algo que a estatística clássica não tinha, uma **função que diz quanto custa errar**. Erro deixa de ser categoria lógica (certo/errado) e vira **grandeza econômica**.
 
-**A ideia reaproveitável.** **Pode ser ótimo agir como se uma classe fosse verdadeira mesmo quando a outra é mais provável.** Charles Elkan dá o exemplo perfeito: pode ser racional **não** aprovar uma transação alta de cartão *mesmo que ela seja provavelmente legítima* — porque o prejuízo da fraude rara supera o incômodo do bloqueio frequente. **Probabilidade ordena; custo decide.** Um modelo que devolve só probabilidade não terminou o trabalho.
+**A ideia reaproveitável.** **Pode ser ótimo agir como se uma classe fosse verdadeira mesmo quando a outra é mais provável.** Charles Elkan dá o exemplo perfeito: pode ser racional não aprovar uma transação alta de cartão *mesmo que ela seja provavelmente legítima*, porque o prejuízo da fraude rara supera o incômodo do bloqueio frequente. **Probabilidade ordena; custo decide.** Um modelo que devolve só probabilidade não terminou o trabalho.
 
-**O nome.** *Operational research* no Reino Unido, *operations research* nos Estados Unidos — a diferença de nome guarda a diferença de origem. Já **"análise de decisão"** é cunhada só em **1966**, por **Ronald Howard**, e o detalhe é saboroso: o nome do campo nasce **dentro** de uma conferência de Pesquisa Operacional.
+**O nome.** *Operational research* no Reino Unido, *operations research* nos Estados Unidos: a diferença de nome guarda a diferença de origem. Já "análise de decisão" é cunhada só em 1966, por **Ronald Howard**, e o detalhe é saboroso: o nome do campo nasce **dentro** de uma conferência de Pesquisa Operacional.
 
 > ### O capítulo II.1 e este são a mesma história, cortada em dois
 >
@@ -45,7 +45,7 @@ Na Inglaterra, **Patrick Blackett** monta em **agosto de 1940**, no Anti-Aircraf
 
 ### A matriz de custo, e o erro que atravessou décadas
 
-Aqui está o achado mais útil — e mais desconfortável — desta seção.
+Aqui está o achado mais útil, e mais desconfortável, desta seção.
 
 O *German credit dataset*, conjunto didático clássico distribuído com uma matriz de custo oficial, tem uma matriz **economicamente incoerente**. Elkan demonstra o problema: ela mede cada célula a partir de uma linha de base diferente. Como **negar o empréstimo produz exatamente o mesmo fluxo de caixa** quer o cliente fosse bom ou mau, as duas células da linha "negar" **têm de ser iguais** — e não são.
 
@@ -137,7 +137,7 @@ Acima de qual **probabilidade de inadimplência** vale mais negar do que aprovar
 
 ## Apresentar sem trair o rigor
 
-O relatório mínimo tem seis partes, nesta ordem: **problema** (a decisão que se quer apoiar), **dados** (origem, período, tamanho, o que foi excluído e por quê), **protocolo** (divisão, busca, métrica escolhida antes), **resultado** (com incerteza), **limitações** (onde o modelo não vale) e **recomendação**.
+O relatório mínimo tem seis partes, nesta ordem: problema (a decisão que se quer apoiar), dados (origem, período, tamanho, o que foi excluído e por quê), protocolo (divisão, busca, métrica escolhida antes), resultado com incerteza, **limitações** (onde o modelo não vale) e recomendação.
 
 A parte que quase todo mundo corta é a de **limitações** — e é a que constrói confiança. Um relatório que declara onde o modelo falha é levado mais a sério que um que só apresenta vitórias, porque o leitor entende que alguém procurou.
 
@@ -191,9 +191,9 @@ Escreva o que você diria. A dificuldade é dupla: comunicar um empate estatíst
 
 > **rubrica:** comunica o resultado em consequência, não em métrica — o que muda no número de casos encontrados ou perdidos por período, e não "AUC de 0,91";
 > diz com todas as letras que a diferença **não se distingue do ruído**, e traduz isso em linguagem de decisão ("os dois modelos são indistinguíveis com o que medimos") em vez de omitir ou de expor o intervalo de confiança como se fosse autoexplicativo;
-> desloca a decisão para os critérios que **de fato** desempatam quando o desempenho empata — custo de operação, complexidade, interpretabilidade, esforço de manutenção, risco de mudança — e recomenda um caminho, em vez de devolver a dúvida para a mesa;
+> desloca a decisão para os critérios que **de fato** desempatam quando o desempenho empata (custo de operação, complexidade, interpretabilidade, esforço de manutenção, risco de mudança) e recomenda um caminho, em vez de devolver a dúvida para a mesa;
 > não vende o empate como vitória ("o novo é melhor") nem se refugia no tecnicismo ("estatisticamente inconclusivo") para não recomendar nada
-> **porque:** O quarto critério é o exercício inteiro, porque existem duas maneiras de trair o rigor e elas parecem opostas. **Arredondar para vitória** — "o novo deu 0,91 contra 0,89" — é a mentira por omissão que a diretoria não tem como detectar. **Refugiar-se no "inconclusivo"** parece honestidade, e é a outra falha: quem tem os dados e não recomenda transferiu a decisão para quem tem menos informação do que você.
+> **porque:** O quarto critério é o exercício inteiro, porque existem duas maneiras de trair o rigor e elas parecem opostas. **Arredondar para vitória**, dizendo "o novo deu 0,91 contra 0,89", é a mentira por omissão que a diretoria não tem como detectar. **Refugiar-se no "inconclusivo"** parece honestidade, e é a outra falha: quem tem os dados e não recomenda transferiu a decisão para quem tem menos informação do que você.
 >
 > A saída é a que o capítulo vinha construindo: quando o desempenho empata, **a decisão não é de desempenho**. Ela passa a ser de custo, de risco e de operação — e essas são exatamente as perguntas que a diretoria sabe responder melhor do que você. Comunicar o empate direito é o que devolve a decisão para o lugar certo, com a informação certa.
 >
