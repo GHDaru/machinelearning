@@ -14746,6 +14746,34 @@
    "pagina": "iii-1-neuronio-artificial"
   },
   {
+   "id": "neuronio-artificial-l3",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "perceptron-treino",
+   "titulo": "Agora o aprendizado é seu: um passo por vez",
+   "config": {
+    "id": "neuronio-artificial-l3",
+    "tipo": "perceptron-treino",
+    "titulo": "Agora o aprendizado é seu: um passo por vez"
+   },
+   "intro": "No laboratório de cima o método rodava sozinho. Aqui você é o relógio. **\"Um passo\"** mostra a regra de 1958 acontecendo uma vez: ele pega um exemplo, compara o que saiu com o que devia sair, e corrige os pesos **só se errou**. O placar diz qual exemplo foi, o que esperava, o que saiu, e se mexeu em alguma coisa.\n\nFaça assim: escolha o **E (AND)**, aperte \"Um passo\" umas dez vezes lendo o placar a cada vez, e só depois use \"Uma época\" e \"Rodar até parar\". Com o AND ele fecha em cinco épocas.\n\nDepois troque para **XOR** e rode até parar. Ele para porque bateu no teto de 60 épocas, não porque acertou: ficam 2 erros de 4, e os pesos continuam se mexendo para sempre.\n\n> ### E agora a parte que o autor deste livro queria que você visse\n>\n> Troque **\"Quantas entradas o neurônio tem\"** para **4 entradas**. O plano some, e some por um motivo honesto: quatro entradas não cabem numa folha de papel. O que aparece no lugar são as barras dos pesos.\n>\n> Rode até parar. Ele **converge em 10 épocas, com zero erros de 16 casos**.\n>\n> Guarde esta assimetria, porque ela vale para o livro inteiro: **perdemos a figura, não o método**. A regra é a mesma, os pesos são os mesmos, o erro continua sendo um número que se calcula. O que acabou foi a nossa capacidade de olhar — e confundir \"não consigo desenhar\" com \"não consigo verificar\" é um dos erros mais caros que existem em aprendizado de máquina. Daqui em diante, quase tudo neste livro acontece em dimensões que você nunca vai ver.",
+   "pagina": "iii-1-neuronio-artificial"
+  },
+  {
+   "id": "neuronio-artificial-l4",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "circuito-neuronios",
+   "titulo": "Monte o XOR com dois neurônios e um terceiro por cima",
+   "config": {
+    "id": "neuronio-artificial-l4",
+    "tipo": "circuito-neuronios",
+    "titulo": "Monte o XOR com dois neurônios e um terceiro por cima"
+   },
+   "intro": "Três neurônios de McCulloch–Pitts, com os pesos que você já viu no primeiro laboratório. Os dois de baixo, **A** e **B**, recebem `x₁` e `x₂`. O de cima recebe **as saídas de A e B** — e é só isso que muda.\n\nSua tarefa: escolher que porta cada um dos três implementa, até que a coluna \"saída\" fique igual à coluna \"XOR\" nas quatro linhas.\n\nVale tentar antes de ler a próxima frase. Se quiser uma pista: pense em **o que o XOR quer dizer em palavras** — \"um ou outro, mas não os dois\". Essa frase tem duas metades, e cada metade é uma porta que você já sabe construir.\n\nA resposta é **A = OU**, **B = NÃO-E**, **saída = E**. \"Pelo menos um\" *e* \"não os dois\".\n\n> **Repare no que aconteceu, porque é a tese da Parte III inteira.** Nenhum dos três neurônios é diferente do que você usou na primeira página deste capítulo. Nenhum aprendeu nada: você escolheu as portas na mão. O que mudou foi **a composição** — a saída de dois neurônios virou a entrada de um terceiro.\n>\n> E o ganho é exatamente o que faltava: com duas retas em vez de uma, o plano deixa de ser cortado ao meio e passa a ser cortado em faixas. O XOR mora numa faixa.\n>\n> **O que este laboratório não faz é achar as portas sozinho.** Você as escolheu porque sabia o que queria. Ninguém sabe qual porta pôr num circuito de dez mil neurônios, e é por isso que o [capítulo III.2](iii-2-redes-neurais.md) existe: ele mantém a composição que você acabou de montar e troca a sua escolha por um método. A camada escondida do capítulo seguinte é este A e este B, com os pesos aprendidos em vez de escolhidos.",
+   "pagina": "iii-1-neuronio-artificial"
+  },
+  {
    "id": "redes-neurais-l1",
    "capitulo": 18,
    "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
@@ -14758,6 +14786,22 @@
     "semente": 11
    },
    "intro": "É o mesmo XOR em que o perceptron do [capítulo III.1](iii-1-neuronio-artificial.md) oscilava sem fim. Aqui a rede é 2 → 2 → 1, com `tanh` na camada escondida, e ninguém escolheu peso nenhum: ela parte de valores aleatórios e desce o gradiente.\n\nAs **duas retas** são as fronteiras que as duas unidades escondidas estão aprendendo, e são o conteúdo da animação, não enfeite. Repare que a solução nunca vira uma fronteira curva: são duas retas, e quem as combina é a camada de saída — exatamente o `(OU) E (NÃO-E)` da tabela, encontrado sozinho.\n\nPonto com contorno é ponto que a rede ainda erra. Assista até a contagem fechar, na época 142.\n\nDepois use os dois outros botões, nesta ordem.\n\n**\"E sem a camada escondida?\"** deixa tudo igual e tira só a camada do meio. Mesma descida, mesma perda, mesmo tempo, e ela empaca em 24 de 48, que é o acaso. O que resolveu o XOR não foi o gradiente: foi a camada.\n\n**\"E se a inicialização for infeliz?\"** mantém a camada e muda apenas de onde os pesos partem. A rede empaca em 24 de 48 com a perda parada em 0,348, e não sai mais dali. Não há erro nenhum: o método está correto, a implementação está correta, e a descida caiu num **mínimo local**. Varrendo 60 inicializações sobre este mesmo conjunto, 44 resolvem e 16 não.\n\nEsse botão existe porque o problema apareceu de verdade ao construir esta animação — a primeira semente escolhida era uma das 16. É o modo de falha \"inicialização ruim\" do objetivo **O4**, e vê-lo aqui torna o resto do capítulo menos abstrato.",
+   "pagina": "iii-2-redes-neurais"
+  },
+  {
+   "id": "redes-neurais-l2",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "iframe",
+   "titulo": "O Playground: uma manopla por pergunta",
+   "config": {
+    "id": "redes-neurais-l2",
+    "tipo": "iframe",
+    "titulo": "O Playground: uma manopla por pergunta",
+    "src": "assets/playground/playground.html",
+    "altura": 800
+   },
+   "intro": "Este é o **TensorFlow Playground**, servido daqui mesmo — ele funciona com a sua rede fora do ar, e não manda nada para lugar nenhum. É código de terceiro sob Apache 2.0, e não um produto oficial do Google; a procedência está em [`publicar/tema/playground/LEIA-ME.md`](https://github.com/GHDaru/machinelearning/blob/main/publicar/tema/playground/LEIA-ME.md).\n\n**Ele tem oito controles, e é aí que mora o perigo.** Mexer em três coisas ao mesmo tempo, ver a perda cair e não saber qual delas causou é o oposto de aprender. Então a regra deste laboratório é uma só: **uma manopla por pergunta, e você escreve a previsão antes de mexer.**\n\nA interface está em inglês. A tradução dos rótulos:\n\n| Na tela | Em português |\n|---|---|\n| Learning rate | taxa de aprendizado |\n| Activation | função de ativação |\n| Regularization / rate | regularização e a força dela |\n| Features | atributos de entrada |\n| Hidden layers | camadas escondidas |\n| Training / Test loss | perda de treino e de teste |\n| Noise | ruído nos dados |\n| Ratio of training to test data | proporção treino/teste |\n\n### As cinco perguntas\n\n1. **Dados em círculo, zero camadas escondidas, só `x₁` e `x₂`.** Preveja a perda antes de rodar. Depois acrescente `x₁²` e `x₂²` como entrada. Pergunta: por que a camada escondida dispensa esse gesto manual?\n2. **Espiral: 1 camada de 8 unidades contra 2 camadas de 4.** A contagem de parâmetros é parecida. Preveja qual treina melhor. Erra-se aqui com frequência.\n3. **Espiral, 4 camadas, ativação `Linear` em todas.** Desenhe num papel a fronteira que você espera, e só então rode. É o exercício `e1` deste capítulo, em movimento.\n4. **A mesma configuração, reinicializada cinco vezes.** Quantas resolvem? Compare com as 44 de 60 que a animação do XOR mediu, logo acima.\n5. **Troque `tanh` por `ReLU`.** Pergunta final, e é a que separa quem leu o teorema de Hornik de quem decorou o nome dele: mudou o que a rede **pode representar**, ou só o quanto ela **consegue treinar**?",
    "pagina": "iii-2-redes-neurais"
   },
   {

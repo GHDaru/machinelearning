@@ -6,6 +6,43 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o Playground vendorizado no III.2, e dois laboratórios novos no III.1
+- **TensorFlow Playground entra no III.2** ([ADR 0018](adr/0018-o-playground-entra-vendorizado.md)),
+  **vendorizado** em `publicar/tema/playground/` e servido pelo nosso site — não por
+  `iframe` para o domínio de terceiro. Comitê de três especialistas, decisão unânime:
+  o domínio serve Google Analytics (princípio V) e um iframe remoto quebra quando o
+  terceiro cai (princípio VIII.6). O upstream está parado desde junho de 2022, o que
+  **inverte** a intuição: código congelado é dívida baixa para quem copia e
+  dependência alta para quem aponta.
+- **Três modificações declaradas** (Apache 2.0, cláusula 4(b)): `analytics.js`
+  removido, fontes vendorizadas (Roboto + Material Icons — oito botões usam ligadura
+  e virariam palavras literais sem elas), e `index.html` renomeado para
+  `playground.html`, porque o gate de links compara por `basename()` e um segundo
+  `index.html` passaria falsamente.
+- **Gate novo:** `publicar/gates/sem-analytics.mjs` quebra o build se rastreador ou
+  recurso externo voltar à pasta vendorizada. **Visto mordendo** — pegou primeiro um
+  comentário meu que citava o domínio das fontes, e depois o `<script>` do analytics
+  reintroduzido de propósito.
+- **O laboratório entra com roteiro, e o roteiro é condição.** Oito manoplas soltas
+  produzem confundimento: mexe-se em três coisas, algo melhora, e não se sabe qual
+  causou. Cinco perguntas, uma manopla por pergunta, previsão escrita antes de mexer,
+  mais a tabela de tradução dos rótulos.
+
+### Adicionado — o neurônio que você treina, e o circuito de dois (cap. III.1)
+- **`perceptron-treino`**: o leitor aplica a regra de 1958 um passo por vez, lendo no
+  placar qual exemplo entrou, o que esperava, o que saiu e se corrigiu. Medido: AND
+  fecha em 5 épocas; **XOR não fecha nunca** (2 erros de 4 depois de 60 épocas), e o
+  placar diz isso em vez de deixar o leitor esperando.
+- **E o botão das 4 entradas, que é o ponto:** o plano some, porque quatro entradas
+  não cabem numa folha. O método não se importa — **converge em 10 épocas, zero erros
+  de 16 casos**. Perdemos a figura, não o método, e confundir "não consigo desenhar"
+  com "não consigo verificar" é um dos erros mais caros da área.
+- **`circuito-neuronios`**: dois neurônios alimentando um terceiro, e o leitor escolhe
+  as portas até montar o XOR. A solução é A = OU, B = NÃO-E, saída = E. O teste
+  confere também que **nenhuma porta sozinha chega lá** (AND=1, OR=3, NAND=3, NOR=1 de
+  4 linhas), que é a afirmação que o capítulo faz e nunca tinha demonstrado.
+- Teste em `publicar/testes/labs-iii-1.mjs`, cobrindo as sete afirmações acima.
+
 ### Adicionado — as duas últimas animações, e a v0 do livro fecha (caps. I.6 e I.1)
 - **I.6 — a escala de uma coluna** (`anima-escala`): a unidade de um atributo sobe
   até 100×, e do k-vizinhos sobram **0,81 dos 5 vizinhos**, com **31% dos rótulos

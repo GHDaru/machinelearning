@@ -4701,6 +4701,393 @@
     rel.aoChegar(function () { rodar(0); });
   }
 
+
+  // ---------------------------------------------------------------- III.1
+  // Dois laboratórios MANIPULÁVEIS (não animações) que o autor pediu para o
+  // capítulo III.1, antecipando o III.2.
+  //
+  // 1) `perceptron-treino`: o leitor aplica a regra de aprendizado ele mesmo, um
+  //    passo por vez, e escolhe quantas entradas o neurônio tem. Com 2 entradas há
+  //    plano para desenhar; com 4 não há, e é exatamente esse o ponto — o método
+  //    não muda, quem perde a figura somos nós. O erro continua calculável.
+  //
+  // 2) `circuito-neuronios`: dois neurônios em paralelo alimentando um terceiro. O
+  //    leitor escolhe que porta cada um implementa e tenta montar o XOR, que um
+  //    neurônio sozinho não faz. É a ponte para o III.2, construída à mão antes de
+  //    o capítulo seguinte automatizar.
+
+  /** Portas lógicas como neurônios de McCulloch–Pitts, com pesos explícitos. */
+  var PORTAS = {
+    AND:  { rot: "E (AND)",       w: [1, 1],   th: 1.5 },
+    OR:   { rot: "OU (OR)",       w: [1, 1],   th: 0.5 },
+    NAND: { rot: "NÃO-E (NAND)",  w: [-1, -1], th: -1.5 },
+    NOR:  { rot: "NÃO-OU (NOR)",  w: [-1, -1], th: -0.5 }
+  };
+
+  function disparo(porta, a, b) {
+    var p = PORTAS[porta];
+    return (p.w[0] * a + p.w[1] * b >= p.th) ? 1 : 0;
+  }
+
+  function perceptronTreino(raiz, cfg) {
+    var est = { d: 2, alvo: "AND", taxa: 0.5, w: [0, 0, 0, 0], b: 0,
+                epoca: 0, errosEpoca: null, i: 0, ultimo: null, convergiu: false };
+
+    var corpo = el("div", "lab-corpo");
+    var painel = el("div", "lab-painel");
+    var visual = el("div", "lab-visual");
+    corpo.appendChild(painel); corpo.appendChild(visual);
+
+    var W = 300, H = 240, PAD = 30;
+    var cv = document.createElement("canvas");
+    cv.width = W; cv.height = H; cv.className = "lab-canvas";
+    cv.setAttribute("role", "img");
+    visual.appendChild(cv);
+    var ctx = cv.getContext("2d");
+    var placar = el("div", "lab-placar");
+    placar.setAttribute("aria-live", "polite");
+    placar.setAttribute("role", "status");
+    visual.appendChild(placar);
+
+    /** Conjunto de treino: com d=2, a tabela-verdade; com d=4, a função maioria. */
+    function dados() {
+      var v = [], i, j, bits, soma;
+      var n = 1 << est.d;
+      for (i = 0; i < n; i++) {
+        bits = [];
+        soma = 0;
+        for (j = 0; j < est.d; j++) { bits.push((i >> j) & 1); soma += (i >> j) & 1; }
+        var y;
+        if (est.d === 2) {
+          y = est.alvo === "AND" ? (bits[0] && bits[1] ? 1 : 0)
+            : est.alvo === "OR" ? (bits[0] || bits[1] ? 1 : 0)
+            : est.alvo === "NAND" ? (bits[0] && bits[1] ? 0 : 1)
+            : (bits[0] !== bits[1] ? 1 : 0);            // XOR
+        } else {
+          y = soma > est.d / 2 ? 1 : 0;                 // maioria
+        }
+        v.push({ x: bits, y: y });
+      }
+      return v;
+    }
+
+    function prever(x) {
+      var s = est.b, j;
+      for (j = 0; j < est.d; j++) s += est.w[j] * x[j];
+      return s >= 0 ? 1 : 0;
+    }
+
+    function errosAgora() {
+      var D = dados(), e = 0, i;
+      for (i = 0; i < D.length; i++) if (prever(D[i].x) !== D[i].y) e++;
+      return e;
+    }
+
+    /** Um passo da regra de 1958: olha UM exemplo e corrige se errou. */
+    function umPasso() {
+      var D = dados(), p = D[est.i % D.length], yh = prever(p.x), j;
+      est.ultimo = { x: p.x.slice(), y: p.y, yh: yh, mexeu: yh !== p.y };
+      if (yh !== p.y) {
+        for (j = 0; j < est.d; j++) est.w[j] += est.taxa * (p.y - yh) * p.x[j];
+        est.b += est.taxa * (p.y - yh);
+      }
+      est.i++;
+      if (est.i % D.length === 0) {
+        est.epoca++;
+        est.errosEpoca = errosAgora();
+        if (est.errosEpoca === 0) est.convergiu = true;
+      }
+      pintar();
+    }
+
+    function umaEpoca() {
+      var n = dados().length, k;
+      for (k = 0; k < n; k++) umPasso();
+    }
+
+    function ateParar() {
+      var k = 0;
+      while (!est.convergiu && k < 60) { umaEpoca(); k++; }
+      pintar();
+    }
+
+    function zerar() {
+      est.w = [0, 0, 0, 0]; est.b = 0; est.epoca = 0; est.i = 0;
+      est.errosEpoca = null; est.ultimo = null; est.convergiu = false;
+      pintar();
+    }
+
+    function pintar() {
+      var escuro = temaEscuro(), D = dados(), i, j;
+      ctx.fillStyle = escuro ? "#1a1b1e" : "#faf9f7";
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(PAD, PAD, W - 2 * PAD, H - 2 * PAD);
+      ctx.font = "11px system-ui, sans-serif";
+
+      if (est.d === 2) {
+        var esc = function (v) { return PAD + ((v + 0.4) / 1.8) * (W - 2 * PAD); };
+        var escY = function (v) { return H - PAD - ((v + 0.4) / 1.8) * (H - 2 * PAD); };
+        // a fronteira w1x1 + w2x2 + b = 0
+        if (Math.abs(est.w[1]) > 1e-9 || Math.abs(est.w[0]) > 1e-9) {
+          ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          var achou = false, t2;
+          for (t2 = -0.4; t2 <= 1.4001; t2 += 0.02) {
+            var yy = Math.abs(est.w[1]) > 1e-9
+              ? -(est.w[0] * t2 + est.b) / est.w[1] : null;
+            if (yy == null || yy < -0.4 || yy > 1.4) { achou = false; continue; }
+            if (!achou) { ctx.moveTo(esc(t2), escY(yy)); achou = true; }
+            else ctx.lineTo(esc(t2), escY(yy));
+          }
+          ctx.stroke();
+        }
+        for (i = 0; i < D.length; i++) {
+          var certo = prever(D[i].x) === D[i].y;
+          ctx.fillStyle = D[i].y
+            ? (escuro ? "#87b89a" : "#2f7d4f")
+            : (escuro ? "#6a6a68" : "#c9c9c6");
+          ctx.beginPath();
+          ctx.arc(esc(D[i].x[0]), escY(D[i].x[1]), 7, 0, 6.2832);
+          ctx.fill();
+          ctx.strokeStyle = certo ? (escuro ? "#3a3b3f" : "#dcdbd7")
+                                  : (escuro ? "#d98a8a" : "#a83232");
+          ctx.lineWidth = certo ? 1 : 3;
+          ctx.stroke();
+        }
+        ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+        ctx.fillText("x₁", W - PAD + 4, H - PAD + 4);
+        ctx.fillText("x₂", PAD - 18, PAD - 6);
+      } else {
+        // Sem plano: 4 entradas não cabem numa folha. Mostramos os pesos.
+        ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+        ctx.fillText("4 entradas: não há plano para desenhar.", PAD + 4, PAD + 16);
+        ctx.fillText("O que dá para ver são os pesos e o erro.", PAD + 4, PAD + 32);
+        var maxW = 1;
+        for (j = 0; j < est.d; j++) maxW = Math.max(maxW, Math.abs(est.w[j]));
+        maxW = Math.max(maxW, Math.abs(est.b));
+        var base = H - PAD - 26, larg = (W - 2 * PAD - 20) / (est.d + 1);
+        for (j = 0; j <= est.d; j++) {
+          var val = j < est.d ? est.w[j] : est.b;
+          var alt = (Math.abs(val) / maxW) * 64;
+          ctx.fillStyle = val >= 0 ? (escuro ? "#8fb8dd" : "#35618e")
+                                   : (escuro ? "#d98a8a" : "#a83232");
+          ctx.fillRect(PAD + 10 + j * larg, base - (val >= 0 ? alt : 0), larg - 8,
+                       Math.max(2, alt));
+          ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+          ctx.fillText(j < est.d ? ("w" + (j + 1)) : "b", PAD + 10 + j * larg, base + 14);
+        }
+      }
+      texto();
+    }
+
+    function texto() {
+      var e = errosAgora(), D = dados();
+      var pesos = [], j;
+      for (j = 0; j < est.d; j++) pesos.push("w" + (j + 1) + "=" + est.w[j].toFixed(2));
+      pesos.push("b=" + est.b.toFixed(2));
+      placar.textContent =
+        (est.d === 2 ? est.alvo : "maioria de 4 entradas") +
+        " · época " + est.epoca +
+        " · erros agora " + e + " de " + D.length +
+        " · " + pesos.join(" ") +
+        (est.ultimo
+          ? " · último exemplo (" + est.ultimo.x.join(",") + ") esperava " + est.ultimo.y +
+            " e saiu " + est.ultimo.yh + (est.ultimo.mexeu ? ", então corrigiu" : ", nada a fazer")
+          : "") +
+        (est.convergiu ? " · CONVERGIU: zero erros" : "") +
+        (est.d === 2 && est.alvo === "XOR" && est.epoca > 8
+          ? " · e no XOR ele não vai convergir, por mais épocas que você dê"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    // ---- painel
+    var selD = document.createElement("select");
+    selD.className = "lab-select";
+    [["2", "2 entradas (dá para desenhar)"], ["4", "4 entradas (não dá)"]].forEach(function (o) {
+      var op = document.createElement("option");
+      op.value = o[0]; op.textContent = o[1]; selD.appendChild(op);
+    });
+    selD.value = "2";
+    selD.addEventListener("change", function () {
+      est.d = parseInt(selD.value, 10); zerar();
+    });
+    var wD = el("label", "lab-campo");
+    wD.appendChild(el("span", "lab-campo-rot", "Quantas entradas o neurônio tem"));
+    wD.appendChild(selD);
+    painel.appendChild(wD);
+
+    var selF = document.createElement("select");
+    selF.className = "lab-select";
+    [["AND", "E (AND)"], ["OR", "OU (OR)"], ["NAND", "NÃO-E (NAND)"], ["XOR", "OU-EXCLUSIVO (XOR)"]]
+      .forEach(function (o) {
+        var op = document.createElement("option");
+        op.value = o[0]; op.textContent = o[1]; selF.appendChild(op);
+      });
+    selF.value = "AND";
+    selF.addEventListener("change", function () { est.alvo = selF.value; zerar(); });
+    var wF = el("label", "lab-campo");
+    wF.appendChild(el("span", "lab-campo-rot", "Função a aprender (só com 2 entradas)"));
+    wF.appendChild(selF);
+    painel.appendChild(wF);
+
+    painel.appendChild(campo("taxa de aprendizado", est.taxa, 0.1, function (v) {
+      est.taxa = isNaN(v) ? 0.5 : v;
+    }));
+
+    var box = el("div", "lab-botoes");
+    [["Um passo", umPasso], ["Uma época", umaEpoca], ["Rodar até parar", ateParar],
+     ["Zerar os pesos", zerar]].forEach(function (b) {
+      var bt = el("button", "lab-botao", b[0]);
+      bt.type = "button";
+      bt.addEventListener("click", b[1]);
+      box.appendChild(bt);
+    });
+    painel.appendChild(box);
+
+    raiz.appendChild(corpo);
+    if (window.MutationObserver) {
+      new MutationObserver(pintar).observe(document.documentElement,
+        { attributes: true, attributeFilter: ["data-tema"] });
+    }
+    pintar();
+    raiz.__est = est;                       // gancho para o teste
+    raiz.__api = { umPasso: umPasso, umaEpoca: umaEpoca, ateParar: ateParar,
+                   zerar: zerar, setD: function (d) { est.d = d; zerar(); },
+                   setAlvo: function (a) { est.alvo = a; zerar(); },
+                   erros: errosAgora };
+  }
+
+  function circuitoNeuronios(raiz, cfg) {
+    var est = { a: "OR", b: "AND", saida: "AND" };
+
+    var corpo = el("div", "lab-corpo");
+    var painel = el("div", "lab-painel");
+    var visual = el("div", "lab-visual");
+    corpo.appendChild(painel); corpo.appendChild(visual);
+
+    var W = 300, H = 240, PAD = 22;
+    var cv = document.createElement("canvas");
+    cv.width = W; cv.height = H; cv.className = "lab-canvas";
+    cv.setAttribute("role", "img");
+    visual.appendChild(cv);
+    var ctx = cv.getContext("2d");
+    var placar = el("div", "lab-placar");
+    placar.setAttribute("aria-live", "polite");
+    placar.setAttribute("role", "status");
+    visual.appendChild(placar);
+
+    /** As quatro linhas da tabela-verdade, com o alvo XOR. */
+    function linhas() {
+      var v = [], i, x1, x2, na, nb, s;
+      for (i = 0; i < 4; i++) {
+        x1 = (i >> 1) & 1; x2 = i & 1;
+        na = disparo(est.a, x1, x2);
+        nb = disparo(est.b, x1, x2);
+        s = disparo(est.saida, na, nb);
+        v.push({ x1: x1, x2: x2, a: na, b: nb, s: s, alvo: (x1 !== x2 ? 1 : 0) });
+      }
+      return v;
+    }
+
+    function certas() {
+      var L = linhas(), c = 0, i;
+      for (i = 0; i < 4; i++) if (L[i].s === L[i].alvo) c++;
+      return c;
+    }
+
+    function pintar() {
+      var escuro = temaEscuro(), L = linhas(), i;
+      ctx.fillStyle = escuro ? "#1a1b1e" : "#faf9f7";
+      ctx.fillRect(0, 0, W, H);
+      ctx.font = "11px system-ui, sans-serif";
+      var col = [PAD, PAD + 42, PAD + 92, PAD + 140, PAD + 192];
+      var cab = ["x₁ x₂", "A", "B", "saída", "XOR"];
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      for (i = 0; i < cab.length; i++) ctx.fillText(cab[i], col[i], PAD + 14);
+      for (i = 0; i < 4; i++) {
+        var y = PAD + 36 + i * 22;
+        var ok = L[i].s === L[i].alvo;
+        ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+        ctx.fillText(L[i].x1 + "  " + L[i].x2, col[0], y);
+        ctx.fillText(String(L[i].a), col[1], y);
+        ctx.fillText(String(L[i].b), col[2], y);
+        ctx.fillStyle = ok ? (escuro ? "#87b89a" : "#2f7d4f")
+                           : (escuro ? "#d98a8a" : "#a83232");
+        ctx.fillText(String(L[i].s), col[3], y);
+        ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+        ctx.fillText(String(L[i].alvo), col[4], y);
+      }
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("x₁ ─┬─→ A ─┐", PAD, H - PAD - 40);
+      ctx.fillText("    │       ├─→ saída", PAD, H - PAD - 24);
+      ctx.fillText("x₂ ─┴─→ B ─┘", PAD, H - PAD - 8);
+      texto();
+    }
+
+    function texto() {
+      var c = certas();
+      placar.textContent =
+        "A = " + PORTAS[est.a].rot + " · B = " + PORTAS[est.b].rot +
+        " · saída = " + PORTAS[est.saida].rot +
+        " · linhas certas do XOR: " + c + " de 4" +
+        (c === 4 ? " · MONTOU: dois neurônios fizeram o que um não faz" : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function seletor(rot, chave) {
+      var s = document.createElement("select");
+      s.className = "lab-select";
+      Object.keys(PORTAS).forEach(function (k) {
+        var o = document.createElement("option");
+        o.value = k; o.textContent = PORTAS[k].rot; s.appendChild(o);
+      });
+      s.value = est[chave];
+      s.addEventListener("change", function () { est[chave] = s.value; pintar(); });
+      var w = el("label", "lab-campo");
+      w.appendChild(el("span", "lab-campo-rot", rot));
+      w.appendChild(s);
+      return w;
+    }
+
+    painel.appendChild(seletor("Neurônio A (recebe x₁ e x₂)", "a"));
+    painel.appendChild(seletor("Neurônio B (recebe x₁ e x₂)", "b"));
+    painel.appendChild(seletor("Neurônio de saída (recebe A e B)", "saida"));
+
+    raiz.appendChild(corpo);
+    if (window.MutationObserver) {
+      new MutationObserver(pintar).observe(document.documentElement,
+        { attributes: true, attributeFilter: ["data-tema"] });
+    }
+    pintar();
+    raiz.__api = { set: function (a, b, s) { est.a = a; est.b = b; est.saida = s; pintar(); },
+                   certas: certas, linhas: linhas };
+  }
+
+
+  /** Laboratório que é uma PÁGINA de terceiro, servida por nós (ADR 0018).
+   *
+   *  O iframe entra por aqui, e não solto no markdown, para que o `:::lab`
+   *  continue sendo a superfície única de interatividade do livro: um lugar só
+   *  para achar, um lugar só para auditar. */
+  function labIframe(raiz, cfg) {
+    var quadro = document.createElement("iframe");
+    quadro.src = cfg.src || "";
+    quadro.title = cfg.titulo || "laboratório externo";
+    quadro.className = "lab-iframe";
+    quadro.setAttribute("loading", "lazy");
+    // Sem `allow-same-origin`: a página vendorizada não precisa falar com o
+    // livro, e não conversar é o padrão certo para código que não escrevemos.
+    quadro.setAttribute("sandbox", "allow-scripts allow-popups");
+    quadro.style.width = "100%";
+    quadro.style.height = (cfg.altura || 760) + "px";
+    quadro.style.border = "0";
+    raiz.appendChild(quadro);
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -4718,7 +5105,10 @@
                 "anima-ensemble": animaEnsemble,
                 "anima-evolucao": animaEvolucao,
                 "anima-escala": animaEscala,
-                "anima-horizonte": animaHorizonte };
+                "anima-horizonte": animaHorizonte,
+                "perceptron-treino": perceptronTreino,
+                "circuito-neuronios": circuitoNeuronios,
+                "iframe": labIframe };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

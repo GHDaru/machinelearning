@@ -248,6 +248,34 @@ O teorema diz que uma camada escondida basta. Não diz **quantas unidades** — 
 
 Então como se escolhe? **Empiricamente, e sob validação.** Comece pequeno, aumente até a rede conseguir *overfitar* um subconjunto pequeno dos dados — se ela não consegue decorar 50 exemplos, o problema é capacidade ou bug, não regularização. Depois regularize para trazer a generalização de volta, com as ferramentas do [capítulo II.4](ii-4-otimizacao.md). O número de camadas e de unidades é hiperparâmetro, e hiperparâmetro se escolhe com dados de validação, nunca com opinião.
 
+:::lab {"id":"redes-neurais-l2","tipo":"iframe","titulo":"O Playground: uma manopla por pergunta","src":"assets/playground/playground.html","altura":800}
+Este é o **TensorFlow Playground**, servido daqui mesmo — ele funciona com a sua rede fora do ar, e não manda nada para lugar nenhum. É código de terceiro sob Apache 2.0, e não um produto oficial do Google; a procedência está em [`publicar/tema/playground/LEIA-ME.md`](https://github.com/GHDaru/machinelearning/blob/main/publicar/tema/playground/LEIA-ME.md).
+
+**Ele tem oito controles, e é aí que mora o perigo.** Mexer em três coisas ao mesmo tempo, ver a perda cair e não saber qual delas causou é o oposto de aprender. Então a regra deste laboratório é uma só: **uma manopla por pergunta, e você escreve a previsão antes de mexer.**
+
+A interface está em inglês. A tradução dos rótulos:
+
+| Na tela | Em português |
+|---|---|
+| Learning rate | taxa de aprendizado |
+| Activation | função de ativação |
+| Regularization / rate | regularização e a força dela |
+| Features | atributos de entrada |
+| Hidden layers | camadas escondidas |
+| Training / Test loss | perda de treino e de teste |
+| Noise | ruído nos dados |
+| Ratio of training to test data | proporção treino/teste |
+
+### As cinco perguntas
+
+1. **Dados em círculo, zero camadas escondidas, só `x₁` e `x₂`.** Preveja a perda antes de rodar. Depois acrescente `x₁²` e `x₂²` como entrada. Pergunta: por que a camada escondida dispensa esse gesto manual?
+2. **Espiral: 1 camada de 8 unidades contra 2 camadas de 4.** A contagem de parâmetros é parecida. Preveja qual treina melhor. Erra-se aqui com frequência.
+3. **Espiral, 4 camadas, ativação `Linear` em todas.** Desenhe num papel a fronteira que você espera, e só então rode. É o exercício `e1` deste capítulo, em movimento.
+4. **A mesma configuração, reinicializada cinco vezes.** Quantas resolvem? Compare com as 44 de 60 que a animação do XOR mediu, logo acima.
+5. **Troque `tanh` por `ReLU`.** Pergunta final, e é a que separa quem leu o teorema de Hornik de quem decorou o nome dele: mudou o que a rede **pode representar**, ou só o quanto ela **consegue treinar**?
+:::
+
+
 E aqui a tese do capítulo cobra o preço. O teorema garante que **existe** uma configuração de pesos que resolve seu problema. Ele não garante que o seu treino vá encontrá-la — a inicialização pode ser ruim, o gradiente pode sumir antes de chegar às primeiras camadas, os dados podem ser insuficientes para distinguir aquela solução de mil outras. É exatamente por isso que empilhar mais camadas **não funcionou por quase vinte anos** depois de 1986, apesar de o teorema já estar publicado desde 1989. O [capítulo III.3](iii-3-treinar-redes-profundas.md) conta o que foi preciso para destravar.
 
 :::exercicio {"id":"redes-neurais-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}

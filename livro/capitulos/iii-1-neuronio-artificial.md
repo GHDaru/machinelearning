@@ -120,6 +120,22 @@ No laboratório acima **você** procurou os pesos. Aqui quem procura é o métod
 Assista até a contagem de erros zerar. Depois clique em **"E se os dados forem XOR?"** e assista de novo, com o relógio na mão. O que você vai ver na segunda vez é o assunto da próxima seção.
 :::
 
+:::lab {"id":"neuronio-artificial-l3","tipo":"perceptron-treino","titulo":"Agora o aprendizado é seu: um passo por vez"}
+No laboratório de cima o método rodava sozinho. Aqui você é o relógio. **"Um passo"** mostra a regra de 1958 acontecendo uma vez: ele pega um exemplo, compara o que saiu com o que devia sair, e corrige os pesos **só se errou**. O placar diz qual exemplo foi, o que esperava, o que saiu, e se mexeu em alguma coisa.
+
+Faça assim: escolha o **E (AND)**, aperte "Um passo" umas dez vezes lendo o placar a cada vez, e só depois use "Uma época" e "Rodar até parar". Com o AND ele fecha em cinco épocas.
+
+Depois troque para **XOR** e rode até parar. Ele para porque bateu no teto de 60 épocas, não porque acertou: ficam 2 erros de 4, e os pesos continuam se mexendo para sempre.
+
+> ### E agora a parte que o autor deste livro queria que você visse
+>
+> Troque **"Quantas entradas o neurônio tem"** para **4 entradas**. O plano some, e some por um motivo honesto: quatro entradas não cabem numa folha de papel. O que aparece no lugar são as barras dos pesos.
+>
+> Rode até parar. Ele **converge em 10 épocas, com zero erros de 16 casos**.
+>
+> Guarde esta assimetria, porque ela vale para o livro inteiro: **perdemos a figura, não o método**. A regra é a mesma, os pesos são os mesmos, o erro continua sendo um número que se calcula. O que acabou foi a nossa capacidade de olhar — e confundir "não consigo desenhar" com "não consigo verificar" é um dos erros mais caros que existem em aprendizado de máquina. Daqui em diante, quase tudo neste livro acontece em dimensões que você nunca vai ver.
+:::
+
 ## Por que o XOR é impossível
 
 Não é falta de habilidade nem de paciência. É geometria.
@@ -322,6 +338,29 @@ O neurônio de 1943 não tinha aprendizado: os pesos eram escolhidos à mão. Co
 >
 > É o mesmo padrão que o livro encontra em outros capítulos: falta de recurso é o que mais produz forma nova. Playfair inventa o gráfico de barras porque não tinha série temporal; aqui o modelo nasce sem aprendizado porque não havia como treinar.
 > **volte para:** #de-onde-isto-veio
+:::
+
+
+## A saída, montada à mão: dois neurônios
+
+O XOR é impossível **para um neurônio**. A frase inteira importa, porque a palavra que ninguém repete é a última.
+
+Um neurônio traça uma reta. O XOR precisa de duas. Então use dois neurônios.
+
+:::lab {"id":"neuronio-artificial-l4","tipo":"circuito-neuronios","titulo":"Monte o XOR com dois neurônios e um terceiro por cima"}
+Três neurônios de McCulloch–Pitts, com os pesos que você já viu no primeiro laboratório. Os dois de baixo, **A** e **B**, recebem `x₁` e `x₂`. O de cima recebe **as saídas de A e B** — e é só isso que muda.
+
+Sua tarefa: escolher que porta cada um dos três implementa, até que a coluna "saída" fique igual à coluna "XOR" nas quatro linhas.
+
+Vale tentar antes de ler a próxima frase. Se quiser uma pista: pense em **o que o XOR quer dizer em palavras** — "um ou outro, mas não os dois". Essa frase tem duas metades, e cada metade é uma porta que você já sabe construir.
+
+A resposta é **A = OU**, **B = NÃO-E**, **saída = E**. "Pelo menos um" *e* "não os dois".
+
+> **Repare no que aconteceu, porque é a tese da Parte III inteira.** Nenhum dos três neurônios é diferente do que você usou na primeira página deste capítulo. Nenhum aprendeu nada: você escolheu as portas na mão. O que mudou foi **a composição** — a saída de dois neurônios virou a entrada de um terceiro.
+>
+> E o ganho é exatamente o que faltava: com duas retas em vez de uma, o plano deixa de ser cortado ao meio e passa a ser cortado em faixas. O XOR mora numa faixa.
+>
+> **O que este laboratório não faz é achar as portas sozinho.** Você as escolheu porque sabia o que queria. Ninguém sabe qual porta pôr num circuito de dez mil neurônios, e é por isso que o [capítulo III.2](iii-2-redes-neurais.md) existe: ele mantém a composição que você acabou de montar e troca a sua escolha por um método. A camada escondida do capítulo seguinte é este A e este B, com os pesos aprendidos em vez de escolhidos.
 :::
 
 ## Mão na massa: rode o código

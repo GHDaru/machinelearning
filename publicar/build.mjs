@@ -407,6 +407,14 @@ for (const arq of [
 mkdirSync(resolve(SAIDA, "dados"), { recursive: true });
 cpSync(resolve(RAIZ, "ml-zero/dados/limonada/limonada.csv"), resolve(SAIDA, "dados/limonada.csv"));
 
+// O TensorFlow Playground, vendorizado (ADR 0018). Vem inteiro porque é uma
+// página própria, com CSS, fontes e imagens — servida por nós e não por iframe
+// para domínio de terceiro, pelos princípios V (privacidade) e VIII.6 (o
+// laboratório funciona com a rede fora do ar). O gate
+// `publicar/gates/sem-analytics.mjs` guarda a pasta contra rastreador.
+cpSync(resolve(AQUI, "tema", "playground"), resolve(SAIDA, "assets", "playground"),
+       { recursive: true });
+
 writeFileSync(resolve(SAIDA, ".nojekyll"), "");
 
 let gerados = 0;
