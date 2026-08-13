@@ -29,15 +29,15 @@ A regra do perceptron não servia: ela corrige pesos comparando a saída com o r
 
 **O que se fazia antes.** Duas saídas, ambas ruins. Ficar na **camada única** com a regra do perceptron — barato, convergente, e limitado ao que é linearmente separável. Ou pôr os **pesos escondidos à mão**, projetando cada unidade intermediária como se fosse uma função lógica. Funciona em brinquedos como o XOR; não funciona em nada com mais de uma dúzia de unidades.
 
-**A virada — e ela vem em ordem inversa à intuição.** Primeiro veio o **procedimento**: em 1986, Rumelhart, Hinton e Williams popularizam o backpropagation e mostram que as camadas escondidas aprendem representações úteis sozinhas. Só **depois** veio a licença teórica. Cybenko, em *Approximation by superpositions of a sigmoidal function* (*Math. Control Signals Systems*, 1989), e Hornik, em *Approximation capabilities of multilayer feedforward networks* (*Neural Networks* 4:251–257, 1991), provam que **uma única camada escondida aproxima qualquer função contínua — desde que haja unidades suficientes**.
+**A virada, e ela vem em ordem inversa à intuição.** Primeiro veio o **procedimento**: em 1986, Rumelhart, Hinton e Williams popularizam o backpropagation e mostram que as camadas escondidas aprendem representações úteis sozinhas. Só depois veio a licença teórica. Cybenko, em *Approximation by superpositions of a sigmoidal function* (*Math. Control Signals Systems*, 1989), e Hornik, em *Approximation capabilities of multilayer feedforward networks* (*Neural Networks* 4:251–257, 1991), provam que **uma única camada escondida aproxima qualquer função contínua — desde que haja unidades suficientes**.
 
 Repare na ordem. A engenharia funcionou por três anos antes de a matemática dizer que ela podia funcionar. Isso é mais comum do que os livros contam, e é um bom antídoto contra a ideia de que teoria precede prática.
 
 **A ideia reaproveitável — e é a tese deste capítulo: existência não é treinabilidade.** O teorema diz que a rede certa **está** no espaço de hipóteses. Não diz quantas unidades ela precisa. Não diz como achá-la. E não diz se o gradiente descendente chega até ela partindo de onde você inicializou. É um resultado **não construtivo**: garante que o objeto existe sem dar receita para construí-lo.
 
-Guarde isso, porque a confusão é cara e frequente. "A rede pode representar qualquer função" é uma afirmação sobre o **conjunto de funções representáveis**. "A rede vai aprender essa função" é uma afirmação sobre o **procedimento de busca**, sobre os dados e sobre a inicialização. Os vinte anos de dificuldade que o [capítulo III.3](iii-3-treinar-redes-profundas.md) narra — gradientes que somem, gradientes que explodem, redes profundas que não treinavam — são exatamente o preço dessa distinção.
+Guarde isso, porque a confusão é cara e frequente. "A rede pode representar qualquer função" é uma afirmação sobre o **conjunto de funções representáveis**. "A rede vai aprender essa função" é uma afirmação sobre o **procedimento de busca**, sobre os dados e sobre a inicialização. Os vinte anos de dificuldade que o [capítulo III.3](iii-3-treinar-redes-profundas.md) narra, com gradientes que somem e gradientes que explodem, redes profundas que não treinavam — são exatamente o preço dessa distinção.
 
-**O nome.** "Teorema da aproximação universal" é rótulo posterior: a expressão **não aparece no título de nenhum dos dois artigos**. E há um detalhe de Hornik que o rótulo popular apaga — o poder de aproximação **não vem da função de ativação escolhida**; vem da **estrutura em camadas**. Trocar sigmoide por outra não-linearidade razoável não muda o que a rede pode representar. Muda o quanto ela treina bem, que é outra conversa — a conversa deste livro inteiro.
+**O nome.** "Teorema da aproximação universal" é rótulo posterior: a expressão **não aparece no título de nenhum dos dois artigos**. E há um detalhe de Hornik que o rótulo popular apaga: o poder de aproximação não vem da função de ativação escolhida, vem da **estrutura em camadas**. Trocar sigmoide por outra não-linearidade razoável não muda o que a rede pode representar. Muda o quanto ela treina bem, que é outra conversa — a conversa deste livro inteiro.
 
 **Procedência das afirmações desta seção:**
 
@@ -67,7 +67,7 @@ Agora repare: o XOR é exatamente `(x₁ OU x₂) E (x₁ NÃO-E x₂)` — "pel
 
 Confira nas quatro linhas: (0,0) → h=(0,1) → soma 1, não dispara. (0,1) → h=(1,1) → soma 2, dispara. (1,0) → idem, dispara. (1,1) → h=(1,0) → soma 1, não dispara. **4 de 4.** O que era impossível em um plano ficou trivial em dois passos, porque a camada escondida **reescreveu as entradas** — `h₁` e `h₂` são coordenadas novas, e nelas o problema virou linearmente separável.
 
-**A arquitetura.** Um **perceptron multicamadas** (*multilayer perceptron*, MLP) é isso, generalizado: uma camada de **entrada** (os atributos), uma ou mais camadas **escondidas** e uma camada de **saída**. Cada camada faz duas coisas, sempre nesta ordem: uma transformação linear (`Wx + b`) e uma **não-linearidade** aplicada elemento a elemento. A rede inteira é a composição dessas duas peças, repetida.
+**A arquitetura.** Um **perceptron multicamadas** (*multilayer perceptron*, MLP) é isso, generalizado: uma camada de entrada (os atributos), uma ou mais camadas **escondidas** e uma camada de saída. Cada camada faz duas coisas, sempre nesta ordem: uma transformação linear (`Wx + b`) e uma não-linearidade aplicada elemento a elemento. A rede inteira é a composição dessas duas peças, repetida.
 
 **Contar os parâmetros, uma vez, com número.** Uma camada que recebe $e$ entradas e produz $s$ saídas tem uma matriz $W$ de $e \times s$ pesos, mais **um viés por unidade de destino** — $s$ deles. Total: $e \times s + s$.
 
@@ -109,12 +109,12 @@ Repare no que backpropagation **não** é: não é um algoritmo de otimização.
 **A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada não é acaso: combinadas, o gradiente na saída se reduz a `previsão − rótulo`. Simples de derivar, estável de calcular, barato de implementar.
 
 :::exercicio {"id":"redes-neurais-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
-Um MLP densa tem **4 entradas**, uma camada escondida de **5 unidades** e **3 saídas**. Todas as camadas têm **viés**.
+Um MLP densa tem 4 entradas, uma camada escondida de 5 unidades e 3 saídas. Todas as camadas têm **viés**.
 
 Quantos parâmetros treináveis a rede tem no total?
 
 > **gabarito:** 43
-> **porque:** Conte camada por camada. Primeira: uma matriz 4×5 = 20 pesos, mais 5 vieses (um por unidade de destino) = **25**. Segunda: 5×3 = 15 pesos, mais 3 vieses = **18**. Total **43**.
+> **porque:** Conte camada por camada. Primeira: uma matriz 4×5 = 20 pesos, mais 5 vieses (um por unidade de destino) = 25. Segunda: 5×3 = 15 pesos, mais 3 vieses = 18. Total **43**.
 >
 > A regra que vale levar: **os pesos de uma camada formam uma matriz `entradas × saídas`, e há um viés por unidade de destino** — nunca por unidade de origem. Errar isso é o bug mais comum de quem implementa a rede em NumPy pela primeira vez, e ele não aparece como erro de matemática: aparece como uma exceção de dimensão incompatível no passo para frente, ou pior, como uma soma que "funciona" por *broadcasting* e treina errado.
 >
@@ -165,15 +165,15 @@ Explique por que o teorema **não** sustenta essa conclusão, e liste o que mais
 - Camadas e unidades são **hiperparâmetros**: escolhem-se sob validação, não por teorema.
 
 :::exercicio {"id":"redes-neurais-e4","tipo":"aberta","objetivo":"O2","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
-**Desafio de fechamento.** Explique backpropagation a alguém que **conhece a regra da cadeia** mas nunca viu uma rede. Diga o que é o passo para frente, o que é o passo para trás, e — a parte que decide — **onde exatamente está o reaproveitamento** que torna o custo viável.
+**Desafio de fechamento.** Explique backpropagation a alguém que **conhece a regra da cadeia** mas nunca viu uma rede. Diga o que é o passo para frente, o que é o passo para trás e, na parte que decide, **onde exatamente está o reaproveitamento** que torna o custo viável.
 
 > **rubrica:** apresenta backpropagation como aplicação da regra da cadeia a uma composição de funções, e não como um algoritmo à parte que se decora;
 > descreve o passo para frente guardando os valores intermediários, e diz **por que** eles precisam ser guardados — são eles que as derivadas do passo para trás consomem;
 > localiza o reaproveitamento: o gradiente de uma camada é calculado a partir do gradiente da camada seguinte, de modo que cada derivada parcial é computada **uma vez** e reutilizada por tudo que está atrás dela;
-> não deixa a explicação parar em "é a regra da cadeia": sem dizer o que seria o custo **sem** o reaproveitamento — recalcular o caminho inteiro para cada peso —, a explicação não mostrou o que backpropagation acrescenta
+> não deixa a explicação parar em "é a regra da cadeia": sem dizer o que seria o custo **sem** o reaproveitamento, isto é, recalcular o caminho inteiro para cada peso, a explicação não mostrou o que backpropagation acrescenta
 > **porque:** O quarto critério existe porque a resposta mais comum é verdadeira e vazia. "É a regra da cadeia aplicada à rede" está certo, e não explica por que isso foi um acontecimento: a regra da cadeia é do século XVII, e as redes ficaram intratáveis por décadas mesmo com ela disponível.
 >
-> O que backpropagation acrescenta é **ordem de cálculo**. Aplicando a regra da cadeia ingenuamente — para cada peso, percorrer o caminho dele até a saída — o mesmo produto é recalculado incontáveis vezes, e o custo cresce com o número de pesos multiplicado pela profundidade. Propagando de trás para frente, o gradiente da camada *k* já traz condensado tudo o que vem depois dela, e o custo do passo para trás fica **da mesma ordem** do passo para frente.
+> O que backpropagation acrescenta é **ordem de cálculo**. Aplicando a regra da cadeia ingenuamente, ou seja, percorrendo para cada peso o caminho dele até a saída, o mesmo produto é recalculado incontáveis vezes, e o custo cresce com o número de pesos multiplicado pela profundidade. Propagando de trás para frente, o gradiente da camada *k* já traz condensado tudo o que vem depois dela, e o custo do passo para trás fica **da mesma ordem** do passo para frente.
 >
 > Note o que a boa explicação torna óbvio de graça: **por que a memória cresce com a profundidade**. Guardar os valores intermediários é o preço do reaproveitamento, e é a razão de o tamanho do lote esbarrar na placa de vídeo — um fato de engenharia que cai direto desta derivação.
 > **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
