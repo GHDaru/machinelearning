@@ -4885,6 +4885,67 @@
    "titulo_capitulo": "II.5 — Árvores e Ensembles"
   },
   {
+   "id": "arvores-ensembles-e6",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um nó tem 80 exemplos, sendo 20 positivos e 60 negativos. Qual é o Gini desse nó? Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "0.38 ± 0.01",
+   "porque": "$p = 20/80 = 0{,}25$, logo Gini $= 2 \\times 0{,}25 \\times 0{,}75 = 0{,}375$, que arredondado dá **0,38**.\n\nA intuição vale mais que a conta: é a chance de você errar se chutasse a classe sorteando pela distribuição do próprio nó. Zero num nó puro, máximo em $p = 0{,}5$, onde vale 0,5.\n\nRepare na simetria que a fórmula esconde. Um nó com 60 positivos e 20 negativos dá exatamente o mesmo Gini: a impureza mede o quanto o nó está misturado, e não qual classe domina.",
+   "volte_para": "#fundamentos-como-a-arvore-escolhe-cada-corte",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles",
+   "gabarito_num": {
+    "valor": 0.38,
+    "tolerancia": 0.01
+   }
+  },
+  {
+   "id": "arvores-ensembles-e7",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma árvore erra sistematicamente num conjunto em que a melhor separação exigiria dois atributos combinados. O primeiro corte, escolhido pelo maior ganho imediato, isolou mal essa região. Qual característica do procedimento explica isso?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O Gini é uma medida de impureza inadequada, e a entropia resolveria."
+    },
+    {
+     "correta": true,
+     "texto": "O procedimento é guloso e definitivo: escolhe o melhor corte local e nunca reconsidera o anterior."
+    },
+    {
+     "correta": false,
+     "texto": "A árvore precisa que os atributos sejam normalizados para achar cortes combinados."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é a profundidade máxima, e aumentá-la garantiria a separação correta."
+    }
+   ],
+   "gabarito": "o procedimento é guloso e definitivo",
+   "porque": "Em cada nó a árvore escolhe o corte de maior ganho **naquele momento**, sem olhar o que virá depois nem desfazer o que veio antes. Um corte que parece ótimo no topo pode inviabilizar a separação que dois atributos juntos permitiriam mais abaixo.\n\nÉ a primeira das três consequências da seção, e ela explica os dois lados da árvore: a rapidez, porque não há busca global, e a falha ocasional grave, porque um corte ruim no topo compromete tudo abaixo.\n\nA quarta alternativa é a tentativa mais comum e trata o sintoma. Mais profundidade dá à árvore chances de contornar o erro inicial, ao custo de variância, e não desfaz a decisão do topo. O remédio estrutural é o das duas seções seguintes: usar várias árvores em vez de uma.",
+   "volte_para": "#fundamentos-como-a-arvore-escolhe-cada-corte",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
+  },
+  {
    "id": "arvores-ensembles-e2",
    "capitulo": 13,
    "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
@@ -4915,6 +4976,43 @@
    ],
    "gabarito": "Vai melhorar pouco ou nada, e estabilizar",
    "porque": "Em bagging, cada árvore nova é mais um termo na média. A variância da média cai com 1/B, então o ganho por árvore diminui rapidamente — de 50 para 500 você multiplica o custo por 10 para reduzir a variância residual por um fator pequeno. **Não piora**: adicionar termos a uma média não introduz overfitting, porque nenhuma árvore nova está tentando corrigir os erros das anteriores.\n\nÉ exatamente aqui que bagging e boosting se separam. Em **boosting**, cada árvore nova é ajustada ao resíduo — ou seja, ela persegue ativamente o que sobrou, inclusive o ruído. Por isso, em boosting, o número de árvores **é** um hiperparâmetro de regularização, e o excesso degrada a validação.\n\nSe você respondeu \"vai cair\", você aplicou a intuição de boosting a bagging. É o erro mais comum do capítulo, e a razão de a tabela comparativa existir.",
+   "volte_para": "#bagging-e-boosting-atacam-erros-diferentes",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
+  },
+  {
+   "id": "arvores-ensembles-e8",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual erro cada família ataca primeiro?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Bagging ataca viés; boosting ataca variância."
+    },
+    {
+     "correta": true,
+     "texto": "Bagging ataca variância; boosting ataca viés."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois atacam variância, e diferem só na forma de treinar."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois atacam viés, e diferem só no custo computacional."
+    }
+   ],
+   "gabarito": "bagging ataca variância, boosting ataca viés",
+   "porque": "É a primeira linha da tabela e a chave do capítulo inteiro. Bagging tira a média de árvores independentes: a média de $B$ estimadores independentes tem variância $\\sigma^2/B$, e o viés não muda, porque a média de modelos igualmente enviesados é igualmente enviesada.\n\nBoosting faz o contrário. Cada árvore é rasa e fraca, com viés alto de propósito, e o ganho vem de somar correções sucessivas ao resíduo. No experimento do capítulo, uma árvore de profundidade 3 vale 0,9201 de AUC, e cinquenta delas somadas com passo 0,2 chegam a 0,9392.\n\nTrocar as duas coisas é o erro mais comum aqui, e ele tem consequência prática: leva a esperar overfitting de bagging e saturação de boosting, que é exatamente o inverso do que acontece.",
    "volte_para": "#bagging-e-boosting-atacam-erros-diferentes",
    "rubrica": null,
    "versoes": null,
@@ -4987,6 +5085,80 @@
    }
   },
   {
+   "id": "arvores-ensembles-e9",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual hiperparâmetro de boosting se ajusta primeiro, e por quê?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A profundidade, porque ela define que tipo de interação o modelo consegue capturar."
+    },
+    {
+     "correta": false,
+     "texto": "A regularização, porque controla o overfitting desde o início."
+    },
+    {
+     "correta": false,
+     "texto": "O número de árvores, porque determina o custo do treino."
+    },
+    {
+     "correta": false,
+     "texto": "A subamostragem, porque acelera todas as buscas seguintes."
+    }
+   ],
+   "gabarito": "a profundidade",
+   "porque": "Ela vem primeiro porque decide o que o modelo é **capaz** de representar. Profundidade 1, os tocos, só captura efeitos aditivos; profundidade 3 já captura interações de três vias. Ajustar qualquer outro parâmetro antes disso é otimizar dentro de uma família errada.\n\nA segunda alternativa é o erro caro que a seção nomeia: mexer em regularização com a profundidade errada é otimizar a decoração de uma casa cuja planta está errada.\n\nO número de árvores não entra em busca nenhuma se você usar early stopping, e é essa a recomendação do capítulo: fixe a taxa baixa e deixe a validação decidir quantas. É o hiperparâmetro que se ajusta sozinho.",
+   "volte_para": "#a-ordem-de-ajuste-que-economiza-tempo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
+  },
+  {
+   "id": "arvores-ensembles-e10",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe monta uma busca em grade com quatro eixos simultâneos: profundidade de 2 a 10, taxa de 0,01 a 0,3, número de árvores de 100 a 2 000, e três níveis de regularização. Quais críticas desta seção se aplicam? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Taxa e número de árvores são um par e não deveriam ser buscados como eixos independentes."
+    },
+    {
+     "correta": true,
+     "texto": "O número de árvores não precisa entrar na grade, porque o early stopping o decide."
+    },
+    {
+     "correta": true,
+     "texto": "A regularização entra cedo demais: ela é ajuste fino e só rende depois dos outros três."
+    },
+    {
+     "correta": false,
+     "texto": "Buscar profundidade de 2 a 10 é excessivo, porque a faixa útil é sempre de 1 a 2."
+    }
+   ],
+   "gabarito": "taxa e número são um par · early stopping decide o número · regularização entra cedo demais",
+   "porque": "As três corretas são a ordem da tabela lida ao contrário, e juntas explicam por que a grade descrita custa dias. Taxa e número de árvores compensam um ao outro, então varrê-los como eixos independentes gasta a maior parte do orçamento em combinações equivalentes entre si.\n\nTirar o número de árvores da grade é o corte mais barato: com early stopping desde o começo, ele deixa de ser hiperparâmetro e vira consequência.\n\nA alternativa errada inventa uma regra que o capítulo não dá. A faixa recomendada é de 3 a 8, e a profundidade 1 aparece só como exemplo do que os tocos conseguem capturar, que são efeitos aditivos.",
+   "volte_para": "#a-ordem-de-ajuste-que-economiza-tempo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
+  },
+  {
    "id": "arvores-ensembles-e5",
    "capitulo": 13,
    "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
@@ -5012,6 +5184,80 @@
     "declara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta",
     "considera o custo de iteração dentro do prazo, e não só a métrica final"
    ]
+  },
+  {
+   "id": "arvores-ensembles-e11",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais são os três mecanismos que Grinsztajn et al. (2022) identificam para explicar a vantagem das árvores em dados tabulares? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Atributos não informativos, que árvores ignoram de graça."
+    },
+    {
+     "correta": true,
+     "texto": "Funções irregulares, com quebras e patamares, contra o viés das redes a favor de funções suaves."
+    },
+    {
+     "correta": true,
+     "texto": "Orientação dos eixos: cada coluna tem significado próprio, e árvores cortam ao longo dos eixos."
+    },
+    {
+     "correta": false,
+     "texto": "Volume de dados: árvores aproveitam melhor bases com milhões de linhas."
+    }
+   ],
+   "gabarito": "atributos não informativos · funções irregulares · orientação dos eixos",
+   "porque": "Os três são o diagnóstico do trabalho, e é ele que interessa mais que o placar: o placar diz **que** árvores ganham naquele regime, e os mecanismos dizem **por que**, o que é o que permite prever quando a conclusão deixa de valer.\n\nA alternativa errada inverte justamente o recorte do resultado. A afirmação verificada é sobre dados de **porte médio**, cerca de 10 mil exemplos, e não sobre bases enormes. Estender a conclusão para milhões de linhas é usar a evidência fora da faixa em que ela foi medida.\n\nRepare que os três mecanismos são propriedades do **dado**, não do algoritmo. É por isso que eles servem de teste: diante de uma base nova, dá para perguntar quantos dos três estão presentes.",
+   "volte_para": "#fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
+  },
+  {
+   "id": "arvores-ensembles-e12",
+   "capitulo": 13,
+   "arquivo": "livro/capitulos/ii-5-arvores-ensembles.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O experimento deste capítulo foi construído com três atributos de puro ruído e uma fronteira com quebra, e o boosting vence o linear por larga margem. Qual é o estatuto dessa evidência?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "É a prova de que boosting vence em dados tabulares."
+    },
+    {
+     "correta": true,
+     "texto": "É uma ilustração do mecanismo que o paper mede, e confundir as duas coisas seria vender ilustração como evidência."
+    },
+    {
+     "correta": false,
+     "texto": "É irrelevante, porque dado sintético não ensina nada."
+    },
+    {
+     "correta": false,
+     "texto": "É um contraexemplo ao paper, porque usa apenas um conjunto."
+    }
+   ],
+   "gabarito": "ilustração do mecanismo que o paper mede",
+   "porque": "O experimento foi **construído** com as características 1 e 2 do diagnóstico, então ele não poderia terminar de outro jeito. Isso não o torna inútil: ele mostra o mecanismo funcionando, em escala pequena, onde dá para ver cada peça.\n\nO que ele não pode fazer é sustentar a afirmação geral. Quem mede isso é o benchmark de 45 conjuntos, com busca extensa de hiperparâmetros, e é de lá que a frase do capítulo tira a autoridade.\n\nA distinção vale além deste capítulo, e é o Princípio I em ação: um exemplo desenhado para exibir um efeito demonstra que o efeito é possível, nunca que ele é típico. Dizer \"nosso teste comprova\" sobre um conjunto assim é o erro que a seção evita com uma frase explícita.",
+   "volte_para": "#fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-5-arvores-ensembles",
+   "titulo_capitulo": "II.5 — Árvores e Ensembles"
   },
   {
    "id": "analise-multidimensional-e1",
