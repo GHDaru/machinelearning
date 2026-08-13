@@ -86,7 +86,7 @@ Este capítulo tem um nome estranho no meio dele — **curva ROC**, "caracterís
 
 **A ideia reaproveitável — e é a maior deste capítulo.** **O limiar não é propriedade do modelo; é a decisão de quem assume as consequências.** No radar isso era literal: havia um botão, e girá-lo trocava um tipo de erro por outro. Um modelo entrega um *ranking*; transformá-lo em decisão exige alguém dizer quanto custa cada erro. Nenhum valor de limiar é "o certo" sem essa conversa — e quando o cientista de dados escolhe o limiar sozinho, ele não está fazendo uma escolha técnica: está tomando, calado, uma decisão que era de outra pessoa.
 
-**O nome.** *Receiver Operating Characteristic* é literalmente a característica de operação daquele receptor de rádio. O gráfico como o usamos vem do trabalho pós-guerra em teoria da detecção de sinal (Peterson & Birdsall, 1953; Peterson *et al.*, 1954), e chega à psicologia por Tanner e Swets — de onde migra para a medicina, a meteorologia e, por fim, para cá.
+**O nome.** *Receiver Operating Characteristic* é literalmente a característica de operação daquele receptor de rádio. O gráfico como o usamos vem do trabalho pós-guerra em teoria da detecção de sinal: um relatório técnico de **Peterson e Birdsall** na Universidade de Michigan, em 1953, publicado no ano seguinte como *"The theory of signal detectability"* por Peterson, Birdsall e Fox (*Transactions of the IRE*, 4(4):171–212, 1954). No mesmo ano de 1954, a ideia chega à psicologia por Tanner e Swets, em *"A decision-making theory of visual detection"* (*Psychological Review* 61(6):401–409), e de lá migra para a medicina, a meteorologia e, por fim, para cá.
 
 > **Por que a história importa na prática.** Quem sabe que a ROC nasceu de um botão físico nunca mais confunde *"o modelo é bom"* com *"o limiar está certo"*. São duas perguntas, e só a primeira é técnica.
 
@@ -95,7 +95,8 @@ Este capítulo tem um nome estranho no meio dele — **curva ROC**, "caracterís
 | Selo | Afirmação |
 |---|---|
 | ⏳ | A origem no radar da Segunda Guerra e o controle de ganho ajustável pelo operador — consistente entre fontes secundárias; **nenhuma primária da época foi aberta** |
-| ⏳ | Peterson & Birdsall (1953), Peterson *et al.* (1954) e a passagem por Tanner e Swets |
+| ✓ᵐ | As fichas dos dois marcos de 1954: **Peterson, Birdsall & Fox**, *"The theory of signal detectability"*, *Transactions of the IRE Professional Group on Information Theory* 4(4):171–212, [10.1109/tit.1954.1057460](https://doi.org/10.1109/tit.1954.1057460); e **Tanner & Swets**, *"A decision-making theory of visual detection"*, *Psychological Review* 61(6):401–409, [10.1037/h0058700](https://doi.org/10.1037/h0058700) |
+| ⏳ | Que o **termo** *Receiver Operating Characteristic* tenha nascido nesse trabalho, e o conteúdo do relatório de 1953. Tentei abrir o relatório em dois repositórios e **os dois recusaram** a transferência: o de defesa devolveu página em vez de documento, e o da universidade respondeu com desafio de robô. A ficha existe; o texto, não |
 | ⏳ | O caso do operador com alta taxa de detecção por excesso de alarme — narrado de forma consistente na literatura didática de detecção de sinal |
 | 📖 | A ideia reaproveitável ("o limiar é decisão de quem assume as consequências") e a leitura de que escolher limiar calado é tomar decisão alheia |
 

@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — a linhagem da curva ROC ganha ficha, e o que não abriu fica dito (cap. II.1)
+- **"Peterson *et al.*, 1954" virou a citação inteira:** Peterson, Birdsall & Fox,
+  *"The theory of signal detectability"*, *Transactions of the IRE* 4(4):171–212,
+  com DOI. E Tanner & Swets ganhou a referência que não tinha: *"A decision-making
+  theory of visual detection"*, *Psychological Review* 61(6):401–409, 1954.
+- **O relatório de 1953 não abriu**, e é nele que o termo *Receiver Operating
+  Characteristic* teria nascido. Duas tentativas, dois repositórios, duas recusas:
+  o de defesa devolveu página em vez de documento, o da universidade respondeu com
+  desafio de robô. A linha continua ⏳ **com as tentativas registradas**, para que
+  quem retomar saiba o que já falhou.
+- O gate de prosa pegou um parágrafo com quatro negritos, introduzido por mim ao
+  escrever a correção.
+
 ### Alterado — o capítulo I.6 passou na conferência, e ganhou páginas
 - **Primeiro capítulo da coluna sem achado.** As quatro afirmações centrais bateram
   com a fonte, inclusive a direção de cada sobreposição no exemplo de Harris: quase

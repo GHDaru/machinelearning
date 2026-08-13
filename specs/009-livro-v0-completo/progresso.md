@@ -62,7 +62,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | **ok** | — |
+| 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | **ok** | **ok** |
 | 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 11 | II.3 — Regressão Logística | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
 | 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -143,6 +143,14 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > (156–157 no Harris, 194 no Firth) e o artigo da fonte lida passou a ser citado
 > pela versão publicada, e não só pelo pré-print. Sete capítulos, seis achados —
 > a taxa não é de um por capítulo, e convém não prometer que seja.
+>
+> **No II.1 o resultado foi um empate honesto.** As duas fichas de 1954 subiram a
+> ✓ᵐ com DOI, e o corpo ganhou autores, veículo e páginas onde antes havia só
+> "Peterson et al.". Mas o relatório de 1953, que é onde o **termo** ROC teria
+> nascido, não abriu em nenhum dos dois repositórios: o de defesa devolveu página
+> em vez de documento, o da universidade respondeu com desafio de robô. A linha
+> ficou ⏳ **com as tentativas registradas**, que é mais útil do que ⏳ sozinho:
+> quem retomar sabe o que já falhou.
 >
 > **A regra que este ciclo deixou:** resumo de máquina não confere fonte. Ao ler a
 > carta do *double descent*, uma extração automática afirmou que ela **não**
