@@ -33,7 +33,9 @@ O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para torna
 
 **O nome.** *CRoss-Industry Standard Process for Data Mining*. O "cross-industry" não é enfeite, é a tese: o processo não pode pertencer a um setor nem a um vendedor, ou volta a ser método de consultoria.
 
-Concebido no fim de 1996, virou projeto europeu com financiamento do **ESPRIT**, o programa europeu de pesquisa em tecnologia da informação, em 1997, tocado por um consórcio de cinco organizações: a ISL (depois absorvida pela SPSS, autora do Clementine, o primeiro *workbench* comercial de mineração, de 1994), a Teradata, a NCR, a Daimler-Benz e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
+O prefácio do guia conta a origem em primeira pessoa. **Concebido no fim de 1996** por três veteranos de um mercado que os próprios autores chamam de jovem e imaturo, virou consórcio no ano seguinte: *"A year later we had formed a consortium, invented an acronym (CRoss-Industry Standard Process for Data Mining), obtained funding from the European Commission and begun to set out our initial ideas."*
+
+O consórcio tem **quatro** membros, e a página de propriedade do documento os lista: NCR, DaimlerChrysler (então Daimler-Benz), SPSS (então ISL, autora do Clementine, *"the first commercial data mining workbench"*, de 1994) e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
 
 Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora** sentadas na mesma mesa. A prova de conceito do "cross-industry" está na composição do grupo — se o mesmo processo servisse para fabricar carros e para precificar apólices, servia para o resto.
 
@@ -43,8 +45,10 @@ Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora*
 
 | Selo | Afirmação |
 |---|---|
-| ✓ᵐ | A estrutura de seis fases cíclicas e o nome por extenso, pelo guia CRISP-DM 1.0 (1999) — documento localizado e identificado, **não lido por inteiro** |
-| ✓ᵐ | A cronologia (concepção no fim de 1996, ESPRIT em 1997, versão 1.0 em 1999), a composição do consórcio (ISL/SPSS, Teradata, NCR, Daimler-Benz, OHRA), os testes na Mercedes-Benz e na OHRA, e o Clementine (1994) como primeiro *workbench* comercial |
+| ✓ | A estrutura de **seis fases** e o nome por extenso, no texto do [guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf) (78 páginas, PDF extraído e lido): *"The life cycle of a data mining project consists of six phases"*, e a expansão do acrônimo tal como o prefácio a registra |
+| ✓ | A cronologia e o consórcio, pelo prefácio e pela página de propriedade do mesmo guia: concepção no fim de 1996, consórcio e financiamento **da Comissão Europeia** um ano depois, versão 1.0 em 1999; os quatro membros (NCR, DaimlerChrysler, SPSS, OHRA); os testes na Mercedes-Benz e na OHRA; e o Clementine de 1994 como *"the first commercial data mining workbench"* |
+| ⏳ | Que o financiamento europeu tenha vindo especificamente do programa **ESPRIT**. É a atribuição corrente, e **a palavra não aparece nenhuma vez no guia**, que diz apenas "European Commission" |
+| ❌ | **Correção de 2026-08-13.** Este capítulo afirmava um consórcio de **cinco** organizações, incluindo a Teradata como membro e a ISL separada da SPSS. Ler o guia desfez as duas: a Teradata é a linha de *data warehouse* **da NCR**, citada no prefácio como o negócio que motivou a participação dela, e ISL é o nome anterior da própria SPSS |
 | ⏳ | O estado do mercado em meados dos anos 1990: processo ad hoc por consultoria, ferramenta vendida sem método, resultados não comparáveis nem repetíveis entre empresas |
 | ⏳ | Que a presença de uma seguradora ao lado de uma montadora funcione como prova de conceito do "cross-industry" |
 | 📖 | A ideia reaproveitável ("o método é o produto, não a ferramenta") e a leitura de que o processo comum é o que torna o resultado auditável e transferível |
@@ -321,7 +325,7 @@ Numa retrospectiva, uma equipe relata os fatos abaixo. Quais deles são sintoma 
 - A fase 5 não é a métrica de teste: é *"isto resolve o problema da fase 1?"*. Modelo pode passar na 4 e reprovar na 5.
 - **As setas voltam.** Fase 4 devolve trabalho para a 3; fase 5 devolve para a 1; a implantação reabre o ciclo por causa do *drift*.
 - Os cargos são **recortes do ciclo**, não especialidades técnicas — e num time só técnico a fase 1 fica sem dono.
-- Nasceu de um consórcio de indústria (1996–1999, ESPRIT), com montadora e seguradora na mesma mesa, para que o processo não pertencesse a nenhum fornecedor.
+- Nasceu de um consórcio de quatro organizações (1996–1999), financiado pela Comissão Europeia, com montadora e seguradora na mesma mesa, para que o processo não pertencesse a nenhum fornecedor.
 - **O método é o produto, não a ferramenta.** Em campo novo, o processo comum é o que torna o resultado auditável e transferível — mais do que qualquer algoritmo.
 
 ## Verificação

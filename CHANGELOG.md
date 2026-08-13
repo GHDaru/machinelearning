@@ -19,6 +19,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — dois fatos do capítulo I.1, derrubados pelo guia CRISP-DM
+- **O consórcio tinha quatro membros, não cinco.** O capítulo listava ISL, Teradata,
+  NCR, Daimler-Benz e OHRA. A página de propriedade do guia lista NCR,
+  DaimlerChrysler, SPSS e OHRA: **Teradata é a linha de *data warehouse* da NCR**,
+  não um membro, e **ISL é o nome anterior da própria SPSS**. O capítulo contava
+  duas vezes a mesma empresa e promovia um produto a organização.
+- **ESPRIT não aparece no documento.** O capítulo dava o programa como financiador;
+  o guia diz apenas *"obtained funding from the European Commission"*. A atribuição
+  a ESPRIT desceu para ⏳, com a razão escrita.
+- As 78 páginas do guia foram extraídas e lidas, então a estrutura de seis fases, a
+  cronologia, os testes na Mercedes-Benz e o Clementine de 1994 subiram de ✓ᵐ para
+  ✓, com as frases do prefácio citadas.
+- A síntese do capítulo, que repetia "1996–1999, ESPRIT", foi corrigida junto.
+
 ### Alterado — a coluna de fontes abre para valer, no capítulo 0.2
 - **A tabela de selos do 0.2 foi refeita, uma obra por linha.** Antes, uma única
   linha ✓ᵐ cobria cinco trabalhos de status muito diferente. Selo médio esconde

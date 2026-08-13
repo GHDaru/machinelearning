@@ -56,7 +56,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 |---|---|---|---|---|---|---|---|---|
 | 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | **ok** | **n/a** |
 | 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -104,6 +104,13 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > o que ela sustenta, e **reescrever a tabela para que cada linha carregue um selo
 > só**. Uma linha com cinco obras sob um selo é um selo médio, e média esconde a
 > mais fraca. `n/a` marca capítulo sem afirmação histórica a selar — hoje só o 0.1.
+>
+> **E a coluna paga por si.** No I.1, ler o guia CRISP-DM inteiro derrubou dois
+> fatos que o capítulo afirmava: o consórcio tinha **quatro** membros e não cinco,
+> porque a Teradata é a linha de produto **da NCR** e ISL é o nome anterior da
+> própria SPSS. A palavra ESPRIT, que o capítulo dava como o programa financiador,
+> **não aparece nenhuma vez** no documento, que diz "European Commission". Dois
+> erros que nenhum gate pegaria, num capítulo com voz, exercícios e prova fechados.
 >
 > **A regra que este ciclo deixou:** resumo de máquina não confere fonte. Ao ler a
 > carta do *double descent*, uma extração automática afirmou que ela **não**
