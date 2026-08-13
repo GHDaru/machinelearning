@@ -51,9 +51,9 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 4 | 12 | **ok** | — | — | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 4 | 12 | **ok** | — | — | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 4 | 12 | **ok** | — | — | — |
-| 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | — | — | — | — |
-| 28 | V.3 — MLOps | 4 | 3 | 12 | — | — | — | — |
-| 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | — | — | — | — |
+| 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | **ok** | — | — | — |
+| 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
+| 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
 **Totais:** 114 objetivos · 122 exercícios hoje · **342 no alvo**.
 

@@ -16,7 +16,7 @@
 
 Se cada capítulo declara a data em que fotografou o estado da arte, alguém precisa manter o placar — anotar o que foi previsto, o que se confirmou e o que se refutou.
 
-É também o capítulo que faz a pergunta desconfortável: **o que, do que você acabou de ler, tem prazo de validade curto?** A resposta honesta tem duas metades. Os fundamentos — generalização, viés e variância, o custo do erro, a separação entre quem produz e quem avalia — envelhecem devagar; alguns têm quase um século e continuam de pé. **Quase todo o resto envelhece rápido**, e o capítulo [III.6](iii-6-modelos-de-fundacao.md) envelhece enquanto você lê.
+É também o capítulo que faz a pergunta desconfortável: **o que, do que você acabou de ler, tem prazo de validade curto?** A resposta honesta tem duas metades. Os fundamentos (generalização, viés e variância, o custo do erro, a separação entre quem produz e quem avalia) envelhecem devagar; alguns têm quase um século e continuam de pé. **Quase todo o resto envelhece rápido**, e o capítulo [III.6](iii-6-modelos-de-fundacao.md) envelhece enquanto você lê.
 
 ## O que os especialistas erraram — e como o erro chega até você
 
@@ -110,7 +110,9 @@ As quatro afirmações abaixo são questões genuinamente em aberto. Quais delas
 :::
 
 :::exercicio {"id":"fronteira-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
-Escolha **um** capítulo deste livro que você leu. Escreva o que nele você espera que **ainda seja verdade em 2036**, o que espera que **esteja obsoleto**, e — a parte que importa — **qual observação futura faria você mudar de ideia** sobre cada um.
+Escolha **um** capítulo deste livro que você leu.
+
+Escreva o que nele você espera que ainda seja verdade em 2036, o que espera que esteja obsoleto e, a parte que importa, **qual observação futura faria você mudar de ideia** sobre cada um.
 
 > **rubrica:** identifica ao menos um elemento durável e justifica pela natureza dele (diagnóstico, restrição estrutural, propriedade matemática), não por gosto;
 > identifica ao menos um elemento com prazo e diz por que (depende de hardware, de escala, de biblioteca, de convenção da comunidade);
@@ -141,7 +143,7 @@ Um capítulo declara: *"Estado da arte capturado em 2026-08."* O que exatamente 
 - [ ] Que os experimentos foram executados naquele mês.
 
 > **gabarito:** Que a seção de estado da arte foi conferida naquela data
-> **porque:** Este livro distingue **três datas diferentes**, e confundi-las é o erro que o selo existe para prevenir: a data do **evento** (um fato histórico — 1943 não muda nunca), a data da **captura** (quando fotografamos o que era consenso), e a data do **experimento** (quando um número foi medido, e com qual versão de biblioteca).
+> **porque:** Este livro distingue **três datas diferentes**, e confundi-las é o erro que o selo existe para prevenir: a data do evento (um fato histórico — 1943 não muda nunca), a data da captura (quando fotografamos o que era consenso), e a data do experimento (quando um número foi medido, e com qual versão de biblioteca).
 >
 > A primeira alternativa é a mais tentadora e a mais errada: a data de captura **não** valida o capítulo inteiro. Uma afirmação histórica com selo ⏳ continua ⏳ em qualquer data — a captura não conserta procedência.
 >

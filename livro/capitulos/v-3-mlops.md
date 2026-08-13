@@ -21,11 +21,11 @@ Este capítulo é a sequência direta do [capítulo V.2](v-2-sistemas-de-ml.md):
 
 ## De onde isto veio
 
-**O aperto.** Times de ML entregando modelos como quem entrega um relatório — a mão, um arquivo por vez — e descobrindo que o artefato entregue apodrece sozinho. 📖
+**O aperto.** Times de ML entregando modelos como quem entrega um relatório (a mão, um arquivo por vez) e descobrindo que o artefato entregue apodrece sozinho. 📖
 
 **O que se fazia antes.** Entrega manual; retreino por calendário ou, na prática, por reclamação: alguém do negócio nota que "está estranho" e o time retreina. ⏳
 
-**A virada.** Aplicar entrega contínua a um artefato que muda em **três eixos**, não em um: **código**, **modelo** e **dado**. É a tese declarada de Sato, Wider & Windheuser em *"Continuous Delivery for Machine Learning"* (martinfowler.com, 2019) ✓ᵐ — e a razão de o pipeline de entrega contínua tradicional não bastar. Um pipeline que só reage a commit não vê dois dos três eixos.
+**A virada.** Aplicar entrega contínua a um artefato que muda em **três eixos**, não em um: código, modelo e dado. É a tese declarada de Sato, Wider & Windheuser em *"Continuous Delivery for Machine Learning"* (martinfowler.com, 2019) ✓ᵐ — e a razão de o pipeline de entrega contínua tradicional não bastar. Um pipeline que só reage a commit não vê dois dos três eixos.
 
 **A ideia reaproveitável.** **O que muda sozinho precisa ser testado sozinho.** Software comum se degrada quando alguém edita; **modelo se degrada quando ninguém edita.** A inversão é o coração do capítulo: se a degradação não é disparada por uma ação humana, nenhum gatilho humano vai detectá-la. 📖
 
@@ -33,7 +33,7 @@ Este capítulo é a sequência direta do [capítulo V.2](v-2-sistemas-de-ml.md):
 
 Aqui está o achado mais desconfortável do capítulo — e ele é sobre o próprio nome da disciplina.
 
-A versão repetida em dezenas de fontes de indústria é que **"MLOps foi cunhado no artigo de 2015 de Sculley et al."**. Extraímos o texto integral do artigo e buscamos: **a palavra "MLOps" não aparece nenhuma vez.** Também não aparecem "feature store" nem "training/serving skew". Selo **✓** — é uma **verificação negativa** feita sobre o texto primário, e verificação negativa é das mais fortes que existem: não depende de interpretação, só de leitura.
+A versão repetida em dezenas de fontes de indústria é que **"MLOps foi cunhado no artigo de 2015 de Sculley et al."**. Extraímos o texto integral do artigo e buscamos: **a palavra "MLOps" não aparece nenhuma vez.** Também não aparecem "feature store" nem "training/serving skew". Selo ✓ — é uma **verificação negativa** feita sobre o texto primário, e verificação negativa é das mais fortes que existem: não depende de interpretação, só de leitura.
 
 A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was held in Ghent, Belgium in 2009"*, com **Patrick Debois** listado como fundador na página oficial ✓ᵃ. Já a história de a abreviação "#devops" ter nascido da necessidade de caber numa hashtag de Twitter é ⏳ — consistente entre fontes secundárias, sem primária.
 
@@ -43,7 +43,7 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 
 **Concept drift tem nome desde 1986.** Schlimmer & Granger publicam naquele ano dois trabalhos: *"Beyond Incremental Processing: Tracking Concept Drift"* (AAAI-86 — o termo está no título) e *"Incremental learning from noisy data"* (*Machine Learning* 1(3):317–354). O survey que organizou o campo é o de Gama, Žliobaitė, Bifet, Pechenizkiy & Bouchachia (*ACM Computing Surveys* 46(4), art. 44, 2014) ✓ᵐ. **De 1986 a 2014: vinte e oito anos entre o nome e a síntese.**
 
-**E o procedimento veio rápido.** *The ML Test Score* — Breck, Cai, Nielsen, Salib & **Sculley**, IEEE Big Data 2017 — traz **28 testes e necessidades de monitoramento** pontuados ✓ᵐ. Repare no subtítulo: *"…and Technical Debt Reduction"*. É explicitamente a continuação do [capítulo V.2](v-2-sistemas-de-ml.md): mesmo autor sênior, dois anos depois, transformando o diagnóstico em checklist. **Diagnóstico (2015) → procedimento (2017): dois anos.** Compare com as décadas do resto do livro — quando o diagnóstico é preciso *e* já existe infraestrutura, o procedimento chega rápido. É o mesmo fio dos capítulos [II.5](ii-5-arvores-ensembles.md) e [III.6](iii-6-modelos-de-fundacao.md).
+**E o procedimento veio rápido.** *The ML Test Score* (Breck, Cai, Nielsen, Salib & Sculley, IEEE Big Data 2017) traz **28 testes e necessidades de monitoramento** pontuados ✓ᵐ. Repare no subtítulo: *"…and Technical Debt Reduction"*. É explicitamente a continuação do [capítulo V.2](v-2-sistemas-de-ml.md): mesmo autor sênior, dois anos depois, transformando o diagnóstico em checklist. **Diagnóstico (2015) → procedimento (2017): dois anos.** Compare com as décadas do resto do livro — quando o diagnóstico é preciso *e* já existe infraestrutura, o procedimento chega rápido. É o mesmo fio dos capítulos [II.5](ii-5-arvores-ensembles.md) e [III.6](iii-6-modelos-de-fundacao.md).
 
 **Procedência das afirmações desta seção:**
 
@@ -60,7 +60,7 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 
 ## Fundamentos: versionar, registrar, servir
 
-**Versionar o quê.** Reproduzir um resultado meses depois exige cinco coisas, não uma: **código**, **dado**, **modelo**, **configuração** (hiperparâmetros, limiar, regras de negócio) e **ambiente** (versões de biblioteca). Faltando qualquer uma, o número do relatório não volta. Dado costuma ser versionado por *hash* de conteúdo, não por cópia — o que se guarda é a impressão digital que prova qual dado foi usado.
+**Versionar o quê.** Reproduzir um resultado meses depois exige cinco coisas, não uma: código, dado, modelo, configuração (hiperparâmetros, limiar, regras de negócio) e ambiente (versões de biblioteca). Faltando qualquer uma, o número do relatório não volta. Dado costuma ser versionado por *hash* de conteúdo, não por cópia — o que se guarda é a impressão digital que prova qual dado foi usado.
 
 **Registro de modelos e linhagem.** Um registro de modelos responde a três perguntas em segundos: qual versão está em produção, **de qual dado e de qual código ela saiu**, e quem a promoveu. A pergunta da linhagem é a que salva auditoria e incidente. Um modelo sem linhagem é um binário anônimo: você pode desligá-lo, mas não pode explicá-lo.
 
@@ -101,7 +101,7 @@ Monitoramento de ML não é um painel: são **três** painéis, com donos e temp
 
 O drift é exatamente a quebra da hipótese que o [capítulo 0.2](../0-2-fundamentos.md) coloca na fundação: treino e produção vindo da mesma distribuição. Nada no modelo protege contra isso, porque a hipótese é anterior ao modelo.
 
-**Detectar sem rótulo.** Enquanto o rótulo não chega, sobra o que não depende dele: comparar a **distribuição da entrada** de hoje com a de referência (a janela de treino), atributo a atributo, e comparar a **distribuição da saída** — o histograma das probabilidades previstas. Se o modelo começa a prever positivo com o dobro da frequência de antes, algo mudou, mesmo que ninguém ainda saiba se ele está certo. É um alarme, não um veredito: drift de entrada **não implica** queda de desempenho, e queda de desempenho pode acontecer sem drift visível na entrada.
+**Detectar sem rótulo.** Enquanto o rótulo não chega, sobra o que não depende dele: comparar a **distribuição da entrada** de hoje com a de referência (a janela de treino), atributo a atributo, e comparar a **distribuição da saída** — o histograma das probabilidades previstas. Se o modelo começa a prever positivo com o dobro da frequência de antes, algo mudou, mesmo que ninguém ainda saiba se ele está certo. É um alarme, não um veredito: drift de entrada não implica queda de desempenho, e queda de desempenho pode acontecer sem drift visível na entrada.
 
 :::exercicio {"id":"mlops-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Você opera um modelo que prevê, na assinatura do contrato, se um cliente vai ficar inadimplente. O **rótulo verdadeiro só existe 90 dias depois** — é o prazo para a primeira parcela vencer e o atraso ser confirmado.
@@ -115,13 +115,13 @@ Descreva como você monitora esse modelo **durante os 90 dias**, e o que faria d
 > reconhece que esses sinais são alarme e não veredito, e diz o que faria em seguida (investigar, segurar promoção, comparar com o campeão anterior)
 > **porque:** A resposta fraca diz "acompanho a acurácia semanalmente" — impossível, porque **não há rótulo para comparar**. Essa é a armadilha do exercício e o erro real mais comum de painel de ML: exibir uma métrica de desempenho que, nos primeiros 90 dias, está sendo calculada sobre um recorte enviesado (só os casos que já venceram, que são justamente os contratos mais antigos).
 >
-> A resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada — os contratos de março avaliados juntos — e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo I.3](i-3-dados.md) dentro do próprio monitoramento.
+> A resposta forte separa o que se pode medir agora do que só se poderá medir depois. Entrada e saída são observáveis imediatamente; o rótulo, não. E a resposta excelente acrescenta o passo seguinte: quando o rótulo enfim chega, ele chega **atrasado e em blocos**, então a avaliação precisa ser feita por coorte de entrada (os contratos de março avaliados juntos) e não pela data em que o rótulo apareceu. Misturar as duas datas é reinventar o vazamento temporal do [capítulo I.3](i-3-dados.md) dentro do próprio monitoramento.
 > **volte para:** #monitorar-em-tres-camadas
 :::
 
 ## Retreinar e implantar sem quebrar
 
-**Retreino por gatilho ou por calendário?** Por gatilho — quando o monitoramento acusa drift ou queda de métrica — é a resposta certa quando existe monitoramento confiável e o rótulo chega em tempo útil. Por calendário é o padrão honesto quando não existe: um retreino mensal é uma aposta, mas é melhor que esperar a reclamação. Os dois exigem a mesma coisa: **o retreino precisa ser um pipeline que roda sozinho**, não um notebook que alguém reabre.
+**Retreino por gatilho ou por calendário?** Por gatilho (quando o monitoramento acusa drift ou queda de métrica) é a resposta certa quando existe monitoramento confiável e o rótulo chega em tempo útil. Por calendário é o padrão honesto quando não existe: um retreino mensal é uma aposta, mas é melhor que esperar a reclamação. Os dois exigem a mesma coisa: **o retreino precisa ser um pipeline que roda sozinho**, não um notebook que alguém reabre.
 
 E vale a regra que o [capítulo II.8](ii-8-do-modelo-a-decisao.md) impõe: **retreinar não é a única resposta**. Se o que mudou foi o custo do erro, recalcule o limiar; o modelo pode continuar o mesmo.
 

@@ -25,7 +25,7 @@ Nada disso é bug. Nada disso aparece num teste. E, principalmente, **nada disso
 
 **O que se fazia antes.** Tratava-se o modelo como o sistema. A "cola" entre os componentes era invisível — não por ser pequena, mas **porque não tinha nome**.
 
-**A virada.** Não foi inventar uma técnica. Foi **importar um vocabulário pronto de outro campo** — o de *dívida técnica*, da engenharia de software — e usá-lo para tornar o custo legível a quem decide orçamento. Um time de dez autores publicou o diagnóstico no NIPS 2015, e o vocabulário pegou.
+**A virada.** Não foi inventar uma técnica. Foi **importar um vocabulário pronto de outro campo**, o de *dívida técnica*, da engenharia de software, e usá-lo para tornar o custo legível a quem decide orçamento. Um time de dez autores publicou o diagnóstico no NIPS 2015, e o vocabulário pegou.
 
 **A ideia reaproveitável.** **Um problema que não tem nome não entra no orçamento.** Antes de inventar solução, verifique se o que falta é a *palavra*. Custo sem nome não é priorizado, não é medido e não é defendido em reunião — ele apenas cresce, e depois alguém leva a culpa por "lentidão do time".
 
@@ -83,7 +83,7 @@ Você vai apresentar a arquitetura do sistema de recomendação da empresa. Qual
 - [ ] A infraestrutura só cresce depois que o modelo fica grande demais para uma máquina.
 
 > **gabarito:** O código de aprendizado é uma fração pequena; o resto é infraestrutura
-> **porque:** É exatamente o argumento da figura 1 de Sculley et al. (2015) — a caixa preta pequena no meio de treze retângulos — e do corpo do artigo: *"only a tiny fraction of the code in many ML systems is actually devoted to learning or prediction"*.
+> **porque:** É exatamente o argumento da figura 1 de Sculley et al. (2015), a caixa preta pequena no meio de treze retângulos, e do corpo do artigo: *"only a tiny fraction of the code in many ML systems is actually devoted to learning or prediction"*.
 >
 > A primeira alternativa é o erro que o capítulo inteiro combate, e é o mais comum: quem trata o modelo como o sistema não orça o resto, e o resto chega mesmo assim. A terceira erra a proporção — não é meio a meio, é uma fração minúscula. A quarta inverte a causa: o encanamento não aparece porque o modelo cresceu, ele existe desde o primeiro dia em produção; o que muda com o tempo é só a visibilidade do custo.
 > **volte para:** #fundamentos-o-que-e-o-sistema-alem-do-modelo
@@ -165,7 +165,7 @@ Liste as dívidas ocultas deste sistema, **usando os nomes do capítulo**, e dig
 - *Glue code*, *pipeline jungle*, cascata de correções, consumidores não declarados e configuração: cinco custos que você já paga — agora com nome. E **configuração é código**: revisão e repositório, sempre.
 - Contra *train/serve skew*, **reutilize o código** entre treino e serviço. Documentar a fórmula duas vezes não é contrato.
 - Apagar código morto é a única forma de pagar dívida sem criar dívida nova.
-- A operação contínua desse sistema — o que monitorar, quando retreinar, como implantar — é o [capítulo V.3](v-3-mlops.md), a sequência direta deste. A decisão de **não lançar** está no [capítulo II.8](ii-8-do-modelo-a-decisao.md).
+- A operação contínua desse sistema (o que monitorar, quando retreinar, como implantar) é o [capítulo V.3](v-3-mlops.md), a sequência direta deste. A decisão de **não lançar** está no [capítulo II.8](ii-8-do-modelo-a-decisao.md).
 
 ## Verificação
 
