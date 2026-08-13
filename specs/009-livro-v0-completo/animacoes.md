@@ -46,7 +46,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | III.5 | pesos de atenção acendendo numa frase, contra o sinal de gradiente da RNN caindo a zero em 11 passos |
 | III.6 | **não animar** — nada treinável honestamente no navegador vira encenação |
 | IV.1 | **feito** — atribuir e recentrar alternando, com o botão da semente infeliz |
-| IV.2 | grid-world com a Q-table pintando: recompensa por episódio e ε caindo; com ε=0 o agente trava num caminho pior |
+| IV.2 | **feita** — grid 7×7 com duas saídas (+0,25 perto, +1,5 longe): explorando chega à grande em 529 de 600 episódios, com ε=0 chega em 5, e a recompensa média cai 6,9× |
 | IV.3 | algoritmo genético: melhor aptidão subindo enquanto a diversidade colapsa |
 | V.1 | **feito** — limiar de um grupo movendo, com o botão que iguala as prevalências |
 | V.2 | **não animar** — dívida técnica não tem dinâmica observável em 30 s |
@@ -598,3 +598,33 @@ não é medição, e a diferença entre os dois é o assunto deste ciclo inteiro
 
 Teste **visto falhando**: variei a posição da forma no treino, e a linha do
 "os dois resolvem o treino" acusou na hora (densa em 0,624).
+
+
+## O que a décima sétima animação ensinou (IV.2, 2026-08)
+
+**A primeira versão não ensinava nada, e o defeito era do MUNDO, não do agente.**
+A saída pequena estava em (1,1), colada na largada, e virava um poço absorvente
+que pegava **os dois modos**: mesmo com ε = 1, o passeio aleatório caía nela nos
+primeiros passos, e o agente que explora chegava ao prêmio grande em **1** de 300
+episódios. Os dois terminavam com a mesma recompensa média (0,229 contra 0,230), e
+a animação só demonstrava que o mundo é cruel.
+
+**Explorar precisa ser POSSÍVEL para que não explorar seja um erro.** Com a saída
+pequena movida para cinco passos da largada, o prêmio grande a doze, e a folga
+entre eles alargada (0,25 contra 1,5), a lição aparece inteira: 529 contra 5
+episódios com o prêmio grande, e recompensa média 6,9 vezes maior.
+
+**A frase que a animação deixa é sobre o agente guloso não ser burro.** Ele acha a
+saída de +0,25 e, a partir daí, **toda decisão que toma está certa pela informação
+que ele tem**. O que o tiraria dali só apareceria numa ação que ele deixou de
+tomar, e a regra que ele segue é a de nunca tomá-la. O custo de explorar aparece no
+painel, em episódios desperdiçados; o custo de não explorar não aparece em lugar
+nenhum, porque é um prêmio que ninguém viu.
+
+**E os rótulos do desenho estavam escritos à mão.** Diziam "+0,3" e "+1,0" depois
+que as constantes já valiam 0,25 e 1,5. Passaram a ser derivados das constantes.
+É a quarta ocorrência desta classe no ciclo, agora achada por releitura e não por
+gate — o que sugere que a próxima onda de gates tem candidato.
+
+Teste **visto falhando**: devolvi a saída pequena para (1,1) e duas das cinco
+linhas acusaram na hora.

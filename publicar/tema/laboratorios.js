@@ -3639,6 +3639,163 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+
+  // A animação do capítulo IV.2: Q-learning num grid, um episódio por quadro, com
+  // a recompensa média e o ε caindo. O botão põe ε em zero desde o começo.
+  //
+  // O leitor erra a previsão porque a intuição de otimização diz que explorar é
+  // desperdício: sem exploração o agente iria "direto ao ponto". O mundo tem duas
+  // saídas, uma perto valendo pouco e uma longe valendo muito, e o agente guloso
+  // encontra a de perto primeiro. A partir daí ele nunca mais tenta outra coisa,
+  // porque a melhor ação CONHECIDA já é positiva. Ele não fica preso por burrice:
+  // fica preso porque a única informação que poderia tirá-lo dali só apareceria
+  // numa ação que ele deixou de tomar.
+  //
+  // Os dois modos partem da MESMA tabela Q inicial e do mesmo fluxo de sorteios,
+  // para que a diferença seja o ε e nada mais.
+  function animaExploracao(area, cfg) {
+    var W = 460, H = 300, PAD = 24;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bEps;
+    var G = 7, EPISODIOS = 600, MAX_PASSOS = 100;
+    // A saída pequena fica LONGE da largada de propósito. Na primeira versão ela
+    // estava em (1,1), colada no início, e virava uma armadilha absorvente que
+    // pegava os dois modos: até com ε = 1 o passeio aleatório caía nela nos
+    // primeiros passos, e o agente que explora nunca chegava ao +1,0. A lição
+    // exige que explorar seja POSSÍVEL, senão a animação só mostra que o mundo
+    // é cruel.
+    var PERTO = [0, 5], LONGE = [6, 6], R_PERTO = 0.25, R_LONGE = 1.5;
+    var ALFA = 0.3, GAMA = 0.97, PASSO_CUSTO = -0.01;
+    var DX = [0, 0, 1, -1], DY = [1, -1, 0, 0];
+    var est = { semEps: false, ep: 0, Q: null, hist: [], parou: false,
+                eps: 1, media: 0, achouLonge: 0, achouPerto: 0 };
+
+    function novoQ() {
+      var r = rng(13), Q = [], i, a;
+      for (i = 0; i < G * G; i++) {
+        Q.push([]);
+        for (a = 0; a < 4; a++) Q[i].push(r() * 0.01);
+      }
+      return Q;
+    }
+
+    function melhor(Q, s) {
+      var b = 0, a;
+      for (a = 1; a < 4; a++) if (Q[s][a] > Q[s][b]) b = a;
+      return b;
+    }
+
+    function episodio(r, eps) {
+      var x = 0, y = 0, k, s, a, nx, ny, ns, rec, total = 0, fim = null;
+      for (k = 0; k < MAX_PASSOS; k++) {
+        s = y * G + x;
+        a = (r() < eps) ? Math.floor(r() * 4) : melhor(est.Q, s);
+        nx = Math.min(G - 1, Math.max(0, x + DX[a]));
+        ny = Math.min(G - 1, Math.max(0, y + DY[a]));
+        ns = ny * G + nx;
+        rec = PASSO_CUSTO;
+        if (nx === PERTO[0] && ny === PERTO[1]) { rec += R_PERTO; fim = "perto"; }
+        else if (nx === LONGE[0] && ny === LONGE[1]) { rec += R_LONGE; fim = "longe"; }
+        est.Q[s][a] += ALFA * (rec + (fim ? 0 : GAMA * est.Q[ns][melhor(est.Q, ns)]) - est.Q[s][a]);
+        total += rec; x = nx; y = ny;
+        if (fim) break;
+      }
+      return { total: total, fim: fim };
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, j, s, v, pico = 1e-6;
+      var cel = 16, x0 = PAD + 4, y0 = PAD + 26;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.semEps ? "ε = 0 desde o começo" : "ε caindo de 1 a 0,05") +
+                   " · valor de cada casa", x0, PAD + 14);
+      for (i = 0; i < G * G; i++) {
+        v = est.Q[i][melhor(est.Q, i)];
+        if (v > pico) pico = v;
+      }
+      for (i = 0; i < G; i++) for (j = 0; j < G; j++) {
+        s = i * G + j;
+        v = Math.max(0, est.Q[s][melhor(est.Q, s)]) / pico;
+        ctx.fillStyle = escuro ? "rgba(143,184,221," + v + ")" : "rgba(53,97,142," + v + ")";
+        ctx.fillRect(x0 + j * cel, y0 + i * cel, cel - 1, cel - 1);
+      }
+      ctx.fillStyle = escuro ? "#87b89a" : "#2f7d4f";
+      ctx.fillRect(x0 + LONGE[0] * cel, y0 + LONGE[1] * cel, cel - 1, cel - 1);
+      ctx.fillStyle = escuro ? "#e0a24a" : "#b8761f";
+      ctx.fillRect(x0 + PERTO[0] * cel, y0 + PERTO[1] * cel, cel - 1, cel - 1);
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("laranja = +" + R_PERTO + " · verde = +" + R_LONGE, x0, y0 + G * cel + 14);
+      // recompensa por episódio
+      var gx = x0 + G * cel + 26, glarg = W - PAD - gx - 4;
+      var base = y0 + G * cel, altG = base - y0;
+      ctx.fillText("recompensa por episódio", gx, y0 - 6);
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.lineWidth = 1.6; ctx.beginPath();
+      est.hist.forEach(function (q, k) {
+        var px = gx + (k / EPISODIOS) * glarg;
+        var py = base - Math.max(0, Math.min(1, (q + 0.6) / 1.6)) * altG;
+        if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.semEps ? "ε = 0 desde o começo" : "ε caindo de 1 a 0,05") +
+        " · episódio " + est.ep + " de " + EPISODIOS +
+        " · ε " + est.eps.toFixed(3) +
+        " · recompensa média dos últimos 20 " + est.media.toFixed(3) +
+        (est.parou
+          ? " · chegou ao +" + R_LONGE + " em " + est.achouLonge +
+            " episódios e ao +" + R_PERTO + " em " + est.achouPerto
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var r = est.r, res;
+      est.eps = est.semEps ? 0 : Math.max(0.05, 1 - est.ep / (EPISODIOS * 0.6));
+      res = episodio(r, est.eps);
+      if (res.fim === "longe") est.achouLonge++;
+      else if (res.fim === "perto") est.achouPerto++;
+      est.hist.push(res.total);
+      var ult = est.hist.slice(-20), s = 0, i;
+      for (i = 0; i < ult.length; i++) s += ult[i];
+      est.media = s / ult.length;
+      est.ep++;
+      if (est.ep >= EPISODIOS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(semEps) {
+      est.semEps = semEps; est.ep = 0; est.Q = novoQ(); est.hist = [];
+      est.achouLonge = 0; est.achouPerto = 0; est.parou = false;
+      est.r = rng(91);                       // mesmo fluxo de sorteios nos dois modos
+      rel.comecar(EPISODIOS + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bEps.textContent = est.semEps ? "Voltar ao ε que cai" : "E se ε fosse 0 desde o começo?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.semEps); });
+    bEps = botao("E se ε fosse 0 desde o começo?", function () { rodar(!est.semEps); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 18);
+    est.Q = novoQ(); est.r = rng(91);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -3650,7 +3807,8 @@
                 "anima-eixo": animaEixo,
                 "anima-separavel": animaSeparavel,
                 "anima-normais": animaNormais,
-                "anima-convolucao": animaConvolucao };
+                "anima-convolucao": animaConvolucao,
+                "anima-exploracao": animaExploracao };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

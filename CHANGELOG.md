@@ -6,6 +6,24 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação da exploração, e o agente guloso que decide certo o tempo todo (cap. IV.2)
+- **Décima sétima animação** (`anima-exploracao`): grid 7×7 com duas saídas, +0,25
+  a cinco passos e +1,5 a doze, Q-learning com um episódio por quadro.
+- **Explorando, o agente chega ao prêmio grande em 529 de 600 episódios.** Com
+  **ε = 0**, chega em **5**, e a recompensa média cai de 1,375 para 0,200. Mesmo
+  algoritmo, mesma tabela inicial, mesmo fluxo de sorteios.
+- **Ele não fica preso por burrice.** Achada a saída pequena, toda decisão que ele
+  toma está certa pela informação que tem; a informação que o tiraria dali só
+  apareceria numa ação que ele deixou de tomar.
+- **A primeira versão não ensinava nada, e o defeito era do mundo.** Com a saída
+  pequena colada na largada, ela virava um poço absorvente que pegava os dois
+  modos: mesmo com ε = 1 o agente chegava ao prêmio grande em 1 de 300 episódios,
+  e as duas recompensas médias empatavam. Explorar precisa ser possível para que
+  não explorar seja um erro.
+- **Rótulos do desenho passaram a derivar das constantes.** Diziam "+0,3" e "+1,0"
+  depois que os valores já eram 0,25 e 1,5 — quarta ocorrência da classe neste
+  ciclo.
+
 ### Adicionado — a animação da convolução, e a densa que fica cega com 3 pixels (cap. III.4)
 - **Décima sexta animação** (`anima-convolucao`): o filtro varre as 144 posições
   com o mapa de ativação se pintando. Os dois modelos são **treinados dentro da

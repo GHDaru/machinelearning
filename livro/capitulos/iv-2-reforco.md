@@ -132,6 +132,20 @@ O agente só conhece o valor de uma ação se a experimentar. Mas cada experimen
 
 A receita mais simples é a **ε-gulosa**: com probabilidade ε escolha uma ação ao acaso, no resto do tempo escolha a melhor conhecida — e reduza ε ao longo do treino. É rudimentar e ainda assim é o suficiente para a maioria dos casos.
 
+:::lab {"id":"reforco-l1","tipo":"anima-exploracao","titulo":"Tire a exploração e veja quanto ela valia"}
+Um mundo de 7×7 com **duas** saídas: uma de **+0,25** a cinco passos da largada, e uma de **+1,5** a doze. Descontada, a segunda ainda vale mais que o dobro da primeira. Q-learning, um episódio por quadro, 600 episódios. O tom de cada casa é o valor que o agente atribui a ela.
+
+Com ε caindo de 1 a 0,05, o agente termina chegando ao prêmio grande em **529 dos 600 episódios**, com recompensa média de 1,375.
+
+**Antes de clicar, preveja.** Explorar custa: cada ação ao acaso é uma ação que não colhe o melhor conhecido. Se tirarmos a exploração e o agente for sempre à melhor ação que conhece, ele fica melhor ou pior?
+
+Com **ε = 0**, ele chega ao prêmio grande em 5 episódios de 600. A recompensa média cai para 0,200, quase sete vezes menos. E não é um agente pior: é o mesmo algoritmo, partindo da **mesma tabela e do mesmo fluxo de sorteios**.
+
+> **Ele não fica preso por burrice.** Ele acha a saída de +0,25, e a partir daí a melhor ação conhecida é positiva e leva até lá. Toda vez que decide, decide certo **pela informação que tem**. A informação que o tiraria dali só apareceria numa ação que ele deixou de tomar — e a regra que ele segue é justamente a de nunca tomá-la.
+>
+> É por isso que a seção acima chama o dilema de **cerne, e não detalhe**. O custo de explorar aparece no painel, em episódios "desperdiçados". O custo de não explorar não aparece em lugar nenhum: ele é o prêmio que o agente nunca viu, e ninguém sente falta do que não sabe que existe.
+:::
+
 Repare que **este dilema não existe em nenhum outro capítulo do livro**. No aprendizado supervisionado, os dados chegam prontos e o modelo não influencia o que verá em seguida. Aqui, **o comportamento do agente determina os dados do agente**. É por isso que o alvo se move: a distribuição de treino é uma função do que se aprendeu até agora — condição bem diferente da otimização de superfície estável do [capítulo II.4](ii-4-otimizacao.md).
 
 ### Q-learning e a atualização por diferença temporal
