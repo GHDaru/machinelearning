@@ -75,11 +75,19 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | **ok** | — | — | — |
+| 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | — | ~ |
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 365 exercícios hoje (319 de capítulo + 46 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 374 exercícios hoje (328 de capítulo + 46 de prova) · **342 no alvo**.
+
+> **A coluna `fontes` abriu no V.2**, e abriu por necessidade, não por planejamento. O
+> capítulo prometia um objetivo que ele não ensinava, e escrever a seção que faltava
+> exigiu conferir fonte antes de citar. Quatro páginas foram abertas em primeira mão,
+> duas afirmações que estavam em ⏳ subiram para ✓, e duas que **não** se confirmaram
+> ficaram em ⏳ com a razão escrita. Uma citação que um dos especialistas trouxe estava
+> quase certa e não era literal; foi conferida contra o texto e corrigida antes de
+> entrar no livro. É o argumento para o resto da coluna: fonte relatada não é fonte lida.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

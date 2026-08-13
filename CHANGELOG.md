@@ -6,6 +6,29 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o V.2 passa a ensinar o que prometia
+- **Seção "Decidir a forma de serviço pelo requisito"** no capítulo V.2, com os
+  quatro eixos da escolha (quando a decisão é necessária, custo do atributo
+  dentro do orçamento de latência, frescor, volume) e a armadilha nas duas
+  direções. O capítulo declarava esse objetivo desde sempre e **não o ensinava
+  em lugar nenhum**; quem ensinava era o V.3, sem que nenhum objetivo de lá
+  cobrisse a tabela. Decidido pelo [ADR 0016](adr/0016-a-quem-pertence-a-escolha-da-forma-de-servico.md), que paga a primeira metade da dívida D16.
+- **Nove exercícios novos no V.2**, fechando três por objetivo nos quatro
+  objetivos, em escada e com teto no verbo declarado.
+- **Quatro fontes abertas em primeira mão** para sustentar a seção nova: as
+  regras #31 e #32 das *Rules of Machine Learning*, o texto do Michelangelo e o
+  artigo de Chip Huyen de 2022. Duas afirmações que estavam em ⏳ subiram para
+  ✓; duas que o texto aberto **não** confirmou ficaram em ⏳, com a razão escrita.
+  Uma citação relatada por um dos especialistas estava quase certa e não era
+  literal, e foi corrigida contra o texto antes de entrar no livro.
+
+### Alterado — o V.3 devolve o que não era dele
+- **A tabela das três formas de serviço saiu do V.3**, onde vivia sem objetivo
+  que a cobrisse. Ficou uma remissão ao V.2 e o que de fato pertence ao capítulo
+  de operação: como a forma escolhida muda a promoção e o rollback.
+- `publicar/exercicios.mjs`: a exceção `v-2 O4` saiu de `ORFAOS_ACEITOS` no
+  mesmo commit em que a dívida foi paga, como o próprio gate exige.
+
 ### Adicionado — os endereços antigos voltam a chegar ao capítulo
 - **29 redirecionamentos**, um para cada capítulo renumerado pelo ADR 0011.
   `05-modelos-lineares.html` → `ii-2-modelos-lineares.html`, e assim por diante.

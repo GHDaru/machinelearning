@@ -64,15 +64,7 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 
 **Registro de modelos e linhagem.** Um registro de modelos responde a três perguntas em segundos: qual versão está em produção, **de qual dado e de qual código ela saiu**, e quem a promoveu. A pergunta da linhagem é a que salva auditoria e incidente. Um modelo sem linhagem é um binário anônimo: você pode desligá-lo, mas não pode explicá-lo.
 
-**Servir.** Três formas, escolhidas pelo requisito e não pelo gosto:
-
-| Forma | Quando serve | Latência típica |
-|---|---|---|
-| **Batch** | a decisão pode esperar horas; predições calculadas em lote e guardadas | minutos a horas |
-| **Online** | a decisão é pedida na hora, por requisição | milissegundos |
-| **Streaming** | a decisão acompanha um fluxo contínuo de eventos | segundos |
-
-A escolha manda no resto da arquitetura. Batch tolera atributo caro; online não — se calcular o atributo custa 800 ms, o modelo online já perdeu, por mais preciso que seja.
+**Servir.** *Qual* forma de serviço o sistema usa (lote, em linha ou por fluxo) é decisão de desenho, e ela foi tomada no [capítulo V.2](v-2-sistemas-de-ml.md), pelos quatro eixos do requisito. O que interessa aqui é operar a forma já escolhida, e ela mexe em tudo o que vem a seguir neste capítulo: em lote, uma promoção ruim é notada no próximo job e desfeita com um recálculo; em linha, ela atinge o usuário na próxima requisição, e o plano de rollback deixa de ser opcional.
 
 :::exercicio {"id":"mlops-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Um auditor pergunta: *"este modelo em produção foi treinado com quais dados?"*. O time tem o código no Git, o modelo salvo em disco e os notebooks de treino. O que falta para responder com segurança?

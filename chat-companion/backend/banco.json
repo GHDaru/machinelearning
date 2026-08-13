@@ -10600,6 +10600,191 @@
    "titulo_capitulo": "V.2 — Sistemas de ML"
   },
   {
+   "id": "sistemas-de-ml-e4",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um time descreve assim o sistema de risco de crédito dele: um job noturno lê a base de propostas, um script calcula os atributos, o modelo treinado é salvo em disco, e uma API carrega esse arquivo e responde às consultas do time comercial. Existe um painel com uso de processador, memória e tempo de resposta da API.\n\nPela lista de componentes deste capítulo, qual deles o relato não menciona nenhuma vez?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Coleta"
+    },
+    {
+     "correta": true,
+     "texto": "Validação de dados"
+    },
+    {
+     "correta": false,
+     "texto": "Extração de atributos"
+    },
+    {
+     "correta": false,
+     "texto": "Infraestrutura de serviço"
+    }
+   ],
+   "gabarito": "validação de dados",
+   "porque": "Os outros três estão no relato: ler a base de propostas é coleta, o script que calcula os atributos é extração, e a API é a infraestrutura de serviço. Não há, em lugar nenhum, algo que recuse uma entrada fora do contrato.\n\nÉ a ausência mais comum e a mais cara, pela razão que o capítulo dá: para dependência de dado não existe compilador. Quando a fonte muda de esquema sem avisar, nada quebra. O job roda, a API responde, e o modelo apenas piora, devagar, com todos os indicadores verdes.",
+   "volte_para": "#fundamentos-o-que-e-o-sistema-alem-do-modelo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
+   "id": "sistemas-de-ml-e5",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Seis meses depois, o mesmo sistema de risco de crédito está com todos os indicadores verdes: a API responde em 40 ms, nenhuma requisição falha, a memória está estável. Ainda assim, a inadimplência entre as propostas aprovadas dobrou.\n\nQual descrição do sistema explica melhor essa combinação?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O monitoramento existe, mas mede a máquina e não a predição; um modelo pode piorar sem que nenhum indicador de infraestrutura se mexa."
+    },
+    {
+     "correta": false,
+     "texto": "A infraestrutura de serviço está degradada, e o painel não é sensível o bastante para capturar isso."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo foi treinado com dado insuficiente e nunca foi bom de verdade."
+    },
+    {
+     "correta": false,
+     "texto": "A extração de atributos ficou mais lenta e passou a truncar valores no meio do cálculo."
+    }
+   ],
+   "gabarito": "o monitoramento mede a máquina, não a predição",
+   "porque": "É a linha da tabela de componentes sobre monitoramento, e o modo de falha dela. Saúde de infraestrutura e qualidade de predição são grandezas independentes: a segunda pode desabar com a primeira intacta, porque o que mudou está no dado que entra e não na máquina que responde.\n\nAs três erradas ficam de pé apenas enquanto ninguém confere os números do enunciado. Degradação de serviço apareceria nos 40 ms. Um modelo que nunca foi bom não explica uma inadimplência que dobrou, porque dobrar é uma mudança, e o que sempre foi ruim não muda. E truncamento na extração é uma hipótese razoável de causa, só que ela também não seria vista por este painel, o que a torna um exemplo do mesmo problema em vez de uma alternativa a ele.",
+   "volte_para": "#fundamentos-o-que-e-o-sistema-alem-do-modelo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
+   "id": "sistemas-de-ml-e6",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Metade do código do repositório do time converte o dataframe para o formato que a biblioteca espera, renomeia colunas, embrulha a chamada de treino e desembrulha o resultado. Nada disso faz aprendizado nem predição.\n\nQue nome este capítulo dá a esse custo?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Glue code"
+    },
+    {
+     "correta": false,
+     "texto": "Pipeline jungle"
+    },
+    {
+     "correta": false,
+     "texto": "Cascata de correções"
+    },
+    {
+     "correta": false,
+     "texto": "Consumidor não declarado"
+    }
+   ],
+   "gabarito": "glue code",
+   "porque": "É a definição literal: código que existe só para fazer um pacote de propósito geral caber no seu problema, feito de adaptadores, conversões de formato e empacotamentos.\n\nAs outras três são dívidas reais, mas de outro formato. A selva de pipelines é o caso particular do glue code no lado dos dados, com raspagens, junções e amostragens que crescem por acréscimo. A cascata é um modelo aprendendo a corrigir a saída de outro. E consumidor não declarado é quem lê a sua saída sem que você saiba.",
+   "volte_para": "#as-dividas-que-tem-nome",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
+   "id": "sistemas-de-ml-e7",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Dois times descrevem problemas diferentes. No time A, um job diário raspa quatro fontes, junta, amostra, e ganha um passo novo toda vez que alguém pede um sinal novo; ninguém consegue dizer de cor o que o job faz hoje. No time B, o modelo de preço aprende sobre a saída do modelo de demanda, e uma terceira etapa corrige o preço para as lojas com estoque baixo.\n\nQual par de nomes descreve A e B, nessa ordem?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Pipeline jungle e cascata de correções"
+    },
+    {
+     "correta": false,
+     "texto": "Glue code e pipeline jungle"
+    },
+    {
+     "correta": false,
+     "texto": "Cascata de correções e pipeline jungle"
+    },
+    {
+     "correta": false,
+     "texto": "Dívida de configuração e glue code"
+    }
+   ],
+   "gabarito": "pipeline jungle e cascata de correções",
+   "porque": "O time A tem a selva: raspagens, junções e amostragens que crescem uma de cada vez, até ninguém conseguir descrever o todo. O time B tem a cascata: uma correção aprendida sobre a saída de outro modelo, e depois uma correção sobre a correção.\n\nVale reter o que cada nome antecipa, porque é aí que ele paga. A selva é sintoma organizacional, não técnico: no diagnóstico dos próprios autores, ela vem de papéis de pesquisa e engenharia separados demais, e quem a conserta reescrevendo script faz uma selva nova. A cascata prende o sistema num mínimo local: melhorar o modelo de demanda agora piora os de cima, que foram treinados para corrigir os defeitos antigos dele.",
+   "volte_para": "#as-dividas-que-tem-nome",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
+   "id": "sistemas-de-ml-e8",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "A regra #32 manda reutilizar o código entre treino e serviço. Um colega propõe, no lugar, documentar a fórmula do atributo num wiki que as duas equipes consultam antes de mexer.\n\nO que a proposta dele deixa de comprar?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A divergência deixa de ser impossível e volta a ser apenas improvável: duas implementações da mesma fórmula podem divergir, e nada acusa no dia em que divergirem."
+    },
+    {
+     "correta": false,
+     "texto": "Nada de importante: documentação e código compartilhado dão a mesma garantia, e a documentação sai mais barata de manter."
+    },
+    {
+     "correta": false,
+     "texto": "A documentação é pior só porque envelhece; enquanto estiver atualizada, o risco de divergência é o mesmo dos dois lados."
+    },
+    {
+     "correta": false,
+     "texto": "O que se perde é desempenho, porque código compartilhado evita calcular o mesmo atributo duas vezes."
+    }
+   ],
+   "gabarito": "a divergência volta a ser improvável em vez de impossível",
+   "porque": "É a diferença entre as duas frases, e ela é toda a regra #32. Código compartilhado remove a possibilidade de divergir, porque não existem duas implementações para divergirem. Documento compartilhado remove apenas a intenção de divergir, e intenção não é garantia.\n\nA terceira é a errada mais interessante, porque quase acerta: ela admite que o documento envelhece, mas supõe que um documento atualizado equivale ao código. Não equivale. Duas equipes lendo a mesma fórmula correta ainda implementam arredondamento, fuso, ordem de filtro e tratamento de nulo de dois jeitos. E a quarta troca o assunto: o ganho da regra #32 é de correção, não de custo de máquina.",
+   "volte_para": "#o-contrato-entre-treino-e-servico",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
    "id": "sistemas-de-ml-e2",
    "capitulo": 27,
    "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
@@ -10641,6 +10826,34 @@
    "titulo_capitulo": "V.2 — Sistemas de ML"
   },
   {
+   "id": "sistemas-de-ml-e9",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O seu modelo de evasão usa o atributo `dias_desde_ultimo_login`. No treino ele sai da tabela de eventos, com o histórico inteiro à disposição; no serviço, ele vem do que a aplicação manda na requisição.\n\nProjete o contrato dessa fronteira. Diga o que o contrato declara, onde ele é verificado, o que acontece quando é violado, e o que você muda no código para que a divergência deixe de ser possível.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca descreve uma conferência: alguém lê os dois códigos e confirma que batem. Isso protege até o dia em que um dos dois for alterado, o que é o dia em que a proteção é necessária. A resposta forte remove a duplicação, que é a regra #32 na letra.\n\nA cláusula de nulos é a parte que mais gente esquece, e neste atributo ela decide o resultado. Um usuário que nunca entrou não tem dias desde o último login. Se um lado resolve isso com zero e o outro com o valor máximo, os dois estão calculando coisas opostas a partir do mesmo caso, e o modelo vê em produção uma entrada que nunca viu no treino. Por isso o padrão pertence ao contrato, e não ao gosto de quem implementa cada lado.\n\nO monitoramento de distribuição entra por último de propósito: ele não impede a divergência, ele a denuncia. Serve para o que o contrato não cobre, que é a mudança de significado sem mudança de tipo nem de faixa, o mesmo ponto cego da dependência de dado que abre este capítulo.",
+   "volte_para": "#o-contrato-entre-treino-e-servico",
+   "rubrica": "declara o contrato do atributo com tipo, faixa aceitável, taxa de nulos tolerada e dono;\nverifica o contrato nos DOIS lados da fronteira, e não só no treino;\ndefine a violação como falha ruidosa, e justifica por que recusar é melhor que seguir com o valor suspeito;\npropõe extrair o cálculo para um componente único usado pelo treino e pelo serviço, e não apenas conferir as duas implementações uma contra a outra;\ntrata a ausência do campo pela cláusula de nulos do contrato, em vez de deixar cada lado inventar um valor padrão;\nmenciona comparar a distribuição servida com a do treino como a rede que pega o que o contrato não pega",
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML",
+   "criterios": [
+    "declara o contrato do atributo com tipo, faixa aceitável, taxa de nulos tolerada e dono",
+    "verifica o contrato nos DOIS lados da fronteira, e não só no treino",
+    "define a violação como falha ruidosa, e justifica por que recusar é melhor que seguir com o valor suspeito",
+    "propõe extrair o cálculo para um componente único usado pelo treino e pelo serviço, e não apenas conferir as duas implementações uma contra a outra",
+    "trata a ausência do campo pela cláusula de nulos do contrato, em vez de deixar cada lado inventar um valor padrão",
+    "menciona comparar a distribuição servida com a do treino como a rede que pega o que o contrato não pega"
+   ]
+  },
+  {
    "id": "sistemas-de-ml-e3",
    "capitulo": 27,
    "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
@@ -10667,6 +10880,121 @@
     "menciona a dependência de dados frágil da planilha do comercial e a ausência de contrato/validação",
     "propõe uma ordem de pagamento com justificativa — e não apenas uma lista"
    ]
+  },
+  {
+   "id": "sistemas-de-ml-e10",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um banco calcula, para cada cliente, a propensão a aceitar uma oferta de crédito. A lista de clientes propensos é usada pela equipe de campanha, que monta o disparo de e-mail de segunda-feira olhando o resultado na sexta.\n\nQual forma de serviço o requisito pede?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Em lote, porque a decisão pode esperar e ninguém está aguardando resposta."
+    },
+    {
+     "correta": false,
+     "texto": "Em linha, porque o cálculo por cliente precisa da versão mais recente do modelo."
+    },
+    {
+     "correta": false,
+     "texto": "Em linha, porque é a forma que qualquer sistema novo deve adotar hoje."
+    },
+    {
+     "correta": false,
+     "texto": "Por fluxo, porque a lista muda a cada evento de novo cliente."
+    }
+   ],
+   "gabarito": "em lote",
+   "porque": "O requisito é o que decide, e aqui ele é explícito: o consumo acontece na sexta para um disparo na segunda. Ninguém espera na frente de uma tela, então não há orçamento de latência a respeitar, e calcular tudo de uma vez sai mais barato por predição.\n\nA segunda alternativa troca frescor do modelo por forma de serviço, que são coisas diferentes: um job em lote pode perfeitamente usar o modelo recém-promovido. A terceira é a armadilha da seção em pessoa, e a resposta a ela é que nenhuma recomendação geral substitui o requisito deste caso. A quarta escolhe fluxo por um evento que não tem urgência alguma: cliente novo entra na lista do próximo lote sem prejuízo nenhum.",
+   "volte_para": "#decidir-a-forma-de-servico-pelo-requisito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
+   "id": "sistemas-de-ml-e11",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma loja quer ordenar as vitrines da página inicial no momento em que ela abre. O orçamento de latência da página para essa chamada é de 80 ms. Um dos atributos do modelo é a média de tempo de entrega do vendedor nos últimos 30 dias, e consultar o serviço de pedidos para calculá-la leva cerca de 400 ms.\n\nQual desenho atende ao requisito?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Servir em linha, com o atributo de 30 dias pré-calculado e guardado, e apenas lido no momento da requisição."
+    },
+    {
+     "correta": false,
+     "texto": "Servir em lote de madrugada, guardando a ordenação pronta de cada vitrine para cada cliente."
+    },
+    {
+     "correta": false,
+     "texto": "Servir em linha e calcular o atributo na requisição, aceitando que a página passe do orçamento em alguns casos."
+    },
+    {
+     "correta": false,
+     "texto": "Trocar o atributo de 30 dias por outro mais barato, porque atributo caro não cabe em serviço em linha."
+    }
+   ],
+   "gabarito": "em linha, com o atributo agregado pré-calculado",
+   "porque": "O requisito exige resposta na abertura da página, o que descarta lote. E o eixo 2 diz que 400 ms não cabem em 80 ms. As duas coisas juntas não são contraditórias: o que precisa ser feito na hora é a predição, e não a agregação. Pré-calcular a janela de 30 dias e apenas lê-la é exatamente o que o exemplo do UberEATS descreve, e é para isso que existe a camada compartilhada de atributos.\n\nA segunda falha pela combinação de clientes e vitrines, que faz a ordenação depender de quem abriu a página. A terceira aceita estourar o orçamento, o que não é uma decisão de desenho e sim a ausência de uma. A quarta é a mais tentadora e a mais cara: ela joga fora um atributo bom por um problema que é de arquitetura, e não do atributo. O custo alto é de calcular sob demanda, não de usar.",
+   "volte_para": "#decidir-a-forma-de-servico-pelo-requisito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
+  },
+  {
+   "id": "sistemas-de-ml-e12",
+   "capitulo": 27,
+   "arquivo": "livro/capitulos/v-2-sistemas-de-ml.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um sistema antifraude decide, no instante da compra, se o cartão passa. Hoje ele serve em lote: de hora em hora, um job recalcula um escore de risco por cartão, e a autorização apenas consulta o escore guardado. O time relata que fraudes em rajada, concentradas em poucos minutos, passam quase todas.\n\nQuais afirmações sustentam a mudança para serviço em linha? Marque todas que valem.",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A decisão é pedida no instante da compra, e o requisito de quando decidir é o primeiro eixo da escolha."
+    },
+    {
+     "correta": true,
+     "texto": "O escore guardado envelhece até uma hora, e uma rajada acontece inteira dentro desse intervalo."
+    },
+    {
+     "correta": true,
+     "texto": "Um atributo que depende da compra que está sendo feita não existe no momento em que o job roda."
+    },
+    {
+     "correta": false,
+     "texto": "Serviço em lote é um resíduo de sistemas legados, e sistemas novos devem começar em linha."
+    },
+    {
+     "correta": false,
+     "texto": "Serviço em linha é mais preciso, porque usa o modelo mais recente a cada requisição."
+    }
+   ],
+   "gabarito": "o instante da decisão; a defasagem de uma hora contra a duração da rajada; o atributo que só existe na requisição",
+   "porque": "As três corretas são os eixos aplicados a este caso. A defasagem é a mais concreta: se a janela de recálculo é de uma hora e a rajada dura minutos, o escore consultado foi calculado num mundo em que a fraude ainda não tinha começado. E há atributos que sequer podem existir em lote, como a distância entre esta compra e a anterior do mesmo cartão, porque a compra ainda não aconteceu quando o job rodou.\n\nA quarta é a citação da seção usada como argumento, e é por isso que ela está aqui. Ela é recomendação de autora, não fato, e mesmo que fosse verdadeira em geral não diria nada sobre este sistema. Repare que a decisão certa neste caso não precisa dela: os três eixos já bastam, e é assim que se decide pelo requisito e não pelo gosto. A quinta confunde forma de serviço com versão do modelo. Um job em lote roda o modelo que estiver promovido, e trocar a forma não melhora a qualidade da predição, apenas o instante em que ela é feita e o que está disponível para fazê-la.",
+   "volte_para": "#decidir-a-forma-de-servico-pelo-requisito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-2-sistemas-de-ml",
+   "titulo_capitulo": "V.2 — Sistemas de ML"
   },
   {
    "id": "mlops-e1",
