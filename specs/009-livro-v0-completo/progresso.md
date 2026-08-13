@@ -32,7 +32,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 8 | I.6 — Representação | 4 | 4 | 12 | **ok** | — | — | — |
+| 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 9 | II.1 — Avaliação | 5 | 5 | 15 | **ok** | — | — | — |
 | 10 | II.2 — Modelos Lineares | 4 | 5 | 12 | **ok** | — | — | — |
 | 11 | II.3 — Regressão Logística | 3 | 3 | 9 | **ok** | — | — | — |
@@ -55,7 +55,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 170 exercícios hoje · **342 no alvo**.
+**Totais:** 114 objetivos · 178 exercícios hoje · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
