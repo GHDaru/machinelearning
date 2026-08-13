@@ -51,10 +51,11 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > correndo atrás do ótimo fechado) e **III.4** (a densa ficando cega com 3 px de
 > deslocamento, com dez vezes mais pesos que a convolucional) e **IV.2** (o agente
 > guloso preso na saída pequena, com 5 achados contra 529) e **III.5** (o gradiente
-> recuando pela sequência, com a razão por passo medida). A dívida do núcleo
+> recuando pela sequência, com a razão por passo medida) e **II.5** (o mesmo
+> orçamento de cortes gasto de dois jeitos). A dívida do núcleo
 > compartilhado foi paga na segunda, como a ADR 0015 exigia.
-> **18 feitas, 4 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
-> erro de conta de `animacoes.md`, corrigido em 2026-08-13).
+> **19 feitas, 3 pendentes: I.1, I.6 e IV.3.** (A linha já dissera "7 feitas, 16
+> pendentes", herdando um erro de conta de `animacoes.md`, corrigido em 2026-08-13.)
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a
 > ordem dos capítulos. As cinco primeiras da fila estão feitas; a próxima sai

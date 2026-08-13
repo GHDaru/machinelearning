@@ -3967,6 +3967,219 @@
     rel.aoChegar(function () { rodar(0); });
   }
 
+
+  // A animação do capítulo II.5: o MESMO orçamento de cortes gasto de dois jeitos.
+  // Numa árvore só, que vai fundo; ou espalhado em tocos somados, que é o boosting.
+  // A cada quadro entra um corte, e o placar mostra o erro de treino e o de
+  // validação lado a lado.
+  //
+  // O que o leitor erra ao prever é qual dos dois se dá melhor com o MESMO número
+  // de cortes. A árvore única leva o erro de treino a quase zero e o de validação
+  // sobe depois de um ponto; os tocos somados descem os dois juntos por muito mais
+  // tempo. Não é que boosting seja "mais poderoso": é que gastar o orçamento em
+  // muitos modelos fracos e sequenciais ataca viés sem comprar variância na mesma
+  // velocidade, que é a distinção que o O2 do capítulo cobra.
+  //
+  // Os dois recebem o mesmo dado, a mesma divisão treino/validação e o mesmo
+  // número de cortes. É a única forma de a comparação medir a alocação do
+  // orçamento em vez de medir o orçamento.
+  function animaEnsemble(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bModo;
+    var N = 240, CORTES = 60, TAXA = 0.3;
+    var DADOS = (function () {
+      var r = rng(67), v = [], i, x;
+      for (i = 0; i < N; i++) {
+        x = r() * 10;
+        v.push({ x: x, y: Math.sin(x) + 0.35 * x + (r() - 0.5) * 1.6 });
+      }
+      v.sort(function (a, b) { return a.x - b.x; });
+      return v;
+    })();
+    var TREINO = DADOS.filter(function (_, i) { return i % 3 !== 0; });
+    var VALID = DADOS.filter(function (_, i) { return i % 3 === 0; });
+    var est = { boosting: false, i: 0, corte: 0, parou: false,
+                fT: null, fV: null, regioes: null, tocos: null,
+                eT: 0, eV: 0, piorV: null, melhorV: 1e9, melhorEm: 0 };
+
+    function mse(pontos, pred) {
+      var s = 0, i, e;
+      for (i = 0; i < pontos.length; i++) { e = pred(pontos[i].x) - pontos[i].y; s += e * e; }
+      return s / pontos.length;
+    }
+
+    /** Melhor corte por redução de soma de quadrados dentro de um conjunto. */
+    function melhorCorte(pts) {
+      if (pts.length < 8) return null;
+      var i, k, mediaE, mediaD, sE, sD, nE, nD, melhor = null, sse;
+      for (k = 3; k < pts.length - 3; k++) {
+        sE = 0; nE = k; sD = 0; nD = pts.length - k;
+        for (i = 0; i < k; i++) sE += pts[i].y;
+        for (i = k; i < pts.length; i++) sD += pts[i].y;
+        mediaE = sE / nE; mediaD = sD / nD;
+        sse = 0;
+        for (i = 0; i < k; i++) sse += Math.pow(pts[i].y - mediaE, 2);
+        for (i = k; i < pts.length; i++) sse += Math.pow(pts[i].y - mediaD, 2);
+        if (melhor == null || sse < melhor.sse) {
+          melhor = { k: k, sse: sse, x: (pts[k - 1].x + pts[k].x) / 2, mE: mediaE, mD: mediaD };
+        }
+      }
+      return melhor;
+    }
+
+    /** Um toco: um corte só, sobre o resíduo corrente. */
+    function toco(res) {
+      var c = melhorCorte(res);
+      return c ? { x: c.x, e: c.mE, d: c.mD } : null;
+    }
+
+    function predArvore(x) {
+      var i;
+      for (i = 0; i < est.regioes.length; i++) {
+        if (x >= est.regioes[i].a && x < est.regioes[i].b) return est.regioes[i].m;
+      }
+      return est.regioes[est.regioes.length - 1].m;
+    }
+
+    function predBoost(x) {
+      var s = est.base, i;
+      for (i = 0; i < est.tocos.length; i++) {
+        s += TAXA * (x < est.tocos[i].x ? est.tocos[i].e : est.tocos[i].d);
+      }
+      return s;
+    }
+
+    function pred(x) { return est.boosting ? predBoost(x) : predArvore(x); }
+
+    function cortarArvore() {
+      // parte a região com maior soma de quadrados interna
+      var alvo = -1, pior = -1, i, pts, c;
+      for (i = 0; i < est.regioes.length; i++) {
+        if (est.regioes[i].sse > pior && est.regioes[i].pts.length >= 8) {
+          pior = est.regioes[i].sse; alvo = i;
+        }
+      }
+      if (alvo < 0) return false;
+      pts = est.regioes[alvo].pts;
+      c = melhorCorte(pts);
+      if (!c) return false;
+      var esq = pts.slice(0, c.k), dir = pts.slice(c.k);
+      function sseDe(p, m) {
+        var s = 0, j; for (j = 0; j < p.length; j++) s += Math.pow(p[j].y - m, 2);
+        return s;
+      }
+      est.regioes.splice(alvo, 1,
+        { a: est.regioes[alvo].a, b: c.x, m: c.mE, pts: esq, sse: sseDe(esq, c.mE) },
+        { a: c.x, b: est.regioes[alvo].b, m: c.mD, pts: dir, sse: sseDe(dir, c.mD) });
+      return true;
+    }
+
+    function cortarBoost() {
+      var res = TREINO.map(function (p) { return { x: p.x, y: p.y - predBoost(p.x) }; });
+      var tc = toco(res);
+      if (!tc) return false;
+      est.tocos.push(tc);
+      return true;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 20, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.boosting ? "tocos somados (boosting)" : "uma árvore, cada vez mais fundo") +
+                   " · " + est.corte + " cortes gastos de " + CORTES, x0, PAD + 12);
+      var mn = -1.5, mx = 5.5;
+      function px(x) { return x0 + (x / 10) * larg; }
+      function py(y) { return base - ((y - mn) / (mx - mn)) * alt; }
+      DADOS.forEach(function (p) {
+        ctx.fillStyle = escuro ? "rgba(143,184,221,0.5)" : "rgba(53,97,142,0.45)";
+        ctx.beginPath(); ctx.arc(px(p.x), py(p.y), 1.6, 0, 6.2832); ctx.fill();
+      });
+      ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+      ctx.lineWidth = 2; ctx.beginPath();
+      for (i = 0; i <= 200; i++) {
+        var xx = i / 200 * 10;
+        if (i === 0) ctx.moveTo(px(xx), py(pred(xx))); else ctx.lineTo(px(xx), py(pred(xx)));
+      }
+      ctx.stroke();
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("erro de treino " + est.eT.toFixed(3), x0, base + 14);
+      ctx.fillText("erro de validação " + est.eV.toFixed(3), x0 + 150, base + 14);
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.boosting ? "tocos somados (boosting)" : "uma árvore, cada vez mais fundo") +
+        " · cortes " + est.corte + " de " + CORTES +
+        " · erro de treino " + est.eT.toFixed(4) +
+        " · erro de validação " + est.eV.toFixed(4) +
+        (est.parou
+          ? " · a validação foi melhor em " + est.melhorV.toFixed(4) +
+            " com " + est.melhorEm + " cortes, terminou em " + est.eV.toFixed(4) +
+            ", e piorou por " + (est.corte - est.melhorEm) + " cortes"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var ok = est.boosting ? cortarBoost() : cortarArvore();
+      if (ok) est.corte++;
+      est.eT = mse(TREINO, pred); est.eV = mse(VALID, pred);
+      if (est.eV < est.melhorV) { est.melhorV = est.eV; est.melhorEm = est.corte; }
+      est.i++;
+      if (est.i >= CORTES || !ok) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(boosting) {
+      var s = 0, i;
+      est.boosting = boosting; est.i = 0; est.corte = 0; est.parou = false;
+      est.melhorV = 1e9; est.melhorEm = 0;
+      for (i = 0; i < TREINO.length; i++) s += TREINO[i].y;
+      est.base = s / TREINO.length;
+      var sse0 = 0;
+      for (i = 0; i < TREINO.length; i++) sse0 += Math.pow(TREINO[i].y - est.base, 2);
+      est.regioes = [{ a: -1e9, b: 1e9, m: est.base, pts: TREINO, sse: sse0 }];
+      est.tocos = [];
+      est.eT = mse(TREINO, pred); est.eV = mse(VALID, pred);
+      rel.comecar(CORTES + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bModo.textContent = est.boosting ? "Voltar à árvore única"
+                                       : "E gastando os mesmos cortes em tocos?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.boosting); });
+    bModo = botao("E gastando os mesmos cortes em tocos?", function () { rodar(!est.boosting); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 60);
+    rodarInicial();
+    function rodarInicial() {
+      var s = 0, i;
+      for (i = 0; i < TREINO.length; i++) s += TREINO[i].y;
+      est.base = s / TREINO.length;
+      var sse0 = 0;
+      for (i = 0; i < TREINO.length; i++) sse0 += Math.pow(TREINO[i].y - est.base, 2);
+      est.regioes = [{ a: -1e9, b: 1e9, m: est.base, pts: TREINO, sse: sse0 }];
+      est.tocos = [];
+      est.eT = mse(TREINO, pred); est.eV = mse(VALID, pred);
+      desenhar(); texto();
+    }
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -3980,7 +4193,8 @@
                 "anima-normais": animaNormais,
                 "anima-convolucao": animaConvolucao,
                 "anima-exploracao": animaExploracao,
-                "anima-memoria": animaMemoria };
+                "anima-memoria": animaMemoria,
+                "anima-ensemble": animaEnsemble };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

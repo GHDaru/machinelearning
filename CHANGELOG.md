@@ -6,6 +6,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação do ensemble, e a conclusão fácil que a medição recusou (cap. II.5)
+- **Décima nona animação** (`anima-ensemble`): 60 cortes gastos numa árvore só ou
+  espalhados em tocos somados, com o mesmo dado, a mesma divisão e o mesmo
+  orçamento.
+- **O melhor ponto isolado é da árvore** (0,2969 contra 0,3041), não do boosting.
+  Se você soubesse parar exatamente no corte 11, a árvore única venceria.
+- **O que separa os dois é o custo de errar onde parar.** A árvore atinge o melhor
+  no corte 11 e passa os 21 seguintes piorando, terminando **20% acima do próprio
+  ótimo**. O boosting piora por 1 corte em 60, com a curva quase plana no fim.
+- **A frase que o capítulo não dizia:** o boosting é padrão em dado tabular não por
+  ser mais expressivo, e sim **por ser mais difícil de estragar**.
+- Teste **visto falhando**: retirada a taxa de aprendizado, o boosting passou a
+  piorar por 40 cortes e o melhor ponto migrou para ele por sobreajuste.
+
 ### Adicionado — a animação da memória, e o folclore dos "onze passos" corrigido (cap. III.5)
 - **Décima oitava animação** (`anima-memoria`): retropropagação no tempo de
   verdade, δ ← (Wᵀδ) ⊙ tanh'(z), medindo quanto do sinal chega a cada posição

@@ -194,6 +194,20 @@ Cada árvore é deliberadamente fraca: profundidade 3, no experimento. Sozinha, 
 
 A **taxa de aprendizado** η encolhe cada contribuição. Passo pequeno com muitas árvores generaliza melhor que passo grande com poucas — o mesmo fenômeno que o [capítulo II.4](ii-4-otimizacao.md) trata como regularização.
 
+:::lab {"id":"arvores-ensembles-l1","tipo":"anima-ensemble","titulo":"O mesmo orçamento de cortes, gasto de dois jeitos"}
+Sessenta cortes. Ou você os gasta **numa árvore só**, que vai ficando mais funda, ou os espalha em **tocos somados**, um corte cada. Mesmo dado, mesma divisão treino/validação, mesmo orçamento. A linha laranja é a previsão; os dois erros aparecem embaixo.
+
+Comece pela árvore. O erro de treino desce sem parar, como tem de descer. Mas olhe o de validação: ele chega ao melhor valor, **0,2969, no corte 11** — e depois **sobe**. A árvore passa os 21 cortes seguintes ficando pior, e termina 20% acima do próprio melhor.
+
+Agora clique em **"E gastando os mesmos cortes em tocos?"**. O erro de validação desce e continua descendo até o corte 59.
+
+**E aqui vem a parte que quase nunca se conta.** O melhor ponto isolado é da **árvore**, não do boosting: 0,2969 contra 0,3041. Se você soubesse parar exatamente no corte 11, a árvore única seria a melhor escolha.
+
+> **Só que você não sabe.** O corte 11 não tem nada de especial visto de dentro do treino: o erro de treino segue caindo alegremente por lá. A única coisa que aponta o corte 11 é o conjunto de validação, e se você o tem, também pode usá-lo para parar o boosting. A diferença prática é a **penalidade do erro**: errar o ponto de parada da árvore custa 20% de erro a mais; errar o do boosting custa quase nada, porque a curva dele é quase plana no fim.
+>
+> É por isso que o boosting é o padrão em dado tabular, e não por ser mais expressivo. **Ele é mais fácil de não estragar.**
+:::
+
 :::exercicio {"id":"arvores-ensembles-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC na validação. Aumentam para 500 árvores. O que se espera?
 

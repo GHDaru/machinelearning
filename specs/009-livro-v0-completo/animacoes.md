@@ -35,7 +35,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | II.2 | **feita** — 4 000 passos de gradiente contra o ótimo fechado: com atributos colineares para em 2,8% de excesso, padronizados chega a 1% no passo 1 460 |
 | II.3 | **feita** — acurácia congelando em 1,000 no passo 52 enquanto a norma de w vai de 6,08 a 7,91 e a perda de 0,23 a 0,078; o botão da L2 devolve o ponto ótimo |
 | II.4 | **feita** — três taxas (0,001 / 0,1 / 1,5) na mesma paisagem, a terceira saindo da escala, mais o botão que troca só a perda e faz a mesma 1,5 virar a melhor das três |
-| II.5 | árvore crescendo corte a corte com o ganho de Gini; depois o boosting, com o resíduo médio encolhendo por árvore |
+| II.5 | **feita** — o mesmo orçamento de 60 cortes numa árvore só ou em tocos somados: a árvore vira no corte 11 e passa 21 piorando; o boosting piora por 1 |
 | II.6 | **não animar** — drill-down é navegação; cubo girando é decoração |
 | II.7 | **feita** — as 8 dobras de origem móvel avançando, contra a linha do embaralhado: 1,47 contra 0,76 sem quebra, e 3,07 contra 0,82 com quebra de regime |
 | II.8 | **feita** — custo do FN de 1 a 10: o limiar ótimo DESCENDO de 0,46 a 0,115, colado na fórmula 1/(1+custo), e o botão que espreme a calibração e derruba a fórmula |
@@ -657,3 +657,29 @@ o lugar de descobrir isso é antes de o leitor ler.
 
 Teste **visto falhando**: tirei a derivada da tanh do caminho de volta, e três das
 seis linhas acusaram.
+
+
+## O que a décima nona animação ensinou (II.5, 2026-08)
+
+**A medição recusou a conclusão fácil, e a animação ficou melhor por isso.** O que
+eu esperava mostrar era "boosting vence". O que apareceu foi mais fino: o **melhor
+ponto isolado é da árvore** (0,2969 contra 0,3041). Se você soubesse parar
+exatamente no corte 11, a árvore única seria a melhor escolha das duas.
+
+O que separa os dois não é o melhor caso, é o **custo de errar o ponto de parada**.
+A árvore atinge o melhor no corte 11 e passa os 21 seguintes piorando, terminando
+20% acima do próprio ótimo. O boosting piora por **1** corte em 60, e a curva dele
+é quase plana no fim. Errar onde parar custa 20% num e quase nada no outro.
+
+**A frase que sobrou é a que o capítulo não dizia:** o boosting é padrão em dado
+tabular não por ser mais expressivo, e sim **por ser mais difícil de estragar**.
+
+**E o desenho é honesto sobre o orçamento.** Os dois modos recebem o mesmo dado, a
+mesma divisão e o mesmo número de cortes; senão a comparação mediria o orçamento
+em vez de medir a alocação dele. A árvore para sozinha no corte 32, porque as
+regiões ficam pequenas demais para cortar, e o placar mostra isso em vez de
+esconder.
+
+Teste **visto falhando**: tirei a taxa de aprendizado do boosting (cada toco
+corrigindo o resíduo inteiro), e duas linhas acusaram — o boosting passou a piorar
+por 40 cortes, e o melhor ponto migrou para ele por sobreajuste.
