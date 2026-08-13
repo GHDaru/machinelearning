@@ -50,7 +50,11 @@ O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que e
 
 Esta é a origem menos conhecida e a mais instrutiva do capítulo, porque **ninguém estava procurando boosting**.
 
-Em 1988, Michael Kearns e Leslie Valiant fizeram uma pergunta teórica: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Em 1990, Robert Schapire respondeu que sim, e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
+Em 1988, Michael Kearns e Leslie Valiant fizeram uma pergunta teórica: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Nas palavras de quem a respondeu, eles introduziram a noção de aprendizagem fraca e *"left open the question of whether the notions of strong and weak learnability are equivalent"*.
+
+O nome do problema vem de um lugar que vale registrar: a pergunta *"was termed the hypothesis boosting problem"*, e a referência que Schapire dá para isso é **um manuscrito não publicado**, de Kearns sozinho, chamado *"Thoughts on hypothesis boosting"*. O termo que hoje nomeia uma família inteira de algoritmos nasceu num texto que nunca saiu em periódico.
+
+Em 1990, Robert Schapire respondeu que sim, e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
 
 **A ideia reaproveitável.** **Uma pergunta bem-posta sobre limites vira algoritmo.** Quando você consegue formular precisamente *"isto é possível?"*, a resposta afirmativa frequentemente já contém o *como*. Vale mais aprender isso do que decorar o AdaBoost.
 
@@ -70,7 +74,8 @@ Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularizaç�
 |---|---|
 | ✓ᵐ | Breiman deixando a academia em 1967, os treze anos de consultoria, o retorno em 1980 e os três exemplos de projeto — [memorial da Estatística de Berkeley](https://statistics.berkeley.edu/about/memoriam/memory-leo-breiman) |
 | ✓ᵐ | CART (1984), *bagging* (*Machine Learning* 24:123–140, 1996), Random Forests (2001), Schapire (*Machine Learning* 5:197–227, 1990): obra, ano e veículo |
-| ⏳ | A pergunta de Kearns & Valiant (1988) e sua formulação como manuscrito sobre *hypothesis boosting* |
+| ✓ | A pergunta em aberto de **Kearns e Valiant**, o batismo do *hypothesis boosting problem*, e os trechos citados entre aspas — no texto de Schapire, *"The Strength of Weak Learnability"*, **lido**. Dele vem também a ficha do manuscrito: **Kearns, M. (1988), *"Thoughts on hypothesis boosting"*, *Unpublished manuscript*** |
+| ❌ | **Correção de 2026-08-13.** Esta linha atribuía o manuscrito do *hypothesis boosting* a "Kearns & Valiant". Ele é **de Kearns sozinho**. A dupla assina a introdução da aprendizagem fraca e a pergunta em aberto, que são outra coisa |
 | ⏳ | O desafio de Michie a Quinlan e o final Rei-Torre × Rei-Cavalo; a filiação do ID3 ao CLS de Hunt (1966) |
 | ❌ | O **nome do projeto de consultoria específico** que gerou o CART — procurei e não achei em primária |
 | 📖 | As três ideias reaproveitáveis, a leitura sobre o relógio do boosting e a ponte com o capítulo II.4 |

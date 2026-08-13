@@ -19,6 +19,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — o manuscrito do *hypothesis boosting* é de Kearns sozinho (cap. II.5)
+- **O erro estava na tabela de procedência, não no corpo.** A linha atribuía o
+  manuscrito a "Kearns & Valiant". A ficha, lida na bibliografia de quem respondeu
+  à pergunta, é **Kearns, M. (1988), *"Thoughts on hypothesis boosting"*,
+  *Unpublished manuscript***. A dupla assina a introdução da aprendizagem fraca e a
+  pergunta em aberto, que são outra coisa.
+- **Entrou no corpo um fato que faltava e que é do feitio do livro:** o termo que
+  hoje nomeia uma família inteira de algoritmos nasceu num manuscrito **não
+  publicado**. A pergunta *"was termed the hypothesis boosting problem"*, e a
+  referência dada para o batismo é esse texto que nunca saiu em periódico.
+- A pergunta em aberto passou a ser citada nas palavras de quem a respondeu:
+  Kearns e Valiant *"left open the question of whether the notions of strong and
+  weak learnability are equivalent"*.
+
 ### Alterado — a herança do LASSO confirmada, e a data distinguida (cap. II.4)
 - **A herança agora está nas palavras do autor**, lidas no artigo do LASSO: *"The
   motivation for the lasso came from an interesting proposal of Breiman (1993)"*, e
