@@ -353,6 +353,19 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > do *Designing ML Systems*), e as do `HISTORICO.md` são registro de edição antiga,
 > que é para ficar como está.
 
+> **O gate do banco passou despercebido por causa de um cano, e vale registrar.**
+> Durante todo este ciclo eu rodei a DoD assim: `node publicar/exercicios.mjs
+> --verificar | head -1`. O `| head -1` devolve o código de saída do **head**, que é
+> sempre 0. O gate reprovava na tela e o `&&` seguia em frente. No commit do IV.2 o
+> banco entrou derivado do livro, porque eu tinha corrigido a prosa do laboratório
+> DEPOIS de gerar o banco. Conferidos um a um, os quatro commits anteriores estão
+> limpos; só esse tinha a deriva, corrigida no commit seguinte.
+>
+> A lição não é sobre o banco: é que **eu estava lendo a saída do gate em vez de ler
+> o código de saída dele**, que é a versão de bolso do erro que este ciclo inteiro
+> persegue. Verificação por leitura de tela é verificação que passa quando você está
+> cansado. Daqui em diante: `cmd >/dev/null 2>&1; echo $?`, ou o `&&` sem cano.
+
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
 Escrever 3 exercícios por objetivo obriga a ler o objetivo contra o corpo. Onde
