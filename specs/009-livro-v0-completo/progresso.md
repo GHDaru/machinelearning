@@ -75,7 +75,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |

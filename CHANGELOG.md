@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — um ⏳ que era ✓, e a Parte III fecha (cap. III.6)
+- **A filiação do objetivo de máscara à tarefa Cloze está declarada pelos autores
+  do BERT**, em duas passagens: o objetivo é *"inspired by the Cloze task (Taylor,
+  1953)"*, e o procedimento *"is often referred to as a Cloze task in the
+  literature"*. Estava marcado como atribuição corrente.
+- **Entrou um número concreto** que o capítulo não tinha: são **15% dos tokens**
+  mascarados por sequência, sorteados ao acaso.
+- **A ficha de Taylor foi conferida:** Wilson L. Taylor, *"'Cloze Procedure': A New
+  Tool for Measuring Readability"*, *Journalism Quarterly* 30(4):415–433, 1953, com
+  DOI. O intervalo de 65 anos entre a régua de redação e a função de perda agora
+  tem as duas pontas datadas por fonte.
+- **A Parte III fecha inteira na coluna de fontes**, de III.1 a III.6.
+
 ### Corrigido — o capítulo promovia o que a fonte subordina (cap. III.5)
 - **A inversão da ordem das palavras não é a contribuição principal do seq2seq**,
   como o capítulo dizia. O resumo estabelece a hierarquia: *"Our main result is

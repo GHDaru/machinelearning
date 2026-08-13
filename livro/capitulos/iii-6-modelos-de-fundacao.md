@@ -31,7 +31,9 @@ O gargalo não era a arquitetura nem a máquina. Era o **rótulo**. Rotular text
 
 **A ideia reaproveitável.** *Quando o dado rotulado é o gargalo, mude o que se reaproveita — não o algoritmo.* O salto de 2018 não veio de um otimizador melhor nem de uma camada nova: veio de trocar a **unidade de reuso**, da palavra para o modelo. Vale fora daqui: diante de escassez de rótulo, a primeira pergunta útil não é "que modelo uso?", é "o que já foi aprendido que eu posso não reaprender?". 📖
 
-Duas peças concretas. O ULMFiT (Howard & Ruder, [arXiv:1801.06146](https://arxiv.org/abs/1801.06146), 18/01/2018) mostra o tamanho do ganho: **com 100 exemplos rotulados, iguala o desempenho de treinar do zero com 10 000**. ✓ᵃ E o BERT (2018) traz o objetivo de máscara, que é esconder palavras e pedir que o modelo as recupere. Esse objetivo é a **tarefa Cloze**, criada por Wilson Taylor em 1953 como medida de legibilidade de texto jornalístico. ⏳ Uma régua de redação virou função de perda **65 anos depois** — mais um caso do padrão que este livro persegue: o intervalo entre a ideia e o procedimento.
+Duas peças concretas. O ULMFiT (Howard & Ruder, [arXiv:1801.06146](https://arxiv.org/abs/1801.06146), 18/01/2018) mostra o tamanho do ganho: **com 100 exemplos rotulados, iguala o desempenho de treinar do zero com 10 000**. ✓ᵃ E o BERT (2018) traz o objetivo de máscara, que é esconder palavras e pedir que o modelo as recupere. Na prática são **15% dos tokens**, sorteados a cada sequência.
+
+A filiação está declarada pelos próprios autores, e não é leitura de terceiro: o objetivo é *"inspired by the Cloze task (Taylor, 1953)"*, e mais adiante eles reconhecem que o procedimento *"is often referred to as a Cloze task in the literature"*. A tarefa Cloze é de **Wilson L. Taylor**, publicada em 1953 no *Journalism Quarterly* como medida de legibilidade de texto jornalístico. Uma régua de redação virou função de perda **65 anos depois** — mais um caso do padrão que este livro persegue: o intervalo entre a ideia e o procedimento.
 
 **As leis de escala.** Kaplan e colegas ([arXiv:2001.08361](https://arxiv.org/abs/2001.08361), 23/01/2020) mostram que a perda cai como **lei de potência** em tamanho de modelo, dado e computação, *"spanning more than seven orders of magnitude"* — e que **largura e profundidade têm efeito mínimo**. ✓ᵃ
 
@@ -56,8 +58,9 @@ O intervalo é a contra-prova do livro. Transformer em 2017; BERT e GPT em 2018.
 | ✓ᵃ | Kaplan et al. (arXiv:2001.08361, 23/01/2020): perda em lei de potência, *"spanning more than seven orders of magnitude"*; largura e profundidade com efeito mínimo |
 | ✓ᵃ | Lewis et al. (arXiv:2005.11401, 22/05/2020): *"their ability to access and precisely manipulate knowledge is still limited"*; separação entre memória paramétrica e não-paramétrica |
 | ✓ᵃ | Bommasani et al. (arXiv:2108.07258, 16/08/2021, 114 autores): *"critically central yet incomplete"*, *"incentivizes homogenization"*, defeitos *"inherited by all adapted models downstream"* |
-| ✓ᵐ | BERT (2018) e o objetivo de máscara |
-| ⏳ | A origem do objetivo de máscara na tarefa Cloze de Wilson Taylor (1953) |
+| ✓ᵐ | BERT (2018): ficha da obra |
+| ✓ | Que o objetivo de máscara vem da tarefa Cloze, **declarado pelos autores do BERT**: *"inspired by the Cloze task (Taylor, 1953)"*, e o reconhecimento de que o procedimento *"is often referred to as a Cloze task in the literature"*. Dali também os **15%** de tokens mascarados — [arXiv:1810.04805](https://arxiv.org/abs/1810.04805), **lido** |
+| ✓ᵐ | A ficha da tarefa Cloze: **Wilson L. Taylor**, *"'Cloze Procedure': A New Tool for Measuring Readability"*, *Journalism Quarterly* 30(4):415–433, 1953, [10.1177/107769905303000401](https://doi.org/10.1177/107769905303000401) |
 | ⏳ | Embeddings estáticos como prática dominante de transferência antes de 2018 |
 | ⏳ | A objeção de Meredith Whittaker ao termo *foundation model* — imprensa especializada, sem fala primária conferida |
 | 📖 | A leitura de que as leis de escala contradizem o capítulo III.4 **dentro de um regime**, sem anulá-lo |
