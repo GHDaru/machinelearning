@@ -6,6 +6,25 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação das equações normais, e duas fraudes de comparação desfeitas (cap. II.2)
+- **Décima quinta animação** (`anima-normais`): 4 000 passos de gradiente
+  perseguindo o ótimo que as equações normais entregam numa conta, com dois
+  atributos quase colineares. O placar mostra o **excesso relativo de erro** sobre
+  esse ótimo.
+- **Com os atributos como vieram, 4 000 passos não bastam**: param a 2,8% do
+  ótimo. Padronizados, chegam a 1% no passo **1 460** e terminam 351 vezes mais
+  perto. O que mudou não foi o otimizador, foi o condicionamento.
+- **Fraude 1, desfeita: passo de aprendizado comum.** Com passo fixo em 0,02 o
+  regime bruto **divergiu** (soma dos quadrados a 8 × 10¹⁹⁶). Cada regime passou a
+  receber o maior passo estável, 1/L por iteração de potência, e os dois valores
+  ficam no placar (7,3 × 10⁻³ contra 2,5 × 10⁻¹). O teste confere que são
+  diferentes, porque igualá-los seria voltar à fraude.
+- **Fraude 2, desfeita: medir ‖w − w*‖.** Padronizar troca a parametrização (o
+  intercepto ótimo vira a média de y), então comparar normas de vetores de peso
+  compara réguas diferentes. A primeira versão fazia isso e dava o resultado
+  **invertido**: o padronizado aparecia mais longe do ótimo que o bruto. A medida
+  virou o excesso relativo de erro, que é invariante à troca.
+
 ### Adicionado — a animação do dado separável, e a perda que cai sem melhorar nada (cap. II.3)
 - **Décima quarta animação** (`anima-separavel`): 400 passos de descida na
   entropia cruzada sobre dado linearmente separável, com a norma de w, a perda e

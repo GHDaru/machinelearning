@@ -197,6 +197,20 @@ Logo $a = 1/2 = 0{,}5$, e $b = \bar{y} - a\bar{x} = 4 - 0{,}5 \times 2 = 3$. A r
 
 > **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
 
+:::lab {"id":"modelos-lineares-l2","tipo":"anima-normais","titulo":"O gradiente correndo atrás de uma resposta que já existe"}
+Trezentos pontos, dois atributos **quase colineares** (o segundo é o primeiro mais um ruidinho). As equações normais resolvem isso numa conta. A animação mostra a descida de gradiente tentando chegar ao mesmo lugar, e o que aparece no placar é o **excesso de erro sobre o ótimo fechado**: quanto pior o gradiente ainda está, em porcentagem, do que a álgebra já entregou.
+
+Cada quadro dá dez passos, e a varredura vai a **4 000**.
+
+**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?
+
+Com os atributos como vieram, ele **não chega**. Ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido: a animação dá a cada regime o **maior passo estável possível**, calculado do próprio dado. O problema é a forma da superfície, que com atributos correlacionados é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.
+
+**Clique em "E se os atributos fossem padronizados?".** Mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460** e termina 351 vezes mais perto do ótimo. O passo estável saltou de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
+
+> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao-regularizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
+:::
+
 :::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).
 

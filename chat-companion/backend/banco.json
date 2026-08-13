@@ -14604,6 +14604,20 @@
    "pagina": "ii-2-modelos-lineares"
   },
   {
+   "id": "modelos-lineares-l2",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "anima-normais",
+   "titulo": "O gradiente correndo atrás de uma resposta que já existe",
+   "config": {
+    "id": "modelos-lineares-l2",
+    "tipo": "anima-normais",
+    "titulo": "O gradiente correndo atrás de uma resposta que já existe"
+   },
+   "intro": "Trezentos pontos, dois atributos **quase colineares** (o segundo é o primeiro mais um ruidinho). As equações normais resolvem isso numa conta. A animação mostra a descida de gradiente tentando chegar ao mesmo lugar, e o que aparece no placar é o **excesso de erro sobre o ótimo fechado**: quanto pior o gradiente ainda está, em porcentagem, do que a álgebra já entregou.\n\nCada quadro dá dez passos, e a varredura vai a **4 000**.\n\n**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?\n\nCom os atributos como vieram, ele **não chega**. Ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido: a animação dá a cada regime o **maior passo estável possível**, calculado do próprio dado. O problema é a forma da superfície, que com atributos correlacionados é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.\n\n**Clique em \"E se os atributos fossem padronizados?\".** Mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460** e termina 351 vezes mais perto do ótimo. O passo estável saltou de 7,3 × 10⁻³ para 2,5 × 10⁻¹.\n\n> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é \"qual é melhor\", e sim \"até onde cada um alcança\". O capítulo [II.4](ii-4-otimizacao-regularizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
    "id": "regressao-logistica-l1",
    "capitulo": 11,
    "arquivo": "livro/capitulos/ii-3-regressao-logistica.md",

@@ -32,7 +32,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | I.5 | **feita** — base do eixo subindo de 0 a 88 sobre os números do exercício do capítulo: razão vista chegando a 12,00 com a real parada em 1,0125, e o botão que troca barra por linha |
 | I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
 | II.1 | **feita** — limiar descendo de 0,98 a 0,00: matriz de confusão, acurácia, precisão e revocação mudando junto, o ponto andando sobre a ROC, e o botão da prevalência de 1% |
-| II.2 | gradiente ajustando a reta: soma dos quadrados caindo, e a distância até o ótimo das equações normais |
+| II.2 | **feita** — 4 000 passos de gradiente contra o ótimo fechado: com atributos colineares para em 2,8% de excesso, padronizados chega a 1% no passo 1 460 |
 | II.3 | **feita** — acurácia congelando em 1,000 no passo 52 enquanto a norma de w vai de 6,08 a 7,91 e a perda de 0,23 a 0,078; o botão da L2 devolve o ponto ótimo |
 | II.4 | **feita** — três taxas (0,001 / 0,1 / 1,5) na mesma paisagem, a terceira saindo da escala, mais o botão que troca só a perda e faz a mesma 1,5 virar a melhor das três |
 | II.5 | árvore crescendo corte a corte com o ganho de Gini; depois o boosting, com o resíduo médio encolhendo por árvore |
@@ -542,3 +542,34 @@ problema um ponto ótimo que ele não tinha**.
 
 Teste **visto falhando**: tirei a penalização do gradiente e as duas linhas da L2
 acusaram, com a norma "regularizada" indo a 7,91 igual à outra.
+
+
+## O que a décima quinta animação ensinou (II.2, 2026-08)
+
+**Duas fraudes de comparação foram achadas e desfeitas aqui, e nenhuma das duas
+era óbvia antes de medir.**
+
+**A primeira: passo de aprendizado comum.** Com um passo fixo, a comparação entre
+atributos brutos e padronizados não mede condicionamento, mede a sorte de o
+passo servir a um regime e não a outro. Com 0,02 o regime bruto **divergiu** (soma
+dos quadrados a 8 × 10¹⁹⁶ em 400 passos). Cada regime passou a receber o **maior
+passo estável**, 1/L com L o maior autovalor da hessiana por iteração de potência,
+e os dois valores ficam no placar: 7,3 × 10⁻³ contra 2,5 × 10⁻¹. O teste confere
+que são diferentes, porque igualá-los seria voltar à fraude.
+
+**A segunda: medir distância entre vetores de peso.** Padronizar troca a
+parametrização — o intercepto ótimo passa a ser a média de y — e ‖w − w*‖ nos dois
+regimes compara réguas diferentes. A primeira versão fazia isso e dava o resultado
+**invertido**: o regime padronizado aparecia mais longe do ótimo (3,65) que o
+bruto (1,92). A medida passou a ser o **excesso relativo de erro** sobre o ótimo
+fechado, que é invariante à troca e é a moeda que o método minimiza.
+
+**Só depois das duas correções o número virou lição:** com os atributos como
+vieram, 4 000 passos param a 2,8% do ótimo; padronizados, chegam a 1% no passo
+1 460 e terminam 351 vezes mais perto. E as equações normais deram a resposta
+exata numa conta, nos dois casos.
+
+**A regra que isto deixa:** antes de comparar dois regimes, pergunte o que mais
+muda entre eles além da variável que você quer isolar. Aqui mudavam duas coisas
+(a escala do passo e a parametrização), e as duas empurravam o resultado para
+lados opostos.

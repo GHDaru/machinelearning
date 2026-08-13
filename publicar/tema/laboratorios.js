@@ -3235,6 +3235,203 @@
 
 
 
+
+  // A animação do capítulo II.2: a descida de gradiente perseguindo a resposta que
+  // as equações normais já entregaram. Na tela, a soma dos quadrados caindo e a
+  // DISTÂNCIA até o ótimo fechado, que é o número que importa.
+  //
+  // O leitor erra a previsão sobre a velocidade. Com dois atributos fortemente
+  // correlacionados, a superfície é um vale comprido e estreito, e o gradiente
+  // leva milhares de passos para chegar onde a álgebra chega numa conta. O botão
+  // padroniza os atributos, e os mesmos passos passam a bastar. O que mudou não
+  // foi o otimizador: foi o CONDICIONAMENTO do problema, que é um assunto do dado
+  // e não do algoritmo.
+  //
+  // O ótimo fechado é calculado aqui pelas equações normais 2x2 resolvidas na
+  // mão, para que o alvo da distância seja o mesmo objeto que a seção acima
+  // deriva, e não um "melhor até agora".
+  function animaNormais(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bPad;
+    var N = 300, QUADROS = 400, LOTE = 10, PASSOS = QUADROS * LOTE;
+    // Cada regime recebe o MAIOR passo estável (1/L, com L o maior autovalor da
+    // hessiana 2XᵀX/N, por iteração de potência). Sem isso a comparação seria
+    // fraudulenta nos dois sentidos: com passo fixo pequeno, o padronizado
+    // pareceria lento à toa; com passo fixo grande, o bruto DIVERGE (medi: soma
+    // dos quadrados a 8e196 em 400 passos). Dando a cada um o seu melhor passo,
+    // o que sobra na comparação é só o condicionamento, que é a variável que a
+    // seção discute.
+    var BRUTO = (function () {
+      var r = rng(41), v = [], i, a, b, ruido;
+      for (i = 0; i < N; i++) {
+        a = r() * 10;
+        b = a * 0.97 + (r() - 0.5) * 0.6;             // segundo atributo quase colinear
+        ruido = (r() - 0.5) * 2;
+        v.push({ x: [a, b], y: 1.5 * a - 0.8 * b + 3 + ruido });
+      }
+      return v;
+    })();
+    var est = { pad: false, i: 0, w: [0, 0], b: 0, otimo: null, hist: [], parou: false,
+                dist: 0, sse: 0, passo90: null, eta: 0, sseOtimo: 1 };
+
+    function dados() {
+      if (!est.pad) return BRUTO;
+      var m = [0, 0], s = [0, 0], i, k;
+      for (k = 0; k < 2; k++) {
+        for (i = 0; i < N; i++) m[k] += BRUTO[i].x[k];
+        m[k] /= N;
+        for (i = 0; i < N; i++) s[k] += Math.pow(BRUTO[i].x[k] - m[k], 2);
+        s[k] = Math.sqrt(s[k] / N) || 1;
+      }
+      return BRUTO.map(function (p) {
+        return { x: [(p.x[0] - m[0]) / s[0], (p.x[1] - m[1]) / s[1]], y: p.y };
+      });
+    }
+
+    /** Equações normais 2x2 com intercepto, por centragem e regra de Cramer. */
+    function normais(D) {
+      var mx = [0, 0], my = 0, i, k;
+      for (i = 0; i < N; i++) { mx[0] += D[i].x[0]; mx[1] += D[i].x[1]; my += D[i].y; }
+      mx[0] /= N; mx[1] /= N; my /= N;
+      var a = 0, bb = 0, c = 0, d0 = 0, d1 = 0, u, v, w;
+      for (i = 0; i < N; i++) {
+        u = D[i].x[0] - mx[0]; v = D[i].x[1] - mx[1]; w = D[i].y - my;
+        a += u * u; bb += u * v; c += v * v; d0 += u * w; d1 += v * w;
+      }
+      var det = a * c - bb * bb;
+      var w0 = (d0 * c - bb * d1) / det, w1 = (a * d1 - bb * d0) / det;
+      return { w: [w0, w1], b: my - w0 * mx[0] - w1 * mx[1], cond: (a + c) / Math.max(det / (a + c), 1e-12) };
+    }
+
+    function sseDe(D, w, b) {
+      var s = 0, i, e;
+      for (i = 0; i < N; i++) {
+        e = w[0] * D[i].x[0] + w[1] * D[i].x[1] + b - D[i].y;
+        s += e * e;
+      }
+      return s / N;
+    }
+
+    // A "distância" é o EXCESSO RELATIVO de erro sobre o ótimo fechado, e não a
+    // distância entre vetores de peso. Padronizar troca a parametrização: o
+    // intercepto ótimo passa a ser a média de y, e comparar ‖w − w*‖ entre os
+    // dois regimes compararia réguas diferentes. O excesso de erro é invariante
+    // a essa troca, e é a moeda que o método de fato minimiza.
+    function medir(D) {
+      est.sse = sseDe(D, est.w, est.b);
+      est.dist = (est.sse - est.sseOtimo) / est.sseOtimo;
+    }
+
+    /** Maior autovalor de 2XᵀX/N (com a coluna do intercepto), por potência. */
+    function maiorAutovalor(D) {
+      var v = [1, 1, 1], i, k, it, s, novo, dot;
+      for (it = 0; it < 60; it++) {
+        novo = [0, 0, 0];
+        for (i = 0; i < N; i++) {
+          var xi = [D[i].x[0], D[i].x[1], 1];
+          dot = xi[0] * v[0] + xi[1] * v[1] + xi[2] * v[2];
+          for (k = 0; k < 3; k++) novo[k] += 2 * xi[k] * dot / N;
+        }
+        s = Math.sqrt(novo[0] * novo[0] + novo[1] * novo[1] + novo[2] * novo[2]);
+        if (s < 1e-12) break;
+        v = [novo[0] / s, novo[1] / s, novo[2] / s];
+      }
+      return s || 1;
+    }
+
+    function iterar(D, eta) {
+      var g0 = 0, g1 = 0, gb = 0, i, e;
+      for (i = 0; i < N; i++) {
+        e = est.w[0] * D[i].x[0] + est.w[1] * D[i].x[1] + est.b - D[i].y;
+        g0 += e * D[i].x[0]; g1 += e * D[i].x[1]; gb += e;
+      }
+      est.w[0] -= eta * 2 * g0 / N; est.w[1] -= eta * 2 * g1 / N; est.b -= eta * 2 * gb / N;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 20, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.pad ? "atributos padronizados" : "atributos como vieram") +
+                   " · excesso de erro sobre o ótimo fechado (log)", x0, PAD + 12);
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.lineWidth = 2; ctx.beginPath();
+      est.hist.forEach(function (d, j) {
+        var px = x0 + (j / QUADROS) * larg;
+        var py = base - Math.max(0, Math.min(1, (Math.log10(Math.max(d, 1e-6)) + 6) / 7)) * alt;
+        if (j === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("passo 0", x0, base + 14);
+      ctx.fillText("passo " + PASSOS, x0 + larg - 48, base + 14);
+      ctx.fillText("1e1", x0 + larg - 26, base - alt + 8);
+      ctx.fillText("1e-6", x0 + larg - 30, base - 3);
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.pad ? "atributos padronizados" : "atributos como vieram") +
+        " · passo " + est.i +
+        " · passo de " + est.eta.toExponential(1) +
+        " · soma dos quadrados por ponto " + est.sse.toFixed(4) +
+        " · excesso de erro sobre o ótimo fechado " + est.dist.toExponential(2) +
+        (est.passo90 != null
+          ? " · chegou a 1% de excesso no passo " + est.passo90
+          : (est.parou ? " · nunca chegou a 1% de excesso em " + PASSOS + " passos" : ""));
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var D = dados(), k;
+      // Cada quadro dá LOTE passos: a lição precisa de milhares de iterações
+      // para aparecer, e ninguém assiste a milhares de quadros.
+      for (k = 0; k < LOTE; k++) { iterar(D, est.eta); est.i++; }
+      medir(D);
+      if (est.passo90 == null && est.dist < 0.01) est.passo90 = est.i;
+      est.hist.push(est.dist);
+      if (est.i >= PASSOS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(pad) {
+      est.pad = pad; est.i = 0; est.w = [0, 0]; est.b = 0;
+      est.hist = []; est.passo90 = null; est.parou = false;
+      var D = dados();
+      est.otimo = normais(D);
+      est.sseOtimo = sseDe(D, est.otimo.w, est.otimo.b);
+      est.eta = 1 / maiorAutovalor(D);
+      medir(D);
+      rel.comecar(PASSOS + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bPad.textContent = est.pad ? "Voltar aos atributos como vieram"
+                                 : "E se os atributos fossem padronizados?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.pad); });
+    bPad = botao("E se os atributos fossem padronizados?", function () { rodar(!est.pad); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 20);
+    est.otimo = normais(dados());
+    est.sseOtimo = sseDe(dados(), est.otimo.w, est.otimo.b);
+    est.eta = 1 / maiorAutovalor(dados()); medir(dados());
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -3244,7 +3441,8 @@
                 "anima-origem-movel": animaOrigemMovel, "anima-custo": animaCusto,
                 "anima-deriva": animaDeriva,
                 "anima-eixo": animaEixo,
-                "anima-separavel": animaSeparavel };
+                "anima-separavel": animaSeparavel,
+                "anima-normais": animaNormais };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

@@ -43,13 +43,14 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > perda), **I.3** (as fontes de vazamento medidas lado a lado), **II.1** (o
 > limiar descendo, com a acurácia SUBINDO quando a classe fica rara e a AUC-ROC
 > parada no mesmo 0,968), **III.3** (a retropropagação descendo 20 camadas, com
-> a ReLU sozinha não bastando) e **II.7** (a origem móvel contra a divisão
-> embaralhada, que erra MENOS) e **II.8** (o custo do falso negativo subindo e o
-> limiar ótimo DESCENDO) e **V.3** (o PSI e a AUC na mesma linha do tempo, com a
-> deriva que não dói) e **I.5** (a base do eixo subindo, com os valores parados) e **II.3** (a perda
-> caindo depois que a acurácia congelou). A dívida do núcleo compartilhado foi paga na
+> a ReLU sozinha não bastando), **II.7** (a origem móvel contra a divisão
+> embaralhada, que erra MENOS), **II.8** (o custo do falso negativo subindo e o
+> limiar ótimo DESCENDO), **V.3** (o PSI e a AUC na mesma linha do tempo, com a
+> deriva que não dói), **I.5** (a base do eixo subindo, com os valores parados),
+> **II.3** (a perda caindo depois que a acurácia congelou) e **II.2** (o gradiente
+> correndo atrás do ótimo fechado). A dívida do núcleo compartilhado foi paga na
 > segunda, como a ADR 0015 exigia.
-> **14 feitas, 8 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
+> **15 feitas, 7 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
 > erro de conta de `animacoes.md`, corrigido em 2026-08-13).
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a
