@@ -94,6 +94,40 @@ Sua empresa quer transformar em sistema especialista o conhecimento de três eng
 > **volte para:** #simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia
 :::
 
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e5","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Um sistema recebe uma leitura de sensor e quer saber tudo o que ela implica. Qual encadeamento serve?
+
+- [x] Para a frente: parte dos fatos conhecidos e dispara toda regra cuja condição foi satisfeita, gerando fatos novos.
+- [ ] Para trás: parte de uma hipótese e procura as regras que a sustentam.
+- [ ] Os dois dão o mesmo resultado, e a escolha é de desempenho.
+- [ ] Nenhum dos dois: implicação exige aprendizado a partir de exemplos.
+
+> **gabarito:** para a frente
+> **porque:** A pergunta é "chegou um dado, o que ele implica?", e essa é exatamente a direção do encadeamento para a frente. Ele serve em monitoramento, alarme e configuração.
+>
+> O encadeamento para trás responde outra pergunta: "quero saber se é isto, o que preciso medir?". É a direção do diagnóstico, e é a que dá de graça a explicação — o rastro de regras que sustentou a conclusão **é** a justificativa.
+>
+> A terceira alternativa trata como detalhe de desempenho o que é diferença de propósito. Os dois percorrem a mesma base e respondem a perguntas distintas.
+> **volte para:** #simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia
+:::
+
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e6","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Por que o encadeamento para trás entrega de graça algo que o resto do livro custa caro para obter?
+
+- [ ] Porque ele é mais rápido, e velocidade permite gerar relatórios detalhados.
+- [x] Porque o rastro de regras que sustentou a conclusão é a própria justificativa, na mesma linguagem em que o especialista fala.
+- [ ] Porque ele calcula a importância de cada regra, como o SHAP faz com atributos.
+- [ ] Porque ele só aceita regras que já vêm com justificativa escrita.
+
+> **gabarito:** o rastro de regras é a justificativa
+> **porque:** A explicação não é extraída depois nem aproximada: ela **é** o objeto. O sistema chegou à conclusão percorrendo aquelas regras, então mostrá-las é mostrar o raciocínio de fato executado.
+>
+> Compare com o esforço do [capítulo V.1](v-1-interpretabilidade-justica.md), onde uma explicação post-hoc é uma **aproximação** do modelo, e não a razão pela qual ele decidiu. Aqui as duas coisas coincidem.
+>
+> A terceira alternativa aproxima os dois mundos e erra a natureza. SHAP atribui contribuição a atributos de um modelo que não explica a si mesmo; o encadeamento para trás não atribui nada, ele exibe o caminho.
+> **volte para:** #simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia
+:::
+
 ## Fuzzy: o grau entre o sim e o não
 
 Num conjunto clássico, a pertinência é 0 ou 1: o elemento está dentro ou está fora. Num **conjunto fuzzy**, a pertinência é um número **entre 0 e 1** — 46 °C pertence ao conjunto "água quente" com grau 0,8, e ao conjunto "água morna" com grau 0,3. Os graus não precisam somar 1, e essa é a primeira pista de que **isto não é probabilidade**.
@@ -128,6 +162,40 @@ Isso delimita bem quando vale a pena. **Vale** quando o espaço de busca não te
 
 Os dois custos a declarar antes de começar: o algoritmo genético **não dá garantia de ótimo** e é **caro em número de avaliações** — se cada avaliação é um ensaio físico ou uma simulação de dez minutos, a conta é o projeto inteiro. E ele traz um punhado de hiperparâmetros próprios (tamanho da população, taxa de mutação, pressão de seleção) que precisam ser ajustados por fora, o que é irônico: um método de busca que exige uma busca para ser configurado.
 
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e7","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Numa leitura de 46 °C, o grau de pertinência a "água quente" é 0,8 e a "água morna" é 0,3. A soma passa de 1. O que isso indica?
+
+- [ ] Um erro na definição das funções de pertinência, que precisam somar 1.
+- [x] Que pertinência não é probabilidade: os graus não precisam somar 1, e essa é a primeira pista da distinção.
+- [ ] Que a leitura de 46 °C é inconsistente e deve ser descartada.
+- [ ] Que existe uma terceira categoria faltando na modelagem.
+
+> **gabarito:** pertinência não é probabilidade
+> **porque:** Probabilidade distribui massa entre alternativas mutuamente exclusivas, e por isso soma 1. Pertinência mede **quanto** uma palavra se aplica, e nada impede que duas palavras se apliquem parcialmente ao mesmo tempo.
+>
+> A água de 46 °C é bastante quente e um pouco morna, e as duas coisas são verdadeiras juntas. Não há alternativa a escolher, então não há massa a repartir.
+>
+> A distinção que sustenta tudo isso: probabilidade mede incerteza sobre um fato nítido, e medir mais a elimina. Pertinência mede vagueza do próprio predicado, e medir mais não elimina nada.
+> **volte para:** #fuzzy-o-grau-entre-o-sim-e-o-nao
+:::
+
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e8","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Um engenheiro propõe substituir o controlador fuzzy de uma caldeira por um classificador probabilístico treinado, "porque probabilidade é mais rigorosa que pertinência". Qual é a avaliação correta?
+
+- [ ] Ele tem razão: pertinência é uma formalização informal, e probabilidade a substitui com vantagem.
+- [x] Ele trocou de pergunta: probabilidade mede incerteza sobre um fato nítido, e o controlador precisa lidar com a vagueza de "quente", que medir mais não resolve.
+- [ ] Ele tem razão apenas se houver dados rotulados suficientes.
+- [ ] A troca é indiferente, porque os dois produzem números entre 0 e 1.
+
+> **gabarito:** ele trocou de pergunta
+> **porque:** Não é uma questão de rigor, é de objeto. Saber que a temperatura é 46 °C com certeza absoluta não torna "quente" menos vago — e é sobre esse vago que as regras do operador da máquina são escritas.
+>
+> A quarta alternativa é a armadilha da forma: os dois de fato produzem números no mesmo intervalo, e significam coisas diferentes. Um 0,7 de pertinência não é uma chance de 70%.
+>
+> Vale reter o ganho de engenharia que se perderia na troca: as regras fuzzy são escritas na linguagem do operador da máquina, e não na do teórico de controle. Foi isso que a linha Namboku pôs para andar — um controle de frenagem que o técnico de manutenção consegue ler.
+> **volte para:** #fuzzy-o-grau-entre-o-sim-e-o-nao
+:::
+
 ## Bayesianas: a incerteza com estrutura
 
 Uma **rede bayesiana** tem duas peças: um **grafo dirigido acíclico**, em que cada nó é uma variável e cada seta é uma dependência direta, e uma **tabela de probabilidade condicional** por nó, dizendo a distribuição daquela variável dados os valores de seus pais. Só isso. As independências que o grafo declara são o que dispensa os outros bilhões de números da tabela conjunta.
@@ -141,6 +209,40 @@ O que essa estrutura permite, e uma rede neural do [capítulo III.2](iii-2-redes
 
 O preço: alguém precisa **escrever o grafo** — e voltamos ao gargalo da aquisição de conhecimento. Estruturas podem ser aprendidas de dados, mas isso exige muito mais dado do que a situação típica em que a rede bayesiana é a escolha certa.
 
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e9","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Quando vale a pena usar um algoritmo genético?
+
+- [x] Quando o espaço de busca não tem gradiente utilizável: variáveis discretas, combinatória, ou função de aptidão que é caixa-preta.
+- [ ] Sempre que o problema tiver muitos parâmetros a ajustar.
+- [ ] Quando há dados rotulados suficientes para treinar a população.
+- [ ] Quando o objetivo é interpretabilidade da solução encontrada.
+
+> **gabarito:** quando não há gradiente utilizável
+> **porque:** É a condição que o método existe para atender. Variação aleatória mais seleção percorre um espaço em que derivar não é opção — foi o aperto de Rechenberg com uma peça de metal e um medidor de arrasto.
+>
+> A regra simétrica é igualmente importante: se você **pode** derivar, derive. O [capítulo II.4](ii-4-otimizacao.md) faz em minutos o que uma população levaria horas para tatear.
+>
+> A quarta alternativa atribui ao método uma virtude que ele não tem. O genético devolve uma solução, não uma explicação, e a interpretabilidade deste capítulo vem das outras três tradições.
+> **volte para:** #evolutiva-buscar-onde-nao-existe-gradiente
+:::
+
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e10","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Quais custos de um algoritmo genético precisam ser declarados antes de começar? (marque todos que valem)
+
+- [x] Ele não dá garantia de ótimo.
+- [x] Ele é caro em número de avaliações, e se cada avaliação for um ensaio físico a conta é o projeto inteiro.
+- [x] Ele traz hiperparâmetros próprios que precisam ser ajustados por fora.
+- [ ] Ele exige que a função de aptidão seja diferenciável.
+
+> **gabarito:** sem garantia de ótimo · caro em avaliações · hiperparâmetros próprios
+> **porque:** Os três são os custos que o capítulo manda declarar antes, e o terceiro tem uma ironia útil: um método de busca que exige uma busca para ser configurado.
+>
+> O segundo é o que decide a viabilidade na prática. Dezenas de milhares de avaliações são baratas num simulador rápido e proibitivas quando cada uma é um ensaio de dez minutos.
+>
+> A alternativa errada inverte a razão de existir do método. Ele serve justamente onde **não** há derivada, e exigir diferenciabilidade eliminaria o caso de uso.
+> **volte para:** #evolutiva-buscar-onde-nao-existe-gradiente
+:::
+
 ## Por que estas tradições ainda importam
 
 Três razões, e nenhuma delas é nostalgia.
@@ -148,6 +250,40 @@ Três razões, e nenhuma delas é nostalgia.
 **Interpretabilidade por construção.** Regras, graus de pertinência e grafos causais são legíveis porque foram **escritos para ser lidos** — a explicação não é extraída depois, ela é o próprio objeto. Onde há regulador, auditoria ou responsabilidade civil, isso muda o cálculo do projeto inteiro ([capítulo V.1](v-1-interpretabilidade-justica.md)).
 
 **Funcionamento com pouco dado.** Um sistema de regras, um controlador fuzzy e uma rede bayesiana com estrutura desenhada por especialista funcionam com **zero** exemplos de treino — e usam o histórico disponível para o que ele de fato serve nesse regime: **testar**, não estimar. Aqueles 41 lotes do início do capítulo não davam para aprender; davam muito bem para avaliar.
+
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e11","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Qual é a ideia reaproveitável que une as quatro tradições deste capítulo?
+
+- [ ] Que métodos antigos voltam a ser úteis quando o poder computacional aumenta.
+- [x] Que a representação escolhida decide qual busca é possível: nenhuma das quatro inventou um otimizador melhor, todas inventaram uma forma de escrever o problema.
+- [ ] Que sistemas baseados em conhecimento sempre superam sistemas baseados em dados.
+- [ ] Que os quatro paradigmas convergem para o mesmo algoritmo em problemas grandes.
+
+> **gabarito:** a representação decide qual busca é possível
+> **porque:** Estado-e-operador tornou a prova buscável; o grau de pertinência tornou o predicado vago computável; a população tornou o espaço sem gradiente percorrível; o grafo de independências tornou a inferência probabilística viável.
+>
+> É a lição do [capítulo I.6](i-6-representacao.md) vista de outro ângulo. Lá a representação decide o que o modelo consegue **aprender**; aqui, o que o algoritmo consegue **procurar**.
+>
+> A terceira alternativa transforma a seção numa disputa que ela não propõe. O capítulo não diz que conhecimento vence dados; diz que há apertos que dado nenhum resolve.
+> **volte para:** #de-onde-isto-veio
+:::
+
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e12","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
+Um problema tem 41 exemplos históricos, um regulador que exige justificativa escrita por decisão, e três especialistas que decidem bem há vinte anos. Quais leituras deste capítulo se aplicam? (marque todas que valem)
+
+- [x] Os 41 exemplos servem para **testar** uma regra escrita, não para estimar uma.
+- [x] A exigência de justificativa favorece paradigmas em que a explicação é o próprio objeto.
+- [x] O conhecimento tácito dos especialistas é um ativo que o supervisionado não usa.
+- [ ] Com mais coleta de dados, o problema vira supervisionado e as outras tradições ficam desnecessárias.
+
+> **gabarito:** 41 para testar · explicação como objeto · conhecimento tácito é ativo
+> **porque:** As três correspondem ao caso de abertura do capítulo, e juntas explicam por que aquele projeto falhou sem que ninguém tivesse errado uma conta. O erro foi de **enquadramento**: supor que usar IA significa ajustar um modelo a dados.
+>
+> A alternativa errada projeta uma saída que não resolve dois dos três problemas. Mais dados não produzem justificativa por decisão, e não recuperam a estrutura causal que os especialistas conhecem — eles só atacam o primeiro item.
+>
+> Repare no que muda de lugar: com 41 exemplos, o histórico deixa de ser insumo de aprendizado e passa a ser instrumento de avaliação. É o mesmo conjunto, com outro papel.
+> **volte para:** #por-que-estas-tradicoes-ainda-importam
+:::
 
 **A fusão com aprendizado.** A direção mais viva hoje é **neuro-simbólica**: rede neural onde há dado e percepção, estrutura simbólica onde há regra e restrição — o modelo aprendido propõe, o componente simbólico verifica e recusa o que viola a regra. É também o padrão que ancora modelos de linguagem em ferramentas formais. 📖
 

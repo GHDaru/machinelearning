@@ -26,7 +26,8 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > | I | `prova-parte-i.md` | 10 | **ok** |
 > | II | `prova-parte-ii.md` | 12 | **ok** |
 > | III | `prova-parte-iii.md` | 10 | **ok** |
-> | IV · V | — | — | esperam a coluna `exs` da parte |
+> | IV | `prova-parte-iv.md` | 8 | **ok** |
+> | V | — | — | espera a coluna `exs` da parte |
 > | Final cumulativa | — | — | por último |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
@@ -69,15 +70,15 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
-| 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 4 | 12 | **ok** | — | — | — |
+| 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 4 | 12 | **ok** | — | — | — |
 | 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | **ok** | — | — | — |
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 341 exercícios hoje (303 de capítulo + 38 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 357 exercícios hoje (311 de capítulo + 46 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

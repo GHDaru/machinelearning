@@ -231,6 +231,11 @@
           "arquivo": "livro/provas/prova-parte-iii.md",
           "titulo": "Prova da Parte III — Redes Neurais e Deep Learning",
           "teaser": "Dez itens cruzados sobre os seis capítulos da Parte III."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-iv.md",
+          "titulo": "Prova da Parte IV — Além do supervisionado",
+          "teaser": "Oito itens cruzados sobre os três capítulos da Parte IV."
         }
       ]
     },

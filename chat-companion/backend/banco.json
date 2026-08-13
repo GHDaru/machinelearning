@@ -9779,6 +9779,80 @@
    "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
   },
   {
+   "id": "ia-simbolica-fuzzy-evolutiva-e5",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um sistema recebe uma leitura de sensor e quer saber tudo o que ela implica. Qual encadeamento serve?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Para a frente: parte dos fatos conhecidos e dispara toda regra cuja condição foi satisfeita, gerando fatos novos."
+    },
+    {
+     "correta": false,
+     "texto": "Para trás: parte de uma hipótese e procura as regras que a sustentam."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois dão o mesmo resultado, e a escolha é de desempenho."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhum dos dois: implicação exige aprendizado a partir de exemplos."
+    }
+   ],
+   "gabarito": "para a frente",
+   "porque": "A pergunta é \"chegou um dado, o que ele implica?\", e essa é exatamente a direção do encadeamento para a frente. Ele serve em monitoramento, alarme e configuração.\n\nO encadeamento para trás responde outra pergunta: \"quero saber se é isto, o que preciso medir?\". É a direção do diagnóstico, e é a que dá de graça a explicação — o rastro de regras que sustentou a conclusão **é** a justificativa.\n\nA terceira alternativa trata como detalhe de desempenho o que é diferença de propósito. Os dois percorrem a mesma base e respondem a perguntas distintas.",
+   "volte_para": "#simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e6",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que o encadeamento para trás entrega de graça algo que o resto do livro custa caro para obter?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque ele é mais rápido, e velocidade permite gerar relatórios detalhados."
+    },
+    {
+     "correta": true,
+     "texto": "Porque o rastro de regras que sustentou a conclusão é a própria justificativa, na mesma linguagem em que o especialista fala."
+    },
+    {
+     "correta": false,
+     "texto": "Porque ele calcula a importância de cada regra, como o SHAP faz com atributos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque ele só aceita regras que já vêm com justificativa escrita."
+    }
+   ],
+   "gabarito": "o rastro de regras é a justificativa",
+   "porque": "A explicação não é extraída depois nem aproximada: ela **é** o objeto. O sistema chegou à conclusão percorrendo aquelas regras, então mostrá-las é mostrar o raciocínio de fato executado.\n\nCompare com o esforço do [capítulo V.1](v-1-interpretabilidade-justica.md), onde uma explicação post-hoc é uma **aproximação** do modelo, e não a razão pela qual ele decidiu. Aqui as duas coisas coincidem.\n\nA terceira alternativa aproxima os dois mundos e erra a natureza. SHAP atribui contribuição a atributos de um modelo que não explica a si mesmo; o encadeamento para trás não atribui nada, ele exibe o caminho.",
+   "volte_para": "#simbolica-a-base-de-conhecimento-e-o-motor-de-inferencia",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
    "id": "ia-simbolica-fuzzy-evolutiva-e2",
    "capitulo": 25,
    "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
@@ -9801,6 +9875,228 @@
     "valor": 0.7,
     "tolerancia": 0
    }
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e7",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Numa leitura de 46 °C, o grau de pertinência a \"água quente\" é 0,8 e a \"água morna\" é 0,3. A soma passa de 1. O que isso indica?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Um erro na definição das funções de pertinência, que precisam somar 1."
+    },
+    {
+     "correta": true,
+     "texto": "Que pertinência não é probabilidade: os graus não precisam somar 1, e essa é a primeira pista da distinção."
+    },
+    {
+     "correta": false,
+     "texto": "Que a leitura de 46 °C é inconsistente e deve ser descartada."
+    },
+    {
+     "correta": false,
+     "texto": "Que existe uma terceira categoria faltando na modelagem."
+    }
+   ],
+   "gabarito": "pertinência não é probabilidade",
+   "porque": "Probabilidade distribui massa entre alternativas mutuamente exclusivas, e por isso soma 1. Pertinência mede **quanto** uma palavra se aplica, e nada impede que duas palavras se apliquem parcialmente ao mesmo tempo.\n\nA água de 46 °C é bastante quente e um pouco morna, e as duas coisas são verdadeiras juntas. Não há alternativa a escolher, então não há massa a repartir.\n\nA distinção que sustenta tudo isso: probabilidade mede incerteza sobre um fato nítido, e medir mais a elimina. Pertinência mede vagueza do próprio predicado, e medir mais não elimina nada.",
+   "volte_para": "#fuzzy-o-grau-entre-o-sim-e-o-nao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e8",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um engenheiro propõe substituir o controlador fuzzy de uma caldeira por um classificador probabilístico treinado, \"porque probabilidade é mais rigorosa que pertinência\". Qual é a avaliação correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Ele tem razão: pertinência é uma formalização informal, e probabilidade a substitui com vantagem."
+    },
+    {
+     "correta": true,
+     "texto": "Ele trocou de pergunta: probabilidade mede incerteza sobre um fato nítido, e o controlador precisa lidar com a vagueza de \"quente\", que medir mais não resolve."
+    },
+    {
+     "correta": false,
+     "texto": "Ele tem razão apenas se houver dados rotulados suficientes."
+    },
+    {
+     "correta": false,
+     "texto": "A troca é indiferente, porque os dois produzem números entre 0 e 1."
+    }
+   ],
+   "gabarito": "ele trocou de pergunta",
+   "porque": "Não é uma questão de rigor, é de objeto. Saber que a temperatura é 46 °C com certeza absoluta não torna \"quente\" menos vago — e é sobre esse vago que as regras do operador da máquina são escritas.\n\nA quarta alternativa é a armadilha da forma: os dois de fato produzem números no mesmo intervalo, e significam coisas diferentes. Um 0,7 de pertinência não é uma chance de 70%.\n\nVale reter o ganho de engenharia que se perderia na troca: as regras fuzzy são escritas na linguagem do operador da máquina, e não na do teórico de controle. Foi isso que a linha Namboku pôs para andar — um controle de frenagem que o técnico de manutenção consegue ler.",
+   "volte_para": "#fuzzy-o-grau-entre-o-sim-e-o-nao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e9",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quando vale a pena usar um algoritmo genético?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Quando o espaço de busca não tem gradiente utilizável: variáveis discretas, combinatória, ou função de aptidão que é caixa-preta."
+    },
+    {
+     "correta": false,
+     "texto": "Sempre que o problema tiver muitos parâmetros a ajustar."
+    },
+    {
+     "correta": false,
+     "texto": "Quando há dados rotulados suficientes para treinar a população."
+    },
+    {
+     "correta": false,
+     "texto": "Quando o objetivo é interpretabilidade da solução encontrada."
+    }
+   ],
+   "gabarito": "quando não há gradiente utilizável",
+   "porque": "É a condição que o método existe para atender. Variação aleatória mais seleção percorre um espaço em que derivar não é opção — foi o aperto de Rechenberg com uma peça de metal e um medidor de arrasto.\n\nA regra simétrica é igualmente importante: se você **pode** derivar, derive. O [capítulo II.4](ii-4-otimizacao.md) faz em minutos o que uma população levaria horas para tatear.\n\nA quarta alternativa atribui ao método uma virtude que ele não tem. O genético devolve uma solução, não uma explicação, e a interpretabilidade deste capítulo vem das outras três tradições.",
+   "volte_para": "#evolutiva-buscar-onde-nao-existe-gradiente",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e10",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais custos de um algoritmo genético precisam ser declarados antes de começar? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Ele não dá garantia de ótimo."
+    },
+    {
+     "correta": true,
+     "texto": "Ele é caro em número de avaliações, e se cada avaliação for um ensaio físico a conta é o projeto inteiro."
+    },
+    {
+     "correta": true,
+     "texto": "Ele traz hiperparâmetros próprios que precisam ser ajustados por fora."
+    },
+    {
+     "correta": false,
+     "texto": "Ele exige que a função de aptidão seja diferenciável."
+    }
+   ],
+   "gabarito": "sem garantia de ótimo · caro em avaliações · hiperparâmetros próprios",
+   "porque": "Os três são os custos que o capítulo manda declarar antes, e o terceiro tem uma ironia útil: um método de busca que exige uma busca para ser configurado.\n\nO segundo é o que decide a viabilidade na prática. Dezenas de milhares de avaliações são baratas num simulador rápido e proibitivas quando cada uma é um ensaio de dez minutos.\n\nA alternativa errada inverte a razão de existir do método. Ele serve justamente onde **não** há derivada, e exigir diferenciabilidade eliminaria o caso de uso.",
+   "volte_para": "#evolutiva-buscar-onde-nao-existe-gradiente",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e11",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é a ideia reaproveitável que une as quatro tradições deste capítulo?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que métodos antigos voltam a ser úteis quando o poder computacional aumenta."
+    },
+    {
+     "correta": true,
+     "texto": "Que a representação escolhida decide qual busca é possível: nenhuma das quatro inventou um otimizador melhor, todas inventaram uma forma de escrever o problema."
+    },
+    {
+     "correta": false,
+     "texto": "Que sistemas baseados em conhecimento sempre superam sistemas baseados em dados."
+    },
+    {
+     "correta": false,
+     "texto": "Que os quatro paradigmas convergem para o mesmo algoritmo em problemas grandes."
+    }
+   ],
+   "gabarito": "a representação decide qual busca é possível",
+   "porque": "Estado-e-operador tornou a prova buscável; o grau de pertinência tornou o predicado vago computável; a população tornou o espaço sem gradiente percorrível; o grafo de independências tornou a inferência probabilística viável.\n\nÉ a lição do [capítulo I.6](i-6-representacao.md) vista de outro ângulo. Lá a representação decide o que o modelo consegue **aprender**; aqui, o que o algoritmo consegue **procurar**.\n\nA terceira alternativa transforma a seção numa disputa que ela não propõe. O capítulo não diz que conhecimento vence dados; diz que há apertos que dado nenhum resolve.",
+   "volte_para": "#de-onde-isto-veio",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
+  },
+  {
+   "id": "ia-simbolica-fuzzy-evolutiva-e12",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um problema tem 41 exemplos históricos, um regulador que exige justificativa escrita por decisão, e três especialistas que decidem bem há vinte anos. Quais leituras deste capítulo se aplicam? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Os 41 exemplos servem para **testar** uma regra escrita, não para estimar uma."
+    },
+    {
+     "correta": true,
+     "texto": "A exigência de justificativa favorece paradigmas em que a explicação é o próprio objeto."
+    },
+    {
+     "correta": true,
+     "texto": "O conhecimento tácito dos especialistas é um ativo que o supervisionado não usa."
+    },
+    {
+     "correta": false,
+     "texto": "Com mais coleta de dados, o problema vira supervisionado e as outras tradições ficam desnecessárias."
+    }
+   ],
+   "gabarito": "41 para testar · explicação como objeto · conhecimento tácito é ativo",
+   "porque": "As três correspondem ao caso de abertura do capítulo, e juntas explicam por que aquele projeto falhou sem que ninguém tivesse errado uma conta. O erro foi de **enquadramento**: supor que usar IA significa ajustar um modelo a dados.\n\nA alternativa errada projeta uma saída que não resolve dois dos três problemas. Mais dados não produzem justificativa por decisão, e não recuperam a estrutura causal que os especialistas conhecem — eles só atacam o primeiro item.\n\nRepare no que muda de lugar: com 41 exemplos, o histórico deixa de ser insumo de aprendizado e passa a ser instrumento de avaliação. É o mesmo conjunto, com outro papel.",
+   "volte_para": "#por-que-estas-tradicoes-ainda-importam",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva",
+   "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva"
   },
   {
    "id": "ia-simbolica-fuzzy-evolutiva-e3",
@@ -11767,6 +12063,313 @@
    "versoes": null,
    "pagina": "prova-parte-iii",
    "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iv-q1",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-1-nao-supervisionado.md:O1",
+    "livro/capitulos/iv-2-reforco.md:O4"
+   ],
+   "enunciado": "Uma equipe propõe dois projetos. No A, quer segmentar 90 mil assinantes sem nenhum rótulo. No B, quer otimizar o envio de notificações, e cada envio muda a probabilidade de o usuário abrir as próximas.\n\nO que distingue os dois quanto ao que pode dar errado sem ninguém perceber?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Nada: os dois são não supervisionados e falham do mesmo jeito."
+    },
+    {
+     "correta": true,
+     "texto": "No A o risco é não haver estrutura real e ninguém ter como desmentir; no B o risco é o agente influenciar os próprios dados e ficar preso ao que testou primeiro."
+    },
+    {
+     "correta": false,
+     "texto": "No A o risco é de vazamento temporal; no B, de desbalanceamento de classes."
+    },
+    {
+     "correta": false,
+     "texto": "No B não há risco silencioso, porque a recompensa é observável a cada passo."
+    }
+   ],
+   "gabarito": "ausência de estrutura de um lado, influência sobre os próprios dados do outro",
+   "porque": "São dois modos de falha silenciosos de naturezas diferentes. No agrupamento, o algoritmo sempre devolve k grupos, inclusive em ruído puro, e as métricas disponíveis são internas — elas não podem discordar de você.\n\nNo reforço, o comportamento do agente determina os dados do agente. Ele age de forma ótima segundo o que conhece, e o que ele conhece são as ações que teve a sorte de testar cedo. A recompensa é observável e não denuncia o que nunca foi medido.\n\nA última alternativa confunde observar recompensa com observar alternativa. Você vê o retorno do que fez, e nunca o do que não fez.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-iv-q2",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-1-nao-supervisionado.md:O2",
+    "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md:O4"
+   ],
+   "enunciado": "K-means e algoritmo genético têm em comum o fato de não garantirem a melhor resposta. Qual comparação é correta?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O k-means para num mínimo local do critério que declarou; o genético não garante ótimo porque percorre um espaço sem gradiente por variação e seleção. Nos dois, rodar uma vez só é uma decisão."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois falham pelo mesmo motivo: ausência de derivada no critério."
+    },
+    {
+     "correta": false,
+     "texto": "O k-means é determinístico e o genético é estocástico, então só o segundo precisa de várias execuções."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhum dos dois precisa de várias execuções, desde que os hiperparâmetros estejam corretos."
+    }
+   ],
+   "gabarito": "mínimo local declarado de um lado, busca sem gradiente do outro, e nos dois rodar uma vez é decisão",
+   "porque": "As causas são diferentes e a consequência prática é a mesma. O k-means tem critério bem definido e derivável em princípio, e ainda assim para no primeiro mínimo local; o genético nem persegue um critério derivável, ele tateia por variação e seleção.\n\nA terceira alternativa contém um erro de fato que vale corrigir: o k-means **não** é determinístico, porque depende dos centros iniciais sorteados. É exatamente por isso que as bibliotecas rodam várias inicializações.\n\nA leitura que fica é a mesma dos dois capítulos: execução única de método estocástico é uma escolha, e escolha não declarada vira resultado sem intervalo.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-iv-q3",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md:O3",
+    "livro/capitulos/ii-1-avaliacao.md:O4"
+   ],
+   "enunciado": "Um painel exibe, para a mesma leitura, \"pertinência a QUENTE: 0,80\" e \"probabilidade de falha: 0,80\". Quais afirmações são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O primeiro 0,80 mede quanto a palavra \"quente\" se aplica, e medir a temperatura com mais precisão não o reduz."
+    },
+    {
+     "correta": true,
+     "texto": "O segundo 0,80 mede incerteza sobre um fato nítido, e mais informação pode levá-lo a 0 ou a 1."
+    },
+    {
+     "correta": true,
+     "texto": "Só o segundo pode ser avaliado por calibração, ou seja, verificando se eventos previstos com 0,80 acontecem 80% das vezes."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois podem ser somados a outros graus da mesma família, e a soma tem de dar 1."
+    }
+   ],
+   "gabarito": "vagueza contra incerteza · só o segundo se calibra · a soma não precisa dar 1",
+   "porque": "As três corretas separam dois números que a interface iguala. Vagueza não some com informação; incerteza sim.\n\nA terceira é a que amarra os capítulos. Calibração pergunta se o número previsto corresponde à frequência observada, e essa pergunta só faz sentido para probabilidade — não existe \"frequência observada de quente\".\n\nA alternativa errada aplica a probabilidade uma regra que só vale para ela, e nem sempre: graus de pertinência não somam 1 por construção, e é essa a primeira pista de que não se trata de probabilidade.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-iv-q4",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-2-reforco.md:O1",
+    "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md:O1"
+   ],
+   "enunciado": "Um problema de manutenção tem histórico curto, exigência de justificar cada parada de máquina, e uma estrutura causal que os engenheiros sabem desenhar. Alguém propõe modelá-lo como MDP e treinar um agente.\n\nQual é a crítica mais precisa?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "MDP não serve para manutenção, que é um problema de classificação."
+    },
+    {
+     "correta": true,
+     "texto": "A formulação escolhida define qual busca é possível, e aqui há três recursos que o MDP não usa: histórico curto, exigência de explicação e estrutura causal conhecida."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é que faltam recompensas numéricas no domínio."
+    },
+    {
+     "correta": false,
+     "texto": "A crítica é apenas de custo: MDP funcionaria, mas seria caro."
+    }
+   ],
+   "gabarito": "a formulação não usa três recursos disponíveis",
+   "porque": "É a ideia reaproveitável do IV.3 aplicada a uma decisão de projeto: a representação escolhida decide qual busca é possível. Uma rede bayesiana com estrutura desenhada por especialista usa os três recursos; um MDP treinado por interação não usa nenhum.\n\nA quarta alternativa reduz tudo a custo, e o problema é anterior. Mesmo com orçamento infinito, o agente aprenderia por interação num domínio em que interagir significa deixar máquinas quebrarem, e continuaria sem entregar justificativa por decisão.\n\nRepare no eco do caso de abertura do IV.3: o erro não é técnico, é de enquadramento — supor que usar IA significa ajustar um modelo a dados.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-iv-q5",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-2-reforco.md:O1",
+    "livro/capitulos/ii-8-do-modelo-a-decisao.md:O2"
+   ],
+   "enunciado": "Um agente recebe recompensa 0 nos dois primeiros passos e 100 no terceiro. Com γ = 0,8, qual é o retorno descontado visto do instante inicial?",
+   "opcoes": [],
+   "gabarito": "64 ± 0,5",
+   "porque": "Só o terceiro termo é diferente de zero, e ele espera dois passos: $0{,}8^2 \\times 100 = 0{,}64 \\times 100 = \\mathbf{64}$.\n\nO número diz o que o desconto faz com uma promessa distante. Um prêmio de 100 daqui a dois passos entra na conta valendo 64, e a diferença de 36 é o preço da espera declarado por quem escolheu γ.\n\nÉ a mesma aritmética da matriz de custo do [capítulo II.8](ii-8-do-modelo-a-decisao.md), com uma diferença que vale notar: lá os valores vêm de quem paga a conta no mundo, aqui γ é escolhido pela equipe. Um parâmetro que decide comportamento e não tem dono declarado é um lugar fácil de esconder uma decisão de negócio.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado",
+   "gabarito_num": {
+    "valor": 64,
+    "tolerancia": 0.5
+   }
+  },
+  {
+   "id": "prova-parte-iv-q6",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-1-nao-supervisionado.md:O4",
+    "livro/capitulos/i-4-analise-exploratoria.md:O3"
+   ],
+   "enunciado": "Uma analista roda k-means com sete valores de k, olha os grupos de cada um, escolhe o que \"fez mais sentido\" e reporta. Qual é a formulação mais precisa do erro?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Ela testou poucos valores de k; o correto seria varrer de 2 a 20."
+    },
+    {
+     "correta": true,
+     "texto": "Ela escolheu o critério depois de ver o resultado, e num regime em que não existe gabarito capaz de desmenti-la."
+    },
+    {
+     "correta": false,
+     "texto": "O erro é usar k-means, que não serve para segmentação de clientes."
+    },
+    {
+     "correta": false,
+     "texto": "O erro é não ter normalizado os atributos antes."
+    }
+   ],
+   "gabarito": "critério escolhido depois de ver o resultado, sem gabarito para desmentir",
+   "porque": "É o mesmo erro estrutural do [capítulo I.4](i-4-analise-exploratoria.md), em que escolher o padrão mais forte entre muitos e confirmá-lo nos mesmos dados garante que o teste já nasceu contaminado. Aqui ele é pior, porque no agrupamento não há resposta certa esperando para contradizê-la.\n\nA primeira alternativa piora o problema com aparência de rigor: testar mais valores de k aumenta o número de partições examinadas, e portanto a chance de a mais \"interpretável\" ser a mais afortunada.\n\nA saída é a mesma dos dois capítulos: declarar o critério antes e testá-lo fora, com estabilidade entre metades ou com uma variável que não entrou no agrupamento.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-iv-q7",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md:O2",
+    "livro/capitulos/v-1-interpretabilidade-justica.md:O1"
+   ],
+   "enunciado": "Um regulador exige justificativa por decisão individual. Quais afirmações comparam corretamente as duas formas de obtê-la? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "No encadeamento para trás, o rastro de regras é o raciocínio de fato executado."
+    },
+    {
+     "correta": true,
+     "texto": "Numa explicação post-hoc, o que se obtém é uma aproximação do modelo, e não a razão pela qual ele decidiu."
+    },
+    {
+     "correta": true,
+     "texto": "A diferença importa diante de auditoria, porque uma das duas pode divergir do que o sistema realmente fez."
+    },
+    {
+     "correta": false,
+     "texto": "As duas são equivalentes desde que a explicação post-hoc tenha alta fidelidade medida."
+    }
+   ],
+   "gabarito": "rastro é o raciocínio · post-hoc é aproximação · a diferença importa em auditoria",
+   "porque": "As três apontam para a mesma distinção: coincidir com o mecanismo é diferente de aproximá-lo bem. Alta fidelidade reduz a divergência e não a elimina, e é justamente na divergência que a auditoria encontra problema.\n\nA alternativa errada troca uma propriedade categórica por uma métrica. \"Fidelidade alta\" é um número sobre concordância média; a pergunta do regulador é sobre **aquela** decisão.\n\nÉ o que torna as tradições do IV.3 vivas em domínio regulado: ali a explicação não é extraída depois, ela é o próprio objeto.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-iv-q8",
+   "capitulo": 34,
+   "arquivo": "livro/provas/prova-parte-iv.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iv-2-reforco.md:O2",
+    "livro/capitulos/i-3-dados.md:O4"
+   ],
+   "enunciado": "Um sistema de crédito recomenda aprovações, e só quem foi aprovado gera histórico de pagamento. Um sistema de recomendação exibe itens, e só os exibidos geram cliques. O que os dois casos têm em comum?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Nos dois, a decisão de hoje filtra o dado de amanhã, e mais coleta pela mesma porta reforça o problema em vez de corrigi-lo."
+    },
+    {
+     "correta": false,
+     "texto": "Nos dois, o problema é desbalanceamento de classes, tratável com reponderação."
+    },
+    {
+     "correta": false,
+     "texto": "Nos dois, o problema é vazamento temporal, tratável com corte de tempo."
+    },
+    {
+     "correta": false,
+     "texto": "São problemas diferentes: um é viés de seleção e o outro é exploração insuficiente, sem relação entre si."
+    }
+   ],
+   "gabarito": "a decisão filtra o dado, e mais coleta reforça",
+   "porque": "São o mesmo mecanismo com dois vocabulários. O [capítulo I.3](i-3-dados.md) chama de viés de seleção com laço de realimentação; o [capítulo IV.2](iv-2-reforco.md) chama de explotação em excesso. Nos dois, o sistema fica mais confiante sobre uma fatia cada vez mais estreita do mundo.\n\nA quarta alternativa acerta os dois nomes e nega a relação, que é o ponto do item. Ver que são o mesmo mecanismo é o que transfere o remédio: reservar uma fração de decisões fora da recomendação do modelo, e aceitar pagar por ela.\n\nAs duas alternativas do meio propõem tratamentos para problemas de outra natureza. Reponderar corrige proporção entre exemplos que existem; nenhuma reponderação cria linhas sobre quem nunca foi aprovado.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iv",
+   "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
   }
  ],
  "videos": [
