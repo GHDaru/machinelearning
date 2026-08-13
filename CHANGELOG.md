@@ -19,6 +19,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — uma verdade que enganava, sobre o nome do teorema (cap. III.2)
+- **A frase era literalmente correta e produzia conclusão errada.** O capítulo dizia
+  que a expressão "aproximação universal" não consta do título de nenhum dos dois
+  artigos citados (Cybenko 1989, Hornik 1991). É verdade sobre esses dois — e
+  *"universal approximators"* está no título de um **terceiro**, de 1989, do mesmo
+  Hornik com Stinchcombe e White, que o capítulo não citava.
+- **O artigo que faltava entrou** com ficha e DOI, e o argumento foi reformulado
+  para o que se sustenta: o rótulo posterior não é a palavra "universal", é a
+  promoção a **teorema com nome próprio**, usado sem as hipóteses que os artigos
+  enunciam.
+- A leitura sobre a estrutura em camadas continua ⏳, e o capítulo registra que a
+  frase que costuma ser citada para ela **não foi conferida** — por isso não
+  aparece entre aspas.
+
 ### Corrigido — uma frase atribuída a quem não a disse (caps. III.1 e II.2)
 - **"Não é o primeiro inventor que leva o crédito, é o último reinventor"** estava
   atribuída a Schmidhuber, em **dois capítulos**, um deles como citação em itálico.

@@ -71,7 +71,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 15 | II.7 — Séries Temporais | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 16 | II.8 — Do Modelo à Decisão | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 17 | III.1 — O Neurônio Artificial | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |

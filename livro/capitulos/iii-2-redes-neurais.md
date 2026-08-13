@@ -37,17 +37,20 @@ Repare na ordem. A engenharia funcionou por três anos antes de a matemática di
 
 Guarde isso, porque a confusão é cara e frequente. "A rede pode representar qualquer função" é uma afirmação sobre o **conjunto de funções representáveis**. "A rede vai aprender essa função" é uma afirmação sobre o **procedimento de busca**, sobre os dados e sobre a inicialização. Os vinte anos de dificuldade que o [capítulo III.3](iii-3-treinar-redes-profundas.md) narra, com gradientes que somem e gradientes que explodem, redes profundas que não treinavam — são exatamente o preço dessa distinção.
 
-**O nome.** "Teorema da aproximação universal" é rótulo posterior: a expressão **não aparece no título de nenhum dos dois artigos**. E há um detalhe de Hornik que o rótulo popular apaga: o poder de aproximação não vem da função de ativação escolhida, vem da **estrutura em camadas**. Trocar sigmoide por outra não-linearidade razoável não muda o que a rede pode representar. Muda o quanto ela treina bem, que é outra conversa — a conversa deste livro inteiro.
+**O nome.** "Teorema da aproximação universal" é rótulo posterior, e convém ser exato sobre em que sentido. A palavra "universal" está num título da época: *"Multilayer feedforward networks are universal approximators"*, de Hornik, Stinchcombe e White (*Neural Networks* 2:359–366, 1989). O que veio depois foi a promoção a **teorema com nome próprio**, etiqueta que hoje se usa para um resultado que os artigos enunciam com hipóteses explícitas, e que quase ninguém recita junto com elas.
+
+E há um detalhe atribuído a Hornik que o rótulo popular apaga: o poder de aproximação não viria da função de ativação escolhida, e sim da **estrutura em camadas**. Trocar sigmoide por outra não-linearidade razoável não mudaria o que a rede pode representar. Mudaria o quanto ela treina bem, que é outra conversa — a conversa deste livro inteiro.
 
 **Procedência das afirmações desta seção:**
 
 | Selo | Afirmação |
 |---|---|
 | ✓ᵐ | Cybenko, *Approximation by superpositions of a sigmoidal function*, **Math. Control Signals Systems (1989)**; Hornik, *Approximation capabilities of multilayer feedforward networks*, **Neural Networks 4:251–257 (1991)**. **Os artigos não foram lidos por inteiro** |
-| ✓ᵐ | Que a expressão "teorema da aproximação universal" **não consta do título** de nenhum dos dois artigos |
+| ✓ᵐ | **Hornik, Stinchcombe & White**, *"Multilayer feedforward networks are universal approximators"*, *Neural Networks* 2:359–366, 1989, [10.1016/0893-6080(89)90020-8](https://doi.org/10.1016/0893-6080(89)90020-8) — ficha conferida |
+| ❌ | **Correção de 2026-08-13.** Esta linha dizia que a expressão "aproximação universal" não consta do título de nenhum dos artigos. Era verdade sobre os **dois** que o capítulo citava, e criava impressão falsa: *"universal approximators"* está no título do artigo de 1989 acima, do mesmo Hornik. O que é rótulo posterior é a promoção a **teorema com nome próprio**, e o capítulo passou a dizer isso |
 | ✓ᵐ | Rumelhart, Hinton & Williams (1986) — [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0), conferido no [capítulo III.1](iii-1-neuronio-artificial.md) |
 | ⏳ | Que a prática anterior era camada única com a regra do perceptron, ou pesos escondidos postos à mão |
-| ⏳ | A leitura de Hornik de que a fonte do poder de aproximação é a estrutura em camadas, não a ativação |
+| ⏳ | A leitura de Hornik de que a fonte do poder de aproximação é a estrutura em camadas, e não a ativação. A frase que costuma ser citada para isso vem do resumo de 1989, e **não consegui abrir o texto** para conferi-la; por isso ela não aparece entre aspas no capítulo |
 | 📖 | Que 1986 entrega o **procedimento**, não a arquitetura — e que a licença teórica chegou **depois** da engenharia |
 | 📖 | "Existência não é treinabilidade" como a ideia exportável, e os vinte anos do [capítulo III.3](iii-3-treinar-redes-profundas.md) como o preço dela |
 
