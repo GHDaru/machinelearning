@@ -65,7 +65,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | **ok** | **ok** |
 | 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 11 | II.3 — Regressão Logística | 3 | 9 | 9 | **ok** | **ok** | **ok** | **ok** |
-| 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 13 | II.5 — Árvores e Ensembles | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 14 | II.6 — Análise Multidimensional | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 15 | II.7 — Séries Temporais | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |

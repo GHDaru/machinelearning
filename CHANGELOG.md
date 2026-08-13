@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — a herança do LASSO confirmada, e a data distinguida (cap. II.4)
+- **A herança agora está nas palavras do autor**, lidas no artigo do LASSO: *"The
+  motivation for the lasso came from an interesting proposal of Breiman (1993)"*, e
+  a descrição do garrote que *"starts with the OLS estimates and shrinks them by
+  non-negative factors whose sum is constrained"*.
+- **A data que o capítulo dava era de outra coisa.** O capítulo citava "Breiman
+  (1995)"; o LASSO cita o **relatório técnico de 1993**, de Berkeley, e a versão em
+  periódico só sai em 1995 na *Technometrics*. As duas datas estão certas para
+  coisas diferentes, e o capítulo passou a dizer qual é qual — com o intervalo de
+  dois anos entre a ideia circular e ter endereço citável ligado ao caso do cap. II.2.
+- Breiman (1995) e Hoerl & Kennard (1970) ganharam DOI. As origens de "ridge" nas
+  superfícies de resposta e a cronologia de Tikhonov continuam ⏳.
+
 ### Adicionado — a briga do logito contra o probito, com o que faltava (cap. II.3)
 - **A polêmica tinha uma segunda camada que o capítulo não contava.** A disputa
   logito × probito veio embrulhada nos ataques simultâneos de Berkson à máxima

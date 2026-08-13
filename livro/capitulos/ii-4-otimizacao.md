@@ -41,7 +41,11 @@ Este capítulo é sobre duas coisas que parecem opostas e são complementares: *
 
 Regularização vem de outro lugar: **problemas mal-postos**. Hadamard (1923) define o que é um problema *bem-posto*: solução existe, é única e depende de forma estável dos dados. Muitos problemas inversos reais falham na terceira condição: uma perturbação minúscula na entrada muda a resposta radicalmente. Tikhonov publica sobre estabilidade desses problemas em 1943, e o método de regularização em 1963; **D. L. Phillips** chega a algo equivalente de forma independente em 1962 — daí a forma "Tikhonov–Phillips".
 
-Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Kennard, *Technometrics*, 1970), e a origem é industrial: Hoerl vinha da engenharia química, e o "ridge" alude às **cristas dos gráficos de superfície de resposta**. Vinte e seis anos depois, o **LASSO** (Tibshirani, *JRSS-B*, 1996) herda diretamente do *non-negative garrote* de Breiman (1995), fundindo as duas etapas do garrote numa só.
+Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Kennard, *Technometrics*, 1970), e a origem é industrial: Hoerl vinha da engenharia química, e o "ridge" alude às cristas dos gráficos de superfície de resposta.
+
+Vinte e seis anos depois vem o **LASSO**, e a herança está declarada pelo próprio autor logo depois de apresentar o método: *"The motivation for the lasso came from an interesting proposal of Breiman (1993)."* O garrote, segundo a descrição dele ali mesmo, *"starts with the OLS estimates and shrinks them by non-negative factors whose sum is constrained"* — duas etapas, que o LASSO funde numa só.
+
+Repare na data citada. Tibshirani credita um **relatório técnico de 1993** de Berkeley; a versão publicada em periódico só sai em **1995**, na *Technometrics*. É o intervalo de dois anos entre ter a ideia circulando e ela ter endereço citável, o mesmo fenômeno que o [capítulo II.2](ii-2-modelos-lineares.md) discute com Gauss.
 
 **A ideia reaproveitável do bloco inteiro:** **aceitar erro sistemático de propósito para comprar estabilidade.** Tikhonov, ridge e LASSO são o mesmo gesto — o dado não determina a resposta, então você **impõe** uma preferência externa e assume o viés que ela introduz. É por isso que regularização não é um truque de implementação: é uma declaração sobre o que você acredita antes de ver os dados.
 
@@ -55,7 +59,8 @@ Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Ken
 | ✓ᵐ | Hoerl & Kennard (*Technometrics* 12(1):55–67, 1970) e Tibshirani (*JRSS-B* 58(1):267–288, 1996): obra, ano e veículo |
 | ⏳ | A cronologia de Tikhonov (1943, 1963) e a contribuição independente de Phillips (1962) |
 | ⏳ | Que "ridge" vem das cristas dos gráficos de superfície de resposta |
-| ⏳ | Que o LASSO herda do *non-negative garrote* de Breiman (1995) |
+| ✓ | Que o LASSO herda do garrote, **declarado pelo próprio Tibshirani**, e os dois trechos citados entre aspas, lidos no texto de *"Regression Shrinkage and Selection via the Lasso"* (*JRSS-B* 58(1):267–288, 1996) |
+| ✓ᵐ | O garrote publicado: **Leo Breiman**, *"Better Subset Regression Using the Nonnegative Garrote"*, *Technometrics* 37(4):373–384, 1995, [10.1080/00401706.1995.10484371](https://doi.org/10.1080/00401706.1995.10484371). Note que o LASSO cita o **relatório técnico de 1993**, e não esta versão |
 | ❌ | **Early stopping**: procurei e não localizei atribuição primária confiável. O capítulo ensina o método sem lhe atribuir inventor |
 | 📖 | As duas ideias reaproveitáveis, a ligação com o cap. II.2 e a ponte com o cap. II.5 |
 
