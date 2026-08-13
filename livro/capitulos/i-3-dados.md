@@ -38,7 +38,7 @@ O caso que virou emblema é a **KDD Cup de 2008**, de detecção de câncer em m
 
 **A virada.** Em 2012, Kaufman, Rosset, Perlich e Stitelman publicam *"Leakage in Data Mining: Formulation, Detection, and Avoidance"* e fazem o movimento que faltava: **transformar uma coleção de acidentes numa categoria com definição, taxonomia e método de detecção.** Vazamento deixa de ser azar e passa a ser algo que se procura de propósito.
 
-**A ideia reaproveitável — e é a que dá título a este capítulo.** **Desempenho alto demais é sintoma, não vitória.** O identificador do paciente não sabia nada sobre câncer; sabia sobre **como o hospital organizou a fila** — que exames vinham de triagem de rotina e quais de encaminhamento suspeito. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
+**A ideia reaproveitável, e é a que dá título a este capítulo.** Desempenho alto demais é sintoma, não vitória. O identificador do paciente não sabia nada sobre câncer; sabia sobre como o hospital organizou a fila, que exames vinham de triagem de rotina e quais de encaminhamento suspeito. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
 
 **O nome.** *Leakage* — a informação "vaza" do futuro para o passado, atravessando a fronteira temporal que deveria separar o que se sabe do que se quer prever.
 
@@ -217,7 +217,7 @@ O problema difícil é o **viés de seleção** — quando a forma como os exemp
 
 O caso clássico e cruel: um banco quer prever inadimplência e treina com o histórico dos **clientes a quem concedeu crédito**. Mas quem recebeu crédito passou por um filtro — o modelo antigo, ou o gerente. Os dados não contêm os que foram recusados, e são exatamente esses que o novo modelo precisa avaliar. O sistema aprende sobre uma população que já foi filtrada por ele mesmo, e fica cada vez mais confiante sobre uma fatia cada vez mais estreita do mundo.
 
-Isso tem nome — *feedback loop* — e o [capítulo V.2](v-2-sistemas-de-ml.md) trata das consequências arquiteturais. Aqui basta o diagnóstico e o gesto mínimo: **reservar uma fração pequena de decisões aleatórias**, fora da recomendação do modelo, para manter a base honesta. Custa dinheiro. É o preço de continuar aprendendo.
+Isso tem nome, *feedback loop*, e o [capítulo V.2](v-2-sistemas-de-ml.md) trata das consequências arquiteturais. Aqui basta o diagnóstico e o gesto mínimo: **reservar uma fração pequena de decisões aleatórias**, fora da recomendação do modelo, para manter a base honesta. Custa dinheiro. É o preço de continuar aprendendo.
 
 :::exercicio {"id":"dados-e4","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
 Você recebeu uma base de 200.000 avaliações de produtos, rotuladas como "positiva" ou "negativa", para treinar um classificador de sentimento. O rótulo foi gerado automaticamente: avaliações de 4–5 estrelas viraram "positiva", de 1–2 estrelas viraram "negativa", e as de 3 estrelas foram descartadas.
@@ -230,7 +230,7 @@ Escreva as **três perguntas mais importantes** que você faria antes de treinar
 > cada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas
 > **porque:** As três mais valiosas costumam ser estas. **Primeira:** o rótulo é a estrela, não o sentimento — e as duas coisas divergem (elogio com nota baixa por causa da entrega, ironia, avaliação de 5 estrelas com reclamação no texto). O modelo terá como teto a qualidade dessa correspondência.
 >
-> **Segunda, e a mais fácil de deixar passar:** descartar as 3 estrelas remove exatamente os casos difíceis. O classificador vai parecer excelente no teste — que também não tem casos difíceis — e vai encontrá-los todos em produção. É desbalanceamento invertido: a base ficou mais fácil que o mundo.
+> **Segunda, e a mais fácil de deixar passar:** descartar as 3 estrelas remove exatamente os casos difíceis. O classificador vai parecer excelente no teste, que também não tem casos difíceis, e vai encontrá-los todos em produção. É desbalanceamento invertido: a base ficou mais fácil que o mundo.
 >
 > **Terceira:** de onde vêm as avaliações, quem escreve avaliação (quem teve experiência extrema, tipicamente), e se a licença permite o uso pretendido.
 >
@@ -243,7 +243,7 @@ Um banco treina um modelo de inadimplência com o histórico dos últimos cinco 
 
 A equipe está satisfeita: a base é grande, o rótulo é objetivo e a métrica ficou ótima. **Diagnostique o problema desta coleta** e diga o que ele fará com o modelo em produção.
 
-> **rubrica:** identifica que a base só contém quem **passou por um filtro anterior** — o modelo antigo ou o gerente — e que os recusados não estão nela;
+> **rubrica:** identifica que a base só contém quem **passou por um filtro anterior** (o modelo antigo ou o gerente) e que os recusados não estão nela;
 > diz o que isso causa em produção: o modelo será usado justamente sobre candidatos do tipo que a base nunca conteve, e a confiança dele sobre essas pessoas não tem apoio nos dados;
 > distingue isso de desbalanceamento: o problema não é a proporção de 4%, é **quais exemplos puderam entrar** — e mais dados coletados do mesmo jeito pioram a situação em vez de melhorá-la;
 > propõe um gesto concreto para manter a base honesta (reservar uma fração pequena de decisões fora da recomendação do modelo) e reconhece que isso custa dinheiro
@@ -286,7 +286,7 @@ O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este
 - Faça a pergunta da coluna, uma por uma: *no instante da predição, este valor já existe?*
 - **Tudo que aprende dos dados aprende só do treino.** Normalização, imputação, seleção, *target encoding*.
 - Divisão respeita a estrutura: **tempo manda sobre grupo, que manda sobre estratificação**.
-- Escreva a ficha antes de treinar. A pergunta 5 — como o alvo foi rotulado — é a que mais surpreende.
+- Escreva a ficha antes de treinar. A pergunta 5, como o alvo foi rotulado, é a que mais surpreende.
 - Sua base tem o viés do filtro que a criou. Se o filtro foi o próprio sistema, o problema se agrava sozinho.
 
 ## Verificação
