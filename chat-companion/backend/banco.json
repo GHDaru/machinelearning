@@ -3744,6 +3744,80 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
+   "id": "modelos-lineares-e8",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Três textos escrevem a perda da regressão linear de formas diferentes: um usa $\\frac{1}{n}\\sum(y-\\hat{y})^2$, outro $\\frac{1}{2n}\\sum(y-\\hat{y})^2$, e o terceiro só $\\sum(y-\\hat{y})^2$. O que muda entre eles?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A reta ótima, que fica diferente em cada convenção."
+    },
+    {
+     "correta": true,
+     "texto": "Só o número que aparece no painel: multiplicar a perda por constante positiva não move o ponto de mínimo."
+    },
+    {
+     "correta": false,
+     "texto": "A necessidade de otimização iterativa, que só a primeira forma dispensa."
+    },
+    {
+     "correta": false,
+     "texto": "O grau do polinômio ajustado."
+    }
+   ],
+   "gabarito": "só o número que aparece no painel",
+   "porque": "Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.\n\nO meio da segunda forma existe por comodidade de dedução: ele cancela o 2 que desce ao derivar o quadrado, e deixa o gradiente mais limpo. É notação, não modelagem.\n\nSaber disso evita duas confusões práticas. Comparar o \"erro\" de dois relatórios que usaram convenções diferentes não faz sentido, e ver um número dez vezes maior num livro não significa que o modelo de lá seja pior.",
+   "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e9",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Se a solução fechada das equações normais é exata e existe, por que o livro ensina o gradiente?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque o gradiente encontra um mínimo melhor que a solução fechada."
+    },
+    {
+     "correta": true,
+     "texto": "Porque a solução fechada exige inverter uma matriz $d \\times d$, inviável com muitos atributos, e porque ela não existe para a regressão logística."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a solução fechada só vale quando os dados não têm ruído."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o gradiente é mais preciso quando há *outliers*."
+    }
+   ],
+   "gabarito": "custo com muitos atributos, e ela não existe na logística",
+   "porque": "Os dois motivos são de alcance, não de qualidade. No experimento do livro, gradiente e solução fechada chegam ao mesmo lugar, com diferença menor que 0,05 em cada coeficiente — a primeira alternativa está descartada pela evidência do próprio capítulo.\n\nO que muda é onde cada um se aplica. Inverter uma matriz $d \\times d$ fica caro rápido conforme $d$ cresce, e para a regressão logística não há fórmula fechada nenhuma: ali a otimização iterativa não é preferência, é o único caminho.\n\nA leitura que fica reposiciona as duas ferramentas. O gradiente é a ferramenta **geral**, e a solução fechada é o caso de sorte de um modelo específico. Aprender o gradiente aqui, onde dá para conferir contra a resposta exata, é o que torna possível confiar nele depois, onde não há com o que comparar.",
+   "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
    "id": "modelos-lineares-e7",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -3766,6 +3840,104 @@
     "valor": 1.4,
     "tolerancia": 0.02
    }
+  },
+  {
+   "id": "modelos-lineares-e10",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma reta de mínimos quadrados tem inclinação $a = 2{,}5$. As médias dos dados são $\\bar{x} = 4$ e $\\bar{y} = 18$.\n\nQual é o **intercepto** $b$?",
+   "opcoes": [],
+   "gabarito": "8",
+   "porque": "O passo 2 da dedução garante que a reta ótima passa pelo centro de massa $(\\bar{x}, \\bar{y})$, sempre. Daí sai direto $b = \\bar{y} - a\\bar{x} = 18 - 2{,}5 \\times 4 = 18 - 10 = \\mathbf{8}$.\n\nVale reparar no que este exercício não pede: nenhum dado individual. O intercepto ótimo depende só da inclinação e das duas médias, e essa é uma consequência forte da condição de mínimo, não um atalho.\n\nÉ também a razão de o intercepto quase nunca ser interpretável sozinho. Ele é o valor previsto em $x = 0$, e $x = 0$ costuma estar fora da faixa observada — extrapolação, que é a quarta coisa que o coeficiente não diz.",
+   "volte_para": "#a-deducao-em-cinco-passos",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 8,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "modelos-lineares-e11",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Erro numérico de arredondamento, que se corrige aumentando a precisão do cálculo."
+    },
+    {
+     "correta": true,
+     "texto": "Todos os $x$ são iguais, e não existe reta: nenhuma inclinação é melhor que outra, porque o dado não contém a informação."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo está perfeitamente ajustado, e o erro é zero."
+    },
+    {
+     "correta": false,
+     "texto": "Há colinearidade entre dois atributos, e um deles precisa ser removido."
+    }
+   ],
+   "gabarito": "todos os $x$ são iguais, e não existe reta",
+   "porque": "$S_{xx}$ é a variação de $x$ em torno da média. Zerado, significa que $x$ nunca variou — e sem variação no que se quer usar como explicação, nenhuma inclinação é preferível a outra. A conta não quebra por imprecisão; ela quebra porque a pergunta não tem resposta nos dados.\n\nA quarta alternativa descreve um fenômeno vizinho e diferente. Colinearidade é dois atributos variando **juntos**, e ali a conta até fecha, só que a interpretação vira ruído. Aqui não há o que interpretar.\n\nÉ o mesmo fenômeno do caso da limonada, e por isso vale reconhecê-lo na forma algébrica antes de encontrá-lo na forma de relatório: lá o preço não varia dentro de nenhum mês, e é isso que torna o coeficiente de preço uma resposta sobre a estação.",
+   "volte_para": "#a-deducao-em-cinco-passos",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e12",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um modelo de crédito tem dois atributos altamente correlacionados: `renda_declarada` e `renda_comprovada`. Depois de acrescentar 200 linhas novas ao treino, o coeficiente de um passou de +0,8 para −0,4, e o do outro fez o caminho inverso. O erro de teste não mudou.\n\nQual das quatro limitações do coeficiente isto ilustra?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Não diz causalidade."
+    },
+    {
+     "correta": false,
+     "texto": "Não é comparável entre atributos sem padronização."
+    },
+    {
+     "correta": true,
+     "texto": "Não é confiável sob colinearidade."
+    },
+    {
+     "correta": false,
+     "texto": "Não vale fora da faixa observada."
+    }
+   ],
+   "gabarito": "não é confiável sob colinearidade",
+   "porque": "A assinatura está no enunciado inteiro: dois atributos que andam juntos, coeficientes que trocam de sinal com uma pequena mudança nos dados, e **erro que não piora**. Quando dois atributos carregam quase a mesma informação, muitas combinações de pesos produzem quase as mesmas previsões, e o ajuste escolhe entre elas por detalhes da amostra.\n\nÉ o modo de falha mais traiçoeiro do modelo linear, e a razão é a última frase: a métrica não avisa. Um relatório de desempenho passa limpo enquanto a explicação que se dá ao regulador está invertida.\n\nO que o caso pede não é trocar de modelo. É decidir o que fazer com a redundância: manter um dos dois, combiná-los, ou usar regularização — e, em qualquer caso, parar de ler aqueles coeficientes como efeitos separados.",
+   "volte_para": "#as-quatro-coisas-que-ele-nao-diz",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
    "id": "modelos-lineares-e4",
@@ -3841,7 +4013,7 @@
    "enunciado": "A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.\n\nEscreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "Esta é a pergunta que separa \"treinei um modelo\" de \"respondi a alguém\". As três leituras que o exercício cobra estão no capítulo: o coeficiente não é causa, o R² alto não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.\n\nA resposta forte não é \"não dá para saber\". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês — que é justamente o que nunca aconteceu nestes 365 dias.\n\nUma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita — é exatamente o relatório que o capítulo existe para impedir.",
+   "porque": "Esta é a pergunta que separa \"treinei um modelo\" de \"respondi a alguém\". As três leituras que o exercício cobra estão no capítulo: o coeficiente não é causa, o R² alto não valida a recomendação, e o modelo linear continua sendo a escolha certa para **previsão de demanda**, que é outra pergunta.\n\nA resposta forte não é \"não dá para saber\". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês — que é justamente o que nunca aconteceu nestes 365 dias.\n\nUma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita — é exatamente o relatório que o capítulo existe para impedir.",
    "volte_para": "#quando-o-linear-e-a-escolha-certa",
    "rubrica": "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve: não há um único mês com dois preços; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico",
    "versoes": null,
@@ -3854,6 +4026,84 @@
     "Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque",
     "Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico"
    ]
+  },
+  {
+   "id": "modelos-lineares-e13",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque ele costuma vencer os modelos complexos na maioria dos problemas."
+    },
+    {
+     "correta": true,
+     "texto": "Porque ele custa minutos e responde quanto do sinal é simplesmente linear, que é a pergunta anterior a todas as outras."
+    },
+    {
+     "correta": false,
+     "texto": "Porque modelos complexos exigem um linear como pré-processamento."
+    },
+    {
+     "correta": false,
+     "texto": "Porque é a única forma de detectar vazamento nos dados."
+    }
+   ],
+   "gabarito": "custa minutos e diz quanto do sinal é linear",
+   "porque": "É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.\n\nA primeira alternativa é falsa e o próprio capítulo dá o contraexemplo: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz 0,4963 de AUC contra 0,9392 do boosting. O ponto nunca foi que ele vence.\n\nO corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.",
+   "volte_para": "#quando-o-linear-e-a-escolha-certa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e14",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma seguradora precisa de um modelo de risco com estas restrições: 300 apólices históricas com 40 atributos, resposta em menos de 10 ms, justificativa por escrito ao regulador em cada recusa, e a probabilidade prevista multiplicada pelo valor da apólice para calcular a provisão.\n\nQuais dessas restrições, sozinhas, já apontam para o modelo linear? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "300 linhas para 40 atributos."
+    },
+    {
+     "correta": true,
+     "texto": "Resposta em menos de 10 ms."
+    },
+    {
+     "correta": true,
+     "texto": "Justificativa por escrito ao regulador."
+    },
+    {
+     "correta": true,
+     "texto": "Probabilidade multiplicada por dinheiro."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhuma: a escolha do modelo depende só da métrica no teste."
+    }
+   ],
+   "gabarito": "as quatro restrições",
+   "porque": "Cada uma corresponde a uma linha da tabela desta seção, e o exercício existe para mostrar que elas se acumulam. Poucos dados por atributo favorecem menos parâmetros e menos variância — com 300 linhas e 40 colunas, um ensemble decora. Latência apertada favorece uma multiplicação de vetores. Auditoria favorece um número por atributo, defensável e questionável. E probabilidade que vira dinheiro exige calibração, que o linear costuma entregar razoavelmente e ensembles frequentemente não.\n\nA quinta alternativa é a que o capítulo combate desde o título. Escolher pelo teste sozinho ignora que três das quatro restrições acima nem aparecem numa métrica: latência, auditabilidade e calibração não são medidas por AUC.\n\nRepare no que o item **não** afirma. Nada disso garante que o linear terá o melhor desempenho preditivo. Ele diz que, sob estas restrições, um ganho de desempenho precisaria ser grande o bastante para pagar quatro perdas simultâneas.",
+   "volte_para": "#quando-o-linear-e-a-escolha-certa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
    "id": "regressao-logistica-e1",

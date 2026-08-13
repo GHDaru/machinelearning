@@ -46,7 +46,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | — | — |
-| 10 | II.2 — Modelos Lineares | 4 | 5 | 12 | **ok** | — | — | — |
+| 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 11 | II.3 — Regressão Logística | 3 | 3 | 9 | **ok** | — | — | — |
 | 12 | II.4 — Otimização e Regularização | 4 | 4 | 12 | **ok** | — | — | — |
 | 13 | II.5 — Árvores e Ensembles | 4 | 5 | 12 | **ok** | — | — | — |
@@ -67,7 +67,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 204 exercícios hoje (188 de capítulo + 16 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 211 exercícios hoje (195 de capítulo + 16 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
