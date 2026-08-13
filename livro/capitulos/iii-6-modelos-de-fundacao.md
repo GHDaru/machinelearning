@@ -4,7 +4,7 @@
 >
 > **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
 >
-> ⏳ **Cláusula de expiração — leia antes de continuar.** Este é o capítulo que envelhece mais rápido do livro. O estado da arte aqui foi **capturado em 2026-08**; nomes de modelos, tamanhos, preços e recordes de *benchmark* mudam em meses, e por isso **este capítulo não cita nenhum**. Confira a data do cabeçalho antes de confiar em qualquer número que encontrar — inclusive nos que estão aqui. O que se pretende durável são as **distinções estruturais**: pré-treino contra adaptação, conhecimento nos pesos contra conhecimento recuperável.
+> ⏳ **Cláusula de expiração — leia antes de continuar.** Este é o capítulo que envelhece mais rápido do livro. O estado da arte aqui foi capturado em 2026-08; nomes de modelos, tamanhos, preços e recordes de *benchmark* mudam em meses, e por isso **este capítulo não cita nenhum**. Confira a data do cabeçalho antes de confiar em qualquer número que encontrar, inclusive nos que estão aqui. O que se pretende durável são as distinções estruturais: pré-treino contra adaptação, conhecimento nos pesos contra conhecimento recuperável.
 
 ## Objetivos de aprendizagem
 
@@ -25,17 +25,17 @@ O gargalo não era a arquitetura nem a máquina. Era o **rótulo**. Rotular text
 
 **O aperto.** Visão reaproveitava tudo; linguagem não reaproveitava quase nada. ✓ᵃ
 
-**O que se fazia antes.** Reaproveitava-se **a camada de entrada**. Embeddings estáticos — um vetor fixo por palavra, aprendido em corpus grande — entravam como *feature*, e **todo o resto** era treinado por tarefa. Era transferência de vocabulário, não de modelo. ⏳
+**O que se fazia antes.** Reaproveitava-se **a camada de entrada**. Embeddings estáticos (um vetor fixo por palavra, aprendido em corpus grande) entravam como *feature*, e **todo o resto** era treinado por tarefa. Era transferência de vocabulário, não de modelo. ⏳
 
 **A virada.** Transferir **o modelo inteiro**, não só a camada de entrada. Pré-treinar em texto cru, sem rótulo, e depois ajustar o mesmo modelo à tarefa. ✓ᵃ
 
 **A ideia reaproveitável.** *Quando o dado rotulado é o gargalo, mude o que se reaproveita — não o algoritmo.* O salto de 2018 não veio de um otimizador melhor nem de uma camada nova: veio de trocar a **unidade de reuso**, da palavra para o modelo. Vale fora daqui: diante de escassez de rótulo, a primeira pergunta útil não é "que modelo uso?", é "o que já foi aprendido que eu posso não reaprender?". 📖
 
-**Duas peças concretas.** **ULMFiT** (Howard & Ruder, [arXiv:1801.06146](https://arxiv.org/abs/1801.06146), 18/01/2018) mostra o tamanho do ganho: **com 100 exemplos rotulados, iguala o desempenho de treinar do zero com 10 000**. ✓ᵃ E **BERT** (2018) traz o objetivo de máscara — esconder palavras e pedir que o modelo as recupere. Esse objetivo é a **tarefa Cloze**, criada por Wilson Taylor em **1953** como medida de legibilidade de texto jornalístico. ⏳ Uma régua de redação virou função de perda **65 anos depois** — mais um caso do padrão que este livro persegue: o intervalo entre a ideia e o procedimento.
+Duas peças concretas. O ULMFiT (Howard & Ruder, [arXiv:1801.06146](https://arxiv.org/abs/1801.06146), 18/01/2018) mostra o tamanho do ganho: **com 100 exemplos rotulados, iguala o desempenho de treinar do zero com 10 000**. ✓ᵃ E o BERT (2018) traz o objetivo de máscara, que é esconder palavras e pedir que o modelo as recupere. Esse objetivo é a **tarefa Cloze**, criada por Wilson Taylor em 1953 como medida de legibilidade de texto jornalístico. ⏳ Uma régua de redação virou função de perda **65 anos depois** — mais um caso do padrão que este livro persegue: o intervalo entre a ideia e o procedimento.
 
 **As leis de escala.** Kaplan e colegas ([arXiv:2001.08361](https://arxiv.org/abs/2001.08361), 23/01/2020) mostram que a perda cai como **lei de potência** em tamanho de modelo, dado e computação, *"spanning more than seven orders of magnitude"* — e que **largura e profundidade têm efeito mínimo**. ✓ᵃ
 
-> **A leitura deste livro (📖).** Isto é o **oposto** do [capítulo III.4](iii-4-visao.md). Lá, trinta anos de progresso vieram de arquitetura: convolução, *pooling*, conexão residual. A lei de escala diz que, passado certo ponto, **arquitetura é detalhe**. Duas verdades em capítulos vizinhos, e a segunda não apaga a primeira: ela vale **num regime** — o regime em que há computação e corpus para gastar. Fora dele, arquitetura continua decidindo.
+> **A leitura deste livro (📖).** Isto é o **oposto** do [capítulo III.4](iii-4-visao.md). Lá, trinta anos de progresso vieram de arquitetura: convolução, *pooling*, conexão residual. A lei de escala diz que, passado certo ponto, **arquitetura é detalhe**. Duas verdades em capítulos vizinhos, e a segunda não apaga a primeira: ela vale num regime, o regime em que há computação e corpus para gastar. Fora dele, arquitetura continua decidindo.
 
 ### O nome, e a crítica que veio junto
 
@@ -43,9 +43,9 @@ O termo *foundation model* nasce de um relatório de **114 autores** do Stanford
 
 A objeção mais citada ao termo é atribuída a **Meredith Whittaker**: renomearam algo que já tinha nome — são modelos de linguagem grandes, e "fundação" embute uma promessa de solidez que o objeto não sustenta. **⏳ — a atribuição circula na imprensa especializada; não foi conferida em fala primária.**
 
-> **A leitura deste livro (📖).** É a lição do caso OLAP, no [capítulo II.6](ii-6-analise-multidimensional.md): **quem batiza uma categoria decide o que ela herda de história e de crítica**. A diferença — e ela é a favor deste caso — é que aqui os autores **declararam a limitação no próprio resumo**, o oposto do relatório patrocinado de 1993.
+> **A leitura deste livro (📖).** É a lição do caso OLAP, no [capítulo II.6](ii-6-analise-multidimensional.md): **quem batiza uma categoria decide o que ela herda de história e de crítica**. A diferença, e ela é a favor deste caso, é que aqui os autores **declararam a limitação no próprio resumo**, o oposto do relatório patrocinado de 1993.
 
-**O intervalo, e por que ele é a contra-prova do livro.** Transformer em **2017**; BERT e GPT em **2018**. Cerca de **um ano**. Compare com 53 anos no [capítulo III.4](iii-4-visao.md), 59 no [capítulo I.6](i-6-representacao.md), cerca de 80 no [capítulo IV.2](iv-2-reforco.md). O [capítulo II.5](ii-5-arvores-ensembles.md) já apontava a primeira condição para o intervalo encurtar: **a precisão da pergunta**. Este caso acrescenta a segunda: **infraestrutura de reprodução compartilhada** — arXiv, código aberto, GPU comprável, benchmark comum. Com as duas presentes, o intervalo cai de décadas para meses. 📖
+O intervalo é a contra-prova do livro. Transformer em 2017; BERT e GPT em 2018. Cerca de **um ano**. Compare com 53 anos no [capítulo III.4](iii-4-visao.md), 59 no [capítulo I.6](i-6-representacao.md), cerca de 80 no [capítulo IV.2](iv-2-reforco.md). O [capítulo II.5](ii-5-arvores-ensembles.md) já apontava a primeira condição para o intervalo encurtar: **a precisão da pergunta**. Este caso acrescenta a segunda: **infraestrutura de reprodução compartilhada** (arXiv, código aberto, GPU comprável, benchmark comum). Com as duas presentes, o intervalo cai de décadas para meses. 📖
 
 **Procedência das afirmações desta seção** (`✓ᵃ` = página do artigo aberta e **resumo lido**; o corpo, não):
 
@@ -121,7 +121,7 @@ O modelo guarda fatos nos pesos. O artigo de RAG (Lewis et al., [arXiv:2005.1140
 
 É por isso que **RAG é decisão de arquitetura, não técnica de prompt**. Adotar RAG significa passar a manter um índice, uma política de atualização, um recuperador que pode errar e uma etapa a mais na latência. Nada disso cabe num campo de texto.
 
-**Quando usar recuperação em vez de fine-tuning.** Três sinais, e qualquer um deles já basta: o conhecimento **muda** — política de preços que troca toda semana, catálogo, jurisprudência; a resposta precisa **citar a fonte**, porque alguém vai auditar; ou o volume de conhecimento é grande e o custo de retreinar a cada mudança é proibitivo. Fine-tuning ensina **comportamento** — formato, tom, um jeito de responder. Recuperação fornece **fato**. Confundir os dois é o erro mais caro deste capítulo: quem faz fine-tuning para "ensinar a política nova" paga o treino e ainda fica com a política de ontem congelada nos pesos.
+**Quando usar recuperação em vez de fine-tuning.** Três sinais, e qualquer um deles já basta: o conhecimento muda (política de preços que troca toda semana, catálogo, jurisprudência); a resposta precisa **citar a fonte**, porque alguém vai auditar; ou o volume de conhecimento é grande e o custo de retreinar a cada mudança é proibitivo. Fine-tuning ensina comportamento: formato, tom, um jeito de responder. Recuperação fornece **fato**. Confundir os dois é o erro mais caro deste capítulo: quem faz fine-tuning para "ensinar a política nova" paga o treino e ainda fica com a política de ontem congelada nos pesos.
 
 **Alucinação, e por que ela não é um defeito de fabricação.** O modelo foi treinado para **continuar texto de forma plausível** — não para dizer a verdade. Uma citação inventada com autor, ano e página é, do ponto de vista do objetivo de treino, um sucesso: é exatamente o texto que viria a seguir. Recuperação ataca o problema pela raiz certa, ao trocar "lembre-se do fato" por "leia este trecho e responda a partir dele", mas **não o elimina**: se o recuperador trouxer o documento errado, o modelo responderá com convicção idêntica.
 
