@@ -52,7 +52,7 @@ Uma equipe precisa validar se um número de cartão de crédito é sintaticament
 - [ ] Depende do volume de cartões processados por segundo.
 
 > **gabarito:** Má ideia: a regra é conhecida e escrevível
-> **porque:** Machine Learning existe para quando a regra **não** é escrevível. A validação de cartão segue o algoritmo de Luhn, que é determinístico, exato e verificável linha a linha. Um modelo treinado para imitá-lo seria mais lento, não auditável, e — pior — erraria em algum ponto, trocando uma resposta *certa por construção* por uma *provavelmente certa*. Note que a alternativa da acurácia é uma armadilha: mesmo 99,99% seria pior que 100%, e a acurácia alta apenas esconderia que a tarefa era resolvível sem modelo nenhum.
+> **porque:** Machine Learning existe para quando a regra **não** é escrevível. A validação de cartão segue o algoritmo de Luhn, que é determinístico, exato e verificável linha a linha. Um modelo treinado para imitá-lo seria mais lento, não auditável, e, pior, erraria em algum ponto, trocando uma resposta *certa por construção* por uma *provavelmente certa*. Note que a alternativa da acurácia é uma armadilha: mesmo 99,99% seria pior que 100%, e a acurácia alta apenas esconderia que a tarefa era resolvível sem modelo nenhum.
 > **volte para:** #quando-nao-usar-machine-learning
 :::
 
@@ -66,7 +66,7 @@ Quais afirmações descrevem diferenças **estruturais** entre um sistema aprend
 - [ ] O sistema programado não pode ser corrigido depois de escrito.
 
 > **gabarito:** parâmetros ajustados · degrada sem alteração de código · exige dados não vistos
-> **porque:** As três corretas são exatamente as linhas da tabela de comparação: **onde mora a regra**, **como envelhece** e **como se verifica**. As duas erradas são mal-entendidos comuns e caros. Sistemas aprendidos precisam de *mais* testes automatizados, não menos — só que os testes mudam de natureza: além de "esta função retorna isto", passam a incluir "esta métrica não caiu abaixo deste limiar neste conjunto". E sistemas programados são, obviamente, corrigíveis; a diferença é *como* se corrige: editando a regra, em vez de mexer em dado, objetivo ou modelo.
+> **porque:** As três corretas são exatamente as linhas da tabela de comparação: onde mora a regra, como envelhece e como se verifica. As duas erradas são mal-entendidos comuns e caros. Sistemas aprendidos precisam de *mais* testes automatizados, não menos — só que os testes mudam de natureza: além de "esta função retorna isto", passam a incluir "esta métrica não caiu abaixo deste limiar neste conjunto". E sistemas programados são, obviamente, corrigíveis; a diferença é *como* se corrige: editando a regra, em vez de mexer em dado, objetivo ou modelo.
 > **volte para:** #o-que-muda-quando-a-regra-e-aprendida
 :::
 
@@ -122,14 +122,14 @@ Descreva um problema do seu trabalho ou da sua área de interesse que você acre
 > descreve uma fonte de exemplos plausível e disponível, não hipotética;
 > propõe uma medida de sucesso observável, e não um adjetivo ("bom", "preciso");
 > a medida proposta tem alguma relação com a consequência no mundo, não só com o modelo
-> **porque:** As três perguntas — regra, exemplos, medida — são o teste mínimo de viabilidade de um projeto de ML, e são as três que costumam ficar implícitas nas reuniões onde o projeto é aprovado. A terceira é a que mais falha: "queremos prever a evasão de clientes" não é uma medida; "queremos identificar, entre os 5% de clientes mais prováveis de sair no próximo mês, pelo menos metade dos que de fato saem" é. Note que definir a medida quase sempre expõe uma decisão de negócio que ninguém tinha tomado — e esse é o maior serviço que o exercício presta.
+> **porque:** As três perguntas (regra, exemplos, medida) são o teste mínimo de viabilidade de um projeto de ML, e são as três que costumam ficar implícitas nas reuniões onde o projeto é aprovado. A terceira é a que mais falha: "queremos prever a evasão de clientes" não é uma medida; "queremos identificar, entre os 5% de clientes mais prováveis de sair no próximo mês, pelo menos metade dos que de fato saem" é. Note que definir a medida quase sempre expõe uma decisão de negócio que ninguém tinha tomado — e esse é o maior serviço que o exercício presta.
 > **volte para:** #como-este-livro-funciona
 :::
 
 ## Assista
 
 :::video {"id":"introducao-v1","fonte":"youtube","ref":"Gv9_4yMHFhI","min":6,"autor":"StatQuest with Josh Starmer","titulo":"A Gentle Introduction to Machine Learning"}
-Uma visão geral de seis minutos que fixa o vocabulário — treino, teste, predição — **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.
+Uma visão geral de seis minutos que fixa o vocabulário (treino, teste, predição) **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.
 :::
 
 ## O caminho pela frente

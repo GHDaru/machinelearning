@@ -21,6 +21,7 @@ import anchor from "markdown-it-anchor";
 import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair, semGabarito } from "./interativos.mjs";
+import { verificar as verificarProsa } from "./prosa.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -906,6 +907,16 @@ for (const i of itens) {
 if (ancorasRuins.length) {
   console.error(`✗ ${ancorasRuins.length} âncora(s) "volte para" apontando para seção inexistente:`);
   ancorasRuins.forEach((q) => console.error("   " + q));
+  process.exit(1);
+}
+
+// Prosa amontoada (ADR 0013). Não é o travessão que incomoda: é a frase com
+// dois e o parágrafo com quatro negritos.
+const prosaRuim = verificarProsa(itens.map((i) => i.arquivo));
+if (prosaRuim.length) {
+  console.error(`✗ ${prosaRuim.length} problema(s) de prosa (ADR 0013):`);
+  prosaRuim.slice(0, 20).forEach((q) => console.error("   " + q));
+  if (prosaRuim.length > 20) console.error(`   … e mais ${prosaRuim.length - 20}`);
   process.exit(1);
 }
 
