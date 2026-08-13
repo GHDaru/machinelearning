@@ -27,7 +27,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | 0.2 | **feita** — grau do polinômio de 1 a 15: treino sempre descendo, validação virando no grau 5, o piso do ruído visível e o botão dos 3× dados |
 | I.1 | horizonte do rótulo deslizando de 30 para 90 dias: % de clientes ainda acionáveis caindo, com a AUC subindo junto |
 | I.2 | **não animar** — arquitetura não tem estado que evolui |
-| I.3 | o `StandardScaler` cruzando a linha da divisão: AUC 0,94 → 0,71 quando o ajuste passa a usar só o treino |
+| I.3 | **spec corrigida, ver nota abaixo** — as TRÊS fontes de vazamento com a intensidade subindo, lado a lado: duas disparam e a do pré-processamento quase não se mexe |
 | I.4 | **não animar** — já tem `explorar-variavel`, e manipular ensina mais que assistir |
 | I.5 | base do eixo y subindo de 0 a 95: razão percebida entre as barras de 1,05 para 4,0, com os valores reais fixos |
 | I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
@@ -239,3 +239,34 @@ declarado é o começo de um número escolhido para agradar.
 `relogio` vieram inteiros de novo. Esta é do módulo A (laço de descida com
 placar), que cobre 7 das 23 — e é a primeira do módulo a rodar **três** laços
 simultâneos, sem que o núcleo precisasse saber disso.
+
+
+## Correção de spec: a animação do I.3 (achada antes de construir)
+
+A linha do I.3 nesta tabela prometia **"AUC 0,94 → 0,71"** para o
+`StandardScaler` ajustado antes da divisão. **O próprio capítulo I.3 diz o
+contrário**, e com todas as letras:
+
+> "O efeito costuma ser pequeno — décimos de ponto. É justamente por isso que é
+> perigoso: pequeno demais para levantar suspeita, grande o bastante para decidir
+> qual modelo vai a produção."
+
+Construir a animação como estava escrito exigiria forjar o dado até o número
+aparecer, e o resultado seria uma animação contradizendo o capítulo que ela
+ilustra. É o mesmo erro do IV.1 ("18% pior", medido em 10×), com a diferença de
+que desta vez ele foi pego **antes** de virar código.
+
+**A spec nova.** Animar as **três** fontes de vazamento ao mesmo tempo, cada uma
+com uma intensidade que sobe de 0 a 1, e uma curva de AUC medida por fonte:
+
+| Fonte | O que a intensidade varre |
+|---|---|
+| 1. alvo disfarçado | quanto da coluna vazada depende do rótulo |
+| 2. pré-processamento antes da divisão | quanto do teste entra no ajuste do normalizador |
+| 3. duplicata entre conjuntos | fração de linhas do teste que também estão no treino |
+
+A lição fica melhor que a da spec antiga, e é a do capítulo: **duas curvas
+disparam e a do meio quase não se mexe** — e é justamente a do meio que vai para
+produção, porque ninguém desconfia de um ganho de décimos.
+
+Os números entram no texto **depois de medidos**, nunca antes.
