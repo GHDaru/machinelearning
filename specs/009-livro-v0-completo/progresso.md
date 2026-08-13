@@ -54,8 +54,8 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 
 | # | Capítulo | obj | exs hoje | exs alvo | voz | exs | prova | fontes |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
-| 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | **ok** | **n/a** |
+| 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -99,6 +99,18 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > estava escrito. Lista vazia não é lista morta, porque a checagem inversa
 > segue valendo e um órfão novo quebra o build.
 
+> **Como se fecha a coluna `fontes`** (definido no ciclo do 0.2, que foi o primeiro
+> capítulo a fechá-la de propósito): abrir cada fonte da tabela de selos, conferir
+> o que ela sustenta, e **reescrever a tabela para que cada linha carregue um selo
+> só**. Uma linha com cinco obras sob um selo é um selo médio, e média esconde a
+> mais fraca. `n/a` marca capítulo sem afirmação histórica a selar — hoje só o 0.1.
+>
+> **A regra que este ciclo deixou:** resumo de máquina não confere fonte. Ao ler a
+> carta do *double descent*, uma extração automática afirmou que ela **não**
+> mencionava física estatística, e eu quase enfraqueci uma frase correta do livro
+> por causa disso. Extraindo o PDF localmente, lá estava: *"various physics papers
+> on learning"*. Quando o PDF não abre limpo, extraia o texto, não aceite o resumo.
+>
 > **A coluna `fontes` abriu no V.2**, e abriu por necessidade, não por planejamento. O
 > capítulo prometia um objetivo que ele não ensinava, e escrever a seção que faltava
 > exigiu conferir fonte antes de citar. Quatro páginas foram abertas em primeira mão,

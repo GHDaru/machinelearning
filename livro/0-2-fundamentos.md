@@ -23,7 +23,7 @@ O que separa os dois é a **capacidade** do modelo: quantas hipóteses diferente
 
 ## De onde isto veio
 
-**O aperto, e ele não nasceu na computação.** Em 1931, um psicometrista de sobrenome Larson tinha um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O artigo dele chama-se, literalmente, *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era esse — um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
+**O aperto, e ele não nasceu na computação.** Em 1931, **S. C. Larson** publicou no *Journal of Educational Psychology* um artigo sobre um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O título é literalmente esse: *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
 
 **O que se fazia antes.** Avaliava-se o modelo nos mesmos dados em que ele foi ajustado, e o resultado era tomado como estimativa da qualidade. Não por ingenuidade: dado era caro, e separar metade dele para não usar parecia desperdício.
 
@@ -37,11 +37,13 @@ O que separa os dois é a **capacidade** do modelo: quantas hipóteses diferente
 
 A formulação canônica em Machine Learning do dilema viés–variância é **Geman, Bienenstock & Doursat, "Neural Networks and the Bias/Variance Dilemma"** (*Neural Computation*, 1992), que trata redes neurais como estimadores não-paramétricos e argumenta que a escolha do viés precisa casar com a estrutura do problema. Dali vem a curva em U que todo curso desenha: aumente a capacidade e o erro de teste cai, atinge um mínimo, e volta a subir.
 
-Só que ela sobe **e depois desce de novo**. Belkin, Hsu, Ma e Mandal (*PNAS*, 2019) mostraram que, passando do ponto em que o modelo interpola perfeitamente o treino, o erro de teste **volta a cair** — o fenômeno do *double descent*, que explica por que redes enormes funcionam onde a intuição clássica previa desastre.
+Só que ela sobe **e depois desce de novo**. É a tese que Belkin, Hsu, Ma e Mandal declaram no resumo do artigo de 2019 (*PNAS*): a curva do *double descent* *"subsumes the textbook U-shaped bias-variance trade-off curve by showing how increasing model capacity beyond the point of interpolation results in improved performance"*. Passando do ponto em que o modelo interpola perfeitamente o treino, o erro de teste volta a cair, e é isso que explica por que redes enormes funcionam onde a intuição clássica previa desastre.
 
 **A ideia reaproveitável, e é a que este capítulo mais quer que fique:** **uma "lei" empírica pode ser um artefato da faixa em que se mediu.** A curva em U não estava errada — estava **incompleta**. Era verdadeira dentro do regime de capacidade que era observável nos anos 1990. Quando o regime mudou, a lei revelou-se um trecho de uma curva maior. Guarde isso para toda regra prática que você aprender: *em que faixa isto foi medido?*
 
-> **E o crédito, de novo.** Loog, Viering, Mey, Krijthe e Tax publicaram *"A brief prehistory of double descent"* (*PNAS*, 2020) contestando que o fenômeno tivesse sido historicamente negligenciado — a física estatística de redes neurais já o havia observado.
+> **E o crédito, de novo.** Loog, Viering, Mey, Krijthe e Tax publicaram *"A brief prehistory of double descent"* (*PNAS*, 2020), uma carta de três páginas contestando que o fenômeno tivesse sido historicamente negligenciado. A frase é seca: *"as opposed to what [1] reports, it has not been overlooked historically."*
+>
+> E a carta não se limita a reclamar: ela lista quem já tinha visto. Vallet, Cailton e Refregier demonstram o duplo descenso experimentalmente em **1989**; Opper, Kinzel, Kleinz e Nehl dão o primeiro resultado teórico em **1990**; e Duin, em 2000, é o primeiro a mostrar as curvas em dado real. A carta observa ainda que a razão entre tamanho de amostra e complexidade já era explícita em *"various physics papers on learning"*, um dos quais se chama, sem rodeios, *"The statistical mechanics of learning a rule"* (Watkin, Rau e Biehl, *Reviews of Modern Physics*, 1993).
 >
 > É a terceira vez que este livro encontra o mesmo padrão. Gauss perde a prioridade dos mínimos quadrados para Legendre no [capítulo II.2](capitulos/ii-2-modelos-lineares.md); Linnainmaa perde o crédito do backpropagation para quem o popularizou, no [capítulo III.1](capitulos/iii-1-neuronio-artificial.md); e aqui, em **2019**, acontece de novo — desta vez à luz do dia, com todos os artigos indexados e acessíveis. Se ocorre hoje, com essa infraestrutura toda, não era problema de correio lento no século XIX. **Crédito segue comunicação, não descoberta** — e este é o caso contemporâneo que torna os outros dois inegáveis.
 
@@ -49,8 +51,10 @@ Só que ela sobe **e depois desce de novo**. Belkin, Hsu, Ma e Mandal (*PNAS*, 2
 
 | Selo | Afirmação |
 |---|---|
-| ✓ᵐ | Geman, Bienenstock & Doursat (*Neural Computation* 4(1):1–58, 1992); Stone (*JRSS-B* 36(2):111–133, 1974); Geisser (*JASA* 70:320–328, 1975); [Belkin *et al.* (*PNAS* 116(32), 2019)](https://doi.org/10.1073/pnas.1903070116); [Loog *et al.* (*PNAS* 117(20), 2020)](https://arxiv.org/abs/2004.04328) |
-| ⏳ | Larson (1931) como origem da divisão de amostra, e Mosteller & Tukey (1968) para o *leave-one-out* |
+| ✓ | Tudo o que se atribui à carta de **Loog, Viering, Mey, Krijthe e Tax** — a frase *"it has not been overlooked historically"*, a lista de quem viu antes (Vallet *et al.*, 1989; Opper *et al.*, 1990; Duin, 2000), e a menção a *"various physics papers on learning"* — de [*A Brief Prehistory of Double Descent*](https://arxiv.org/abs/2004.04328), **lida por inteiro**, três páginas, com a lista de referências conferida |
+| ✓ᵃ | A tese que Belkin, Hsu, Ma e Mandal **declaram**, e o trecho citado entre aspas, do resumo de [*Reconciling modern machine learning practice and the bias-variance trade-off*](https://arxiv.org/abs/1812.11118) — **resumo lido no original; o corpo, não** |
+| ✓ᵐ | Metadados conferidos por DOI: Geman, Bienenstock & Doursat (*Neural Computation* 4(1):1–58, 1992, [10.1162/neco.1992.4.1.1](https://doi.org/10.1162/neco.1992.4.1.1)); Stone (*JRSS-B* 36(2):111–133, 1974); Geisser (*JASA* 70(350):320–328, 1975); **Larson, S. C.**, *Journal of Educational Psychology* 22(1):45–55, 1931, [10.1037/h0072400](https://doi.org/10.1037/h0072400); Watkin, Rau & Biehl (*Reviews of Modern Physics* 65(2):499, 1993) |
+| ⏳ | Que Larson seja a **origem** da divisão de amostra, e Mosteller & Tukey (1968) para o *leave-one-out*. A obra de Larson existe e está conferida; a **primazia** é atribuição corrente. O capítulo de 1968 não foi localizado em índice nenhum |
 | ⏳ | Que Stone cita os antecessores e que sua contribuição é o arcabouço, não a prática — apurado, **mas o texto de Stone não foi relido diretamente, e por isso nada dele aparece entre aspas neste capítulo** |
 | ❌ | A **primeira** formulação da decomposição viés–variância, anterior a 1992 — procurei e não localizei |
 | 📖 | As duas ideias reaproveitáveis e a leitura do *double descent* como terceiro caso do padrão de crédito |

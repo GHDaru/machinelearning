@@ -19,6 +19,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — a coluna de fontes abre para valer, no capítulo 0.2
+- **A tabela de selos do 0.2 foi refeita, uma obra por linha.** Antes, uma única
+  linha ✓ᵐ cobria cinco trabalhos de status muito diferente. Selo médio esconde
+  a fonte mais fraca do conjunto, que é o oposto do que o selo existe para fazer.
+- **A carta do *double descent* foi lida por inteiro** (Loog, Viering, Mey,
+  Krijthe & Tax, PNAS 2020), com a lista de referências conferida. O capítulo
+  agora nomeia quem viu antes, com ano: Vallet *et al.* (1989) experimentalmente,
+  Opper *et al.* (1990) no primeiro resultado teórico, Duin (2000) em dado real.
+- **Belkin *et al.* ganhou o selo ✓ᵃ** (resumo lido no original, ADR 0005), e o
+  texto passou a citar o resumo entre aspas em vez de afirmar o que o corpo
+  demonstra — que é exatamente o que esse selo não autoriza.
+- **Larson (1931) saiu de "um psicometrista de sobrenome Larson" para a citação
+  completa**: S. C. Larson, *Journal of Educational Psychology* 22(1):45–55, DOI
+  conferido. A **primazia** dele continua ⏳, porque metadado prova que a obra
+  existe e não que ela foi a primeira.
+- **A regra de método que este ciclo deixou registrada:** resumo de máquina não
+  confere fonte. Uma extração automática afirmou que a carta **não** mencionava
+  física estatística, e quase enfraqueci uma frase correta do livro por causa
+  disso; o texto extraído localmente diz *"various physics papers on learning"*.
+
 ### Adicionado — as fontes de vazamento medidas lado a lado (cap. I.3)
 - **`anima-vazamento`**: as três fontes do capítulo com a intensidade subindo de
   0 a 1, partindo todas da mesma AUC (0,570) porque na intensidade 0 são o mesmo
