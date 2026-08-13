@@ -49,7 +49,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 22 | III.6 — Modelos de Fundação | 4 | 4 | 12 | **ok** | — | — | — |
 | 23 | IV.1 — Não Supervisionado | 4 | 4 | 12 | **ok** | — | — | — |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 4 | 12 | **ok** | — | — | — |
-| 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 4 | 12 | — | — | — | — |
+| 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 4 | 12 | **ok** | — | — | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 4 | 12 | — | — | — | — |
 | 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | — | — | — | — |
 | 28 | V.3 — MLOps | 4 | 3 | 12 | — | — | — | — |

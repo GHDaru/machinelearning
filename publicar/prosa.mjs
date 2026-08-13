@@ -29,7 +29,6 @@ const RAIZ = resolve(AQUI, "..");
 // build, e entrada que deixou de ser necessária também — dívida paga que
 // continua na lista esconde a próxima.
 export const PROSA_PENDENTE = new Set([
-  "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
   "livro/capitulos/v-1-interpretabilidade-justica.md",
   "livro/capitulos/v-2-sistemas-de-ml.md",
   "livro/capitulos/v-3-mlops.md",
