@@ -29,7 +29,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 8 | I.6 — Representação | 4 | 4 | 12 | **ok** | — | — | — |
 | 9 | II.1 — Avaliação | 5 | 5 | 15 | **ok** | — | — | — |
 | 10 | II.2 — Modelos Lineares | 4 | 5 | 12 | **ok** | — | — | — |
-| 11 | II.3 — Regressão Logística | 3 | 3 | 9 | — | — | — | — |
+| 11 | II.3 — Regressão Logística | 3 | 3 | 9 | **ok** | — | — | — |
 | 12 | II.4 — Otimização e Regularização | 4 | 4 | 12 | — | — | — | — |
 | 13 | II.5 — Árvores e Ensembles | 4 | 5 | 12 | — | — | — | — |
 | 14 | II.6 — Análise Multidimensional | 4 | 4 | 12 | — | — | — | — |

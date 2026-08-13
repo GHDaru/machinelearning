@@ -3656,7 +3656,7 @@
    "titulo": "StatQuest: Logistic Regression",
    "autor": "StatQuest with Josh Starmer",
    "min": 9,
-   "porque": "O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício regressao-logistica-e2.",
+   "porque": "O que o texto explica algebricamente (a sigmoide comprimindo a reta, o logito voltando a ser linear) o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase \"o que é linear é o logito, não a probabilidade\" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício regressao-logistica-e2.",
    "pagina": "ii-3-regressao-logistica"
   },
   {

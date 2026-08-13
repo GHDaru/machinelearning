@@ -24,7 +24,7 @@ O conserto não é limitar a saída na marra. É **mudar o que se modela**.
 
 ## De onde isto veio
 
-**O aperto.** Meados do século XX, epidemiologia e bioensaio. A pergunta prática: dada uma dose, qual a **probabilidade** de o organismo responder? Havia método consolidado — o *probit*, baseado na normal acumulada —, e ele funcionava. Só que exigia tabelas, iteração pesada para a época, e entregava um coeficiente que **ninguém conseguia explicar** a um médico.
+**O aperto.** Meados do século XX, epidemiologia e bioensaio. A pergunta prática: dada uma dose, qual a **probabilidade** de o organismo responder? Havia método consolidado, o *probit*, baseado na normal acumulada, e ele funcionava. Só que exigia tabelas, iteração pesada para a época, e entregava um coeficiente que **ninguém conseguia explicar** a um médico.
 
 **O que se fazia antes.** Ajustava-se o probit e reportava-se o resultado na escala da normal. A pergunta "quanto muda o risco se a dose dobrar?" não tinha resposta em linguagem clínica. Alternativamente, ignorava-se tudo e ajustava-se uma reta na proporção observada — com o defeito de prever probabilidades negativas nas doses baixas.
 
@@ -36,7 +36,7 @@ O lado esquerdo varre a reta inteira, de $-\infty$ a $+\infty$; o direito é lin
 
 **A ideia reaproveitável.** **Quando a saída tem fronteiras e o modelo não, transforme a saída — não restrinja o modelo.** É o mesmo movimento que aparece no logaritmo de valores positivos, no *softmax* de várias classes e na função de ligação de qualquer modelo linear generalizado. A restrição vira mudança de escala, e o maquinário linear continua valendo inteiro.
 
-**O nome.** *Logit*, contração de *logistic unit* — em português, **logito** —, cunhado por **Joseph Berkson** em 1944 — deliberadamente ecoando *probit* (*probability unit*), do método concorrente. O nome carrega a polêmica: era uma proposta de substituição, não de complemento. A palavra *logística* vem antes, da **curva logística** de **Pierre François Verhulst** (1838), estudando crescimento populacional limitado — a mesma curva em S, chegando aqui por outro caminho.
+**O nome.** *Logit*, contração de *logistic unit* (em português, **logito**), foi cunhado por **Joseph Berkson** em 1944, ecoando deliberadamente o *probit* (*probability unit*) do método concorrente. O nome carrega a polêmica: era uma proposta de substituição, não de complemento. A palavra *logística* vem antes, da curva logística de Pierre François Verhulst (1838), estudando crescimento populacional limitado — a mesma curva em S, chegando aqui por outro caminho.
 
 **Procedência das afirmações desta seção:**
 
@@ -50,7 +50,7 @@ O lado esquerdo varre a reta inteira, de $-\infty$ a $+\infty$; o direito é lin
 | ❌ | A data em que o método passou a ser padrão em crédito e seguro — procurei e não achei fonte com data defensável |
 | 📖 | A ideia reaproveitável ("transforme a saída, não restrinja o modelo") e a ligação com o *softmax* |
 
-> **Dívida declarada.** As três fontes acima estão seladas **✓ᵐ**: sei que existem, com DOI conferido, e **não as li**. O que este capítulo afirma sobre o que elas argumentam por dentro está, portanto, apoiado em leitura secundária. É a dívida **D10** do roadmap, e se paga lendo — não suavizando o texto.
+> **Dívida declarada.** As três fontes acima estão seladas **✓ᵐ**: sei que existem, com DOI conferido, e não as li. O que este capítulo afirma sobre o que elas argumentam por dentro está, portanto, apoiado em leitura secundária. É a dívida **D10** do roadmap, e se paga lendo, não suavizando o texto.
 
 ## Fundamentos: a sigmoide e o logito
 
@@ -97,7 +97,7 @@ $$\sum_{i=1}^{n}\left(\sigma(w \cdot x_i + b) - y_i\right)x_i = 0$$
 
 que tem a **mesma forma** da condição do capítulo II.2 — resíduo ortogonal ao atributo. Só que aqui o "resíduo" contém $\sigma(\cdot)$, e $w$ está **dentro** de uma função não linear. Não há como isolar $w$: o sistema é transcendental.
 
-É por isso que a logística **não tem** equações normais, e o gradiente deixa de ser uma alternativa elegante para virar a única saída. A frase do capítulo II.2 — *"o gradiente é a ferramenta geral; a solução fechada é o caso de sorte"* — recebe aqui a sua demonstração.
+É por isso que a logística **não tem** equações normais, e o gradiente deixa de ser uma alternativa elegante para virar a única saída. A frase do capítulo II.2, *"o gradiente é a ferramenta geral; a solução fechada é o caso de sorte"*, recebe aqui a sua demonstração.
 
 :::exercicio {"id":"regressao-logistica-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Por que a regressão logística não tem solução fechada, como a linear tem?
@@ -159,7 +159,7 @@ A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) traz `RegressaoLogistic
 ## Assista
 
 :::video {"id":"regressao-logistica-v1","fonte":"youtube","ref":"yIYKR4sgzI8","min":9,"autor":"StatQuest with Josh Starmer","titulo":"StatQuest: Logistic Regression"}
-O que o texto explica algebricamente — a sigmoide comprimindo a reta, o logito voltando a ser linear — o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase "o que é linear é o logito, não a probabilidade" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício regressao-logistica-e2.
+O que o texto explica algebricamente (a sigmoide comprimindo a reta, o logito voltando a ser linear) o vídeo mostra **geometricamente**, com a curva em S sendo ajustada aos pontos. Se a frase "o que é linear é o logito, não a probabilidade" ainda parece um detalhe técnico, este é o material que a transforma em imagem. Assista antes do exercício regressao-logistica-e2.
 :::
 
 ## Síntese — o que levar
