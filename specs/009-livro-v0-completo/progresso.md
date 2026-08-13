@@ -58,7 +58,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 16 | II.8 — Do Modelo à Decisão | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 17 | III.1 — O Neurônio Artificial | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 19 | III.3 — Treinar Redes Profundas | 4 | 5 | 12 | **ok** | — | — | — |
+| 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 20 | III.4 — Visão Computacional | 4 | 4 | 12 | **ok** | — | — | — |
 | 21 | III.5 — Sequências e Linguagem | 4 | 4 | 12 | **ok** | — | — | — |
 | 22 | III.6 — Modelos de Fundação | 4 | 4 | 12 | **ok** | — | — | — |
@@ -70,7 +70,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 284 exercícios hoje (256 de capítulo + 28 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 291 exercícios hoje (263 de capítulo + 28 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
@@ -80,6 +80,7 @@ exercício inventar conteúdo (Princípio I).
 
 | # | Capítulo | O que falta | Estado |
 |---|---|---|---|
+| DC2 | III.3 — Treinar Redes Profundas | O3 promete **aplicar aumento de dados** como regularização; o corpo trata dropout e normalização a fundo e só menciona aumento de dados no desafio de fechamento. Os exercícios de O3 cobram o que o texto sustenta. Falta um parágrafo sobre o que é, por que funciona como regularização, e o cuidado de não aplicar transformação que mude o rótulo. | aberta |
 | DC1 | I.2 — Coleta e Integração | O4 promete **avaliar licença** de base pública; o corpo trata procedência a fundo e menciona licença de passagem, numa oração só. O exercício e12 cobra o que o texto sustenta (acesso não é permissão) e declara a dívida ao leitor. Falta uma subseção com os eixos da licença: uso comercial, redistribuição, atribuição, obrigação de manter a licença em derivados. | aberta |
 
 ## Medição de partida, conferida a mão
