@@ -23,26 +23,26 @@ Isso tem nome: **atribuição de crédito temporal**. E o que faz dele um proble
 
 ## De onde isto veio
 
-**O aperto.** Um sinal escasso, atrasado e coletivo, sem ninguém para desmembrá-lo. Duas tradições chegaram perto e nenhuma fechou. A **psicologia animal** descrevia o fenômeno com precisão, mas descrição não é procedimento: dizer que o animal repete o que deu certo não diz *como* calcular o que deu certo. O **controle ótimo** tinha o procedimento — mas **exigia o modelo do mundo**, isto é, saber de antemão para onde cada ação leva e quanto ela paga. Quem tem esse modelo já resolveu metade do problema; quem não tem, e é a regra fora do laboratório, ficava sem método.
+**O aperto.** Um sinal escasso, atrasado e coletivo, sem ninguém para desmembrá-lo. Duas tradições chegaram perto e nenhuma fechou. A **psicologia animal** descrevia o fenômeno com precisão, mas descrição não é procedimento: dizer que o animal repete o que deu certo não diz *como* calcular o que deu certo. O **controle ótimo** tinha o procedimento, mas exigia o modelo do mundo, isto é, saber de antemão para onde cada ação leva e quanto ela paga. Quem tem esse modelo já resolveu metade do problema; quem não tem, e é a regra fora do laboratório, ficava sem método.
 
 **O que se fazia antes.** Esperar o fim. Jogar a partida inteira, ver o placar e distribuir crédito para trás. Funciona e é honesto — só é lentíssimo, porque nada se aprende enquanto o episódio corre, e porque episódios longos diluem qualquer sinal.
 
-**A virada.** Aprender a partir da **discrepância entre duas previsões sucessivas** — sem esperar o resultado final e sem modelo do mundo. Se a minha previsão de agora e a minha previsão de daqui a um passo discordam, essa discordância já é informação utilizável **imediatamente**. É a **diferença temporal**.
+**A virada.** Aprender a partir da **discrepância entre duas previsões sucessivas**, sem esperar o resultado final e sem modelo do mundo. Se a minha previsão de agora e a minha previsão de daqui a um passo discordam, essa discordância já é informação utilizável imediatamente. É a **diferença temporal**.
 
 **A ideia reaproveitável.** *Não é preciso saber a resposta certa para aprender: basta que a previsão de amanhã seja melhor informada que a de hoje.* O alvo do aprendizado passa a ser **uma versão ligeiramente menos ignorante de si mesmo**. Isso se chama *bootstrapping*, e é exatamente o que separa este capítulo de todo o resto do livro — em todos os outros, havia um gabarito externo puxando o modelo. Aqui, o puxão vem de dentro.
 
-**A cronologia, e o maior intervalo do livro.** Edward Thorndike descreve o *trial-and-error* seletivo — tentar alternativas e escolher comparando consequências — na tese de **1898**, formulado como "lei do efeito" em **1911**. Richard Bellman publica *Dynamic Programming* em **1957**, junto com a "maldição da dimensionalidade" que limita o método. Richard Sutton formaliza os métodos de diferença temporal em **1988**. Christopher Watkins apresenta o **Q-learning** na tese de **1989**, descrevendo-o como um método incremental para programação dinâmica. Depois vem a prática: **TD-Gammon** (Tesauro, 1992) aprendendo gamão por auto-jogo puro; o **DQN** da Atari (arXiv 2013, *Nature* em 26/02/2015); o **AlphaGo** (*Nature*, janeiro de 2016).
+**A cronologia, e o maior intervalo do livro.** Edward Thorndike descreve o *trial-and-error* seletivo (tentar alternativas e escolher comparando consequências) na tese de **1898**, formulado como "lei do efeito" em 1911. Richard Bellman publica *Dynamic Programming* em 1957, junto com a "maldição da dimensionalidade" que limita o método. Richard Sutton formaliza os métodos de diferença temporal em 1988. Christopher Watkins apresenta o **Q-learning** na tese de 1989, descrevendo-o como um método incremental para programação dinâmica. Depois vem a prática: o TD-Gammon (Tesauro, 1992) aprendendo gamão por auto-jogo puro; o DQN da Atari (arXiv 2013, *Nature* em 26/02/2015); o AlphaGo (*Nature*, janeiro de 2016).
 
 De Thorndike (1898) a Watkins (1989) são **cerca de 80 anos** — o maior intervalo registrado neste livro. Compare: 59 anos no [capítulo I.6](i-6-representacao.md) (Harris → word2vec), 43 anos no [capítulo II.7](ii-7-series-temporais.md) (Yule → Box-Jenkins) e apenas 7 no boosting do [capítulo II.5](ii-5-arvores-ensembles.md). O padrão é consistente e vale como diagnóstico: **o intervalo encurta quando o aperto já está escrito como pergunta formal precisa**. Thorndike tinha um fenômeno observado; o boosting tinha uma pergunta com resposta sim/não. Oitenta anos foi o preço de transformar observação em enunciado.
 
 ### A lenda do nome "dynamic programming" — a fonte é autêntica, a cronologia não fecha
 
-Bellman conta, na própria autobiografia (*Eye of the Hurricane*, 1984, p. 159), transcrita por Stuart Dreyfus em *Operations Research* (2002) com autorização do editor, que passou **o outono de 1950** na RAND e que sua primeira tarefa foi achar um nome para processos de decisão multiestágio. Havia em Washington, escreve ele, "um cavalheiro chamado Wilson", Secretário de Defesa, com "medo e ódio patológicos da palavra **pesquisa**". A RAND trabalhava para a Força Aérea; Bellman sentiu que precisava blindar Wilson do fato de que se fazia matemática ali. Escolheu **"programming"** por planejamento e **"dynamic"** porque é impossível usar a palavra em sentido pejorativo — "era algo a que nem um congressista poderia objetar".
+Bellman conta, na própria autobiografia (*Eye of the Hurricane*, 1984, p. 159), transcrita por Stuart Dreyfus em *Operations Research* (2002) com autorização do editor, que passou **o outono de 1950** na RAND e que sua primeira tarefa foi achar um nome para processos de decisão multiestágio. Havia em Washington, escreve ele, "um cavalheiro chamado Wilson", Secretário de Defesa, com "medo e ódio patológicos da palavra pesquisa". A RAND trabalhava para a Força Aérea; Bellman sentiu que precisava blindar Wilson do fato de que se fazia matemática ali. Escolheu "programming" por planejamento e "dynamic" porque é impossível usar a palavra em sentido pejorativo — "era algo a que nem um congressista poderia objetar".
 
 A história é ótima. E ela **não pode ser verdadeira como contada**, por duas datas:
 
 1. **Charles E. Wilson só assumiu como Secretário de Defesa em 28 de janeiro de 1953.** Em 1950 o cargo era de Louis Johnson e depois George Marshall.
-2. **O primeiro artigo de Bellman com o termo é de 1952** — *PNAS* 38(8), 716–719, comunicado por von Neumann em 5 de junho de 1952 —, portanto **anterior à posse de Wilson**.
+2. **O primeiro artigo de Bellman com o termo é de 1952** (*PNAS* 38(8), 716–719, comunicado por von Neumann em 5 de junho de 1952), portanto **anterior à posse de Wilson**.
 
 Há ainda uma versão concorrente: Harold Kushner relata que Bellman lhe disse estar tentando fazer sombra ao *linear programming* de George Dantzig acrescentando "dynamic".
 
@@ -65,7 +65,7 @@ Este é o caso mais limpo do livro para separar duas perguntas que o leitor apre
 
 ## Fundamentos: o MDP, o desconto e o alvo que se move
 
-Cinco peças, e o problema inteiro cabe nelas. O **agente** decide; o **ambiente** responde; o **estado** é o que o agente sabe no instante em que decide; a **ação** é o que ele faz; a **recompensa** é o número que volta. Quando o estado atual carrega tudo o que importa do passado — isto é, quando o futuro só depende de *onde você está*, não de *como chegou lá* — essa formulação se chama **processo de decisão de Markov (MDP)**. Formular um problema como MDP é o primeiro trabalho real, e é onde a maioria dos projetos já erra: estado mal definido não se conserta com mais treino.
+Cinco peças, e o problema inteiro cabe nelas. O agente decide; o ambiente responde; o **estado** é o que o agente sabe no instante em que decide; a ação é o que ele faz; a recompensa é o número que volta. Quando o estado atual carrega tudo o que importa do passado, ou seja, quando o futuro só depende de *onde você está* e não de *como chegou lá*, essa formulação se chama **processo de decisão de Markov (MDP)**. Formular um problema como MDP é o primeiro trabalho real, e é onde a maioria dos projetos já erra: estado mal definido não se conserta com mais treino.
 
 Duas coisas se pode aprender. A **política** responde "o que fazer aqui?" — é um mapa de estado para ação. A **função de valor** responde "quanto vale estar aqui?" — é uma previsão de recompensa futura acumulada. Métodos de valor aprendem a previsão e agem sendo gulosos sobre ela; métodos de política ajustam o comportamento diretamente, sem passar pela previsão. As duas famílias resolvem o mesmo problema por portas opostas.
 
@@ -82,7 +82,7 @@ $$G = 5 + 0{,}9 \times 0 + 0{,}81 \times 10 = 5 + 0 + 8{,}1 = 13{,}1$$
 Repare no que o desconto fez: o prêmio de 10, dois passos à frente, entrou valendo **8,1**. É o mesmo 10 do mundo, pesado pela distância.
 
 :::exercicio {"id":"reforco-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
-Um agente executa três passos e recebe as recompensas **3**, **0** e **10**, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?
+Um agente executa três passos e recebe as recompensas 3, 0 e 10, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?
 
 Responda com uma casa decimal.
 
@@ -105,7 +105,7 @@ Repare que **este dilema não existe em nenhum outro capítulo do livro**. No ap
 
 O **Q-learning** mantém uma estimativa `Q(estado, ação)`: quanto vale tomar aquela ação naquele estado. A cada passo, o agente compara duas previsões — a que tinha antes de agir e a que tem depois de ver a recompensa e o novo estado. A diferença entre elas é o **erro de diferença temporal**, e a estimativa se move um pouco naquela direção. Nada espera o fim do episódio.
 
-Em uma frase, a distinção que confunde todo mundo: **on-policy** aprende sobre a política que está de fato executando (inclusive suas explorações atrapalhadas); **off-policy** — o caso do Q-learning — aprende sobre a política ótima *enquanto* se comporta de outro jeito, o que permite aprender com experiência velha ou de terceiros.
+Em uma frase, a distinção que confunde todo mundo: **on-policy** aprende sobre a política que está de fato executando (inclusive suas explorações atrapalhadas); **off-policy**, que é o caso do Q-learning, aprende sobre a política ótima *enquanto* se comporta de outro jeito, o que permite aprender com experiência velha ou de terceiros.
 
 :::exercicio {"id":"reforco-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Um sistema de recomendação foi treinado por reforço e, após duas semanas, converge para exibir sempre os mesmos 40 itens — os que renderam mais cliques no começo. O catálogo tem 12 mil itens. Qual é o diagnóstico mais provável?
@@ -181,15 +181,15 @@ Julgue: este problema merece reforço, ou é supervisionado (ou otimização) di
 :::exercicio {"id":"reforco-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
 **Desafio de fechamento.** Explique a diferença entre aprender uma **função de valor** e aprender uma **política** diretamente, e dê uma situação concreta em que você preferiria cada uma.
 
-> **rubrica:** enuncia as duas perguntas que cada abordagem responde — valor responde "quanto vale estar aqui", política responde "o que fazer aqui" — e deixa claro que são portas opostas para o mesmo problema;
+> **rubrica:** enuncia as duas perguntas que cada abordagem responde (valor responde "quanto vale estar aqui", política responde "o que fazer aqui") e deixa claro que são portas opostas para o mesmo problema;
 > descreve como o método de valor **age**: ele aprende a previsão e escolhe a ação sendo guloso sobre ela, de modo que a política existe, mas é derivada e não aprendida;
 > dá ao menos uma situação concreta para cada escolha e justifica pela **estrutura do problema**, não por preferência — por exemplo, poucas ações discretas favorecem valor, e ação contínua ou política deliberadamente aleatória favorece política direta;
 > não trata as duas como etapas de um mesmo procedimento nem confunde a distinção com *on-policy* × *off-policy*, que é uma questão diferente: de qual comportamento se aprende, não do que se aprende
 > **porque:** O quarto critério é o que este exercício realmente persegue, porque as duas distinções aparecem no mesmo capítulo e se embaralham com facilidade. **Valor × política** responde *o que o método aprende*. **On-policy × off-policy** responde *sobre qual comportamento ele aprende*. São eixos independentes, e é perfeitamente possível combinar qualquer par.
 >
-> A situação concreta é o que separa quem entendeu de quem decorou. Onde as ações são poucas e discretas, calcular um valor por ação e pegar o máximo é natural e barato. Onde a ação é **contínua** — o ângulo de um leme, a dose de um medicamento —, esse máximo vira um problema de otimização a cada passo, e aprender a política diretamente evita o problema em vez de resolvê-lo repetidamente.
+> A situação concreta é o que separa quem entendeu de quem decorou. Onde as ações são poucas e discretas, calcular um valor por ação e pegar o máximo é natural e barato. Onde a ação é **contínua**, como o ângulo de um leme ou a dose de um medicamento, esse máximo vira um problema de otimização a cada passo, e aprender a política diretamente evita o problema em vez de resolvê-lo repetidamente.
 >
-> Há um segundo caso que a boa resposta às vezes alcança: quando a política **ótima é aleatória**. Um método de valor guloso sempre escolhe a mesma ação no mesmo estado; se o problema exige imprevisibilidade — um jogo com adversário que aprende —, essa determinação é uma fraqueza que o método de valor não consegue expressar.
+> Há um segundo caso que a boa resposta às vezes alcança: quando a política **ótima é aleatória**. Um método de valor guloso sempre escolhe a mesma ação no mesmo estado; se o problema exige imprevisibilidade, como num jogo com adversário que aprende, essa determinação é uma fraqueza que o método de valor não consegue expressar.
 > **volte para:** #fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move
 :::
 
