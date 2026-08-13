@@ -372,6 +372,29 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > persegue. Verificação por leitura de tela é verificação que passa quando você está
 > cansado. Daqui em diante: `cmd >/dev/null 2>&1; echo $?`, ou o `&&` sem cano.
 
+> **O merge de publicação foi feito sobre uma base velha, e quem me salvou foi o git.**
+> Na hora de publicar, rodei `git fetch origin main` e li `origin/main` para saber
+> onde a `main` estava. Ela dizia `2382f65`. O servidor estava em `07864c2`, à
+> frente. Fiz o merge e o push, e o push respondeu `07864c2..7fe0cbf` — um número
+> que eu nunca tinha visto.
+>
+> A causa: **`remote.origin.fetch` não estava configurado neste clone**. Sem refspec,
+> `git fetch origin main` escreve só o `FETCH_HEAD`; o `refs/remotes/origin/main`
+> fica onde estava e envelhece em silêncio, sem erro e sem aviso. Eu li um ref que
+> ninguém atualizava e tratei como estado do servidor.
+>
+> Nada se perdeu, e é importante ser exato sobre o porquê: **não foi a minha
+> verificação que evitou o dano, foi a checagem de fast-forward do git**. O push só
+> passou porque a branch já continha aqueles commits — se não contivesse, teria sido
+> recusado e eu descobriria pelo erro. Em nenhum dos dois caminhos a minha leitura
+> teria acusado o problema. Acertar por sorte conta como defeito de processo.
+>
+> Mesma família do cano: **ref de rastreio é cache, não é verdade**, do mesmo jeito
+> que a saída na tela não é o código de saída. A verdade do servidor é
+> `git ls-remote`. Refspec corrigido no clone; e antes de merge de publicação,
+> conferir `git ls-remote origin main` contra `git rev-parse origin/main` — um
+> `fetch` que não reclama não é prova de que atualizou coisa alguma.
+
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
 Escrever 3 exercícios por objetivo obriga a ler o objetivo contra o corpo. Onde
