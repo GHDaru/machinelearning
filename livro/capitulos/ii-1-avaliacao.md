@@ -18,7 +18,7 @@
 
 Uma operadora de cartões pede um detector de fraude. A base tem 0,3% de transações fraudulentas. A equipe treina, mede, e reporta com orgulho: **99,5% de acurácia**.
 
-O número é verdadeiro e é inútil. Um "modelo" de uma linha — `return "não é fraude"` — atinge 99,7%. A equipe entregou algo **pior que a ausência de modelo**, e a métrica escolhida escondeu isso atrás de dois noves.
+O número é verdadeiro e é inútil. Um "modelo" de uma linha, `return "não é fraude"`, atinge 99,7%. A equipe entregou algo **pior que a ausência de modelo**, e a métrica escolhida escondeu isso atrás de dois noves.
 
 Este capítulo é sobre não deixar isso acontecer. E o mecanismo do erro não é matemático — é de processo: **a métrica foi escolhida depois do modelo**, por hábito, em vez de antes, a partir do custo do erro.
 
@@ -51,9 +51,9 @@ Este capítulo tem um nome estranho no meio dele — **curva ROC**, "caracterís
 
 **O aperto.** Segunda Guerra Mundial, estações de radar britânicas e americanas. Um operador olha uma tela e vê um borrão. Aquilo é um bombardeiro inimigo, um navio amigo, uma revoada de pássaros, ou ruído do próprio aparelho? Ele tem segundos para decidir, e **os dois erros matam**: deixar passar um bombardeiro custa uma cidade; disparar o alarme à toa esgota a defesa e, repetido, faz os alarmes serem ignorados.
 
-**O que se fazia antes.** Conta-se que a qualidade do operador e do equipamento era medida por **uma taxa de acerto** — quantas detecções corretas num turno — e que daí apareceu o problema que este capítulo inteiro persegue: **um operador nervoso, que apertasse o botão em quase tudo, teria taxa de detecção excelente.** O número subiria; a defesa pioraria. (Esta narrativa é a corrente na literatura didática de detecção de sinal; não a conferimos em fonte da época — ver a tabela ao fim da seção.)
+**O que se fazia antes.** Conta-se que a qualidade do operador e do equipamento era medida por uma taxa de acerto, quantas detecções corretas num turno, e que daí apareceu o problema que este capítulo inteiro persegue: **um operador nervoso, que apertasse o botão em quase tudo, teria taxa de detecção excelente.** O número subiria; a defesa pioraria. (Esta narrativa é a corrente na literatura didática de detecção de sinal; não a conferimos em fonte da época — ver a tabela ao fim da seção.)
 
-**A virada.** Perceber que detecção e falso alarme **não são dois defeitos independentes: são as duas pontas de um mesmo botão.** Segundo a versão corrente, o receptor de radar tinha um controle de **ganho** — girá-lo para cima fazia aparecer mais alvos verdadeiros *e* mais fantasmas; para baixo, limpava a tela *e* escondia bombardeiros. Não existia posição sem custo. Então pare de medir um ponto e **meça a curva inteira**: para cada posição do botão, quanto se detecta e quanto se alarma à toa. Essa curva é a característica de operação do receptor.
+**A virada.** Perceber que detecção e falso alarme **não são dois defeitos independentes: são as duas pontas de um mesmo botão.** Segundo a versão corrente, o receptor de radar tinha um controle de ganho: girá-lo para cima fazia aparecer mais alvos verdadeiros *e* mais fantasmas; para baixo, limpava a tela *e* escondia bombardeiros. Não existia posição sem custo. Então pare de medir um ponto e **meça a curva inteira**: para cada posição do botão, quanto se detecta e quanto se alarma à toa. Essa curva é a característica de operação do receptor.
 
 **A ideia reaproveitável — e é a maior deste capítulo.** **O limiar não é propriedade do modelo; é a decisão de quem assume as consequências.** No radar isso era literal: havia um botão, e girá-lo trocava um tipo de erro por outro. Um modelo entrega um *ranking*; transformá-lo em decisão exige alguém dizer quanto custa cada erro. Nenhum valor de limiar é "o certo" sem essa conversa — e quando o cientista de dados escolhe o limiar sozinho, ele não está fazendo uma escolha técnica: está tomando, calado, uma decisão que era de outra pessoa.
 
@@ -122,7 +122,7 @@ Um classificador produziu a seguinte matriz de confusão: VP = 45, FP = 15, FN =
 Qual é a **precisão**? Responda com 2 casas decimais.
 
 > **gabarito:** 0.75 ± 0.01
-> **porque:** Precisão = VP/(VP+FP) = 45/(45+15) = 45/60 = **0,75**. O erro mais comum aqui é usar VP/(VP+FN) — isso dá 45/75 = 0,60, que é a **revocação**. A forma de nunca trocar é voltar à pergunta: precisão pergunta "dos que **apontei**, quantos eram?", então o denominador é tudo o que você apontou como positivo (VP+FP). Revocação pergunta "dos que **eram**, quantos achei?", então o denominador é tudo o que era positivo de verdade (VP+FN). Repare que este modelo tem precisão razoável e revocação de 0,60 — ele erra pouco quando fala, mas fica calado com frequência.
+> **porque:** Precisão = VP/(VP+FP) = 45/(45+15) = 45/60 = **0,75**. O erro mais comum aqui é usar VP/(VP+FN), que dá 45/75 = 0,60, ou seja, a **revocação**. A forma de nunca trocar é voltar à pergunta: precisão pergunta "dos que apontei, quantos eram?", então o denominador é tudo o que você apontou como positivo (VP+FP). Revocação pergunta "dos que eram, quantos achei?", então o denominador é tudo o que era positivo de verdade (VP+FN). Repare que este modelo tem precisão razoável e revocação de 0,60 — ele erra pouco quando fala, mas fica calado com frequência.
 > **volte para:** #fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva
 :::
 
@@ -147,7 +147,7 @@ Um classificador quase sempre produz um **escore** contínuo, e só vira decisã
 
 **2. A decisão é boa?** — Escolhido um limiar, quantos FP e FN aparecem? É aí que vivem precisão, revocação e o custo real da operação.
 
-**3. Os escores são probabilidades honestas?** — Quando o modelo diz 0,8, isso acontece 80% das vezes? Isso é **calibração**, e é uma propriedade *independente* das duas anteriores. Um modelo pode ter AUC excelente (ordena perfeitamente) e ser péssimo calibrado (todos os escores comprimidos entre 0,4 e 0,6). Se a decisão a jusante multiplica a probabilidade por um valor monetário — preço, provisão, expectativa de perda — calibração deixa de ser refinamento e vira requisito.
+**3. Os escores são probabilidades honestas?** — Quando o modelo diz 0,8, isso acontece 80% das vezes? Isso é **calibração**, e é uma propriedade *independente* das duas anteriores. Um modelo pode ter AUC excelente (ordena perfeitamente) e ser péssimo calibrado (todos os escores comprimidos entre 0,4 e 0,6). Se a decisão a jusante multiplica a probabilidade por um valor monetário (preço, provisão, expectativa de perda), calibração deixa de ser refinamento e vira requisito.
 
 **Uma armadilha específica.** Sob desbalanceamento severo, a AUC-ROC é otimista: o eixo de falsos positivos é normalizado pelo total de negativos, que é enorme, então mesmo muitos FP mal movem a curva. Para classes raras, prefira a **AUC-PR** (precisão × revocação), cuja linha de base é a própria prevalência — 0,003 no exemplo da fraude, o que deixa qualquer melhora visível em vez de diluída.
 
@@ -163,7 +163,7 @@ Um modelo tem AUC-ROC de 0,95 no teste. Quais conclusões são **legítimas** a 
 - [ ] O modelo terá bom desempenho mesmo se a prevalência da classe positiva mudar.
 
 > **gabarito:** ordena bem · existe algum limiar com bom compromisso
-> **porque:** AUC é uma medida de **ordenação**, e só isso. Ela não é uma taxa de acerto (0,95 de AUC não é 95% de acurácia — são grandezas diferentes), não diz nada sobre **calibração** (um modelo pode ordenar perfeitamente e ainda assim ter escores sem significado probabilístico), e não sobrevive intacta a mudanças de prevalência — quando a proporção de positivos muda, precisão e a operação real mudam junto, mesmo com a AUC-ROC estável. Esse último ponto é exatamente por que a AUC-PR é preferível para classes raras: ela é sensível à prevalência, que é o que muda no mundo. As duas corretas são as únicas que se limitam ao que a definição da AUC autoriza.
+> **porque:** AUC é uma medida de **ordenação**, e só isso. Ela não é uma taxa de acerto (0,95 de AUC não é 95% de acurácia, são grandezas diferentes), não diz nada sobre **calibração** (um modelo pode ordenar perfeitamente e ainda assim ter escores sem significado probabilístico), e não sobrevive intacta a mudanças de prevalência: quando a proporção de positivos muda, precisão e a operação real mudam junto, mesmo com a AUC-ROC estável. Esse último ponto é exatamente por que a AUC-PR é preferível para classes raras: ela é sensível à prevalência, que é o que muda no mundo. As duas corretas são as únicas que se limitam ao que a definição da AUC autoriza.
 > **volte para:** #ranking-decisao-e-calibracao-tres-coisas-diferentes
 :::
 

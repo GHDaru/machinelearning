@@ -27,7 +27,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 6 | I.4 — Análise Exploratória | 4 | 7 | 12 | **ok** | — | — | — |
 | 7 | I.5 — Visualização e Storytelling | 4 | 4 | 12 | **ok** | — | — | — |
 | 8 | I.6 — Representação | 4 | 4 | 12 | **ok** | — | — | — |
-| 9 | II.1 — Avaliação | 5 | 5 | 15 | — | — | — | — |
+| 9 | II.1 — Avaliação | 5 | 5 | 15 | **ok** | — | — | — |
 | 10 | II.2 — Modelos Lineares | 4 | 5 | 12 | — | — | — | — |
 | 11 | II.3 — Regressão Logística | 3 | 3 | 9 | — | — | — | — |
 | 12 | II.4 — Otimização e Regularização | 4 | 4 | 12 | — | — | — | — |

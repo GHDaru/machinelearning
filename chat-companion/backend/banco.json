@@ -1119,7 +1119,7 @@
    "enunciado": "Um classificador produziu a seguinte matriz de confusão: VP = 45, FP = 15, FN = 30, VN = 410.\n\nQual é a **precisão**? Responda com 2 casas decimais.",
    "opcoes": [],
    "gabarito": "0.75 ± 0.01",
-   "porque": "Precisão = VP/(VP+FP) = 45/(45+15) = 45/60 = **0,75**. O erro mais comum aqui é usar VP/(VP+FN) — isso dá 45/75 = 0,60, que é a **revocação**. A forma de nunca trocar é voltar à pergunta: precisão pergunta \"dos que **apontei**, quantos eram?\", então o denominador é tudo o que você apontou como positivo (VP+FP). Revocação pergunta \"dos que **eram**, quantos achei?\", então o denominador é tudo o que era positivo de verdade (VP+FN). Repare que este modelo tem precisão razoável e revocação de 0,60 — ele erra pouco quando fala, mas fica calado com frequência.",
+   "porque": "Precisão = VP/(VP+FP) = 45/(45+15) = 45/60 = **0,75**. O erro mais comum aqui é usar VP/(VP+FN), que dá 45/75 = 0,60, ou seja, a **revocação**. A forma de nunca trocar é voltar à pergunta: precisão pergunta \"dos que apontei, quantos eram?\", então o denominador é tudo o que você apontou como positivo (VP+FP). Revocação pergunta \"dos que eram, quantos achei?\", então o denominador é tudo o que era positivo de verdade (VP+FN). Repare que este modelo tem precisão razoável e revocação de 0,60 — ele erra pouco quando fala, mas fica calado com frequência.",
    "volte_para": "#fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva",
    "rubrica": null,
    "versoes": null,
@@ -1199,7 +1199,7 @@
     }
    ],
    "gabarito": "ordena bem · existe algum limiar com bom compromisso",
-   "porque": "AUC é uma medida de **ordenação**, e só isso. Ela não é uma taxa de acerto (0,95 de AUC não é 95% de acurácia — são grandezas diferentes), não diz nada sobre **calibração** (um modelo pode ordenar perfeitamente e ainda assim ter escores sem significado probabilístico), e não sobrevive intacta a mudanças de prevalência — quando a proporção de positivos muda, precisão e a operação real mudam junto, mesmo com a AUC-ROC estável. Esse último ponto é exatamente por que a AUC-PR é preferível para classes raras: ela é sensível à prevalência, que é o que muda no mundo. As duas corretas são as únicas que se limitam ao que a definição da AUC autoriza.",
+   "porque": "AUC é uma medida de **ordenação**, e só isso. Ela não é uma taxa de acerto (0,95 de AUC não é 95% de acurácia, são grandezas diferentes), não diz nada sobre **calibração** (um modelo pode ordenar perfeitamente e ainda assim ter escores sem significado probabilístico), e não sobrevive intacta a mudanças de prevalência: quando a proporção de positivos muda, precisão e a operação real mudam junto, mesmo com a AUC-ROC estável. Esse último ponto é exatamente por que a AUC-PR é preferível para classes raras: ela é sensível à prevalência, que é o que muda no mundo. As duas corretas são as únicas que se limitam ao que a definição da AUC autoriza.",
    "volte_para": "#ranking-decisao-e-calibracao-tres-coisas-diferentes",
    "rubrica": null,
    "versoes": null,
