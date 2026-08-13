@@ -6,6 +6,25 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação da memória, e o folclore dos "onze passos" corrigido (cap. III.5)
+- **Décima oitava animação** (`anima-memoria`): retropropagação no tempo de
+  verdade, δ ← (Wᵀδ) ⊙ tanh'(z), medindo quanto do sinal chega a cada posição
+  anterior ao longo de 100 passos.
+- **A spec pedia "o gradiente caindo a zero em 11 passos". Medido, com a
+  inicialização padrão o sinal só cruza um milésimo na posição 95**, com razão de
+  0,926 por passo. Os "dez e poucos passos" que circulam descrevem uma matriz
+  recorrente encolhida ou saturada, não a recorrência em geral.
+- **A lição virou a forma, não o número:** com os pesos 40% menores a razão cai a
+  0,624 e o corte vai para a posição **14**. Quarenta por cento nos pesos movem o
+  horizonte quase sete vezes, porque a queda é geométrica e a base é escolhida
+  pelos pesos.
+- **E a atenção não decai** (razão 1,006, sem cruzar o milésimo em 100 passos), não
+  por ser maior ou mais treinada, mas porque o caminho da saída até qualquer
+  posição tem comprimento 1, e comprimento 1 não tem produto onde encolher.
+- Segunda vez neste ciclo que uma spec de animação repete um número de folclore (a
+  primeira foi o "1e-7" do III.3, medido em 1,4e-12). **Número em spec é hipótese,
+  não resultado.**
+
 ### Adicionado — a animação da exploração, e o agente guloso que decide certo o tempo todo (cap. IV.2)
 - **Décima sétima animação** (`anima-exploracao`): grid 7×7 com duas saídas, +0,25
   a cinco passos e +1,5 a doze, Q-learning com um episódio por quadro.

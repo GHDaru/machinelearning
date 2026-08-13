@@ -50,9 +50,10 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > **II.3** (a perda caindo depois que a acurácia congelou), **II.2** (o gradiente
 > correndo atrás do ótimo fechado) e **III.4** (a densa ficando cega com 3 px de
 > deslocamento, com dez vezes mais pesos que a convolucional) e **IV.2** (o agente
-> guloso preso na saída pequena, com 5 achados contra 529). A dívida do núcleo
+> guloso preso na saída pequena, com 5 achados contra 529) e **III.5** (o gradiente
+> recuando pela sequência, com a razão por passo medida). A dívida do núcleo
 > compartilhado foi paga na segunda, como a ADR 0015 exigia.
-> **17 feitas, 5 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
+> **18 feitas, 4 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
 > erro de conta de `animacoes.md`, corrigido em 2026-08-13).
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a

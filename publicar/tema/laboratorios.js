@@ -3796,6 +3796,177 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+
+  // A animação do capítulo III.5: o gradiente voltando pela sequência, passo a
+  // passo, com a norma que chega a cada posição anterior. É uma retropropagação no
+  // tempo de verdade — o mesmo produto de jacobianas que o corpo do capítulo
+  // descreve, calculado aqui.
+  //
+  // A previsão que o leitor erra é sobre a FORMA da queda. "O sinal enfraquece com
+  // a distância" faz pensar em algo gradual; a queda é exponencial, e a diferença
+  // entre gradual e exponencial é o capítulo inteiro. O botão troca a recorrência
+  // por uma leitura por atenção, em que o caminho da saída até QUALQUER posição
+  // tem comprimento 1: o peso que chega a cada posição é o α dela, e α não sabe o
+  // que é distância.
+  //
+  // A comparação é honesta porque as duas curvas medem a mesma coisa — quanto do
+  // sinal da saída chega à posição t−k —, e não porque uma foi ajustada para
+  // parecer melhor que a outra.
+  function animaMemoria(area, cfg) {
+    var W = 460, H = 300, PAD = 24;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bModo;
+    var T = 100, N = 32;
+    // Três modos, e o segundo é o que a folclore descreve. A escala é o raio
+    // espectral aproximado da matriz recorrente: 1,0 é a inicialização padrão
+    // (Glorot para uma matriz quadrada dá desvio 1/√N, que é raio ≈ 1).
+    var MODOS = [
+      { rot: "recorrência, inicialização padrão", escala: 1.0, atencao: false },
+      { rot: "recorrência, pesos 40% menores", escala: 0.6, atencao: false },
+      { rot: "leitura por atenção", escala: 1.0, atencao: true }
+    ];
+    var est = { modo: 0, k: 0, sinal: [], parou: false, corte: null, Wr: null, alfa: null };
+
+    function normal(r) {
+      var u = Math.max(1e-12, r()), v = r();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283185307 * v);
+    }
+
+    function preparar() {
+      var r = rng(59), i, j, W1 = [], h = [], a = [], s = 0;
+      var ESCALA = MODOS[est.modo].escala;
+      for (i = 0; i < N; i++) {
+        W1.push([]);
+        for (j = 0; j < N; j++) W1[i].push(normal(r) * ESCALA / Math.sqrt(N));
+      }
+      // estados pré-ativação ao longo do tempo, para a derivada de tanh
+      var z = [];
+      for (i = 0; i < N; i++) h.push(normal(r) * 0.5);
+      for (var tt = 0; tt < T; tt++) {
+        var zt = [], nh = [];
+        for (i = 0; i < N; i++) {
+          var acc = 0;
+          for (j = 0; j < N; j++) acc += W1[i][j] * h[j];
+          zt.push(acc); nh.push(Math.tanh(acc));
+        }
+        z.push(zt); h = nh;
+      }
+      // pesos de atenção sobre as T posições, normalizados
+      for (i = 0; i < T; i++) { a.push(Math.exp(normal(r) * 0.5)); s += a[i]; }
+      for (i = 0; i < T; i++) a[i] /= s;
+      est.Wr = W1; est.z = z; est.alfa = a;
+      est.d = [];
+      for (i = 0; i < N; i++) est.d.push(normal(rng(3)) / Math.sqrt(N));
+    }
+
+    function norma(v) {
+      var s = 0, i; for (i = 0; i < v.length; i++) s += v[i] * v[i];
+      return Math.sqrt(s);
+    }
+
+    /** Um passo de retropropagação no tempo: δ ← (Wᵀ δ) ⊙ tanh'(z). */
+    function voltar(k) {
+      var novo = [], j, i, acc, zk;
+      for (j = 0; j < N; j++) {
+        acc = 0;
+        for (i = 0; i < N; i++) acc += est.Wr[i][j] * est.d[i];
+        zk = est.z[T - 1 - k][j];
+        novo.push(acc * (1 - Math.tanh(zk) * Math.tanh(zk)));
+      }
+      est.d = novo;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, h;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 20, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText(MODOS[est.modo].rot +
+                   " · quanto do sinal chega a cada posição anterior (log)", x0, PAD + 12);
+      var yCorte = base - (1 - 3 / 6) * alt;
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x0, yCorte); ctx.lineTo(x0 + larg, yCorte); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("1‰ do inicial", x0 + larg - 62, yCorte - 3);
+      for (i = 0; i < est.sinal.length; i++) {
+        h = Math.max(1, (1 + Math.log(Math.max(est.sinal[i], 1e-6)) / Math.LN10 / 6) * alt);
+        ctx.fillStyle = escuro ? "#8fb8dd" : "#35618e";
+        ctx.fillRect(x0 + i * (larg / T) + 1, base - h, larg / T - 2, h);
+      }
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("saída", x0, base + 14);
+      ctx.fillText(T + " passos atrás", x0 + larg - 78, base + 14);
+    }
+
+    /** Razão geométrica média por passo, que é a forma da queda. */
+    function razao() {
+      var k = est.sinal.length - 1;
+      if (k < 5 || est.sinal[k] <= 0) return null;
+      return Math.pow(est.sinal[k], 1 / k);
+    }
+
+    function texto() {
+      var k = est.sinal.length - 1, rz = razao();
+      placar.textContent =
+        MODOS[est.modo].rot +
+        " · posições varridas " + est.sinal.length + " de " + T +
+        (k >= 0 ? " · na posição " + k + " atrás chega " + est.sinal[k].toExponential(2) : "") +
+        (rz != null ? " · fica " + rz.toFixed(3) + " do sinal a cada passo" : "") +
+        (est.corte != null
+          ? " · cai abaixo de 1‰ na posição " + est.corte
+          : (est.parou ? " · NUNCA cai abaixo de 1‰ em " + T + " passos" : ""));
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var v;
+      if (MODOS[est.modo].atencao) {
+        // caminho de comprimento 1: o que chega à posição k é o peso α dela
+        v = est.alfa[est.k] / est.alfa[0];
+      } else {
+        if (est.k > 0) voltar(est.k);
+        v = norma(est.d) / est.n0;
+      }
+      est.sinal.push(v);
+      if (est.corte == null && v < 1e-3) est.corte = est.k;
+      est.k++;
+      if (est.k >= T) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(modo) {
+      est.modo = modo; est.k = 0; est.sinal = []; est.corte = null; est.parou = false;
+      preparar();
+      est.n0 = norma(est.d);
+      rel.comecar(T + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bModo.textContent = "Trocar para " + MODOS[(est.modo + 1) % MODOS.length].rot;
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.modo); });
+    bModo = botao("Trocar para " + MODOS[1].rot, function () {
+      rodar((est.modo + 1) % MODOS.length);
+    });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 40);
+    preparar(); est.n0 = norma(est.d);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(0); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -3808,7 +3979,8 @@
                 "anima-separavel": animaSeparavel,
                 "anima-normais": animaNormais,
                 "anima-convolucao": animaConvolucao,
-                "anima-exploracao": animaExploracao };
+                "anima-exploracao": animaExploracao,
+                "anima-memoria": animaMemoria };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

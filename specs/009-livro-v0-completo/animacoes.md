@@ -43,7 +43,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | III.2 | **feito** — MLP no mesmo XOR do III.1: as duas retas girando, mais o botão que tira a camada e o que estraga a inicialização |
 | III.3 | **feita** — a retropropagação descendo 20 camadas: 1,4e-12 na primeira com sigmoide + Xavier, 1,2e-3 com ReLU + Xavier (a ReLU sozinha não basta) e 0,86 com ReLU + He |
 | III.4 | **feita** — filtro varrendo 144 posições com o mapa se pintando; com 3 px de deslocamento a densa cai de 1,000 a 0,009 e a convolucional segue em 0,996, com 26 pesos contra 257 |
-| III.5 | pesos de atenção acendendo numa frase, contra o sinal de gradiente da RNN caindo a zero em 11 passos |
+| III.5 | **feita** — retropropagação no tempo com a razão por passo medida: 0,926 (init padrão, 1‰ na posição 95), 0,624 (pesos 40% menores, posição 14) e 1,006 na atenção, que nunca cai |
 | III.6 | **não animar** — nada treinável honestamente no navegador vira encenação |
 | IV.1 | **feito** — atribuir e recentrar alternando, com o botão da semente infeliz |
 | IV.2 | **feita** — grid 7×7 com duas saídas (+0,25 perto, +1,5 longe): explorando chega à grande em 529 de 600 episódios, com ε=0 chega em 5, e a recompensa média cai 6,9× |
@@ -628,3 +628,32 @@ gate — o que sugere que a próxima onda de gates tem candidato.
 
 Teste **visto falhando**: devolvi a saída pequena para (1,1) e duas das cinco
 linhas acusaram na hora.
+
+
+## O que a décima oitava animação ensinou (III.5, 2026-08)
+
+**A spec estava errada e o erro era o folclore da área.** Ela pedia "o sinal de
+gradiente da RNN caindo a zero em **11 passos**". Fiz a retropropagação no tempo de
+verdade e medi: com a inicialização padrão (Glorot numa matriz quadrada dá desvio
+1/√N, isto é, raio espectral ≈ 1), o sinal só cruza um milésimo na posição **95**.
+A razão por passo é 0,926.
+
+Os "dez e poucos passos" que todo mundo repete existem, mas descrevem outra coisa:
+uma matriz recorrente **encolhida ou saturada**. Com os pesos 40% menores, a razão
+cai a 0,624 e o corte vai para a posição **14**.
+
+**Foi isso que virou a animação.** Em vez de mostrar "a RNN esquece", ela mostra
+que **a queda é geométrica e a base é escolhida pelos pesos**: 40% neles movem o
+horizonte quase sete vezes. E o terceiro modo mostra por que a atenção escapa —
+razão 1,006, sem queda —, e não por ser maior ou mais treinada: porque o caminho da
+saída até qualquer posição tem comprimento 1, e comprimento 1 não tem produto onde
+encolher.
+
+**É a segunda vez neste ciclo que uma spec de animação repete um número de
+folclore** (a primeira foi o "1e-7" do III.3, que medido deu 1,4e-12). As duas
+vezes o número vinha de uma conta de cabeça plausível, e as duas vezes a medição
+deu ordem de grandeza diferente. **Número em spec é hipótese, não resultado** — e
+o lugar de descobrir isso é antes de o leitor ler.
+
+Teste **visto falhando**: tirei a derivada da tanh do caminho de volta, e três das
+seis linhas acusaram.

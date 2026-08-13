@@ -116,6 +116,21 @@ A LSTM parte de um estado que atravessa os passos **sendo somado, não multiplic
 
 A **GRU** (*Gated Recurrent Unit*) é a mesma ideia com menos peças: funde esquecer e escrever numa comporta só e dispensa a separação entre estado interno e saída. Menos parâmetros, treino mais rápido, comportamento parecido na maioria das tarefas. A escolha entre as duas quase nunca é o que decide um projeto — o que decide é se você precisa de recorrência.
 
+:::lab {"id":"sequencias-linguagem-l1","tipo":"anima-memoria","titulo":"Até onde o gradiente chega para trás"}
+Retropropagação no tempo de verdade: a cada quadro, o sinal do erro recua um passo pela sequência, e a barra mostra **quanto dele chega** àquela posição. A escala é logarítmica, e a linha tracejada marca um milésimo do sinal inicial.
+
+Com a **inicialização padrão**, o sinal cai a **0,926** do que era a cada passo. É uma queda geométrica, e é isso que a palavra "exponencialmente" do exercício acima quer dizer. Mas repare até onde ele chega: a barra só cruza o milésimo na posição **95**.
+
+> **Isto contraria o que se costuma repetir.** A ideia de que uma rede recorrente "esquece depois de uns dez passos" não descreve a recorrência em geral; descreve uma matriz recorrente encolhida ou saturada. Com os pesos que se usa para inicializar, o alcance é bem maior — e o problema prático continua real, só que por outro motivo, que o próximo botão mostra.
+
+Clique em **"Trocar para recorrência, pesos 40% menores"**. A razão por passo cai para 0,624, e o sinal cruza o milésimo já na posição **14**. Quarenta por cento nos pesos moveram o horizonte de memória quase **sete vezes**, porque 0,926ᵏ e 0,624ᵏ divergem muito rápido.
+
+**A lição não é um número, é a forma.** Quando a informação atravessa um produto de *k* fatores, o alcance não depende do tamanho da rede nem da quantidade de dados: depende da **base**. Uma mudança pequena na base vira uma mudança enorme no alcance, e é por isso que ajustar isso na mão nunca deu certo por muito tempo.
+
+Clique de novo, para a **leitura por atenção**. A razão fica em 1,006 e o sinal não cai: em 100 passos ele nunca chega ao milésimo. Não é um truque de escala. É que na atenção o caminho da saída até **qualquer** posição tem comprimento 1, e um caminho de comprimento 1 não tem produto onde encolher.
+:::
+
+
 :::exercicio {"id":"sequencias-linguagem-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma RNN simples é treinada para classificar avaliações de produto e vai bem em textos curtos, mas erra sistematicamente quando a negação aparece no começo de um parágrafo longo ("Não recomendo… *[80 palavras]* …o acabamento é bonito"). Qual é o diagnóstico correto?
 
