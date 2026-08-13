@@ -39,9 +39,10 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > (o k-means alternando, com a semente que decide o resultado), **V.1** (o
 > limiar movendo contra os três critérios de justiça), **0.2** (o grau do
 > polinômio subindo, com a validação virando no grau 5 e o piso do ruído à
-> vista) e **II.4** (três taxas na mesma paisagem, com o botão que troca só a
-> perda). A dívida do núcleo compartilhado foi paga na segunda, como a ADR
-> 0015 exigia. **6 feitas, 17 pendentes.**
+> vista), **II.4** (três taxas na mesma paisagem, com o botão que troca só a
+> perda) e **I.3** (as fontes de vazamento medidas lado a lado). A dívida do
+> núcleo compartilhado foi paga na segunda, como a ADR 0015 exigia.
+> **7 feitas, 16 pendentes.**
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a
 > ordem dos capítulos. As cinco primeiras da fila estão feitas; a próxima sai

@@ -27,7 +27,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | 0.2 | **feita** — grau do polinômio de 1 a 15: treino sempre descendo, validação virando no grau 5, o piso do ruído visível e o botão dos 3× dados |
 | I.1 | horizonte do rótulo deslizando de 30 para 90 dias: % de clientes ainda acionáveis caindo, com a AUC subindo junto |
 | I.2 | **não animar** — arquitetura não tem estado que evolui |
-| I.3 | **spec corrigida, ver nota abaixo** — as TRÊS fontes de vazamento com a intensidade subindo, lado a lado: duas disparam e a do pré-processamento quase não se mexe |
+| I.3 | **feita** — as três fontes de vazamento com a intensidade subindo, e uma quarta curva (codificar por alvo) que é a fonte 2 sobre outra estatística |
 | I.4 | **não animar** — já tem `explorar-variavel`, e manipular ensina mais que assistir |
 | I.5 | base do eixo y subindo de 0 a 95: razão percebida entre as barras de 1,05 para 4,0, com os valores reais fixos |
 | I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
@@ -181,6 +181,7 @@ Quatro animações construídas, cinco previsões escritas antes de medir:
 | 0.2 — "com 3× mais dados o joelho anda para a direita" | ❌ **não anda**; fica no grau 5 nos dois casos |
 | II.4 — "a terceira taxa saindo da escala" | ✅ estoura, e a fronteira de estabilidade tem valor fechado: 1,0 |
 | II.4 — "com perda logística a mesma taxa não estoura" | ✅ e mais: ela vira a **melhor** das três (0,1455) |
+| I.3 — "duas disparam e a do pré-processamento quase não se mexe" | ✅ e mais forte que o previsto: o efeito dela é −0,003, e o **sinal nem é estável** |
 
 **Duas em sete previsões numéricas estavam erradas**, e nenhuma delas teria
 sido detectada pelo build. É o argumento inteiro a favor de a animação vir com
@@ -270,3 +271,42 @@ disparam e a do meio quase não se mexe** — e é justamente a do meio que vai 
 produção, porque ninguém desconfia de um ganho de décimos.
 
 Os números entram no texto **depois de medidos**, nunca antes.
+
+
+## O que a sétima animação ensinou (I.3 — as fontes de vazamento)
+
+**Esta é a primeira animação cuja spec já estava corrigida antes da primeira
+linha de código** (ver a nota da correção acima), e ainda assim a medição mudou
+o desenho dela duas vezes.
+
+**Primeira mudança: a curva do pré-processamento é plana, e isso virou o
+assunto.** A spec corrigida previa "quase não se mexe". Medido: **−0,003**, com
+o sinal invertendo para +0,002 em outro conjunto de sorteios. Não é um efeito
+pequeno, é um efeito **indistinguível de zero**. Escrever "pequeno" seria
+generoso demais com a própria previsão.
+
+**Segunda mudança: entrou uma quarta curva, e ela é a fonte 2 outra vez.**
+Com a curva plana, a animação corria o risco de ensinar "normalizar antes de
+dividir é inofensivo", que é o oposto do capítulo. A saída foi medir o **mesmo
+erro sobre outra estatística**: codificação por alvo numa categórica de alta
+cardinalidade. Mesmo descuido, +0,183 em vez de −0,003. O par 2 × 2b é a
+animação inteira, e a lição ficou melhor que a da spec: **o tamanho do vazamento
+não se lê no erro, e sim no quanto a estatística vazada se mexe.**
+
+**Três decisões de simulação que eram armadilha:**
+
+1. **Todas as fontes precisam partir do mesmo ponto.** A primeira versão dava
+   AUC inicial diferente por fonte, porque uma delas tinha uma coluna a mais. A
+   comparação media geometria, não vazamento. Hoje as quatro partem de 0,570 e o
+   teste **cobra isso**.
+2. **`cat` sumindo no `map`.** Duas fontes reconstruíam as linhas sem copiar a
+   categoria, então a linha "duplicada" recebia outra codificação e deixava de
+   ser duplicata. O vazamento aparecia menor do que é, por defeito da simulação.
+   A duplicata ia a 0,737; corrigida, vai a 1,000.
+3. **Um sorteio só não sustenta milésimos.** Cada ponto é a média de **8
+   sorteios independentes**. Sem isso, a curva do pré-processamento media ruído
+   amostral, e o sinal dela dependia da semente.
+
+**O modelo é k-vizinhos, e por um motivo:** é o mais simples que memoriza. Com
+um linear, a fonte 3 (duplicata) teria efeito perto de zero e o capítulo perderia
+justamente "o modelo que já viu a prova".

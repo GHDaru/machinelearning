@@ -19,6 +19,27 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — as fontes de vazamento medidas lado a lado (cap. I.3)
+- **`anima-vazamento`**: as três fontes do capítulo com a intensidade subindo de
+  0 a 1, partindo todas da mesma AUC (0,570) porque na intensidade 0 são o mesmo
+  experimento honesto. Alvo disfarçado chega a **0,991**, duplicata a **1,000**.
+- **A curva do meio é o assunto.** Normalizar antes de dividir, que é o erro mais
+  comum, mede **−0,003** — e vira +0,002 em outro conjunto de sorteios. O sinal
+  não é estável: o efeito é indistinguível de zero, e é por isso que ninguém o
+  detecta. A spec antiga prometia um tombo de AUC aqui, contra o próprio texto do
+  capítulo; foi corrigida antes de virar código e a medição foi ainda mais longe.
+- **Entrou uma quarta curva, que é a mesma fonte sobre outra estatística:**
+  codificar por alvo antes de dividir, numa categórica de alta cardinalidade,
+  infla **+0,183**. Mesmo descuido, sessenta vezes mais. A lição do capítulo
+  ficou melhor que a da spec: o tamanho do vazamento não se lê no erro, e sim no
+  quanto a estatística vazada se mexe.
+- **Cada ponto é a média de 8 sorteios independentes**, porque um sorteio só não
+  sustenta uma afirmação da ordem de milésimos.
+- `publicar/testes/anima-vazamento.mjs`, com oito asserções — incluindo a de que
+  as quatro curvas partem do mesmo ponto, que pegou dois defeitos de simulação:
+  a categoria sumindo na cópia das linhas duplicadas (a duplicata media 0,737 em
+  vez de 1,000) e uma fonte rodando com uma coluna a mais que as outras.
+
 ### Adicionado — três taxas de aprendizado na mesma paisagem (cap. II.4)
 - **`anima-taxas`**: 0,001, 0,1 e 1,5 descendo ao mesmo tempo, partindo do mesmo
   ponto. Diagnóstico por forma de curva é a habilidade do capítulo, e forma não

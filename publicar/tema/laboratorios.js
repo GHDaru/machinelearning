@@ -1866,11 +1866,263 @@
     rel.aoChegar(function () { rodar({}); });
   }
 
+  // As TRÊS fontes de vazamento do capítulo, medidas lado a lado com a mesma
+  // intensidade subindo de 0 a 1. A spec antiga desta animação prometia um
+  // tombo de AUC para o vazamento de pré-processamento, e o próprio capítulo
+  // diz o contrário: "o efeito costuma ser pequeno — décimos de ponto". A
+  // animação foi refeita para medir, e não para confirmar.
+  //
+  // O modelo é k-NN ponderado por distância, e a escolha não é casual: é o
+  // modelo mais simples que consegue MEMORIZAR, e sem memória a fonte 3
+  // (duplicata) não teria efeito nenhum. Um linear esconderia justamente a
+  // fonte que o capítulo chama de "o modelo que já viu a prova".
+  function animaVazamento(area, cfg) {
+    var W = 460, H = 300, PAD = 34, PASSOS = 21, K = 15;
+    // N_TR pequeno de propósito: com treino grande, a média e o desvio mudam
+    // tão pouco ao incluir o teste que a fonte 2 mede exatamente zero. O
+    // vazamento de pré-processamento vive do quanto a ESTATÍSTICA se move.
+    var N_TR = 80, N_TE = 200, D = 3, N_CAT = 60;
+    // A fonte 2 vale milésimos, e milésimos não sobrevivem a um sorteio só: com
+    // uma amostra, o sinal dela chega a inverter. Cada ponto das curvas é a
+    // média de R sorteios independentes, senão a curva mediria ruído.
+    var R = 8;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    // Quatro curvas para três fontes: a fonte 2 aparece DUAS vezes, com duas
+    // estatísticas diferentes. É o achado desta animação, e o motivo de ela
+    // existir: "aprender antes de dividir" vale milésimos quando o que se
+    // aprende é média e desvio, e vale a prova inteira quando o que se aprende
+    // é uma média POR CATEGORIA rara. Mesmo erro, dois mundos.
+    var FONTES = [
+      { id: "alvo", rotulo: "1. alvo disfarçado" },
+      { id: "prep", rotulo: "2. normalizar antes de dividir" },
+      { id: "enc", rotulo: "2b. codificar por alvo antes de dividir" },
+      { id: "dup", rotulo: "3. duplicata" }
+    ];
+    var est = { i: 0, bases: null, curvas: null, sorteio: 0 };
+    var rel;
+
+    function gerarBase(semente) {
+      var r = rng(semente);
+      function gauss() { return (r() + r() + r() + r() + r() + r() - 3); }
+      // TODOS os pontos já nascem com a coluna extra, preenchida com ruído.
+      // Sem isso, a fonte 1 teria uma dimensão a mais que as outras duas e as
+      // três curvas partiriam de AUC diferentes na intensidade 0 — a
+      // comparação mediria a geometria, e não o vazamento.
+      function bloco(n) {
+        var pts = [], i, j, x, z;
+        for (i = 0; i < n; i++) {
+          x = []; z = 0;
+          for (j = 0; j < D; j++) { x.push(gauss()); z += (j === 0 ? 1.1 : j === 1 ? -0.7 : 0.5) * x[j]; }
+          x.push(gauss());                        // a coluna extra, por ora só ruído
+          // Uma categórica de alta cardinalidade, do tipo que aparece em
+          // qualquer base real: CEP, SKU, id de loja. Com 60 categorias e 80
+          // linhas de treino, quase toda categoria é rara — e é aí que a
+          // codificação por alvo vira um vazamento de rótulo.
+          pts.push({ x: x, cat: Math.floor(r() * N_CAT), y: (1 / (1 + Math.exp(-z))) > r() ? 1 : 0 });
+        }
+        return pts;
+      }
+      return { tr: bloco(N_TR), te: bloco(N_TE), r: r };
+    }
+
+    /** AUC por postos (Mann-Whitney), que não depende de limiar. */
+    function auc(scores, ys) {
+      var idx = scores.map(function (s, i) { return i; });
+      idx.sort(function (a, b) { return scores[a] - scores[b]; });
+      var postos = new Array(scores.length), i = 0, j, soma, p;
+      while (i < idx.length) {
+        j = i;
+        while (j + 1 < idx.length && scores[idx[j + 1]] === scores[idx[i]]) j++;
+        p = (i + j) / 2 + 1;                      // posto médio nos empates
+        for (var k = i; k <= j; k++) postos[idx[k]] = p;
+        i = j + 1;
+      }
+      var nP = 0, nN = 0;
+      soma = 0;
+      for (i = 0; i < ys.length; i++) { if (ys[i] === 1) { nP++; soma += postos[i]; } else nN++; }
+      if (!nP || !nN) return 0.5;
+      return (soma - nP * (nP + 1) / 2) / (nP * nN);
+    }
+
+    /** k-NN ponderado por 1/(d+ε): contínuo, e premia o vizinho de distância 0. */
+    function prever(tr, te) {
+      return te.map(function (q) {
+        var viz = tr.map(function (p) {
+          var d = 0, j;
+          for (j = 0; j < p.x.length; j++) { var dd = p.x[j] - q.x[j]; d += dd * dd; }
+          return { d: Math.sqrt(d), y: p.y };
+        });
+        viz.sort(function (a, b) { return a.d - b.d; });
+        var num = 0, den = 0, i;
+        for (i = 0; i < K && i < viz.length; i++) {
+          var w = 1 / (viz[i].d + 1e-6);
+          num += w * viz[i].y; den += w;
+        }
+        return den ? num / den : 0.5;
+      });
+    }
+
+    /** Média do alvo por categoria, com recuo para a média global no que falta. */
+    function alvoMedio(pts) {
+      var soma = {}, cont = {}, i, g = 0;
+      for (i = 0; i < pts.length; i++) {
+        soma[pts[i].cat] = (soma[pts[i].cat] || 0) + pts[i].y;
+        cont[pts[i].cat] = (cont[pts[i].cat] || 0) + 1;
+        g += pts[i].y;
+      }
+      return { m: soma, n: cont, global: pts.length ? g / pts.length : 0.5 };
+    }
+    function comCodificacao(pts, mapa) {
+      return pts.map(function (p) {
+        var c = mapa.n[p.cat] ? mapa.m[p.cat] / mapa.n[p.cat] : mapa.global;
+        return { x: p.x.concat([c]), cat: p.cat, y: p.y };
+      });
+    }
+
+    function padroniza(pts, mu, sd) {
+      return pts.map(function (p) {
+        return { x: p.x.map(function (v, j) { return (v - mu[j]) / (sd[j] || 1); }), y: p.y };
+      });
+    }
+    function estatisticas(pts) {
+      var m = pts.length, dim = pts[0].x.length, mu = [], sd = [], j, i, s;
+      for (j = 0; j < dim; j++) {
+        s = 0; for (i = 0; i < m; i++) s += pts[i].x[j];
+        mu.push(s / m);
+        s = 0; for (i = 0; i < m; i++) s += Math.pow(pts[i].x[j] - mu[j], 2);
+        sd.push(Math.sqrt(s / m));
+      }
+      return { mu: mu, sd: sd };
+    }
+
+    /** Roda o experimento de UMA fonte com intensidade `a`, e devolve a AUC
+     *  que o time REPORTARIA — que é a métrica que o vazamento infla. */
+    function medir(fonte, a) {
+      var soma = 0, k;
+      for (k = 0; k < est.bases.length; k++) soma += medirUm(est.bases[k], fonte, a);
+      return soma / est.bases.length;
+    }
+
+    function medirUm(base, fonte, a) {
+      // As três fontes partem do MESMO ponto: mesma dimensão, mesma
+      // padronização ajustada só no treino. Na intensidade 0 as três são o
+      // mesmo experimento honesto, e é por isso que as curvas se tocam ali.
+      var b = base, tr = b.tr, te = b.te, e;
+      if (fonte === "alvo") {
+        // A coluna que só existe depois: o ruído dá lugar ao rótulo.
+        var comCol = function (pts) {
+          return pts.map(function (p) {
+            var x = p.x.slice();
+            x[x.length - 1] = a * (p.y - 0.5) * 6 + (1 - a) * x[x.length - 1];
+            return { x: x, cat: p.cat, y: p.y };   // `cat` sobrevive, ou a
+            // codificação por alvo desta fonte cai para a média global e a
+            // curva parte de uma AUC diferente das outras três.
+          });
+        };
+        tr = comCol(tr); te = comCol(te);
+      } else if (fonte === "dup") {
+        // Uma fração `a` das linhas de teste também está no treino.
+        var n = Math.round(a * te.length);
+        // A cópia leva TAMBÉM a categoria: sem ela, a linha duplicada recebe
+        // outra codificação e deixa de ser duplicata de verdade — o vazamento
+        // apareceria menor do que é, por defeito da simulação e não do método.
+        tr = tr.concat(te.slice(0, n).map(function (p) { return { x: p.x, cat: p.cat, y: p.y }; }));
+      }
+      // As duas etapas que "aprendem dos dados" vêm por último, e é nelas que
+      // moram as fontes 2 e 2b: o conjunto de AJUSTE de cada uma cresce com
+      // `a`, engolindo uma fração do teste.
+      var codMapa = alvoMedio(tr.concat(b.te.slice(0, fonte === "enc" ? Math.round(a * b.te.length) : 0)));
+      tr = comCodificacao(tr, codMapa); te = comCodificacao(te, codMapa);
+      var quantos = fonte === "prep" ? Math.round(a * b.te.length) : 0;
+      e = estatisticas(tr.concat(comCodificacao(b.te.slice(0, quantos), codMapa)));
+      var s = prever(padroniza(tr, e.mu, e.sd), padroniza(te, e.mu, e.sd));
+      return auc(s, te.map(function (p) { return p.y; }));
+    }
+
+    function passo() {
+      if (est.i >= PASSOS) return true;
+      var a = est.i / (PASSOS - 1);
+      FONTES.forEach(function (f, k) { est.curvas[k].push({ a: a, auc: medir(f.id, a) }); });
+      est.i++;
+      return est.i >= PASSOS;
+    }
+
+    function texto() {
+      var partes = ["intensidade " + (est.i ? ((est.i - 1) / (PASSOS - 1)).toFixed(2) : "0.00")];
+      FONTES.forEach(function (f, k) {
+        var c = est.curvas[k], u = c[c.length - 1];
+        if (!u) return;
+        var ganho = u.auc - c[0].auc;
+        partes.push(f.rotulo + ": AUC " + u.auc.toFixed(3) +
+          " (" + (ganho >= 0 ? "+" : "") + ganho.toFixed(3) + ")");
+      });
+      if (est.i >= PASSOS) partes.push("varredura completa");
+      placar.textContent = partes.join(" · ");
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      t.fundo(escuro);
+      var px = function (a) { return PAD + a * (W - 2 * PAD); };
+      var py = function (v) { return H - PAD - (v - 0.5) / 0.5 * (H - 2 * PAD); };
+
+      ctx.font = "12px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#8b8c90" : "#6b6a66";
+      ctx.fillText("intensidade do vazamento", W / 2 - 72, H - 10);
+      ctx.fillText("AUC 1,0", 4, PAD + 4);
+      ctx.fillText("0,5", 12, H - PAD + 4);
+
+      var cores = escuro ? ["#e0864f", "#5ba3d0", "#8fbf6a"]
+                         : ["#c25a1e", "#2f6f9f", "#4f8f3a"];
+      FONTES.forEach(function (f, k) {
+        ctx.strokeStyle = cores[k]; ctx.fillStyle = cores[k]; ctx.lineWidth = 2;
+        ctx.beginPath();
+        est.curvas[k].forEach(function (p, i) {
+          var X = px(p.a), Y = py(p.auc);
+          if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+        });
+        ctx.stroke();
+        ctx.fillText(f.rotulo, PAD + 6, PAD + 16 + k * 16);
+      });
+    }
+
+    function sortear() {
+      var base0 = Number(cfg.semente) || 20260813;
+      est.bases = [];
+      for (var k = 0; k < R; k++) est.bases.push(gerarBase(base0 + est.sorteio * 1000 + k * 7919));
+    }
+
+    function rodar() {
+      if (rel) rel.parar();
+      est.i = 0;
+      est.curvas = FONTES.map(function () { return []; });
+      desenhar(); texto();
+      rel.comecar(PASSOS + 2);
+    }
+
+    botao("Recomeçar", function () { rodar(); });
+    botao("Outro conjunto de sorteios", function () { est.sorteio++; sortear(); rodar(); });
+
+    rel = relogio(cv, function () {
+      var fim = passo();
+      desenhar(); texto();
+      return fim;
+    }, function () { desenhar(); }, 120);
+
+    sortear();
+    est.curvas = FONTES.map(function () { return []; });
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
-                "anima-taxas": animaTaxas };
+                "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

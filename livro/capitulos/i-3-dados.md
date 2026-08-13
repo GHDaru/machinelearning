@@ -102,6 +102,31 @@ Vale para tudo que "aprende" alguma coisa dos dados: normalização, imputação
 
 O efeito costuma ser pequeno — décimos de ponto. É justamente por isso que é perigoso: pequeno demais para levantar suspeita, grande o bastante para decidir qual modelo vai a produção.
 
+:::lab {"id":"dados-l1","tipo":"anima-vazamento","titulo":"As três fontes lado a lado, com a intensidade do vazamento subindo"}
+As três fontes acima foram descritas uma a uma. Aqui elas são **medidas juntas**, no mesmo dado e com o mesmo modelo, cada uma com a própria intensidade subindo de 0 a 1. Na intensidade 0 as quatro curvas são o mesmo experimento honesto, e é por isso que todas partem de **AUC 0,570**.
+
+O modelo é um k-vizinhos ponderado por distância. A escolha importa: é o mais simples que consegue **memorizar**, e sem memória a terceira fonte não teria efeito nenhum.
+
+O que a varredura mede:
+
+| Fonte | AUC no fim | Quanto inflou |
+|---|---|---|
+| 1. alvo disfarçado | 0,991 | +0,421 |
+| 2. normalizar antes de dividir | 0,567 | **−0,003** |
+| 2b. codificar por alvo antes de dividir | 0,753 | +0,183 |
+| 3. duplicata | 1,000 | +0,430 |
+
+Duas linhas disparam até o teto, e são as que qualquer revisão pega: um relatório com AUC 1,000 desperta suspeita sozinho.
+
+**A segunda linha é a que este capítulo pede para você olhar.** Normalizar antes de dividir, que é o erro mais comum de todos, não inflou nada: o efeito ficou em três milésimos, e **para baixo**. Clicando em "Outro conjunto de sorteios", ele vira dois milésimos para cima. O sinal nem é estável. Você não detectaria esse vazamento nem se procurasse por ele.
+
+### E por que isso não é uma boa notícia
+
+A quarta curva existe para responder a essa pergunta, e ela é o mesmo erro da segunda: aprender alguma coisa dos dados antes de dividir. A única diferença é **o que** se aprende. Média e desvio de uma coluna numérica quase não se movem quando o teste entra na conta. Já a **média do alvo por categoria**, num conjunto com muitas categorias raras, se move muito: a codificação de uma categoria com duas ou três linhas passa a conter o rótulo daquelas linhas. O mesmo descuido salta de três milésimos para **cento e oitenta e três** milésimos.
+
+A lição não é "normalizar antes de dividir é inofensivo". É mais desconfortável: **o tamanho do vazamento não se lê no erro, e sim no quanto a estatística vazada se mexe.** Como você não vai calcular isso caso a caso, sobra a regra sem exceção — tudo que aprende dos dados aprende só do treino.
+:::
+
 ### 3. Duplicata entre conjuntos — o modelo que já viu a prova
 
 Se o mesmo exemplo, ou um quase-idêntico, aparece nos dois lados da divisão, o teste deixou de medir generalização e passou a medir memória.
