@@ -19,3 +19,23 @@ A quinta é a que distingue um ADR de um anúncio. Uma decisão sem custo declar
 | [0001](0001-correcao-de-exercicios-no-servidor.md) | Correção de exercícios no servidor, não no cliente | 2026-08-01 | aceito |
 | [0002](0002-sintaxe-interativa-no-markdown.md) | Exercícios e vídeos dentro do Markdown do capítulo | 2026-08-01 | aceito |
 | [0003](0003-dado-sintetico-na-etapa-00.md) | Dado sintético na etapa 00 da trilha prática | 2026-08-01 | aceito |
+| [0004](0004-escopo-da-primeira-versao.md) | O que é a "1ª versão" do livro, e como chegar lá | 2026-08-10 | aceito |
+| [0005](0005-selo-de-resumo-lido.md) | O selo `✓ᵃ`, e a trava contra selos cunhados por fora | 2026-08-10 | aceito |
+| [0006](0006-publicacao-vercel-railway-dominio.md) | Publicação: front na Vercel, backend na Railway, domínio próprio | 2026-08-10 | aceito |
+| [0007](0007-builder-declarado-na-railway.md) | O build do backend é declarado (Dockerfile), não detectado | 2026-08-11 | aceito |
+| [0008](0008-identificacao-por-turma.md) | Identificação por turma: exceção estreita ao progresso anônimo | 2026-08-11 | aceito |
+| [0009](0009-separar-linear-e-logistica.md) | Separar regressão linear e logística em dois capítulos | 2026-08-11 | aceito (numeração superada pelo 0011) |
+| [0010](0010-pandas-na-etapa-de-exploracao.md) | pandas e matplotlib na etapa de exploração (e só nela) | 2026-08-12 | aceito |
+| [0011](0011-numeracao-por-parte.md) | Numeração por parte, e o id do exercício desatado do número | 2026-08-12 | aceito |
+| [0012](0012-verificacao-como-superficie-corrigida.md) | A Verificação vira superfície corrigida, uma pergunta por capítulo | 2026-08-12 | aceito (faseado) |
+| [0013](0013-voz-do-livro-e-o-humanizer.md) | A `humanizer` entra como editora de concisão; §14 recusada | 2026-08-13 | aceito |
+| [0014](0014-tres-exercicios-por-objetivo-e-a-prova.md) | "Tópico" é o objetivo; a prova é por parte e determinística | 2026-08-13 | aceito |
+| [0015](0015-animacao-e-laboratorio-sem-manopla.md) | A animação não é quarta superfície: é laboratório sem manopla | 2026-08-13 | aceito |
+| [0016](0016-a-quem-pertence-a-escolha-da-forma-de-servico.md) | A escolha da forma de serviço é desenho, e fica no V.2 | 2026-08-13 | aceito (contra a maioria do comitê) |
+| [0017](0017-a-fronteira-do-servico-entra-no-v3.md) | A fronteira do serviço entra no V.3; a política de violação é decisão do leitor | 2026-08-13 | aceito |
+| [0018](0018-o-playground-entra-vendorizado.md) | O TensorFlow Playground entra no III.2, vendorizado e com roteiro | aceito | 2026-08-13 |
+| [0019](0019-prova-de-capitulo-para-aplicacao-em-sala.md) | Prova de capítulo existe, e é para a sala de aula | aceito | 2026-08-13 |
+
+> Esta tabela ficou parada no 0003 por oito registros. Índice que não acompanha
+> é pior do que índice nenhum: quem chega procura aqui, não encontra o 0008, e
+> decide de novo o que já estava decidido.

@@ -5,6 +5,53 @@
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
 
+## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações
+
+Fecha o **ciclo 009**, e fecha as quatro colunas que ele abriu para os 29 capítulos: voz, exercícios, prova e **fontes**. Modelo de IA usado: Claude Opus 5.
+
+**Os números.** 412 exercícios (342 de capítulo, três por objetivo em escada, mais 70 distribuídos em sete provas), 25 laboratórios, 48 páginas. Nenhuma prova vale nota, por decisão do [ADR 0014](../adr/0014-tres-exercicios-por-objetivo.md): pontua-se por ter feito.
+
+**A coluna `fontes` foi a que mais rendeu, e o que ela rendeu não foi conforto.** Vinte e oito capítulos conferidos um a um, abrindo cada fonte da tabela de selos. A maioria devolveu achado. Alguns exemplos do que estava publicado e não se sustentava:
+
+- o livro dizia que Power **entrevistou** o autor do estudo de "cerveja e fraldas". Ele não entrevistou ninguém: viu a gravação de um webcast da Teradata e recebeu a transcrição por e-mail da moderadora, da própria Teradata. Num capítulo sobre separar correlação achada de decisão tomada e de efeito medido;
+- "de Thorndike a Watkins são cerca de 80 anos" — são **91**, e o número errado tinha sido copiado para outros três capítulos;
+- o memorando de 1966 do "verão da visão" abriu (é digitalização sem camada de texto; as páginas foram lidas como imagem) e desmentiu o capítulo que o cita: o papel diz "Vision Memo. No. 100.", fala em *"our summer workers"* no plural, e escalona os objetivos.
+
+**As 22 animações do [ADR 0015](../adr/0015-animacao-e-laboratorio-sem-manopla.md) ficaram prontas**, cada uma com um teste que roda o `laboratorios.js` real e confere o número que o texto promete. **Cinco delas corrigiram o texto que as hospeda ou a própria spec** — o exercício do eixo truncado dizia onze vezes e são doze; a spec do gradiente previa 1e-7 e a medição deu 1,4e-12; a spec da memória repetia o folclore dos "onze passos" e a medição deu 95. **Quatro tiveram o desenho experimental refeito** depois de a primeira versão medir a coisa errada.
+
+**Um gate novo, nascido de um erro que se repetiu quatro vezes.** `publicar/intervalos.mjs` guarda os dois anos de cada intervalo histórico e calcula a diferença; qualquer menção em prosa que discorde da subtração quebra o build. Visto falhando antes de entrar.
+
+**A regra que este ciclo deixa escrita, e que vale além do livro:** *número em spec é hipótese, não resultado*. Das 22 animações, nenhuma saiu exatamente como planejada, e as que mais mudaram foram as que ensinaram mais.
+
+## Edição 1.2 — 2026-08-12 · a auditoria de Bloom, e as portas que ninguém tinha conferido
+
+Edição inteiramente de **conserto e cobrança**: nenhum capítulo novo, e o livro melhorou mais do que em edições que ganharam capítulo. O disparador foi uma auditoria pedagógica que mediu os objetivos declarados contra o que o livro de fato cobra.
+
+**A numeração mudou** ([ADR 0011](../adr/0011-numeracao-por-parte.md)). O capítulo passou a ser identificado por parte e posição (`II.2 — Modelos Lineares`) porque nenhuma das 29 posições coincidia com o número de criação. E o **id do exercício se desatou do número** (`05-e1` → `modelos-lineares-e1`): fosse pelo número, inserir um capítulo apagaria o progresso de cada aluno nos capítulos seguintes, para sempre. Endereços antigos quebraram, por decisão explícita.
+
+**Os gates que passaram a cobrar.** A dívida deixou de ser *registrada* e passou a ser *cobrada* — cada gate nasceu de um defeito real, e cada um foi **visto falhando** antes de ser dado por pronto:
+
+- seções obrigatórias e verbos vagos nos objetivos;
+- âncora do `volte para` que não existe — duas estavam quebradas, uma há semanas;
+- **Backward Design nas duas direções.** Antes, exercício apontando para objetivo inexistente quebrava o build, e objetivo sem exercício não quebrava nada; foi por essa porta que 18 dívidas entraram sem registro. A lista de exceções agora falha **também** quando uma exceção deixa de ser necessária: dívida paga que continua na lista esconde a próxima;
+- gabarito vazando na exportação, e rubrica partida por `;` — os dois achados abaixo.
+
+**O que o uso derrubou desta vez** — de novo, sem nenhum gate mecânico acusando:
+
+1. **O botão "⬇ md" entregava o gabarito.** O livro protege o HTML com cuidado (a página nunca carrega a resposta certa) e servia, ao lado do exercício, um download com **79 gabaritos e 30 rubricas**. A superfície protegida era uma das duas.
+2. **Uma rubrica de três alternativas virava três exigências.** A rubrica é quebrada em `;`, então `"aponta um mecanismo (A; B; C)"` produzia três critérios — e, como a correção exige *todos*, quem respondesse exatamente o que foi pedido reprovava. Já estava publicado.
+
+**No conteúdo**
+
+- Exercícios: **96 → 122**. Dezoito cobrem objetivos que o livro declarava e não cobrava — a dívida caiu de 20 para **2**, e os dois que restam não são falta de exercício: são objetivos declarados em capítulos que não os ensinam.
+- **Exemplos numéricos trabalhados** entraram no corpo de quatro capítulos — antes existiam só dentro dos gabaritos, isto é, só para quem já tinha errado.
+- **Três laboratórios**: neurônio de McCulloch–Pitts, mínimos quadrados à mão, e exploração de variável sobre o conjunto da limonada.
+- A seção `## Verificação` começou a virar superfície corrigida, uma pergunta por capítulo ([ADR 0012](../adr/0012-verificacao-como-superficie-corrigida.md)), com rubrica de quatro critérios — o quarto sendo o **anti-critério**, o erro comum nomeado. As perguntas que ficam sem correção passaram a **dizer por que**.
+
+**Modelo de IA usado nesta edição:** Claude (Anthropic), em sessão conduzida pelo autor, com três pareceres independentes encomendados para a decisão do ADR 0012.
+
+> **A lição da edição.** A de 1.1 dizia: *saída tecnicamente válida, comportamento errado*. Esta acrescenta a variante mais cara — **a promessa cumprida numa superfície e falsa na outra**. O livro tinha uma regra explícita ("a página nunca carrega a resposta certa"), implementou-a corretamente, e a desmentiu num botão ao lado. Gate não confere intenção: confere porta. E porta que ninguém listou, ninguém confere.
+
 ## Edição 1.1 — 2026-08-11 · o livro em uso, e o que o uso quebrou
 
 Primeira edição publicada **enquanto uma turma usa o livro**. Quase tudo aqui nasceu de pedido do autor em preparação de aula, e três achados vieram de **usar** em vez de revisar.
@@ -42,11 +89,13 @@ O livro saiu de 8 capítulos com corpo para **28, todos no nível `essencial`** 
 
 **Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-10.
 
-**O que mudou de método, e é o que importa.** A emenda 1.2.0 criou o **Princípio X** — nenhum método cai do céu —, e a 1.3.0 acrescentou o selo `✓ᵃ`. Mas a decisão que mais mudou o resultado foi mecânica: **o gate no build**. Um capítulo de método em nível `essencial` sem a seção histórica e sem tabela de selos **não compila**, e o alfabeto de selos é lido da própria constituição, falhando em qualquer símbolo desconhecido.
+**O que mudou de método, e é o que importa.** A emenda 1.2.0 criou o **Princípio X** (nenhum método cai do céu), e a 1.3.0 acrescentou o selo `✓ᵃ`. Mas a decisão que mais mudou o resultado foi mecânica: **o gate no build**. Um capítulo de método em nível `essencial` sem a seção histórica e sem tabela de selos não compila, e o alfabeto de selos é lido da própria constituição, falhando em qualquer símbolo desconhecido.
 
 O gate reordenou o plano sozinho. O [ADR 0004](../adr/0004-escopo-da-primeira-versao.md) mandava escrever os capítulos novos antes de consertar os antigos; declarar o nível dos capítulos com corpo deixou o build vermelho na hora, e nada novo pôde ser publicado antes de a dívida velha ser paga. **É a diferença entre dívida registrada e dívida cobrada.**
 
-**A pesquisa histórica em sessão única pagou o que prometia.** Cinco passadas produziram ligações que a pesquisa capítulo a capítulo teria perdido — e uma delas reescreveu a tese central. O livro vinha dizendo "crédito segue comunicação"; o k-means corrigiu para **crédito segue o vocabulário**. Com seis pretendentes em quatro campos que não conversavam, e o nome cunhado por MacQueen **para um algoritmo diferente**, não vence quem descobre nem quem publica: vence quem **nomeia**. O caso do MLOps fechou o argumento pelo extremo oposto — ali o campo não tinha um autor para o nome e **fabricou um retroativamente**.
+**A pesquisa histórica em sessão única pagou o que prometia.** Cinco passadas produziram ligações que a pesquisa capítulo a capítulo teria perdido — e uma delas reescreveu a tese central. O livro vinha dizendo "crédito segue comunicação"; o k-means corrigiu para **crédito segue o vocabulário**. Com seis pretendentes em quatro campos que não conversavam, e o nome cunhado por MacQueen para um algoritmo diferente, não vence quem descobre nem quem publica: vence quem **nomeia**.
+
+O caso do MLOps fechou o argumento pelo extremo oposto — ali o campo não tinha um autor para o nome e **fabricou um retroativamente**.
 
 **Três lendas foram testadas com instrução de não forçá-las a fechar. As três quebraram.** "Cerveja e fraldas" é verdadeira até a descoberta e inventada a partir da ação. A origem do nome *dynamic programming* tem citação autêntica de Bellman e cronologia impossível. E "MLOps foi cunhado por Sculley *et al.*" caiu por **verificação negativa no texto primário** — a palavra não aparece uma vez sequer.
 
@@ -61,7 +110,7 @@ O gate reordenou o plano sozinho. O [ADR 0004](../adr/0004-escopo-da-primeira-ve
 
 Uma emenda à constituição, e a mais consequente até aqui para *como os capítulos são escritos*.
 
-**O novo Princípio X.** Todo método deste livro foi inventado por **alguém**, preso num problema concreto, numa data, com meios limitados. Um capítulo que dá o método sem essa história entrega um procedimento — e procedimento se decora. Passa a ser obrigatória, em todo capítulo de método a partir do nível `essencial`, a seção **"De onde isto veio"**: o aperto · o que se fazia antes · a virada · **a ideia reaproveitável** · o nome.
+**O novo Princípio X.** Todo método deste livro foi inventado por **alguém**, preso num problema concreto, numa data, com meios limitados. Um capítulo que dá o método sem essa história entrega um procedimento — e procedimento se decora. Passa a ser obrigatória, em todo capítulo de método a partir do nível `essencial`, a seção **"De onde isto veio"**: o aperto · o que se fazia antes · a virada · a ideia reaproveitável · o nome.
 
 O quarto elemento é o que justifica a seção. **Todo artifício técnico declara a ideia reaproveitável que há por trás dele** — artifício sem ideia é truque, e truque não se transfere. Quem sabe *que problema forçou o método a existir* reconhece o mesmo tipo de aperto anos depois, noutro contexto; quem só executa o procedimento tem uma habilidade que expira com a prova.
 
@@ -75,7 +124,7 @@ O quarto elemento é o que justifica a seção. **Todo artifício técnico decla
 
 ### Edição 0.5.1 — 2026-08-08 · O capítulo 18 ganha história, imagem e código executável (sem spec)
 
-Uma rodada curta e inteira dedicada a um capítulo só — o 18 —, a pedido de quem dá a aula. Nada de escopo novo: profundidade no que já existia.
+Uma rodada curta e inteira dedicada a um capítulo só (o 18), a pedido de quem dá a aula. Nada de escopo novo: profundidade no que já existia.
 
 **O que entrou:**
 
@@ -86,7 +135,11 @@ Uma rodada curta e inteira dedicada a um capítulo só — o 18 —, a pedido de
 
 **Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-08.
 
-**A nota que não fechou, e por que ela ficou assim.** O pedido incluía checar uma lembrança: que o backpropagation teria sido desenvolvido por *um italiano, em 1979*. A busca não confirmou. O que existe, e está no capítulo com fonte: **Seppo Linnainmaa** (finlandês, 1970) publicou o modo reverso da diferenciação automática — a matemática do algoritmo; **Paul Werbos** (americano) o aplicou a redes na tese de 1974, com publicações no fim dos anos 1970; **Kunihiko Fukushima** (japonês) publicou o Neocognitron em **1979**. Nenhum italiano apareceu. O capítulo diz exatamente isso — inclusive que não achamos —, porque inventar uma atribuição plausível é o erro que o Princípio I existe para impedir. Se a lembrança tiver fonte, ela entra e esta nota é corrigida.
+**A nota que não fechou, e por que ela ficou assim.** O pedido incluía checar uma lembrança: que o backpropagation teria sido desenvolvido por *um italiano, em 1979*. A busca não confirmou.
+
+O que existe, e está no capítulo com fonte: **Seppo Linnainmaa** (finlandês, 1970) publicou o modo reverso da diferenciação automática — a matemática do algoritmo; **Paul Werbos** (americano) o aplicou a redes na tese de 1974, com publicações no fim dos anos 1970; **Kunihiko Fukushima** (japonês) publicou o Neocognitron em 1979. Nenhum italiano apareceu.
+
+O capítulo diz exatamente isso, inclusive que não achamos, porque inventar uma atribuição plausível é o erro que o Princípio I existe para impedir. Se a lembrança tiver fonte, ela entra e esta nota é corrigida.
 
 **Uma dívida de processo desta edição.** Ela foi feita a pedido direto, sem passar pelo ciclo `spec → plan → tasks` que o Princípio VII exige para a raia plena — um capítulo revisado, código novo e um blueprint de deploy não são raia leve. A versão original deste registro dizia "spec 006", uma spec que nunca existiu; a correção está aqui em vez de apagada, porque um livro que mantém placar das próprias previsões não pode maquiar o próprio histórico.
 
@@ -115,7 +168,7 @@ A mudança mais profunda desde a fundação. O livro deixou de ser sobre Machine
 
 **O que entrou:**
 
-- **Capítulo 05 — Modelos Lineares** (3 exercícios, 1 vídeo): erro quadrático por conveniência e não por virtude, o logito como o que de fato é linear, as quatro coisas que um coeficiente **não** diz, e quando o linear é a escolha certa — reparando a impressão que o capítulo 07 deixa.
+- **Capítulo 05 — Modelos Lineares** (3 exercícios, 1 vídeo): erro quadrático por conveniência e não por virtude, o logito como o que de fato é linear, as quatro coisas que um coeficiente **não** diz, e quando o linear é a escolha certa, reparando a impressão que o capítulo 07 deixa.
 - **Capítulo 06 — Otimização e Regularização** (4 exercícios, 1 vídeo): gradiente como procedimento, diagnóstico pela curva de perda, L1 × L2 explicado pelo gradiente da penalidade, e early stopping.
 - **Etapa 05–06 do `ml-zero`**: `Padronizador`, `RegressaoLinear` com solução fechada **e** gradiente, `RegressaoLogistica` com L1/L2, e o otimizador isolado do modelo. 22 testes.
 
@@ -157,7 +210,7 @@ O primeiro capítulo de conteúdo depois da fundação, e não por acaso: **vaza
 
 **Modelo de IA usado:** Claude (Anthropic), via Claude Code, sessão de 2026-08-05.
 
-**Nota de método:** a lição central do capítulo — "embaralhar por linha vaza o sujeito" — é uma **asserção executável** na suíte de testes, não apenas uma frase no texto. É o Princípio II levado ao limite: o argumento do livro falha o build se deixar de ser verdade.
+**Nota de método:** a lição central do capítulo ("embaralhar por linha vaza o sujeito") é uma **asserção executável** na suíte de testes, não apenas uma frase no texto. É o Princípio II levado ao limite: o argumento do livro falha o build se deixar de ser verdade.
 
 ### Edição 0.1 — 2026-08-01 · Fundação: maquinaria, estrutura e a camada interativa (spec 001)
 

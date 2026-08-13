@@ -13,11 +13,25 @@
 
 ## O problema: um modelo excelente para a pergunta errada
 
-Um varejista pede um modelo de *churn* — de abandono: prever quem vai deixar de comprar. A equipe recebe acesso ao banco, encontra a tabela de compras, define o rótulo pelo que os dados permitem — "cliente que não compra há 90 dias" — treina, mede e entrega AUC de 0,93. O relatório é bonito. O modelo nunca foi usado.
+Um varejista pede um modelo de *churn* — de abandono: prever quem vai deixar de comprar. A equipe recebe acesso ao banco, encontra a tabela de compras, define o rótulo pelo que os dados permitem ("cliente que não compra há 90 dias"), treina, mede e entrega AUC de 0,93. O relatório é bonito. O modelo nunca foi usado.
 
 O motivo apareceu na primeira reunião com a área de retenção: eles só conseguem agir sobre um cliente **na renovação do plano**, e a renovação acontece antes dos 90 dias de silêncio. Quando o modelo acusa risco, o cliente já foi embora. A lista chega tarde para todo mundo que poderia fazer algo com ela.
 
 Nenhuma métrica do [capítulo II.1](ii-1-avaliacao.md) capturaria isso. O modelo é bom; o alvo é que responde a uma pergunta que ninguém tinha. E repare no mecanismo do erro: a equipe começou **pelos dados disponíveis**, e o rótulo saiu do que era fácil de calcular, não do que era possível decidir.
+
+:::lab {"id":"ciclo-ciencia-de-dados-l1","tipo":"anima-horizonte","titulo":"A AUC sobe, a lista chega tarde"}
+Mil e duzentos clientes. O horizonte do rótulo desliza de 5 a 120 dias de silêncio, e duas curvas aparecem juntas: em **azul**, a AUC do modelo; em **vermelho**, a fração dos clientes marcados que **ainda dá para acionar** quando o alarme toca, dado que cada um decide a renovação na data dele.
+
+Assista as duas. Elas andam em sentidos opostos.
+
+A AUC sobe de 0,66 para **0,76**, e sobe por um motivo legítimo: cliente calado há quatro meses é fácil de prever. É esta curva que vai para o relatório, e é ela que faz a equipe do capítulo escolher os 90 dias. Do outro lado, a fração acionável cai até **0,000**: no horizonte longo, todo mundo que o modelo aponta já passou da própria renovação.
+
+**O produto das duas tem máximo no meio.** Com a renovação caindo em média no dia 60, o melhor valor aparece no horizonte de **23 dias** — muito antes do ponto onde a AUC é melhor.
+
+Agora clique em **"E se a renovação fosse no dia 30?"**. Nada no modelo mudou, nada nos dados mudou. O ótimo vai para **11 dias**.
+
+> **É a tese do capítulo em dois números.** O horizonte certo não sai da tabela, sai do **prazo da operação** — e quando o prazo muda, o rótulo tem de mudar junto, mesmo que os dados sejam exatamente os mesmos. A curva azul não sabe disso e nunca vai saber, porque a AUC não tem como perguntar quando a decisão pode ser tomada. É por isso que o entendimento do negócio é a fase 1, e não uma conversa que se tem depois de o modelo ficar pronto.
+:::
 
 O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para tornar esse erro difícil de cometer. Ele coloca *entendimento do negócio* como fase 1 e *modelagem* como fase 4 — e essa ordem é a lição inteira do capítulo.
 
@@ -25,15 +39,17 @@ O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para torna
 
 **O aperto.** Meados dos anos 1990. Mineração de dados era um mercado novo, com dinheiro entrando e nenhum acordo sobre como se trabalha. Cada projeto reinventava seu próprio processo. Dois times na mesma empresa entregavam relatórios que não se comparavam; duas empresas não conseguiam repetir o que a outra tinha feito. Não havia como saber se um resultado ruim veio do problema, dos dados ou de alguém ter pulado uma etapa — porque não existia a lista de etapas.
 
-**O que se fazia antes.** Consultoria: cada casa trazia seu método interno, não publicado, casado com a ferramenta que vendia. E ferramenta se vendia sem método nenhum — comprava-se o *workbench* — o pacote que reunia as ferramentas de mineração numa tela só —, e o cliente que descobrisse sozinho o que fazer com ele.
+**O que se fazia antes.** Consultoria: cada casa trazia seu método interno, não publicado, casado com a ferramenta que vendia. E ferramenta se vendia sem método nenhum. Comprava-se o *workbench*, o pacote que reunia as ferramentas de mineração numa tela só, e o cliente que descobrisse sozinho o que fazer com ele.
 
 **A virada.** Escrever um processo **de indústria**, e não de fornecedor. Seis fases explicitamente **cíclicas**, com *entendimento do negócio* na primeira posição e *modelagem* apenas na quarta. O documento não pertence a ninguém, não exige software algum e descreve entregas, não cliques.
 
-**A ideia reaproveitável.** **O método é o produto, não a ferramenta.** Quando um campo novo ainda não tem processo comum, o processo comum vale mais do que qualquer algoritmo: é ele que torna o resultado **auditável** (dá para perguntar em que fase a coisa desandou) e **transferível** (outra equipe consegue continuar o trabalho). Vale para muito além de mineração de dados — é a mesma razão pela qual um repositório com README, testes e CI vale mais que um repositório com código mais esperto.
+**A ideia reaproveitável.** **O método é o produto, não a ferramenta.** Quando um campo novo ainda não tem processo comum, o processo comum vale mais do que qualquer algoritmo: é ele que torna o resultado auditável (dá para perguntar em que fase a coisa desandou) e transferível (outra equipe consegue continuar o trabalho). Vale para muito além de mineração de dados — é a mesma razão pela qual um repositório com README, testes e CI vale mais que um repositório com código mais esperto.
 
 **O nome.** *CRoss-Industry Standard Process for Data Mining*. O "cross-industry" não é enfeite, é a tese: o processo não pode pertencer a um setor nem a um vendedor, ou volta a ser método de consultoria.
 
-Concebido no fim de 1996, virou projeto europeu com financiamento do **ESPRIT**, o programa europeu de pesquisa em tecnologia da informação, em 1997, tocado por um consórcio de cinco organizações: a ISL — depois absorvida pela SPSS, autora do Clementine, o primeiro *workbench* comercial de mineração, de 1994 —, a Teradata, a NCR, a Daimler-Benz e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
+O prefácio do guia conta a origem em primeira pessoa. **Concebido no fim de 1996** por três veteranos de um mercado que os próprios autores chamam de jovem e imaturo, virou consórcio no ano seguinte: *"A year later we had formed a consortium, invented an acronym (CRoss-Industry Standard Process for Data Mining), obtained funding from the European Commission and begun to set out our initial ideas."*
+
+O consórcio tem **quatro** membros, e a página de propriedade do documento os lista: NCR, DaimlerChrysler (então Daimler-Benz), SPSS (então ISL, autora do Clementine, *"the first commercial data mining workbench"*, de 1994) e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
 
 Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora** sentadas na mesma mesa. A prova de conceito do "cross-industry" está na composição do grupo — se o mesmo processo servisse para fabricar carros e para precificar apólices, servia para o resto.
 
@@ -43,8 +59,10 @@ Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora*
 
 | Selo | Afirmação |
 |---|---|
-| ✓ᵐ | A estrutura de seis fases cíclicas e o nome por extenso, pelo guia CRISP-DM 1.0 (1999) — documento localizado e identificado, **não lido por inteiro** |
-| ✓ᵐ | A cronologia (concepção no fim de 1996, ESPRIT em 1997, versão 1.0 em 1999), a composição do consórcio (ISL/SPSS, Teradata, NCR, Daimler-Benz, OHRA), os testes na Mercedes-Benz e na OHRA, e o Clementine (1994) como primeiro *workbench* comercial |
+| ✓ | A estrutura de **seis fases** e o nome por extenso, no texto do [guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf) (78 páginas, PDF extraído e lido): *"The life cycle of a data mining project consists of six phases"*, e a expansão do acrônimo tal como o prefácio a registra |
+| ✓ | A cronologia e o consórcio, pelo prefácio e pela página de propriedade do mesmo guia: concepção no fim de 1996, consórcio e financiamento **da Comissão Europeia** um ano depois, versão 1.0 em 1999; os quatro membros (NCR, DaimlerChrysler, SPSS, OHRA); os testes na Mercedes-Benz e na OHRA; e o Clementine de 1994 como *"the first commercial data mining workbench"* |
+| ⏳ | Que o financiamento europeu tenha vindo especificamente do programa **ESPRIT**. É a atribuição corrente, e **a palavra não aparece nenhuma vez no guia**, que diz apenas "European Commission" |
+| ❌ | **Correção de 2026-08-13.** Este capítulo afirmava um consórcio de **cinco** organizações, incluindo a Teradata como membro e a ISL separada da SPSS. Ler o guia desfez as duas: a Teradata é a linha de *data warehouse* **da NCR**, citada no prefácio como o negócio que motivou a participação dela, e ISL é o nome anterior da própria SPSS |
 | ⏳ | O estado do mercado em meados dos anos 1990: processo ad hoc por consultoria, ferramenta vendida sem método, resultados não comparáveis nem repetíveis entre empresas |
 | ⏳ | Que a presença de uma seguradora ao lado de uma montadora funcione como prova de conceito do "cross-industry" |
 | 📖 | A ideia reaproveitável ("o método é o produto, não a ferramenta") e a leitura de que o processo comum é o que torna o resultado auditável e transferível |
@@ -62,7 +80,7 @@ Uma fase não termina quando o tempo acaba — termina quando ela **entrega** o 
 | 5 | **Avaliação** | isto resolve o problema da fase 1? | decisão de seguir, iterar ou parar |
 | 6 | **Implantação** | como isto chega a quem decide, e continua funcionando? | sistema em produção, monitoramento, plano de manutenção |
 
-Três fases já têm capítulo próprio neste livro. A **preparação dos dados** é o assunto do [capítulo I.3](i-3-dados.md) e do [capítulo I.2](i-2-coleta-integracao.md). A **avaliação** técnica — matriz de confusão, métrica escolhida pelo custo do erro — é o [capítulo II.1](ii-1-avaliacao.md). A **implantação** é o [capítulo V.2](v-2-sistemas-de-ml.md) e o [capítulo V.3](v-3-mlops.md).
+Três fases já têm capítulo próprio neste livro. A **preparação dos dados** é o assunto do [capítulo I.3](i-3-dados.md) e do [capítulo I.2](i-2-coleta-integracao.md). A **avaliação** técnica, com matriz de confusão e métrica escolhida pelo custo do erro, é o [capítulo II.1](ii-1-avaliacao.md). A **implantação** é o [capítulo V.2](v-2-sistemas-de-ml.md) e o [capítulo V.3](v-3-mlops.md).
 
 E vale separar duas coisas que o vocabulário mistura. A métrica que você calcula dentro da fase 4 responde *"o modelo aprendeu?"*. A fase 5 responde *"e daí?"* — se o ganho de AUC vira dinheiro, se a lista chega a tempo de alguém agir, se o critério escrito na fase 1 foi atingido. Um modelo pode passar na primeira e reprovar na segunda. Foi exatamente o que aconteceu com o *churn* do início do capítulo.
 
@@ -79,6 +97,58 @@ Uma seguradora pede um modelo para "reduzir os sinistros de automóvel". O proje
 >
 > A alternativa mais tentadora é a última — o [capítulo II.1](ii-1-avaliacao.md) insiste em definir a métrica **antes** de treinar, e isso está certo. Mas a métrica se escolhe pelo custo do erro, e o custo do erro é informação de negócio: quem paga um falso positivo aqui, o cliente recusado ou a seguradora? Definir métrica sem a fase 1 é escolher no chute e chamar de rigor. Inventariar tabelas é a fase 2; treinar uma linha de base é a fase 4 — as duas são trabalho útil, na hora errada.
 > **volte para:** #o-problema-um-modelo-excelente-para-a-pergunta-errada
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e6","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+"Conjunto de treino e teste, atributos e rótulo definido." Qual fase do CRISP-DM entrega esse artefato?
+
+- [ ] Fase 2, entendimento dos dados.
+- [x] Fase 3, preparação dos dados.
+- [ ] Fase 4, modelagem.
+- [ ] Fase 5, avaliação.
+
+> **gabarito:** fase 3, preparação dos dados
+> **porque:** A pergunta da fase 3 é "como isto vira uma tabela treinável?", e a resposta é exatamente esse pacote: as divisões feitas, os atributos construídos e o rótulo definido.
+>
+> A confusão mais comum é com a fase 2, que **olha** os dados e produz inventário, primeiras estatísticas e uma lista de problemas de qualidade. A fase 2 diz o que existe e se dá para confiar; a 3 transforma. E a 4 já recebe a tabela pronta: um modelo treinado é entrega da modelagem, não da preparação.
+>
+> O jeito de nunca mais errar isto é ler a coluna "o que entrega" da tabela como um contrato: cada fase termina quando o artefato que a próxima consome está pronto, não quando o prazo acaba.
+> **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e7","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
+Um relatório de projeto lista o que a equipe produziu nas duas primeiras semanas. Quais itens são entrega da **fase 1**, e não de outra fase? (marque todos que valem)
+
+- [x] "Critério de sucesso: reduzir de 12 para 5 copos o erro médio de preparo diário."
+- [x] "A dona decide a quantidade às 7h, antes de conhecer o movimento do dia."
+- [ ] "A coluna de temperatura vai de 15 a 103, sem unidade declarada."
+- [x] "Objetivo: decidir quanta limonada preparar, para não sobrar nem faltar."
+- [ ] "Foram construídas 14 variáveis derivadas do calendário."
+
+> **gabarito:** critério de sucesso · restrição de ação · objetivo de negócio
+> **porque:** São os três artefatos da fase 1, e a tabela os nomeia nessa ordem: objetivo de negócio, critério de sucesso e restrição de ação. Repare que nenhum deles menciona modelo, coluna ou algoritmo — a fase 1 fala a língua de quem decide.
+>
+> A faixa da temperatura é achado da fase 2: é o inventário das fontes e o problema de qualidade que ele revela. As 14 variáveis derivadas são fase 3, construção de atributos.
+>
+> A restrição de ação é a que mais escapa, porque não parece um "entregável". Ela é a mais decisiva das três: "decide às 7h" determina sozinha quais colunas podem entrar no modelo, e é o que separa uma previsão útil de uma profecia que depende de ver o futuro.
+> **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e8","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Um colega objeta: "não dá para conversar com o negócio antes de olhar os dados, porque não sabemos o que é possível prometer". Qual é a melhor avaliação dessa objeção?
+
+- [ ] Está errada: a fase 1 é primeira, e a ordem do CRISP-DM não admite exceção.
+- [ ] Está certa: por isso o ciclo deve começar pela fase 2 sempre que a equipe não conhece o domínio.
+- [x] Tem uma parte certa, e ela é atendida por uma volta rápida da fase 2 para a fase 1 — não por inverter a ordem de partida.
+- [ ] É irrelevante: viabilidade técnica se descobre na fase 4, não na 2.
+
+> **gabarito:** tem uma parte certa, atendida por uma volta e não por inverter a partida
+> **porque:** A objeção acerta o fato e erra a conclusão. É verdade que prometer sem saber o que existe produz compromisso irreal, e é por isso que o desenho do CRISP-DM tem uma seta explícita da fase 2 de volta para a 1.
+>
+> Mas a seta de volta pressupõe que houve ida. Começar pela fase 2 sem nenhuma pergunta de negócio não é humildade técnica: é deixar o alvo ser escolhido pela tabela mais acessível, que é o mecanismo exato do fracasso do *churn* na abertura do capítulo. A conversa inicial não precisa produzir uma promessa, e sim a pergunta — qual decisão, de quem, com quanta antecedência. Essa pergunta é o que torna a olhada nos dados dirigida em vez de exploratória.
+>
+> A primeira alternativa erra pelo lado oposto, tratando a ordem como dogma. O ciclo é um ciclo justamente porque a informação chega fora de ordem; o que não se negocia é qual pergunta comanda, não em que semana cada arquivo é aberto.
+> **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
 :::
 
 :::exercicio {"id":"ciclo-ciencia-de-dados-e4","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
@@ -116,12 +186,12 @@ O registro da barraca tem 365 linhas e sete colunas: `data`, `dia_semana`, `temp
 
 Entregue as **três** coisas que a fase 2 exige:
 
-1. o **inventário**: o que cada coluna é, e — a pergunta que separa a fase 2 da fase 3 — **quais delas você teria em mãos no momento de decidir**;
+1. o **inventário**: o que cada coluna é e, na pergunta que separa a fase 2 da fase 3, **quais delas você teria em mãos no momento de decidir**;
 2. as **primeiras estatísticas** que você pediria antes de qualquer modelo, e o que cada uma responderia;
 3. pelo menos **dois problemas de qualidade ou de confiança** que você iria procurar neste conjunto específico.
 
-> **rubrica:** separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer (vendas é o alvo; panfletos e preço são decisões da dona; temperatura e precipitação dependem de previsão do tempo, não do valor observado);
-> pede estatísticas descritivas concretas — faixa, média, valores distintos, contagem por categoria — e diz o que cada uma responderia;
+> **rubrica:** separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer — vendas é o alvo, panfletos e preço são decisões da dona, e temperatura e precipitação dependem de previsão do tempo, não do valor observado;
+> pede estatísticas descritivas concretas (faixa, média, valores distintos, contagem por categoria) e diz o que cada uma responderia;
 > aponta pelo menos dois riscos reais do conjunto, entre: unidade da temperatura não declarada, preço com pouquíssimos valores distintos, período curto de um ano só, ausência de registro de dias fechados, dado possivelmente sintético;
 > não trata "sem valores faltantes" como prova de qualidade;
 > a resposta é sobre ESTE conjunto, não uma lista genérica de boas práticas
@@ -158,7 +228,42 @@ Para qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.
 > **gabarito:** 1
 > **porque:** Definir o que conta como evento é **entendimento do negócio**, fase 1. O que quebrou não foi a construção do rótulo: foi o acordo sobre o que se está prevendo.
 >
-> A resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *"cliente perdido é quem, para quem age?"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas **à toa** se o alvo continuar errado.
+> A resposta tentadora é a **3**, preparação dos dados, porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *"cliente perdido é quem, para quem age?"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas **à toa** se o alvo continuar errado.
+> **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e9","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Qual das quatro voltas do ciclo é a mais frequente em um projeto, segundo esta seção?
+
+- [ ] Fase 2 de volta à 1, quando os dados não permitem responder à pergunta.
+- [x] Fase 4 de volta à 3, porque cada erro do modelo devolve trabalho para a preparação.
+- [ ] Fase 5 de volta à 1, quando o modelo funciona e não serve.
+- [ ] Fase 6 de volta a tudo, por causa do *drift*.
+
+> **gabarito:** fase 4 de volta à 3
+> **porque:** É o laço que roda dezenas de vezes dentro de um mesmo projeto, enquanto os outros três costumam disparar uma ou duas vezes cada. Todo erro que o modelo comete vira trabalho de preparação: um atributo novo, um vazamento a tapar, um recorte de amostra a corrigir.
+>
+> A consequência prática é a que interessa, e ela contradiz a intuição de quem planeja o cronograma: a fase 3 é a mais revisitada do ciclo, não a 4. Quem reserva tempo para "modelar" e trata a preparação como etapa que acontece uma vez está orçando o projeto errado.
+>
+> As outras três voltas são reais e mais caras por evento. A da fase 6 é a que nunca termina, porque o mundo continua mudando depois da entrega, e é ela que faz do CRISP-DM um círculo em vez de uma reta.
+> **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e10","tipo":"multipla-multi","objetivo":"O3","dificuldade":"dificil"}
+Uma gerente propõe: "vamos fechar cada fase com uma aprovação formal e só então liberar a seguinte, para o projeto não ficar rodando em círculo". Quais consequências previsíveis essa proposta tem, à luz desta seção? (marque todas que valem)
+
+- [x] O achado da fase 2 que invalida a pergunta da fase 1 chegará depois de a fase 1 estar assinada.
+- [x] A fase 3, que é a mais revisitada, passará a exigir reabertura formal a cada erro do modelo.
+- [ ] O projeto terminará mais rápido, porque não haverá retrabalho.
+- [x] A implantação será tratada como fim do projeto, e não como reabertura do ciclo.
+- [ ] A qualidade do modelo melhorará, porque cada fase será verificada antes da seguinte.
+
+> **gabarito:** o achado da fase 2 chega tarde · a fase 3 exige reabertura a cada erro · a implantação vira fim em vez de reabertura
+> **porque:** A proposta é uma cascata com outro nome, e as três corretas são exatamente as setas de volta que ela proíbe. Nenhuma delas é retrabalho evitável: são descobertas que só podem ser feitas depois, porque dependem de informação que a fase anterior não tinha.
+>
+> As duas erradas descrevem o que a cascata promete. "Não haverá retrabalho" confunde impedir a volta com tornar a volta desnecessária: o achado continua acontecendo, só chega quando custa mais caro. E a aprovação por fase verifica a **entrega**, não a adequação — o *churn* da abertura passaria em todos os portões, porque cada fase entregou corretamente o artefato que a seguinte pedia, sobre um alvo errado.
+>
+> O custo específico está na última linha da seção: você descobre na semana seis o que custaria uma reunião na semana um. A proposta da gerente é justamente o que garante isso.
 > **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
 :::
 
@@ -173,12 +278,12 @@ Os cargos que o mercado usa não são especializações por técnica — são **
 | **Cientista de dados** | fases 3, 4 e 5 | atributos, modelo, e a leitura honesta do resultado |
 | **Engenheiro de ML** | fases 4 e 6 | o modelo servindo em produção, monitorado ([cap. V.2](v-2-sistemas-de-ml.md), [cap. V.3](v-3-mlops.md)) |
 
-Duas leituras saem da tabela. A primeira: **a fase 3 é onde os papéis se encontram** — o engenheiro entrega a fonte, o cientista constrói o atributo — e por isso é onde mais se perde trabalho quando ninguém combinou quem faz o quê.
+Duas leituras saem da tabela. A primeira: **a fase 3 é onde os papéis se encontram**, com o engenheiro entregando a fonte e o cientista construindo o atributo, e por isso é onde mais se perde trabalho quando ninguém combinou quem faz o quê.
 
 A segunda é mais séria. Num time só de gente técnica, **a fase 1 fica sem dono**. Ninguém foi contratado para descobrir qual decisão vai mudar, e o ciclo começa pela fase 2 — que é exatamente o erro da primeira seção deste capítulo. Em time pequeno, uma pessoa ocupa vários papéis, e isso funciona; o que não funciona é uma fase sem responsável declarado.
 
 :::exercicio {"id":"ciclo-ciencia-de-dados-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
-Um time de três pessoas — um engenheiro de dados, um cientista de dados e um engenheiro de ML — vai retomar o projeto de *churn* do começo do capítulo.
+Um time de três pessoas (um engenheiro de dados, um cientista de dados e um engenheiro de ML) vai retomar o projeto de *churn* do começo do capítulo.
 
 Distribua as seis fases entre os três, aponte a fase que corre risco de ficar **sem dono** e diga como você resolveria isso.
 
@@ -186,11 +291,44 @@ Distribua as seis fases entre os três, aponte a fase que corre risco de ficar *
 > atribui as fases 4 e 5 ao cientista de dados;
 > atribui a fase 6 ao engenheiro de ML, com monitoramento;
 > identifica a fase 1 (entendimento do negócio) como a que fica sem dono natural neste trio;
-> propõe uma solução concreta — trazer a área de retenção para a fase 1, ou o cientista de dados assumir formalmente a conversa — em vez de só apontar o problema;
+> propõe uma solução concreta, como trazer a área de retenção para a fase 1 ou o cientista de dados assumir formalmente a conversa, em vez de só apontar o problema;
 > justifica com a consequência: sem dono na fase 1, o time otimiza um alvo que ninguém pediu
 > **porque:** O recorte por fase é direto: dados chegam pelo engenheiro de dados (2 e 3), o modelo e sua leitura são do cientista de dados (4 e 5), produção e monitoramento são do engenheiro de ML (6). A fase 3 é compartilhada, e vale dizer isso na resposta.
 >
 > A parte que separa uma boa resposta de uma lista é a **fase 1**. Nenhum dos três foi contratado para ela, e é justamente a fase cuja ausência produziu o fracasso original: o rótulo de 90 dias saiu do que a tabela permitia, não do que a retenção podia acionar. Uma resposta que só distribui as seis fases entre os três está reproduzindo o erro do capítulo com organograma novo. Resolver não exige contratar ninguém — exige declarar um responsável por conversar com quem age, e um critério de sucesso escrito antes da primeira consulta ao banco.
+> **volte para:** #quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+De quem é a entrega "as fontes confiáveis e o pipeline que as mantém"?
+
+- [ ] Do cientista de dados.
+- [x] Do engenheiro de dados.
+- [ ] Do engenheiro de ML.
+- [ ] Do analista ou dono do problema.
+
+> **gabarito:** do engenheiro de dados
+> **porque:** É a linha direta da tabela: engenheiro de dados vive nas fases 2 e 3, e entrega fonte confiável mais o pipeline que a mantém funcionando.
+>
+> A confusão frequente é com o engenheiro de ML, e a distinção vale guardar: o engenheiro de dados mantém o **dado** chegando, o engenheiro de ML mantém o **modelo** servindo. Os dois operam pipelines, em pontas opostas do ciclo.
+>
+> O cientista de dados aparece na fase 3 também, construindo atributo em cima da fonte que recebeu, e é por isso que a 3 é onde os papéis se encontram — e onde mais se perde trabalho quando ninguém combinou quem faz o quê.
+> **volte para:** #quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Numa retrospectiva, uma equipe relata os fatos abaixo. Quais deles são sintoma de **fase sem dono declarado**, no sentido desta seção? (marque todos que valem)
+
+- [x] "O alvo foi definido pelo que a tabela de compras permitia calcular."
+- [x] "O modelo está em produção há cinco meses e ninguém sabe dizer se ainda está bom."
+- [ ] "O cientista de dados e o engenheiro de dados discutiram três vezes sobre a construção de um atributo."
+- [x] "Ninguém escreveu o critério de sucesso antes da primeira consulta ao banco."
+- [ ] "A equipe tem três pessoas, e cada uma ocupa mais de um papel."
+
+> **gabarito:** alvo escolhido pela tabela · produção sem quem avalie · critério não escrito antes
+> **porque:** As três corretas apontam para duas fases órfãs. Alvo escolhido pela tabela e critério não escrito são a fase 1 sem dono, que é o diagnóstico da seção para times só de gente técnica. Produção sem ninguém que responda "ainda está bom?" é a fase 6 sem dono, e sem ela o ciclo nunca reabre.
+>
+> As duas erradas são o ponto fino. Discutir três vezes a construção de um atributo é a fase 3 funcionando: ela é compartilhada por dois papéis, e o encontro deles é o desenho, não a falha. E acumular papéis num time de três é normal e funciona — o que não funciona é uma fase sem responsável declarado, que é coisa diferente de uma pessoa com dois chapéus.
 > **volte para:** #quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo
 :::
 
@@ -201,7 +339,7 @@ Distribua as seis fases entre os três, aponte a fase que corre risco de ficar *
 - A fase 5 não é a métrica de teste: é *"isto resolve o problema da fase 1?"*. Modelo pode passar na 4 e reprovar na 5.
 - **As setas voltam.** Fase 4 devolve trabalho para a 3; fase 5 devolve para a 1; a implantação reabre o ciclo por causa do *drift*.
 - Os cargos são **recortes do ciclo**, não especialidades técnicas — e num time só técnico a fase 1 fica sem dono.
-- Nasceu de um consórcio de indústria (1996–1999, ESPRIT), com montadora e seguradora na mesma mesa, para que o processo não pertencesse a nenhum fornecedor.
+- Nasceu de um consórcio de quatro organizações (1996–1999), financiado pela Comissão Europeia, com montadora e seguradora na mesma mesa, para que o processo não pertencesse a nenhum fornecedor.
 - **O método é o produto, não a ferramenta.** Em campo novo, o processo comum é o que torna o resultado auditável e transferível — mais do que qualquer algoritmo.
 
 ## Verificação

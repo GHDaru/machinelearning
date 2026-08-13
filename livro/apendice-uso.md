@@ -50,7 +50,7 @@ Digite `/turma` sozinho para ler isso dentro do próprio chat antes de decidir, 
 
 Duas coisas ditas com todas as letras:
 
-- **A identificação é declarada, não verificada.** Não há login: você digita a matrícula que quiser. Isso é deliberado — o preço de não exigir cadastro — e é a razão de este mecanismo servir para *acompanhar prática*, não para lançar nota sozinho.
+- **A identificação é declarada, não verificada.** Não há login: você digita a matrícula que quiser. Isso é deliberado (o preço de não exigir cadastro) e é a razão de este mecanismo servir para *acompanhar prática*, não para lançar nota sozinho.
 - **Apagar a sessão apaga também o vínculo.** Não fica nome para trás.
 
 O desenho, as alternativas recusadas e as dívidas estão no [ADR 0008](../adr/0008-identificacao-por-turma.md).

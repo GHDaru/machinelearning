@@ -32,13 +32,15 @@ O vazamento **não dá erro**. Não aparece em log, não quebra teste, e passa p
 
 **O aperto.** Fim dos anos 2000, competições públicas de mineração de dados. Empresas e universidades passaram a publicar conjuntos de dados reais e premiar quem previsse melhor — e as competições começaram a **quebrar**, uma atrás da outra: INFORMS 2010, o desafio de rede social do IJCNN 2011, a KDD-Cup 2007 sobre o dado da Netflix. Não por trapaça: por vazamento.
 
-O caso que virou emblema é a **KDD Cup de 2008**, de detecção de câncer em mamografia. Uma das colunas era o **identificador do paciente** — um número administrativo, sem nenhum conteúdo clínico. E ele tinha **poder preditivo enorme**.
+O caso que virou emblema é a **KDD Cup de 2008**, de detecção de câncer em mamografia. Uma das colunas era o identificador do paciente, um número administrativo sem nenhum conteúdo clínico, e ele tinha *"tremendous and unexpected predictive power"* nas palavras de quem analisou a competição.
+
+O mecanismo, que é mais interessante que o fato, está descrito na mesma análise: a base foi montada juntando **várias fontes** (estudos clínicos, instituições, equipamentos diferentes), e algumas dessas fontes tinham selecionado a própria população *"with prior knowledge of the patient's condition"*. Como cada fonte recebeu identificadores consecutivos, a junção foi feita *"without obfuscating the source"* — e o número do paciente virou o nome da fonte, disfarçado de número.
 
 **O que se fazia antes.** Tratava-se vazamento como descuido individual: alguém esqueceu de tirar uma coluna. Cada equipe descobria o seu, contava no corredor, e não havia vocabulário comum para o fenômeno.
 
 **A virada.** Em 2012, Kaufman, Rosset, Perlich e Stitelman publicam *"Leakage in Data Mining: Formulation, Detection, and Avoidance"* e fazem o movimento que faltava: **transformar uma coleção de acidentes numa categoria com definição, taxonomia e método de detecção.** Vazamento deixa de ser azar e passa a ser algo que se procura de propósito.
 
-**A ideia reaproveitável — e é a que dá título a este capítulo.** **Desempenho alto demais é sintoma, não vitória.** O identificador do paciente não sabia nada sobre câncer; sabia sobre **como o hospital organizou a fila** — que exames vinham de triagem de rotina e quais de encaminhamento suspeito. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
+**A ideia reaproveitável, e é a que dá título a este capítulo.** Desempenho alto demais é sintoma, não vitória. O identificador do paciente não sabia nada sobre câncer; sabia de qual fonte aquela linha tinha vindo, e algumas fontes já haviam escolhido quem entrava sabendo o diagnóstico. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
 
 **O nome.** *Leakage* — a informação "vaza" do futuro para o passado, atravessando a fronteira temporal que deveria separar o que se sabe do que se quer prever.
 
@@ -54,8 +56,9 @@ A **ficha de dataset** que este capítulo adota tem origem declarada, e ela não
 |---|---|
 | ✓ᵐ | [Kaufman, Rosset, Perlich & Stitelman, *ACM TKDD* 6(4), art. 15, 2012](https://dl.acm.org/doi/10.1145/2382577.2382579) — obra, autoria, ano e veículo. **PDF localizado, não lido por inteiro** |
 | ✓ᵐ | [Gebru *et al.*, *Datasheets for Datasets*, arXiv:1803.09010](https://arxiv.org/abs/1803.09010), 23/03/2018; versão em *CACM* 64(12), 2021. A analogia com a eletrônica está declarada no resumo |
-| ⏳ | As competições citadas como gatilho (INFORMS 2010, IJCNN 2011, KDD-Cup 2007) e o caso do *Patient ID* na KDD Cup 2008 |
-| ⏳ | A explicação de **por que** o identificador previa — a organização da fila do hospital. É a leitura corrente do caso; não conferida na primária |
+| ✓ | As competições citadas como gatilho e o caso do *Patient ID*, no texto de **Kaufman, Rosset & Perlich, *"Leakage in Data Mining"* (KDD '11)** — a versão de conferência do mesmo trabalho, PDF extraído e lido. Dela vêm os trechos citados entre aspas, o mecanismo das fontes com identificadores consecutivos, e o KDD-Cup 2007 sobre as bases da Netflix |
+| ⏳ | Que a versão de **TKDD 6(4), 2012**, com **Stitelman** como quarto autor, diga tudo isso nos mesmos termos. É a versão que este capítulo cita, e a que **não** foi aberta; o que se leu foi a de 2011, com três autores |
+| ❌ | **Correção de 2026-08-13.** O capítulo explicava o poder preditivo do identificador pela "organização da fila do hospital", com exames de triagem de rotina contra encaminhamento suspeito. A fonte diz outra coisa: a base juntou várias fontes, algumas das quais escolheram a população já sabendo o diagnóstico, e a junção manteve identificadores consecutivos por fonte. A explicação antiga soava plausível e perdia o mecanismo |
 | ❌ | **Datasets clássicos que envelheceram mal** por viés de seleção ou por questões éticas: casos existem e são citados na literatura, mas **nenhum foi verificado nesta passada**, e por isso nenhum é nomeado aqui |
 | 📖 | As duas ideias reaproveitáveis |
 
@@ -102,6 +105,31 @@ Vale para tudo que "aprende" alguma coisa dos dados: normalização, imputação
 
 O efeito costuma ser pequeno — décimos de ponto. É justamente por isso que é perigoso: pequeno demais para levantar suspeita, grande o bastante para decidir qual modelo vai a produção.
 
+:::lab {"id":"dados-l1","tipo":"anima-vazamento","titulo":"As três fontes lado a lado, com a intensidade do vazamento subindo"}
+As três fontes acima foram descritas uma a uma. Aqui elas são **medidas juntas**, no mesmo dado e com o mesmo modelo, cada uma com a própria intensidade subindo de 0 a 1. Na intensidade 0 as quatro curvas são o mesmo experimento honesto, e é por isso que todas partem de **AUC 0,570**.
+
+O modelo é um k-vizinhos ponderado por distância. A escolha importa: é o mais simples que consegue **memorizar**, e sem memória a terceira fonte não teria efeito nenhum.
+
+O que a varredura mede:
+
+| Fonte | AUC no fim | Quanto inflou |
+|---|---|---|
+| 1. alvo disfarçado | 0,991 | +0,421 |
+| 2. normalizar antes de dividir | 0,567 | **−0,003** |
+| 2b. codificar por alvo antes de dividir | 0,753 | +0,183 |
+| 3. duplicata | 1,000 | +0,430 |
+
+Duas linhas disparam até o teto, e são as que qualquer revisão pega: um relatório com AUC 1,000 desperta suspeita sozinho.
+
+**A segunda linha é a que este capítulo pede para você olhar.** Normalizar antes de dividir, que é o erro mais comum de todos, não inflou nada: o efeito ficou em três milésimos, e **para baixo**. Clicando em "Outro conjunto de sorteios", ele vira dois milésimos para cima. O sinal nem é estável. Você não detectaria esse vazamento nem se procurasse por ele.
+
+### E por que isso não é uma boa notícia
+
+A quarta curva existe para responder a essa pergunta, e ela é o mesmo erro da segunda: aprender alguma coisa dos dados antes de dividir. A única diferença é **o que** se aprende. Média e desvio de uma coluna numérica quase não se movem quando o teste entra na conta. Já a **média do alvo por categoria**, num conjunto com muitas categorias raras, se move muito: a codificação de uma categoria com duas ou três linhas passa a conter o rótulo daquelas linhas. O mesmo descuido salta de três milésimos para **cento e oitenta e três** milésimos.
+
+A lição não é "normalizar antes de dividir é inofensivo". É mais desconfortável: **o tamanho do vazamento não se lê no erro, e sim no quanto a estatística vazada se mexe.** Como você não vai calcular isso caso a caso, sobra a regra sem exceção — tudo que aprende dos dados aprende só do treino.
+:::
+
 ### 3. Duplicata entre conjuntos — o modelo que já viu a prova
 
 Se o mesmo exemplo, ou um quase-idêntico, aparece nos dois lados da divisão, o teste deixou de medir generalização e passou a medir memória.
@@ -113,6 +141,23 @@ Acontece mais do que se imagina:
 - **Múltiplas linhas do mesmo sujeito**: dez transações de um cliente, cinco exames de um paciente, vinte sensores da mesma máquina.
 
 O terceiro caso é o que mais engana, porque não parece duplicata — são linhas genuinamente diferentes. Mas se o modelo aprende a reconhecer *o cliente* em vez de *o comportamento*, ele vai bem no teste e mal com clientes novos, que é a única coisa que importa.
+
+:::exercicio {"id":"dados-e12","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Qual das três fontes de vazamento deste capítulo descreve um `StandardScaler` ajustado sobre a base inteira antes do `train_test_split`?
+
+- [ ] Alvo disfarçado: uma coluna que só existe depois do evento.
+- [x] Pré-processamento antes da divisão: a estatística usada na transformação foi calculada com o teste dentro.
+- [ ] Duplicata entre conjuntos: o mesmo exemplo dos dois lados da divisão.
+- [ ] Nenhuma: padronizar não usa o alvo, então não há vazamento.
+
+> **gabarito:** pré-processamento antes da divisão
+> **porque:** A média e o desvio que o escalonador aprendeu foram calculados com as linhas do teste incluídas. Cada exemplo de teste, ao ser transformado, é comparado a uma estatística da qual ele mesmo participou — e o conjunto que deveria ser desconhecido já influenciou o treino, por essa via estreita.
+>
+> A última alternativa é a defesa que quase todo mundo tenta, e ela troca a pergunta. É verdade que padronizar não usa o alvo; o vazamento aqui não é do alvo, é do **conjunto de teste**. Por isso o capítulo chama esta fonte de silenciosa: ela não deixa rastro numa lista de colunas suspeitas, e o único jeito de vê-la é olhar a ordem das operações.
+>
+> A regra que resolve as três é a mesma: toda estatística aprendida dos dados entra **dentro** do laço, depois da divisão. Vale para padronização, imputação, seleção de atributos e codificação pelo alvo.
+> **volte para:** #2-pre-processamento-antes-da-divisao-o-vazamento-silencioso
+:::
 
 :::exercicio {"id":"dados-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma equipe prevê inadimplência em 30 dias. O modelo atinge 0,96 de AUC — três vezes melhor que qualquer tentativa anterior. Entre os atributos está `dias_de_atraso_atual`. Qual é a leitura mais provável?
@@ -191,6 +236,40 @@ Um hospital quer prever readmissão em 30 dias. A base tem 50.000 internações 
 > **volte para:** #a-divisao-que-respeita-a-estrutura-dos-dados
 :::
 
+:::exercicio {"id":"dados-e6","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Um modelo prevê a demanda com 30 dias de antecedência. A divisão é temporal: treino até 31 de março, teste a partir de 1º de abril. O que ainda falta?
+
+- [ ] Estratificar o teste pela distribuição da demanda, para que os dois períodos sejam comparáveis.
+- [x] Descartar os últimos 30 dias do treino, porque a informação deles se sobrepõe ao início do teste.
+- [ ] Embaralhar dentro de cada período, para reduzir a variância da estimativa.
+- [ ] Nada: uma divisão temporal já é suficiente para uma série.
+
+> **gabarito:** descartar os últimos 30 dias do treino
+> **porque:** É o **intervalo de guarda**, e ele é o detalhe que quase todo mundo esquece depois de acertar a parte difícil. Se o modelo prevê 30 dias à frente, o exemplo de 20 de março carrega como alvo algo que acontece em abril, ou seja, dentro do período de teste. Treinar com ele é contar ao modelo parte da resposta.
+>
+> A primeira alternativa é proibida aqui: não se estratifica uma série temporal, porque forçar a distribuição do futuro é assumir que você já sabe qual ela será, e é isso que se está tentando descobrir. Embaralhar dentro do período desfaz a proteção que a divisão temporal acabou de construir.
+>
+> A conta que justifica o gesto é curta: perder um mês de treino é barato, e descobrir em produção que a métrica era otimista não é.
+> **volte para:** #tempo-nunca-embaralhe-uma-serie
+:::
+
+:::exercicio {"id":"dados-e7","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Uma base tem tempo, grupo (o mesmo sujeito repetido) e classe positiva rara. Qual é a ordem de precedência ao montar a divisão?
+
+- [x] Tempo manda, e não se estratifica uma série; grupo e desbalanceamento se resolvem dentro do que a divisão temporal permitir.
+- [ ] Desbalanceamento manda: sem estratificar, a métrica vira loteria.
+- [ ] Grupo manda, porque vazamento por sujeito é o mais grave dos três.
+- [ ] Não há precedência: as três restrições são independentes e podem ser aplicadas em qualquer ordem.
+
+> **gabarito:** tempo manda
+> **porque:** As três restrições não são independentes, e é por isso que existe ordem. Estratificar exige fixar a proporção de classes nos conjuntos, e fixá-la no futuro significa usar informação que só se conhece depois — a divisão temporal e a estratificação se contradizem, e quem cede é a estratificação.
+>
+> A segunda alternativa descreve um risco real, e a saída não é estratificar: é medir a incerteza da métrica com intervalo de confiança, que é o tratamento do [capítulo II.1](ii-1-avaliacao.md).
+>
+> A terceira erra por comparar gravidades quando a pergunta é de compatibilidade. Grupo e tempo não se contradizem: dá para respeitar os dois ao mesmo tempo, e o exercício do hospital mostra como. O que não dá é respeitar tempo e estratificar.
+> **volte para:** #e-a-estratificacao
+:::
+
 ## A ficha de dataset
 
 Antes de treinar, escreva uma página sobre os dados. Não é burocracia: é o único momento em que alguém olha para a origem em vez de olhar para as colunas.
@@ -217,7 +296,7 @@ O problema difícil é o **viés de seleção** — quando a forma como os exemp
 
 O caso clássico e cruel: um banco quer prever inadimplência e treina com o histórico dos **clientes a quem concedeu crédito**. Mas quem recebeu crédito passou por um filtro — o modelo antigo, ou o gerente. Os dados não contêm os que foram recusados, e são exatamente esses que o novo modelo precisa avaliar. O sistema aprende sobre uma população que já foi filtrada por ele mesmo, e fica cada vez mais confiante sobre uma fatia cada vez mais estreita do mundo.
 
-Isso tem nome — *feedback loop* — e o [capítulo V.2](v-2-sistemas-de-ml.md) trata das consequências arquiteturais. Aqui basta o diagnóstico e o gesto mínimo: **reservar uma fração pequena de decisões aleatórias**, fora da recomendação do modelo, para manter a base honesta. Custa dinheiro. É o preço de continuar aprendendo.
+Isso tem nome, *feedback loop*, e o [capítulo V.2](v-2-sistemas-de-ml.md) trata das consequências arquiteturais. Aqui basta o diagnóstico e o gesto mínimo: **reservar uma fração pequena de decisões aleatórias**, fora da recomendação do modelo, para manter a base honesta. Custa dinheiro. É o preço de continuar aprendendo.
 
 :::exercicio {"id":"dados-e4","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
 Você recebeu uma base de 200.000 avaliações de produtos, rotuladas como "positiva" ou "negativa", para treinar um classificador de sentimento. O rótulo foi gerado automaticamente: avaliações de 4–5 estrelas viraram "positiva", de 1–2 estrelas viraram "negativa", e as de 3 estrelas foram descartadas.
@@ -230,12 +309,98 @@ Escreva as **três perguntas mais importantes** que você faria antes de treinar
 > cada pergunta vem acompanhada do que a resposta mudaria — não é uma lista solta de dúvidas
 > **porque:** As três mais valiosas costumam ser estas. **Primeira:** o rótulo é a estrela, não o sentimento — e as duas coisas divergem (elogio com nota baixa por causa da entrega, ironia, avaliação de 5 estrelas com reclamação no texto). O modelo terá como teto a qualidade dessa correspondência.
 >
-> **Segunda, e a mais fácil de deixar passar:** descartar as 3 estrelas remove exatamente os casos difíceis. O classificador vai parecer excelente no teste — que também não tem casos difíceis — e vai encontrá-los todos em produção. É desbalanceamento invertido: a base ficou mais fácil que o mundo.
+> **Segunda, e a mais fácil de deixar passar:** descartar as 3 estrelas remove exatamente os casos difíceis. O classificador vai parecer excelente no teste, que também não tem casos difíceis, e vai encontrá-los todos em produção. É desbalanceamento invertido: a base ficou mais fácil que o mundo.
 >
 > **Terceira:** de onde vêm as avaliações, quem escreve avaliação (quem teve experiência extrema, tipicamente), e se a licença permite o uso pretendido.
 >
 > O critério de "o que a resposta mudaria" é o que separa curiosidade de investigação. Uma pergunta cuja resposta não muda nada é uma pergunta que não precisava ser feita.
 > **volte para:** #a-ficha-de-dataset
+:::
+
+:::exercicio {"id":"dados-e8","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Na ficha de dataset deste livro, qual pergunta existe para pegar o viés de seleção?
+
+- [ ] "Quem coletou, quando e para quê?"
+- [x] "Como um exemplo entrou na base?"
+- [ ] "O que se sabe que está errado?"
+- [ ] "Quando expira?"
+
+> **gabarito:** "Como um exemplo entrou na base?"
+> **porque:** É a pergunta 2, e a coluna "por que importa" diz literalmente que é aqui que mora o viés de seleção. Ela pergunta pelo **mecanismo de entrada**: que filtro cada exemplo teve de passar para virar uma linha.
+>
+> A pergunta 1 é vizinha e responde a outra coisa. Saber que os dados foram coletados para outro fim alerta para o viés **daquele fim**, que é um problema de propósito, não de porta de entrada. As duas juntas cobrem quase todo diagnóstico de origem, e é por isso que aparecem nas duas primeiras linhas.
+>
+> As outras duas tratam de defeitos conhecidos e de validade no tempo, que são reais e chegam depois: uma base pode ter todos os defeitos catalogados e ainda assim conter só quem passou por um filtro que ninguém registrou.
+> **volte para:** #a-ficha-de-dataset
+:::
+
+:::exercicio {"id":"dados-e9","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Uma ficha informa: "o alvo `fraude` foi definido como as transações que o sistema de regras antigo bloqueou". Qual é a consequência mais séria dessa resposta à pergunta 5?
+
+- [ ] O rótulo tem ruído, e o modelo precisará de mais dados para compensar.
+- [x] O teto de desempenho do modelo é a qualidade do sistema antigo, porque ele vai aprender a regra e não o fenômeno.
+- [ ] A base viola a pergunta 4, porque transações contêm dado pessoal.
+- [ ] O rótulo é objetivo e verificável, o que torna esta a melhor situação possível.
+
+> **gabarito:** o teto é a qualidade do sistema antigo
+> **porque:** O modelo novo não está aprendendo o que é fraude: está aprendendo o que o sistema velho chamava de fraude. Toda fraude que o sistema antigo deixava passar está rotulada como legítima na base, e o modelo será treinado para deixá-la passar também — com mais elegância.
+>
+> A primeira alternativa trata o problema como ruído, e ruído é aleatório. Este erro é **sistemático**, e mais dados o reforçam em vez de diluí-lo, porque cada nova linha vem rotulada pela mesma regra.
+>
+> A última é a leitura que a palavra "objetivo" produz, e é a mais perigosa. O rótulo de fato é objetivo, no sentido de que qualquer pessoa consegue reproduzi-lo sem julgamento. Ele é objetivo sobre a coisa errada — e a ficha só revela isso porque a pergunta 5 obriga a escrever **como** o alvo foi rotulado, e não apenas qual ele é.
+> **volte para:** #a-ficha-de-dataset
+:::
+
+:::exercicio {"id":"dados-e5","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+Um banco treina um modelo de inadimplência com o histórico dos últimos cinco anos: 800 mil contratos, rótulo confiável (pagou ou não pagou), sem faltantes. A taxa de inadimplência na base é de 4%. O modelo vai decidir quem recebe crédito a partir do mês que vem.
+
+A equipe está satisfeita: a base é grande, o rótulo é objetivo e a métrica ficou ótima. **Diagnostique o problema desta coleta** e diga o que ele fará com o modelo em produção.
+
+> **rubrica:** identifica que a base só contém quem **passou por um filtro anterior** (o modelo antigo ou o gerente) e que os recusados não estão nela;
+> diz o que isso causa em produção: o modelo será usado justamente sobre candidatos do tipo que a base nunca conteve, e a confiança dele sobre essas pessoas não tem apoio nos dados;
+> distingue isso de desbalanceamento: o problema não é a proporção de 4%, é **quais exemplos puderam entrar** — e mais dados coletados do mesmo jeito pioram a situação em vez de melhorá-la;
+> propõe um gesto concreto para manter a base honesta (reservar uma fração pequena de decisões fora da recomendação do modelo) e reconhece que isso custa dinheiro
+> **porque:** Os três elogios da equipe são verdadeiros e nenhum deles toca o problema. A base é grande, o rótulo é objetivo, não falta nada — e mesmo assim ela descreve uma população que **o próprio banco selecionou**. Não existe linha, no arquivo, sobre quem teve crédito recusado, e é sobre pessoas assim que o modelo vai decidir.
+>
+> A parte que separa a boa resposta da razoável é o terceiro critério. Desbalanceamento se conserta medindo direito, e mais dados ajudam. **Viés de seleção não se conserta com mais dados** — cada novo contrato entra pela mesma porta filtrada, e o sistema fica cada vez mais confiante sobre uma fatia cada vez mais estreita do mundo. O erro cresce junto com a base, o que é exatamente o oposto da intuição.
+>
+> Repare que o diagnóstico é barato e a correção é cara: manter a base honesta exige conceder crédito, de vez em quando, a quem o modelo recusaria — e perder parte desse dinheiro de propósito. É o preço de continuar aprendendo, e a decisão é de negócio, não de modelagem. O nome do fenômeno e as consequências de arquitetura estão no [capítulo V.2](v-2-sistemas-de-ml.md).
+> **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
+:::
+
+:::exercicio {"id":"dados-e10","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Qual das duas situações abaixo **não** se resolve coletando mais dados do mesmo jeito?
+
+- [ ] Desbalanceamento: a classe positiva representa 2% da base.
+- [x] Viés de seleção: a base só contém quem passou por um filtro anterior.
+- [ ] Nenhuma das duas: mais dados sempre ajudam.
+- [ ] As duas: em ambos os casos o problema é de quantidade.
+
+> **gabarito:** viés de seleção
+> **porque:** A distinção é a lição desta seção, e ela é contraintuitiva. Desbalanceamento é um problema de **proporção**, e mais dados coletados do mesmo jeito trazem mais positivos em números absolutos, o que melhora a estimativa.
+>
+> Viés de seleção é um problema de **quais exemplos podem existir** na base. Cada linha nova entra pela mesma porta filtrada, então mais dados tornam o sistema mais confiante sobre uma fatia cada vez mais estreita do mundo. O erro cresce junto com a base.
+>
+> É por isso que os dois pedem gestos diferentes. O desbalanceamento se trata na medição, com a métrica certa e intervalo de confiança. O viés de seleção só se trata mudando a porta: reservar uma fração pequena de decisões fora da recomendação do modelo, o que custa dinheiro.
+> **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
+:::
+
+:::exercicio {"id":"dados-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Quais destes fatos, sozinhos, **não** servem como evidência de que uma base está livre de viés de seleção? (marque todos que valem)
+
+- [x] A base tem 800 mil linhas.
+- [x] O rótulo é objetivo e verificável.
+- [x] Não há valores faltantes em nenhuma coluna.
+- [x] A métrica de teste ficou excelente.
+- [ ] Uma fração das decisões foi tomada aleatoriamente, fora da recomendação do modelo.
+
+> **gabarito:** volume · rótulo objetivo · sem faltantes · métrica excelente
+> **porque:** As quatro primeiras são exatamente os elogios que a equipe do banco faz à própria base, e nenhum deles toca a pergunta "quem pôde entrar aqui?". Volume, objetividade do rótulo e completude descrevem as linhas que existem, e o viés de seleção é uma afirmação sobre as que **não** existem.
+>
+> A métrica excelente é a pior evidência das quatro, porque parece a mais forte. Ela foi medida sobre um teste retirado da mesma base filtrada, então mede o desempenho na população estreita, não na população onde o modelo vai operar.
+>
+> A quinta é a única que sustenta a conclusão, e ela é um fato sobre o **processo de coleta**, não sobre a tabela. É o gesto que a seção chama de manter a base honesta, e a razão de ele custar dinheiro é que só se compra evidência assim decidindo, de vez em quando, contra o próprio modelo.
+> **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
 :::
 
 ## Mão na massa
@@ -269,7 +434,7 @@ O texto acima argumenta *por que* a divisão precisa respeitar a estrutura; este
 - Faça a pergunta da coluna, uma por uma: *no instante da predição, este valor já existe?*
 - **Tudo que aprende dos dados aprende só do treino.** Normalização, imputação, seleção, *target encoding*.
 - Divisão respeita a estrutura: **tempo manda sobre grupo, que manda sobre estratificação**.
-- Escreva a ficha antes de treinar. A pergunta 5 — como o alvo foi rotulado — é a que mais surpreende.
+- Escreva a ficha antes de treinar. A pergunta 5, como o alvo foi rotulado, é a que mais surpreende.
 - Sua base tem o viés do filtro que a criou. Se o filtro foi o próprio sistema, o problema se agrava sozinho.
 
 ## Verificação

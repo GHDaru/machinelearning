@@ -20,7 +20,10 @@ import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
-import { renderizar, extrair } from "./interativos.mjs";
+import { renderizar, extrair, semGabarito } from "./interativos.mjs";
+import { verificar as verificarProsa } from "./prosa.mjs";
+import { verificar as verificarIntervalos } from "./intervalos.mjs";
+import { verificar as verificarTema } from "./gates/tema-unico.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -405,6 +408,14 @@ for (const arq of [
 mkdirSync(resolve(SAIDA, "dados"), { recursive: true });
 cpSync(resolve(RAIZ, "ml-zero/dados/limonada/limonada.csv"), resolve(SAIDA, "dados/limonada.csv"));
 
+// O TensorFlow Playground, vendorizado (ADR 0018). Vem inteiro porque é uma
+// página própria, com CSS, fontes e imagens — servida por nós e não por iframe
+// para domínio de terceiro, pelos princípios V (privacidade) e VIII.6 (o
+// laboratório funciona com a rede fora do ar). O gate
+// `publicar/gates/sem-analytics.mjs` guarda a pasta contra rastreador.
+cpSync(resolve(AQUI, "tema", "playground"), resolve(SAIDA, "assets", "playground"),
+       { recursive: true });
+
 writeFileSync(resolve(SAIDA, ".nojekyll"), "");
 
 let gerados = 0;
@@ -495,12 +506,37 @@ mkdirSync(resolve(SAIDA, "md"), { recursive: true });
   for (const item of itens) {
     const caminho = resolve(RAIZ, item.arquivo);
     if (!existsSync(caminho)) continue;
-    const bruto = readFileSync(caminho, "utf8");
+    // Sem gabarito: o download fica ao lado do exercício, e servir o fonte
+    // cru anulava a revelação progressiva que o backend cobra.
+    const bruto = semGabarito(readFileSync(caminho, "utf8"));
     writeFileSync(resolve(SAIDA, "md", `${item.slug}.md`), bruto);
     partesMd.push(bruto.trim());
   }
   const cabecalho = `# ${sumario.titulo}\n\n> ${sumario.subtitulo}\n>\n> ${versaoDoLivro()} · fonte: https://github.com/GHDaru/machinelearning · site: ${SITE}\n\n---\n\n`;
   writeFileSync(resolve(SAIDA, "md/machine-learning.md"), cabecalho + partesMd.join("\n\n---\n\n") + "\n");
+
+  // Gate: o download não pode devolver o que a segunda tentativa cobra.
+  // Este vazamento existiu de verdade — 79 gabaritos e 30 rubricas no arquivo
+  // servido pelo botão "⬇ md", ao lado do exercício. `renderizar()` protegia o
+  // HTML e ninguém conferiu a outra porta. O gate confere a porta, não a
+  // intenção. Exemplos de sintaxe dentro de cerca são exemplos, e passam.
+  const VAZAMENTO = /^(?:>\s*\*\*(?:gabarito|porque|rubrica)\s*:\*\*|[-*]\s+\[x\])/i;
+  const vazados = [];
+  for (const item of itens) {
+    const arq = resolve(SAIDA, "md", `${item.slug}.md`);
+    if (!existsSync(arq)) continue;
+    let emCerca = false;
+    readFileSync(arq, "utf8").split("\n").forEach((linha, i) => {
+      if (/^(?:```|~~~)/.test(linha)) emCerca = !emCerca;
+      else if (!emCerca && VAZAMENTO.test(linha)) vazados.push(`docs/md/${item.slug}.md:${i + 1} — ${linha.trim().slice(0, 60)}`);
+    });
+  }
+  if (vazados.length) {
+    console.error(`✗ ${vazados.length} resposta(s) vazando no Markdown exportado:`);
+    vazados.forEach((v) => console.error("   " + v));
+    console.error("   O botão de download fica ao lado do exercício. Use semGabarito() na exportação.");
+    process.exit(1);
+  }
 }
 
 // Knowledge Graph do livro — derivado do conteúdo a cada build.
@@ -578,8 +614,66 @@ writeFileSync(
   })
 );
 
+// ---- Endereços aposentados pela renumeração (ADR 0011) ----
+//
+// O ADR aceitou quebrar os endereços antigos, e a conta chegou depois: link de
+// slide, de PDF de aula, do Moodle e de favorito de aluno passaram a dar 404 no
+// meio do semestre. O ADR decidiu a numeração; ele não obrigava a abandonar
+// quem já tinha o link.
+//
+// Stub em HTML, e não redirecionamento de servidor, por um motivo concreto: o
+// livro é servido em DOIS lugares (o domínio próprio e o GitHub Pages, até o
+// passo 8 da migração), e um arquivo funciona nos dois. Configuração de
+// provedor funcionaria em um só.
+const { rotas: ROTAS_ANTIGAS } = JSON.parse(
+  readFileSync(resolve(AQUI, "redirecionamentos.json"), "utf8"));
+
+const stubRedirecionamento = (de, para) => `<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Este capítulo mudou de endereço</title>
+<link rel="canonical" href="${SITE}${para}.html">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=${para}.html">
+<style>body{font-family:system-ui,sans-serif;max-width:34rem;margin:20vh auto;padding:0 1.5rem;line-height:1.6}</style>
+</head>
+<body>
+<h1>Este capítulo mudou de endereço</h1>
+<p>O livro passou a numerar os capítulos por parte. <code>${de}</code> agora é <code>${para}</code>.</p>
+<p><a id="ir" href="${para}.html">Ir para o capítulo →</a></p>
+<script>
+// A âncora e a query importam: um link de aula costuma apontar para a SEÇÃO
+// ("#o-caso-da-limonada"), e o meta refresh sozinho as descartaria.
+(function () {
+  var destino = ${JSON.stringify(para)} + ".html" + location.search + location.hash;
+  document.getElementById("ir").href = destino;
+  location.replace(destino);
+})();
+</script>
+</body>
+</html>
+`;
+
 // Portão de qualidade: todo link interno .html aponta para página existente.
 const paginas = new Set(itens.map((i) => `${i.slug}.html`).concat("index.html", "sumario.html"));
+// Escreve os stubs, com dois gates. O primeiro impede o pior caso possível:
+// um "antigo" que hoje é o slug de um capítulo de verdade — o stub sobrescreveria
+// o capítulo e o livro perderia uma página inteira para um redirecionamento.
+const rotasRuins = [];
+for (const [de, para] of Object.entries(ROTAS_ANTIGAS)) {
+  if (paginas.has(`${de}.html`)) rotasRuins.push(`"${de}" é uma página VIVA — o stub a apagaria`);
+  else if (!paginas.has(`${para}.html`)) rotasRuins.push(`"${de}" aponta para "${para}", que não existe`);
+}
+if (rotasRuins.length) {
+  console.error(`✗ ${rotasRuins.length} rota(s) de redirecionamento inválida(s):`);
+  rotasRuins.forEach((r) => console.error("   " + r));
+  process.exit(1);
+}
+for (const [de, para] of Object.entries(ROTAS_ANTIGAS)) {
+  writeFileSync(resolve(SAIDA, `${de}.html`), stubRedirecionamento(de, para));
+}
+
 const quebrados = [];
 for (const i of [...itens, { slug: "index" }, { slug: "sumario" }]) {
   const arq = resolve(SAIDA, `${i.slug}.html`);
@@ -823,6 +917,34 @@ for (const i of itens) {
 if (ancorasRuins.length) {
   console.error(`✗ ${ancorasRuins.length} âncora(s) "volte para" apontando para seção inexistente:`);
   ancorasRuins.forEach((q) => console.error("   " + q));
+  process.exit(1);
+}
+
+// Prosa amontoada (ADR 0013). Não é o travessão que incomoda: é a frase com
+// dois e o parágrafo com quatro negritos.
+const prosaRuim = verificarProsa(itens.map((i) => i.arquivo));
+if (prosaRuim.length) {
+  console.error(`✗ ${prosaRuim.length} problema(s) de prosa (ADR 0013):`);
+  prosaRuim.slice(0, 20).forEach((q) => console.error("   " + q));
+  if (prosaRuim.length > 20) console.error(`   … e mais ${prosaRuim.length - 20}`);
+  process.exit(1);
+}
+
+// Intervalos citados entre capítulos. Um capítulo é dono de dois anos; os
+// outros citam a diferença. Aqui a diferença é calculada, nunca lida.
+const intervalosRuins = verificarIntervalos();
+if (intervalosRuins.length) {
+  console.error(`✗ ${intervalosRuins.length} intervalo(s) citado(s) fora da conta:`);
+  intervalosRuins.forEach((q) => console.error("   " + q));
+  process.exit(1);
+}
+
+// A chave do tema é uma só. Seletor escrito no vocabulário errado não pinta e
+// não reclama — quem descobre é o leitor, com o painel branco numa página escura.
+const temaRuim = verificarTema();
+if (temaRuim.length) {
+  console.error(`✗ ${temaRuim.length} problema(s) de tema:`);
+  temaRuim.forEach((q) => console.error("   " + q));
   process.exit(1);
 }
 

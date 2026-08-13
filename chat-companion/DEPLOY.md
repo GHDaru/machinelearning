@@ -144,9 +144,13 @@ Só quando os passos 1–7 estiverem verdes.
 
 **Actions → "Redirecionar o GitHub Pages para o domínio próprio" → Run workflow**, digitando `SIM` no campo de confirmação.
 
-O antigo endereço passa a servir um stub que redireciona **preservando o caminho** (`/machinelearning/iii-1-neuronio-artificial.html` cai no capítulo 18 do domínio novo), com `canonical` e `noindex`.
+O antigo endereço passa a servir um stub que redireciona **preservando o caminho** (`/machinelearning/iii-1-neuronio-artificial.html` cai no capítulo III.1 do domínio novo), com `canonical` e `noindex`.
 
-Depois disso, remova `https://ghdaru.github.io` de `ALLOWED_ORIGINS` no Railway.
+> **Link antigo com numeração antiga dá dois saltos — e chega.** `/machinelearning/18-neuronio-artificial.html` vai parar em `machinelearning.ghdaru.com.br/18-neuronio-artificial.html`, que é um dos 29 redirecionamentos do ADR 0011, e de lá em `iii-1-neuronio-artificial.html`. A âncora sobrevive aos dois saltos.
+>
+> Isso **só funciona porque os redirecionamentos subiram antes deste passo**. Sem eles, o stub entregaria o leitor num 404 do domínio novo — pior do que o 404 de onde ele veio, porque agora com a aparência de que o livro sumiu.
+
+Depois disso, remova `https://ghdaru.github.io` de `ALLOWED_ORIGINS` no Railway. **Só depois**: enquanto o Pages ainda servir o livro, é de lá que parte dos leitores chama a API, e tirar a origem antes derruba a correção de exercício **em silêncio** — o widget diz "não deu para corrigir agora" e os laboratórios continuam funcionando, mascarando a falha.
 
 ---
 

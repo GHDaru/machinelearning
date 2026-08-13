@@ -210,6 +210,51 @@
       ]
     },
     {
+      "nome": "Provas",
+      "itens": [
+        {
+          "arquivo": "livro/provas/prova-abertura.md",
+          "titulo": "Prova da Abertura — 0.1 e 0.2",
+          "teaser": "Seis itens cruzados sobre os dois capítulos de abertura."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-i.md",
+          "titulo": "Prova da Parte I — Ciência de Dados",
+          "teaser": "Dez itens cruzados sobre os seis capítulos da Parte I."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-ii.md",
+          "titulo": "Prova da Parte II — Análise Preditiva",
+          "teaser": "Doze itens cruzados sobre os oito capítulos da Parte II."
+        },
+        {
+          "arquivo": "livro/provas/prova-iii-1.md",
+          "titulo": "Prova do capítulo III.1",
+          "teaser": "Doze itens fechados sobre o capítulo III.1, para aplicação em sala."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-iii.md",
+          "titulo": "Prova da Parte III — Redes Neurais e Deep Learning",
+          "teaser": "Dez itens cruzados sobre os seis capítulos da Parte III."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-iv.md",
+          "titulo": "Prova da Parte IV — Além do supervisionado",
+          "teaser": "Oito itens cruzados sobre os três capítulos da Parte IV."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-v.md",
+          "titulo": "Prova da Parte V — No mundo real",
+          "teaser": "Dez itens cruzados sobre os quatro capítulos da Parte V."
+        },
+        {
+          "arquivo": "livro/provas/prova-final.md",
+          "titulo": "Prova final — o livro inteiro",
+          "teaser": "Quatorze itens que cruzam partes, e não apenas capítulos."
+        }
+      ]
+    },
+    {
       "nome": "Trilhas",
       "itens": [
         {

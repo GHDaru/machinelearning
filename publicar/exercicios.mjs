@@ -36,28 +36,20 @@ const posicaoDe = (arquivo) => itens.findIndex((i) => i.arquivo === arquivo) + 1
 // A lista de exceções é a dívida COBRADA, não registrada. Falha nas DUAS
 // direções: um órfão novo quebra o build, e uma exceção que deixou de ser
 // necessária também — para que pagar a dívida obrigue a tirá-la daqui.
-const ORFAOS_ACEITOS = new Map(Object.entries({
-  "livro/0-2-fundamentos.md": ["O1"],
-  "livro/capitulos/i-2-coleta-integracao.md": ["O1"],
-  "livro/capitulos/i-3-dados.md": ["O4"],
-  "livro/capitulos/i-4-analise-exploratoria.md": ["O3"],
-  "livro/capitulos/i-5-visualizacao-storytelling.md": ["O4"],
-  "livro/capitulos/i-6-representacao.md": ["O1"],
-  "livro/capitulos/ii-6-analise-multidimensional.md": ["O4"],
-  "livro/capitulos/ii-7-series-temporais.md": ["O4"],
-  "livro/capitulos/ii-8-do-modelo-a-decisao.md": ["O3"],
-  "livro/capitulos/iii-2-redes-neurais.md": ["O2"],
-  "livro/capitulos/iii-3-treinar-redes-profundas.md": ["O3"],
-  "livro/capitulos/iii-4-visao.md": ["O4"],
-  "livro/capitulos/iii-5-sequencias-linguagem.md": ["O1"],
-  "livro/capitulos/iii-6-modelos-de-fundacao.md": ["O3"],
-  "livro/capitulos/iv-1-nao-supervisionado.md": ["O3"],
-  "livro/capitulos/iv-2-reforco.md": ["O3"],
-  "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md": ["O4"],
-  "livro/capitulos/v-1-interpretabilidade-justica.md": ["O2"],
-  "livro/capitulos/v-2-sistemas-de-ml.md": ["O4"],
-  "livro/capitulos/v-3-mlops.md": ["O2"],
-}));
+// A LISTA ESTÁ VAZIA, e é assim que ela deve permanecer. A dívida D16 foi paga
+// inteira em 2026-08-13, pelos dois lados, e sempre pelo CONTEÚDO — nunca
+// rebaixando o verbo do objetivo:
+//   v-2 O4 (decidir entre lote e tempo real pelo requisito) — ADR 0016. A
+//     escolha da forma de serviço é desenho, e não operação; o v-2 ganhou a
+//     seção "Decidir a forma de serviço pelo requisito" e o v-3 devolveu a
+//     tabela das três formas, que lá era órfã de objetivo.
+//   v-3 O2 (implantar atrás de API com contrato e validação de entrada) —
+//     ADR 0017. O v-3 ganhou "A fronteira do serviço", com o serviço deste
+//     próprio livro como exemplo trabalhado, defeitos inclusive.
+//
+// Lista vazia não é lista morta: a checagem inversa continua valendo, então
+// um órfão novo quebra o build e obriga a declará-lo aqui e no roadmap.
+const ORFAOS_ACEITOS = new Map(Object.entries({}));
 
 const objetivosPorArquivo = new Map();
 const exercicios = [];
@@ -101,7 +93,37 @@ for (const item of itens) {
     }
     if (ex.tipo === "aberta") {
       ex.criterios = ex.rubrica.split(/[;\n]/).map((s) => s.replace(/^[-*]\s*/, "").trim()).filter(Boolean);
-      if (ex.criterios.length < 2) problemas.push(`${item.arquivo} · ${ex.id}: rubrica precisa de ao menos 2 critérios`);
+      // Desafio de fim de capítulo cobra produção de artefato ou demonstração,
+      // e rubrica de 2 critérios não decide nada nesse nível (ADR 0012): o
+      // quarto slot é o ANTI-CRITÉRIO — o movimento errado comum, nomeado.
+      // A rubrica é quebrada em `;` e quebra de linha. Um `;` DENTRO de um
+      // critério — tipicamente numa lista entre parênteses — parte um critério
+      // em três, e como `correto = atendidos == total`, os pedaços viram
+      // exigências conjuntas. O caso real: "aponta ao menos um mecanismo (A; B;
+      // C)" virou "aponta ao menos um mecanismo (A", "B", "C)" — e quem
+      // respondesse exatamente o pedido falharia em dois critérios.
+      // Parêntese desbalanceado é a assinatura confiável dessa quebra.
+      ex.criterios.forEach((c, i) => {
+        if ((c.match(/\(/g) || []).length !== (c.match(/\)/g) || []).length) {
+          problemas.push(`${item.arquivo} · ${ex.id}: critério ${i + 1} tem parêntese desbalanceado — ` +
+            `um ";" dentro do critério o partiu. Use vírgula ou "ou": "${c.slice(0, 60)}…"`);
+        }
+      });
+      // O parêntese pega a maioria dos casos e NÃO pega uma lista com `;` sem
+      // parêntese — aconteceu, e virou 8 critérios de um enunciado que pedia
+      // "ao menos três". O teto é a segunda rede: rubrica boa discrimina com
+      // 4 a 6 critérios, e como a correção exige TODOS, cada critério a mais é
+      // uma exigência a mais que o autor provavelmente não quis criar.
+      const TETO = 6;
+      if (ex.criterios.length > TETO) {
+        problemas.push(`${item.arquivo} · ${ex.id}: ${ex.criterios.length} critérios (teto ${TETO}). ` +
+          `Um ";" numa lista dentro do critério o parte em vários — e a correção exige todos. Use vírgula ou "ou".`);
+      }
+      const minimo = ex.secao === "verificacao" ? 4 : 2;
+      if (ex.criterios.length < minimo) {
+        problemas.push(`${item.arquivo} · ${ex.id}: rubrica precisa de ao menos ${minimo} critérios` +
+          (minimo === 4 ? " (desafio de fechamento — inclua o anti-critério)" : ""));
+      }
     }
     exercicios.push(ex);
   }
@@ -112,6 +134,59 @@ for (const item of itens) {
   for (const l of lote.laboratorios) {
     l.pagina = slug;
     laboratorios.push(l);
+  }
+}
+
+// ---- O que faz de uma prova uma prova (ADR 0014) ----
+//
+// A ADR promete quatro coisas mecânicas, e promessa sem gate é declaração. As
+// quatro viram falha de build aqui. A primeira é a que distingue prova de "mais
+// um exercício": o item é CRUZADO, declara objetivo de dois capítulos ou mais,
+// e cada referência é conferida contra os objetivos realmente declarados
+// naquele capítulo — um item que aponta para I.3-O9 quebra o build.
+//
+// A quarta regra é a inversa: `objetivos` fora de item de prova também falha,
+// senão o campo vira decoração que ninguém cobra.
+const DETERMINISTICOS = new Set(["multipla", "multipla-multi", "numerica", "completar"]);
+for (const ex of exercicios) {
+  const ondeErro = `${ex.arquivo} · ${ex.id}`;
+  if (ex.secao !== "prova") {
+    if (ex.objetivos) {
+      problemas.push(`${ondeErro}: declarou "objetivos" (cruzado) sem ser item de prova. ` +
+        `O campo só existe para secao "prova" — use "objetivo" no singular.`);
+    }
+    continue;
+  }
+  if (!DETERMINISTICOS.has(ex.tipo)) {
+    problemas.push(`${ondeErro}: item de prova tem de ser determinístico (${[...DETERMINISTICOS].join(", ")}), ` +
+      `e este é "${ex.tipo}". Prova é evento sincronizado: item aberto chama o modelo por aluno e derruba o backend junto com o tutor.`);
+  }
+  if (ex.volte_para) {
+    problemas.push(`${ondeErro}: item de prova não leva "volte para" — a prova mede recuperação sem rota de volta.`);
+  }
+  const refs = ex.objetivos || [];
+  if (refs.length < 2) {
+    problemas.push(`${ondeErro}: item de prova precisa ser cruzado — declare "objetivos" com dois ou mais, ` +
+      `no formato "livro/capitulos/i-3-dados.md:O2". É isto que separa prova de mais um exercício.`);
+  }
+  const capitulosCitados = new Set();
+  for (const ref of refs) {
+    const [arq, obj] = String(ref).split(":");
+    const declarados = objetivosPorArquivo.get(arq);
+    if (!declarados) {
+      problemas.push(`${ondeErro}: "${ref}" aponta para um arquivo que não está no sumário.`);
+      continue;
+    }
+    if (!declarados.has(obj)) {
+      problemas.push(`${ondeErro}: "${ref}" — ${arq} não declara ${obj} ` +
+        `(tem: ${[...declarados].join(", ") || "nenhum"}).`);
+      continue;
+    }
+    capitulosCitados.add(arq);
+  }
+  if (refs.length >= 2 && capitulosCitados.size < 2) {
+    problemas.push(`${ondeErro}: os objetivos declarados vêm todos do mesmo capítulo. ` +
+      `Cruzado quer dizer dois capítulos ou mais.`);
   }
 }
 

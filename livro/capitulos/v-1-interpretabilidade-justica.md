@@ -31,13 +31,13 @@ Só que o resultado mais importante desta área não é técnico no sentido usua
 
 ### O que cada um disse — e o que o teorema disse
 
-**(a) O que a reportagem afirmou.** Angwin, Larson, Mattu e Kirchner publicam *Machine Bias* em **23 de maio de 2016**. Dois números sustentam a peça: entre réus que **não** reincidiram, **44,9%** dos negros contra **23,5%** dos brancos haviam sido rotulados de risco mais alto; entre os que **reincidiram**, **47,7%** dos brancos contra **28,0%** dos negros haviam sido rotulados de risco mais baixo. Isso é desequilíbrio de taxas de erro, e é real.
+**(a) O que a reportagem afirmou.** Angwin, Larson, Mattu e Kirchner publicam *Machine Bias* em 23 de maio de 2016. Dois números sustentam a peça: entre réus que **não** reincidiram, 44,9% dos negros contra 23,5% dos brancos haviam sido rotulados de risco mais alto; entre os que **reincidiram**, 47,7% dos brancos contra 28,0% dos negros haviam sido rotulados de risco mais baixo. Isso é desequilíbrio de taxas de erro, e é real.
 
-**(b) O que a empresa respondeu.** Em **julho de 2016**, a Northpointe publicou uma réplica técnica — Dieterich, Mendoza & Brennan, *COMPAS Risk Scales: Demonstrating Accuracy Equity and Predictive Parity* — sustentando que o instrumento satisfaz **paridade preditiva**. E aqui o capítulo para: **este livro não leu esse documento** (o PDF devolve 404). Existência e autoria estão confirmadas em material acadêmico; o argumento em si, não. Por isso o texto não o caracteriza em primeira mão — e você deve desconfiar de qualquer resumo que o caracterize sem apontar a página.
+**(b) O que a empresa respondeu.** Em julho de 2016, a Northpointe publicou uma réplica técnica (Dieterich, Mendoza & Brennan, *COMPAS Risk Scales: Demonstrating Accuracy Equity and Predictive Parity*) sustentando que o instrumento satisfaz **paridade preditiva**. E aqui o capítulo para: **este livro não leu esse documento** (o PDF devolve 404 no domínio da fornecedora, e o espelho público responde 403). Existência e autoria estão confirmadas em material acadêmico; o argumento em si, não. Por isso o texto não o caracteriza em primeira mão — e você deve desconfiar de qualquer resumo que o caracterize sem apontar a página.
 
-**(c) O que o teorema estabeleceu.** Este ponto, sim, está fechado. Alexandra Chouldechova ([arXiv:1610.07524](https://arxiv.org/abs/1610.07524)) define um escore como *test-fair* (bem calibrado) quando ele reflete a **mesma probabilidade de reincidência independentemente do grupo**, e daí deriva a relação entre taxa de falso positivo, prevalência, valor preditivo positivo e taxa de falso negativo. A conclusão, nas palavras dela: *"when the recidivism prevalence differs between two groups, a test-fair score S<sub>c</sub> cannot have equal false positive and negative rates across those groups."* No próprio dado a prevalência difere — **51% contra 39%** — e portanto *"some level of imbalance in the error rates must exist"*. Não é acusação nem defesa: é álgebra de três linhas.
+**(c) O que o teorema estabeleceu.** Este ponto, sim, está fechado. Alexandra Chouldechova ([arXiv:1610.07524](https://arxiv.org/abs/1610.07524)) define um escore como *test-fair* (bem calibrado) quando ele reflete a **mesma probabilidade de reincidência independentemente do grupo**, e daí deriva a relação entre taxa de falso positivo, prevalência, valor preditivo positivo e taxa de falso negativo. A conclusão, nas palavras dela: *"when the recidivism prevalence differs between two groups, a test-fair score S<sub>c</sub> cannot have equal false positive and negative rates across those groups."* No próprio dado a prevalência difere (51% contra 39%) e portanto *"some level of imbalance in the error rates must exist"*. Não é acusação nem defesa: é álgebra de três linhas.
 
-Cinco meses depois da reportagem, Kleinberg, Mullainathan & Raghavan chegam ao mesmo muro por outro caminho ([arXiv:1609.05807](https://arxiv.org/abs/1609.05807), 19/09/2016): *"we prove that except in highly constrained special cases, there is no method that can satisfy these three conditions simultaneously."*
+Quatro meses depois da reportagem, Kleinberg, Mullainathan & Raghavan chegam ao mesmo muro por outro caminho ([arXiv:1609.05807](https://arxiv.org/abs/1609.05807), 19/09/2016): *"we prove that except in highly constrained special cases, there is no method that can satisfy these three conditions simultaneously."*
 
 > ### A cronologia é o conteúdo
 >
@@ -47,7 +47,7 @@ Cinco meses depois da reportagem, Kleinberg, Mullainathan & Raghavan chegam ao m
 
 ### O outro fio: uma fórmula de 1953 esperando um problema
 
-O lado da explicação tem história mais curta e intervalo maior. **LIME** aparece em **16/02/2016** (Ribeiro, Singh & Guestrin, *"Why Should I Trust You?"*); **SHAP**, em **22/05/2017** (Lundberg & Lee) — e o resumo declara a contribuição não como invenção, mas como **unificação**: *"The new class unifies six existing methods"*. A fórmula por trás dele é de **Lloyd S. Shapley**, *"A Value for n-Person Games"*, de **1953**.
+O lado da explicação tem história mais curta e intervalo maior. **LIME** aparece em 16/02/2016 (Ribeiro, Singh & Guestrin, *"Why Should I Trust You?"*); **SHAP**, em 22/05/2017 (Lundberg & Lee) — e o resumo declara a contribuição não como invenção, mas como **unificação**: *"The new class unifies six existing methods"*. A fórmula por trás dele é de Lloyd S. Shapley, *"A Value for n-Person Games"*, de 1953.
 
 > **O intervalo mais limpo do livro: 1953 → 2017, sessenta e quatro anos — e a fórmula não mudou.**
 >
@@ -58,9 +58,10 @@ O lado da explicação tem história mais curta e intervalo maior. **LIME** apar
 | Selo | Afirmação |
 |---|---|
 | ✓ | Chouldechova, *Fair prediction with disparate impact* ([arXiv:1610.07524](https://arxiv.org/abs/1610.07524), 24/10/2016) — a definição de *test fairness*, a relação entre as taxas, as prevalências de 51% e 39% e as duas citações entre aspas. **Lido** |
-| ✓ᵐ | Angwin, Larson, Mattu & Kirchner, *Machine Bias* (ProPublica, 23/05/2016) — os quatro percentuais (44,9 / 23,5 / 47,7 / 28,0): página aberta e números devolvidos **literalmente, mas por extrator automático**. Também ✓ᵐ: Shapley, *"A Value for n-Person Games"*, *Annals of Mathematics Studies* 28, Princeton UP, 1953, pp. 307–317; e o fato de Timnit Gebru assinar **Datasheets** (ver [capítulo I.3](i-3-dados.md)) e **Model Cards**, ambos de 2018 |
+| ✓ | Angwin, Larson, Mattu & Kirchner, *Machine Bias* (ProPublica, 23/05/2016): assinatura, data e os quatro percentuais, **conferidos no texto da página extraído localmente**, e não por resumo de máquina. A tabela chama-se *"Prediction Fails Differently for Black Defendants"* e traz, na linha *"Labeled Higher Risk, But Didn't Re-Offend"*, 23,5% (brancos) contra 44,9% (negros); na linha *"Labeled Lower Risk, Yet Did Re-Offend"*, 47,7% (brancos) contra 28,0% (negros). A mesma página dá o acerto global do instrumento: *"correctly predicts recidivism 61 percent of the time"* |
+| ✓ᵐ | Shapley, *"A Value for n-Person Games"*, *Annals of Mathematics Studies* 28, Princeton UP, 1953, pp. 307–317; e o fato de Timnit Gebru assinar **Datasheets** (ver [capítulo I.3](i-3-dados.md)) e **Model Cards**, ambos de 2018 |
 | ✓ᵐ | Que Dieterich, Mendoza & Brennan publicaram *COMPAS Risk Scales* (Northpointe, julho de 2016) — existência e autoria confirmadas em material acadêmico |
-| ❌ | **O conteúdo desse documento**: o PDF devolve 404 e não foi aberto. Por isso este capítulo afirma apenas que a réplica existe e sustenta paridade preditiva, e **não caracteriza o argumento da empresa em primeira mão** |
+| ❌ | **O conteúdo desse documento**, que continua não aberto. As tentativas, para quem retomar: o PDF no domínio da fornecedora devolve 404, e o espelho no DocumentCloud responde 403 atrás de Cloudflare, tanto na página quanto na API. Por isso este capítulo afirma apenas que a réplica existe e sustenta paridade preditiva, e **não caracteriza o argumento da empresa em primeira mão** |
 | ✓ᵃ | Kleinberg, Mullainathan & Raghavan ([arXiv:1609.05807](https://arxiv.org/abs/1609.05807), v1 19/09/2016); LIME ([arXiv:1602.04938](https://arxiv.org/abs/1602.04938), v1 16/02/2016); SHAP ([arXiv:1705.07874](https://arxiv.org/abs/1705.07874), v1 22/05/2017), incluindo a frase sobre unificar seis métodos; Model Cards — Mitchell, Wu, Zaldivar, Barnes, Vasserman, Hutchinson, Spitzer, Raji e Gebru ([arXiv:1810.03993](https://arxiv.org/abs/1810.03993), v1 05/10/2018). Em todos, a citação vem do **resumo** |
 | 📖 | A leitura de que a cronologia é o conteúdo; o paralelo Shapley→SHAP com Taylor→BERT; e a formulação "o desacordo é de definição, não de fato" |
 
@@ -76,13 +77,49 @@ Duas perguntas diferentes se escondem sob a mesma palavra. **Global**: *como est
 
 > **Uma explicação post-hoc é uma aproximação do modelo — não a razão pela qual o modelo decidiu.**
 
-O modelo não tem "razões": tem pesos. A explicação é uma narrativa ajustada para se parecer com o comportamento dele naquela vizinhança. Pode ser útil, defensável e ainda assim **não** ser o que aconteceu por dentro. Tratá-la como motivação da decisão — num relatório, numa auditoria, em juízo — é trocar o modelo pelo retrato dele. Quando a decisão for de alto risco e a exigência de justificar for real, considere pagar o preço do modelo interpretável por construção: a perda de desempenho costuma ser menor do que o time supõe, e às vezes some dentro do intervalo de confiança (ver [capítulo II.8](ii-8-do-modelo-a-decisao.md)).
+O modelo não tem "razões": tem pesos. A explicação é uma narrativa ajustada para se parecer com o comportamento dele naquela vizinhança. Pode ser útil, defensável e ainda assim **não** ser o que aconteceu por dentro. Tratá-la como motivação da decisão (num relatório, numa auditoria, em juízo) é trocar o modelo pelo retrato dele. Quando a decisão for de alto risco e a exigência de justificar for real, considere pagar o preço do modelo interpretável por construção: a perda de desempenho costuma ser menor do que o time supõe, e às vezes some dentro do intervalo de confiança (ver [capítulo II.8](ii-8-do-modelo-a-decisao.md)).
+
+:::exercicio {"id":"interpretabilidade-justica-e5","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Um regulador pede que o banco explique **por que este cliente** teve o crédito negado. Qual tipo de explicação ele está exigindo, e o que costuma acontecer nos times?
+
+- [ ] Global, e times têm dificuldade em produzi-la.
+- [x] Local, e a assimetria é grande: times produzem explicação global com facilidade e são cobrados por explicação local.
+- [ ] Global, e basta listar os atributos mais importantes do modelo.
+- [ ] Local, e ela é obtida diretamente da importância global de atributos.
+
+> **gabarito:** local, e é a que falta
+> **porque:** Global responde "como este modelo funciona, no geral?" e serve para auditar. Local responde "por que **este** caso recebeu esta saída?", e é o que a regulação normalmente exige.
+>
+> A quarta alternativa descreve o atalho mais comum e ele não funciona: importância global diz o que o modelo usa em média, e não o que pesou naquela decisão. Um atributo pouco importante no geral pode ter decidido aquele caso.
+>
+> A assimetria é o que torna isso um problema de projeto e não de ferramenta: produzir o que é fácil e ser cobrado pelo que é difícil é a situação padrão, e ela precisa ser prevista antes de o sistema entrar em produção.
+> **volte para:** #fundamentos-o-que-e-explicar-um-modelo
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e6","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Uma equipe reporta que a explicação post-hoc tem 96% de fidelidade ao modelo. A diretoria conclui que pode usá-la como justificativa oficial das decisões. Qual é a crítica correta?
+
+- [ ] Nenhuma: 96% é fidelidade alta o bastante para uso oficial.
+- [x] Fidelidade é uma concordância média, e a pergunta do regulador é sobre **aquela** decisão; a explicação continua sendo uma aproximação, não a razão pela qual o modelo decidiu.
+- [ ] O erro é a fidelidade ser medida sobre o treino, e não sobre o teste.
+- [ ] O erro é usar explicação post-hoc, que nunca deve ser produzida.
+
+> **gabarito:** fidelidade é média, e a exigência é sobre o caso individual
+> **porque:** Os 4% restantes não estão distribuídos por igual, e não há como saber, olhando o número agregado, se o caso contestado está entre eles. Trocar uma propriedade categórica por uma métrica média é exatamente o movimento que a auditoria pega.
+>
+> A quarta alternativa exagera para uma proibição que o capítulo não faz. Explicação post-hoc é útil e defensável; o que não se pode é tratá-la como motivação da decisão.
+>
+> O caminho que o capítulo aponta quando a exigência de justificar é real: considerar pagar o preço do modelo interpretável por construção, porque a perda de desempenho costuma ser menor do que o time supõe e às vezes some dentro do intervalo de confiança.
+> **volte para:** #interpretavel-por-construcao-ou-explicado-depois
+:::
 
 ### LIME e SHAP, sem fórmula
 
 **LIME** faz o óbvio, e o óbvio funciona: pega o caso que você quer explicar, gera variações dele em volta, pergunta ao modelo o que ele responde para cada variação e ajusta um modelo simples **só naquela vizinhança**. O resultado responde *"perto deste caso, o modelo se comporta assim"* — nada além disso.
 
-**SHAP** vem da teoria dos jogos cooperativos. Imagine a previsão como o prêmio de uma partida e cada atributo como um jogador que entra na coalizão: a contribuição de um jogador é o quanto ele acrescenta ao prêmio, **em média sobre todas as ordens possíveis de entrada**. Isso dá à atribuição uma propriedade rara — as contribuições **somam exatamente** o desvio entre a previsão daquele caso e a previsão média. Nada some, nada aparece do nada. Mas a atribuição **não é causal no mundo** ("renda contribuiu −0,4" não diz o que aconteceria se a renda mudasse), **não é a razão interna** do modelo, e **não é estável de graça**: atributos correlacionados dividem crédito de formas que dependem da implementação.
+**SHAP** vem da teoria dos jogos cooperativos. Imagine a previsão como o prêmio de uma partida e cada atributo como um jogador que entra na coalizão: a contribuição de um jogador é o quanto ele acrescenta ao prêmio, **em média sobre todas as ordens possíveis de entrada**. Isso dá à atribuição uma propriedade rara — as contribuições **somam exatamente** o desvio entre a previsão daquele caso e a previsão média. Nada some, nada aparece do nada.
+
+Mas a atribuição **não é causal no mundo** ("renda contribuiu −0,4" não diz o que aconteceria se a renda mudasse), **não é a razão interna** do modelo, e **não é estável de graça**: atributos correlacionados dividem crédito de formas que dependem da implementação.
 
 :::exercicio {"id":"interpretabilidade-justica-e1","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Um banco usa um ensemble de árvores para decidir crédito e gera, para cada negativa, uma explicação SHAP com os três atributos de maior contribuição. O jurídico pergunta se essa explicação pode ser apresentada como a motivação da decisão. Qual leitura é correta?
@@ -99,6 +136,40 @@ Um banco usa um ensemble de árvores para decidir crédito e gera, para cada neg
 > **volte para:** #interpretavel-por-construcao-ou-explicado-depois
 :::
 
+:::exercicio {"id":"interpretabilidade-justica-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+A propriedade rara do SHAP é que as contribuições somam exatamente o desvio entre a previsão daquele caso e a previsão média. O que **não** decorre disso?
+
+- [ ] Que nada some e nada aparece do nada na atribuição.
+- [x] Que a contribuição é causal no mundo: "renda contribuiu −0,4" não diz o que aconteceria se a renda mudasse.
+- [ ] Que a atribuição é completa em relação à previsão daquele caso.
+- [ ] Que existe uma referência, a previsão média, contra a qual o desvio é medido.
+
+> **gabarito:** não decorre causalidade
+> **porque:** A propriedade de soma é sobre **contabilidade**: ela garante que a atribuição fecha, sem sobra nem falta. Contabilidade fechada não é mecanismo.
+>
+> É a confusão mais cara do capítulo porque a saída do SHAP se parece muito com uma afirmação causal, e costuma chegar à reunião como se fosse. "Renda contribuiu −0,4" descreve como o modelo se comporta, e não o que aconteceria com a pessoa se a renda dela mudasse.
+>
+> Vale lembrar as outras duas limitações que acompanham: a atribuição não é a razão interna do modelo, e não é estável de graça — atributos correlacionados dividem crédito de formas que dependem da implementação.
+> **volte para:** #lime-e-shap-sem-formula
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e8","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Qual é a diferença entre o que LIME e SHAP fazem?
+
+- [x] O LIME gera variações do caso, pergunta ao modelo o que ele responde para cada uma e ajusta um modelo simples **só naquela vizinhança**; o SHAP atribui contribuição a cada atributo em média sobre todas as ordens de entrada.
+- [ ] O LIME é global e o SHAP é local.
+- [ ] O LIME funciona só com modelos lineares e o SHAP com qualquer modelo.
+- [ ] São implementações diferentes do mesmo algoritmo.
+
+> **gabarito:** vizinhança local ajustada contra contribuição média sobre ordens
+> **porque:** São mecanismos distintos com o mesmo propósito. O LIME faz o óbvio e o óbvio funciona: perturba o caso, observa as respostas e ajusta um modelo simples ali perto. A resposta dele é literalmente "perto deste caso, o modelo se comporta assim".
+>
+> O SHAP vem da teoria dos jogos cooperativos: a previsão é o prêmio, cada atributo é um jogador, e a contribuição é o quanto ele acrescenta ao prêmio em média sobre todas as ordens possíveis de entrada.
+>
+> A segunda alternativa inverte um fato: os dois são locais. E a terceira confunde o modelo **explicado** com o modelo **explicador** — o simples ajustado pelo LIME é linear, e o que ele explica pode ser qualquer coisa.
+> **volte para:** #lime-e-shap-sem-formula
+:::
+
 ## Três definições de justiça que não cabem juntas
 
 Cada uma é razoável, cada uma tem defensores sérios, e cada uma exige coisa diferente. Repare que a primeira nem olha o desfecho, e as outras duas olham.
@@ -111,7 +182,7 @@ Cada uma é razoável, cada uma tem defensores sérios, e cada uma exige coisa d
 
 ### A álgebra de três linhas
 
-A relação de Chouldechova amarra quatro grandezas: **taxa de falso positivo**, **prevalência**, **valor preditivo positivo** e **taxa de falso negativo**. Fixadas três, a quarta está determinada. Não é tendência empírica — é identidade.
+A relação de Chouldechova amarra quatro grandezas: taxa de falso positivo, prevalência, valor preditivo positivo e taxa de falso negativo. Fixadas três, a quarta está determinada. Não é tendência empírica — é identidade.
 
 A consequência é a frase citada acima: com prevalência diferente entre os grupos, um escore calibrado **não pode** ter taxas de falso positivo e de falso negativo iguais entre eles. E prevalência quase sempre difere, por razões que nada têm a ver com o modelo — inclusive porque o dado histórico registra um processo social, não a verdade sobre as pessoas (ver [capítulo I.3](i-3-dados.md) e [capítulo III.6](iii-6-modelos-de-fundacao.md)). Daí a formulação prática: **exigir as três definições ao mesmo tempo é exigir que a prevalência seja igual.** Se ela não for, você pediu algo aritmeticamente impossível — e alguém vai entregar um relatório dizendo que conseguiu.
 
@@ -126,12 +197,58 @@ Um escore de risco foi avaliado separadamente em dois grupos, com mil pessoas ca
 Calcule a **taxa de falso positivo do grupo B**. Responda em fração, com duas casas decimais.
 
 > **gabarito:** 0,45 ± 0,01
-> **porque:** A taxa de falso positivo se calcula **sobre os negativos reais**, nunca sobre o total. No grupo B há 180 + 220 = **400** negativos reais, dos quais 180 foram previstos positivos: 180 / 400 = **0,45**. O erro mais comum é dividir por 1 000 e obter 0,18 — isso mede outra coisa.
+> **porque:** A taxa de falso positivo se calcula **sobre os negativos reais**, nunca sobre o total. No grupo B há 180 + 220 = 400 negativos reais, dos quais 180 foram previstos positivos: 180 / 400 = 0,45. O erro mais comum é dividir por 1 000 e obter 0,18 — isso mede outra coisa.
 >
-> Agora faça as outras contas, porque é aqui que o capítulo se fecha. Falso positivo no grupo A: 120 / 600 = **0,20**. Valor preditivo positivo: 280 / 400 = **0,70** no A e 420 / 600 = **0,70** no B — **idênticos**. Taxa de falso negativo: 120 / 400 = **0,30** no A e 180 / 600 = **0,30** no B — **também idênticos**.
+> Agora faça as outras contas, porque é aqui que o capítulo se fecha. Falso positivo no grupo A: 120 / 600 = 0,20. Valor preditivo positivo: 280 / 400 = 0,70 no A e 420 / 600 = 0,70 no B — **idênticos**. Taxa de falso negativo: 120 / 400 = 0,30 no A e 180 / 600 = 0,30 no B — **também idênticos**.
 >
 > Ou seja: este escore trata os dois grupos igualmente em duas definições e ainda assim **erra para cima mais que o dobro** no grupo B. Nada foi sabotado, nenhum atributo sensível precisou entrar no modelo. A única diferença entre os grupos é a **prevalência**, e ela sozinha basta. É o teorema, agora em números que você conferiu com uma divisão.
 > **volte para:** #a-algebra-de-tres-linhas
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Qual das três definições de justiça **não** olha o desfecho?
+
+- [x] Paridade demográfica: ela exige proporções iguais de decisões positivas, independentemente de quem de fato era positivo.
+- [ ] Igualdade de oportunidade.
+- [ ] Calibração.
+- [ ] Nenhuma delas olha o desfecho.
+
+> **gabarito:** paridade demográfica
+> **porque:** Ela é uma exigência sobre as **decisões**, e só. Igualdade de oportunidade condiciona a quem de fato é positivo; calibração pergunta se o escore corresponde à probabilidade real. As duas precisam do desfecho, a primeira não.
+>
+> A distinção tem consequência prática: paridade pode ser satisfeita aprovando gente ao acaso no grupo sub-representado, o que atende à definição e não ajuda ninguém a receber a decisão correta.
+>
+> É por isso que a escolha entre as três não é técnica. Cada uma protege alguém diferente, e nomear quem é a primeira parte do trabalho.
+> **volte para:** #tres-definicoes-de-justica-que-nao-cabem-juntas
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Segundo a álgebra de Chouldechova, qual afirmação é correta?
+
+- [ ] Com dados suficientes, os três critérios podem ser satisfeitos simultaneamente.
+- [x] Fixadas três das quatro grandezas, a quarta está determinada: é identidade, e não tendência empírica.
+- [ ] A incompatibilidade some quando o modelo é bem calibrado.
+- [ ] A relação vale apenas para modelos lineares.
+
+> **gabarito:** é identidade, e não tendência
+> **porque:** A palavra que carrega tudo é **identidade**. Não se trata de um padrão observado em alguns conjuntos: taxa de falso positivo, prevalência, valor preditivo positivo e taxa de falso negativo estão amarradas por álgebra, e nenhuma quantidade de dados afrouxa uma identidade.
+>
+> A primeira alternativa é a esperança que a frase existe para desfazer, e é a mais comum em reunião. Mais dados reduzem incerteza sobre estimativas; não alteram uma relação exata entre elas.
+>
+> A terceira inverte o papel da calibração, que é uma das exigências em conflito, e não a saída dele. A animação acima mostra isso de forma direta: com os dois grupos calibrados por construção, ainda assim o melhor que se consegue é dois de três.
+> **volte para:** #a-algebra-de-tres-linhas
+:::
+
+:::lab {"id":"interpretabilidade-justica-l1","tipo":"anima-justica","titulo":"Mova o limiar de um grupo e tente acender os três"}
+A álgebra acima é curta e continua abstrata até alguém tentar. Aqui não há nada a treinar: os escores dos dois grupos já existem, o limiar do grupo B está fixo em 0,50, e a única coisa que se move é **onde se corta o escore do grupo A**.
+
+Os dois grupos são **calibrados por construção** — dentro de cada um, um escore de 0,7 corresponde mesmo a 70% de positivos. É a premissa do teorema, e é por isso que a terceira luz fica verde o tempo todo.
+
+Assista o limiar descer de 0,75 a 0,25 e olhe as três luzes. A paridade acende num ponto; a igualdade de oportunidade acende noutro; e **elas nunca acendem juntas**. O melhor que a varredura inteira consegue é **2 de 3**.
+
+Agora clique em **"E se as prevalências fossem iguais?"**. Mesmo modelo, mesmo procedimento, mesma varredura, e agora existe um limiar em que os três acendem: **3 de 3**.
+
+É essa a forma exata do teorema, e ela é mais útil que a frase "não dá para ter tudo": a impossibilidade **não é uma lei da natureza nem um defeito do modelo**. Ela depende de uma condição do mundo — a diferença de prevalência entre os grupos. E essa diferença costuma ser, ela mesma, resíduo de um acesso desigual anterior, o que explica por que a ação mais valiosa às vezes está fora do modelo.
 :::
 
 ## Quando o teorema diz que você tem de escolher
@@ -144,14 +261,50 @@ Provado que não dá para ter tudo, o trabalho muda de natureza: passa a ser de 
 
 **3. Envolver quem paga a conta.** A escolha entre critérios distribui erro entre pessoas, e quem decide raramente é quem recebe. Levar a decisão a quem sofre a consequência não é gentileza: é a única forma de descobrir qual erro dói mais — informação que não está no conjunto de dados.
 
-**4. Registrar.** Um **Model Card** documenta o modelo como um datasheet documenta o dado: uso pretendido, uso desaconselhado, **desempenho desagregado por subgrupo** e considerações éticas. O elo com o [capítulo I.3](i-3-dados.md) não é analogia — é a **mesma autora**: Timnit Gebru assina os dois, no mesmo ano. Documentar o dado e documentar o modelo são um projeto só.
+:::exercicio {"id":"interpretabilidade-justica-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"facil"}
+Ao medir desempenho por subgrupo, quais cuidados a seção exige? (marque todos que valem)
+
+- [x] Declarar os subgrupos **antes** de olhar os resultados, para não caçar o recorte conveniente.
+- [x] Verificar se cada subgrupo tem gente suficiente para a estimativa significar algo.
+- [x] Reportar a matriz de confusão inteira por subgrupo, em vez de uma métrica agregada.
+- [ ] Concluir que não há diferença quando um subgrupo pequeno não acusa diferença.
+
+> **gabarito:** declarar antes · tamanho suficiente · matriz inteira
+> **porque:** Os três protegem contra formas diferentes de se enganar, e o terceiro é o mais estrutural: a média esconde a decisão, e uma métrica agregada não deixa ver qual tipo de erro recai sobre quem.
+>
+> A alternativa errada é a armadilha que a seção nomeia com precisão: **ausência de diferença medida num subgrupo pequeno é ausência de medida, não ausência de diferença**. Ela é perigosa porque produz uma frase tranquilizadora a partir de dado insuficiente.
+>
+> Declarar os subgrupos antes é o mesmo princípio do capítulo I.4 e do II.8: escolher o recorte depois de ver o resultado transforma exploração em confirmação.
+> **volte para:** #quando-o-teorema-diz-que-voce-tem-de-escolher
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e12","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
+Na animação deste capítulo, os três critérios acendem quando as prevalências se igualam. Que leitura prática isso autoriza?
+
+- [ ] Que basta reamostrar os dados até as prevalências ficarem iguais, e o problema de justiça se resolve.
+- [x] Que a impossibilidade depende de uma condição do mundo, e não do modelo — o que explica por que a ação mais valiosa às vezes está fora do modelo.
+- [ ] Que o teorema está errado, já que existe um caso em que os três valem.
+- [ ] Que a calibração deixa de ser necessária quando as prevalências são iguais.
+
+> **gabarito:** a impossibilidade depende de uma condição do mundo
+> **porque:** É a forma exata do teorema, e ela é mais útil que a frase "não dá para ter tudo". A incompatibilidade não é lei da natureza nem defeito do modelo: ela decorre da diferença de prevalência entre os grupos.
+>
+> A primeira alternativa confunde igualar a prevalência **nos dados** com igualá-la **no mundo**. Reamostrar muda a proporção do conjunto e não muda quem de fato tem o desfecho lá fora, e a medição passa a descrever uma população que não existe — o mesmo erro do reequilíbrio do teste no [capítulo II.1](ii-1-avaliacao.md).
+>
+> A leitura que sobra é desconfortável e é o ponto: a prevalência diferente costuma ser resíduo de um acesso desigual anterior. Otimizar sobre ela é herdar o problema, e a ação que resolveria pode não ser uma escolha de limiar.
+> **volte para:** #quando-o-teorema-diz-que-voce-tem-de-escolher
+:::
+
+**4. Registrar.** Um **Model Card** documenta o modelo como um datasheet documenta o dado: uso pretendido, uso desaconselhado, desempenho desagregado por subgrupo e considerações éticas. O elo com o [capítulo I.3](i-3-dados.md) não é analogia — é a **mesma autora**: Timnit Gebru assina os dois, no mesmo ano. Documentar o dado e documentar o modelo são um projeto só.
 
 E há uma quinta saída, legítima: **não lançar**. Desempenho bom no agregado e ruim num subgrupo que importa é motivo suficiente, e defender a recusa exige o mesmo aparato de defender o lançamento — ver [capítulo II.8](ii-8-do-modelo-a-decisao.md).
 
 :::exercicio {"id":"interpretabilidade-justica-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Um plano de saúde vai usar um escore para selecionar pacientes crônicos que entram num programa de acompanhamento intensivo — as vagas são limitadas e o programa reduz internações. A prevalência de complicação grave é **maior no grupo X** do que no grupo Y, por razões conhecidas de acesso histórico a atendimento.
 
-A diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escore significa a mesma probabilidade nos dois grupos) e **igualitário em oportunidade** (mesma taxa de acerto entre quem de fato vai complicar). Escreva a resposta que você levaria à diretoria: explique por que o pedido é impossível como está, escolha **um** dos dois critérios, e diga **quem paga a conta** da sua escolha.
+A diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escore significa a mesma probabilidade nos dois grupos) e **igualitário em oportunidade** (mesma taxa de acerto entre quem de fato vai complicar).
+
+Escreva a resposta que você levaria à diretoria: explique por que o pedido é impossível como está, escolha **um** dos dois critérios, e diga **quem paga a conta** da sua escolha.
 
 > **rubrica:** explica que os dois critérios não podem valer juntos porque a prevalência difere, e que isso é identidade aritmética, não limitação de engenharia;
 > nomeia corretamente o que cada critério exige;
@@ -161,7 +314,7 @@ A diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escor
 > NÃO afirma que existe uma resposta tecnicamente correta
 > **porque:** A resposta fraca promete "buscar um equilíbrio" e pede mais dados. Mais dados não removem a incompatibilidade: ela decorre da diferença de prevalência, não do tamanho da amostra.
 >
-> A resposta forte faz três movimentos. Devolve o pedido — as duas exigências juntas equivalem a exigir prevalências iguais. Escolhe, e nomeia o preço: priorizar **igualdade de oportunidade** tende a levar mais gente do grupo X ao programa, aumentando o falso positivo lá e consumindo vagas que outros pacientes teriam; priorizar **calibração** preserva o significado do escore para quem o lê, ao custo de taxas de erro piores num dos grupos. E diz **quem paga** em pessoas e desfechos — pacientes que complicam sem entrar no programa, ou pacientes que ocupam vaga sem precisar — não em métrica. O que separa a boa da excelente é reparar que a prevalência diferente **é ela mesma resíduo de um acesso desigual anterior**: otimizar sobre ela é herdar o problema, e a ação mais valiosa pode estar fora do modelo.
+> A resposta forte faz três movimentos. Devolve o pedido — as duas exigências juntas equivalem a exigir prevalências iguais. Escolhe, e nomeia o preço: priorizar **igualdade de oportunidade** tende a levar mais gente do grupo X ao programa, aumentando o falso positivo lá e consumindo vagas que outros pacientes teriam; priorizar **calibração** preserva o significado do escore para quem o lê, ao custo de taxas de erro piores num dos grupos. E diz quem paga em pessoas e desfechos (pacientes que complicam sem entrar no programa, ou pacientes que ocupam vaga sem precisar), não em métrica. O que separa a boa da excelente é reparar que a prevalência diferente **é ela mesma resíduo de um acesso desigual anterior**: otimizar sobre ela é herdar o problema, e a ação mais valiosa pode estar fora do modelo.
 > **volte para:** #quando-o-teorema-diz-que-voce-tem-de-escolher
 :::
 
@@ -176,8 +329,24 @@ A diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escor
 - Escolha declarada é auditável; escolha calada é a mesma escolha, sem responsável. E **não lançar** continua sendo uma saída.
 - **A matemática esperou o problema** — Shapley 1953, SHAP 2017, fórmula intacta.
 
+:::exercicio {"id":"interpretabilidade-justica-e4","tipo":"aberta","objetivo":"O2","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um colega mostra uma explicação SHAP de uma negativa de crédito e conclui: **"foi a renda que causou a recusa"**. Reescreva a frase de modo tecnicamente defensável, e diga o que se perde na versão original.
+
+> **rubrica:** a frase reescrita atribui o efeito **ao modelo**, e não ao mundo — algo como "neste caso, a renda foi o atributo que mais empurrou a saída do modelo para baixo, em relação à referência usada";
+> torna explícita a **referência**: a atribuição é sempre relativa a uma linha de base (a média das saídas, ou um conjunto de fundo escolhido), e mudar essa referência muda os números;
+> nomeia o que a versão original afirma sem sustentação: uma relação **causal** no mundo, que exigiria intervir na renda e observar a decisão mudar — e a explicação não observou nada disso;
+> não conclui que SHAP é inútil ou "não explica nada": ele responde corretamente a uma pergunta bem definida sobre a saída do modelo, e o defeito está na pergunta que o colega achou ter feito
+> **porque:** A frase do colega é o erro mais comum da área, e é fácil de cometer porque a saída do SHAP **parece** uma explicação causal: um atributo, um sinal, uma magnitude. O que ela de fato reporta é como a saída **deste modelo** se decompõe em relação a uma referência — uma afirmação sobre um artefato de software, não sobre a vida do solicitante.
+>
+> A distância entre as duas leituras aparece num teste mental simples: se a renda daquela pessoa fosse outra, a decisão mudaria? A atribuição não responde isso. Ela diz o quanto aquele valor de renda contribuiu para afastar a saída da referência **mantida a estrutura do modelo**, que pode ter aprendido a renda como substituta de outra coisa que ninguém mediu.
+>
+> O quarto critério evita o pêndulo. Quem entende a crítica pela primeira vez tende a concluir que a ferramenta não presta; ela presta, e a pergunta que ela responde é útil — sobretudo para auditar o modelo. O que não se pode é **entregar a resposta dela como se fosse resposta de outra pergunta**, especialmente para alguém que teve o crédito negado e vai agir com base no que você disse.
+> **volte para:** #lime-e-shap-sem-formula
+:::
+
 ## Verificação
 
-1. Um colega mostra uma explicação SHAP de uma negativa de crédito e conclui: "foi a renda que causou a recusa". Reescreva a frase de modo tecnicamente defensável, e diga o que se perde na versão original.
-2. Sua auditoria mostra que o modelo é bem calibrado nos dois grupos e que a taxa de falso positivo é o dobro em um deles. Um gestor pede que você "corrija o modelo até que as duas coisas fiquem iguais". O que você responde, e o que oferece no lugar?
-3. Você precisa escolher entre um ensemble com desempenho superior e um modelo de regras ligeiramente pior, num domínio em que cada decisão negativa pode ser contestada individualmente. Que critérios usaria, e em que condição a escolha se inverteria?
+1. Sua auditoria mostra que o modelo é bem calibrado nos dois grupos e que a taxa de falso positivo é o dobro em um deles. Um gestor pede que você "corrija o modelo até que as duas coisas fiquem iguais". O que você responde, e o que oferece no lugar?
+2. Você precisa escolher entre um ensemble com desempenho superior e um modelo de regras ligeiramente pior, num domínio em que cada decisão negativa pode ser contestada individualmente. Que critérios usaria, e em que condição a escolha se inverteria?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: as duas são negociações, e negociação se ganha diante de quem pede a coisa impossível.

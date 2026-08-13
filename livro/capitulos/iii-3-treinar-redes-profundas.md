@@ -23,7 +23,7 @@ Isso não é uma anedota de iniciante. **Foi o estado normal do campo até cerca
 
 **O aperto — Munique, 15 de junho de 1991.** Um aluno de **graduação** da Technische Universität München entrega uma *Diplomarbeit* de 74 páginas e faz o que ninguém tinha feito: em vez de propor mais um truque, ele **mede** por que o erro não chega às camadas do fundo.
 
-Vale ler a folha de rosto com atenção, porque ela contraria a lembrança coletiva. O autor assina **Josef Hochreiter** — não "Sepp". O *Aufgabensteller*, o orientador formal, é o **Prof. W. Brauer**. **Jürgen Schmidhuber** aparece como *Betreuer*, o supervisor de fato. E o capítulo 4 do trabalho já se chama **"Konstanter Fehlerrückfluß"** — refluxo *constante* do erro. Isto é: **a LSTM de 1997 já estava nomeada em 1991**, seis anos antes de existir. A §2.3 diz, em alemão, que o produto dos pesos "exponentiell fällt bzw. steigt": cai ou cresce exponencialmente.
+Vale ler a folha de rosto com atenção, porque ela contraria a lembrança coletiva. O autor assina **Josef Hochreiter**, não "Sepp". O *Aufgabensteller*, o orientador formal, é o Prof. W. Brauer. Jürgen Schmidhuber aparece como *Betreuer*, o supervisor de fato. E o capítulo 4 do trabalho já se chama **"Konstanter Fehlerrückfluß"** — refluxo *constante* do erro. Isto é: **a LSTM de 1997 já estava nomeada em 1991**, seis anos antes de existir. A §2.3 diz, em alemão, que o produto dos pesos "exponentiell fällt bzw. steigt": cai ou cresce exponencialmente.
 
 **O que se fazia antes.** Culpava-se a arquitetura, os dados, o passo de aprendizado. Tratava-se sintoma. Cada equipe tinha seu conjunto de superstições sobre o que fazia uma rede profunda treinar, e nenhuma delas explicava por que o remédio funcionava aqui e falhava ali.
 
@@ -46,7 +46,9 @@ E há o desfecho que quebra o padrão dos capítulos [II.2](ii-2-modelos-lineare
 | ❌ | **Se o artigo de 1994 cita a tese de 1991** — procuramos e não conseguimos conferir. É por isso que o capítulo não afirma omissão de crédito |
 | ✓ᵐ | Glorot & Bengio (AISTATS 2010); Nair & Hinton (ICML 2010); Glorot, Bordes & Bengio (AISTATS 2011); Kingma & Ba (2014); Srivastava, Hinton *et al.* (JMLR 2014); Ioffe & Szegedy (2015); He, Zhang, Ren & Sun (ICCV 2015) — metadados conferidos, artigos não abertos |
 | ✓ᵐ | Santurkar *et al.*, *How Does Batch Normalization Help Optimization? (No, It Is Not About Internal Covariate Shift)* — [arXiv:1805.11604](https://arxiv.org/abs/1805.11604) |
-| ⏳ | "Adam" como *adaptive moment estimation*; e a anedota do caixa de banco que roda de guichê para impedir conluio, contada como origem do dropout — não conferida em fala primária |
+| ✓ | **"Adam" vem de *adaptive moment estimation***, dito no próprio artigo: *"the name Adam is derived from adaptive moment estimation"* ([arXiv:1412.6980](https://arxiv.org/abs/1412.6980), lido) |
+| ✓ | As **duas motivações do dropout** e o trecho citado entre aspas, na seção "Motivation" do [artigo do JMLR](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf), **lido**: a teoria sobre o papel do sexo na evolução e a das conspirações |
+| ❌ | **A anedota do caixa de banco não está no artigo.** Procurei "bank", "teller", "fraud" e "conspir" no texto inteiro: as únicas ocorrências de "bank" são *"log-filter bank frames"*, sobre processamento de áudio. A história circula em palestras e substituiu, na repetição, as duas motivações que os autores escreveram |
 | 📖 | A leitura de que o diagnóstico de 1991 sobreviveu a quatro gerações de remédio, e de que este é o caso **atenuado** do padrão de crédito dos capítulos II.2, 08 e 18 |
 
 ## Fundamentos: o gradiente é um produto, e produtos são traiçoeiros
@@ -94,6 +96,40 @@ Uma equipe troca a ativação de uma rede de 30 camadas de `tanh` para `ReLU` e 
 > **volte para:** #inicializacao-por-que-zero-nao-funciona-e-por-que-a-variancia-importa
 :::
 
+:::exercicio {"id":"treinar-redes-profundas-e6","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Por que inicializar todos os pesos com zero não funciona?
+
+- [ ] Porque o gradiente fica indefinido quando os pesos são nulos.
+- [x] Porque todos os neurônios da camada calculam a mesma coisa, recebem o mesmo gradiente e se atualizam de forma idêntica para sempre.
+- [ ] Porque a perda começa alta demais e o treino diverge.
+- [ ] Porque zero é um valor válido, e o problema só aparece com vieses nulos.
+
+> **gabarito:** todos os neurônios permanecem idênticos
+> **porque:** É a **quebra de simetria**, e ela é a primeira função do sorteio inicial. Com pesos iguais, nada distingue um neurônio do outro: recebem a mesma entrada, produzem a mesma saída, e o mesmo gradiente chega a todos.
+>
+> A consequência vale guardar na forma como o capítulo a escreve: uma camada de 512 neurônios simétricos é uma camada de **1** neurônio, com 512 vezes o custo.
+>
+> Repare que o gradiente não fica indefinido nem a perda diverge. Tudo roda, a perda até desce um pouco, e a rede aprende muito menos do que o tamanho dela sugere. É mais um caso em que ausência de sintoma não é diagnóstico.
+> **volte para:** #inicializacao-por-que-zero-nao-funciona-e-por-que-a-variancia-importa
+:::
+
+:::exercicio {"id":"treinar-redes-profundas-e7","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+O artigo de Glorot & Bengio (2010) se chama *Understanding the difficulty of training deep feedforward neural networks*. O que o título revela sobre a natureza da contribuição?
+
+- [ ] Que a fórmula de inicialização era a tese, e o título é modesto por convenção acadêmica.
+- [x] Que entender veio antes de consertar: a fórmula que hoje leva o nome deles é subproduto do estudo do problema, não a tese.
+- [ ] Que o artigo não propõe solução nenhuma, apenas descreve o fenômeno.
+- [ ] Que a dificuldade descrita já estava resolvida, e o artigo é retrospectivo.
+
+> **gabarito:** entender veio antes de consertar
+> **porque:** O trabalho investiga **por que** redes profundas não treinavam, e a inicialização sai como consequência de ter entendido que o que precisa ser preservado é a variância do sinal ao atravessar a camada.
+>
+> A leitura tem consequência prática, e é por isso que o capítulo insiste nela. Quem decora a fórmula fica preso a ela; quem entende a razão consegue refazer a conta sob outra hipótese — que é exatamente o que He et al. fizeram cinco anos depois, ao notar que a dedução supunha ativação linear e que a ReLU zera metade das entradas.
+>
+> A inicialização He não é um truque melhor. É a mesma conta refeita sob a hipótese certa, e isso só é possível para quem tem a conta, não apenas o resultado dela.
+> **volte para:** #inicializacao-por-que-zero-nao-funciona-e-por-que-a-variancia-importa
+:::
+
 ### Ativação: a sigmoide satura, a ReLU não — e o neurônio morto é o preço
 
 A sigmoide comprime qualquer entrada no intervalo (0, 1). Longe do centro, ela é quase plana — e ativação plana significa derivada quase zero, isto é, mais um fator minúsculo no produto. A **ReLU** (*Rectified Linear Unit*) troca isso por algo grosseiro e eficaz: zera o negativo e devolve o positivo intacto. Na região ativa, sua derivada é exatamente **1**, e um fator 1 não encolhe o produto.
@@ -101,6 +137,37 @@ A sigmoide comprime qualquer entrada no intervalo (0, 1). Longe do centro, ela �
 A história de como ela entrou é instrutiva. Nair & Hinton (2010) a apresentam **pela porta de trás**, num artigo sobre máquinas de Boltzmann restritas. E quando Glorot, Bordes & Bengio (2011) a defendem de frente, o argumento principal não é velocidade — é **esparsidade**: com metade das unidades em zero, a representação fica esparsa, e isso é apresentado como virtude, não como efeito colateral.
 
 O preço tem nome: **neurônio morto**. Uma unidade que passa a receber só entradas negativas devolve zero, tem derivada zero e nunca mais se atualiza — está desligada em definitivo. Variantes como *Leaky* ReLU e GELU existem para manter uma inclinação pequena no lado negativo e evitar exatamente isso.
+
+:::lab {"id":"treinar-redes-profundas-l1","tipo":"anima-gradiente","titulo":"Veja o gradiente descer 20 camadas, e a ReLU não bastar"}
+A animação é o próprio passo para trás. Uma rede de 20 camadas com 48 unidades cada, pesos sorteados de verdade, e a barra de cada camada é a **norma do gradiente** que chega ali, em escala logarítmica. A linha tracejada marca 10⁻⁶, o "dividido por um milhão" da seção anterior.
+
+Comece com **sigmoide + Xavier** e acompanhe as barras encolhendo da direita para a esquerda. A última camada recebe 1,09; a primeira recebe **1,4 × 10⁻¹²**. Não é aprender devagar, é não aprender: o gradiente atravessou a linha do milionésimo lá pela camada 10 e continuou caindo.
+
+Agora, **antes de clicar**, preveja: trocando a sigmoide pela ReLU, as barras ficam de pé?
+
+Clique em "Trocar para ReLU + Xavier". Elas melhoram **nove ordens de grandeza**, e ainda assim a primeira camada fica em 1,2 × 10⁻³. A ReLU sozinha não resolveu; ela transformou um problema fatal num problema grave. O motivo está três parágrafos acima: a dedução de Xavier supõe ativação aproximadamente linear, e a ReLU zera metade das entradas.
+
+Clique de novo, para **ReLU + He**. A primeira camada recebe 0,86, contra 1,09 na última. As barras ficam de pé, e o que mudou foi um fator 2 na variância dos pesos.
+
+> **Os três modos são a mesma rede.** Os pesos saem do mesmo sorteio nos três; o que muda é a escala e a ativação. Entre Xavier e He, inclusive, os pesos são literalmente os mesmos multiplicados por √2 em cada camada — e como escalar por um número positivo não muda o sinal de nada, a máscara da ReLU é idêntica nos dois. Por isso a razão entre as duas primeiras camadas é exatamente (√2)¹⁹ ≈ 724, e não um número qualquer. Se fossem três redes diferentes, a comparação mediria sorteio, não inicialização.
+:::
+
+:::exercicio {"id":"treinar-redes-profundas-e8","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Duas equipes relatam problemas de treino. Na A, a perda salta, vira `inf` e depois `NaN` em poucas iterações. Na B, a perda desce um pouco e fica parada, e as primeiras camadas quase não mudam de peso. Qual é o diagnóstico de cada uma, e qual delas está em situação melhor?
+
+- [ ] A tem gradiente que some e B tem gradiente que explode; B está melhor porque ainda treina.
+- [x] A tem gradiente que explode e B tem gradiente que some; A está melhor, porque a explosão grita e tem remédio de uma linha.
+- [ ] As duas têm o mesmo problema, e a diferença é só a taxa de aprendizado.
+- [ ] A tem bug de implementação e B tem falta de capacidade.
+
+> **gabarito:** A explode, B some, e A está melhor
+> **porque:** Os sintomas são inconfundíveis e opostos. Fatores maiores que 1 fazem o produto crescer, e o resultado é `inf` seguido de `NaN` em poucas iterações. Fatores menores que 1 fazem o produto encolher, e o resultado é uma primeira camada que simplesmente não se move.
+>
+> A parte contraintuitiva é qual delas é melhor. A explosão **grita**, e o remédio é o grampo de gradiente: se a norma passar de um limite, reescale-a. Funciona porque a direção continua boa e só o tamanho estava absurdo.
+>
+> O desaparecimento é silencioso, e por isso é o problema caro. A equipe B pode passar semanas ajustando taxa, arquitetura e dados sem perceber que o erro está sendo dividido por um milhão antes de chegar onde precisa.
+> **volte para:** #fundamentos-o-gradiente-e-um-produto-e-produtos-sao-traicoeiros
+:::
 
 ## O kit de conserto: um diagnóstico, quatro remédios, vinte e cinco anos
 
@@ -119,9 +186,101 @@ A conexão residual fecha o argumento de forma quase literária: se o problema �
 
 **Normalização.** A *batch normalization* (Ioffe & Szegedy, 2015) padroniza as ativações de cada camada usando as estatísticas do lote; a *layer normalization* faz o mesmo usando as estatísticas de **cada exemplo**, dentro da camada — o que a torna a escolha quando o lote é pequeno ou o comprimento varia, como em sequências.
 
-**Dropout.** Srivastava, Hinton *et al.* (JMLR, 2014) desligam unidades ao acaso durante o treino. Repare que este remédio resolve **outro** problema: é regularização, combate *overfitting*, não o gradiente. A anedota do caixa de banco que roda de guichê para impedir conluio entre funcionários — usada para explicar por que impedir a coadaptação entre neurônios ajuda — circula muito e **não foi conferida em fala primária**: ⏳.
+**Dropout.** Srivastava, Hinton *et al.* (JMLR, 2014) desligam unidades ao acaso durante o treino. Repare que este remédio resolve **outro** problema: é regularização, combate *overfitting*, não o gradiente.
+
+A anedota que circula para explicá-lo é a do caixa de banco que roda de guichê para impedir conluio entre funcionários. Ela **não está no artigo**. A seção de motivação dele traz outras duas, e vale conhecê-las porque explicam melhor:
+
+- **A reprodução sexuada**, a partir de uma teoria sobre o papel do sexo na evolução: metade dos genes de cada um, com mutação pequena, em vez de uma cópia levemente mutada de um só.
+- **As conspirações**, e esta é a que mais ensina: *"Ten conspiracies each involving five people is probably a better way to create havoc than one big conspiracy that requires fifty people to all play their parts correctly."* Uma conspiração grande funciona se as condições não mudarem e houver tempo de ensaio, que é exatamente a descrição de um conjunto de treino. Fora dele, ganha quem depende de menos gente combinada.
 
 **Otimizadores.** Adam (Kingma & Ba, 2014) mantém estimativas de primeiro e segundo momentos do gradiente e adapta o passo por parâmetro. Na prática: converge rápido e **perdoa uma taxa de aprendizado mal escolhida** — o que é exatamente sua virtude e seu risco, porque esconde diagnósticos. SGD (*Stochastic Gradient Descent*) com momento, bem ajustado e com boa agenda de taxa, ainda entrega generalização igual ou melhor em visão, ao custo de exigir mais ajuste manual. Critério honesto: **Adam para começar e para iterar rápido; SGD com momento quando o último ponto percentual importa e há orçamento para ajustar.** E nenhum dos dois conserta uma exponencial.
+
+:::exercicio {"id":"treinar-redes-profundas-e4","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Uma equipe tem duas semanas para entregar a primeira linha de base de um classificador de imagens sobre um conjunto novo: a arquitetura ainda está em discussão e ninguém tem intuição sobre a taxa de aprendizado adequada. Dois meses depois, com a arquitetura congelada e a linha de base publicada, o time disputa décimos de ponto percentual e tem máquina ociosa à noite. Qual escolha de otimizador é a mais defensável em cada momento?
+
+- [ ] SGD com momento nos dois: adaptativos generalizam pior, e generalizar é sempre o objetivo.
+- [x] Adam no primeiro momento, SGD com momento no segundo: o primeiro perdoa a taxa mal escolhida enquanto tudo ainda muda; o segundo cobra ajuste e devolve o último ponto percentual.
+- [ ] Adam nos dois: converge mais rápido, e tempo até o resultado é o critério que importa em ambos os casos.
+- [ ] Indiferente: com uma boa agenda de taxa de aprendizado, os dois chegam ao mesmo lugar no mesmo tempo.
+
+> **gabarito:** Adam no primeiro momento, SGD com momento no segundo
+> **porque:** O critério não é qual otimizador é melhor — é **o que é escasso agora**. Na primeira fase o escasso é o seu tempo, e há muitas variáveis se movendo ao mesmo tempo; um otimizador que perdoa taxa mal escolhida remove uma delas. Na segunda fase o escasso é o último ponto percentual, e existe orçamento de máquina para o ajuste manual que o SGD com momento exige.
+>
+> A primeira alternativa acerta o fato (em visão, SGD com momento bem ajustado costuma generalizar igual ou melhor) e erra a conclusão: usá-lo na fase exploratória gasta as duas semanas ajustando taxa de aprendizado de uma arquitetura que vai mudar.
+>
+> A terceira ignora que a virtude do Adam é também seu risco: **perdoar taxa mal escolhida é esconder um diagnóstico.** Na fase em que você disputa décimos, esse diagnóstico é justamente o que você quer ver.
+>
+> A quarta é a mais perigosa por soar equilibrada. Se fosse indiferente, a literatura não teria vinte anos de discussão — e nenhuma das duas escolhas conserta uma perda que não se move, porque isso não é problema de otimizador: é a exponencial da seção anterior.
+> **volte para:** #o-resto-do-kit-normalizacao-dropout-e-otimizadores
+:::
+
+:::exercicio {"id":"treinar-redes-profundas-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Qual problema o dropout ataca?
+
+- [ ] O gradiente que some, criando um caminho alternativo para o erro.
+- [x] O overfitting: é regularização, e não tem relação com o gradiente.
+- [ ] A explosão do gradiente, ao reduzir a norma efetiva dos pesos.
+- [ ] A saturação da sigmoide, ao manter as ativações longe das pontas.
+
+> **gabarito:** overfitting, por regularização
+> **porque:** O capítulo é explícito ao listá-lo: este remédio resolve **outro** problema. Desligar unidades ao acaso durante o treino combate a coadaptação entre neurônios, e o alvo é o vão entre treino e validação.
+>
+> Isso importa porque o capítulo inteiro é sobre reconhecer o mesmo diagnóstico sob remédios diferentes — e o dropout é justamente o que **não** pertence àquela família. Aplicá-lo contra uma perda que não se move é tratar a doença errada.
+>
+> Vale reparar num ponto de método que o texto marca: a anedota do caixa de banco que roda de guichê, usada em toda parte para explicar a coadaptação, **não está no artigo do dropout**. Quem a repete está citando uma palestra, não a fonte — e as duas motivações que os autores de fato escreveram são mais úteis que ela.
+> **volte para:** #o-resto-do-kit-normalizacao-dropout-e-otimizadores
+:::
+
+:::exercicio {"id":"treinar-redes-profundas-e10","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Quando a *layer normalization* é preferível à *batch normalization*?
+
+- [ ] Sempre, porque ela é mais recente e mais estável.
+- [x] Quando o lote é pequeno ou o comprimento varia, como em sequências, porque ela usa as estatísticas de cada exemplo em vez das do lote.
+- [ ] Quando a rede é convolucional, porque a normalização por canal exige estatísticas por exemplo.
+- [ ] Quando o objetivo é regularizar, já que a normalização em lote só acelera a otimização.
+
+> **gabarito:** lote pequeno ou comprimento variável
+> **porque:** A diferença está em **de onde vêm as estatísticas**. A normalização em lote usa o lote inteiro, então lote pequeno dá estatísticas ruidosas, e comprimento variável dá lotes que não são comparáveis entre si. A normalização por camada usa cada exemplo, e nenhuma das duas coisas a afeta.
+>
+> É por isso que ela é a escolha padrão em sequências, e a razão de aparecer no [capítulo III.5](iii-5-sequencias-linguagem.md).
+>
+> A primeira alternativa troca critério por cronologia, que é o erro típico de quem escolhe ferramenta por data de publicação. As duas convivem, e cada uma responde a uma condição do problema.
+> **volte para:** #o-resto-do-kit-normalizacao-dropout-e-otimizadores
+:::
+
+:::exercicio {"id":"treinar-redes-profundas-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Segundo o critério deste capítulo, qual é a virtude do Adam que é também o risco dele?
+
+- [x] Perdoar uma taxa de aprendizado mal escolhida, o que esconde diagnósticos.
+- [ ] Convergir rápido, o que aumenta o consumo de memória.
+- [ ] Adaptar o passo por parâmetro, o que impede o uso de agendas de taxa.
+- [ ] Generalizar melhor que o SGD, o que dispensa validação.
+
+> **gabarito:** perdoar a taxa mal escolhida
+> **porque:** Ele mantém estimativas dos momentos do gradiente e adapta o passo por parâmetro, então uma taxa global ruim machuca menos. Isso é ótimo quando você quer iterar rápido, e é ruim quando o que você precisa é justamente **ver** que a taxa está errada.
+>
+> A quarta alternativa inverte o fato do capítulo: em visão, SGD com momento bem ajustado costuma generalizar igual ou melhor, ao custo de exigir mais ajuste manual.
+>
+> E a frase que fecha a seção vale mais que a escolha entre os dois: nenhum dos dois conserta uma exponencial. Perda que não se move não é problema de otimizador.
+> **volte para:** #o-resto-do-kit-normalizacao-dropout-e-otimizadores
+:::
+
+:::exercicio {"id":"treinar-redes-profundas-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
+Uma rede de 30 camadas tem a perda parada desde a primeira época. Quais ações **não** vão resolver, segundo este capítulo? (marque todas que valem)
+
+- [x] Trocar de Adam para SGD com momento.
+- [x] Dividir a taxa de aprendizado por 10.
+- [x] Acrescentar dropout.
+- [ ] Trocar a inicialização por He e a ativação por ReLU.
+
+> **gabarito:** trocar o otimizador · dividir a taxa · acrescentar dropout
+> **porque:** As três primeiras atacam problemas que não são este. Otimizador escolhe como andar, e não há para onde andar quando o gradiente chega dividido por um milhão. Dividir a taxa é o clássico ajuste de hiperparâmetro contra uma exponencial: multiplicar o passo por 10 devolve uma casa decimal de um buraco de seis. E dropout é regularização, que combate overfitting — o oposto do que uma rede que não aprende tem.
+>
+> A quarta é a única que ataca a multiplicação em si: variância inicial escolhida para não encolher, e derivada 1 na região ativa.
+>
+> O que o exercício treina é a competência que dá nome à seção: reconhecer o mesmo diagnóstico sob remédios que não se parecem em nada, e recusar os que não pertencem à família — mesmo quando eles são bons remédios para outra coisa.
+> **volte para:** #o-kit-de-conserto-um-diagnostico-quatro-remedios-vinte-e-cinco-anos
+:::
 
 ## "Funciona" e "sabemos por quê" são duas afirmações
 
@@ -135,7 +294,7 @@ A lição vale muito além da normalização: **"funciona" e "sabemos por quê" 
 
 A consequência prática é dura e útil: **não derive decisões de projeto de uma história de mecanismo que nunca foi testada.** Se a sua justificativa para usar um componente é a narrativa que veio no artigo, e não o efeito medido no seu problema, você está apostando na parte mais frágil da evidência.
 
-:::exercicio {"id":"treinar-redes-profundas-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+:::exercicio {"id":"treinar-redes-profundas-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
 Uma equipe treina uma rede densa de 40 camadas com sigmoide, inicialização uniforme pequena e SGD. A perda cai de 2,30 para 2,25 na primeira época e depois não se move por 50 épocas. A acurácia fica em nível de acaso. Em três semanas, a equipe trocou o otimizador de SGD para Adam, depois para RMSProp, testou seis taxas de aprendizado e dobrou o conjunto de dados. Nada mudou.
 
 Diga o que você mediria **antes** de propor qualquer correção, qual é o diagnóstico mais provável e o que faria em seguida.
@@ -145,7 +304,7 @@ Diga o que você mediria **antes** de propor qualquer correção, qual é o diag
 > explica **por que a troca de otimizador não podia funcionar**: otimizador reescala o passo, não restaura sinal que chegou como 10⁻²⁰ — nenhum hiperparâmetro conserta uma exponencial;
 > propõe correções que atacam o produto (ReLU, inicialização He, conexões residuais, normalização), não hiperparâmetros;
 > distingue os sintomas: perda travada = gradiente sumindo; perda em `NaN` = gradiente explodindo, e aí o remédio é o grampo
-> **porque:** A resposta fraca escolhe um remédio — "use ReLU", "põe batch norm" — e pode até acertar por sorte. A resposta forte faz o que a tese de 1991 fez: **mede primeiro**. Uma linha que imprime a norma do gradiente por camada encerra a discussão em minutos, e mostra a queda de várias ordens de grandeza entre a camada 40 e a camada 1.
+> **porque:** A resposta fraca escolhe um remédio ("use ReLU", "põe batch norm") e pode até acertar por sorte. A resposta forte faz o que a tese de 1991 fez: **mede primeiro**. Uma linha que imprime a norma do gradiente por camada encerra a discussão em minutos, e mostra a queda de várias ordens de grandeza entre a camada 40 e a camada 1.
 >
 > As três semanas perdidas são o conteúdo do exercício, não um detalhe do enunciado. Otimizador, taxa de aprendizado e volume de dados são todos ajustes **multiplicativos sobre um sinal que não existe**. Nenhum deles poderia funcionar, e isso era previsível antes do primeiro teste — bastava conhecer o diagnóstico.
 >
@@ -166,8 +325,24 @@ Diga o que você mediria **antes** de propor qualquer correção, qual é o diag
 - **A ideia exportável:** diagnóstico antes do remédio — e o diagnóstico dura mais que o remédio. Quatro gerações de solução, um único enunciado de 1991.
 - **"Funciona" e "sabemos por quê" são afirmações independentes.** A batch norm é o caso-modelo: o método sobreviveu, a explicação não.
 
+:::exercicio {"id":"treinar-redes-profundas-e5","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Você usa dropout, normalização em lote e aumento de dados no mesmo treino. Para cada um, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso, **sem recorrer à justificativa que veio no artigo original**.
+
+> **rubrica:** separa os alvos: dropout e aumento de dados atacam generalização (o vão entre treino e validação), enquanto a normalização em lote atua sobre a otimização — e não trata os três como "regularização" indistinta;
+> propõe, para cada um, uma medição concreta e comparável — treinar com e sem o componente, tudo o mais igual, e olhar a quantidade que ele deveria mover;
+> diz **qual quantidade** deve mudar em cada caso, e não apenas "ver se a acurácia melhora": o vão treino–validação para dropout e aumento, a velocidade de convergência e a tolerância à taxa de aprendizado para a normalização;
+> não usa a explicação do artigo como evidência: a batch norm ajuda e a história do *internal covariate shift* não se sustenta, então justificar a escolha pelo mecanismo narrado é apoiar-se na parte mais frágil da evidência
+> **porque:** A proibição do enunciado é o exercício. Estes três componentes entram em quase todo treino por hábito, e o hábito se justifica repetindo a história que veio no artigo — o que este capítulo mostrou ser exatamente o que pode cair sem derrubar o método.
+>
+> Trocar a narrativa pela medição é barato e quase ninguém faz: **um treino com e sem, tudo o mais igual**. O que custa é saber *o que olhar*, e é aí que o terceiro critério pega a resposta rasa. "Ver se melhora a acurácia" não distingue nada — se o dropout está ajudando, o sinal é o **vão** entre treino e validação encolhendo; se a normalização está ajudando, o sinal aparece na convergência e na tolerância à taxa de aprendizado, e pode vir **sem** ganho de acurácia final.
+>
+> E há a consequência que só aparece medindo: os três podem se sobrepor. Aumento de dados forte já reduz o vão, e o dropout por cima pode custar capacidade sem devolver generalização. Quem herdou os três de um tutorial nunca descobre isso, porque nunca rodou o treino sem um deles.
+> **volte para:** #funciona-e-sabemos-por-que-sao-duas-afirmacoes
+:::
+
 ## Verificação
 
 1. Uma rede de 25 camadas trava com a perda praticamente constante desde a primeira época. Descreva, em ordem, as **duas medições** que você faria antes de mexer em qualquer hiperparâmetro — e diga o que cada resultado possível eliminaria como causa.
 2. Explique por que inicializar todos os pesos com zero impede o aprendizado, e por que a resposta "sorteie valores pequenos" está incompleta. Que quantidade a inicialização precisa preservar, e por que ela muda quando a ativação passa de `tanh` para ReLU?
-3. Você usa dropout, batch norm e aumento de dados no mesmo treino. Para cada um, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso — sem recorrer à justificativa que veio no artigo original.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: valem como conversa de diagnóstico, em que a pergunta seguinte depende da sua resposta anterior.

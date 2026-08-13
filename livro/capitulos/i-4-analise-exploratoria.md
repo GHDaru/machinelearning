@@ -25,7 +25,7 @@ Antes de modelar, **olhe**. É a etapa que quase todo mundo pula e quase todo mu
 
 **O que se fazia antes.** Ou se testava uma hipótese, ou não se estava fazendo estatística. Examinar os números sem hipótese na mão era, na melhor das hipóteses, uma preliminar informal que não entrava no artigo.
 
-**A virada.** John Tukey nomeia **análise de dados** como disciplina própria — da qual a inferência é *um* componente, não o todo. É uma jogada de definição antes de ser técnica: uma vez que a exploração tem nome e estatuto, ela pode ter método. E aí vêm as ferramentas: o **boxplot**, o **stem-and-leaf**, e o hábito que atravessa tudo — preferir medidas **resistentes** a valores extremos.
+**A virada.** John Tukey nomeia **análise de dados** como disciplina própria, da qual a inferência é *um* componente, não o todo. É uma jogada de definição antes de ser técnica: uma vez que a exploração tem nome e estatuto, ela pode ter método. E aí vêm as ferramentas: o boxplot, o stem-and-leaf, e o hábito que atravessa tudo, o de preferir medidas **resistentes** a valores extremos.
 
 **A ideia reaproveitável.** **Antes de testar a resposta, é preciso ter permissão para procurar a pergunta.** Um campo que só valoriza a etapa confirmatória fica cego para a etapa que *gera* a hipótese — e, pior, empurra essa etapa para a informalidade, onde ela acontece assim mesmo, só que sem método e sem registro. Vale muito além da estatística: teste automatizado só verifica o que alguém pensou em perguntar; nenhuma suíte verde descobre a pergunta que ninguém fez.
 
@@ -48,12 +48,14 @@ Repare no intervalo: **quinze anos** entre o manifesto e o livro. É o mesmo for
 | ⏳ | Que, antes disso, "ou se testava uma hipótese, ou não se estava fazendo estatística" |
 | ⏳ | Que o par *exploratory* / *confirmatory* é dele |
 | ⏳ | A participação de Tukey na pré-história da validação cruzada (Mosteller & Tukey, 1968) |
-| ⏳ | O quarteto de Anscombe (1973) e os valores citados adiante — atribuição corrente; primária não consultada |
+| ✓ | **Os valores da tabela do quarteto**, todos recalculados neste ciclo sobre os onze pontos de cada conjunto, a partir do `anscombe` distribuído com o R: as médias, as variâncias, as correlações de 0,816 (0,817 no quarto) e a reta 3,00 + 0,500x nos quatro. Também a forma do quarto conjunto, em que `x` só assume 8 e 19 |
+| ✓ᵐ | A ficha do artigo de origem: **F. J. Anscombe**, *"Graphs in Statistical Analysis"*, *The American Statistician* 27(1):17–21, 1973, [10.1080/00031305.1973.10478966](https://doi.org/10.1080/00031305.1973.10478966). **Conferência por DOI; o artigo não foi aberto**, e por isso a atribuição dos dados a ele segue pela via do R, não pela leitura da tabela original |
+| ✓ᵐ | **John W. Tukey**, *"The Future of Data Analysis"*, *Annals of Mathematical Statistics* 33(1):1–67, 1962, [10.1214/aoms/1177704711](https://doi.org/10.1214/aoms/1177704711) — ficha conferida. O texto **não abriu** (o repositório recusou a transferência) |
 | 📖 | A ideia reaproveitável ("permissão para procurar a pergunta") e a leitura do intervalo de 15 anos como padrão recorrente deste livro |
 
 ## Fundamentos: a média mente, a mediana aguenta
 
-Volte à rua: `3, 3, 4, 4, 5, 6, 6, 400` (em milhares). A **média** é 52,1. A **mediana** — o valor que deixa metade dos dados de cada lado — é 4,5. A diferença não é de precisão, é de natureza: a média usa o *valor* de cada ponto, então um único extremo a arrasta sem limite; a mediana usa só a *posição*, e trocar o 400 por 4 milhões a deixa em 4,5. Isso se chama **resistência**, e é a propriedade que Tukey pôs no centro do método.
+Volte à rua: `3, 3, 4, 4, 5, 6, 6, 400` (em milhares). A **média** é 52,1. A **mediana**, o valor que deixa metade dos dados de cada lado, é 4,5. A diferença não é de precisão, é de natureza: a média usa o *valor* de cada ponto, então um único extremo a arrasta sem limite; a mediana usa só a *posição*, e trocar o 400 por 4 milhões a deixa em 4,5. Isso se chama **resistência**, e é a propriedade que Tukey pôs no centro do método.
 
 O mesmo par existe para dispersão:
 
@@ -65,7 +67,7 @@ O mesmo par existe para dispersão:
 
 O desvio-padrão eleva as diferenças ao quadrado — o que dá ao ponto extremo um voto elevado ao quadrado. O IQR é a largura da faixa que contém os 50% centrais: ignora, por construção, as duas caudas.
 
-**Como ler um boxplot.** A caixa vai de Q1 a Q3 (é o IQR), e o traço dentro dela é a mediana. Os "bigodes" se estendem até o ponto mais distante que ainda esteja dentro de 1,5 × IQR a partir da borda da caixa; o que sobra é desenhado como ponto individual. Três leituras saem de bater o olho: **onde está o centro**, **quão espalhado** é o meio dos dados, e **se a mediana está descentrada dentro da caixa** — sinal de assimetria.
+**Como ler um boxplot.** A caixa vai de Q1 a Q3 (é o IQR), e o traço dentro dela é a mediana. Os "bigodes" se estendem até o ponto mais distante que ainda esteja dentro de 1,5 × IQR a partir da borda da caixa; o que sobra é desenhado como ponto individual. Três leituras saem de bater o olho: onde está o centro, quão espalhado é o meio dos dados, e se a mediana está descentrada dentro da caixa, que é sinal de assimetria.
 
 **Assimetria é a regra, não a exceção.** Renda, tempo de resposta de API, valor de compra, número de sessões por usuário: quase tudo que tem piso em zero e não tem teto forma uma **cauda longa** à direita. Nessas distribuições, média > mediana sempre, e reportar a média é reportar a cauda.
 
@@ -82,6 +84,23 @@ Qual é a **mediana** desse conjunto?
 > Compare com a **média**: (3+3+4+4+5+6+40)/7 = 65/7 ≈ **9,3**. Seis dos sete funcionários ganham *menos* que a média, e nenhum ganha algo próximo dela. O salário de 40 puxa a média em mais de cinco unidades e não move a mediana em nada — se ele fosse 400, a média iria a 60,7 e a mediana continuaria 4.
 >
 > O erro mais comum aqui é dividir a soma por sete por reflexo, sem reparar no enunciado. O segundo é ordenar errado quando a lista vem embaralhada: mediana **exige** ordenação. Com número par de elementos, é a média dos dois centrais.
+> **volte para:** #fundamentos-a-media-mente-a-mediana-aguenta
+:::
+
+:::exercicio {"id":"analise-exploratoria-e12","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Duas equipes medem o tempo de resposta de uma mesma API por uma semana. A equipe A reporta média 180 ms e desvio-padrão 640 ms. A equipe B reporta mediana 95 ms e IQR 40 ms. O que essa combinação de números já permite afirmar?
+
+- [ ] Que as duas equipes mediram períodos diferentes, porque os números são incompatíveis.
+- [x] Que a distribuição tem cauda longa à direita: o desvio-padrão bem maior que o IQR e a média bem acima da mediana apontam para a mesma coisa.
+- [ ] Que a equipe B errou, porque a mediana deveria ficar próxima da média.
+- [ ] Que a variação é pequena, já que o IQR de 40 ms mostra dados concentrados.
+
+> **gabarito:** cauda longa à direita
+> **porque:** Os quatro números são consistentes entre si e contam uma história só. A média muito acima da mediana (180 contra 95) é a assinatura de assimetria à direita, e o desvio-padrão dezesseis vezes maior que o IQR (640 contra 40) diz de onde ela vem: o meio dos dados é apertado, e há poucas requisições muito lentas puxando tudo.
+>
+> A última alternativa lê metade da evidência. O IQR de 40 ms de fato mostra que os 50% centrais são concentrados, e é exatamente por ignorar as caudas por construção que ele não pode, sozinho, sustentar "a variação é pequena". As caudas são o assunto quando se fala de tempo de resposta.
+>
+> Tempo de resposta de API é um dos exemplos que o capítulo lista de cauda longa: piso em zero, sem teto. Nessas distribuições média maior que mediana é a regra, e reportar a média é reportar a cauda — o que aqui é justamente o que interessa a quem opera o serviço, desde que declarado.
 > **volte para:** #fundamentos-a-media-mente-a-mediana-aguenta
 :::
 
@@ -128,15 +147,28 @@ Você acabou de ver a cerca acusar 62 pontos em `preco`. Olhe, no painel do labo
 >
 > A última alternativa é a mais instrutiva entre as erradas: com IQR igual a zero, **qualquer** multiplicador dá cerca de largura zero. 3,0 × 0 continua sendo 0. O problema não é a folga, é a régua.
 >
-> A lição do capítulo, em uma frase: **critério de outlier é escolha declarada, não verdade estatística.** A regra de 1,5 × IQR pressupõe uma distribuição contínua e razoavelmente espalhada. Aplicada a uma variável quase constante — ou a uma categórica disfarçada de número — ela produz um resultado tecnicamente correto e completamente sem sentido.
+> A lição do capítulo, em uma frase: **critério de outlier é escolha declarada, não verdade estatística.** A regra de 1,5 × IQR pressupõe uma distribuição contínua e razoavelmente espalhada. Aplicada a uma variável quase constante, ou a uma categórica disfarçada de número, ela produz um resultado tecnicamente correto e completamente sem sentido.
 > **volte para:** #olhe-uma-variavel-de-cada-vez
 :::
 
 ## Correlação: o que ela mede e o que ela não prova
 
-A correlação de Pearson resume, num número entre −1 e 1, o quanto duas variáveis andam juntas **em linha reta**. As duas palavras finais são a armadilha inteira: uma relação forte e curva — um U perfeito, por exemplo — pode dar correlação próxima de zero. Correlação zero não significa "não há relação"; significa "não há relação *linear*".
+A correlação de Pearson resume, num número entre −1 e 1, o quanto duas variáveis andam juntas **em linha reta**. As duas palavras finais são a armadilha inteira: uma relação forte e curva (um U perfeito, por exemplo) pode dar correlação próxima de zero. Correlação zero não significa "não há relação"; significa "não há relação *linear*".
 
-O argumento definitivo contra confiar no número sem ver o gráfico é o **quarteto de Anscombe** (1973): quatro conjuntos de onze pontos cada, com médias, variâncias, correlação (≈ 0,816) e reta de regressão **praticamente idênticas** — e formas completamente diferentes quando plotados. Um é uma nuvem linear honesta; outro é uma curva perfeita; outro é uma reta com um ponto fora; o último é uma coluna de pontos e um único ponto distante que sozinho cria a correlação. Mesmo resumo numérico, quatro histórias.
+O argumento definitivo contra confiar no número sem ver o gráfico é o **quarteto de Anscombe** (1973): quatro conjuntos de onze pontos cada, com resumo numérico igual e formas completamente diferentes quando plotados.
+
+Vale ver o quanto "igual" é literal. Calculando sobre os quatro conjuntos:
+
+| Estatística | Conjunto 1 | 2 | 3 | 4 |
+|---|---|---|---|---|
+| média de x | 9,00 | 9,00 | 9,00 | 9,00 |
+| média de y | 7,50 | 7,50 | 7,50 | 7,50 |
+| variância de x | 11,00 | 11,00 | 11,00 | 11,00 |
+| variância de y | 4,127 | 4,128 | 4,123 | 4,123 |
+| correlação | 0,816 | 0,816 | 0,816 | 0,817 |
+| reta ajustada | 3,00 + 0,500x | a mesma | a mesma | a mesma |
+
+E as formas: um é uma nuvem linear honesta; outro é uma curva perfeita; outro é uma reta com um único ponto fora dela; e no quarto o `x` vale 8 em dez dos onze pontos, com um único ponto em 19 que sozinho cria a correlação. Mesmo resumo numérico, quatro histórias.
 
 E depois há a frase que todo mundo sabe repetir e quase ninguém aplica na hora certa: **correlação não é causalidade**. Diante de uma correlação forte, há sempre quatro explicações concorrentes, e só uma delas é a que você quer:
 
@@ -164,11 +196,43 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 > **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
 :::
 
-> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha — `df.groupby("preco")[["temperatura","vendas"]].mean()` — e ela precede qualquer modelo. O desdobramento está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
+:::exercicio {"id":"analise-exploratoria-e8","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+A correlação de Pearson entre duas variáveis é 0,02. O que se pode concluir?
+
+- [ ] Que as duas variáveis são independentes.
+- [x] Que não há relação **linear** entre elas, o que não exclui relação de outra forma.
+- [ ] Que uma delas é constante.
+- [ ] Que a amostra é pequena demais para medir a associação.
+
+> **gabarito:** não há relação linear, o que não exclui outras formas
+> **porque:** A palavra que a fórmula de Pearson esconde é **reta**. Ela resume o quanto duas variáveis andam juntas em linha reta, e uma relação forte e curva pode dar correlação perto de zero. Um U perfeito é o exemplo canônico: cada valor de X determina exatamente um valor de Y, e o coeficiente não vê nada.
+>
+> Concluir independência a partir de 0,02 é o erro mais comum com este número, e ele custa caro na exploração: a variável é descartada da lista de candidatas justamente quando a relação existe e é forte.
+>
+> O gesto que resolve é o mesmo do quarteto de Anscombe: plote antes de decidir. O gráfico determina quais resumos fazem sentido, e nunca o contrário.
+> **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
+:::
+
+:::exercicio {"id":"analise-exploratoria-e9","tipo":"multipla-multi","objetivo":"O3","dificuldade":"media"}
+Uma exploração encontra correlação de 0,71 entre "número de chamados ao suporte" e "cancelamento do contrato". Quais explicações concorrem com "chamados causam cancelamento", segundo esta seção? (marque todas que valem)
+
+- [x] A causa é a inversa: quem já decidiu cancelar abre mais chamados.
+- [x] Há um confundidor que produz as duas coisas, como uma falha de produto no período.
+- [x] É coincidência amostral, se muitos pares de variáveis foram testados.
+- [ ] A correlação é alta demais para ser causal, e valores acima de 0,7 indicam vazamento por definição.
+
+> **gabarito:** causa inversa · confundidor · coincidência amostral
+> **porque:** São três das quatro explicações concorrentes da seção, e a quarta é a hipótese que você queria. O valor da lista não é filosófico: cada explicação leva a uma ação diferente, e agir sobre a errada gasta o orçamento sem mover o indicador. Se a causa for inversa, reduzir chamados não reduz cancelamento — só apaga o aviso.
+>
+> A alternativa errada distorce o quinto caso, que é real e mais restrito. Correlação altíssima **com o alvo** costuma ser vazamento, e a suspeita se investiga olhando quando a coluna foi preenchida. Não existe um limiar acima do qual causalidade fique proibida, e 0,71 entre duas variáveis operacionais é perfeitamente compatível com qualquer das quatro leituras.
+> **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
+:::
+
+> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha só, `df.groupby("preco")[["temperatura","vendas"]].mean()`, e ela precede qualquer modelo. O desdobramento está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
 
 ## Faltantes, outliers e a fronteira entre explorar e confirmar
 
-**Faltantes.** A pergunta útil nunca é "como preencho?", é **"por que falta?"**. Falta ao acaso (o sensor caiu numa terça) é um problema de imputação. Falta por mecanismo (renda alta declarada com menos frequência) enviesa qualquer preenchimento pela média. E falta com significado — um campo que só existe para quem comprou — é vazamento disfarçado de ausência. Antes de qualquer `dropna()`, conte os faltantes **por coluna e por subgrupo**: um faltante concentrado numa região, num período ou num canal é sinal de processo quebrado, não de dado ausente.
+**Faltantes.** A pergunta útil nunca é "como preencho?", é **"por que falta?"**. Falta ao acaso (o sensor caiu numa terça) é um problema de imputação. Falta por mecanismo (renda alta declarada com menos frequência) enviesa qualquer preenchimento pela média. E falta com significado (um campo que só existe para quem comprou) é vazamento disfarçado de ausência. Antes de qualquer `dropna()`, conte os faltantes **por coluna e por subgrupo**: um faltante concentrado numa região, num período ou num canal é sinal de processo quebrado, não de dado ausente.
 
 **Outliers.** Um ponto extremo é uma de três coisas, e a única forma de decidir é olhar a linha inteira:
 
@@ -180,7 +244,7 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 
 A regra de 1,5 × IQR do boxplot **marca candidatos, não decide nada**. Decidir exige critério declarado por escrito: o que foi removido, por qual regra, quantas linhas, e o que acontece com o resultado se a regra mudar. "Limpei os outliers" não é descrição de método; é a ausência de uma.
 
-**E a fronteira.** Se você olha quarenta gráficos e escolhe o padrão mais forte, você não achou o efeito mais forte: achou o **extremo do ruído** — a coincidência amostral do item 4 acima, agora garimpada de propósito. É a armadilha que a dupla de Tukey existe para prevenir. A regra prática é simples e barata: **separe uma parte dos dados antes de começar a olhar** e não a toque; explore no resto à vontade; escreva a hipótese **antes** de testá-la na parte guardada. Explorar produz candidatas; confirmar exige dado que não participou da escolha. Fazer as duas coisas no mesmo conjunto é o mesmo erro que o [capítulo II.1](ii-1-avaliacao.md) combate quando o limiar é escolhido no teste.
+**E a fronteira.** Se você olha quarenta gráficos e escolhe o padrão mais forte, você não achou o efeito mais forte: achou o **extremo do ruído**, a coincidência amostral do item 4 acima, agora garimpada de propósito. É a armadilha que a dupla de Tukey existe para prevenir. A regra prática é simples e barata: **separe uma parte dos dados antes de começar a olhar** e não a toque; explore no resto à vontade; escreva a hipótese antes de testá-la na parte guardada. Explorar produz candidatas; confirmar exige dado que não participou da escolha. Fazer as duas coisas no mesmo conjunto é o mesmo erro que o [capítulo II.1](ii-1-avaliacao.md) combate quando o limiar é escolhido no teste.
 
 O produto legítimo de uma boa exploração não é uma conclusão — é uma **lista de hipóteses ordenada por quanto valeria confirmá-las**, mais uma lista de problemas de dado a consertar. Transformar essa lista em gráfico que convence é o [capítulo I.5](i-5-visualizacao-storytelling.md).
 
@@ -228,6 +292,39 @@ Escreva um parágrafo de análise monovariada dessa variável, respondendo:
 > **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
 :::
 
+:::exercicio {"id":"analise-exploratoria-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Uma analista cruza 40 pares de variáveis, encontra o padrão mais forte, e o reporta com o valor-p calculado sobre os mesmos dados. Qual é a crítica correta?
+
+- [ ] O valor-p está errado porque a amostra é pequena para 40 comparações.
+- [x] O padrão mais forte entre 40 é o extremo do ruído, e confirmá-lo no conjunto que o escolheu não é confirmação nenhuma.
+- [ ] Cruzar 40 pares é exploração excessiva, e o correto seria escolher no máximo cinco hipóteses de antemão.
+- [ ] Nenhuma crítica: se o valor-p ficou abaixo de 0,05, o achado está estabelecido.
+
+> **gabarito:** o padrão mais forte entre 40 é o extremo do ruído
+> **porque:** Escolher o máximo de 40 medições e depois testá-lo nas mesmas medições é o erro estrutural da seção, e ele não se conserta com estatística: qualquer teste aplicado ali já foi contaminado pela escolha, porque a escolha usou a mesma informação.
+>
+> A terceira alternativa é a que mais parece sensata e é justamente o contrário do que o capítulo defende. Explorar quarenta pares é bom, e o produto legítimo da exploração é uma lista de hipóteses ordenada por quanto valeria confirmá-las. O que não se faz é confirmar ali.
+>
+> A correção é barata e precisa ser tomada **antes** de olhar: separe uma parte dos dados e não a toque, explore no resto à vontade, escreva a hipótese e só então vá à parte guardada. É a mesma disciplina do conjunto de teste do capítulo 0.2, aplicada uma etapa antes de existir modelo.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
+
+:::exercicio {"id":"analise-exploratoria-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Numa base de transações de cartão, o modelo a treinar prevê fraude. A regra de 1,5 × IQR acusa 380 transações de valor muito acima do normal, e boa parte delas é fraude confirmada. O que fazer com esses pontos?
+
+- [ ] Remover: são outliers pela regra do boxplot, e outlier distorce o treino.
+- [ ] Remover apenas os que não forem fraude confirmada, para equilibrar as classes.
+- [x] Manter: são o próprio alvo, e o alvo jamais é removido por ser extremo.
+- [ ] Substituir o valor pela mediana, preservando a linha sem a distorção.
+
+> **gabarito:** manter, porque são o próprio alvo
+> **porque:** É a terceira linha da tabela de outliers, e a única cuja instrução é absoluta. Quando o ponto extremo é o fenômeno que você quer prever, removê-lo é apagar o problema e depois medir muito bem o que sobrou.
+>
+> A quarta alternativa merece atenção porque parece um meio-termo cuidadoso: preservar a linha e amansar o valor. Substituir o valor pela mediana destrói exatamente o sinal que distingue a fraude, e ainda por cima deixa a linha na base, o que torna o estrago invisível numa contagem de registros.
+>
+> Isto também mostra por que a regra do boxplot marca candidatos e não decide nada: ela não sabe o que você está prevendo. A mesma transação de R$ 400 mil é ruído num modelo de valor médio de pedido e é o alvo num modelo de fraude.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
 
 ## Mão na massa
 
@@ -235,7 +332,7 @@ Escreva um parágrafo de análise monovariada dessa variável, respondendo:
 
 O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada campo, contagem e nulidade, média × mediana × moda, decis e quartis (com a verificação de que P50 = Q2 = D5), histograma e boxplot desenhados juntos na mesma escala, e a regra da cerca de 1,5 × IQR calculada coluna a coluna.
 
-> Este é o **único** notebook da trilha que usa `pandas` e `matplotlib` — as duas já vêm no Colab. A razão está no [ADR 0010](https://github.com/GHDaru/machinelearning/blob/main/adr/0010-pandas-na-etapa-de-exploracao.md): o assunto aqui é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho. A conta em si — quantil, cerca, descritivas — está escrita à mão no laboratório, em 30 linhas de JavaScript.
+> Este é o **único** notebook da trilha que usa `pandas` e `matplotlib` — as duas já vêm no Colab. A razão está no [ADR 0010](https://github.com/GHDaru/machinelearning/blob/main/adr/0010-pandas-na-etapa-de-exploracao.md): o assunto aqui é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho. A conta em si (quantil, cerca, descritivas) está escrita à mão no laboratório, em 30 linhas de JavaScript.
 
 ## Síntese — o que levar
 
@@ -247,8 +344,24 @@ O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada 
 - Diante de uma correlação forte, enumere as quatro explicações antes de escolher a sua — e desconfie de correlação altíssima com o alvo: costuma ser vazamento. Faltante também tem **causa**, e descobri-la vale mais que preenchê-lo.
 - Explorar gera hipóteses; confirmar exige dado que não participou da exploração. Separe a parte guardada **antes** de olhar.
 
+:::exercicio {"id":"analise-exploratoria-e7","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Explorando, você encontrou um padrão forte num segmento de clientes: quem compra pela manhã devolve muito menos. Descreva **o que precisa acontecer** antes de esse padrão virar uma afirmação na apresentação para a diretoria.
+
+> **rubrica:** exige que o padrão seja conferido em dados que **não participaram da exploração**, e diz de onde esses dados viriam (uma parte separada antes de olhar, um período posterior, uma coleta nova);
+> explica **por que** conferir nos mesmos dados não vale — a exploração já usou aquela informação para escolher a hipótese, e o padrão pode ser particularidade da amostra;
+> deixa a hipótese **declarada antes** do novo teste, incluindo o que contaria como refutação, em vez de ajustá-la depois de ver o resultado;
+> não confunde força com verdade: nem tamanho do efeito nem número de clientes no segmento são evidência de que o padrão se repete fora dali
+> **porque:** O erro que este exercício persegue não é estatístico, é de sequência. Você olhou muitos cortes possíveis, escolheu o que mais saltou, e agora quer testar **esse** — mas o dado que fez a escolha não pode também julgá-la. Quem procura em cem segmentos encontra padrão forte em alguns por sorte, e a força do padrão é justamente o que fez você reparar nele.
+>
+> Daí a divisão de trabalho do capítulo: uma fase **produz** hipóteses, outra as **julga**, e não se faz as duas com os mesmos dados. Separar a parte guardada antes de olhar não é burocracia — é a única coisa que impede a segunda fase de ser uma repetição da primeira.
+>
+> Note também o que **não** está sendo pedido: ninguém disse para você não explorar. O achado é legítimo e valioso; ele só ainda não é uma afirmação. Levar como "encontramos uma pista que vale testar" é honesto e útil; levar como "clientes da manhã devolvem menos" é apresentar um sorteio como conclusão.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
+
 ## Verificação
 
 1. Um relatório diz "ticket médio de R$ 340". Que três perguntas você faz antes de usar esse número numa decisão?
 2. Duas colunas têm correlação de 0,9. Liste as explicações possíveis e diga, para cada uma, que evidência adicional a distinguiria das demais.
-3. Você encontrou, explorando, um padrão forte num segmento de clientes. Descreva o que precisa acontecer antes de esse padrão virar uma afirmação na apresentação para a diretoria — e por que a mesma pessoa que criou o boxplot também se preocupava com validação cruzada.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: rendem mais numa discussão com alguém que discorde do que numa resposta escrita sozinho.

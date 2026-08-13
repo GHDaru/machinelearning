@@ -7,7 +7,7 @@
 ## Objetivos de aprendizagem
 
 - **O1.** Explicar o que distingue Machine Learning de programação convencional, em termos de *onde mora a regra*.
-- **O2.** Reconhecer quando um problema é candidato a ML — e quando não é.
+- **O2.** Avaliar se um problema é candidato a ML — e defender a resposta com a regra que ninguém consegue escrever, os exemplos disponíveis e uma medida de sucesso.
 - **O3.** Usar as três superfícies deste livro (texto, exercícios, construção) de forma deliberada, e não por acaso.
 
 ## O problema: a regra que ninguém consegue escrever
@@ -52,7 +52,24 @@ Uma equipe precisa validar se um número de cartão de crédito é sintaticament
 - [ ] Depende do volume de cartões processados por segundo.
 
 > **gabarito:** Má ideia: a regra é conhecida e escrevível
-> **porque:** Machine Learning existe para quando a regra **não** é escrevível. A validação de cartão segue o algoritmo de Luhn, que é determinístico, exato e verificável linha a linha. Um modelo treinado para imitá-lo seria mais lento, não auditável, e — pior — erraria em algum ponto, trocando uma resposta *certa por construção* por uma *provavelmente certa*. Note que a alternativa da acurácia é uma armadilha: mesmo 99,99% seria pior que 100%, e a acurácia alta apenas esconderia que a tarefa era resolvível sem modelo nenhum.
+> **porque:** Machine Learning existe para quando a regra **não** é escrevível. A validação de cartão segue o algoritmo de Luhn, que é determinístico, exato e verificável linha a linha. Um modelo treinado para imitá-lo seria mais lento, não auditável, e, pior, erraria em algum ponto, trocando uma resposta *certa por construção* por uma *provavelmente certa*. Note que a alternativa da acurácia é uma armadilha: mesmo 99,99% seria pior que 100%, e a acurácia alta apenas esconderia que a tarefa era resolvível sem modelo nenhum.
+> **volte para:** #quando-nao-usar-machine-learning
+:::
+
+:::exercicio {"id":"introducao-e7","tipo":"multipla-multi","objetivo":"O2","dificuldade":"dificil"}
+Uma rede de farmácias quer um sistema que decida, sozinho e sem revisão humana, quais receitas de medicamento controlado são fraudulentas e devem ser recusadas no balcão. A regra jurídica do que é fraude está escrita em norma. A rede tem 300 casos confirmados de fraude nos últimos cinco anos. Ninguém na reunião definiu o que seria um bom resultado.
+
+Quais dos quatro sinais de "não use ML" desta seção aparecem neste caso? (marque todos que valem)
+
+- [x] Errar é inaceitável: a decisão recusa um medicamento no balcão e não há revisão humana no caminho.
+- [x] Faltam exemplos: 300 casos em cinco anos é pouco para aprender um padrão de fraude que muda.
+- [x] Ninguém consegue dizer o que é "bom": sem métrica definida antes, o projeto vai otimizar o que for fácil de medir.
+- [ ] A regra é escrevível: como a norma jurídica define fraude, basta programá-la.
+
+> **gabarito:** errar é inaceitável · faltam exemplos · ninguém definiu o que é "bom"
+> **porque:** Os três primeiros sinais estão todos presentes, e qualquer um deles já bastaria para segurar o projeto. Vê-los somados é o ponto do exercício: casos assim raramente falham por um motivo só.
+>
+> A quarta é a armadilha, e ela é fina. A norma define o que **é** fraude — mas não diz como reconhecê-la numa receita específica, que é a tarefa de verdade. Uma norma que diz "é fraude usar receita de terceiro" não te dá o procedimento para saber se esta receita é de terceiro. Confundir "a definição está escrita" com "a regra de reconhecimento é escrevível" é o erro mais comum de quem acabou de aprender o critério da seção — e é o inverso do erro do exercício do cartão de crédito, onde a regra de reconhecimento realmente estava escrita, no algoritmo de Luhn.
 > **volte para:** #quando-nao-usar-machine-learning
 :::
 
@@ -66,7 +83,38 @@ Quais afirmações descrevem diferenças **estruturais** entre um sistema aprend
 - [ ] O sistema programado não pode ser corrigido depois de escrito.
 
 > **gabarito:** parâmetros ajustados · degrada sem alteração de código · exige dados não vistos
-> **porque:** As três corretas são exatamente as linhas da tabela de comparação: **onde mora a regra**, **como envelhece** e **como se verifica**. As duas erradas são mal-entendidos comuns e caros. Sistemas aprendidos precisam de *mais* testes automatizados, não menos — só que os testes mudam de natureza: além de "esta função retorna isto", passam a incluir "esta métrica não caiu abaixo deste limiar neste conjunto". E sistemas programados são, obviamente, corrigíveis; a diferença é *como* se corrige: editando a regra, em vez de mexer em dado, objetivo ou modelo.
+> **porque:** As três corretas são exatamente as linhas da tabela de comparação: onde mora a regra, como envelhece e como se verifica. As duas erradas são mal-entendidos comuns e caros. Sistemas aprendidos precisam de *mais* testes automatizados, não menos — só que os testes mudam de natureza: além de "esta função retorna isto", passam a incluir "esta métrica não caiu abaixo deste limiar neste conjunto". E sistemas programados são, obviamente, corrigíveis; a diferença é *como* se corrige: editando a regra, em vez de mexer em dado, objetivo ou modelo.
+> **volte para:** #o-que-muda-quando-a-regra-e-aprendida
+:::
+
+:::exercicio {"id":"introducao-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Um sistema de crédito passou a recusar pedidos que antes aprovava. Ninguém alterou uma linha de código, e o histórico do repositório confirma isso. O que esse único fato já permite afirmar?
+
+- [x] Que a regra desse sistema não mora no código: ela foi ajustada a partir de dados, e o que mudou está fora do repositório.
+- [ ] Que houve um bug, porque software só muda de comportamento quando o código muda.
+- [ ] Que o modelo foi treinado com exemplos de menos.
+- [ ] Que alguém trocou a métrica de avaliação sem avisar.
+
+> **gabarito:** a regra não mora no código
+> **porque:** É a primeira linha da tabela desta seção, lida ao contrário. Num sistema programado, comportamento novo exige código novo — é o que torna a segunda alternativa uma verdade sobre programação convencional e uma falsidade sobre ML. Num sistema aprendido, a regra vive nos parâmetros e a entrada vem do mundo, então ele pode mudar de comportamento com o código congelado.
+>
+> As duas últimas alternativas podem até ser verdade neste caso, mas o enunciado não dá como saber: pouco dado de treino e métrica trocada são hipóteses, não conclusões. O que o fato isolado sustenta é apenas onde a regra mora.
+> **volte para:** #o-que-muda-quando-a-regra-e-aprendida
+:::
+
+:::exercicio {"id":"introducao-e6","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
+Explique, para uma pessoa que programa há dez anos e nunca fez ML, o que muda quando a regra passa a ser aprendida. Use um exemplo de sistema que ela conheça, não o exemplo do capítulo.
+
+> **rubrica:** diz onde a regra mora nos dois casos — no código escrito por uma pessoa, e nos parâmetros ajustados a partir de exemplos;
+> diz como se corrige cada um, editando o código de um lado e mexendo em dado, objetivo ou modelo do outro;
+> explica que o sistema aprendido pode degradar sem alteração de código, porque quem mudou foi o mundo de onde ele aprendeu;
+> não afirma que o sistema aprendido dispensa teste automatizado, e sim que o teste muda de natureza;
+> usa um exemplo próprio e concreto, em vez de repetir a tabela do capítulo
+> **porque:** A explicação fraca é a que diz "o modelo aprende sozinho a partir dos dados" e para aí. Ela não é errada, mas não informa nada a quem programa: essa pessoa quer saber o que muda no trabalho dela.
+>
+> A explicação forte é operacional e responde a três perguntas de quem mantém sistema: onde eu mexo para mudar o comportamento, como eu sei que está certo, e o que faz isso quebrar. As três respostas mudam de lado, e a terceira é a que surpreende — um sistema que passou nos testes na sexta pode estar errado na segunda sem que ninguém tenha tocado nele.
+>
+> Um sinal de que a explicação pegou: a pessoa pergunta "então como vocês fazem *deploy* disso?". Essa pergunta é o [capítulo V.3](capitulos/v-3-mlops.md), e ela só aparece para quem entendeu que o artefato entregue apodrece sozinho.
 > **volte para:** #o-que-muda-quando-a-regra-e-aprendida
 :::
 
@@ -98,21 +146,69 @@ A tentação é ler tudo e praticar depois. A pesquisa sobre carga cognitiva diz
 
 Ler sem praticar produz a sensação de competência sem a competência. É o modo de falha mais comum do estudo técnico, e o único que o leitor não consegue detectar sozinho — porque a sensação é idêntica.
 
-:::exercicio {"id":"introducao-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"introducao-e4","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Você terminou o capítulo de modelos lineares. Consegue explicar em voz alta o que é o erro quadrático médio e por que ele é minimizado — mas, ao abrir um arquivo vazio para ajustar uma reta a um conjunto de dados, não sabe qual é a primeira linha. Qual superfície deste livro ataca **essa** lacuna?
+
+- [ ] Reler o corpo do capítulo com mais atenção à dedução: a lacuna é de compreensão.
+- [x] Fazer a etapa correspondente do `ml-zero`: a lacuna é entre o conceito e o código, e é essa a superfície que a fecha.
+- [ ] Responder à seção "Verificação", que cobra o nível mais alto do capítulo.
+- [ ] Refazer os exercícios do capítulo até acertar todos na primeira tentativa.
+
+> **gabarito:** Fazer a etapa correspondente do `ml-zero`
+> **porque:** Usar as três superfícies de forma deliberada começa por **diagnosticar qual lacuna você tem** — porque cada superfície fecha uma diferente. Você já explicou o conceito em voz alta: o texto cumpriu o papel dele. O que falta não é entendimento, é execução, e execução só se aprende executando.
+>
+> A primeira alternativa é a resposta que quase todo leitor dá, e é a menos eficaz: reler é confortável, produz de novo a sensação de competência, e não toca no que está faltando. Os exercícios pegam erro de conceito — você não tem um. A Verificação integra o que o capítulo ensinou — ela vem depois de você conseguir fazer, não no lugar disso.
+>
+> A regra prática: **texto para entender, exercício para descobrir que você não entendeu, `ml-zero` para descobrir que entender não bastava.** Trocar uma pela outra é o que transforma estudo em leitura.
+> **volte para:** #a-ordem-que-funciona
+:::
+
+:::exercicio {"id":"introducao-e8","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Das três superfícies deste livro, qual é a única que consegue te informar que você **não** entendeu alguma coisa?
+
+- [ ] O texto: relendo com atenção, a lacuna aparece.
+- [x] Os exercícios: eles são corrigidos por fora, e por isso podem contrariar a sua impressão.
+- [ ] A construção `ml-zero`: se o código roda, o conceito está entendido.
+- [ ] O tutor: perguntando a ele, você descobre o que não sabe.
+
+> **gabarito:** os exercícios
+> **porque:** A palavra que decide é **por fora**. A sua impressão de ter entendido é produzida pela mesma cabeça que entendeu ou não — ela não tem como se auditar. Um exercício corrigido no servidor é um juízo independente, e é por isso que ele pode te contrariar.
+>
+> As outras três são úteis, e nenhuma faz esse serviço. Reler produz de novo a sensação de competência, que é exatamente o que está sob suspeita. O `ml-zero` prova que você consegue executar, mas código que roda não garante conceito certo. E ao tutor você só pergunta o que já sabe que não sabe — ele não te alcança no que você ignora que ignora.
+> **volte para:** #como-este-livro-funciona
+:::
+
+:::exercicio {"id":"introducao-e9","tipo":"multipla-multi","objetivo":"O3","dificuldade":"media"}
+Cinco estudantes descrevem como vão estudar o capítulo de árvores e ensembles. Quais descrições usam as três superfícies de forma deliberada, no sentido desta seção? (marque todas que valem)
+
+- [x] "Vou ler os objetivos primeiro, para saber o que o capítulo promete cobrar de mim."
+- [ ] "Vou ler o capítulo inteiro duas vezes e só depois abrir os exercícios, para não errar à toa."
+- [x] "Vou responder os exercícios antes de me sentir seguro, porque errar aqui é barato."
+- [x] "Quando eu travar na etapa do `ml-zero`, volto à seção do texto que o feedback apontar."
+- [ ] "Vou pular a Verificação: se acertei os exercícios, o capítulo acabou."
+
+> **gabarito:** ler os objetivos primeiro · errar cedo nos exercícios · voltar ao texto quando travar na construção
+> **porque:** As três corretas são os passos 1, 3 e 5 da ordem desta seção, e cada uma usa uma superfície para o que só ela faz: o objetivo é o contrato, o exercício é o juízo independente, o texto é onde se repara a lacuna que a construção expôs.
+>
+> As duas erradas são as duas tentações mais comuns, em direções opostas. "Ler duas vezes para não errar à toa" inverte o propósito do exercício: o erro barato é a informação, evitá-lo é abrir mão dela. E pular a Verificação confunde acertar item a item com integrar o capítulo — a Verificação cobra o nível mais alto, e é onde se descobre que as peças certas ainda não formam um todo.
+> **volte para:** #a-ordem-que-funciona
+:::
+
+:::exercicio {"id":"introducao-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
 Descreva um problema do seu trabalho ou da sua área de interesse que você acredita ser candidato a Machine Learning. Diga **qual regra ninguém consegue escrever**, **que exemplos existiriam** para aprender com eles, e **o que significaria "funcionar"** — em termos de uma medida, não de uma impressão.
 
 > **rubrica:** identifica uma regra concreta que é difícil de enunciar explicitamente;
 > descreve uma fonte de exemplos plausível e disponível, não hipotética;
 > propõe uma medida de sucesso observável, e não um adjetivo ("bom", "preciso");
 > a medida proposta tem alguma relação com a consequência no mundo, não só com o modelo
-> **porque:** As três perguntas — regra, exemplos, medida — são o teste mínimo de viabilidade de um projeto de ML, e são as três que costumam ficar implícitas nas reuniões onde o projeto é aprovado. A terceira é a que mais falha: "queremos prever a evasão de clientes" não é uma medida; "queremos identificar, entre os 5% de clientes mais prováveis de sair no próximo mês, pelo menos metade dos que de fato saem" é. Note que definir a medida quase sempre expõe uma decisão de negócio que ninguém tinha tomado — e esse é o maior serviço que o exercício presta.
+> **porque:** As três perguntas (regra, exemplos, medida) são o teste mínimo de viabilidade de um projeto de ML, e são as três que costumam ficar implícitas nas reuniões onde o projeto é aprovado. A terceira é a que mais falha: "queremos prever a evasão de clientes" não é uma medida; "queremos identificar, entre os 5% de clientes mais prováveis de sair no próximo mês, pelo menos metade dos que de fato saem" é. Note que definir a medida quase sempre expõe uma decisão de negócio que ninguém tinha tomado — e esse é o maior serviço que o exercício presta.
 > **volte para:** #como-este-livro-funciona
 :::
 
 ## Assista
 
 :::video {"id":"introducao-v1","fonte":"youtube","ref":"Gv9_4yMHFhI","min":6,"autor":"StatQuest with Josh Starmer","titulo":"A Gentle Introduction to Machine Learning"}
-Uma visão geral de seis minutos que fixa o vocabulário — treino, teste, predição — **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.
+Uma visão geral de seis minutos que fixa o vocabulário (treino, teste, predição) **antes** de qualquer formalismo. Vale como aquecimento: o texto acima explica *por que* ML existe; o vídeo mostra *como se parece* uma tarefa de ML na prática, com um exemplo visual único do começo ao fim.
 :::
 
 ## O caminho pela frente

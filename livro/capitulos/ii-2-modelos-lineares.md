@@ -11,13 +11,13 @@
 - **O3.** Interpretar os coeficientes de um modelo linear — e dizer o que eles **não** significam.
 - **O4.** Reconhecer as situações em que o modelo linear é a escolha certa, não a escolha simplória.
 
-> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [II.3 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
+> **Este capítulo trata só de regressão linear.** A **regressão logística**, que tem "regressão" no nome e classifica, ganhou capítulo próprio: [II.3 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
 
 ## O problema: o modelo que todo mundo aprende e quase ninguém respeita
 
 Um banco precisa negar um crédito e **explicar por quê**. A lei exige a explicação, o cliente exige a explicação, e o auditor vai pedir a conta.
 
-O modelo campeão do concurso interno — quinhentas árvores somadas — dá a melhor previsão da casa e não produz **uma única frase** que caiba na carta de recusa. Ele acerta mais e não serve.
+O modelo campeão do concurso interno, quinhentas árvores somadas, dá a melhor previsão da casa e não produz **uma única frase** que caiba na carta de recusa. Ele acerta mais e não serve.
 
 É aqui que o modelo linear volta ao jogo, e não por caridade: ele entrega **um número por atributo**, e um número por atributo é uma frase. Some-se a isso o que raramente se diz em voz alta:
 
@@ -37,17 +37,19 @@ E há a razão pedagógica: é no modelo linear que otimização, regularizaçã
 
 **A virada.** Trocar "a melhor curva" por **uma regra explícita do que significa melhor**: aquela que torna mínima a soma dos quadrados dos desvios. A regra não é mais verdadeira que as outras — ela é **pública**. Dados os mesmos números, devolve a mesma resposta para qualquer pessoa.
 
-**A ideia reaproveitável.** **Uma função de perda é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta — conveniência matemática mais uma hipótese sobre o ruído — e não a resposta "porque é o certo". Trocar a perda é trocar o critério de arbitragem: decisão de projeto, nunca detalhe técnico.
+**A ideia reaproveitável.** **Uma função de perda é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta (conveniência matemática mais uma hipótese sobre o ruído) e não a resposta "porque é o certo". Trocar a perda é trocar o critério de arbitragem: decisão de projeto, nunca detalhe técnico.
 
-**O nome.** *Mínimos quadrados* — *moindres carrés* — foi batizado por Legendre, e o nome é literalmente a definição do critério.
+**O nome.** *Mínimos quadrados*, em francês *moindres carrés*, foi batizado por Legendre, e o nome é literalmente a definição do critério.
 
 ### A disputa de prioridade mais famosa da estatística
 
-**Legendre publicou primeiro**, em **1805**, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando **usar o método desde 1795**.
+**Legendre publicou primeiro**, em 1805, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando usar o método desde 1795.
 
-Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes. A avaliação histórica moderna é que Gauss provavelmente **tinha** o método antes e **falhou em comunicá-lo**.
+Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes.
 
-> **O espelho disto está no [capítulo III.1](iii-1-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e Schmidhuber resume: *não é o primeiro inventor que leva o crédito, é o último reinventor*. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
+O estudo de referência sobre a disputa é o de **Stephen Stigler** (1981), e vale citar a conclusão dele com o hedge que ele mesmo pôs: *"It is argued (though not conclusively) that Gauss probably possessed the method well before Legendre, but that he was unsuccessful in communicating it to his contemporaries."* Argumenta-se, **sem concluir**, que Gauss provavelmente tinha o método bem antes, e que falhou em comunicá-lo. Stigler acrescenta que dados do arco meridiano francês poderiam, concebivelmente, permitir uma verificação definitiva — ou seja, o caso segue **aberto**, e não resolvido a favor de Gauss.
+
+> **O espelho disto está no [capítulo III.1](iii-1-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e a leitura deste livro é que o crédito não fica com quem inventa primeiro, e sim com quem reinventa por último. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
 >
 > Juntos, os dois dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação.** Vale para o seu trabalho: o experimento que você não registrou, datou e tornou reproduzível é, na prática, um experimento que não aconteceu. É a razão de este livro exigir script, *seed* e saída colada — e não é burocracia.
 
@@ -56,9 +58,8 @@ Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se
 | Selo | Afirmação |
 |---|---|
 | ✓ᵐ | Legendre (1805) e Gauss (1809): obra, ano e conteúdo geral. Nenhuma das duas lida no original |
-| ✓ᵐ | [Stigler, "Gauss and the Invention of Least Squares", *Annals of Statistics*, 1981](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full) — localizado e identificado, **não lido** |
-| ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820 |
-| ⏳ | A avaliação de que Gauss tinha o método antes mas falhou em comunicá-lo |
+| ✓ᵃ | A tese que **Stigler declara** e o trecho citado entre aspas, do resumo de ["Gauss and the Invention of Least Squares"](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full), *Annals of Statistics* 9(3):465–474, 1981, [10.1214/aos/1176345451](https://doi.org/10.1214/aos/1176345451) — **resumo lido no original; o corpo, não** |
+| ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820. O resumo de Stigler fala em "new evidence, both documentary and statistical", **sem nomear quais** — e o selo ✓ᵃ não autoriza afirmar o que está no corpo do artigo |
 | 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo III.1 |
 
 ## Fundamentos: regressão linear como minimização
@@ -75,7 +76,7 @@ $$L(w, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{y}_i\right)^2$$
 
 > **Duas convenções que você vai encontrar por aí, e por que elas não mudam nada.** Muito texto escreve $\frac{1}{2n}$ em vez de $\frac{1}{n}$ — o meio existe só para cancelar o 2 que aparece ao derivar, e deixar a conta mais limpa. Outros omitem o $\frac{1}{n}$ e minimizam a **soma** (o SQE) em vez da média.
 >
-> **Multiplicar a perda por uma constante positiva não move o ponto de mínimo.** A reta ótima é a mesma nas três escalas; o que muda é o número que aparece no painel. Este livro usa o **EQM** — $\frac{1}{n}$, sem o meio — em todo lugar: no texto, na dedução e no laboratório.
+> **Multiplicar a perda por uma constante positiva não move o ponto de mínimo.** A reta ótima é a mesma nas três escalas; o que muda é o número que aparece no painel. Este livro usa o **EQM** ($\frac{1}{n}$, sem o meio) em todo lugar: no texto, na dedução e no laboratório.
 
 Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honestidade:
 
@@ -85,7 +86,7 @@ Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honest
 
 A solução fechada existe e está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar** — no experimento, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
 
-> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$ — inviável com muitos atributos — e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
+> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$, inviável com muitos atributos, e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
 
 :::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
@@ -99,6 +100,40 @@ Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absol
 > **porque:** As razões são de **conveniência matemática**, e reconhecer isso é o que separa quem usa o método de quem o repete. O quadrado é diferenciável em toda parte (o valor absoluto tem um bico em zero, que complica o otimizador) e leva às equações normais, resolvíveis de uma vez.
 >
 > Não é que ele seja mais correto. Ele pune erros grandes de forma desproporcional, o que na presença de *outliers* é ativamente ruim — e nesse caso o erro absoluto é a escolha certa, à custa de exigir otimização iterativa. A última alternativa erra num detalhe revelador: o valor absoluto **também** elimina o sinal do erro. Eliminar sinal não é o ponto; a diferenciabilidade é.
+> **volte para:** #fundamentos-regressao-linear-como-minimizacao
+:::
+
+:::exercicio {"id":"modelos-lineares-e8","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Três textos escrevem a perda da regressão linear de formas diferentes: um usa $\frac{1}{n}\sum(y-\hat{y})^2$, outro $\frac{1}{2n}\sum(y-\hat{y})^2$, e o terceiro só $\sum(y-\hat{y})^2$. O que muda entre eles?
+
+- [ ] A reta ótima, que fica diferente em cada convenção.
+- [x] Só o número que aparece no painel: multiplicar a perda por constante positiva não move o ponto de mínimo.
+- [ ] A necessidade de otimização iterativa, que só a primeira forma dispensa.
+- [ ] O grau do polinômio ajustado.
+
+> **gabarito:** só o número que aparece no painel
+> **porque:** Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.
+>
+> O meio da segunda forma existe por comodidade de dedução: ele cancela o 2 que desce ao derivar o quadrado, e deixa o gradiente mais limpo. É notação, não modelagem.
+>
+> Saber disso evita duas confusões práticas. Comparar o "erro" de dois relatórios que usaram convenções diferentes não faz sentido, e ver um número dez vezes maior num livro não significa que o modelo de lá seja pior.
+> **volte para:** #fundamentos-regressao-linear-como-minimizacao
+:::
+
+:::exercicio {"id":"modelos-lineares-e9","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Se a solução fechada das equações normais é exata e existe, por que o livro ensina o gradiente?
+
+- [ ] Porque o gradiente encontra um mínimo melhor que a solução fechada.
+- [x] Porque a solução fechada exige inverter uma matriz $d \times d$, inviável com muitos atributos, e porque ela não existe para a regressão logística.
+- [ ] Porque a solução fechada só vale quando os dados não têm ruído.
+- [ ] Porque o gradiente é mais preciso quando há *outliers*.
+
+> **gabarito:** custo com muitos atributos, e ela não existe na logística
+> **porque:** Os dois motivos são de alcance, não de qualidade. No experimento do livro, gradiente e solução fechada chegam ao mesmo lugar, com diferença menor que 0,05 em cada coeficiente — a primeira alternativa está descartada pela evidência do próprio capítulo.
+>
+> O que muda é onde cada um se aplica. Inverter uma matriz $d \times d$ fica caro rápido conforme $d$ cresce, e para a regressão logística não há fórmula fechada nenhuma: ali a otimização iterativa não é preferência, é o único caminho.
+>
+> A leitura que fica reposiciona as duas ferramentas. O gradiente é a ferramenta **geral**, e a solução fechada é o caso de sorte de um modelo específico. Aprender o gradiente aqui, onde dá para conferir contra a resposta exata, é o que torna possível confiar nele depois, onde não há com o que comparar.
 > **volte para:** #fundamentos-regressao-linear-como-minimizacao
 :::
 
@@ -150,11 +185,31 @@ $$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 
 > $S_{xy}$ e $S_{xx}$ são **somas de desvios**, não a perda — a letra é a mesma por tradição, e é por isso que a perda aqui se chama $L$.
 
-Duas contas — uma soma de produtos e uma soma de quadrados — e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
+Duas contas, uma soma de produtos e uma soma de quadrados, e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
+
+**Uma vez com número.** Três pontos: (1, 3), (2, 5) e (3, 4). As médias são $\bar{x} = 2$ e $\bar{y} = 4$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-1$, $+1$, $0$.
+
+$$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1 \qquad S_{xx} = 1 + 0 + 1 = 2$$
+
+Logo $a = 1/2 = 0{,}5$, e $b = \bar{y} - a\bar{x} = 4 - 0{,}5 \times 2 = 3$. A reta é $\hat{y} = 0{,}5x + 3$ — e ela passa por $(2, 4)$, o centro de massa, como o passo 2 garantiu.
 
 **Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que você vai encontrar adiante, no caso da limonada, onde o preço **não varia** dentro de nenhum mês.
 
-> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$ — as **equações normais** — resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
+> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
+
+:::lab {"id":"modelos-lineares-l2","tipo":"anima-normais","titulo":"O gradiente correndo atrás de uma resposta que já existe"}
+Trezentos pontos, dois atributos **quase colineares** (o segundo é o primeiro mais um ruidinho). As equações normais resolvem isso numa conta. A animação mostra a descida de gradiente tentando chegar ao mesmo lugar, e o que aparece no placar é o **excesso de erro sobre o ótimo fechado**: quanto pior o gradiente ainda está, em porcentagem, do que a álgebra já entregou.
+
+Cada quadro dá dez passos, e a varredura vai a **4 000**.
+
+**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?
+
+Com os atributos como vieram, ele **não chega**. Ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido: a animação dá a cada regime o **maior passo estável possível**, calculado do próprio dado. O problema é a forma da superfície, que com atributos correlacionados é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.
+
+**Clique em "E se os atributos fossem padronizados?".** Mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460** e termina 351 vezes mais perto do ótimo. O passo estável saltou de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
+
+> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao-regularizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
+:::
 
 :::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).
@@ -170,6 +225,37 @@ Calcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy}
 > Logo a = 7 / 5 = **1,4**, e o intercepto sai de b = ȳ − a·x̄ = 4 − 1,4 × 2,5 = **0,5**.
 >
 > Confira no laboratório acima que a reta ótima passa por (x̄, ȳ) = (2,5; 4): 1,4 × 2,5 + 0,5 = 4. Isso não é coincidência deste exemplo — é o passo 2 da dedução, e vale sempre.
+> **volte para:** #a-deducao-em-cinco-passos
+:::
+
+:::exercicio {"id":"modelos-lineares-e10","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+Uma reta de mínimos quadrados tem inclinação $a = 2{,}5$. As médias dos dados são $\bar{x} = 4$ e $\bar{y} = 18$.
+
+Qual é o **intercepto** $b$?
+
+> **gabarito:** 8
+> **porque:** O passo 2 da dedução garante que a reta ótima passa pelo centro de massa $(\bar{x}, \bar{y})$, sempre. Daí sai direto $b = \bar{y} - a\bar{x} = 18 - 2{,}5 \times 4 = 18 - 10 = \mathbf{8}$.
+>
+> Vale reparar no que este exercício não pede: nenhum dado individual. O intercepto ótimo depende só da inclinação e das duas médias, e essa é uma consequência forte da condição de mínimo, não um atalho.
+>
+> É também a razão de o intercepto quase nunca ser interpretável sozinho. Ele é o valor previsto em $x = 0$, e $x = 0$ costuma estar fora da faixa observada — extrapolação, que é a quarta coisa que o coeficiente não diz.
+> **volte para:** #a-deducao-em-cinco-passos
+:::
+
+:::exercicio {"id":"modelos-lineares-e11","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
+
+- [ ] Erro numérico de arredondamento, que se corrige aumentando a precisão do cálculo.
+- [x] Todos os $x$ são iguais, e não existe reta: nenhuma inclinação é melhor que outra, porque o dado não contém a informação.
+- [ ] O modelo está perfeitamente ajustado, e o erro é zero.
+- [ ] Há colinearidade entre dois atributos, e um deles precisa ser removido.
+
+> **gabarito:** todos os $x$ são iguais, e não existe reta
+> **porque:** $S_{xx}$ é a variação de $x$ em torno da média. Zerado, significa que $x$ nunca variou — e sem variação no que se quer usar como explicação, nenhuma inclinação é preferível a outra. A conta não quebra por imprecisão; ela quebra porque a pergunta não tem resposta nos dados.
+>
+> A quarta alternativa descreve um fenômeno vizinho e diferente. Colinearidade é dois atributos variando **juntos**, e ali a conta até fecha, só que a interpretação vira ruído. Aqui não há o que interpretar.
+>
+> É o mesmo fenômeno do caso da limonada, e por isso vale reconhecê-lo na forma algébrica antes de encontrá-lo na forma de relatório: lá o preço não varia dentro de nenhum mês, e é isso que torna o coeficiente de preço uma resposta sobre a estação.
 > **volte para:** #a-deducao-em-cinco-passos
 :::
 
@@ -190,6 +276,25 @@ Aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os dema
 3. **Não é confiável sob colinearidade.** Quando dois atributos são altamente correlacionados, o modelo pode dar peso alto a um e negativo ao outro, ou trocá-los completamente com uma pequena mudança nos dados. O *erro* não piora; a *interpretação* vira ruído. É o modo de falha mais traiçoeiro do modelo linear, porque a métrica não avisa.
 4. **Não vale fora da faixa observada.** Extrapolar uma reta é a forma mais fácil de produzir uma previsão absurda com aparência de rigor.
 
+:::exercicio {"id":"modelos-lineares-e12","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Um modelo de crédito tem dois atributos altamente correlacionados: `renda_declarada` e `renda_comprovada`. Depois de acrescentar 200 linhas novas ao treino, o coeficiente de um passou de +0,8 para −0,4, e o do outro fez o caminho inverso. O erro de teste não mudou.
+
+Qual das quatro limitações do coeficiente isto ilustra?
+
+- [ ] Não diz causalidade.
+- [ ] Não é comparável entre atributos sem padronização.
+- [x] Não é confiável sob colinearidade.
+- [ ] Não vale fora da faixa observada.
+
+> **gabarito:** não é confiável sob colinearidade
+> **porque:** A assinatura está no enunciado inteiro: dois atributos que andam juntos, coeficientes que trocam de sinal com uma pequena mudança nos dados, e **erro que não piora**. Quando dois atributos carregam quase a mesma informação, muitas combinações de pesos produzem quase as mesmas previsões, e o ajuste escolhe entre elas por detalhes da amostra.
+>
+> É o modo de falha mais traiçoeiro do modelo linear, e a razão é a última frase: a métrica não avisa. Um relatório de desempenho passa limpo enquanto a explicação que se dá ao regulador está invertida.
+>
+> O que o caso pede não é trocar de modelo. É decidir o que fazer com a redundância: manter um dos dois, combiná-los, ou usar regularização — e, em qualquer caso, parar de ler aqueles coeficientes como efeitos separados.
+> **volte para:** #as-quatro-coisas-que-ele-nao-diz
+:::
+
 
 ## O caso da limonada
 
@@ -208,7 +313,7 @@ Comece pelo que todo mundo faz — a matriz de correlação com a variável resp
 
 Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.**
 
-A última linha é onde o relatório morre. Ela sugere uma recomendação de negócio — *aumente o preço* — que é o oposto do que a barraca deve fazer. Antes de ler adiante, olhe o dado:
+A última linha é onde o relatório morre. Ela sugere uma recomendação de negócio (*aumente o preço*) que é o oposto do que a barraca deve fazer. Antes de ler adiante, olhe o dado:
 
 | preço | dias | temperatura média | vendas médias | meses em que aparece |
 |---|---|---|---|---|
@@ -233,7 +338,7 @@ O coeficiente do preço continua **positivo**. Controlar pela temperatura não d
 
 **Controlar por uma variável só remove o confundimento que aquela variável mede.** Se o confundidor real é "estação", e você mediu "temperatura do dia", a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma métrica avisa: o R² é 0,982.
 
-Este é o item 1 da lista anterior — *não diz causalidade* — em números, e não em advertência.
+Este é o item 1 da lista anterior, *não diz causalidade*, em números e não em advertência.
 
 ### E o item 3, de brinde
 
@@ -287,7 +392,7 @@ Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesm
 - [ ] O problema seria resolvido padronizando os atributos antes de ajustar.
 
 > **gabarito:** `preco` funciona como indicador de julho e agosto
-> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" — férias, fluxo de rua, hábito — que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
+> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" (férias, fluxo de rua, hábito) que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
 >
 > A primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico: não é ruído, é **viés** — mais dados do mesmo tipo tornariam o coeficiente errado mais preciso, não mais correto. A quarta confunde escalas com confundimento: padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis entre si, e não mexe em qual variável está roubando o efeito da outra.
 >
@@ -319,7 +424,7 @@ A dona da barraca de limonada quer decidir **o preço do próximo verão** e ped
 Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.
 
 > **rubrica:** Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve: não há um único mês com dois preços; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico
-> **porque:** Esta é a pergunta que separa "treinei um modelo" de "respondi a alguém". As três leituras que o exercício cobra estão no capítulo: o coeficiente **não é causa**, o R² alto **não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.
+> **porque:** Esta é a pergunta que separa "treinei um modelo" de "respondi a alguém". As três leituras que o exercício cobra estão no capítulo: o coeficiente não é causa, o R² alto não valida a recomendação, e o modelo linear continua sendo a escolha certa para **previsão de demanda**, que é outra pergunta.
 >
 > A resposta forte não é "não dá para saber". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês — que é justamente o que nunca aconteceu nestes 365 dias.
 >
@@ -327,11 +432,48 @@ Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. D
 > **volte para:** #quando-o-linear-e-a-escolha-certa
 :::
 
+:::exercicio {"id":"modelos-lineares-e13","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?
+
+- [ ] Porque ele costuma vencer os modelos complexos na maioria dos problemas.
+- [x] Porque ele custa minutos e responde quanto do sinal é simplesmente linear, que é a pergunta anterior a todas as outras.
+- [ ] Porque modelos complexos exigem um linear como pré-processamento.
+- [ ] Porque é a única forma de detectar vazamento nos dados.
+
+> **gabarito:** custa minutos e diz quanto do sinal é linear
+> **porque:** É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.
+>
+> A primeira alternativa é falsa e o próprio capítulo dá o contraexemplo: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz 0,4963 de AUC contra 0,9392 do boosting. O ponto nunca foi que ele vence.
+>
+> O corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.
+> **volte para:** #quando-o-linear-e-a-escolha-certa
+:::
+
+:::exercicio {"id":"modelos-lineares-e14","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
+Uma seguradora precisa de um modelo de risco com estas restrições: 300 apólices históricas com 40 atributos, resposta em menos de 10 ms, justificativa por escrito ao regulador em cada recusa, e a probabilidade prevista multiplicada pelo valor da apólice para calcular a provisão.
+
+Quais dessas restrições, sozinhas, já apontam para o modelo linear? (marque todas que valem)
+
+- [x] 300 linhas para 40 atributos.
+- [x] Resposta em menos de 10 ms.
+- [x] Justificativa por escrito ao regulador.
+- [x] Probabilidade multiplicada por dinheiro.
+- [ ] Nenhuma: a escolha do modelo depende só da métrica no teste.
+
+> **gabarito:** as quatro restrições
+> **porque:** Cada uma corresponde a uma linha da tabela desta seção, e o exercício existe para mostrar que elas se acumulam. Poucos dados por atributo favorecem menos parâmetros e menos variância — com 300 linhas e 40 colunas, um ensemble decora. Latência apertada favorece uma multiplicação de vetores. Auditoria favorece um número por atributo, defensável e questionável. E probabilidade que vira dinheiro exige calibração, que o linear costuma entregar razoavelmente e ensembles frequentemente não.
+>
+> A quinta alternativa é a que o capítulo combate desde o título. Escolher pelo teste sozinho ignora que três das quatro restrições acima nem aparecem numa métrica: latência, auditabilidade e calibração não são medidas por AUC.
+>
+> Repare no que o item **não** afirma. Nada disso garante que o linear terá o melhor desempenho preditivo. Ele diz que, sob estas restrições, um ganho de desempenho precisaria ser grande o bastante para pagar quatro perdas simultâneas.
+> **volte para:** #quando-o-linear-e-a-escolha-certa
+:::
+
 ## Mão na massa
 
 A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão:
 
-- `RegressaoLinear` com **os dois caminhos** — solução fechada por eliminação de Gauss e gradiente — para você conferir que chegam ao mesmo lugar;
+- `RegressaoLinear` com **os dois caminhos** (solução fechada por eliminação de Gauss e gradiente) para você conferir que chegam ao mesmo lugar;
 - `Padronizador` que aprende no treino e **aplica** ao teste — o vazamento do capítulo I.3 tornado difícil de cometer.
 
 A mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md), porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*. A `RegressaoLogistica`, que também mora ali, é do [capítulo II.3](ii-3-regressao-logistica.md).
@@ -349,7 +491,7 @@ O caso da limonada do começo ao fim: a correlação que sugere *aumente o preç
 - A dedução dá **duas condições**: a soma dos resíduos é zero (a reta passa pelo centro de massa) e os resíduos são ortogonais ao atributo (não sobrou nada de linear em $x$).
 - $a = S_{xy}/S_{xx}$, e o denominador avisa: **atributo que não varia não tem coeficiente**.
 - Gradiente e solução fechada chegam ao mesmo lugar. O gradiente é a ferramenta **geral**; a fechada é o caso de sorte.
-- Coeficiente **não** é causa, **não** é comparável sem padronização, **não** é estável sob colinearidade, e **não** vale fora da faixa observada.
+- Coeficiente **não é causa**, não é comparável sem padronização, não é estável sob colinearidade, e não vale fora da faixa observada.
 - Treine sempre um linear primeiro. Ele responde "quanto do sinal é simplesmente linear?" em minutos.
 
 ## Verificação

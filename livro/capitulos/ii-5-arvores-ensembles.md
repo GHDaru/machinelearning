@@ -30,13 +30,13 @@ Medimos. No dado do experimento da [etapa 07](../trilha-ml-zero.md), com o teto 
 | Floresta (25 árvores) | 0,9332 | 99,3% |
 | Boosting (50 árvores, η=0,2) | **0,9392** | **99,9%** |
 
-O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que ele não tem como ir bem. Já uma árvore de **profundidade 3** — três perguntas encadeadas — chega a 98% do teto.
+O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que ele não tem como ir bem. Já uma árvore de **profundidade 3**, ou seja, três perguntas encadeadas, chega a 98% do teto.
 
 ## De onde isto veio
 
 ### As árvores: Breiman fora da universidade
 
-**O aperto.** Leo Breiman **deixou a academia em 1967** e passou treze anos como consultor, voltando a Berkeley só em **1980**. Nesse período ele modelou coisas como padrões de tráfego em autoestradas, gargalos no sistema judiciário e o nível de ozônio do dia seguinte na bacia de Los Angeles. Três características em comum, e nenhuma delas aparece num seminário de estatística: **variáveis de tipos misturados** (número, categoria, ordem), **dados faltando** por razões banais, e o resultado tendo de ser explicado a quem **não lê estatística** — um juiz, um engenheiro de tráfego, um secretário municipal.
+**O aperto.** Leo Breiman deixou a academia em 1967 e passou treze anos como consultor, voltando a Berkeley só em 1980. Nesse período ele modelou coisas como padrões de tráfego em autoestradas, gargalos no sistema judiciário e o nível de ozônio do dia seguinte na bacia de Los Angeles. Três características em comum, e nenhuma delas aparece num seminário de estatística: variáveis de tipos misturados (número, categoria, ordem), dados faltando por razões banais, e o resultado tendo de ser explicado a quem **não lê estatística** — um juiz, um engenheiro de tráfego, um secretário municipal.
 
 **O que se fazia antes.** Modelos paramétricos que exigiam que o consultor jurasse a forma da relação antes de olhar o dado, e que devolviam uma equação impossível de defender numa reunião com quem decide.
 
@@ -44,13 +44,17 @@ O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que e
 
 **A ideia reaproveitável.** **A restrição de quem vai usar o resultado é um requisito de projeto, não uma limitação a lamentar.** CART tem a forma que tem porque nasceu na consultoria e não no seminário. Sempre que você escolher um modelo, a pergunta "quem vai precisar defender esta decisão, e para quem?" muda a resposta — e é uma pergunta técnica, não política.
 
-**O nome.** *Classification and Regression Trees* (Breiman, Friedman, Olshen & Stone, Wadsworth, **1984**). Em paralelo, na linha da inteligência artificial, Quinlan desenvolve o **ID3** — *Iterative Dichotomiser 3* —, herdeiro do CLS de Hunt (1966); conta-se que o gatilho foi um desafio de Donald Michie: decidir, só por atributos do tabuleiro, se um final de xadrez Rei-Torre contra Rei-Cavalo está perdido em número fixo de lances.
+**O nome.** *Classification and Regression Trees* (Breiman, Friedman, Olshen & Stone, Wadsworth, **1984**). Em paralelo, na linha da inteligência artificial, Quinlan desenvolve o **ID3** (*Iterative Dichotomiser 3*), herdeiro do CLS de Hunt (1966); conta-se que o gatilho foi um desafio de Donald Michie: decidir, só por atributos do tabuleiro, se um final de xadrez Rei-Torre contra Rei-Cavalo está perdido em número fixo de lances.
 
 ### O boosting: uma pergunta que virou algoritmo
 
 Esta é a origem menos conhecida e a mais instrutiva do capítulo, porque **ninguém estava procurando boosting**.
 
-Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Em **1990**, Robert Schapire respondeu que **sim** — e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
+Em 1988, Michael Kearns e Leslie Valiant fizeram uma pergunta teórica: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Nas palavras de quem a respondeu, eles introduziram a noção de aprendizagem fraca e *"left open the question of whether the notions of strong and weak learnability are equivalent"*.
+
+O nome do problema vem de um lugar que vale registrar: a pergunta *"was termed the hypothesis boosting problem"*, e a referência que Schapire dá para isso é **um manuscrito não publicado**, de Kearns sozinho, chamado *"Thoughts on hypothesis boosting"*. O termo que hoje nomeia uma família inteira de algoritmos nasceu num texto que nunca saiu em periódico.
+
+Em 1990, Robert Schapire respondeu que sim, e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
 
 **A ideia reaproveitável.** **Uma pergunta bem-posta sobre limites vira algoritmo.** Quando você consegue formular precisamente *"isto é possível?"*, a resposta afirmativa frequentemente já contém o *como*. Vale mais aprender isso do que decorar o AdaBoost.
 
@@ -60,7 +64,7 @@ Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: 
 
 ### E a ponte com o capítulo II.4
 
-Bagging — *bootstrap aggregating*, Breiman, 1996 — vem do mesmo diagnóstico que produziu o LASSO no [capítulo II.4](ii-4-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
+Bagging (*bootstrap aggregating*, Breiman, 1996) vem do mesmo diagnóstico que produziu o LASSO no [capítulo II.4](ii-4-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
 
 Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularização. Do lado **"instabilidade é insumo"** saiu o bagging: se o modelo varia muito com o dado, então **perturbe de propósito** e tire a média. Random Forests (2001) é a mesma frase dita de novo, com uma perturbação a mais. **O mesmo diagnóstico, dois métodos, dois capítulos.**
 
@@ -70,7 +74,8 @@ Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularizaç�
 |---|---|
 | ✓ᵐ | Breiman deixando a academia em 1967, os treze anos de consultoria, o retorno em 1980 e os três exemplos de projeto — [memorial da Estatística de Berkeley](https://statistics.berkeley.edu/about/memoriam/memory-leo-breiman) |
 | ✓ᵐ | CART (1984), *bagging* (*Machine Learning* 24:123–140, 1996), Random Forests (2001), Schapire (*Machine Learning* 5:197–227, 1990): obra, ano e veículo |
-| ⏳ | A pergunta de Kearns & Valiant (1988) e sua formulação como manuscrito sobre *hypothesis boosting* |
+| ✓ | A pergunta em aberto de **Kearns e Valiant**, o batismo do *hypothesis boosting problem*, e os trechos citados entre aspas — no texto de Schapire, *"The Strength of Weak Learnability"*, **lido**. Dele vem também a ficha do manuscrito: **Kearns, M. (1988), *"Thoughts on hypothesis boosting"*, *Unpublished manuscript*** |
+| ❌ | **Correção de 2026-08-13.** Esta linha atribuía o manuscrito do *hypothesis boosting* a "Kearns & Valiant". Ele é **de Kearns sozinho**. A dupla assina a introdução da aprendizagem fraca e a pergunta em aberto, que são outra coisa |
 | ⏳ | O desafio de Michie a Quinlan e o final Rei-Torre × Rei-Cavalo; a filiação do ID3 ao CLS de Hunt (1966) |
 | ❌ | O **nome do projeto de consultoria específico** que gerou o CART — procurei e não achei em primária |
 | 📖 | As três ideias reaproveitáveis, a leitura sobre o relógio do boosting e a ponte com o capítulo II.4 |
@@ -110,9 +115,38 @@ Um nó contém 100 exemplos, 50 de cada classe. Um corte candidato produz um fil
 - [ ] Não dá para calcular sem saber qual atributo foi usado.
 
 > **gabarito:** Aproximadamente 0,320
-> **porque:** Gini do pai: 2 × 0,5 × 0,5 = **0,5**. Cada filho tem p = 45/50 = 0,9, logo Gini = 2 × 0,9 × 0,1 = **0,18**. Como os dois filhos têm o mesmo tamanho, a média ponderada é 0,18. Ganho = 0,5 − 0,18 = **0,32**.
+> **porque:** Gini do pai: 2 × 0,5 × 0,5 = 0,5. Cada filho tem p = 45/50 = 0,9, logo Gini = 2 × 0,9 × 0,1 = 0,18. Como os dois filhos têm o mesmo tamanho, a média ponderada é 0,18. Ganho = 0,5 − 0,18 = **0,32**.
 >
 > A primeira alternativa é o mal-entendido que vale corrigir: um corte não precisa deixar os filhos **puros** para valer muito. Ele precisa deixá-los **mais puros que o pai** — e este corte quase resolve o problema. Já a última alternativa confunde o que a fórmula usa: o ganho depende só de **como os exemplos se distribuem** entre os filhos, nunca de qual atributo produziu a separação. Por isso a mesma conta serve para qualquer atributo, e por isso escala não importa.
+> **volte para:** #fundamentos-como-a-arvore-escolhe-cada-corte
+:::
+
+:::exercicio {"id":"arvores-ensembles-e6","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
+Um nó tem 80 exemplos, sendo 20 positivos e 60 negativos. Qual é o Gini desse nó? Responda com duas casas decimais.
+
+> **gabarito:** 0.38 ± 0.01
+> **porque:** $p = 20/80 = 0{,}25$, logo Gini $= 2 \times 0{,}25 \times 0{,}75 = 0{,}375$, que arredondado dá **0,38**.
+>
+> A intuição vale mais que a conta: é a chance de você errar se chutasse a classe sorteando pela distribuição do próprio nó. Zero num nó puro, máximo em $p = 0{,}5$, onde vale 0,5.
+>
+> Repare na simetria que a fórmula esconde. Um nó com 60 positivos e 20 negativos dá exatamente o mesmo Gini: a impureza mede o quanto o nó está misturado, e não qual classe domina.
+> **volte para:** #fundamentos-como-a-arvore-escolhe-cada-corte
+:::
+
+:::exercicio {"id":"arvores-ensembles-e7","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Uma árvore erra sistematicamente num conjunto em que a melhor separação exigiria dois atributos combinados. O primeiro corte, escolhido pelo maior ganho imediato, isolou mal essa região. Qual característica do procedimento explica isso?
+
+- [ ] O Gini é uma medida de impureza inadequada, e a entropia resolveria.
+- [x] O procedimento é guloso e definitivo: escolhe o melhor corte local e nunca reconsidera o anterior.
+- [ ] A árvore precisa que os atributos sejam normalizados para achar cortes combinados.
+- [ ] O problema é a profundidade máxima, e aumentá-la garantiria a separação correta.
+
+> **gabarito:** o procedimento é guloso e definitivo
+> **porque:** Em cada nó a árvore escolhe o corte de maior ganho **naquele momento**, sem olhar o que virá depois nem desfazer o que veio antes. Um corte que parece ótimo no topo pode inviabilizar a separação que dois atributos juntos permitiriam mais abaixo.
+>
+> É a primeira das três consequências da seção, e ela explica os dois lados da árvore: a rapidez, porque não há busca global, e a falha ocasional grave, porque um corte ruim no topo compromete tudo abaixo.
+>
+> A quarta alternativa é a tentativa mais comum e trata o sintoma. Mais profundidade dá à árvore chances de contornar o erro inicial, ao custo de variância, e não desfaz a decisão do topo. O remédio estrutural é o das duas seções seguintes: usar várias árvores em vez de uma.
 > **volte para:** #fundamentos-como-a-arvore-escolhe-cada-corte
 :::
 
@@ -129,7 +163,7 @@ Medindo a variância da predição, Var[f̂(x)], sobre 5 reamostragens *bootstra
 
 **Seis vezes menos.** Treine a mesma árvore profunda em amostras ligeiramente diferentes do mesmo fenômeno e ela produz previsões visivelmente diferentes para o mesmo cliente. A floresta, não.
 
-É essa instabilidade — não a falta de acerto — que os *ensembles* atacam primeiro.
+É essa instabilidade, e não a falta de acerto, que os *ensembles* atacam primeiro.
 
 ## Bagging e boosting atacam erros diferentes
 
@@ -160,6 +194,20 @@ Cada árvore é deliberadamente fraca: profundidade 3, no experimento. Sozinha, 
 
 A **taxa de aprendizado** η encolhe cada contribuição. Passo pequeno com muitas árvores generaliza melhor que passo grande com poucas — o mesmo fenômeno que o [capítulo II.4](ii-4-otimizacao.md) trata como regularização.
 
+:::lab {"id":"arvores-ensembles-l1","tipo":"anima-ensemble","titulo":"O mesmo orçamento de cortes, gasto de dois jeitos"}
+Sessenta cortes. Ou você os gasta **numa árvore só**, que vai ficando mais funda, ou os espalha em **tocos somados**, um corte cada. Mesmo dado, mesma divisão treino/validação, mesmo orçamento. A linha laranja é a previsão; os dois erros aparecem embaixo.
+
+Comece pela árvore. O erro de treino desce sem parar, como tem de descer. Mas olhe o de validação: ele chega ao melhor valor, **0,2969, no corte 11** — e depois **sobe**. A árvore passa os 21 cortes seguintes ficando pior, e termina 20% acima do próprio melhor.
+
+Agora clique em **"E gastando os mesmos cortes em tocos?"**. O erro de validação desce e continua descendo até o corte 59.
+
+**E aqui vem a parte que quase nunca se conta.** O melhor ponto isolado é da **árvore**, não do boosting: 0,2969 contra 0,3041. Se você soubesse parar exatamente no corte 11, a árvore única seria a melhor escolha.
+
+> **Só que você não sabe.** O corte 11 não tem nada de especial visto de dentro do treino: o erro de treino segue caindo alegremente por lá. A única coisa que aponta o corte 11 é o conjunto de validação, e se você o tem, também pode usá-lo para parar o boosting. A diferença prática é a **penalidade do erro**: errar o ponto de parada da árvore custa 20% de erro a mais; errar o do boosting custa quase nada, porque a curva dele é quase plana no fim.
+>
+> É por isso que o boosting é o padrão em dado tabular, e não por ser mais expressivo. **Ele é mais fácil de não estragar.**
+:::
+
 :::exercicio {"id":"arvores-ensembles-e2","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC na validação. Aumentam para 500 árvores. O que se espera?
 
@@ -174,6 +222,23 @@ Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC n
 > É exatamente aqui que bagging e boosting se separam. Em **boosting**, cada árvore nova é ajustada ao resíduo — ou seja, ela persegue ativamente o que sobrou, inclusive o ruído. Por isso, em boosting, o número de árvores **é** um hiperparâmetro de regularização, e o excesso degrada a validação.
 >
 > Se você respondeu "vai cair", você aplicou a intuição de boosting a bagging. É o erro mais comum do capítulo, e a razão de a tabela comparativa existir.
+> **volte para:** #bagging-e-boosting-atacam-erros-diferentes
+:::
+
+:::exercicio {"id":"arvores-ensembles-e8","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Qual erro cada família ataca primeiro?
+
+- [ ] Bagging ataca viés; boosting ataca variância.
+- [x] Bagging ataca variância; boosting ataca viés.
+- [ ] Os dois atacam variância, e diferem só na forma de treinar.
+- [ ] Os dois atacam viés, e diferem só no custo computacional.
+
+> **gabarito:** bagging ataca variância, boosting ataca viés
+> **porque:** É a primeira linha da tabela e a chave do capítulo inteiro. Bagging tira a média de árvores independentes: a média de $B$ estimadores independentes tem variância $\sigma^2/B$, e o viés não muda, porque a média de modelos igualmente enviesados é igualmente enviesada.
+>
+> Boosting faz o contrário. Cada árvore é rasa e fraca, com viés alto de propósito, e o ganho vem de somar correções sucessivas ao resíduo. No experimento do capítulo, uma árvore de profundidade 3 vale 0,9201 de AUC, e cinquenta delas somadas com passo 0,2 chegam a 0,9392.
+>
+> Trocar as duas coisas é o erro mais comum aqui, e ele tem consequência prática: leva a esperar overfitting de bagging e saturação de boosting, que é exatamente o inverso do que acontece.
 > **volte para:** #bagging-e-boosting-atacam-erros-diferentes
 :::
 
@@ -218,6 +283,40 @@ Um modelo de boosting foi treinado com taxa de aprendizado η = 0,2 e 50 árvore
 > **volte para:** #a-ordem-de-ajuste-que-economiza-tempo
 :::
 
+:::exercicio {"id":"arvores-ensembles-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Qual hiperparâmetro de boosting se ajusta primeiro, e por quê?
+
+- [x] A profundidade, porque ela define que tipo de interação o modelo consegue capturar.
+- [ ] A regularização, porque controla o overfitting desde o início.
+- [ ] O número de árvores, porque determina o custo do treino.
+- [ ] A subamostragem, porque acelera todas as buscas seguintes.
+
+> **gabarito:** a profundidade
+> **porque:** Ela vem primeiro porque decide o que o modelo é **capaz** de representar. Profundidade 1, os tocos, só captura efeitos aditivos; profundidade 3 já captura interações de três vias. Ajustar qualquer outro parâmetro antes disso é otimizar dentro de uma família errada.
+>
+> A segunda alternativa é o erro caro que a seção nomeia: mexer em regularização com a profundidade errada é otimizar a decoração de uma casa cuja planta está errada.
+>
+> O número de árvores não entra em busca nenhuma se você usar early stopping, e é essa a recomendação do capítulo: fixe a taxa baixa e deixe a validação decidir quantas. É o hiperparâmetro que se ajusta sozinho.
+> **volte para:** #a-ordem-de-ajuste-que-economiza-tempo
+:::
+
+:::exercicio {"id":"arvores-ensembles-e10","tipo":"multipla-multi","objetivo":"O3","dificuldade":"dificil"}
+Uma equipe monta uma busca em grade com quatro eixos simultâneos: profundidade de 2 a 10, taxa de 0,01 a 0,3, número de árvores de 100 a 2 000, e três níveis de regularização. Quais críticas desta seção se aplicam? (marque todas que valem)
+
+- [x] Taxa e número de árvores são um par e não deveriam ser buscados como eixos independentes.
+- [x] O número de árvores não precisa entrar na grade, porque o early stopping o decide.
+- [x] A regularização entra cedo demais: ela é ajuste fino e só rende depois dos outros três.
+- [ ] Buscar profundidade de 2 a 10 é excessivo, porque a faixa útil é sempre de 1 a 2.
+
+> **gabarito:** taxa e número são um par · early stopping decide o número · regularização entra cedo demais
+> **porque:** As três corretas são a ordem da tabela lida ao contrário, e juntas explicam por que a grade descrita custa dias. Taxa e número de árvores compensam um ao outro, então varrê-los como eixos independentes gasta a maior parte do orçamento em combinações equivalentes entre si.
+>
+> Tirar o número de árvores da grade é o corte mais barato: com early stopping desde o começo, ele deixa de ser hiperparâmetro e vira consequência.
+>
+> A alternativa errada inventa uma regra que o capítulo não dá. A faixa recomendada é de 3 a 8, e a profundidade 1 aparece só como exemplo do que os tocos conseguem capturar, que são efeitos aditivos.
+> **volte para:** #a-ordem-de-ajuste-que-economiza-tempo
+:::
+
 ## Fundamentos científicos: por que árvores ainda ganham em tabular
 
 A afirmação "gradient boosting continua sendo a resposta padrão para dados tabulares" é forte, e neste livro ela não vale por repetição — vale por medição de terceiros, verificada.
@@ -244,9 +343,43 @@ Escreva a resposta que você daria: qual sua **recomendação**, com que **evid�
 > menciona ao menos um dos três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos) e não apenas o placar;
 > declara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta;
 > considera o custo de iteração dentro do prazo, e não só a métrica final
-> **porque:** A recomendação defensável é **boosting**, e o argumento tem três camadas. **Evidência**: 8.000 linhas e 40 colunas caem exatamente no regime medido por Grinsztajn et al. (2022) — porte médio, tabular —, onde modelos de árvore permanecem no estado da arte. **Mecanismo**: entre 40 colunas quase certamente há colunas irrelevantes, que árvores descartam sem custo. **Prazo**: boosting treina em minutos e tem poucos hiperparâmetros que importam, o que permite muitas iterações em duas semanas — e o número de iterações costuma decidir mais que a escolha de família de modelo.
+> **porque:** A recomendação defensável é **boosting**, e o argumento tem três camadas. Evidência: 8.000 linhas e 40 colunas caem exatamente no regime medido por Grinsztajn et al. (2022), porte médio e tabular, onde modelos de árvore permanecem no estado da arte. Mecanismo: entre 40 colunas quase certamente há colunas irrelevantes, que árvores descartam sem custo. Prazo: boosting treina em minutos e tem poucos hiperparâmetros que importam, o que permite muitas iterações em duas semanas, e o número de iterações costuma decidir mais que a escolha de família de modelo.
 >
 > A parte que separa uma boa resposta de uma dogmática é a **condição de mudança**. Exemplos legítimos: se houver texto livre ou imagem entre as colunas, se o volume crescer uma ou duas ordens de grandeza, se houver um modelo pré-treinado do domínio para aproveitar, ou se o requisito for aprender representação transferível para outra tarefa. Uma resposta que apenas afirma "árvore sempre ganha em tabular" acerta a recomendação e erra o raciocínio — e é essa a diferença que o exercício mede.
+> **volte para:** #fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular
+:::
+
+:::exercicio {"id":"arvores-ensembles-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"facil"}
+Quais são os três mecanismos que Grinsztajn et al. (2022) identificam para explicar a vantagem das árvores em dados tabulares? (marque todos que valem)
+
+- [x] Atributos não informativos, que árvores ignoram de graça.
+- [x] Funções irregulares, com quebras e patamares, contra o viés das redes a favor de funções suaves.
+- [x] Orientação dos eixos: cada coluna tem significado próprio, e árvores cortam ao longo dos eixos.
+- [ ] Volume de dados: árvores aproveitam melhor bases com milhões de linhas.
+
+> **gabarito:** atributos não informativos · funções irregulares · orientação dos eixos
+> **porque:** Os três são o diagnóstico do trabalho, e é ele que interessa mais que o placar: o placar diz **que** árvores ganham naquele regime, e os mecanismos dizem **por que**, o que é o que permite prever quando a conclusão deixa de valer.
+>
+> A alternativa errada inverte justamente o recorte do resultado. A afirmação verificada é sobre dados de **porte médio**, cerca de 10 mil exemplos, e não sobre bases enormes. Estender a conclusão para milhões de linhas é usar a evidência fora da faixa em que ela foi medida.
+>
+> Repare que os três mecanismos são propriedades do **dado**, não do algoritmo. É por isso que eles servem de teste: diante de uma base nova, dá para perguntar quantos dos três estão presentes.
+> **volte para:** #fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular
+:::
+
+:::exercicio {"id":"arvores-ensembles-e12","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+O experimento deste capítulo foi construído com três atributos de puro ruído e uma fronteira com quebra, e o boosting vence o linear por larga margem. Qual é o estatuto dessa evidência?
+
+- [ ] É a prova de que boosting vence em dados tabulares.
+- [x] É uma ilustração do mecanismo que o paper mede, e confundir as duas coisas seria vender ilustração como evidência.
+- [ ] É irrelevante, porque dado sintético não ensina nada.
+- [ ] É um contraexemplo ao paper, porque usa apenas um conjunto.
+
+> **gabarito:** ilustração do mecanismo que o paper mede
+> **porque:** O experimento foi **construído** com as características 1 e 2 do diagnóstico, então ele não poderia terminar de outro jeito. Isso não o torna inútil: ele mostra o mecanismo funcionando, em escala pequena, onde dá para ver cada peça.
+>
+> O que ele não pode fazer é sustentar a afirmação geral. Quem mede isso é o benchmark de 45 conjuntos, com busca extensa de hiperparâmetros, e é de lá que a frase do capítulo tira a autoridade.
+>
+> A distinção vale além deste capítulo, e é o Princípio I em ação: um exemplo desenhado para exibir um efeito demonstra que o efeito é possível, nunca que ele é típico. Dizer "nosso teste comprova" sobre um conjunto assim é o erro que a seção evita com uma frase explícita.
 > **volte para:** #fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular
 :::
 

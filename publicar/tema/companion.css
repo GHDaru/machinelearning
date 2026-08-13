@@ -8,13 +8,18 @@
   position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom));
   z-index: 2147483000; font-family: inherit;
 }
+/* O atributo do livro é `data-tema` (`claro`/`escuro`), escrito pelo app.js.
+   Enquanto isto dizia `data-theme`, o painel do chat ignorava a chave de tema
+   do site: quem estava num sistema claro e acendia o modo escuro do livro
+   ficava com um painel branco dentro de uma página escura. A media query é só
+   o padrão do sistema, e cede quando o leitor escolhe. */
 @media (prefers-color-scheme: dark) {
-  .cmp { --cmp-bg: #131a24; --cmp-fg: #e7edf5; --cmp-muted: #93a1b3;
+  :root:not([data-tema="claro"]) .cmp { --cmp-bg: #131a24; --cmp-fg: #e7edf5; --cmp-muted: #93a1b3;
     --cmp-line: #263141; --cmp-user: #1d2b45; --cmp-bot: #1a222e; }
 }
-:root[data-theme="dark"] .cmp { --cmp-bg: #131a24; --cmp-fg: #e7edf5; --cmp-muted: #93a1b3;
+:root[data-tema="escuro"] .cmp { --cmp-bg: #131a24; --cmp-fg: #e7edf5; --cmp-muted: #93a1b3;
   --cmp-line: #263141; --cmp-user: #1d2b45; --cmp-bot: #1a222e; }
-:root[data-theme="light"] .cmp { --cmp-bg: #ffffff; --cmp-fg: #1a2230; --cmp-muted: #5b6675;
+:root[data-tema="claro"] .cmp { --cmp-bg: #ffffff; --cmp-fg: #1a2230; --cmp-muted: #5b6675;
   --cmp-line: #e3e8ef; --cmp-user: #eaf1ff; --cmp-bot: #f4f6f9; }
 
 /* Launcher */

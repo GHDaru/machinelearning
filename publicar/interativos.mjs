@@ -120,6 +120,16 @@ function validarExercicio(ex, arquivo) {
     if (ex.tipo === "multipla-multi" && certas < 1) erro("precisa de ao menos 1 alternativa correta");
   } else if (ex.tipo === "numerica") {
     if (ex.gabarito == null || !/-?\d/.test(String(ex.gabarito))) erro("`> **gabarito:**` precisa de um número (ex.: `0.75 ± 0.02`)");
+    // Resposta decimal sem tolerância declarada corrige por igualdade exata, e
+    // o leitor que arredondou de outro jeito erra por arredondamento e não por
+    // conteúdo. Inteiro pode dispensar; decimal precisa dizer quanto aceita —
+    // `± 0` continua valendo, desde que seja escolha escrita.
+    const num = parseNumerico(ex.gabarito);
+    const declarou = /(±|\+\/-|\+-)/.test(String(ex.gabarito));
+    if (num && !Number.isInteger(num.valor) && !declarou) {
+      erro(`gabarito numérico decimal (${ex.gabarito}) sem tolerância declarada — ` +
+        "escreva `± <margem>`, senão a correção exige igualdade exata e pune arredondamento");
+    }
   } else if (ex.tipo === "completar") {
     if (!ex.gabarito) erro("`> **gabarito:**` precisa do texto que preenche a lacuna");
   } else if (ex.tipo === "aberta") {
@@ -127,11 +137,18 @@ function validarExercicio(ex, arquivo) {
   }
 }
 
-/** Interpreta `0.75 ± 0.02` / `0.75 +- 0.02` / `0.75` -> {valor, tolerancia}. */
+/** Interpreta `0.75 ± 0.02` / `0.75 +- 0.02` / `0.75` -> {valor, tolerancia}.
+ *
+ * A troca de vírgula por ponto é GLOBAL, e isso não é detalhe de estilo. O
+ * livro é em português, então o gabarito natural é `0,45 ± 0,01`; trocando só
+ * a primeira vírgula, o valor saía certo e a tolerância virava 0 em silêncio.
+ * Três exercícios publicados corrigiam por igualdade exata por causa disso.
+ * Ver `publicar/testes/numerico.mjs`. */
 export function parseNumerico(txt) {
-  const m = String(txt).replace(",", ".").match(/(-?[\d.]+(?:e-?\d+)?)\s*(?:±|\+\/-|\+-)\s*([\d.]+(?:e-?\d+)?)/i);
+  const normal = String(txt).replace(/,/g, ".");
+  const m = normal.match(/(-?[\d.]+(?:e-?\d+)?)\s*(?:±|\+\/-|\+-)\s*([\d.]+(?:e-?\d+)?)/i);
   if (m) return { valor: Number(m[1]), tolerancia: Number(m[2]) };
-  const n = Number(String(txt).replace(",", ".").trim());
+  const n = Number(normal.trim());
   return Number.isFinite(n) ? { valor: n, tolerancia: 0 } : null;
 }
 
@@ -191,6 +208,16 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
       objetivo: attrs.objetivo,
       pontos: Number(attrs.pontos) || 1,
       dificuldade: attrs.dificuldade || "media",
+      // "verificacao" = desafio integrador de fim de capítulo (ADR 0012).
+      // É atributo, e não tipo de bloco, porque a distinção é pedagógica: a
+      // mecânica de correção é a mesma. Quem consome isto segmenta ranking e
+      // barra de progresso, para que um item tudo-ou-nada não afogue o sinal.
+      secao: attrs.secao || "corpo",
+      // Item de prova é CRUZADO por definição (ADR 0014): declara os objetivos
+      // de dois capítulos ou mais, e é isso que o distingue de "mais um
+      // exercício". Cada entrada tem a forma "<arquivo-do-capitulo>:O<n>".
+      // Quem cobra a regra é exercicios.mjs; aqui só se carrega o campo.
+      objetivos: Array.isArray(attrs.objetivos) ? attrs.objetivos : null,
       enunciado,
       opcoes,
       gabarito: meta.gabarito || null,
@@ -204,6 +231,43 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
   }
 
   return { exercicios, videos, laboratorios };
+}
+
+/** Metadados que revelam a resposta — nunca saem do backend. */
+const SEGREDOS = new Set(["gabarito", "porque", "rubrica"]);
+
+const AVISO_SEM_GABARITO =
+  "\n> _Gabarito, explicação e rubrica não vão neste arquivo. Quem corrige é o " +
+  "servidor, e a explicação completa é o que a segunda tentativa paga._";
+
+/**
+ * Remove do Markdown tudo que entrega a resposta — para a **exportação**.
+ *
+ * `renderizar()` já impedia o gabarito de chegar ao HTML, e por isso o time
+ * achou que a promessa estava cumprida. Não estava: o botão "⬇ md" ao lado de
+ * cada capítulo (e o "⬇ Markdown" da capa) serviam o arquivo-FONTE cru — 79
+ * gabaritos e 30 rubricas, um clique ao lado do exercício que deveria custar
+ * duas tentativas. A superfície protegida era uma das duas.
+ *
+ * O que sai: `gabarito`, `porque`, `rubrica` e a marcação `- [x]` da
+ * alternativa certa. O que fica: enunciado, alternativas e o `volte para` —
+ * que é ponteiro para a seção, não resposta.
+ */
+export function semGabarito(markdown) {
+  const emCerca = cercas(markdown);
+  return markdown.replace(RE_BLOCO, (bloco, tipoBloco, attrsJson, corpo, offset) => {
+    if (emCerca(offset) || tipoBloco !== "exercicio") return bloco;
+    const saida = [];
+    let ocultando = false;
+    for (const linha of corpo.split("\n")) {
+      const meta = linha.match(RE_META);
+      if (meta) ocultando = SEGREDOS.has(meta[1].trim().toLowerCase());
+      else if (!(ocultando && /^>/.test(linha))) ocultando = false; // fim da continuação
+      if (ocultando) continue;
+      saida.push(linha.replace(RE_OPCAO, "- [ ] $2"));
+    }
+    return `:::${tipoBloco} ${attrsJson}\n${saida.join("\n").trim()}${AVISO_SEM_GABARITO}\n:::`;
+  });
 }
 
 /**
