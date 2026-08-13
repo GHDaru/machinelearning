@@ -19,6 +19,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — a animação da tese do livro (viés e variância, cap. 0.2)
+- **`anima-vies-variancia`**: o grau do polinômio sobe de 1 a 15, o erro de
+  treino só desce e o de validação **vira para cima no grau 5**. É o único lugar
+  do livro em que o cruzamento acontece na tela, e não numa tabela.
+- **O piso irredutível ficou visível.** A validação leva ruído próprio, então o
+  fundo da curva bate em ~0,011, que é a variância do ruído. E o erro de treino
+  descendo **abaixo** desse piso é a assinatura de um modelo ajustando ruído.
+  Com validação limpa, como estava na primeira versão, o terceiro termo da
+  decomposição sumia do desenho.
+- **A previsão do autor estava errada, e a lição medida é melhor.** A spec dizia
+  que com 3× mais dados o joelho andaria para a direita. Ele não anda: fica no
+  grau 5 nos dois casos. O que desaba é o **castigo** por passar dele, de ~0,48
+  para ~0,015 no grau 15. O capítulo passou a ensinar isso.
+- **O ajuste é por Gram-Schmidt (A = QR), não pela equação normal**, porque no
+  grau 15 a equação normal faria a validação explodir por ponto flutuante em vez
+  de por sobreajuste — a animação certa contando a história errada.
+- `publicar/testes/anima-vies-variancia.mjs`, com seis asserções, todas
+  derivadas de medição. Ele pegou um `>` que devia ser `>=` e por isso o rótulo
+  "varredura completa" nunca chegava ao placar, que é o que o leitor sem visão lê.
+
 ### Adicionado — a prova final, e as sete provas do livro completas
 - **Prova final** (`livro/provas/prova-final.md`), quatorze itens que cruzam
   **partes**, e não apenas capítulos: a hipótese de mesma distribuição contra

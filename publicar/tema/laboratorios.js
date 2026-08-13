@@ -1476,10 +1476,226 @@
     rel.aoChegar(function () { rodar({}); });
   }
 
+  // A animação da tese do livro: viés e variância, com o grau do polinômio
+  // subindo de 1 a 15. A tabela do capítulo mostra dois números; aqui se vê o
+  // INSTANTE em que um deles vira para cima enquanto o outro continua caindo.
+  // É o único lugar do livro em que o cruzamento acontece na tela.
+  //
+  // Duas decisões de implementação que não são detalhe:
+  //
+  //   1. O ajuste é por Gram-Schmidt modificado (A = QR), e não pela equação
+  //      normal. Com grau 15 a matriz de Vandermonde é malcondicionada, e a
+  //      equação normal eleva o condicionamento ao quadrado: o erro de
+  //      validação explodiria por ruído de ponto flutuante, e não por
+  //      sobreajuste. Seria a animação certa contando a história errada.
+  //   2. `x` vive em [-1, 1] pelo mesmo motivo.
+  function animaViesVariancia(area, cfg) {
+    var W = 460, H = 300, PAD = 34;
+    var GRAU_MAX = 15, N_TREINO = 20, N_VAL = 200;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var est = { grau: 1, curva: [], ruido: 0.15, pontos: N_TREINO, dados: null };
+    var rel;
+
+    // A função verdadeira. Suave, e não polinomial de grau baixo, para que
+    // nenhum grau da varredura acerte por sorte.
+    function verdade(x) { return Math.sin(3 * x) + 0.5 * x; }
+
+    function gerar() {
+      var r = rng(Number(cfg.semente) || 20260813), i, x;
+      var tr = [], va = [];
+      for (i = 0; i < est.pontos; i++) {
+        x = -1 + 2 * (i + 0.5) / est.pontos;
+        // ruído gaussiano por soma de uniformes (Irwin-Hall centrado)
+        var e = (r() + r() + r() + r() + r() + r() - 3) * est.ruido;
+        tr.push([x, verdade(x) + e]);
+      }
+      // A validação leva ruído próprio, e isso é decisão de conteúdo, não de
+      // implementação. Com validação sem ruído, a curva laranja desceria até
+      // zero e o capítulo perderia o terceiro termo da decomposição: o piso
+      // irredutível. Com ruído, ela para perto da variância do ruído, e o
+      // leitor vê que existe um chão que nenhum modelo atravessa.
+      for (i = 0; i < N_VAL; i++) {
+        x = -1 + 2 * (i + 0.5) / N_VAL;
+        var ev = (r() + r() + r() + r() + r() + r() - 3) * est.ruido;
+        va.push([x, verdade(x) + ev]);
+      }
+      return { tr: tr, va: va };
+    }
+
+    /** Ajusta polinômio de grau g por Gram-Schmidt modificado; devolve os
+     *  coeficientes na base de monômios, ou null se a coluna colapsar. */
+    function ajustar(pts, g) {
+      var n = pts.length, m = g + 1, i, j, k;
+      var A = [], R = [];
+      for (j = 0; j < m; j++) {
+        A.push(pts.map(function (p) { return Math.pow(p[0], j); }));
+        R.push(new Array(m).fill(0));
+      }
+      for (j = 0; j < m; j++) {
+        for (k = 0; k < j; k++) {
+          var d = 0;
+          for (i = 0; i < n; i++) d += A[k][i] * A[j][i];
+          R[k][j] = d;
+          for (i = 0; i < n; i++) A[j][i] -= d * A[k][i];
+        }
+        var nrm = 0;
+        for (i = 0; i < n; i++) nrm += A[j][i] * A[j][i];
+        nrm = Math.sqrt(nrm);
+        if (!(nrm > 1e-12)) return null;
+        R[j][j] = nrm;
+        for (i = 0; i < n; i++) A[j][i] /= nrm;
+      }
+      var qty = [];
+      for (j = 0; j < m; j++) {
+        var s = 0;
+        for (i = 0; i < n; i++) s += A[j][i] * pts[i][1];
+        qty.push(s);
+      }
+      var c = new Array(m).fill(0);
+      for (j = m - 1; j >= 0; j--) {
+        var acc = qty[j];
+        for (k = j + 1; k < m; k++) acc -= R[j][k] * c[k];
+        c[j] = acc / R[j][j];
+      }
+      return c;
+    }
+
+    function prever(c, x) {
+      var s = 0, j;
+      for (j = c.length - 1; j >= 0; j--) s = s * x + c[j];
+      return s;
+    }
+
+    function eqm(c, pts) {
+      var s = 0, i, d;
+      for (i = 0; i < pts.length; i++) { d = prever(c, pts[i][0]) - pts[i][1]; s += d * d; }
+      return s / pts.length;
+    }
+
+    function passo() {
+      if (est.grau > GRAU_MAX) return true;
+      var c = ajustar(est.dados.tr, est.grau);
+      est.curva.push(c
+        ? { g: est.grau, tr: eqm(c, est.dados.tr), va: eqm(c, est.dados.va) }
+        : { g: est.grau, tr: NaN, va: NaN });
+      est.grau++;
+      return est.grau > GRAU_MAX;
+    }
+
+    /** O grau de menor erro de validação — o joelho da curva. */
+    function melhor() {
+      var b = null, i;
+      for (i = 0; i < est.curva.length; i++) {
+        if (!isFinite(est.curva[i].va)) continue;
+        if (!b || est.curva[i].va < b.va) b = est.curva[i];
+      }
+      return b;
+    }
+
+    function texto() {
+      var u = est.curva[est.curva.length - 1], b = melhor();
+      if (!u) { placar.textContent = "grau 0"; return; }
+      var partes = ["grau " + u.g,
+        "erro de treino " + u.tr.toFixed(3),
+        "erro de validação " + u.va.toFixed(3)];
+      if (b) partes.push("melhor até aqui: grau " + b.g + " com " + b.va.toFixed(3));
+      if (est.curva.length >= GRAU_MAX) partes.push("varredura completa");
+      placar.textContent = partes.join(" · ");
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      t.fundo(escuro);
+      var i, p, topo = 0;
+      for (i = 0; i < est.curva.length; i++) {
+        p = est.curva[i];
+        if (isFinite(p.va)) topo = Math.max(topo, p.va);
+        if (isFinite(p.tr)) topo = Math.max(topo, p.tr);
+      }
+      topo = Math.max(topo, 0.4);
+      var px = function (g) { return PAD + (g - 1) / (GRAU_MAX - 1) * (W - 2 * PAD); };
+      var py = function (v) { return H - PAD - Math.min(v, topo) / topo * (H - 2 * PAD); };
+
+      ctx.font = "12px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#8b8c90" : "#6b6a66";
+      ctx.fillText("grau do polinômio", W / 2 - 48, H - 10);
+
+      // As duas curvas. Treino cai sempre; validação é a que vira.
+      [["tr", escuro ? "#5ba3d0" : "#2f6f9f", "treino"],
+       ["va", escuro ? "#e0864f" : "#c25a1e", "validação"]].forEach(function (serie, idx) {
+        ctx.strokeStyle = serie[1];
+        ctx.fillStyle = serie[1];
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        var primeiro = true;
+        for (i = 0; i < est.curva.length; i++) {
+          p = est.curva[i];
+          if (!isFinite(p[serie[0]])) continue;
+          var X = px(p.g), Y = py(p[serie[0]]);
+          if (primeiro) { ctx.moveTo(X, Y); primeiro = false; } else ctx.lineTo(X, Y);
+        }
+        ctx.stroke();
+        for (i = 0; i < est.curva.length; i++) {
+          p = est.curva[i];
+          if (!isFinite(p[serie[0]])) continue;
+          ctx.beginPath();
+          ctx.arc(px(p.g), py(p[serie[0]]), 2.5, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+        ctx.fillText(serie[2], PAD + 6, PAD + 16 + idx * 16);
+      });
+
+      // A marca do joelho: a linha vertical no grau de menor validação.
+      var b = melhor();
+      if (b && est.curva.length > 3) {
+        ctx.strokeStyle = escuro ? "#6f7075" : "#a9a8a4";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(px(b.g), PAD); ctx.lineTo(px(b.g), H - PAD);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    function rodar(mudanca) {
+      if (rel) rel.parar();
+      if (mudanca && mudanca.ruido != null) est.ruido = mudanca.ruido;
+      if (mudanca && mudanca.pontos != null) est.pontos = mudanca.pontos;
+      est.grau = 1; est.curva = [];
+      est.dados = gerar();
+      desenhar(); texto();
+      rel.comecar(GRAU_MAX + 2);
+    }
+
+    botao("Recomeçar", function () { rodar({}); });
+    // O segundo botão é o controle que o ADR 0015 exige: um resultado que o
+    // leitor consegue prever errado. E que o AUTOR previu errado: a spec dizia
+    // que com mais dado o joelho andaria para a direita. Medido, ele não anda,
+    // fica no grau 5 nos dois casos. O que desaba é o CASTIGO por passar dele,
+    // de 0,48 para 0,015 no grau 15. A lição medida é melhor que a prevista.
+    botao("E com 3× mais dados de treino?", function () {
+      rodar({ pontos: est.pontos === N_TREINO ? 60 : N_TREINO });
+    });
+
+    rel = relogio(cv, function () {
+      var fim = passo();
+      desenhar(); texto();
+      return fim;
+    }, function () { desenhar(); }, 220);
+
+    est.dados = gerar();
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar({}); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
-                "anima-justica": animaJustica };
+                "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

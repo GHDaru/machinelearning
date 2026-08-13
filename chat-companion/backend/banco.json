@@ -14509,6 +14509,20 @@
  ],
  "laboratorios": [
   {
+   "id": "fundamentos-l1",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "anima-vies-variancia",
+   "titulo": "Suba o grau do polinômio e veja o instante em que a validação vira",
+   "config": {
+    "id": "fundamentos-l1",
+    "tipo": "anima-vies-variancia",
+    "titulo": "Suba o grau do polinômio e veja o instante em que a validação vira"
+   },
+   "intro": "As três parcelas acima são fáceis de enunciar e continuam abstratas até alguém ver as duas curvas se separarem. Aqui não há nada a manipular: o dado é o mesmo o tempo todo, e a única coisa que se move é **o grau do polinômio ajustado**, de 1 a 15.\n\nSão 20 pontos de treino, sorteados de uma curva conhecida com ruído somado. A cada quadro, um grau a mais.\n\nAssista as duas curvas. A azul, do erro de treino, **só desce** — sempre descerá, porque mais grau é mais liberdade para passar perto dos pontos que ela já viu. A laranja, da validação, desce junto no começo, encontra o fundo no **grau 5** e depois **vira para cima**. Esse é o ponto exato em que ganhar liberdade deixa de ajudar e passa a atrapalhar.\n\nDois números do painel merecem ser lidos com calma:\n\n- No fundo da curva, a validação marca cerca de **0,013**. Não é zero, e não vai a zero: o ruído somado aos dados tem variância de aproximadamente **0,011**, e esse é o **piso irredutível**. Nenhum grau, nenhum modelo, nenhuma quantidade de esforço atravessa esse chão.\n- No grau 15, o treino cai para cerca de **0,003** — **abaixo do piso**. Um erro menor que o ruído não é um modelo melhor: é um modelo que decorou o ruído daqueles 20 pontos. E a validação, no mesmo grau, sobe para perto de **0,48**, quase quarenta vezes o fundo.\n\nAgora clique em **\"E com 3× mais dados de treino?\"**. Vale tentar prever antes: o fundo muda de lugar?\n\nEle **não** muda. O melhor grau continua sendo o 5. O que muda é o preço de errar para cima: no grau 15, a validação sai de cerca de 0,48 para perto de **0,015**, praticamente o piso. Mais dado não descobre o grau certo para você; ele torna o excesso de complexidade **quase inofensivo**, que é uma coisa diferente e mais útil de saber.",
+   "pagina": "0-2-fundamentos"
+  },
+  {
    "id": "analise-exploratoria-l1",
    "capitulo": 6,
    "arquivo": "livro/capitulos/i-4-analise-exploratoria.md",

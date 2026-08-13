@@ -37,11 +37,13 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > aprendendo, com o botão do XOR), **III.2** (o MLP resolvendo o mesmo XOR,
 > com os botões de tirar a camada e de estragar a inicialização), **IV.1**
 > (o k-means alternando, com a semente que decide o resultado) e **V.1** (o
-> limiar movendo contra os três critérios de justiça). A dívida do
-> núcleo compartilhado foi paga na segunda, como a ADR 0015 exigia.
+> limiar movendo contra os três critérios de justiça) e **0.2** (o grau do
+> polinômio subindo, com a validação virando no grau 5 e o piso do ruído à
+> vista). A dívida do núcleo compartilhado foi paga na segunda, como a ADR
+> 0015 exigia.
 >
-> **As animações seguem a ordem de prioridade de `animacoes.md`** (0.2 e II.4
-> são as próximas), e não a ordem dos capítulos. Um capítulo pode
+> **As animações seguem a ordem de prioridade de `animacoes.md`** (II.4 é a
+> próxima), e não a ordem dos capítulos. Um capítulo pode
 > fechar a coluna de exercícios antes de receber a animação dele — III.4 é o
 > primeiro caso.
 

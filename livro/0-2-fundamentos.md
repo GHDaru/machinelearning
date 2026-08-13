@@ -164,6 +164,23 @@ Quando um modelo erra, o erro esperado se decompõe em três parcelas — e cada
 
 **Ruído irredutível** — a parte que nenhum modelo alcança, porque o próprio fenômeno é aleatório ou porque a informação necessária não está nos dados. Perseguir essa parcela é o modo mais eficiente de desperdiçar um trimestre.
 
+:::lab {"id":"fundamentos-l1","tipo":"anima-vies-variancia","titulo":"Suba o grau do polinômio e veja o instante em que a validação vira"}
+As três parcelas acima são fáceis de enunciar e continuam abstratas até alguém ver as duas curvas se separarem. Aqui não há nada a manipular: o dado é o mesmo o tempo todo, e a única coisa que se move é **o grau do polinômio ajustado**, de 1 a 15.
+
+São 20 pontos de treino, sorteados de uma curva conhecida com ruído somado. A cada quadro, um grau a mais.
+
+Assista as duas curvas. A azul, do erro de treino, **só desce** — sempre descerá, porque mais grau é mais liberdade para passar perto dos pontos que ela já viu. A laranja, da validação, desce junto no começo, encontra o fundo no **grau 5** e depois **vira para cima**. Esse é o ponto exato em que ganhar liberdade deixa de ajudar e passa a atrapalhar.
+
+Dois números do painel merecem ser lidos com calma:
+
+- No fundo da curva, a validação marca cerca de **0,013**. Não é zero, e não vai a zero: o ruído somado aos dados tem variância de aproximadamente **0,011**, e esse é o **piso irredutível**. Nenhum grau, nenhum modelo, nenhuma quantidade de esforço atravessa esse chão.
+- No grau 15, o treino cai para cerca de **0,003** — **abaixo do piso**. Um erro menor que o ruído não é um modelo melhor: é um modelo que decorou o ruído daqueles 20 pontos. E a validação, no mesmo grau, sobe para perto de **0,48**, quase quarenta vezes o fundo.
+
+Agora clique em **"E com 3× mais dados de treino?"**. Vale tentar prever antes: o fundo muda de lugar?
+
+Ele **não** muda. O melhor grau continua sendo o 5. O que muda é o preço de errar para cima: no grau 15, a validação sai de cerca de 0,48 para perto de **0,015**, praticamente o piso. Mais dado não descobre o grau certo para você; ele torna o excesso de complexidade **quase inofensivo**, que é uma coisa diferente e mais útil de saber.
+:::
+
 ### O diagnóstico prático
 
 O sintoma é visível nas duas curvas de erro:

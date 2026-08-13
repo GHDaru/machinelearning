@@ -24,7 +24,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | Cap. | O que anima, e qual número cai na tela |
 |---|---|
 | 0.1 | **não animar** — é orientação de leitura, não procedimento |
-| 0.2 | grau do polinômio de 1 a 15: erro de treino e de validação lado a lado, o de validação virando para cima |
+| 0.2 | **feita** — grau do polinômio de 1 a 15: treino sempre descendo, validação virando no grau 5, o piso do ruído visível e o botão dos 3× dados |
 | I.1 | horizonte do rótulo deslizando de 30 para 90 dias: % de clientes ainda acionáveis caindo, com a AUC subindo junto |
 | I.2 | **não animar** — arquitetura não tem estado que evolui |
 | I.3 | o `StandardScaler` cruzando a linha da divisão: AUC 0,94 → 0,71 quando o ajuste passa a usar só o treino |
@@ -170,13 +170,42 @@ Teste em `publicar/testes/anima-justica.mjs`, visto falhando.
 
 ## Placar das previsões desta spec
 
-Três animações construídas, três previsões escritas antes de medir:
+Quatro animações construídas, cinco previsões escritas antes de medir:
 
 | Previsão | O que o dado disse |
 |---|---|
 | III.2 — "a perda caindo até zerar" | ✅ zera, mas só com semente boa: 44 de 60 inicializações resolvem |
 | IV.1 — "outra semente parando 18% pior" | ❌ **10× pior**, não 18% |
 | V.1 — "sempre dois verdes e um vermelho" | ✅ dois é o teto, e a condição que levanta virou botão |
+| 0.2 — "o erro de validação virando para cima" | ✅ vira, e o fundo fica no grau 5 |
+| 0.2 — "com 3× mais dados o joelho anda para a direita" | ❌ **não anda**; fica no grau 5 nos dois casos |
 
-Uma em três previsões numéricas estava errada, e nenhuma das três teria sido
-detectada pelo build. É o argumento inteiro a favor de a animação vir com teste.
+**Duas em cinco previsões numéricas estavam erradas**, e nenhuma delas teria
+sido detectada pelo build. É o argumento inteiro a favor de a animação vir com
+teste.
+
+## O que a quarta animação ensinou (0.2 — viés e variância)
+
+**A previsão errada rendeu uma lição melhor que a certa.** Eu ia escrever que
+mais dado move o joelho para a direita, porque é o que a intuição de "mais dado
+sustenta mais complexidade" sugere. Medido: o joelho fica no grau 5 com 20 e com
+60 pontos. O que desaba é o **castigo por passar dele**, de 0,48 para 0,015 no
+grau 15. O capítulo passou a ensinar isso, que é mais útil: mais dado não
+descobre o grau certo, ele torna o excesso quase inofensivo.
+
+**Duas decisões de implementação viraram conteúdo.**
+
+1. **A validação leva ruído próprio.** Na primeira versão ela era limpa, e a
+   curva laranja descia até quase zero. Ficava bonito e apagava o terceiro termo
+   da decomposição. Com ruído, o fundo bate em ~0,011, que é a variância do
+   ruído: o **piso irredutível** deixou de ser um parágrafo e virou uma linha na
+   tela. E o erro de treino descendo **abaixo** desse piso é a assinatura visual
+   de ajustar ruído.
+2. **O ajuste é por Gram-Schmidt (A = QR), não pela equação normal.** Com grau
+   15 a matriz de Vandermonde é malcondicionada e a equação normal eleva isso ao
+   quadrado. O erro de validação explodiria por ponto flutuante, e não por
+   sobreajuste: a animação certa contando a história errada, sem nada acusar.
+
+**Um defeito de contagem que só o teste pegou:** o rótulo "varredura completa"
+nunca aparecia, por um `>` que devia ser `>=`. O placar é o que o leitor sem
+visão lê, então era uma falha de acessibilidade silenciosa.
