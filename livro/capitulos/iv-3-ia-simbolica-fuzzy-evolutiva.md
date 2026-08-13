@@ -165,6 +165,22 @@ Isso delimita bem quando vale a pena. **Vale** quando o espaço de busca não te
 
 Os dois custos a declarar antes de começar: o algoritmo genético **não dá garantia de ótimo** e é **caro em número de avaliações** — se cada avaliação é um ensaio físico ou uma simulação de dez minutos, a conta é o projeto inteiro. E ele traz um punhado de hiperparâmetros próprios (tamanho da população, taxa de mutação, pressão de seleção) que precisam ser ajustados por fora, o que é irônico: um método de busca que exige uma busca para ser configurado.
 
+:::lab {"id":"ia-simbolica-fuzzy-evolutiva-l1","tipo":"anima-evolucao","titulo":"A população que terminou pior do que começou"}
+Uma paisagem com dois picos: um **largo e baixo**, de altura 0,7, e um **estreito e alto**, de altura 1,0. Oitenta candidatas, espalhadas ao acaso pelo espaço, 120 gerações de torneio, cruzamento por mistura e mutação. À direita, a melhor aptidão e a diversidade da população.
+
+Assista a diversidade despencar enquanto a melhor aptidão sobe. É o retrato que o capítulo descreve, e ele é fiel: a seleção consome variação, porque é isso que a seleção faz.
+
+**Agora repare no número que fica no canto do placar.** Na geração 0 a melhor candidata já valia 0,7349. Ao fim das 120 gerações, a melhor vale 0,7000. A população **terminou pior do que começou**, e não estagnou: perdeu. Alguém já estava perto do pico alto lá no início, e a descendência dessa candidata foi diluída até sumir.
+
+**Antes de clicar, preveja o que conserta isso.** Mais mutação, para manter diversidade?
+
+**Não.** Varri as taxas de mutação de 0,02 a 0,35 e o pico alto se perde em todas. O motivo está no cruzamento: o filho de uma candidata do pico alto com qualquer outra cai **no vale entre os dois picos**, onde a aptidão é zero. A linhagem boa morre pela **média**, não por falta de variação.
+
+Clique em **"E guardando o melhor de cada geração?"**. Uma única candidata copiada intacta de uma geração para a seguinte, e a mesma população chega a **1,0000**, o ótimo global.
+
+> **E a diversidade colapsa igual nos dois casos** — 0,0901 contra 0,0906. Ou seja: a receita que todo mundo repete, "mantenha a diversidade", não é o que resolveu aqui. O que resolveu foi **não jogar fora o que já se tinha achado**. As duas coisas parecem a mesma e não são, e é o tipo de distinção que só aparece quando se mede as duas separadamente.
+:::
+
 :::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e7","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
 Numa leitura de 46 °C, o grau de pertinência a "água quente" é 0,8 e a "água morna" é 0,3. A soma passa de 1. O que isso indica?
 

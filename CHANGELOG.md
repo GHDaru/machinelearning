@@ -6,6 +6,24 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação da evolução, e a população que termina pior do que começou (cap. IV.3)
+- **Vigésima animação** (`anima-evolucao`): 80 candidatas espalhadas por uma
+  paisagem de dois picos, um largo e baixo (0,7) e um estreito e alto (1,0), ao
+  longo de 120 gerações.
+- **Sem guardar o melhor, a população termina PIOR do que começou:** 0,7349 na
+  geração 0, 0,7000 no fim. Alguém já estava perto do pico alto desde o início, e
+  a linhagem foi diluída. Não é estagnação, é perda.
+- **Guardando um indivíduo intacto por geração, a mesma população chega a
+  1,0000**, o ótimo global.
+- **A diversidade colapsa igual nos dois** (0,0901 contra 0,0906), então não foi
+  "manter diversidade" que resolveu. A receita folclórica de subir a mutação
+  também não: varrida em 0,02 · 0,08 · 0,12 · 0,20 · 0,35, o pico alto se perde em
+  todas. O mecanismo é o cruzamento por mistura, que joga o filho de uma candidata
+  do pico alto no vale entre os dois. **A linhagem boa morre pela média.**
+- Duas versões anteriores foram descartadas por medição: a população largada junto
+  do pico largo (nenhum modo achava o pico alto, porque o vale é intransponível
+  por mutação local) e a mutação como controle (não separa os modos).
+
 ### Adicionado — a animação do ensemble, e a conclusão fácil que a medição recusou (cap. II.5)
 - **Décima nona animação** (`anima-ensemble`): 60 cortes gastos numa árvore só ou
   espalhados em tocos somados, com o mesmo dado, a mesma divisão e o mesmo

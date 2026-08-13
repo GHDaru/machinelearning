@@ -14805,6 +14805,20 @@
    "pagina": "iv-2-reforco"
   },
   {
+   "id": "ia-simbolica-fuzzy-evolutiva-l1",
+   "capitulo": 25,
+   "arquivo": "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md",
+   "tipo": "anima-evolucao",
+   "titulo": "A população que terminou pior do que começou",
+   "config": {
+    "id": "ia-simbolica-fuzzy-evolutiva-l1",
+    "tipo": "anima-evolucao",
+    "titulo": "A população que terminou pior do que começou"
+   },
+   "intro": "Uma paisagem com dois picos: um **largo e baixo**, de altura 0,7, e um **estreito e alto**, de altura 1,0. Oitenta candidatas, espalhadas ao acaso pelo espaço, 120 gerações de torneio, cruzamento por mistura e mutação. À direita, a melhor aptidão e a diversidade da população.\n\nAssista a diversidade despencar enquanto a melhor aptidão sobe. É o retrato que o capítulo descreve, e ele é fiel: a seleção consome variação, porque é isso que a seleção faz.\n\n**Agora repare no número que fica no canto do placar.** Na geração 0 a melhor candidata já valia 0,7349. Ao fim das 120 gerações, a melhor vale 0,7000. A população **terminou pior do que começou**, e não estagnou: perdeu. Alguém já estava perto do pico alto lá no início, e a descendência dessa candidata foi diluída até sumir.\n\n**Antes de clicar, preveja o que conserta isso.** Mais mutação, para manter diversidade?\n\n**Não.** Varri as taxas de mutação de 0,02 a 0,35 e o pico alto se perde em todas. O motivo está no cruzamento: o filho de uma candidata do pico alto com qualquer outra cai **no vale entre os dois picos**, onde a aptidão é zero. A linhagem boa morre pela **média**, não por falta de variação.\n\nClique em **\"E guardando o melhor de cada geração?\"**. Uma única candidata copiada intacta de uma geração para a seguinte, e a mesma população chega a **1,0000**, o ótimo global.\n\n> **E a diversidade colapsa igual nos dois casos** — 0,0901 contra 0,0906. Ou seja: a receita que todo mundo repete, \"mantenha a diversidade\", não é o que resolveu aqui. O que resolveu foi **não jogar fora o que já se tinha achado**. As duas coisas parecem a mesma e não são, e é o tipo de distinção que só aparece quando se mede as duas separadamente.",
+   "pagina": "iv-3-ia-simbolica-fuzzy-evolutiva"
+  },
+  {
    "id": "interpretabilidade-justica-l1",
    "capitulo": 26,
    "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",

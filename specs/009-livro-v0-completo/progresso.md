@@ -52,9 +52,10 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > deslocamento, com dez vezes mais pesos que a convolucional) e **IV.2** (o agente
 > guloso preso na saída pequena, com 5 achados contra 529) e **III.5** (o gradiente
 > recuando pela sequência, com a razão por passo medida) e **II.5** (o mesmo
-> orçamento de cortes gasto de dois jeitos). A dívida do núcleo
+> orçamento de cortes gasto de dois jeitos) e **IV.3** (a população que termina
+> pior do que começou). A dívida do núcleo
 > compartilhado foi paga na segunda, como a ADR 0015 exigia.
-> **19 feitas, 3 pendentes: I.1, I.6 e IV.3.** (A linha já dissera "7 feitas, 16
+> **20 feitas, 2 pendentes: I.1 e I.6.** (A linha já dissera "7 feitas, 16
 > pendentes", herdando um erro de conta de `animacoes.md`, corrigido em 2026-08-13.)
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a

@@ -4180,6 +4180,205 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+
+  // A animação do capítulo IV.3: uma população evoluindo, com a melhor aptidão e a
+  // DIVERSIDADE na mesma tela. A paisagem tem dois picos: um largo e baixo, e um
+  // estreito e alto. A população começa perto do largo.
+  //
+  // O leitor erra a previsão sobre a mutação. A intuição de otimização diz que
+  // mutação é ruído, e ruído atrapalha: com menos mutação, a busca deveria
+  // convergir melhor. Ela converge mesmo, e converge para o pico ERRADO — porque a
+  // seleção consome diversidade a cada geração, e sem diversidade não há de onde
+  // sair. A mutação não é ruído tolerado: é a única fonte de variação que sobra
+  // depois que a seleção fez o trabalho dela.
+  //
+  // É o mesmo formato do dilema do capítulo IV.2, e vale reparar: lá o agente
+  // guloso ficava preso porque não explorava; aqui a população fica presa porque
+  // parou de variar. Explorar e variar são o mesmo verbo em dois sotaques.
+  function animaEvolucao(area, cfg) {
+    var W = 460, H = 300, PAD = 24;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bMut;
+    var POP = 80, GERACOES = 120, MUT = 0.06;
+    // O controle NÃO é a mutação, e descobrir isso custou uma varredura. Com
+    // cruzamento por mistura, o filho de um indivíduo no pico alto com qualquer
+    // outro cai no vale entre os dois picos: a linhagem boa é destruída pela
+    // MÉDIA, não pela falta de variação. Testei 0,02 · 0,08 · 0,12 · 0,20 · 0,35
+    // de mutação e o pico alto se perde em todas. O que salva é guardar o melhor
+    // indivíduo intacto de uma geração para a outra.
+    var est = { elite: false, g: 0, pop: [], parou: false, melhor: 0, div: 0,
+                melhorInicial: 0, r: null, hist: [] };
+
+    function normal(r) {
+      var u = Math.max(1e-12, r()), v = r();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283185307 * v);
+    }
+
+    /** Dois picos: largo e baixo em (-2,-2), estreito e alto em (2,2). */
+    function aptidao(x, y) {
+      return 0.7 * Math.exp(-((x + 2) * (x + 2) + (y + 2) * (y + 2)) / 2.0) +
+             1.0 * Math.exp(-((x - 2) * (x - 2) + (y - 2) * (y - 2)) / 0.8);
+    }
+
+    function diversidade(pop) {
+      var mx = 0, my = 0, i, s = 0;
+      for (i = 0; i < pop.length; i++) { mx += pop[i].x; my += pop[i].y; }
+      mx /= pop.length; my /= pop.length;
+      for (i = 0; i < pop.length; i++) {
+        s += Math.pow(pop[i].x - mx, 2) + Math.pow(pop[i].y - my, 2);
+      }
+      return Math.sqrt(s / pop.length);
+    }
+
+    function geracao() {
+      var r = est.r, mut = MUT, nova = [], i, a, b, p, q, cx, cy;
+      for (i = 0; i < POP; i++) {
+        // torneio de 3
+        a = est.pop[Math.floor(r() * POP)];
+        for (var k = 0; k < 2; k++) {
+          b = est.pop[Math.floor(r() * POP)];
+          if (b.f > a.f) a = b;
+        }
+        p = a;
+        q = est.pop[Math.floor(r() * POP)];
+        for (var k2 = 0; k2 < 2; k2++) {
+          b = est.pop[Math.floor(r() * POP)];
+          if (b.f > q.f) q = b;
+        }
+        var w = r();
+        cx = w * p.x + (1 - w) * q.x + normal(r) * mut;
+        cy = w * p.y + (1 - w) * q.y + normal(r) * mut;
+        nova.push({ x: cx, y: cy, f: aptidao(cx, cy) });
+      }
+      if (est.elite) {
+        var mel = est.pop[0];
+        for (i = 1; i < POP; i++) if (est.pop[i].f > mel.f) mel = est.pop[i];
+        nova[0] = { x: mel.x, y: mel.y, f: mel.f };
+      }
+      est.pop = nova;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i;
+      var x0 = PAD + 4, lado = H - 2 * PAD - 22;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.elite ? "guardando o melhor a cada geração" : "sem guardar o melhor") +
+                   " · geração " + est.g, x0, PAD + 12);
+      function px(x) { return x0 + ((x + 5) / 10) * lado; }
+      function py(y) { return PAD + 20 + lado - ((y + 5) / 10) * lado; }
+      // os dois picos
+      ctx.strokeStyle = escuro ? "#8f8f8c" : "#9a9a98";
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(px(-2), py(-2), lado * 0.14, 0, 6.2832); ctx.stroke();
+      ctx.strokeStyle = escuro ? "#87b89a" : "#2f7d4f";
+      ctx.beginPath(); ctx.arc(px(2), py(2), lado * 0.055, 0, 6.2832); ctx.stroke();
+      for (i = 0; i < est.pop.length; i++) {
+        ctx.fillStyle = escuro ? "rgba(143,184,221,0.75)" : "rgba(53,97,142,0.7)";
+        ctx.beginPath(); ctx.arc(px(est.pop[i].x), py(est.pop[i].y), 2, 0, 6.2832); ctx.fill();
+      }
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("cinza = pico largo (0,7) · verde = pico estreito (1,0)",
+                   x0, PAD + 24 + lado + 12);
+      // curvas de aptidão e diversidade
+      var gx = x0 + lado + 24, glarg = W - PAD - gx - 4;
+      var base = PAD + 20 + lado, altG = lado;
+      ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+      ctx.lineWidth = 2; ctx.beginPath();
+      est.hist.forEach(function (h, k) {
+        var qx = gx + (k / GERACOES) * glarg, qy = base - h.m * altG;
+        if (k === 0) ctx.moveTo(qx, qy); else ctx.lineTo(qx, qy);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.beginPath();
+      est.hist.forEach(function (h, k) {
+        var qx = gx + (k / GERACOES) * glarg;
+        var qy = base - Math.min(1, h.d / 3) * altG;
+        if (k === 0) ctx.moveTo(qx, qy); else ctx.lineTo(qx, qy);
+      });
+      ctx.stroke();
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("laranja = melhor aptidão · azul = diversidade", gx, PAD + 24 + lado + 12);
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.elite ? "guardando o melhor a cada geração" : "sem guardar o melhor") +
+        " · geração " + est.g + " de " + GERACOES +
+        " · melhor aptidão " + est.melhor.toFixed(4) +
+        " · diversidade " + est.div.toFixed(4) +
+        " · na geração 0 a população já tinha " + est.melhorInicial.toFixed(4) +
+        (est.parou
+          ? (est.melhor < est.melhorInicial
+              ? " · terminou PIOR do que começou, no melhor indivíduo"
+              : " · manteve o que tinha achado")
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var i;
+      geracao();
+      est.melhor = 0;
+      for (i = 0; i < POP; i++) if (est.pop[i].f > est.melhor) est.melhor = est.pop[i].f;
+      est.div = diversidade(est.pop);
+      est.hist.push({ m: est.melhor, d: est.div });
+      est.g++;
+      if (est.g >= GERACOES) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function iniciarPop() {
+      var r = rng(101), i, x, y;
+      est.r = rng(202);
+      est.pop = [];
+      // A população começa ESPALHADA por todo o espaço, e não junto do pico
+      // largo. É o desenho que faz a lição existir: alguns indivíduos já nascem
+      // perto do pico alto, e a pergunta passa a ser se a diversidade sobrevive
+      // tempo suficiente para que essa linhagem seja aproveitada. A primeira
+      // versão largava todo mundo em (-2,-2), e aí nenhum dos dois modos achava o
+      // pico alto — havia um vale de aptidão zero entre os dois, intransponível
+      // por mutação local. A animação mostrava só que o vale é fundo.
+      for (i = 0; i < POP; i++) {
+        x = (r() * 10) - 5; y = (r() * 10) - 5;
+        est.pop.push({ x: x, y: y, f: aptidao(x, y) });
+      }
+      est.melhor = 0;
+      for (i = 0; i < POP; i++) if (est.pop[i].f > est.melhor) est.melhor = est.pop[i].f;
+      est.div = diversidade(est.pop);
+      est.melhorInicial = est.melhor;
+      est.hist = [];
+    }
+
+    function rodar(elite) {
+      est.elite = elite; est.g = 0; est.parou = false;
+      iniciarPop();
+      rel.comecar(GERACOES + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bMut.textContent = est.elite ? "Voltar a não guardar o melhor"
+                                   : "E guardando o melhor de cada geração?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.elite); });
+    bMut = botao("E guardando o melhor de cada geração?", function () { rodar(!est.elite); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 30);
+    iniciarPop();
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -4194,7 +4393,8 @@
                 "anima-convolucao": animaConvolucao,
                 "anima-exploracao": animaExploracao,
                 "anima-memoria": animaMemoria,
-                "anima-ensemble": animaEnsemble };
+                "anima-ensemble": animaEnsemble,
+                "anima-evolucao": animaEvolucao };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

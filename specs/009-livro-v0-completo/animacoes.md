@@ -47,7 +47,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | III.6 | **não animar** — nada treinável honestamente no navegador vira encenação |
 | IV.1 | **feito** — atribuir e recentrar alternando, com o botão da semente infeliz |
 | IV.2 | **feita** — grid 7×7 com duas saídas (+0,25 perto, +1,5 longe): explorando chega à grande em 529 de 600 episódios, com ε=0 chega em 5, e a recompensa média cai 6,9× |
-| IV.3 | algoritmo genético: melhor aptidão subindo enquanto a diversidade colapsa |
+| IV.3 | **feita** — população que TERMINA PIOR do que começou (0,7349 → 0,7000); guardando o melhor de cada geração, a mesma população chega a 1,0000, e a diversidade colapsa igual nos dois |
 | V.1 | **feito** — limiar de um grupo movendo, com o botão que iguala as prevalências |
 | V.2 | **não animar** — dívida técnica não tem dinâmica observável em 30 s |
 | V.3 | **feita** — 60 dias com PSI e AUC na mesma linha do tempo, e o botão da deriva que NÃO dói: mesmo PSI, AUC intacta |
@@ -683,3 +683,34 @@ esconder.
 Teste **visto falhando**: tirei a taxa de aprendizado do boosting (cada toco
 corrigindo o resíduo inteiro), e duas linhas acusaram — o boosting passou a piorar
 por 40 cortes, e o melhor ponto migrou para ele por sobreajuste.
+
+
+## O que a vigésima animação ensinou (IV.3, 2026-08)
+
+**A spec previa "melhor aptidão subindo enquanto a diversidade colapsa", e as duas
+metades estão lá — só que a segunda não explica nada.** A diversidade colapsa
+igual nos dois modos (0,0901 contra 0,0906), e mesmo assim um termina em 0,7000 e
+o outro em 1,0000. Se a animação tivesse parado na spec, ela teria sugerido que
+diversidade era a variável, e não é.
+
+**O que a medição mostrou é mais forte: a população termina PIOR do que começou.**
+Na geração 0 a melhor candidata já vale 0,7349; ao fim de 120 gerações, 0,7000.
+Alguém estava perto do pico alto desde o início e a linhagem foi diluída. Não é
+estagnação, é perda de uma informação que já estava na mesa.
+
+**A receita folclórica não conserta.** Antes de achar a causa, varri a mutação em
+0,02 · 0,08 · 0,12 · 0,20 · 0,35, e o pico alto se perde em todas. O mecanismo é o
+**cruzamento por mistura**: o filho de uma candidata do pico alto com qualquer
+outra cai no vale de aptidão zero entre os dois picos. A linhagem boa morre pela
+**média**, não por falta de variação. Guardar um indivíduo intacto por geração é o
+que resolve, e leva a mesma população ao ótimo global.
+
+**Duas versões anteriores foram descartadas por medição**, e vale registrar as
+duas porque as duas pareciam certas no papel:
+1. população largada junto do pico largo: nenhum dos modos achava o pico alto, em
+   nenhuma taxa de mutação, porque o vale entre os picos é intransponível por
+   mutação local. A animação mostrava só que o vale é fundo;
+2. mutação como controle: varrida, não separa os modos.
+
+**A frase que sobrou é a que eu não teria escrito sem medir:** "manter diversidade"
+e "não jogar fora o que já se achou" parecem a mesma receita e não são.
