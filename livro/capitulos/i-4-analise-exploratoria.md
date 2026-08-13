@@ -85,6 +85,23 @@ Qual é a **mediana** desse conjunto?
 > **volte para:** #fundamentos-a-media-mente-a-mediana-aguenta
 :::
 
+:::exercicio {"id":"analise-exploratoria-e12","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Duas equipes medem o tempo de resposta de uma mesma API por uma semana. A equipe A reporta média 180 ms e desvio-padrão 640 ms. A equipe B reporta mediana 95 ms e IQR 40 ms. O que essa combinação de números já permite afirmar?
+
+- [ ] Que as duas equipes mediram períodos diferentes, porque os números são incompatíveis.
+- [x] Que a distribuição tem cauda longa à direita: o desvio-padrão bem maior que o IQR e a média bem acima da mediana apontam para a mesma coisa.
+- [ ] Que a equipe B errou, porque a mediana deveria ficar próxima da média.
+- [ ] Que a variação é pequena, já que o IQR de 40 ms mostra dados concentrados.
+
+> **gabarito:** cauda longa à direita
+> **porque:** Os quatro números são consistentes entre si e contam uma história só. A média muito acima da mediana (180 contra 95) é a assinatura de assimetria à direita, e o desvio-padrão dezesseis vezes maior que o IQR (640 contra 40) diz de onde ela vem: o meio dos dados é apertado, e há poucas requisições muito lentas puxando tudo.
+>
+> A última alternativa lê metade da evidência. O IQR de 40 ms de fato mostra que os 50% centrais são concentrados, e é exatamente por ignorar as caudas por construção que ele não pode, sozinho, sustentar "a variação é pequena". As caudas são o assunto quando se fala de tempo de resposta.
+>
+> Tempo de resposta de API é um dos exemplos que o capítulo lista de cauda longa: piso em zero, sem teto. Nessas distribuições média maior que mediana é a regra, e reportar a média é reportar a cauda — o que aqui é justamente o que interessa a quem opera o serviço, desde que declarado.
+> **volte para:** #fundamentos-a-media-mente-a-mediana-aguenta
+:::
+
 ## Olhe uma variável de cada vez
 
 A análise monovariada é a primeira coisa que se faz e a que mais se pula. Antes de cruzar duas colunas, olhe **uma**: que tipo é, quantos valores distintos tem, onde está o centro, quanto ela varia, e o que há nas pontas.
@@ -164,6 +181,38 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 > **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
 :::
 
+:::exercicio {"id":"analise-exploratoria-e8","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+A correlação de Pearson entre duas variáveis é 0,02. O que se pode concluir?
+
+- [ ] Que as duas variáveis são independentes.
+- [x] Que não há relação **linear** entre elas, o que não exclui relação de outra forma.
+- [ ] Que uma delas é constante.
+- [ ] Que a amostra é pequena demais para medir a associação.
+
+> **gabarito:** não há relação linear, o que não exclui outras formas
+> **porque:** A palavra que a fórmula de Pearson esconde é **reta**. Ela resume o quanto duas variáveis andam juntas em linha reta, e uma relação forte e curva pode dar correlação perto de zero. Um U perfeito é o exemplo canônico: cada valor de X determina exatamente um valor de Y, e o coeficiente não vê nada.
+>
+> Concluir independência a partir de 0,02 é o erro mais comum com este número, e ele custa caro na exploração: a variável é descartada da lista de candidatas justamente quando a relação existe e é forte.
+>
+> O gesto que resolve é o mesmo do quarteto de Anscombe: plote antes de decidir. O gráfico determina quais resumos fazem sentido, e nunca o contrário.
+> **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
+:::
+
+:::exercicio {"id":"analise-exploratoria-e9","tipo":"multipla-multi","objetivo":"O3","dificuldade":"media"}
+Uma exploração encontra correlação de 0,71 entre "número de chamados ao suporte" e "cancelamento do contrato". Quais explicações concorrem com "chamados causam cancelamento", segundo esta seção? (marque todas que valem)
+
+- [x] A causa é a inversa: quem já decidiu cancelar abre mais chamados.
+- [x] Há um confundidor que produz as duas coisas, como uma falha de produto no período.
+- [x] É coincidência amostral, se muitos pares de variáveis foram testados.
+- [ ] A correlação é alta demais para ser causal, e valores acima de 0,7 indicam vazamento por definição.
+
+> **gabarito:** causa inversa · confundidor · coincidência amostral
+> **porque:** São três das quatro explicações concorrentes da seção, e a quarta é a hipótese que você queria. O valor da lista não é filosófico: cada explicação leva a uma ação diferente, e agir sobre a errada gasta o orçamento sem mover o indicador. Se a causa for inversa, reduzir chamados não reduz cancelamento — só apaga o aviso.
+>
+> A alternativa errada distorce o quinto caso, que é real e mais restrito. Correlação altíssima **com o alvo** costuma ser vazamento, e a suspeita se investiga olhando quando a coluna foi preenchida. Não existe um limiar acima do qual causalidade fique proibida, e 0,71 entre duas variáveis operacionais é perfeitamente compatível com qualquer das quatro leituras.
+> **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
+:::
+
 > **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha só, `df.groupby("preco")[["temperatura","vendas"]].mean()`, e ela precede qualquer modelo. O desdobramento está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
 
 ## Faltantes, outliers e a fronteira entre explorar e confirmar
@@ -228,6 +277,39 @@ Escreva um parágrafo de análise monovariada dessa variável, respondendo:
 > **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
 :::
 
+:::exercicio {"id":"analise-exploratoria-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Uma analista cruza 40 pares de variáveis, encontra o padrão mais forte, e o reporta com o valor-p calculado sobre os mesmos dados. Qual é a crítica correta?
+
+- [ ] O valor-p está errado porque a amostra é pequena para 40 comparações.
+- [x] O padrão mais forte entre 40 é o extremo do ruído, e confirmá-lo no conjunto que o escolheu não é confirmação nenhuma.
+- [ ] Cruzar 40 pares é exploração excessiva, e o correto seria escolher no máximo cinco hipóteses de antemão.
+- [ ] Nenhuma crítica: se o valor-p ficou abaixo de 0,05, o achado está estabelecido.
+
+> **gabarito:** o padrão mais forte entre 40 é o extremo do ruído
+> **porque:** Escolher o máximo de 40 medições e depois testá-lo nas mesmas medições é o erro estrutural da seção, e ele não se conserta com estatística: qualquer teste aplicado ali já foi contaminado pela escolha, porque a escolha usou a mesma informação.
+>
+> A terceira alternativa é a que mais parece sensata e é justamente o contrário do que o capítulo defende. Explorar quarenta pares é bom, e o produto legítimo da exploração é uma lista de hipóteses ordenada por quanto valeria confirmá-las. O que não se faz é confirmar ali.
+>
+> A correção é barata e precisa ser tomada **antes** de olhar: separe uma parte dos dados e não a toque, explore no resto à vontade, escreva a hipótese e só então vá à parte guardada. É a mesma disciplina do conjunto de teste do capítulo 0.2, aplicada uma etapa antes de existir modelo.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
+
+:::exercicio {"id":"analise-exploratoria-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Numa base de transações de cartão, o modelo a treinar prevê fraude. A regra de 1,5 × IQR acusa 380 transações de valor muito acima do normal, e boa parte delas é fraude confirmada. O que fazer com esses pontos?
+
+- [ ] Remover: são outliers pela regra do boxplot, e outlier distorce o treino.
+- [ ] Remover apenas os que não forem fraude confirmada, para equilibrar as classes.
+- [x] Manter: são o próprio alvo, e o alvo jamais é removido por ser extremo.
+- [ ] Substituir o valor pela mediana, preservando a linha sem a distorção.
+
+> **gabarito:** manter, porque são o próprio alvo
+> **porque:** É a terceira linha da tabela de outliers, e a única cuja instrução é absoluta. Quando o ponto extremo é o fenômeno que você quer prever, removê-lo é apagar o problema e depois medir muito bem o que sobrou.
+>
+> A quarta alternativa merece atenção porque parece um meio-termo cuidadoso: preservar a linha e amansar o valor. Substituir o valor pela mediana destrói exatamente o sinal que distingue a fraude, e ainda por cima deixa a linha na base, o que torna o estrago invisível numa contagem de registros.
+>
+> Isto também mostra por que a regra do boxplot marca candidatos e não decide nada: ela não sabe o que você está prevendo. A mesma transação de R$ 400 mil é ruído num modelo de valor médio de pedido e é o alvo num modelo de fraude.
+> **volte para:** #faltantes-outliers-e-a-fronteira-entre-explorar-e-confirmar
+:::
 
 ## Mão na massa
 
