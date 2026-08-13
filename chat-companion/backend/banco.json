@@ -736,6 +736,118 @@
    "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
   },
   {
+   "id": "ciclo-ciencia-de-dados-e6",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "enunciado": "\"Conjunto de treino e teste, atributos e rótulo definido.\" Qual fase do CRISP-DM entrega esse artefato?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Fase 2, entendimento dos dados."
+    },
+    {
+     "correta": true,
+     "texto": "Fase 3, preparação dos dados."
+    },
+    {
+     "correta": false,
+     "texto": "Fase 4, modelagem."
+    },
+    {
+     "correta": false,
+     "texto": "Fase 5, avaliação."
+    }
+   ],
+   "gabarito": "fase 3, preparação dos dados",
+   "porque": "A pergunta da fase 3 é \"como isto vira uma tabela treinável?\", e a resposta é exatamente esse pacote: as divisões feitas, os atributos construídos e o rótulo definido.\n\nA confusão mais comum é com a fase 2, que **olha** os dados e produz inventário, primeiras estatísticas e uma lista de problemas de qualidade. A fase 2 diz o que existe e se dá para confiar; a 3 transforma. E a 4 já recebe a tabela pronta: um modelo treinado é entrega da modelagem, não da preparação.\n\nO jeito de nunca mais errar isto é ler a coluna \"o que entrega\" da tabela como um contrato: cada fase termina quando o artefato que a próxima consome está pronto, não quando o prazo acaba.",
+   "volte_para": "#fundamentos-as-seis-fases-e-o-que-cada-uma-entrega",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
+  },
+  {
+   "id": "ciclo-ciencia-de-dados-e7",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "enunciado": "Um relatório de projeto lista o que a equipe produziu nas duas primeiras semanas. Quais itens são entrega da **fase 1**, e não de outra fase? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "\"Critério de sucesso: reduzir de 12 para 5 copos o erro médio de preparo diário.\""
+    },
+    {
+     "correta": true,
+     "texto": "\"A dona decide a quantidade às 7h, antes de conhecer o movimento do dia.\""
+    },
+    {
+     "correta": false,
+     "texto": "\"A coluna de temperatura vai de 15 a 103, sem unidade declarada.\""
+    },
+    {
+     "correta": true,
+     "texto": "\"Objetivo: decidir quanta limonada preparar, para não sobrar nem faltar.\""
+    },
+    {
+     "correta": false,
+     "texto": "\"Foram construídas 14 variáveis derivadas do calendário.\""
+    }
+   ],
+   "gabarito": "critério de sucesso · restrição de ação · objetivo de negócio",
+   "porque": "São os três artefatos da fase 1, e a tabela os nomeia nessa ordem: objetivo de negócio, critério de sucesso e restrição de ação. Repare que nenhum deles menciona modelo, coluna ou algoritmo — a fase 1 fala a língua de quem decide.\n\nA faixa da temperatura é achado da fase 2: é o inventário das fontes e o problema de qualidade que ele revela. As 14 variáveis derivadas são fase 3, construção de atributos.\n\nA restrição de ação é a que mais escapa, porque não parece um \"entregável\". Ela é a mais decisiva das três: \"decide às 7h\" determina sozinha quais colunas podem entrar no modelo, e é o que separa uma previsão útil de uma profecia que depende de ver o futuro.",
+   "volte_para": "#fundamentos-as-seis-fases-e-o-que-cada-uma-entrega",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
+  },
+  {
+   "id": "ciclo-ciencia-de-dados-e8",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "enunciado": "Um colega objeta: \"não dá para conversar com o negócio antes de olhar os dados, porque não sabemos o que é possível prometer\". Qual é a melhor avaliação dessa objeção?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Está errada: a fase 1 é primeira, e a ordem do CRISP-DM não admite exceção."
+    },
+    {
+     "correta": false,
+     "texto": "Está certa: por isso o ciclo deve começar pela fase 2 sempre que a equipe não conhece o domínio."
+    },
+    {
+     "correta": true,
+     "texto": "Tem uma parte certa, e ela é atendida por uma volta rápida da fase 2 para a fase 1 — não por inverter a ordem de partida."
+    },
+    {
+     "correta": false,
+     "texto": "É irrelevante: viabilidade técnica se descobre na fase 4, não na 2."
+    }
+   ],
+   "gabarito": "tem uma parte certa, atendida por uma volta e não por inverter a partida",
+   "porque": "A objeção acerta o fato e erra a conclusão. É verdade que prometer sem saber o que existe produz compromisso irreal, e é por isso que o desenho do CRISP-DM tem uma seta explícita da fase 2 de volta para a 1.\n\nMas a seta de volta pressupõe que houve ida. Começar pela fase 2 sem nenhuma pergunta de negócio não é humildade técnica: é deixar o alvo ser escolhido pela tabela mais acessível, que é o mecanismo exato do fracasso do *churn* na abertura do capítulo. A conversa inicial não precisa produzir uma promessa, e sim a pergunta — qual decisão, de quem, com quanta antecedência. Essa pergunta é o que torna a olhada nos dados dirigida em vez de exploratória.\n\nA primeira alternativa erra pelo lado oposto, tratando a ordem como dogma. O ciclo é um ciclo justamente porque a informação chega fora de ordem; o que não se negocia é qual pergunta comanda, não em que semana cada arquivo é aberto.",
+   "volte_para": "#as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
+  },
+  {
    "id": "ciclo-ciencia-de-dados-e4",
    "capitulo": 3,
    "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
@@ -811,6 +923,82 @@
    }
   },
   {
+   "id": "ciclo-ciencia-de-dados-e9",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "enunciado": "Qual das quatro voltas do ciclo é a mais frequente em um projeto, segundo esta seção?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Fase 2 de volta à 1, quando os dados não permitem responder à pergunta."
+    },
+    {
+     "correta": true,
+     "texto": "Fase 4 de volta à 3, porque cada erro do modelo devolve trabalho para a preparação."
+    },
+    {
+     "correta": false,
+     "texto": "Fase 5 de volta à 1, quando o modelo funciona e não serve."
+    },
+    {
+     "correta": false,
+     "texto": "Fase 6 de volta a tudo, por causa do *drift*."
+    }
+   ],
+   "gabarito": "fase 4 de volta à 3",
+   "porque": "É o laço que roda dezenas de vezes dentro de um mesmo projeto, enquanto os outros três costumam disparar uma ou duas vezes cada. Todo erro que o modelo comete vira trabalho de preparação: um atributo novo, um vazamento a tapar, um recorte de amostra a corrigir.\n\nA consequência prática é a que interessa, e ela contradiz a intuição de quem planeja o cronograma: a fase 3 é a mais revisitada do ciclo, não a 4. Quem reserva tempo para \"modelar\" e trata a preparação como etapa que acontece uma vez está orçando o projeto errado.\n\nAs outras três voltas são reais e mais caras por evento. A da fase 6 é a que nunca termina, porque o mundo continua mudando depois da entrega, e é ela que faz do CRISP-DM um círculo em vez de uma reta.",
+   "volte_para": "#as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
+  },
+  {
+   "id": "ciclo-ciencia-de-dados-e10",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "enunciado": "Uma gerente propõe: \"vamos fechar cada fase com uma aprovação formal e só então liberar a seguinte, para o projeto não ficar rodando em círculo\". Quais consequências previsíveis essa proposta tem, à luz desta seção? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O achado da fase 2 que invalida a pergunta da fase 1 chegará depois de a fase 1 estar assinada."
+    },
+    {
+     "correta": true,
+     "texto": "A fase 3, que é a mais revisitada, passará a exigir reabertura formal a cada erro do modelo."
+    },
+    {
+     "correta": false,
+     "texto": "O projeto terminará mais rápido, porque não haverá retrabalho."
+    },
+    {
+     "correta": true,
+     "texto": "A implantação será tratada como fim do projeto, e não como reabertura do ciclo."
+    },
+    {
+     "correta": false,
+     "texto": "A qualidade do modelo melhorará, porque cada fase será verificada antes da seguinte."
+    }
+   ],
+   "gabarito": "o achado da fase 2 chega tarde · a fase 3 exige reabertura a cada erro · a implantação vira fim em vez de reabertura",
+   "porque": "A proposta é uma cascata com outro nome, e as três corretas são exatamente as setas de volta que ela proíbe. Nenhuma delas é retrabalho evitável: são descobertas que só podem ser feitas depois, porque dependem de informação que a fase anterior não tinha.\n\nAs duas erradas descrevem o que a cascata promete. \"Não haverá retrabalho\" confunde impedir a volta com tornar a volta desnecessária: o achado continua acontecendo, só chega quando custa mais caro. E a aprovação por fase verifica a **entrega**, não a adequação — o *churn* da abertura passaria em todos os portões, porque cada fase entregou corretamente o artefato que a seguinte pedia, sobre um alvo errado.\n\nO custo específico está na última linha da seção: você descobre na semana seis o que custaria uma reunião na semana um. A proposta da gerente é justamente o que garante isso.",
+   "volte_para": "#as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
+  },
+  {
    "id": "ciclo-ciencia-de-dados-e3",
    "capitulo": 3,
    "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
@@ -836,6 +1024,82 @@
     "propõe uma solução concreta, como trazer a área de retenção para a fase 1 ou o cientista de dados assumir formalmente a conversa, em vez de só apontar o problema",
     "justifica com a consequência: sem dono na fase 1, o time otimiza um alvo que ninguém pediu"
    ]
+  },
+  {
+   "id": "ciclo-ciencia-de-dados-e11",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "enunciado": "De quem é a entrega \"as fontes confiáveis e o pipeline que as mantém\"?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Do cientista de dados."
+    },
+    {
+     "correta": true,
+     "texto": "Do engenheiro de dados."
+    },
+    {
+     "correta": false,
+     "texto": "Do engenheiro de ML."
+    },
+    {
+     "correta": false,
+     "texto": "Do analista ou dono do problema."
+    }
+   ],
+   "gabarito": "do engenheiro de dados",
+   "porque": "É a linha direta da tabela: engenheiro de dados vive nas fases 2 e 3, e entrega fonte confiável mais o pipeline que a mantém funcionando.\n\nA confusão frequente é com o engenheiro de ML, e a distinção vale guardar: o engenheiro de dados mantém o **dado** chegando, o engenheiro de ML mantém o **modelo** servindo. Os dois operam pipelines, em pontas opostas do ciclo.\n\nO cientista de dados aparece na fase 3 também, construindo atributo em cima da fonte que recebeu, e é por isso que a 3 é onde os papéis se encontram — e onde mais se perde trabalho quando ninguém combinou quem faz o quê.",
+   "volte_para": "#quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
+  },
+  {
+   "id": "ciclo-ciencia-de-dados-e12",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "enunciado": "Numa retrospectiva, uma equipe relata os fatos abaixo. Quais deles são sintoma de **fase sem dono declarado**, no sentido desta seção? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "\"O alvo foi definido pelo que a tabela de compras permitia calcular.\""
+    },
+    {
+     "correta": true,
+     "texto": "\"O modelo está em produção há cinco meses e ninguém sabe dizer se ainda está bom.\""
+    },
+    {
+     "correta": false,
+     "texto": "\"O cientista de dados e o engenheiro de dados discutiram três vezes sobre a construção de um atributo.\""
+    },
+    {
+     "correta": true,
+     "texto": "\"Ninguém escreveu o critério de sucesso antes da primeira consulta ao banco.\""
+    },
+    {
+     "correta": false,
+     "texto": "\"A equipe tem três pessoas, e cada uma ocupa mais de um papel.\""
+    }
+   ],
+   "gabarito": "alvo escolhido pela tabela · produção sem quem avalie · critério não escrito antes",
+   "porque": "As três corretas apontam para duas fases órfãs. Alvo escolhido pela tabela e critério não escrito são a fase 1 sem dono, que é o diagnóstico da seção para times só de gente técnica. Produção sem ninguém que responda \"ainda está bom?\" é a fase 6 sem dono, e sem ela o ciclo nunca reabre.\n\nAs duas erradas são o ponto fino. Discutir três vezes a construção de um atributo é a fase 3 funcionando: ela é compartilhada por dois papéis, e o encontro deles é o desenho, não a falha. E acumular papéis num time de três é normal e funciona — o que não funciona é uma fase sem responsável declarado, que é coisa diferente de uma pessoa com dois chapéus.",
+   "volte_para": "#quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "i-1-ciclo-ciencia-de-dados",
+   "titulo_capitulo": "I.1 — O Ciclo da Ciência de Dados"
   },
   {
    "id": "coleta-integracao-e1",

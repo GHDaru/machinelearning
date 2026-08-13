@@ -81,6 +81,58 @@ Uma seguradora pede um modelo para "reduzir os sinistros de automóvel". O proje
 > **volte para:** #o-problema-um-modelo-excelente-para-a-pergunta-errada
 :::
 
+:::exercicio {"id":"ciclo-ciencia-de-dados-e6","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+"Conjunto de treino e teste, atributos e rótulo definido." Qual fase do CRISP-DM entrega esse artefato?
+
+- [ ] Fase 2, entendimento dos dados.
+- [x] Fase 3, preparação dos dados.
+- [ ] Fase 4, modelagem.
+- [ ] Fase 5, avaliação.
+
+> **gabarito:** fase 3, preparação dos dados
+> **porque:** A pergunta da fase 3 é "como isto vira uma tabela treinável?", e a resposta é exatamente esse pacote: as divisões feitas, os atributos construídos e o rótulo definido.
+>
+> A confusão mais comum é com a fase 2, que **olha** os dados e produz inventário, primeiras estatísticas e uma lista de problemas de qualidade. A fase 2 diz o que existe e se dá para confiar; a 3 transforma. E a 4 já recebe a tabela pronta: um modelo treinado é entrega da modelagem, não da preparação.
+>
+> O jeito de nunca mais errar isto é ler a coluna "o que entrega" da tabela como um contrato: cada fase termina quando o artefato que a próxima consome está pronto, não quando o prazo acaba.
+> **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e7","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
+Um relatório de projeto lista o que a equipe produziu nas duas primeiras semanas. Quais itens são entrega da **fase 1**, e não de outra fase? (marque todos que valem)
+
+- [x] "Critério de sucesso: reduzir de 12 para 5 copos o erro médio de preparo diário."
+- [x] "A dona decide a quantidade às 7h, antes de conhecer o movimento do dia."
+- [ ] "A coluna de temperatura vai de 15 a 103, sem unidade declarada."
+- [x] "Objetivo: decidir quanta limonada preparar, para não sobrar nem faltar."
+- [ ] "Foram construídas 14 variáveis derivadas do calendário."
+
+> **gabarito:** critério de sucesso · restrição de ação · objetivo de negócio
+> **porque:** São os três artefatos da fase 1, e a tabela os nomeia nessa ordem: objetivo de negócio, critério de sucesso e restrição de ação. Repare que nenhum deles menciona modelo, coluna ou algoritmo — a fase 1 fala a língua de quem decide.
+>
+> A faixa da temperatura é achado da fase 2: é o inventário das fontes e o problema de qualidade que ele revela. As 14 variáveis derivadas são fase 3, construção de atributos.
+>
+> A restrição de ação é a que mais escapa, porque não parece um "entregável". Ela é a mais decisiva das três: "decide às 7h" determina sozinha quais colunas podem entrar no modelo, e é o que separa uma previsão útil de uma profecia que depende de ver o futuro.
+> **volte para:** #fundamentos-as-seis-fases-e-o-que-cada-uma-entrega
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e8","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Um colega objeta: "não dá para conversar com o negócio antes de olhar os dados, porque não sabemos o que é possível prometer". Qual é a melhor avaliação dessa objeção?
+
+- [ ] Está errada: a fase 1 é primeira, e a ordem do CRISP-DM não admite exceção.
+- [ ] Está certa: por isso o ciclo deve começar pela fase 2 sempre que a equipe não conhece o domínio.
+- [x] Tem uma parte certa, e ela é atendida por uma volta rápida da fase 2 para a fase 1 — não por inverter a ordem de partida.
+- [ ] É irrelevante: viabilidade técnica se descobre na fase 4, não na 2.
+
+> **gabarito:** tem uma parte certa, atendida por uma volta e não por inverter a partida
+> **porque:** A objeção acerta o fato e erra a conclusão. É verdade que prometer sem saber o que existe produz compromisso irreal, e é por isso que o desenho do CRISP-DM tem uma seta explícita da fase 2 de volta para a 1.
+>
+> Mas a seta de volta pressupõe que houve ida. Começar pela fase 2 sem nenhuma pergunta de negócio não é humildade técnica: é deixar o alvo ser escolhido pela tabela mais acessível, que é o mecanismo exato do fracasso do *churn* na abertura do capítulo. A conversa inicial não precisa produzir uma promessa, e sim a pergunta — qual decisão, de quem, com quanta antecedência. Essa pergunta é o que torna a olhada nos dados dirigida em vez de exploratória.
+>
+> A primeira alternativa erra pelo lado oposto, tratando a ordem como dogma. O ciclo é um ciclo justamente porque a informação chega fora de ordem; o que não se negocia é qual pergunta comanda, não em que semana cada arquivo é aberto.
+> **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
+:::
+
 :::exercicio {"id":"ciclo-ciencia-de-dados-e4","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
 **Fase 1 — Entendimento do negócio.** *Que decisão vai mudar, de quem, e quando?*
 
@@ -162,6 +214,41 @@ Para qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.
 > **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
 :::
 
+:::exercicio {"id":"ciclo-ciencia-de-dados-e9","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Qual das quatro voltas do ciclo é a mais frequente em um projeto, segundo esta seção?
+
+- [ ] Fase 2 de volta à 1, quando os dados não permitem responder à pergunta.
+- [x] Fase 4 de volta à 3, porque cada erro do modelo devolve trabalho para a preparação.
+- [ ] Fase 5 de volta à 1, quando o modelo funciona e não serve.
+- [ ] Fase 6 de volta a tudo, por causa do *drift*.
+
+> **gabarito:** fase 4 de volta à 3
+> **porque:** É o laço que roda dezenas de vezes dentro de um mesmo projeto, enquanto os outros três costumam disparar uma ou duas vezes cada. Todo erro que o modelo comete vira trabalho de preparação: um atributo novo, um vazamento a tapar, um recorte de amostra a corrigir.
+>
+> A consequência prática é a que interessa, e ela contradiz a intuição de quem planeja o cronograma: a fase 3 é a mais revisitada do ciclo, não a 4. Quem reserva tempo para "modelar" e trata a preparação como etapa que acontece uma vez está orçando o projeto errado.
+>
+> As outras três voltas são reais e mais caras por evento. A da fase 6 é a que nunca termina, porque o mundo continua mudando depois da entrega, e é ela que faz do CRISP-DM um círculo em vez de uma reta.
+> **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e10","tipo":"multipla-multi","objetivo":"O3","dificuldade":"dificil"}
+Uma gerente propõe: "vamos fechar cada fase com uma aprovação formal e só então liberar a seguinte, para o projeto não ficar rodando em círculo". Quais consequências previsíveis essa proposta tem, à luz desta seção? (marque todas que valem)
+
+- [x] O achado da fase 2 que invalida a pergunta da fase 1 chegará depois de a fase 1 estar assinada.
+- [x] A fase 3, que é a mais revisitada, passará a exigir reabertura formal a cada erro do modelo.
+- [ ] O projeto terminará mais rápido, porque não haverá retrabalho.
+- [x] A implantação será tratada como fim do projeto, e não como reabertura do ciclo.
+- [ ] A qualidade do modelo melhorará, porque cada fase será verificada antes da seguinte.
+
+> **gabarito:** o achado da fase 2 chega tarde · a fase 3 exige reabertura a cada erro · a implantação vira fim em vez de reabertura
+> **porque:** A proposta é uma cascata com outro nome, e as três corretas são exatamente as setas de volta que ela proíbe. Nenhuma delas é retrabalho evitável: são descobertas que só podem ser feitas depois, porque dependem de informação que a fase anterior não tinha.
+>
+> As duas erradas descrevem o que a cascata promete. "Não haverá retrabalho" confunde impedir a volta com tornar a volta desnecessária: o achado continua acontecendo, só chega quando custa mais caro. E a aprovação por fase verifica a **entrega**, não a adequação — o *churn* da abertura passaria em todos os portões, porque cada fase entregou corretamente o artefato que a seguinte pedia, sobre um alvo errado.
+>
+> O custo específico está na última linha da seção: você descobre na semana seis o que custaria uma reunião na semana um. A proposta da gerente é justamente o que garante isso.
+> **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
+:::
+
 ## Quem faz o quê: quatro papéis sobre o mesmo ciclo
 
 Os cargos que o mercado usa não são especializações por técnica — são **recortes do ciclo**. Ver assim explica por que um time incompleto sempre falha na mesma fase.
@@ -191,6 +278,39 @@ Distribua as seis fases entre os três, aponte a fase que corre risco de ficar *
 > **porque:** O recorte por fase é direto: dados chegam pelo engenheiro de dados (2 e 3), o modelo e sua leitura são do cientista de dados (4 e 5), produção e monitoramento são do engenheiro de ML (6). A fase 3 é compartilhada, e vale dizer isso na resposta.
 >
 > A parte que separa uma boa resposta de uma lista é a **fase 1**. Nenhum dos três foi contratado para ela, e é justamente a fase cuja ausência produziu o fracasso original: o rótulo de 90 dias saiu do que a tabela permitia, não do que a retenção podia acionar. Uma resposta que só distribui as seis fases entre os três está reproduzindo o erro do capítulo com organograma novo. Resolver não exige contratar ninguém — exige declarar um responsável por conversar com quem age, e um critério de sucesso escrito antes da primeira consulta ao banco.
+> **volte para:** #quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+De quem é a entrega "as fontes confiáveis e o pipeline que as mantém"?
+
+- [ ] Do cientista de dados.
+- [x] Do engenheiro de dados.
+- [ ] Do engenheiro de ML.
+- [ ] Do analista ou dono do problema.
+
+> **gabarito:** do engenheiro de dados
+> **porque:** É a linha direta da tabela: engenheiro de dados vive nas fases 2 e 3, e entrega fonte confiável mais o pipeline que a mantém funcionando.
+>
+> A confusão frequente é com o engenheiro de ML, e a distinção vale guardar: o engenheiro de dados mantém o **dado** chegando, o engenheiro de ML mantém o **modelo** servindo. Os dois operam pipelines, em pontas opostas do ciclo.
+>
+> O cientista de dados aparece na fase 3 também, construindo atributo em cima da fonte que recebeu, e é por isso que a 3 é onde os papéis se encontram — e onde mais se perde trabalho quando ninguém combinou quem faz o quê.
+> **volte para:** #quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo
+:::
+
+:::exercicio {"id":"ciclo-ciencia-de-dados-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Numa retrospectiva, uma equipe relata os fatos abaixo. Quais deles são sintoma de **fase sem dono declarado**, no sentido desta seção? (marque todos que valem)
+
+- [x] "O alvo foi definido pelo que a tabela de compras permitia calcular."
+- [x] "O modelo está em produção há cinco meses e ninguém sabe dizer se ainda está bom."
+- [ ] "O cientista de dados e o engenheiro de dados discutiram três vezes sobre a construção de um atributo."
+- [x] "Ninguém escreveu o critério de sucesso antes da primeira consulta ao banco."
+- [ ] "A equipe tem três pessoas, e cada uma ocupa mais de um papel."
+
+> **gabarito:** alvo escolhido pela tabela · produção sem quem avalie · critério não escrito antes
+> **porque:** As três corretas apontam para duas fases órfãs. Alvo escolhido pela tabela e critério não escrito são a fase 1 sem dono, que é o diagnóstico da seção para times só de gente técnica. Produção sem ninguém que responda "ainda está bom?" é a fase 6 sem dono, e sem ela o ciclo nunca reabre.
+>
+> As duas erradas são o ponto fino. Discutir três vezes a construção de um atributo é a fase 3 funcionando: ela é compartilhada por dois papéis, e o encontro deles é o desenho, não a falha. E acumular papéis num time de três é normal e funciona — o que não funciona é uma fase sem responsável declarado, que é coisa diferente de uma pessoa com dois chapéus.
 > **volte para:** #quem-faz-o-que-quatro-papeis-sobre-o-mesmo-ciclo
 :::
 

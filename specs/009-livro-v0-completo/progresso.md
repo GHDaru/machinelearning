@@ -27,7 +27,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 |---|---|---|---|---|---|---|---|---|
 | 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | — | — |
 | 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 5 | 12 | **ok** | — | — | — |
+| 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 4 | I.2 — Coleta e Integração | 4 | 4 | 12 | **ok** | — | — | — |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 5 | 12 | **ok** | — | — | — |
 | 6 | I.4 — Análise Exploratória | 4 | 7 | 12 | **ok** | — | — | — |
@@ -55,7 +55,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 135 exercícios hoje · **342 no alvo**.
+**Totais:** 114 objetivos · 142 exercícios hoje · **342 no alvo**.
 
 ## Medição de partida, conferida a mão
 
