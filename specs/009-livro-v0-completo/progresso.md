@@ -25,7 +25,8 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > | Abertura | `prova-abertura.md` | 6 | **ok** |
 > | I | `prova-parte-i.md` | 10 | **ok** |
 > | II | `prova-parte-ii.md` | 12 | **ok** |
-> | III · IV · V | — | — | esperam a coluna `exs` da parte |
+> | III | `prova-parte-iii.md` | 10 | **ok** |
+> | IV · V | — | — | esperam a coluna `exs` da parte |
 > | Final cumulativa | — | — | por último |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
@@ -61,12 +62,12 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 14 | II.6 — Análise Multidimensional | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 15 | II.7 — Séries Temporais | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 16 | II.8 — Do Modelo à Decisão | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
-| 17 | III.1 — O Neurônio Artificial | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 22 | III.6 — Modelos de Fundação | 4 | 4 | 12 | **ok** | — | — | — |
+| 17 | III.1 — O Neurônio Artificial | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 23 | IV.1 — Não Supervisionado | 4 | 4 | 12 | **ok** | — | — | — |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 4 | 12 | **ok** | — | — | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 4 | 12 | **ok** | — | — | — |
@@ -75,7 +76,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 307 exercícios hoje (279 de capítulo + 28 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 325 exercícios hoje (287 de capítulo + 38 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

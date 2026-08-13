@@ -87,6 +87,40 @@ Uma equipe indexou 30 mil chamados de suporte com **embeddings estáticos** (um 
 > **volte para:** #fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido
 :::
 
+:::exercicio {"id":"modelos-de-fundacao-e5","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Qual é a diferença entre o que a busca por termos e a busca por embedding encontram?
+
+- [ ] A busca por termos é mais rápida; a por embedding é mais precisa.
+- [x] A por termos acha documentos que repetem a palavra; a por embedding acha documentos que falam da mesma coisa com outras palavras.
+- [ ] A por termos serve para texto curto; a por embedding, para texto longo.
+- [ ] As duas encontram o mesmo conjunto, e a diferença está só na ordenação.
+
+> **gabarito:** repetir a palavra contra falar da mesma coisa
+> **porque:** É a distinção que justifica a busca semântica existir. Um chamado que diz "correia partida" não repete nenhuma palavra da consulta "manga quebrada na esteira", e é exatamente o documento que interessa.
+>
+> A primeira alternativa afirma precisão como propriedade fixa, e o capítulo pede o contrário: o ganho da busca semântica é algo que se **mede** contra a linha de base por termos, e não que se presuma.
+>
+> Vale reter que as duas erram de formas diferentes. A por termos perde o sinônimo; a por embedding pode trazer o que só é vagamente parecido. Comparar as duas é o único jeito de saber qual erro custa mais no seu caso.
+> **volte para:** #fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e6","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Por que "auto-supervisionado" resolve o gargalo do rótulo?
+
+- [ ] Porque dispensa a noção de resposta certa, treinando sem função de perda.
+- [x] Porque o rótulo é extraído do próprio dado: esconde-se uma palavra e pede-se a palavra de volta, então existe resposta certa sem ninguém ter anotado.
+- [ ] Porque usa rótulos gerados por outro modelo já treinado.
+- [ ] Porque troca classificação por agrupamento, que não precisa de rótulo.
+
+> **gabarito:** o rótulo é extraído do próprio dado
+> **porque:** É supervisão sem anotador. Há resposta certa para comparar em cada exemplo, e ela não custa hora de especialista: já estava no texto, e foi escondida de propósito.
+>
+> A primeira alternativa é a confusão mais comum com o termo. Existe função de perda, existe resposta certa, existe gradiente. O que não existe é anotação humana.
+>
+> E é isso que permite treinar em corpus da ordem da internet, onde rotular à mão seria impensável. A escala do pré-treino não vem de mais anotadores, vem de dispensá-los.
+> **volte para:** #fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido
+:::
+
 ## Adaptar: as três portas, e o que cada uma custa
 
 Com o modelo pré-treinado na mão, há três formas de chegar à sua tarefa — e elas diferem sobretudo em **dado necessário** e **custo**.
@@ -110,6 +144,40 @@ Por qual fator a quantidade de rótulos necessária foi dividida? Responda com u
 > O que interessa não é a divisão, é o que ela reorganiza no seu projeto. Rótulo é o insumo caro: ele custa hora de especialista, não hora de máquina. Um fator de 100 significa que a diferença entre "inviável" e "uma semana de anotação" pode ser apenas **escolher transferir em vez de treinar do zero**. É por isso que a primeira pergunta de um projeto com pouco dado rotulado não é qual algoritmo usar — é o que já foi aprendido que você pode não reaprender.
 >
 > Cuidado com o exagero simétrico: o fator vale para as tarefas e o corpus daquele artigo, não é uma constante da natureza. Meça o seu.
+> **volte para:** #adaptar-as-tres-portas-e-o-que-cada-uma-custa
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e7","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Qual é a regra de bolso do capítulo para escolher entre as três portas de adaptação?
+
+- [ ] Fine-tuning primeiro, porque é o mais poderoso, e só recuar se o custo inviabilizar.
+- [x] Prompt primeiro, depois adaptação eficiente, e só então fine-tuning completo — exigindo a cada degrau a evidência de que o anterior não bastava.
+- [ ] Adaptação eficiente sempre, porque tem o melhor equilíbrio entre custo e resultado.
+- [ ] A escolha depende só do tamanho do modelo, não da tarefa.
+
+> **gabarito:** prompt, depois adaptação eficiente, depois fine-tuning
+> **porque:** É a ordem inversa do custo, e o que a torna disciplina em vez de preferência é a segunda metade: **exigir a evidência** de que o degrau anterior não bastava. Sem isso, a regra vira gosto.
+>
+> A primeira alternativa inverte a ordem e é comum em equipes que já têm máquina disponível. Ela paga o custo máximo antes de saber se ele era necessário, e produz uma cópia inteira do modelo por tarefa.
+>
+> A terceira escolhe um degrau fixo, o que também dispensa a evidência. Adaptação eficiente é ótima quando o prompt não deu conta — e é desperdício quando ele daria.
+> **volte para:** #adaptar-as-tres-portas-e-o-que-cada-uma-custa
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e8","tipo":"multipla-multi","objetivo":"O1","dificuldade":"dificil"}
+Uma equipe precisa de saída em formato rígido e consistente para 200 mil chamadas por dia. Testou prompt e a mesma instrução reescrita produz resultados diferentes. Quais afirmações são corretas? (marque todas que valem)
+
+- [x] Instabilidade a reescrita é uma característica conhecida do prompting, não um erro da equipe.
+- [x] Adaptação eficiente produz um artefato pequeno por tarefa, em vez de uma cópia do modelo.
+- [x] Prompting tem custo de treino zero e custo por chamada não-zero, o que pesa em 200 mil chamadas diárias.
+- [ ] Fine-tuning completo é a única porta capaz de fixar formato de saída.
+
+> **gabarito:** instabilidade conhecida · artefato pequeno · custo por chamada
+> **porque:** As três corretas encaminham a decisão sem precisar do degrau mais caro. O capítulo é explícito: prompting é a porta certa para começar, e a errada para prometer consistência sem medir — que é exatamente o que a equipe descobriu.
+>
+> O volume muda a conta. Custo de treino zero é ótimo com cem chamadas por dia e irrelevante com duzentas mil, quando o custo por chamada domina.
+>
+> A alternativa errada transforma "mais poderoso" em "único capaz". Adaptação eficiente fixa formato na maioria dos casos, com uma fração do custo, e é o degrau que a evidência disponível já justifica.
 > **volte para:** #adaptar-as-tres-portas-e-o-que-cada-uma-custa
 :::
 
@@ -143,6 +211,74 @@ A liderança técnica propôs "fazer fine-tuning do modelo nas normas". Julgue a
 > A resposta forte separa os papéis: **recuperação para o fato, adaptação (ou simplesmente prompt) para o formato**. E ela mede as duas metades separadamente — porque um sistema que responde mal pode estar recuperando o trecho errado ou raciocinando mal sobre o trecho certo, e essas duas falhas se consertam em lugares opostos. Sem essa separação, a equipe vai passar meses ajustando prompt para consertar um problema de índice.
 >
 > Modo de falha que quase ninguém escreve na proposta e todo mundo encontra em produção: **a norma revogada continua no índice**. O recuperador a traz, o modelo a cita, a auditoria acha. A política de expurgo do índice é parte do sistema, não tarefa de manutenção.
+> **volte para:** #conhecimento-nos-pesos-e-conhecimento-recuperavel
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Por que o capítulo insiste que RAG é decisão de arquitetura, e não técnica de prompt?
+
+- [ ] Porque o prompt de RAG é longo demais para caber num campo de texto.
+- [x] Porque adotá-lo significa manter um índice, uma política de atualização, um recuperador que pode errar e uma etapa a mais na latência.
+- [ ] Porque RAG exige treinar o modelo de novo com os documentos recuperados.
+- [ ] Porque o termo "arquitetura" é o usado no artigo original.
+
+> **gabarito:** índice, política de atualização, recuperador falível e latência
+> **porque:** Nada disso cabe num campo de texto. Cada item é um componente com dono, custo de manutenção e modo de falha próprio, e é isso que torna a adoção uma decisão de sistema.
+>
+> A terceira alternativa confunde as duas memórias que o capítulo separa. RAG **não** treina de novo: a memória paramétrica fica como está, e a não-paramétrica é consultada na hora da pergunta.
+>
+> A consequência prática é onde o erro aparece. Quem trata RAG como prompt não planeja quem atualiza o índice nem o que acontece quando o recuperador traz o documento errado, e descobre os dois em produção.
+> **volte para:** #conhecimento-nos-pesos-e-conhecimento-recuperavel
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e10","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Por que a alucinação não é um defeito de fabricação do modelo?
+
+- [ ] Porque ela só acontece quando o prompt está mal escrito.
+- [x] Porque o modelo foi treinado para continuar texto de forma plausível, e uma citação inventada com autor, ano e página é exatamente o texto que viria a seguir.
+- [ ] Porque ela desaparece completamente com recuperação.
+- [ ] Porque é um erro de amostragem que uma temperatura menor elimina.
+
+> **gabarito:** o objetivo de treino premia continuação plausível, não verdade
+> **porque:** Do ponto de vista do que foi otimizado, a citação inventada é um **sucesso**. Não houve falha: houve o objetivo sendo cumprido, e o objetivo não era dizer a verdade.
+>
+> Ver assim muda o que se procura como remédio. Não adianta pedir ao modelo que "não invente"; o que muda o jogo é trocar "lembre-se do fato" por "leia este trecho e responda a partir dele".
+>
+> A terceira alternativa é a promessa exagerada que o capítulo desmonta na mesma frase: recuperação ataca a raiz certa e **não elimina** o problema. Se o recuperador trouxer o documento errado, o modelo responderá com convicção idêntica.
+> **volte para:** #conhecimento-nos-pesos-e-conhecimento-recuperavel
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"facil"}
+Quais sinais, sozinhos, já indicam recuperação em vez de fine-tuning? (marque todos que valem)
+
+- [x] O conhecimento muda com frequência.
+- [x] A resposta precisa citar a fonte, porque alguém vai auditar.
+- [x] O volume de conhecimento é grande e retreinar a cada mudança seria proibitivo.
+- [ ] A equipe quer que o modelo responda num tom mais formal.
+
+> **gabarito:** conhecimento que muda · exigência de citar fonte · volume grande
+> **porque:** Os três são os sinais da seção, e qualquer um deles já basta. Fine-tuning congela o que ensinou, então conhecimento que muda fica desatualizado entre treinos, e conhecimento nos pesos não devolve procedência.
+>
+> A alternativa errada descreve exatamente o que fine-tuning faz bem. A linha que organiza a decisão é curta: **fine-tuning ensina comportamento — formato, tom, um jeito de responder. Recuperação fornece fato.**
+>
+> Confundir os dois é o erro mais caro do capítulo: quem faz fine-tuning para ensinar a política nova paga o treino e ainda fica com a política de ontem congelada nos pesos.
+> **volte para:** #conhecimento-nos-pesos-e-conhecimento-recuperavel
+:::
+
+:::exercicio {"id":"modelos-de-fundacao-e12","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Um sistema com recuperação responde mal. Por que medir as duas etapas separadamente muda o que a equipe faz?
+
+- [ ] Porque separar as métricas melhora o desempenho geral do sistema.
+- [x] Porque a falha pode estar no recuperador ou no raciocínio sobre o trecho certo, e essas duas se consertam em lugares opostos.
+- [ ] Porque o recuperador não tem métrica própria, e por isso precisa ser avaliado junto.
+- [ ] Porque a auditoria exige duas métricas separadas no relatório.
+
+> **gabarito:** as duas falhas se consertam em lugares opostos
+> **porque:** Uma métrica única de "respondeu bem" não distingue trazer o trecho errado de raciocinar mal sobre o trecho certo. As perguntas são duas: o trecho certo apareceu entre os recuperados, e a resposta é sustentada pelo trecho citado.
+>
+> A consequência de não separar é concreta e cara: sem essa separação, a equipe passa meses ajustando prompt para consertar um problema de índice.
+>
+> Repare que é o mesmo princípio do [capítulo II.8](ii-8-do-modelo-a-decisao.md), onde o modelo que ordena e a decisão que corta são medidos separadamente. Sistema com duas etapas pede duas medições.
 > **volte para:** #conhecimento-nos-pesos-e-conhecimento-recuperavel
 :::
 

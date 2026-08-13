@@ -226,6 +226,11 @@
           "arquivo": "livro/provas/prova-parte-ii.md",
           "titulo": "Prova da Parte II — Análise Preditiva",
           "teaser": "Doze itens cruzados sobre os oito capítulos da Parte II."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-iii.md",
+          "titulo": "Prova da Parte III — Redes Neurais e Deep Learning",
+          "teaser": "Dez itens cruzados sobre os seis capítulos da Parte III."
         }
       ]
     },

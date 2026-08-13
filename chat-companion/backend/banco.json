@@ -8557,6 +8557,80 @@
    "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
   },
   {
+   "id": "modelos-de-fundacao-e5",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é a diferença entre o que a busca por termos e a busca por embedding encontram?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A busca por termos é mais rápida; a por embedding é mais precisa."
+    },
+    {
+     "correta": true,
+     "texto": "A por termos acha documentos que repetem a palavra; a por embedding acha documentos que falam da mesma coisa com outras palavras."
+    },
+    {
+     "correta": false,
+     "texto": "A por termos serve para texto curto; a por embedding, para texto longo."
+    },
+    {
+     "correta": false,
+     "texto": "As duas encontram o mesmo conjunto, e a diferença está só na ordenação."
+    }
+   ],
+   "gabarito": "repetir a palavra contra falar da mesma coisa",
+   "porque": "É a distinção que justifica a busca semântica existir. Um chamado que diz \"correia partida\" não repete nenhuma palavra da consulta \"manga quebrada na esteira\", e é exatamente o documento que interessa.\n\nA primeira alternativa afirma precisão como propriedade fixa, e o capítulo pede o contrário: o ganho da busca semântica é algo que se **mede** contra a linha de base por termos, e não que se presuma.\n\nVale reter que as duas erram de formas diferentes. A por termos perde o sinônimo; a por embedding pode trazer o que só é vagamente parecido. Comparar as duas é o único jeito de saber qual erro custa mais no seu caso.",
+   "volte_para": "#fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
+  },
+  {
+   "id": "modelos-de-fundacao-e6",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que \"auto-supervisionado\" resolve o gargalo do rótulo?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque dispensa a noção de resposta certa, treinando sem função de perda."
+    },
+    {
+     "correta": true,
+     "texto": "Porque o rótulo é extraído do próprio dado: esconde-se uma palavra e pede-se a palavra de volta, então existe resposta certa sem ninguém ter anotado."
+    },
+    {
+     "correta": false,
+     "texto": "Porque usa rótulos gerados por outro modelo já treinado."
+    },
+    {
+     "correta": false,
+     "texto": "Porque troca classificação por agrupamento, que não precisa de rótulo."
+    }
+   ],
+   "gabarito": "o rótulo é extraído do próprio dado",
+   "porque": "É supervisão sem anotador. Há resposta certa para comparar em cada exemplo, e ela não custa hora de especialista: já estava no texto, e foi escondida de propósito.\n\nA primeira alternativa é a confusão mais comum com o termo. Existe função de perda, existe resposta certa, existe gradiente. O que não existe é anotação humana.\n\nE é isso que permite treinar em corpus da ordem da internet, onde rotular à mão seria impensável. A escala do pré-treino não vem de mais anotadores, vem de dispensá-los.",
+   "volte_para": "#fundamentos-pre-treino-auto-supervisionado-e-a-palavra-que-muda-de-sentido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
+  },
+  {
    "id": "modelos-de-fundacao-e2",
    "capitulo": 22,
    "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
@@ -8579,6 +8653,80 @@
     "valor": 100,
     "tolerancia": 0
    }
+  },
+  {
+   "id": "modelos-de-fundacao-e7",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é a regra de bolso do capítulo para escolher entre as três portas de adaptação?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Fine-tuning primeiro, porque é o mais poderoso, e só recuar se o custo inviabilizar."
+    },
+    {
+     "correta": true,
+     "texto": "Prompt primeiro, depois adaptação eficiente, e só então fine-tuning completo — exigindo a cada degrau a evidência de que o anterior não bastava."
+    },
+    {
+     "correta": false,
+     "texto": "Adaptação eficiente sempre, porque tem o melhor equilíbrio entre custo e resultado."
+    },
+    {
+     "correta": false,
+     "texto": "A escolha depende só do tamanho do modelo, não da tarefa."
+    }
+   ],
+   "gabarito": "prompt, depois adaptação eficiente, depois fine-tuning",
+   "porque": "É a ordem inversa do custo, e o que a torna disciplina em vez de preferência é a segunda metade: **exigir a evidência** de que o degrau anterior não bastava. Sem isso, a regra vira gosto.\n\nA primeira alternativa inverte a ordem e é comum em equipes que já têm máquina disponível. Ela paga o custo máximo antes de saber se ele era necessário, e produz uma cópia inteira do modelo por tarefa.\n\nA terceira escolhe um degrau fixo, o que também dispensa a evidência. Adaptação eficiente é ótima quando o prompt não deu conta — e é desperdício quando ele daria.",
+   "volte_para": "#adaptar-as-tres-portas-e-o-que-cada-uma-custa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
+  },
+  {
+   "id": "modelos-de-fundacao-e8",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe precisa de saída em formato rígido e consistente para 200 mil chamadas por dia. Testou prompt e a mesma instrução reescrita produz resultados diferentes. Quais afirmações são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Instabilidade a reescrita é uma característica conhecida do prompting, não um erro da equipe."
+    },
+    {
+     "correta": true,
+     "texto": "Adaptação eficiente produz um artefato pequeno por tarefa, em vez de uma cópia do modelo."
+    },
+    {
+     "correta": true,
+     "texto": "Prompting tem custo de treino zero e custo por chamada não-zero, o que pesa em 200 mil chamadas diárias."
+    },
+    {
+     "correta": false,
+     "texto": "Fine-tuning completo é a única porta capaz de fixar formato de saída."
+    }
+   ],
+   "gabarito": "instabilidade conhecida · artefato pequeno · custo por chamada",
+   "porque": "As três corretas encaminham a decisão sem precisar do degrau mais caro. O capítulo é explícito: prompting é a porta certa para começar, e a errada para prometer consistência sem medir — que é exatamente o que a equipe descobriu.\n\nO volume muda a conta. Custo de treino zero é ótimo com cem chamadas por dia e irrelevante com duzentas mil, quando o custo por chamada domina.\n\nA alternativa errada transforma \"mais poderoso\" em \"único capaz\". Adaptação eficiente fixa formato na maioria dos casos, com uma fração do custo, e é o degrau que a evidência disponível já justifica.",
+   "volte_para": "#adaptar-as-tres-portas-e-o-que-cada-uma-custa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
   },
   {
    "id": "modelos-de-fundacao-e3",
@@ -8607,6 +8755,154 @@
     "propõe medir as duas etapas separadamente: qualidade do recuperador (o trecho certo apareceu entre os recuperados?) e qualidade da resposta (ela é sustentada pelo trecho citado?)",
     "menciona ao menos um modo de falha residual — recuperador traz documento errado, norma revogada ainda no índice, resposta convicta sobre trecho inadequado"
    ]
+  },
+  {
+   "id": "modelos-de-fundacao-e9",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que o capítulo insiste que RAG é decisão de arquitetura, e não técnica de prompt?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque o prompt de RAG é longo demais para caber num campo de texto."
+    },
+    {
+     "correta": true,
+     "texto": "Porque adotá-lo significa manter um índice, uma política de atualização, um recuperador que pode errar e uma etapa a mais na latência."
+    },
+    {
+     "correta": false,
+     "texto": "Porque RAG exige treinar o modelo de novo com os documentos recuperados."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o termo \"arquitetura\" é o usado no artigo original."
+    }
+   ],
+   "gabarito": "índice, política de atualização, recuperador falível e latência",
+   "porque": "Nada disso cabe num campo de texto. Cada item é um componente com dono, custo de manutenção e modo de falha próprio, e é isso que torna a adoção uma decisão de sistema.\n\nA terceira alternativa confunde as duas memórias que o capítulo separa. RAG **não** treina de novo: a memória paramétrica fica como está, e a não-paramétrica é consultada na hora da pergunta.\n\nA consequência prática é onde o erro aparece. Quem trata RAG como prompt não planeja quem atualiza o índice nem o que acontece quando o recuperador traz o documento errado, e descobre os dois em produção.",
+   "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
+  },
+  {
+   "id": "modelos-de-fundacao-e10",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que a alucinação não é um defeito de fabricação do modelo?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque ela só acontece quando o prompt está mal escrito."
+    },
+    {
+     "correta": true,
+     "texto": "Porque o modelo foi treinado para continuar texto de forma plausível, e uma citação inventada com autor, ano e página é exatamente o texto que viria a seguir."
+    },
+    {
+     "correta": false,
+     "texto": "Porque ela desaparece completamente com recuperação."
+    },
+    {
+     "correta": false,
+     "texto": "Porque é um erro de amostragem que uma temperatura menor elimina."
+    }
+   ],
+   "gabarito": "o objetivo de treino premia continuação plausível, não verdade",
+   "porque": "Do ponto de vista do que foi otimizado, a citação inventada é um **sucesso**. Não houve falha: houve o objetivo sendo cumprido, e o objetivo não era dizer a verdade.\n\nVer assim muda o que se procura como remédio. Não adianta pedir ao modelo que \"não invente\"; o que muda o jogo é trocar \"lembre-se do fato\" por \"leia este trecho e responda a partir dele\".\n\nA terceira alternativa é a promessa exagerada que o capítulo desmonta na mesma frase: recuperação ataca a raiz certa e **não elimina** o problema. Se o recuperador trouxer o documento errado, o modelo responderá com convicção idêntica.",
+   "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
+  },
+  {
+   "id": "modelos-de-fundacao-e11",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais sinais, sozinhos, já indicam recuperação em vez de fine-tuning? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O conhecimento muda com frequência."
+    },
+    {
+     "correta": true,
+     "texto": "A resposta precisa citar a fonte, porque alguém vai auditar."
+    },
+    {
+     "correta": true,
+     "texto": "O volume de conhecimento é grande e retreinar a cada mudança seria proibitivo."
+    },
+    {
+     "correta": false,
+     "texto": "A equipe quer que o modelo responda num tom mais formal."
+    }
+   ],
+   "gabarito": "conhecimento que muda · exigência de citar fonte · volume grande",
+   "porque": "Os três são os sinais da seção, e qualquer um deles já basta. Fine-tuning congela o que ensinou, então conhecimento que muda fica desatualizado entre treinos, e conhecimento nos pesos não devolve procedência.\n\nA alternativa errada descreve exatamente o que fine-tuning faz bem. A linha que organiza a decisão é curta: **fine-tuning ensina comportamento — formato, tom, um jeito de responder. Recuperação fornece fato.**\n\nConfundir os dois é o erro mais caro do capítulo: quem faz fine-tuning para ensinar a política nova paga o treino e ainda fica com a política de ontem congelada nos pesos.",
+   "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
+  },
+  {
+   "id": "modelos-de-fundacao-e12",
+   "capitulo": 22,
+   "arquivo": "livro/capitulos/iii-6-modelos-de-fundacao.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um sistema com recuperação responde mal. Por que medir as duas etapas separadamente muda o que a equipe faz?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque separar as métricas melhora o desempenho geral do sistema."
+    },
+    {
+     "correta": true,
+     "texto": "Porque a falha pode estar no recuperador ou no raciocínio sobre o trecho certo, e essas duas se consertam em lugares opostos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o recuperador não tem métrica própria, e por isso precisa ser avaliado junto."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a auditoria exige duas métricas separadas no relatório."
+    }
+   ],
+   "gabarito": "as duas falhas se consertam em lugares opostos",
+   "porque": "Uma métrica única de \"respondeu bem\" não distingue trazer o trecho errado de raciocinar mal sobre o trecho certo. As perguntas são duas: o trecho certo apareceu entre os recuperados, e a resposta é sustentada pelo trecho citado.\n\nA consequência de não separar é concreta e cara: sem essa separação, a equipe passa meses ajustando prompt para consertar um problema de índice.\n\nRepare que é o mesmo princípio do [capítulo II.8](ii-8-do-modelo-a-decisao.md), onde o modelo que ordena e a decisão que corta são medidos separadamente. Sistema com duas etapas pede duas medições.",
+   "volte_para": "#conhecimento-nos-pesos-e-conhecimento-recuperavel",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-6-modelos-de-fundacao",
+   "titulo_capitulo": "III.6 — Modelos de Fundação e Generativos"
   },
   {
    "id": "modelos-de-fundacao-e4",
@@ -10501,6 +10797,393 @@
    "versoes": null,
    "pagina": "prova-parte-ii",
    "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-iii-q1",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-1-neuronio-artificial.md:O3",
+    "livro/capitulos/iii-2-redes-neurais.md:O1"
+   ],
+   "enunciado": "Uma equipe empilha três camadas densas sem nenhuma função de ativação entre elas e tenta resolver um problema não linearmente separável. O treino roda, a perda desce um pouco e estaciona.\n\nQual é a explicação?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Três camadas são poucas; o teorema da aproximação universal exige mais profundidade."
+    },
+    {
+     "correta": true,
+     "texto": "Sem ativação, as três camadas colapsam numa única transformação linear, e a fronteira continua sendo uma reta."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é a inicialização, que precisa ser He em vez de Xavier."
+    },
+    {
+     "correta": false,
+     "texto": "A perda escolhida é inadequada para problemas não separáveis."
+    }
+   ],
+   "gabarito": "as camadas colapsam numa transformação linear",
+   "porque": "O produto de duas matrizes é uma matriz, e o de três também. A rede computa exatamente o que uma camada linear computaria, com o triplo dos parâmetros e do tempo de treino.\n\nIsso liga os dois capítulos. A limitação de 1969 nunca foi do neurônio, era da arquitetura de uma camada só — e empilhar camadas **sem não-linearidade** não constrói arquitetura nenhuma, apenas reescreve a mesma reta com mais símbolos.\n\nA terceira alternativa aponta uma decisão real e irrelevante aqui: nenhuma inicialização torna uma função linear capaz de separar o que reta nenhuma separa.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q2",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-3-treinar-redes-profundas.md:O2",
+    "livro/capitulos/iii-5-sequencias-linguagem.md:O2"
+   ],
+   "enunciado": "Uma rede profunda não aprende as primeiras camadas, e uma RNN não aprende dependências de vinte passos. Quais afirmações ligam corretamente os dois casos? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Nos dois, o gradiente é um produto de muitos fatores, e fatores menores que 1 encolhem exponencialmente."
+    },
+    {
+     "correta": true,
+     "texto": "Nos dois, o remédio estrutural cria um caminho em que o sinal é somado em vez de multiplicado."
+    },
+    {
+     "correta": true,
+     "texto": "Na RNN, cada passo de tempo é uma camada a mais no caminho de volta do erro."
+    },
+    {
+     "correta": false,
+     "texto": "Nos dois, o problema se resolve aumentando a capacidade do modelo."
+    }
+   ],
+   "gabarito": "produto de fatores · caminho aditivo · passo de tempo é camada",
+   "porque": "É o mesmo diagnóstico em duas dimensões, profundidade e tempo, e é por isso que a LSTM aparece na mesma tabela de remédios das conexões residuais: as duas criam um canal por onde o erro passa somado.\n\nA alternativa errada é a tentação comum, e ela falha pelo mesmo motivo nos dois casos. Mais capacidade dá mais espaço e não dá caminho; um estado oculto maior não faz o gradiente sobreviver a vinte multiplicações.\n\nRepare que o par também explica por que a atenção resolveu o lado das sequências de outro jeito: em vez de melhorar o caminho, ela o encurtou para um passo.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q3",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-4-visao.md:O2",
+    "livro/capitulos/iii-2-redes-neurais.md:O3"
+   ],
+   "enunciado": "Uma imagem 128×128 com 3 canais entra em duas alternativas: uma camada densa com 32 unidades, ou uma camada convolucional com 32 filtros 3×3. O que se pode afirmar sobre o número de pesos?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "São comparáveis, porque as duas têm 32 unidades de saída."
+    },
+    {
+     "correta": true,
+     "texto": "A densa depende do tamanho da imagem e a convolucional não: 1 572 864 contra 864 pesos."
+    },
+    {
+     "correta": false,
+     "texto": "A convolucional tem mais pesos, porque cada filtro atravessa os três canais."
+    },
+    {
+     "correta": false,
+     "texto": "Não dá para comparar sem saber o tamanho do lote."
+    }
+   ],
+   "gabarito": "1 572 864 contra 864",
+   "porque": "A densa liga cada pixel de cada canal a cada unidade: $128 \\times 128 \\times 3 \\times 32 = 1\\,572\\,864$. A convolucional tem $3 \\times 3 \\times 3 = 27$ pesos por filtro, vezes 32 filtros, igual a **864**.\n\nA diferença decisiva não é o tamanho do número, é de onde ele vem. O total da convolucional não contém o tamanho da imagem em lugar nenhum; o da densa é proporcional a ele.\n\nA terceira alternativa acerta um fato (o filtro atravessa os três canais) e o usa para concluir o contrário do que ele implica. Atravessar os canais é o que faz o filtro ter 27 pesos em vez de 9, e mesmo assim ele fica quatro ordens de grandeza abaixo da densa.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q4",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-5-sequencias-linguagem.md:O4",
+    "livro/capitulos/iii-4-visao.md:O1"
+   ],
+   "enunciado": "O que a AlexNet em duas colunas e a remoção da recorrência em 2017 têm em comum?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Os dois foram escolhas teóricas, justificadas por poder de representação."
+    },
+    {
+     "correta": true,
+     "texto": "Os dois foram decididos por restrição material: memória de 3 GB num caso, paralelismo em GPU no outro."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois aumentaram o número de parâmetros para ganhar capacidade."
+    },
+    {
+     "correta": false,
+     "texto": "Os dois substituíram uma arquitetura que não conseguia representar o problema."
+    }
+   ],
+   "gabarito": "restrição material nos dois casos",
+   "porque": "O artigo da AlexNet diz que a rede foi espalhada em duas GPUs porque uma só tinha 3 GB; o de 2017 justifica a remoção da recorrência por paralelismo e tempo de treino. Nenhum dos dois argumentos é sobre o que a arquitetura consegue representar.\n\nA quarta alternativa é a leitura mais comum e é falsa nos dois casos. A recorrência **representava** dependências longas em princípio; o problema era treiná-la. E a AlexNet em duas colunas não representa nada que uma coluna não representasse.\n\nA lição que os dois casos sustentam junta-se a Playfair e ao cubo OLAP: falta de recurso produz forma nova, a forma sobrevive à restrição que a gerou, e a geração seguinte a estuda como se fosse princípio.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q5",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-2-redes-neurais.md:O3",
+    "livro/capitulos/iii-4-visao.md:O2"
+   ],
+   "enunciado": "Uma camada densa recebe 64 entradas e produz 16 saídas, com viés. Quantos parâmetros treináveis ela tem?",
+   "opcoes": [],
+   "gabarito": "1040",
+   "porque": "$64 \\times 16 = 1\\,024$ pesos, mais 16 vieses, um por unidade de **destino**. Total **1 040**.\n\nA regra `e × s + s` é a mesma que a convolução usa numa forma diferente: lá o que se repete são os pesos do filtro em todas as posições, e o viés continua sendo um por filtro. Nos dois casos o viés acompanha a unidade de saída, nunca a de entrada.\n\nÉ o erro que não aparece como erro de matemática: ele vira exceção de dimensão, ou pior, uma soma que passa por *broadcasting* e treina errado.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning",
+   "gabarito_num": {
+    "valor": 1040,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "prova-parte-iii-q6",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-3-treinar-redes-profundas.md:O3",
+    "livro/capitulos/iii-4-visao.md:O4"
+   ],
+   "enunciado": "Uma equipe treina um classificador de radiografias e aplica, como aumentação, rotações de até 180° e espelhamento vertical. Além disso, usa dropout forte. O vão entre treino e validação não fecha.\n\nQual crítica é a mais precisa?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O dropout está forte demais e impede a rede de aprender."
+    },
+    {
+     "correta": true,
+     "texto": "A aumentação escolhida gera imagens que não existem na clínica, então ela gasta capacidade em invariâncias falsas em vez de reduzir o vão."
+    },
+    {
+     "correta": false,
+     "texto": "Radiografias não admitem aumentação de nenhum tipo."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é de gradiente, e a solução é trocar a inicialização."
+    }
+   ],
+   "gabarito": "a aumentação gera imagens que não existem no domínio",
+   "porque": "A regra é uma só e é sobre o domínio: a transformação preserva o rótulo **aqui**? Uma radiografia de tórax girada 180° produz uma imagem que a clínica nunca gera, e treinar com ela ensina a rede a ser invariante a algo que nunca varia.\n\nA terceira alternativa exagera para uma proibição. Aumentação em radiografia é possível e útil, desde que corresponda à variação real do exame: pequenas translações e rotações de poucos graus, variação de contraste, ruído.\n\nA quarta troca de família de problema. Vão entre treino e validação é generalização, e gradiente é otimização — o mesmo tipo de confusão que faz alguém acrescentar dropout a uma perda que não se move.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q7",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-6-modelos-de-fundacao.md:O2",
+    "livro/capitulos/iii-5-sequencias-linguagem.md:O3"
+   ],
+   "enunciado": "Um sistema de busca semântica usa embeddings contextuais e um índice de 200 mil documentos. Quais afirmações são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O vetor de uma palavra depende da frase em que ela aparece, ao contrário do embedding estático."
+    },
+    {
+     "correta": true,
+     "texto": "A busca por embedding pode achar documentos que não repetem nenhuma palavra da consulta."
+    },
+    {
+     "correta": true,
+     "texto": "O ganho sobre a busca por termos precisa ser medido, e não presumido."
+    },
+    {
+     "correta": false,
+     "texto": "Como os embeddings vêm de um Transformer, a similaridade entre dois documentos é calculada por autoatenção entre eles."
+    }
+   ],
+   "gabarito": "vetor depende da frase · acha sem repetir palavra · o ganho se mede",
+   "porque": "As três corretas separam representação de recuperação. O modelo produz vetores; a busca compara vetores. São etapas distintas, e a segunda não usa o mecanismo interno da primeira.\n\nÉ exatamente aí que a alternativa errada tropeça. A autoatenção acontece **dentro** de uma sequência, quando o modelo calcula a representação; a comparação entre dois documentos indexados é uma operação de similaridade sobre vetores prontos, tipicamente cosseno.\n\nConfundir as duas coisas leva a expectativas erradas de custo: a similaridade no índice é barata e linear no número de documentos, enquanto a autoatenção é quadrática no comprimento da sequência.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q8",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-6-modelos-de-fundacao.md:O4",
+    "livro/capitulos/iii-4-visao.md:O3"
+   ],
+   "enunciado": "Transferência de aprendizado em visão e recuperação em linguagem resolvem problemas diferentes. Qual comparação é correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "As duas evitam treinar do zero, e por isso são a mesma estratégia em domínios diferentes."
+    },
+    {
+     "correta": true,
+     "texto": "A transferência aproveita **representações** já aprendidas e continua nos pesos; a recuperação fornece **fato** de fora dos pesos, e é o que serve quando o conhecimento muda."
+    },
+    {
+     "correta": false,
+     "texto": "A recuperação substitui a transferência sempre que houver documentos disponíveis."
+    },
+    {
+     "correta": false,
+     "texto": "A transferência serve para dado escasso, e a recuperação para dado abundante."
+    }
+   ],
+   "gabarito": "representações nos pesos contra fato fora deles",
+   "porque": "A transferência resolve escassez de **rótulo**: bordas e texturas já aprendidas valem no domínio novo, e você treina uma cabeça sobre features prontas. A recuperação resolve outra coisa: conhecimento que muda e resposta que precisa citar a fonte.\n\nA primeira alternativa junta as duas por uma semelhança superficial. \"Não treinar do zero\" descreve o efeito de ambas e não descreve o que cada uma entrega.\n\nA quarta inverte o critério da recuperação, que não é sobre volume de dados de treino e sim sobre volatilidade do conhecimento e exigência de procedência.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q9",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-2-redes-neurais.md:O4",
+    "livro/capitulos/iii-3-treinar-redes-profundas.md:O1"
+   ],
+   "enunciado": "Duas redes idênticas, com o mesmo dado e a mesma taxa, chegam a resultados diferentes: uma resolve o problema, a outra empaca com a perda parada num patamar. A única diferença é a semente da inicialização.\n\nO que isso demonstra sobre o teorema da aproximação universal?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que o teorema está errado, porque garante que a rede resolve e ela não resolveu."
+    },
+    {
+     "correta": true,
+     "texto": "Que ele fala de **representabilidade** e não de **treinabilidade**: garante que existe configuração de pesos que resolve, sem garantir que a busca chegue até ela."
+    },
+    {
+     "correta": false,
+     "texto": "Que o teorema só vale para redes com uma camada escondida."
+    },
+    {
+     "correta": false,
+     "texto": "Que a semente precisa entrar como hiperparâmetro de busca."
+    }
+   ],
+   "gabarito": "representabilidade não é treinabilidade",
+   "porque": "O espaço de hipóteses continha a solução nos dois casos — é a mesma arquitetura. O que mudou foi de onde a descida partiu, e uma delas caiu num mínimo local.\n\n\"Não construtivo\" é o termo exato: garante-se que o objeto existe sem dar receita para construí-lo, nem promessa de que o gradiente descendente, saindo de onde você começou, vá encontrá-lo.\n\nA quarta alternativa propõe algo que se faz na prática e não é o que o caso demonstra. Rodar com várias sementes é mitigação sensata; o ponto aqui é conceitual, e é a distinção que explica os vinte anos entre 1986 e as redes profundas que funcionam.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
+  },
+  {
+   "id": "prova-parte-iii-q10",
+   "capitulo": 33,
+   "arquivo": "livro/provas/prova-parte-iii.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/iii-6-modelos-de-fundacao.md:O1",
+    "livro/capitulos/iii-3-treinar-redes-profundas.md:O4"
+   ],
+   "enunciado": "Uma equipe tem duas semanas, pouco dado rotulado e um modelo de fundação disponível. Quais decisões são coerentes com os critérios do livro? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Começar por prompt e só subir de degrau com evidência de que ele não bastou."
+    },
+    {
+     "correta": true,
+     "texto": "Preferir um otimizador que perdoe taxa mal escolhida enquanto tudo ainda muda."
+    },
+    {
+     "correta": true,
+     "texto": "Calcular a linha de base trivial antes de qualquer comparação."
+    },
+    {
+     "correta": false,
+     "texto": "Fazer fine-tuning completo de saída, porque é o mais poderoso e o prazo é curto."
+    }
+   ],
+   "gabarito": "prompt primeiro · otimizador que perdoa · linha de base antes",
+   "porque": "As três corretas compartilham um critério: **o que é escasso agora**. Com duas semanas e tudo em movimento, o escasso é o tempo da equipe, e cada decisão remove uma variável do problema em vez de acrescentar uma.\n\nA alternativa errada inverte a relação entre poder e prazo. Fine-tuning completo é o degrau mais caro em máquina, tempo e artefato produzido, e gastá-lo antes de saber se era necessário consome justamente as duas semanas.\n\nA linha de base trivial aparece aqui porque ela é o gesto mais barato do livro e o mais pulado: sem ela, \"funcionou\" não tem contra o quê ser dito.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-iii",
+   "titulo_capitulo": "Prova da Parte III — Redes Neurais e Deep Learning"
   }
  ],
  "videos": [
