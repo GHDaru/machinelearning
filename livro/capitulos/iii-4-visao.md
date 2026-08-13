@@ -83,6 +83,71 @@ Quantos **pesos** (ignorando os vieses) essa camada tem?
 > **volte para:** #fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete
 :::
 
+:::exercicio {"id":"visao-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+O que acontece com o mapa de ativação quando o objeto se desloca alguns pixels na imagem?
+
+- [ ] Ele muda completamente, e a rede precisa reaprender o objeto naquela posição.
+- [x] Ele se desloca junto, e o que foi detectado continua o mesmo.
+- [ ] Ele fica igual, porque o pooling apaga a informação de posição.
+- [ ] Ele perde intensidade proporcionalmente ao deslocamento.
+
+> **gabarito:** ele se desloca junto
+> **porque:** É a invariância a translação, e ela é consequência direta de o **mesmo** filtro percorrer todas as posições. Deslocar o objeto desloca a resposta, e não muda qual padrão foi encontrado.
+>
+> A terceira alternativa confunde duas coisas próximas. O pooling dá **tolerância** a pequenos deslocamentos, ao resumir uma janela, e isso é diferente de a saída não se mover: na convolução ela se move de forma correspondente.
+>
+> É o que resolve o problema da abertura do capítulo. A rede não precisa ver o gato em cada canto porque, para ela, é o mesmo gato deslocado.
+> **volte para:** #fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete
+:::
+
+:::exercicio {"id":"visao-e6","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+O capítulo afirma que a camada convolucional é "uma camada densa proibida de fazer quase tudo o que poderia". Qual leitura essa frase sustenta?
+
+- [ ] Que a convolução é uma aproximação da densa, e perde desempenho por isso.
+- [x] Que a restrição é a fonte do desempenho: menos liberdade com a hipótese certa embutida vence mais liberdade que precisaria descobri-la nos dados.
+- [ ] Que a densa é sempre superior quando há dados suficientes, e a convolução é um paliativo.
+- [ ] Que as duas são equivalentes, e a escolha é só de custo computacional.
+
+> **gabarito:** a restrição é a fonte do desempenho
+> **porque:** A camada convolucional é literalmente uma densa com pesos amarrados uns aos outros e conexões distantes zeradas. O que ela ganha com isso não é economia, é **hipótese**: "pixels vizinhos se relacionam, e o mesmo padrão vale em toda posição" entra pela arquitetura, de graça, em vez de precisar ser estimada.
+>
+> A terceira alternativa acerta um fato e erra a moldura. Com dados e escala suficientes, modelos que não impõem convolução disputam o espaço, e os Vision Transformers fazem exatamente isso ao trocar a hipótese embutida por dados. Isso não torna a convolução paliativo; torna a escolha dependente de quanto dado existe.
+>
+> A leitura que fica vale além da visão: quando você conhece uma verdade sobre o problema, embuti-la na arquitetura custa menos do que ensiná-la com exemplos.
+> **volte para:** #fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete
+:::
+
+:::exercicio {"id":"visao-e7","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+De onde vem a economia de parâmetros da convolução, comparada à camada densa?
+
+- [ ] De olhar menos pixels: o filtro cobre só uma janela de cada vez.
+- [x] De usar os mesmos pesos em todas as posições, o que faz o número de parâmetros não depender do tamanho da imagem.
+- [ ] Do pooling, que reduz a resolução e portanto o número de conexões.
+- [ ] De usar precisão numérica menor nos pesos do filtro.
+
+> **gabarito:** os mesmos pesos em todas as posições
+> **porque:** O filtro percorre a imagem **inteira**, então não é questão de olhar menos. O que muda é a mesma matriz ser reaproveitada em cada posição, e por isso o número de parâmetros é `f × k × k × c` — nenhum desses fatores é o tamanho da imagem.
+>
+> Na densa, cada pixel tem peso próprio para cada unidade, e o total cresce com a resolução. É a diferença entre 1 728 e 9,6 milhões no exemplo do capítulo.
+>
+> A consequência prática vale guardar: dobrar a resolução não muda nada no número de parâmetros de uma camada convolucional, e quadruplica o de uma densa.
+> **volte para:** #fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete
+:::
+
+:::exercicio {"id":"visao-e8","tipo":"numerica","objetivo":"O2","dificuldade":"dificil"}
+Uma camada convolucional tem **32 filtros de 5×5** aplicados a uma entrada de **16 canais**, com **um viés por filtro**.
+
+Quantos parâmetros treináveis ela tem no total?
+
+> **gabarito:** 12832
+> **porque:** Cada filtro tem $5 \times 5 \times 16 = 400$ pesos, porque ele atravessa a profundidade inteira da entrada. São 32 filtros: $400 \times 32 = 12\,800$. Mais um viés por filtro: $12\,800 + 32 = \mathbf{12\,832}$.
+>
+> O erro mais comum é esquecer os canais de entrada e contar $5 \times 5 \times 32 = 800$. É o mal-entendido que a palavra "matrizinha" produz: o filtro não é uma matriz 5×5, é um bloco 5×5×16.
+>
+> O segundo erro comum é o viés por **posição**. O viés acompanha o filtro, e é justamente por o filtro ser o mesmo em toda posição que existe um só.
+> **volte para:** #fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete
+:::
+
 ### Pooling e a hierarquia de features
 
 O **pooling** reduz a resolução do mapa de ativação — tipicamente pegando o máximo de cada janela 2×2. Perde-se posição exata e ganha-se duas coisas: tolerância a pequenos deslocamentos e um campo receptivo que **cresce** nas camadas seguintes, porque cada unidade passa a resumir uma região maior do original.
@@ -156,6 +221,75 @@ Treinar do zero ou transferir? Decida, justifique e diga o que você congelaria 
 > Nas aumentações, o enunciado é uma armadilha útil: **a câmera é fixa e a orientação é constante**. Rotações grandes e espelhamentos geram imagens que a linha nunca vai produzir — capacidade gasta em invariância que ninguém pediu. O que faz sentido é o que **de fato varia na linha**: brilho e contraste (a iluminação oscila), pequenas translações e rotações de poucos graus (a peça assenta um pouco torta), ruído leve. Aumentação boa é modelagem da variação real do processo, não uma lista de transformações copiada de um tutorial.
 >
 > Por fim, 640/160 é 80/20: um modelo que responde "sem trinca" sempre acerta 80%. Acurácia aqui não mede nada — vale revocação da classe rara, e o [capítulo II.1](ii-1-avaliacao.md) trata do resto.
+> **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
+:::
+
+:::exercicio {"id":"visao-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Por que a transferência de aprendizado funciona mesmo quando o domínio novo é bem diferente do ImageNet?
+
+- [x] Porque bordas, texturas e cantos não são específicos do ImageNet, são específicos de imagens.
+- [ ] Porque o ImageNet contém exemplos de praticamente todos os domínios.
+- [ ] Porque o número de classes é o mesmo depois de trocar a cabeça.
+- [ ] Porque as camadas do topo são as mais genéricas da rede.
+
+> **gabarito:** bordas e texturas são específicas de imagens, não do ImageNet
+> **porque:** A hierarquia de features é o que sustenta a prática. As primeiras camadas aprendem bordas e manchas, e uma borda numa chapa de raio X é a mesma borda de uma foto de cachorro.
+>
+> A quarta alternativa inverte a hierarquia, e a inversão tem consequência direta: são as camadas do **topo** que montam objetos e são particulares da tarefa original, e por isso são justamente as que se substitui.
+>
+> Isso também explica o critério de descongelamento: quanto mais distante o domínio, mais fundo é preciso descongelar, porque as features de alto nível deixam de servir enquanto as de baixo continuam servindo.
+> **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
+:::
+
+:::exercicio {"id":"visao-e10","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Uma equipe descongela a rede inteira desde o primeiro passo, com a taxa de aprendizado padrão, e o desempenho fica pior do que congelando o corpo. Por quê?
+
+- [ ] Porque descongelar aumenta o número de parâmetros e causa overfitting imediato.
+- [x] Porque os gradientes grandes da cabeça recém-inicializada, ainda aleatória, destroem features boas que levaram semanas de GPU para existir.
+- [ ] Porque o corpo pré-treinado não aceita gradientes vindos de uma cabeça nova.
+- [ ] Porque a taxa padrão é sempre alta demais para qualquer transferência.
+
+> **gabarito:** os gradientes da cabeça aleatória destroem as features
+> **porque:** A cabeça começa aleatória, erra muito, e erro grande produz gradiente grande. Esse gradiente atravessa o corpo inteiro e reescreve pesos que já estavam certos.
+>
+> A ordem que evita isso é a da seção: treine a cabeça primeiro, com o corpo congelado, e só então libere o corpo, com taxa uma ou duas ordens de grandeza menor.
+>
+> A primeira alternativa culpa o número de parâmetros. Ele de fato cresce, e não é o mecanismo aqui: o dano acontece nas primeiras iterações, antes de qualquer sobreajuste, e é destruição do que já existia, não decoração do treino.
+> **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
+:::
+
+:::exercicio {"id":"visao-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Qual é a regra única que decide se uma aumentação de dados é válida?
+
+- [ ] Se a transformação está disponível na biblioteca que a equipe usa.
+- [x] Se a transformação preserva o rótulo **neste domínio**.
+- [ ] Se ela aumenta o número de exemplos em pelo menos dez vezes.
+- [ ] Se ela deixa a imagem visualmente parecida com a original.
+
+> **gabarito:** se preserva o rótulo neste domínio
+> **porque:** A regra é sobre o **seu** problema, não sobre a ferramenta. Espelhar horizontalmente uma foto de gato dá um gato; espelhar um dígito manuscrito destrói o rótulo. A mesma transformação é válida num caso e inválida no outro.
+>
+> A quarta alternativa propõe um critério visual que falha nos dois sentidos. Uma radiografia girada 180° continua parecida com a original e produz uma imagem que não existe na clínica; um recorte agressivo pode parecer bem diferente e preservar perfeitamente o rótulo.
+>
+> Treinar com transformação que quebra o rótulo gasta capacidade em invariâncias falsas, ou seja, ensina à rede que duas coisas diferentes são a mesma.
+> **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
+:::
+
+:::exercicio {"id":"visao-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Numa linha de produção com **câmera fixa** e peças que entram **sempre na mesma orientação**, quais aumentações fazem sentido? (marque todas que valem)
+
+- [x] Variação de brilho e contraste, porque a iluminação da linha oscila.
+- [x] Translações pequenas e rotações de poucos graus, porque a peça assenta um pouco torta.
+- [x] Ruído leve, porque o sensor produz ruído.
+- [ ] Espelhamento horizontal, porque aumenta a variedade do conjunto.
+- [ ] Rotações de 90° e 180°, porque a rede fica invariante a orientação.
+
+> **gabarito:** brilho e contraste · translação e rotação pequenas · ruído leve
+> **porque:** As três corretas correspondem a variações que **de fato acontecem** naquela linha. Aumentação boa é modelagem da variação real do processo, e não uma lista copiada de tutorial.
+>
+> As duas erradas geram imagens que a linha nunca vai produzir. Com câmera fixa e orientação constante, espelhamento e rotação de 90° ensinam a rede a ser invariante a algo que nunca varia — capacidade gasta numa invariância que ninguém pediu, e menos capacidade sobrando para distinguir trinca de não-trinca.
+>
+> Repare que "aumenta a variedade do conjunto" é verdade e não é critério. Variedade que não existe no mundo é ruído com aparência de dado.
 > **volte para:** #transferencia-de-aprendizado-o-que-quase-todo-projeto-real-faz
 :::
 

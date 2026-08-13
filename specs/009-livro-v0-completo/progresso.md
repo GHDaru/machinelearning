@@ -35,6 +35,11 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > aprendendo, com o botão do XOR) e **III.2** (o MLP resolvendo o mesmo XOR,
 > com os botões de tirar a camada e de estragar a inicialização). A dívida do
 > núcleo compartilhado foi paga na segunda, como a ADR 0015 exigia.
+>
+> **As animações seguem a ordem de prioridade de `animacoes.md`** (0.2, II.4,
+> V.1, IV.1 são as próximas), e não a ordem dos capítulos. Um capítulo pode
+> fechar a coluna de exercícios antes de receber a animação dele — III.4 é o
+> primeiro caso.
 
 ## Estado
 
@@ -59,7 +64,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 17 | III.1 — O Neurônio Artificial | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 20 | III.4 — Visão Computacional | 4 | 4 | 12 | **ok** | — | — | — |
+| 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 21 | III.5 — Sequências e Linguagem | 4 | 4 | 12 | **ok** | — | — | — |
 | 22 | III.6 — Modelos de Fundação | 4 | 4 | 12 | **ok** | — | — | — |
 | 23 | IV.1 — Não Supervisionado | 4 | 4 | 12 | **ok** | — | — | — |
@@ -70,7 +75,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 291 exercícios hoje (263 de capítulo + 28 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 299 exercícios hoje (271 de capítulo + 28 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
