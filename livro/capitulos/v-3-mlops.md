@@ -66,6 +66,87 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 
 **Servir.** *Qual* forma de serviço o sistema usa (lote, em linha ou por fluxo) é decisão de desenho, e ela foi tomada no [capítulo V.2](v-2-sistemas-de-ml.md), pelos quatro eixos do requisito. O que interessa aqui é operar a forma já escolhida, e ela mexe em tudo o que vem a seguir neste capítulo: em lote, uma promoção ruim é notada no próximo job e desfeita com um recálculo; em linha, ela atinge o usuário na próxima requisição, e o plano de rollback deixa de ser opcional.
 
+### A fronteira do serviço: contrato e validação de entrada
+
+O contrato de entrada do [capítulo V.2](v-2-sistemas-de-ml.md) foi declarado como diagnóstico: o compilador que não existe para dependência de dado. Aqui ele vira procedimento, executado a cada requisição.
+
+Comece pelo fato que dispensa decisão: **o contrato existe de qualquer jeito.** O texto do *Continuous Delivery for Machine Learning* diz por quê:
+
+> *"there is always an implicit contract between the model and its consumers. The model will usually expect input data in a certain shape, and if Data Scientists change that contract to require new input or add new features, you can cause integration issues and break the applications using it."*
+
+Há sempre um contrato implícito entre o modelo e quem o consome. A escolha do time não é ter ou não ter contrato; é entre um contrato **escrito e verificado** e um contrato que só se revela no dia em que quebra.
+
+**O que o contrato declara.** As mesmas quatro coisas do V.2, agora numa forma que a máquina lê: tipo, faixa aceitável, taxa de nulos tolerada e dono. É a definição de esquema, na formulação do TensorFlow Data Validation: *"The schema codifies properties which the input data is expected to satisfy, such as data types or categorical values"*.
+
+**Onde a checagem mora.** Em duas camadas, e confundi-las é o erro comum. A camada **declarativa** verifica forma: campo presente, tipo certo, valor dentro do domínio. Ela é escrita uma vez, ao lado da definição da entrada. A camada **imperativa** verifica regra de negócio, e vive no manipulador da requisição, porque depende de estado que o esquema não conhece.
+
+O serviço que atende este livro serve de exemplo, e é um exemplo que você pode abrir. Em `chat-companion/backend/app.py`, as linhas 130 a 173 declaram a camada de forma, um modelo por rota. Já a rota de tentativa de exercício, nas linhas 229 a 241, faz a camada de regra: exercício desconhecido, resposta vazia, resposta acima de 8000 caracteres e excesso de tentativas seguidas. Nenhuma dessas quatro é verificável olhando só o formato da requisição.
+
+**O que fazer quando a entrada viola o contrato.** Aqui o capítulo não prescreve, porque nenhuma fonte prescreve. Existem três políticas, e o mesmo serviço deste livro usa as três em rotas diferentes:
+
+| Política | O que faz | O que custa |
+|---|---|---|
+| **Rejeitar** | devolve erro e não prediz | quem chamou precisa saber tratar o erro |
+| **Sanear** | corta, trunca ou normaliza e segue | o valor que entra no modelo não é o que o cliente mandou |
+| **Ignorar** | aceita, não faz o trabalho e responde que não fez | o chamador pode não perceber que nada aconteceu |
+
+A rota de tentativa rejeita. A rota de telemetria saneia o identificador e o corta em 80 caracteres. E ela também ignora, devolvendo `{"ok": False}` sem erro quando falta consentimento, o que ali é uma decisão de privacidade deliberada.
+
+A regra que vale reter não é qual das três escolher, e sim que **a política é uma decisão escrita no contrato, e não um acidente da implementação**. Escolher é do projeto; escolher sem perceber que escolheu é o defeito. E há uma assimetria com fonte: a política silenciosa é a mais perigosa das três, porque é a que a regra #10 das *Rules of Machine Learning* chama de falha silenciosa, aquela em que *"the machine learning system will adjust, and behavior will continue to be reasonably good, decaying gradually"*.
+
+**A rejeição é sinal, não só erro.** Um pico de entradas recusadas é a camada 2 do monitoramento funcionando na fronteira, e chega antes de qualquer métrica de desempenho. Para isso a recusa precisa ser contada, e não apenas devolvida.
+
+Aqui o exemplo deste livro **falha**, e vale dizer em voz alta: o serviço não conta nenhuma rejeição. O que ele observa é só o sucesso, através das tentativas que foram gravadas. Um serviço de modelo em produção deveria contar as duas coisas, e a ausência dessa contagem é o tipo de dívida que só aparece no incidente.
+
+**Versão do modelo endereçável.** A resposta diz qual versão do modelo respondeu, e a versão anterior continua servível. Sem isso, o canário não tem como comparar, e o rollback da seção seguinte não tem para onde voltar. É também o que torna auditável a resposta que alguém contestar seis meses depois.
+
+**Registrar o que foi servido fecha o laço com o V.2.** A regra #29 é explícita sobre o método: *"The best way to make sure that you train like you serve is to save the set of features used at serving time, and then pipe those features to a log to use them at training time."* Guardar os atributos como foram servidos, e treinar a partir desse registro, elimina a divergência na origem. E a regra #37 diz o que fazer com isso: aplicar o modelo ao mesmo exemplo no treino e no serviço deve dar o mesmo resultado, e *"a discrepancy here probably indicates an engineering error"*.
+
+**Procedência das afirmações desta seção:**
+
+| Selo | Afirmação |
+|---|---|
+| ✓ | O contrato implícito entre o modelo e quem o consome, de *["Continuous Delivery for Machine Learning"](https://martinfowler.com/articles/cd4ml.html)*, seção *Model Serving* |
+| ✓ | As regras **#10**, **#29** e **#37** de *[Rules of Machine Learning](https://developers.google.com/machine-learning/guides/rules-of-ml)*, e os trechos citados, lidos no texto da regra |
+| ✓ | O que um esquema codifica, do [guia do TensorFlow Data Validation](https://www.tensorflow.org/tfx/guide/tfdv) |
+| ✓ | As três políticas convivendo num serviço real, com as linhas indicadas, em `chat-companion/backend/app.py` deste repositório |
+| ✓ᵐ | *The ML Test Score* (Breck, Cai, Nielsen, Salib & Sculley, IEEE Big Data, 2017) trata de prontidão para produção, mas **o PDF não abriu**, e por isso nenhum teste numerado dele é citado aqui |
+| ❌ | Uma fonte que prescreva o que fazer quando **uma requisição** viola o contrato: procurei e não achei. As fontes tratam de esquema sobre lotes e de skew entre treino e serviço, e não da política por requisição |
+| 📖 | A leitura de que a política de violação é decisão escrita no contrato, e de que a rejeição não contada é dívida — e a escolha de usar o serviço deste livro como exemplo, defeitos inclusive |
+
+:::exercicio {"id":"mlops-e10","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Um serviço de modelo recebe uma requisição em que o campo `renda_mensal` chega como o texto vazio. O serviço converte o vazio para zero e responde a predição normalmente, sem registrar nada.
+
+Qual é o problema principal dessa decisão?
+
+- [ ] Zero é um valor implausível de renda, e o modelo vai errar essa predição.
+- [x] A política de violação é silenciosa: ninguém saberá que a entrada estava fora do contrato, nem hoje nem no relatório do mês.
+- [ ] O serviço deveria ter recusado a requisição, porque recusar é sempre a política correta.
+- [ ] O campo deveria ser obrigatório no esquema, o que tornaria a conversão desnecessária.
+
+> **gabarito:** a política é silenciosa
+> **porque:** Sanear a entrada é uma das três políticas legítimas, e o defeito aqui não é sanear: é sanear **sem deixar rastro**. A predição sai, o chamador recebe um número com aparência normal, e nada no sistema registra que o modelo decidiu sobre um valor que o cliente não mandou.
+>
+> A primeira alternativa está certa no fato e erra no alvo: uma predição ruim é o efeito, e o problema é que ninguém vai ligar o efeito à causa. A terceira transforma em regra o que o capítulo diz explicitamente não ser regra: nenhuma fonte prescreve recusar, e há casos em que recusar derruba um serviço por causa de um campo secundário. A quarta é uma boa melhoria de esquema e não resolve o que está em jogo, porque a pergunta continua de pé: quando a violação acontecer, o que o serviço faz, e quem fica sabendo?
+> **volte para:** #a-fronteira-do-servico-contrato-e-validacao-de-entrada
+:::
+
+:::exercicio {"id":"mlops-e11","tipo":"multipla-multi","objetivo":"O2","dificuldade":"media"}
+Você vai pôr um modelo de risco atrás de uma API. Quais decisões pertencem ao contrato dessa fronteira, e precisam estar escritas antes de o serviço subir? Marque todas que valem.
+
+- [x] O tipo e a faixa aceitável de cada campo de entrada, e a proporção de nulos tolerada.
+- [x] O que o serviço faz quando um campo viola o contrato, e o que ele registra ao fazer isso.
+- [x] Qual versão do modelo respondeu, devolvida junto com a predição.
+- [ ] Qual algoritmo foi usado no treino e quais hiperparâmetros venceram a busca.
+- [ ] Com que frequência o modelo será retreinado.
+
+> **gabarito:** o esquema dos campos; a política de violação e o que ela registra; a versão do modelo na resposta
+> **porque:** As três corretas são justamente o que quem consome o serviço precisa saber para depender dele sem surpresa. A segunda é a que mais gente esquece, e é a que separa um contrato de uma anotação: sem política declarada, cada rota decide sozinha, e as decisões divergem sem que ninguém perceba.
+>
+> As duas erradas são verdadeiras e não são do contrato. O algoritmo e os hiperparâmetros pertencem à linhagem, que responde a outra pergunta e para outro público, o de auditoria. A frequência de retreino é política de operação, e muda sem que o contrato mude. O teste é este: se essa informação mudar, quem chama o serviço precisa mexer no código dele? Se sim, é contrato.
+> **volte para:** #a-fronteira-do-servico-contrato-e-validacao-de-entrada
+:::
+
 :::exercicio {"id":"mlops-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Um auditor pergunta: *"este modelo em produção foi treinado com quais dados?"*. O time tem o código no Git, o modelo salvo em disco e os notebooks de treino. O que falta para responder com segurança?
 
@@ -78,6 +159,40 @@ Um auditor pergunta: *"este modelo em produção foi treinado com quais dados?"*
 > **porque:** Rodar o notebook de novo **produz outro modelo**, não recupera o que está servindo — as bibliotecas mudaram, o dado provavelmente cresceu e a seed pode não ter sido fixada. Reavaliar hoje responde "ele ainda é bom?", que é outra pergunta. E documentação escrita à mão descreve a intenção, não o fato: ela não prova nada, porque nada a obriga a estar sincronizada.
 >
 > A única resposta verificável amarra o artefato ao **hash do dado** e ao **commit** que o geraram, registrados no momento do treino. Reprodutibilidade não é uma qualidade do time; é um dado que se grava.
+> **volte para:** #fundamentos-versionar-registrar-servir
+:::
+
+:::exercicio {"id":"mlops-e4","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Um time guarda no Git o código de treino, guarda o modelo treinado num repositório de artefatos e registra o hash do conjunto de dados usado. Seis meses depois, roda o mesmo código sobre o mesmo dado e obtém um modelo diferente do que está em produção.
+
+Qual dos cinco versionamentos deste capítulo ficou de fora?
+
+- [ ] O dado
+- [ ] O modelo
+- [x] O ambiente
+- [ ] O código
+
+> **gabarito:** o ambiente
+> **porque:** Os outros três estão no enunciado, um a um. O que não está é a versão das bibliotecas, e é ela que muda sozinha entre um semestre e outro. Uma implementação que trocou o padrão de um parâmetro, ou que passou a sortear de outro jeito, produz outro modelo a partir do mesmo código e do mesmo dado.
+>
+> Falta também a configuração, que é o quinto item, mas o enunciado não diz nada sobre hiperparâmetros, e o ambiente é o que o caso descrito isola: mesmo código, mesmo dado, resultado diferente. Vale reter que a reprodutibilidade não é uma qualidade do time; é um conjunto de cinco coisas que alguém gravou.
+> **volte para:** #fundamentos-versionar-registrar-servir
+:::
+
+:::exercicio {"id":"mlops-e5","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Outro time é rigoroso: código no Git, dado por hash, modelo no registro, ambiente fixado por imagem de contêiner, semente fixa. O treino é reproduzível bit a bit. Ainda assim, o número de aprovações que o relatório de março mostrava não volta quando alguém reexecuta a avaliação em setembro, com o mesmo modelo e o mesmo dado de março.
+
+Onde está a diferença?
+
+- [x] Na configuração: o limiar de decisão foi ajustado depois, e ele não estava versionado junto com o resto.
+- [ ] No dado: o hash garante o conteúdo, mas não garante a ordem das linhas.
+- [ ] No modelo: reexecutar a avaliação recarrega o artefato e pode carregar outra versão.
+- [ ] No ambiente: a imagem de contêiner fixa as bibliotecas, mas não a versão do sistema operacional.
+
+> **gabarito:** na configuração, que é o quinto versionamento
+> **porque:** O enunciado fecha quatro portas de propósito e deixa uma aberta. Treino reproduzível bit a bit não diz nada sobre o **limiar**, que é decisão de negócio e vive fora do modelo. Mudar o limiar muda quantos são aprovados sem mudar uma única probabilidade prevista.
+>
+> É exatamente a dívida de configuração do [capítulo V.2](v-2-sistemas-de-ml.md) aparecendo do lado da reprodutibilidade, e é por isso que a configuração é um dos cinco itens e não uma nota de rodapé. Repare que este caso não seria pego por nenhuma checagem de treino: o treino está perfeito. O que não está versionado é a regra que transforma a probabilidade em decisão.
 > **volte para:** #fundamentos-versionar-registrar-servir
 :::
 
@@ -94,6 +209,40 @@ Monitoramento de ML não é um painel: são **três** painéis, com donos e temp
 O drift é exatamente a quebra da hipótese que o [capítulo 0.2](../0-2-fundamentos.md) coloca na fundação: treino e produção vindo da mesma distribuição. Nada no modelo protege contra isso, porque a hipótese é anterior ao modelo.
 
 **Detectar sem rótulo.** Enquanto o rótulo não chega, sobra o que não depende dele: comparar a **distribuição da entrada** de hoje com a de referência (a janela de treino), atributo a atributo, e comparar a **distribuição da saída** — o histograma das probabilidades previstas. Se o modelo começa a prever positivo com o dobro da frequência de antes, algo mudou, mesmo que ninguém ainda saiba se ele está certo. É um alarme, não um veredito: drift de entrada não implica queda de desempenho, e queda de desempenho pode acontecer sem drift visível na entrada.
+
+:::exercicio {"id":"mlops-e6","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Num sistema antifraude, a proporção de transações fraudulentas na base passou de 0,3% para 2% em duas semanas. O perfil de quem compra continua o mesmo, e a relação entre o comportamento e a fraude também.
+
+Que tipo de drift é esse?
+
+- [ ] Drift de covariáveis
+- [ ] Drift de conceito
+- [x] Drift de rótulo
+- [ ] Nenhum: mudança de proporção não é drift
+
+> **gabarito:** drift de rótulo
+> **porque:** O que mudou foi a distribuição da **saída**, e o enunciado fecha as outras duas portas explicitamente: o perfil de entrada é o mesmo, e a relação entre entrada e saída também.
+>
+> Guarde a distinção pelo que muda em cada uma. Covariáveis: muda quem chega. Conceito: muda como quem chega se comporta. Rótulo: muda quanto do resultado é de cada tipo. E a quarta alternativa erra de um jeito caro: uma classe que quase septuplicou desarranja limiar, calibração e a métrica que o time acompanha, mesmo com o modelo intacto.
+> **volte para:** #monitorar-em-tres-camadas
+:::
+
+:::exercicio {"id":"mlops-e7","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Um modelo de risco de crédito é usado numa região nova do país. A distribuição de renda, idade e tempo de emprego dos solicitantes é bem diferente da que estava no treino, e o painel de entrada acusa isso em vários atributos. Quando os rótulos dos primeiros meses chegam, o desempenho do modelo nessa região está igual ao histórico.
+
+O que aconteceu, e o que se conclui?
+
+- [x] Houve drift de covariáveis sem drift de conceito: a entrada mudou, mas a relação entre entrada e inadimplência continua valendo, e o modelo generalizou.
+- [ ] Houve drift de conceito, porque o comportamento dos clientes da região nova é diferente do dos antigos.
+- [ ] Não houve drift, porque o desempenho não caiu; drift é definido pela queda de métrica.
+- [ ] Houve drift de rótulo, já que a base de solicitantes mudou de composição.
+
+> **gabarito:** drift de covariáveis sem drift de conceito
+> **porque:** É o caso que ensina a diferença, porque ele separa as duas coisas que costumam vir juntas. A entrada mudou de verdade, e o alarme do painel estava certo em disparar. Mas a função que liga entrada e inadimplência não mudou, então o modelo continua acertando em território novo.
+>
+> A terceira é a errada mais instrutiva, e é uma confusão comum de painel: ela define drift pelo efeito em vez de pela causa. Drift de entrada é observável **antes** do rótulo, e é essa antecedência que o torna útil. Se drift só existisse quando a métrica cai, ele não serviria para nada, porque a métrica só existe quando o rótulo chega. O alarme de entrada é alarme, e não veredito, e este exercício é o caso em que o veredito absolve.
+> **volte para:** #monitorar-em-tres-camadas
+:::
 
 :::exercicio {"id":"mlops-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Você opera um modelo que prevê, na assinatura do contrato, se um cliente vai ficar inadimplente. O **rótulo verdadeiro só existe 90 dias depois** — é o prazo para a primeira parcela vencer e o atraso ser confirmado.
@@ -125,6 +274,21 @@ E vale a regra que o [capítulo II.8](ii-8-do-modelo-a-decisao.md) impõe: **ret
 
 O plano de rollback é o item que quase todo time escreve durante o incidente, quando já é tarde. **Escreva antes**: qual métrica dispara a volta, qual é o limite, quem tem autoridade para acionar e quanto tempo leva. Um plano que depende de retreinar não é plano de rollback — é um segundo incidente.
 
+:::exercicio {"id":"mlops-e8","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Um plano de rollback escrito antes do deploy responde a quatro perguntas. Qual das opções abaixo **não** é uma delas?
+
+- [ ] Qual métrica dispara a volta atrás
+- [ ] Qual é o limite dessa métrica
+- [x] Qual correção será aplicada ao modelo com problema
+- [ ] Quem tem autoridade para acionar
+
+> **gabarito:** a correção a ser aplicada
+> **porque:** As outras três são o plano, junto com o tempo que a volta leva. A correção não é: descobrir a causa e consertar leva o tempo que levar, e é justamente por isso que o rollback existe. Ele separa **parar o dano** de **entender o problema**, que são coisas de urgências diferentes.
+>
+> Vale a formulação do capítulo: um plano que depende de retreinar não é plano de rollback, é um segundo incidente. Voltar à versão anterior tem de ser possível em minutos, sem treinar nada, e isso só vale se a versão anterior continuar registrada e servível.
+> **volte para:** #retreinar-e-implantar-sem-quebrar
+:::
+
 :::exercicio {"id":"mlops-e3","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
 Você vai promover uma nova versão de um modelo de recomendação. Quais práticas reduzem o risco **antes** de o usuário ser afetado?
 
@@ -141,6 +305,25 @@ Você vai promover uma nova versão de um modelo de recomendação. Quais práti
 > **volte para:** #retreinar-e-implantar-sem-quebrar
 :::
 
+:::exercicio {"id":"mlops-e9","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
+Você vai promover na sexta-feira uma nova versão do modelo que ordena os resultados de busca de um marketplace. O modelo serve em linha, a 3 mil requisições por segundo. A métrica de negócio que interessa é a taxa de clique, e ela só é confiável depois de umas seis horas de tráfego acumulado. A métrica técnica, latência, é confiável em minutos.
+
+Projete o plano de rollback desta promoção, antes de ela acontecer.
+
+> **rubrica:** nomeia a métrica de disparo e reconhece que são DUAS, com tempos diferentes de confiança: a latência responde em minutos, a taxa de clique só depois de horas;
+> define um limite numérico para cada uma, e não apenas "se piorar";
+> diz quem tem autoridade para acionar a volta, e prevê o caso de o incidente cair fora do horário comercial;
+> estima o tempo de execução da volta e exige que a versão anterior siga registrada e servível;
+> usa canário com fatia declarada, em vez de trocar a versão inteira de uma vez, e justifica a fatia pela métrica mais lenta;
+> não propõe corrigir o modelo como parte do rollback
+> **porque:** A resposta fraca escreve "se a métrica cair, volta atrás". Isso não é plano: não diz qual métrica, quanto é cair, quem decide nem em quanto tempo. No incidente, cada um desses quatro buracos vira uma discussão, e a discussão acontece enquanto o dano corre.
+>
+> O que este caso acrescenta, e é o miolo dele, é o **descompasso entre as duas métricas**. A latência protege em minutos; a taxa de clique, que é a que de fato importa, não protege ninguém nas primeiras horas. Quem promove tudo de uma vez fica cego justamente na métrica que interessa, e é por isso que a fatia do canário se dimensiona pela métrica mais lenta: ela precisa ser pequena o bastante para o dano ser tolerável durante as seis horas em que só a latência responde.
+>
+> A sexta-feira do enunciado não é enfeite. Um plano cuja autoridade de acionamento é uma pessoa que sai às 18h não é um plano, e a resposta forte percebe isso sem que ninguém aponte.
+> **volte para:** #retreinar-e-implantar-sem-quebrar
+:::
+
 ## Síntese — o que levar
 
 - A falha em produção quase nunca está no modelo. Está entre **treinar e servir**, e entre **servir hoje e servir em três meses**.
@@ -152,6 +335,7 @@ Você vai promover uma nova versão de um modelo de recomendação. Quais práti
 - Sem rótulo, monitore **distribuição de entrada e de saída**. Isso é alarme, não veredito.
 - Drift de dados ≠ drift de conceito ≠ drift de rótulo. O que muda é diferente, e a resposta também.
 - **Escreva o plano de rollback antes do deploy.** Sombra, canário e reverter — nessa ordem de custo.
+- Na fronteira do serviço, **o contrato existe de qualquer jeito**; a escolha é entre escrevê-lo e descobri-lo quebrado. E a política de violação (rejeitar, sanear, ignorar) é decisão declarada, nunca acidente da implementação.
 - E o nome da disciplina não foi cunhado onde todo mundo diz. Atribuição repetida não é atribuição verificada.
 
 ## Verificação
@@ -159,3 +343,22 @@ Você vai promover uma nova versão de um modelo de recomendação. Quais práti
 1. Um colega propõe versionar apenas o código e o modelo, porque "o dado é grande demais". Que pergunta ele deixa de conseguir responder — e como o *hash* de conteúdo resolve isso sem copiar o dado?
 2. O painel mostra drift claro na distribuição de duas entradas, mas a métrica de desempenho medida sobre os rótulos que já chegaram está estável. Retreinar ou não? Justifique usando a diferença entre drift de covariáveis e drift de conceito.
 3. Descreva o plano de rollback do último sistema em que você trabalhou — métrica de disparo, limite, responsável e tempo de execução. Se algum dos quatro não existir, diga o que aconteceria no incidente.
+
+:::exercicio {"id":"mlops-e12","tipo":"aberta","objetivo":"O2","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um modelo de previsão de atraso de entrega vai ao ar atrás de uma API. Ele recebe seis campos: `distancia_km` (número), `peso_kg` (número), `hora_do_dia` (inteiro de 0 a 23), `tipo_veiculo` (uma de quatro categorias), `chuva_mm` (número, frequentemente ausente) e `avaliacao_entregador` (número de 1 a 5, ausente para quem é novo).
+
+Escreva o contrato dessa fronteira e a política de violação de cada campo. Justifique cada política, e diga o que o serviço registra quando ela é acionada.
+
+> **rubrica:** declara, para os seis campos, o tipo e a faixa ou o conjunto de categorias aceitas, e não apenas para alguns;
+> trata os dois campos ausentes como **casos previstos no contrato**, e não como violação — a ausência de chuva e a de avaliação têm significados diferentes, e o contrato precisa dizer o que o serviço faz com cada uma;
+> escolhe uma política por campo entre rejeitar, sanear e ignorar, e **justifica pelo custo do erro** daquele campo, em vez de aplicar a mesma política a todos;
+> declara o que é registrado quando a política é acionada, de modo que um pico de violações seja observável antes de qualquer queda de métrica;
+> inclui a versão do modelo na resposta, ou justifica por que não incluiria;
+> não trata "rejeitar" como resposta padrão correta para tudo
+> **porque:** O ponto do desafio é que **os seis campos não merecem a mesma política**, e quem aplica uma regra única entrega a resposta fraca. Distância e peso fora de faixa provavelmente indicam erro de quem chamou, e recusar é defensável porque a predição sem eles não vale nada. Chuva ausente é o caso normal, não a exceção, e tratá-la como violação derrubaria o serviço na maior parte do ano.
+>
+> A avaliação do entregador é o caso mais interessante, e é o que separa a resposta forte da correta. Ela está ausente exatamente para os entregadores novos, que são um grupo com comportamento próprio. Preencher com a média joga esse grupo para o meio da distribuição e apaga a informação mais útil que existe sobre ele, que é ser novo. Um valor sentinela declarado, ou um campo que diga que o entregador não tem histórico, preserva o que a ausência informa. Repare que essa decisão é de modelagem e chega ao contrato, o que é justamente o argumento de o contrato ser escrito antes de o serviço subir.
+>
+> E o último critério existe porque a leitura apressada deste capítulo produz um serviço que recusa tudo. Rejeitar é a política mais visível e não é a mais segura: um campo secundário fora de faixa que derruba a resposta inteira troca uma predição um pouco pior por nenhuma predição, e essa troca precisa ser escolhida, não herdada.
+> **volte para:** #a-fronteira-do-servico-contrato-e-validacao-de-entrada
+:::

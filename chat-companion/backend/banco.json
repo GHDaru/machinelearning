@@ -10997,6 +10997,84 @@
    "titulo_capitulo": "V.2 — Sistemas de ML"
   },
   {
+   "id": "mlops-e10",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um serviço de modelo recebe uma requisição em que o campo `renda_mensal` chega como o texto vazio. O serviço converte o vazio para zero e responde a predição normalmente, sem registrar nada.\n\nQual é o problema principal dessa decisão?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Zero é um valor implausível de renda, e o modelo vai errar essa predição."
+    },
+    {
+     "correta": true,
+     "texto": "A política de violação é silenciosa: ninguém saberá que a entrada estava fora do contrato, nem hoje nem no relatório do mês."
+    },
+    {
+     "correta": false,
+     "texto": "O serviço deveria ter recusado a requisição, porque recusar é sempre a política correta."
+    },
+    {
+     "correta": false,
+     "texto": "O campo deveria ser obrigatório no esquema, o que tornaria a conversão desnecessária."
+    }
+   ],
+   "gabarito": "a política é silenciosa",
+   "porque": "Sanear a entrada é uma das três políticas legítimas, e o defeito aqui não é sanear: é sanear **sem deixar rastro**. A predição sai, o chamador recebe um número com aparência normal, e nada no sistema registra que o modelo decidiu sobre um valor que o cliente não mandou.\n\nA primeira alternativa está certa no fato e erra no alvo: uma predição ruim é o efeito, e o problema é que ninguém vai ligar o efeito à causa. A terceira transforma em regra o que o capítulo diz explicitamente não ser regra: nenhuma fonte prescreve recusar, e há casos em que recusar derruba um serviço por causa de um campo secundário. A quarta é uma boa melhoria de esquema e não resolve o que está em jogo, porque a pergunta continua de pé: quando a violação acontecer, o que o serviço faz, e quem fica sabendo?",
+   "volte_para": "#a-fronteira-do-servico-contrato-e-validacao-de-entrada",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
+   "id": "mlops-e11",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Você vai pôr um modelo de risco atrás de uma API. Quais decisões pertencem ao contrato dessa fronteira, e precisam estar escritas antes de o serviço subir? Marque todas que valem.",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O tipo e a faixa aceitável de cada campo de entrada, e a proporção de nulos tolerada."
+    },
+    {
+     "correta": true,
+     "texto": "O que o serviço faz quando um campo viola o contrato, e o que ele registra ao fazer isso."
+    },
+    {
+     "correta": true,
+     "texto": "Qual versão do modelo respondeu, devolvida junto com a predição."
+    },
+    {
+     "correta": false,
+     "texto": "Qual algoritmo foi usado no treino e quais hiperparâmetros venceram a busca."
+    },
+    {
+     "correta": false,
+     "texto": "Com que frequência o modelo será retreinado."
+    }
+   ],
+   "gabarito": "o esquema dos campos; a política de violação e o que ela registra; a versão do modelo na resposta",
+   "porque": "As três corretas são justamente o que quem consome o serviço precisa saber para depender dele sem surpresa. A segunda é a que mais gente esquece, e é a que separa um contrato de uma anotação: sem política declarada, cada rota decide sozinha, e as decisões divergem sem que ninguém perceba.\n\nAs duas erradas são verdadeiras e não são do contrato. O algoritmo e os hiperparâmetros pertencem à linhagem, que responde a outra pergunta e para outro público, o de auditoria. A frequência de retreino é política de operação, e muda sem que o contrato mude. O teste é este: se essa informação mudar, quem chama o serviço precisa mexer no código dele? Se sim, é contrato.",
+   "volte_para": "#a-fronteira-do-servico-contrato-e-validacao-de-entrada",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
    "id": "mlops-e1",
    "capitulo": 28,
    "arquivo": "livro/capitulos/v-3-mlops.md",
@@ -11034,6 +11112,154 @@
    "titulo_capitulo": "V.3 — MLOps"
   },
   {
+   "id": "mlops-e4",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um time guarda no Git o código de treino, guarda o modelo treinado num repositório de artefatos e registra o hash do conjunto de dados usado. Seis meses depois, roda o mesmo código sobre o mesmo dado e obtém um modelo diferente do que está em produção.\n\nQual dos cinco versionamentos deste capítulo ficou de fora?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O dado"
+    },
+    {
+     "correta": false,
+     "texto": "O modelo"
+    },
+    {
+     "correta": true,
+     "texto": "O ambiente"
+    },
+    {
+     "correta": false,
+     "texto": "O código"
+    }
+   ],
+   "gabarito": "o ambiente",
+   "porque": "Os outros três estão no enunciado, um a um. O que não está é a versão das bibliotecas, e é ela que muda sozinha entre um semestre e outro. Uma implementação que trocou o padrão de um parâmetro, ou que passou a sortear de outro jeito, produz outro modelo a partir do mesmo código e do mesmo dado.\n\nFalta também a configuração, que é o quinto item, mas o enunciado não diz nada sobre hiperparâmetros, e o ambiente é o que o caso descrito isola: mesmo código, mesmo dado, resultado diferente. Vale reter que a reprodutibilidade não é uma qualidade do time; é um conjunto de cinco coisas que alguém gravou.",
+   "volte_para": "#fundamentos-versionar-registrar-servir",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
+   "id": "mlops-e5",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Outro time é rigoroso: código no Git, dado por hash, modelo no registro, ambiente fixado por imagem de contêiner, semente fixa. O treino é reproduzível bit a bit. Ainda assim, o número de aprovações que o relatório de março mostrava não volta quando alguém reexecuta a avaliação em setembro, com o mesmo modelo e o mesmo dado de março.\n\nOnde está a diferença?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Na configuração: o limiar de decisão foi ajustado depois, e ele não estava versionado junto com o resto."
+    },
+    {
+     "correta": false,
+     "texto": "No dado: o hash garante o conteúdo, mas não garante a ordem das linhas."
+    },
+    {
+     "correta": false,
+     "texto": "No modelo: reexecutar a avaliação recarrega o artefato e pode carregar outra versão."
+    },
+    {
+     "correta": false,
+     "texto": "No ambiente: a imagem de contêiner fixa as bibliotecas, mas não a versão do sistema operacional."
+    }
+   ],
+   "gabarito": "na configuração, que é o quinto versionamento",
+   "porque": "O enunciado fecha quatro portas de propósito e deixa uma aberta. Treino reproduzível bit a bit não diz nada sobre o **limiar**, que é decisão de negócio e vive fora do modelo. Mudar o limiar muda quantos são aprovados sem mudar uma única probabilidade prevista.\n\nÉ exatamente a dívida de configuração do [capítulo V.2](v-2-sistemas-de-ml.md) aparecendo do lado da reprodutibilidade, e é por isso que a configuração é um dos cinco itens e não uma nota de rodapé. Repare que este caso não seria pego por nenhuma checagem de treino: o treino está perfeito. O que não está versionado é a regra que transforma a probabilidade em decisão.",
+   "volte_para": "#fundamentos-versionar-registrar-servir",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
+   "id": "mlops-e6",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Num sistema antifraude, a proporção de transações fraudulentas na base passou de 0,3% para 2% em duas semanas. O perfil de quem compra continua o mesmo, e a relação entre o comportamento e a fraude também.\n\nQue tipo de drift é esse?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Drift de covariáveis"
+    },
+    {
+     "correta": false,
+     "texto": "Drift de conceito"
+    },
+    {
+     "correta": true,
+     "texto": "Drift de rótulo"
+    },
+    {
+     "correta": false,
+     "texto": "Nenhum: mudança de proporção não é drift"
+    }
+   ],
+   "gabarito": "drift de rótulo",
+   "porque": "O que mudou foi a distribuição da **saída**, e o enunciado fecha as outras duas portas explicitamente: o perfil de entrada é o mesmo, e a relação entre entrada e saída também.\n\nGuarde a distinção pelo que muda em cada uma. Covariáveis: muda quem chega. Conceito: muda como quem chega se comporta. Rótulo: muda quanto do resultado é de cada tipo. E a quarta alternativa erra de um jeito caro: uma classe que quase septuplicou desarranja limiar, calibração e a métrica que o time acompanha, mesmo com o modelo intacto.",
+   "volte_para": "#monitorar-em-tres-camadas",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
+   "id": "mlops-e7",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um modelo de risco de crédito é usado numa região nova do país. A distribuição de renda, idade e tempo de emprego dos solicitantes é bem diferente da que estava no treino, e o painel de entrada acusa isso em vários atributos. Quando os rótulos dos primeiros meses chegam, o desempenho do modelo nessa região está igual ao histórico.\n\nO que aconteceu, e o que se conclui?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Houve drift de covariáveis sem drift de conceito: a entrada mudou, mas a relação entre entrada e inadimplência continua valendo, e o modelo generalizou."
+    },
+    {
+     "correta": false,
+     "texto": "Houve drift de conceito, porque o comportamento dos clientes da região nova é diferente do dos antigos."
+    },
+    {
+     "correta": false,
+     "texto": "Não houve drift, porque o desempenho não caiu; drift é definido pela queda de métrica."
+    },
+    {
+     "correta": false,
+     "texto": "Houve drift de rótulo, já que a base de solicitantes mudou de composição."
+    }
+   ],
+   "gabarito": "drift de covariáveis sem drift de conceito",
+   "porque": "É o caso que ensina a diferença, porque ele separa as duas coisas que costumam vir juntas. A entrada mudou de verdade, e o alarme do painel estava certo em disparar. Mas a função que liga entrada e inadimplência não mudou, então o modelo continua acertando em território novo.\n\nA terceira é a errada mais instrutiva, e é uma confusão comum de painel: ela define drift pelo efeito em vez de pela causa. Drift de entrada é observável **antes** do rótulo, e é essa antecedência que o torna útil. Se drift só existisse quando a métrica cai, ele não serviria para nada, porque a métrica só existe quando o rótulo chega. O alarme de entrada é alarme, e não veredito, e este exercício é o caso em que o veredito absolve.",
+   "volte_para": "#monitorar-em-tres-camadas",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
    "id": "mlops-e2",
    "capitulo": 28,
    "arquivo": "livro/capitulos/v-3-mlops.md",
@@ -11059,6 +11285,43 @@
     "cita ao menos um sinal proxy ou parcial (sinais precoces de atraso, cancelamentos, reclamações, taxa de aprovação por segmento)",
     "reconhece que esses sinais são alarme e não veredito, e diz o que faria em seguida (investigar, segurar promoção, comparar com o campeão anterior)"
    ]
+  },
+  {
+   "id": "mlops-e8",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um plano de rollback escrito antes do deploy responde a quatro perguntas. Qual das opções abaixo **não** é uma delas?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Qual métrica dispara a volta atrás"
+    },
+    {
+     "correta": false,
+     "texto": "Qual é o limite dessa métrica"
+    },
+    {
+     "correta": true,
+     "texto": "Qual correção será aplicada ao modelo com problema"
+    },
+    {
+     "correta": false,
+     "texto": "Quem tem autoridade para acionar"
+    }
+   ],
+   "gabarito": "a correção a ser aplicada",
+   "porque": "As outras três são o plano, junto com o tempo que a volta leva. A correção não é: descobrir a causa e consertar leva o tempo que levar, e é justamente por isso que o rollback existe. Ele separa **parar o dano** de **entender o problema**, que são coisas de urgências diferentes.\n\nVale a formulação do capítulo: um plano que depende de retreinar não é plano de rollback, é um segundo incidente. Voltar à versão anterior tem de ser possível em minutos, sem treinar nada, e isso só vale se a versão anterior continuar registrada e servível.",
+   "volte_para": "#retreinar-e-implantar-sem-quebrar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps"
   },
   {
    "id": "mlops-e3",
@@ -11100,6 +11363,62 @@
    "versoes": null,
    "pagina": "v-3-mlops",
    "titulo_capitulo": "V.3 — MLOps"
+  },
+  {
+   "id": "mlops-e9",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Você vai promover na sexta-feira uma nova versão do modelo que ordena os resultados de busca de um marketplace. O modelo serve em linha, a 3 mil requisições por segundo. A métrica de negócio que interessa é a taxa de clique, e ela só é confiável depois de umas seis horas de tráfego acumulado. A métrica técnica, latência, é confiável em minutos.\n\nProjete o plano de rollback desta promoção, antes de ela acontecer.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A resposta fraca escreve \"se a métrica cair, volta atrás\". Isso não é plano: não diz qual métrica, quanto é cair, quem decide nem em quanto tempo. No incidente, cada um desses quatro buracos vira uma discussão, e a discussão acontece enquanto o dano corre.\n\nO que este caso acrescenta, e é o miolo dele, é o **descompasso entre as duas métricas**. A latência protege em minutos; a taxa de clique, que é a que de fato importa, não protege ninguém nas primeiras horas. Quem promove tudo de uma vez fica cego justamente na métrica que interessa, e é por isso que a fatia do canário se dimensiona pela métrica mais lenta: ela precisa ser pequena o bastante para o dano ser tolerável durante as seis horas em que só a latência responde.\n\nA sexta-feira do enunciado não é enfeite. Um plano cuja autoridade de acionamento é uma pessoa que sai às 18h não é um plano, e a resposta forte percebe isso sem que ninguém aponte.",
+   "volte_para": "#retreinar-e-implantar-sem-quebrar",
+   "rubrica": "nomeia a métrica de disparo e reconhece que são DUAS, com tempos diferentes de confiança: a latência responde em minutos, a taxa de clique só depois de horas;\ndefine um limite numérico para cada uma, e não apenas \"se piorar\";\ndiz quem tem autoridade para acionar a volta, e prevê o caso de o incidente cair fora do horário comercial;\nestima o tempo de execução da volta e exige que a versão anterior siga registrada e servível;\nusa canário com fatia declarada, em vez de trocar a versão inteira de uma vez, e justifica a fatia pela métrica mais lenta;\nnão propõe corrigir o modelo como parte do rollback",
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps",
+   "criterios": [
+    "nomeia a métrica de disparo e reconhece que são DUAS, com tempos diferentes de confiança: a latência responde em minutos, a taxa de clique só depois de horas",
+    "define um limite numérico para cada uma, e não apenas \"se piorar\"",
+    "diz quem tem autoridade para acionar a volta, e prevê o caso de o incidente cair fora do horário comercial",
+    "estima o tempo de execução da volta e exige que a versão anterior siga registrada e servível",
+    "usa canário com fatia declarada, em vez de trocar a versão inteira de uma vez, e justifica a fatia pela métrica mais lenta",
+    "não propõe corrigir o modelo como parte do rollback"
+   ]
+  },
+  {
+   "id": "mlops-e12",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "aberta",
+   "objetivo": "O2",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "objetivos": null,
+   "enunciado": "**Desafio de fechamento.** Um modelo de previsão de atraso de entrega vai ao ar atrás de uma API. Ele recebe seis campos: `distancia_km` (número), `peso_kg` (número), `hora_do_dia` (inteiro de 0 a 23), `tipo_veiculo` (uma de quatro categorias), `chuva_mm` (número, frequentemente ausente) e `avaliacao_entregador` (número de 1 a 5, ausente para quem é novo).\n\nEscreva o contrato dessa fronteira e a política de violação de cada campo. Justifique cada política, e diga o que o serviço registra quando ela é acionada.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O ponto do desafio é que **os seis campos não merecem a mesma política**, e quem aplica uma regra única entrega a resposta fraca. Distância e peso fora de faixa provavelmente indicam erro de quem chamou, e recusar é defensável porque a predição sem eles não vale nada. Chuva ausente é o caso normal, não a exceção, e tratá-la como violação derrubaria o serviço na maior parte do ano.\n\nA avaliação do entregador é o caso mais interessante, e é o que separa a resposta forte da correta. Ela está ausente exatamente para os entregadores novos, que são um grupo com comportamento próprio. Preencher com a média joga esse grupo para o meio da distribuição e apaga a informação mais útil que existe sobre ele, que é ser novo. Um valor sentinela declarado, ou um campo que diga que o entregador não tem histórico, preserva o que a ausência informa. Repare que essa decisão é de modelagem e chega ao contrato, o que é justamente o argumento de o contrato ser escrito antes de o serviço subir.\n\nE o último critério existe porque a leitura apressada deste capítulo produz um serviço que recusa tudo. Rejeitar é a política mais visível e não é a mais segura: um campo secundário fora de faixa que derruba a resposta inteira troca uma predição um pouco pior por nenhuma predição, e essa troca precisa ser escolhida, não herdada.",
+   "volte_para": "#a-fronteira-do-servico-contrato-e-validacao-de-entrada",
+   "rubrica": "declara, para os seis campos, o tipo e a faixa ou o conjunto de categorias aceitas, e não apenas para alguns;\ntrata os dois campos ausentes como **casos previstos no contrato**, e não como violação — a ausência de chuva e a de avaliação têm significados diferentes, e o contrato precisa dizer o que o serviço faz com cada uma;\nescolhe uma política por campo entre rejeitar, sanear e ignorar, e **justifica pelo custo do erro** daquele campo, em vez de aplicar a mesma política a todos;\ndeclara o que é registrado quando a política é acionada, de modo que um pico de violações seja observável antes de qualquer queda de métrica;\ninclui a versão do modelo na resposta, ou justifica por que não incluiria;\nnão trata \"rejeitar\" como resposta padrão correta para tudo",
+   "versoes": null,
+   "pagina": "v-3-mlops",
+   "titulo_capitulo": "V.3 — MLOps",
+   "criterios": [
+    "declara, para os seis campos, o tipo e a faixa ou o conjunto de categorias aceitas, e não apenas para alguns",
+    "trata os dois campos ausentes como **casos previstos no contrato**, e não como violação — a ausência de chuva e a de avaliação têm significados diferentes, e o contrato precisa dizer o que o serviço faz com cada uma",
+    "escolhe uma política por campo entre rejeitar, sanear e ignorar, e **justifica pelo custo do erro** daquele campo, em vez de aplicar a mesma política a todos",
+    "declara o que é registrado quando a política é acionada, de modo que um pico de violações seja observável antes de qualquer queda de métrica",
+    "inclui a versão do modelo na resposta, ou justifica por que não incluiria",
+    "não trata \"rejeitar\" como resposta padrão correta para tudo"
+   ]
   },
   {
    "id": "fronteira-e1",

@@ -32,6 +32,7 @@ A quinta é a que distingue um ADR de um anúncio. Uma decisão sem custo declar
 | [0014](0014-tres-exercicios-por-objetivo-e-a-prova.md) | "Tópico" é o objetivo; a prova é por parte e determinística | 2026-08-13 | aceito |
 | [0015](0015-animacao-e-laboratorio-sem-manopla.md) | A animação não é quarta superfície: é laboratório sem manopla | 2026-08-13 | aceito |
 | [0016](0016-a-quem-pertence-a-escolha-da-forma-de-servico.md) | A escolha da forma de serviço é desenho, e fica no V.2 | 2026-08-13 | aceito (contra a maioria do comitê) |
+| [0017](0017-a-fronteira-do-servico-entra-no-v3.md) | A fronteira do serviço entra no V.3; a política de violação é decisão do leitor | 2026-08-13 | aceito |
 
 > Esta tabela ficou parada no 0003 por oito registros. Índice que não acompanha
 > é pior do que índice nenhum: quem chega procura aqui, não encontra o 0008, e

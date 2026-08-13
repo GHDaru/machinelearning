@@ -76,10 +76,17 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | — | ~ |
-| 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
+| 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | — | ~ |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 374 exercícios hoje (328 de capítulo + 46 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 383 exercícios hoje (337 de capítulo + 46 de prova) · **342 no alvo**.
+
+> **A `ORFAOS_ACEITOS` do gate ficou vazia.** Era a lista dos objetivos que o
+> livro declarava e não ensinava, e ela existia desde a auditoria de Bloom. Os
+> dois últimos casos caíram nos ciclos do V.2 e do V.3, e os dois pelo mesmo
+> caminho: o conteúdo subiu, e nenhum verbo foi rebaixado para caber no que já
+> estava escrito. Lista vazia não é lista morta, porque a checagem inversa
+> segue valendo e um órfão novo quebra o build.
 
 > **A coluna `fontes` abriu no V.2**, e abriu por necessidade, não por planejamento. O
 > capítulo prometia um objetivo que ele não ensinava, e escrever a seção que faltava

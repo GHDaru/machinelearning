@@ -36,20 +36,20 @@ const posicaoDe = (arquivo) => itens.findIndex((i) => i.arquivo === arquivo) + 1
 // A lista de exceções é a dívida COBRADA, não registrada. Falha nas DUAS
 // direções: um órfão novo quebra o build, e uma exceção que deixou de ser
 // necessária também — para que pagar a dívida obrigue a tirá-la daqui.
-// A que sobrou NÃO é falta de exercício: é falta de CONTEÚDO, e escrever
-// exercício sobre o que o capítulo não ensina seria pior que a dívida.
-//   v-3 O2 (implantar atrás de API com contrato e validação de entrada) — o
-//     capítulo cobre servir e monitorar, e não o contrato da API.
-// A saída é "o verbo desce ou o conteúdo sobe" (dívida D16).
+// A LISTA ESTÁ VAZIA, e é assim que ela deve permanecer. A dívida D16 foi paga
+// inteira em 2026-08-13, pelos dois lados, e sempre pelo CONTEÚDO — nunca
+// rebaixando o verbo do objetivo:
+//   v-2 O4 (decidir entre lote e tempo real pelo requisito) — ADR 0016. A
+//     escolha da forma de serviço é desenho, e não operação; o v-2 ganhou a
+//     seção "Decidir a forma de serviço pelo requisito" e o v-3 devolveu a
+//     tabela das três formas, que lá era órfã de objetivo.
+//   v-3 O2 (implantar atrás de API com contrato e validação de entrada) —
+//     ADR 0017. O v-3 ganhou "A fronteira do serviço", com o serviço deste
+//     próprio livro como exemplo trabalhado, defeitos inclusive.
 //
-// O v-2 O4 saiu daqui em 2026-08-13, pago pelo lado do CONTEÚDO. O ADR 0016
-// decidiu que escolher a forma de serviço é desenho, e não operação, e o v-2
-// ganhou a seção "Decidir a forma de serviço pelo requisito", com os quatro
-// eixos e as fontes abertas em primeira mão. O v-3 devolveu a tabela das três
-// formas, que lá era órfã de objetivo.
-const ORFAOS_ACEITOS = new Map(Object.entries({
-  "livro/capitulos/v-3-mlops.md": ["O2"],
-}));
+// Lista vazia não é lista morta: a checagem inversa continua valendo, então
+// um órfão novo quebra o build e obriga a declará-lo aqui e no roadmap.
+const ORFAOS_ACEITOS = new Map(Object.entries({}));
 
 const objetivosPorArquivo = new Map();
 const exercicios = [];

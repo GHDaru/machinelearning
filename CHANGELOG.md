@@ -6,6 +6,27 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o V.3 ganha a fronteira do serviço, e a lista de dívidas do gate zera
+- **Seção "A fronteira do serviço: contrato e validação de entrada"** no V.3,
+  dentro de "Fundamentos". O capítulo prometia implantar atrás de uma API com
+  contrato e validação e **não tratava da fronteira em lugar nenhum**. Decidido
+  pelo [ADR 0017](adr/0017-a-fronteira-do-servico-entra-no-v3.md).
+- **O exemplo trabalhado é o backend deste próprio livro** (`chat-companion/backend/app.py`),
+  com linha citada, e **com os defeitos dele em voz alta**: não versiona endpoint
+  e não conta nenhuma rejeição. Um serviço real que o leitor pode abrir vale mais
+  que um exemplo inventado, inclusive onde está abaixo do que o capítulo recomenda.
+- **A política de violação é apresentada como decisão, não como prescrição.**
+  Nenhuma fonte aberta diz o que fazer quando uma requisição viola o contrato,
+  e isso ficou registrado com selo ❌ em vez de virar opinião com aparência de
+  fonte. O capítulo mostra as três políticas convivendo no mesmo serviço e
+  ensina que a escolha é escrita no contrato.
+- **Nove exercícios novos no V.3**, fechando três por objetivo. O difícil do O2
+  é desafio aberto na Verificação, com rubrica, para não pagar a D16 engordando
+  a D13.
+- **`ORFAOS_ACEITOS` ficou vazia** em `publicar/exercicios.mjs`: a dívida D16 foi
+  paga pelos dois lados, e nenhum verbo foi rebaixado para caber no que já
+  estava escrito. A checagem inversa continua ligada.
+
 ### Adicionado — o V.2 passa a ensinar o que prometia
 - **Seção "Decidir a forma de serviço pelo requisito"** no capítulo V.2, com os
   quatro eixos da escolha (quando a decisão é necessária, custo do atributo
