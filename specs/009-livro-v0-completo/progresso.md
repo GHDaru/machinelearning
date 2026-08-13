@@ -33,7 +33,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 12 | II.4 — Otimização e Regularização | 4 | 4 | 12 | **ok** | — | — | — |
 | 13 | II.5 — Árvores e Ensembles | 4 | 5 | 12 | **ok** | — | — | — |
 | 14 | II.6 — Análise Multidimensional | 4 | 4 | 12 | **ok** | — | — | — |
-| 15 | II.7 — Séries Temporais | 4 | 4 | 12 | — | — | — | — |
+| 15 | II.7 — Séries Temporais | 4 | 4 | 12 | **ok** | — | — | — |
 | 16 | II.8 — Do Modelo à Decisão | 4 | 4 | 12 | — | — | — | — |
 | 17 | III.1 — O Neurônio Artificial | 4 | 4 | 12 | — | — | — | — |
 | 18 | III.2 — Redes Multicamadas | 4 | 4 | 12 | — | — | — | — |
