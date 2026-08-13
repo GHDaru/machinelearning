@@ -39,9 +39,9 @@ Este capítulo é sobre duas coisas que parecem opostas e são complementares: *
 
 ### O freio: Tikhonov, ridge e LASSO
 
-Regularização vem de outro lugar: **problemas mal-postos**. Hadamard (1923) define o que é um problema *bem-posto* — solução existe, é única e depende de forma estável dos dados. Muitos problemas inversos reais falham na terceira condição: uma perturbação minúscula na entrada muda a resposta radicalmente. Tikhonov publica sobre estabilidade desses problemas em **1943**, e o método de regularização em **1963**; **D. L. Phillips** chega a algo equivalente de forma independente em 1962 — daí a forma "Tikhonov–Phillips".
+Regularização vem de outro lugar: **problemas mal-postos**. Hadamard (1923) define o que é um problema *bem-posto*: solução existe, é única e depende de forma estável dos dados. Muitos problemas inversos reais falham na terceira condição: uma perturbação minúscula na entrada muda a resposta radicalmente. Tikhonov publica sobre estabilidade desses problemas em 1943, e o método de regularização em 1963; **D. L. Phillips** chega a algo equivalente de forma independente em 1962 — daí a forma "Tikhonov–Phillips".
 
-Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Kennard, *Technometrics*, 1970), e a origem é **industrial**: Hoerl vinha da engenharia química, e o "ridge" alude às **cristas dos gráficos de superfície de resposta**. Vinte e seis anos depois, o **LASSO** (Tibshirani, *JRSS-B*, 1996) herda diretamente do *non-negative garrote* de Breiman (1995), fundindo as duas etapas do garrote numa só.
+Na estatística o mesmo movimento aparece como **ridge regression** (Hoerl & Kennard, *Technometrics*, 1970), e a origem é industrial: Hoerl vinha da engenharia química, e o "ridge" alude às **cristas dos gráficos de superfície de resposta**. Vinte e seis anos depois, o **LASSO** (Tibshirani, *JRSS-B*, 1996) herda diretamente do *non-negative garrote* de Breiman (1995), fundindo as duas etapas do garrote numa só.
 
 **A ideia reaproveitável do bloco inteiro:** **aceitar erro sistemático de propósito para comprar estabilidade.** Tikhonov, ridge e LASSO são o mesmo gesto — o dado não determina a resposta, então você **impõe** uma preferência externa e assume o viés que ela introduz. É por isso que regularização não é um truque de implementação: é uma declaração sobre o que você acredita antes de ver os dados.
 
@@ -103,7 +103,7 @@ A quarta linha é a única que exige duas curvas. Plote sempre as duas — trein
 Taxa alta demais **nem sempre** produz explosão. Medimos, na [etapa 05–06](../trilha-ml-zero.md):
 
 - Com **regressão linear** (erro quadrático) e taxa 50, a perda explode e vira infinito. O erro quadrático não tem teto.
-- Com **regressão logística** e taxa **500** — dez vezes maior —, a perda **não** explode. Ela satura.
+- Com **regressão logística** e taxa 500, dez vezes maior, a perda **não** explode. Ela satura.
 
 Duas razões, e ambas valem entender. A perda logística é **limitada**: quando a sigmoide satura, o logaritmo é cortado e a perda para de crescer. E num problema linearmente separável, o primeiro gradiente já aponta na direção certa — um passo gigante nessa direção **acerta** em vez de explodir.
 
