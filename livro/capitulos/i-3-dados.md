@@ -32,13 +32,15 @@ O vazamento **não dá erro**. Não aparece em log, não quebra teste, e passa p
 
 **O aperto.** Fim dos anos 2000, competições públicas de mineração de dados. Empresas e universidades passaram a publicar conjuntos de dados reais e premiar quem previsse melhor — e as competições começaram a **quebrar**, uma atrás da outra: INFORMS 2010, o desafio de rede social do IJCNN 2011, a KDD-Cup 2007 sobre o dado da Netflix. Não por trapaça: por vazamento.
 
-O caso que virou emblema é a **KDD Cup de 2008**, de detecção de câncer em mamografia. Uma das colunas era o **identificador do paciente** — um número administrativo, sem nenhum conteúdo clínico. E ele tinha **poder preditivo enorme**.
+O caso que virou emblema é a **KDD Cup de 2008**, de detecção de câncer em mamografia. Uma das colunas era o identificador do paciente, um número administrativo sem nenhum conteúdo clínico, e ele tinha *"tremendous and unexpected predictive power"* nas palavras de quem analisou a competição.
+
+O mecanismo, que é mais interessante que o fato, está descrito na mesma análise: a base foi montada juntando **várias fontes** (estudos clínicos, instituições, equipamentos diferentes), e algumas dessas fontes tinham selecionado a própria população *"with prior knowledge of the patient's condition"*. Como cada fonte recebeu identificadores consecutivos, a junção foi feita *"without obfuscating the source"* — e o número do paciente virou o nome da fonte, disfarçado de número.
 
 **O que se fazia antes.** Tratava-se vazamento como descuido individual: alguém esqueceu de tirar uma coluna. Cada equipe descobria o seu, contava no corredor, e não havia vocabulário comum para o fenômeno.
 
 **A virada.** Em 2012, Kaufman, Rosset, Perlich e Stitelman publicam *"Leakage in Data Mining: Formulation, Detection, and Avoidance"* e fazem o movimento que faltava: **transformar uma coleção de acidentes numa categoria com definição, taxonomia e método de detecção.** Vazamento deixa de ser azar e passa a ser algo que se procura de propósito.
 
-**A ideia reaproveitável, e é a que dá título a este capítulo.** Desempenho alto demais é sintoma, não vitória. O identificador do paciente não sabia nada sobre câncer; sabia sobre como o hospital organizou a fila, que exames vinham de triagem de rotina e quais de encaminhamento suspeito. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
+**A ideia reaproveitável, e é a que dá título a este capítulo.** Desempenho alto demais é sintoma, não vitória. O identificador do paciente não sabia nada sobre câncer; sabia de qual fonte aquela linha tinha vindo, e algumas fontes já haviam escolhido quem entrava sabendo o diagnóstico. Todo vazamento é a mesma coisa dita de formas diferentes: **o modelo aprendeu o processo de coleta em vez do fenômeno.** Quando você vir um número bom demais, a pergunta não é "por que meu modelo é tão bom?", é **"o que, no jeito como esses dados foram produzidos, está me entregando a resposta?"**.
 
 **O nome.** *Leakage* — a informação "vaza" do futuro para o passado, atravessando a fronteira temporal que deveria separar o que se sabe do que se quer prever.
 
@@ -54,8 +56,9 @@ A **ficha de dataset** que este capítulo adota tem origem declarada, e ela não
 |---|---|
 | ✓ᵐ | [Kaufman, Rosset, Perlich & Stitelman, *ACM TKDD* 6(4), art. 15, 2012](https://dl.acm.org/doi/10.1145/2382577.2382579) — obra, autoria, ano e veículo. **PDF localizado, não lido por inteiro** |
 | ✓ᵐ | [Gebru *et al.*, *Datasheets for Datasets*, arXiv:1803.09010](https://arxiv.org/abs/1803.09010), 23/03/2018; versão em *CACM* 64(12), 2021. A analogia com a eletrônica está declarada no resumo |
-| ⏳ | As competições citadas como gatilho (INFORMS 2010, IJCNN 2011, KDD-Cup 2007) e o caso do *Patient ID* na KDD Cup 2008 |
-| ⏳ | A explicação de **por que** o identificador previa — a organização da fila do hospital. É a leitura corrente do caso; não conferida na primária |
+| ✓ | As competições citadas como gatilho e o caso do *Patient ID*, no texto de **Kaufman, Rosset & Perlich, *"Leakage in Data Mining"* (KDD '11)** — a versão de conferência do mesmo trabalho, PDF extraído e lido. Dela vêm os trechos citados entre aspas, o mecanismo das fontes com identificadores consecutivos, e o KDD-Cup 2007 sobre as bases da Netflix |
+| ⏳ | Que a versão de **TKDD 6(4), 2012**, com **Stitelman** como quarto autor, diga tudo isso nos mesmos termos. É a versão que este capítulo cita, e a que **não** foi aberta; o que se leu foi a de 2011, com três autores |
+| ❌ | **Correção de 2026-08-13.** O capítulo explicava o poder preditivo do identificador pela "organização da fila do hospital", com exames de triagem de rotina contra encaminhamento suspeito. A fonte diz outra coisa: a base juntou várias fontes, algumas das quais escolheram a população já sabendo o diagnóstico, e a junção manteve identificadores consecutivos por fonte. A explicação antiga soava plausível e perdia o mecanismo |
 | ❌ | **Datasets clássicos que envelheceram mal** por viés de seleção ou por questões éticas: casos existem e são citados na literatura, mas **nenhum foi verificado nesta passada**, e por isso nenhum é nomeado aqui |
 | 📖 | As duas ideias reaproveitáveis |
 

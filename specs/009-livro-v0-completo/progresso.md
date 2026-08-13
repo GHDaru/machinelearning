@@ -58,7 +58,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -111,6 +111,13 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > própria SPSS. A palavra ESPRIT, que o capítulo dava como o programa financiador,
 > **não aparece nenhuma vez** no documento, que diz "European Commission". Dois
 > erros que nenhum gate pegaria, num capítulo com voz, exercícios e prova fechados.
+>
+> **Placar da coluna, para calibrar o que falta.** Quatro capítulos conferidos,
+> quatro achados: no 0.2, uma linha de selo cobrindo cinco obras; no I.1, dois
+> fatos errados (consórcio de cinco, ESPRIT); no I.2, uma paráfrase que alargava
+> a definição da fonte; no I.3, um mecanismo trocado por outro mais plausível e
+> menos verdadeiro. **Nenhum dos quatro seria pego por gate**, e três deles
+> estavam em capítulos que eu mesmo já dera por fechados nas outras colunas.
 >
 > **A regra que este ciclo deixou:** resumo de máquina não confere fonte. Ao ler a
 > carta do *double descent*, uma extração automática afirmou que ela **não**

@@ -19,6 +19,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — o mecanismo do *Patient ID*, no capítulo I.3
+- **A explicação estava plausível e errada.** O capítulo dizia que o identificador
+  do paciente previa câncer porque refletia "a organização da fila do hospital",
+  com exames de triagem de rotina contra encaminhamento suspeito. A análise da
+  competição diz outra coisa: a base juntou **várias fontes** (estudos clínicos,
+  instituições, equipamentos), algumas das quais escolheram a população *"with
+  prior knowledge of the patient's condition"*, e a junção manteve identificadores
+  consecutivos por fonte, feita *"without obfuscating the source"*. O número do
+  paciente era o nome da fonte, disfarçado de número.
+- O texto do artigo foi extraído e lido, e com ele subiram a ✓ as competições
+  citadas como gatilho (INFORMS 2010, IJCNN 2011, KDD-Cup 2007 sobre as bases da
+  Netflix) e o caso do *Patient ID*.
+- **Uma distinção de versão que o capítulo não fazia:** o que se leu é a versão de
+  conferência (KDD '11, três autores). A versão citada pelo capítulo é a de *TKDD*
+  6(4), 2012, com Stitelman como quarto autor, e **essa** continua ⏳.
+
 ### Alterado — o capítulo I.2 sai de cinco ⏳ e ganha o lado que dá para citar
 - **O lado Kimball da disputa passou a ✓**, com duas definições citadas das páginas
   de técnicas dos próprios autores: a arquitetura de barramento e a dimensão
