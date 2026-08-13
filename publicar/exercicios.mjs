@@ -36,25 +36,16 @@ const posicaoDe = (arquivo) => itens.findIndex((i) => i.arquivo === arquivo) + 1
 // A lista de exceções é a dívida COBRADA, não registrada. Falha nas DUAS
 // direções: um órfão novo quebra o build, e uma exceção que deixou de ser
 // necessária também — para que pagar a dívida obrigue a tirá-la daqui.
+// As duas que sobraram NÃO são falta de exercício: são falta de CONTEÚDO, e
+// escrever exercício sobre o que o capítulo não ensina seria pior que a dívida.
+//   v-2 O4 (decidir entre lote e tempo real pelo requisito) — o capítulo não
+//     ensina isso; quem ensina é o v-3, na seção "Servir", com a tabela das três
+//     formas e a frase "escolhidas pelo requisito e não pelo gosto". O objetivo
+//     está no capítulo errado, e mover conteúdo é decisão editorial, não de gate.
+//   v-3 O2 (implantar atrás de API com contrato e validação de entrada) — o
+//     capítulo cobre servir e monitorar, e não o contrato da API.
+// Nos dois casos a saída é "o verbo desce ou o conteúdo sobe" (dívida D13).
 const ORFAOS_ACEITOS = new Map(Object.entries({
-  "livro/0-2-fundamentos.md": ["O1"],
-  "livro/capitulos/i-2-coleta-integracao.md": ["O1"],
-  "livro/capitulos/i-3-dados.md": ["O4"],
-  "livro/capitulos/i-4-analise-exploratoria.md": ["O3"],
-  "livro/capitulos/i-5-visualizacao-storytelling.md": ["O4"],
-  "livro/capitulos/i-6-representacao.md": ["O1"],
-  "livro/capitulos/ii-6-analise-multidimensional.md": ["O4"],
-  "livro/capitulos/ii-7-series-temporais.md": ["O4"],
-  "livro/capitulos/ii-8-do-modelo-a-decisao.md": ["O3"],
-  "livro/capitulos/iii-2-redes-neurais.md": ["O2"],
-  "livro/capitulos/iii-3-treinar-redes-profundas.md": ["O3"],
-  "livro/capitulos/iii-4-visao.md": ["O4"],
-  "livro/capitulos/iii-5-sequencias-linguagem.md": ["O1"],
-  "livro/capitulos/iii-6-modelos-de-fundacao.md": ["O3"],
-  "livro/capitulos/iv-1-nao-supervisionado.md": ["O3"],
-  "livro/capitulos/iv-2-reforco.md": ["O3"],
-  "livro/capitulos/iv-3-ia-simbolica-fuzzy-evolutiva.md": ["O4"],
-  "livro/capitulos/v-1-interpretabilidade-justica.md": ["O2"],
   "livro/capitulos/v-2-sistemas-de-ml.md": ["O4"],
   "livro/capitulos/v-3-mlops.md": ["O2"],
 }));
@@ -101,7 +92,37 @@ for (const item of itens) {
     }
     if (ex.tipo === "aberta") {
       ex.criterios = ex.rubrica.split(/[;\n]/).map((s) => s.replace(/^[-*]\s*/, "").trim()).filter(Boolean);
-      if (ex.criterios.length < 2) problemas.push(`${item.arquivo} · ${ex.id}: rubrica precisa de ao menos 2 critérios`);
+      // Desafio de fim de capítulo cobra produção de artefato ou demonstração,
+      // e rubrica de 2 critérios não decide nada nesse nível (ADR 0012): o
+      // quarto slot é o ANTI-CRITÉRIO — o movimento errado comum, nomeado.
+      // A rubrica é quebrada em `;` e quebra de linha. Um `;` DENTRO de um
+      // critério — tipicamente numa lista entre parênteses — parte um critério
+      // em três, e como `correto = atendidos == total`, os pedaços viram
+      // exigências conjuntas. O caso real: "aponta ao menos um mecanismo (A; B;
+      // C)" virou "aponta ao menos um mecanismo (A", "B", "C)" — e quem
+      // respondesse exatamente o pedido falharia em dois critérios.
+      // Parêntese desbalanceado é a assinatura confiável dessa quebra.
+      ex.criterios.forEach((c, i) => {
+        if ((c.match(/\(/g) || []).length !== (c.match(/\)/g) || []).length) {
+          problemas.push(`${item.arquivo} · ${ex.id}: critério ${i + 1} tem parêntese desbalanceado — ` +
+            `um ";" dentro do critério o partiu. Use vírgula ou "ou": "${c.slice(0, 60)}…"`);
+        }
+      });
+      // O parêntese pega a maioria dos casos e NÃO pega uma lista com `;` sem
+      // parêntese — aconteceu, e virou 8 critérios de um enunciado que pedia
+      // "ao menos três". O teto é a segunda rede: rubrica boa discrimina com
+      // 4 a 6 critérios, e como a correção exige TODOS, cada critério a mais é
+      // uma exigência a mais que o autor provavelmente não quis criar.
+      const TETO = 6;
+      if (ex.criterios.length > TETO) {
+        problemas.push(`${item.arquivo} · ${ex.id}: ${ex.criterios.length} critérios (teto ${TETO}). ` +
+          `Um ";" numa lista dentro do critério o parte em vários — e a correção exige todos. Use vírgula ou "ou".`);
+      }
+      const minimo = ex.secao === "verificacao" ? 4 : 2;
+      if (ex.criterios.length < minimo) {
+        problemas.push(`${item.arquivo} · ${ex.id}: rubrica precisa de ao menos ${minimo} critérios` +
+          (minimo === 4 ? " (desafio de fechamento — inclua o anti-critério)" : ""));
+      }
     }
     exercicios.push(ex);
   }

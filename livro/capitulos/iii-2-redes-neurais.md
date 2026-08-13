@@ -69,6 +69,10 @@ Confira nas quatro linhas: (0,0) → h=(0,1) → soma 1, não dispara. (0,1) →
 
 **A arquitetura.** Um **perceptron multicamadas** (*multilayer perceptron*, MLP) é isso, generalizado: uma camada de **entrada** (os atributos), uma ou mais camadas **escondidas** e uma camada de **saída**. Cada camada faz duas coisas, sempre nesta ordem: uma transformação linear (`Wx + b`) e uma **não-linearidade** aplicada elemento a elemento. A rede inteira é a composição dessas duas peças, repetida.
 
+**Contar os parâmetros, uma vez, com número.** Uma camada que recebe $e$ entradas e produz $s$ saídas tem uma matriz $W$ de $e \times s$ pesos, mais **um viés por unidade de destino** — $s$ deles. Total: $e \times s + s$.
+
+Numa rede 3 → 4 → 2, portanto: a primeira camada tem $3 \times 4 + 4 = 16$; a segunda, $4 \times 2 + 2 = 10$; a rede tem **26** parâmetros treináveis. Guarde a regra, porque o próximo exercício pede outra arquitetura — e porque é a conta que decide se você tem dado suficiente para treinar.
+
 A não-linearidade não é enfeite. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear** — o produto de duas matrizes é uma matriz. Sem a não-linearidade, você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.
 
 :::exercicio {"id":"redes-neurais-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
@@ -160,8 +164,24 @@ Explique por que o teorema **não** sustenta essa conclusão, e liste o que mais
 - **A ideia exportável: existência não é treinabilidade.** O teorema é não construtivo — garante que a rede certa está no espaço de hipóteses, sem dizer quantas unidades, como achá-la, ou se o gradiente chega lá.
 - Camadas e unidades são **hiperparâmetros**: escolhem-se sob validação, não por teorema.
 
+:::exercicio {"id":"redes-neurais-e4","tipo":"aberta","objetivo":"O2","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Explique backpropagation a alguém que **conhece a regra da cadeia** mas nunca viu uma rede. Diga o que é o passo para frente, o que é o passo para trás, e — a parte que decide — **onde exatamente está o reaproveitamento** que torna o custo viável.
+
+> **rubrica:** apresenta backpropagation como aplicação da regra da cadeia a uma composição de funções, e não como um algoritmo à parte que se decora;
+> descreve o passo para frente guardando os valores intermediários, e diz **por que** eles precisam ser guardados — são eles que as derivadas do passo para trás consomem;
+> localiza o reaproveitamento: o gradiente de uma camada é calculado a partir do gradiente da camada seguinte, de modo que cada derivada parcial é computada **uma vez** e reutilizada por tudo que está atrás dela;
+> não deixa a explicação parar em "é a regra da cadeia": sem dizer o que seria o custo **sem** o reaproveitamento — recalcular o caminho inteiro para cada peso —, a explicação não mostrou o que backpropagation acrescenta
+> **porque:** O quarto critério existe porque a resposta mais comum é verdadeira e vazia. "É a regra da cadeia aplicada à rede" está certo, e não explica por que isso foi um acontecimento: a regra da cadeia é do século XVII, e as redes ficaram intratáveis por décadas mesmo com ela disponível.
+>
+> O que backpropagation acrescenta é **ordem de cálculo**. Aplicando a regra da cadeia ingenuamente — para cada peso, percorrer o caminho dele até a saída — o mesmo produto é recalculado incontáveis vezes, e o custo cresce com o número de pesos multiplicado pela profundidade. Propagando de trás para frente, o gradiente da camada *k* já traz condensado tudo o que vem depois dela, e o custo do passo para trás fica **da mesma ordem** do passo para frente.
+>
+> Note o que a boa explicação torna óbvio de graça: **por que a memória cresce com a profundidade**. Guardar os valores intermediários é o preço do reaproveitamento, e é a razão de o tamanho do lote esbarrar na placa de vídeo — um fato de engenharia que cai direto desta derivação.
+> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
+:::
+
 ## Verificação
 
 1. Escreva os pesos e limiares de um MLP que computa o XOR e confira as quatro linhas da tabela-verdade. Depois explique, em uma frase, o que a camada escondida fez com o espaço de entrada.
-2. Explique backpropagation a alguém que conhece a regra da cadeia mas nunca viu uma rede: o que é o passo para frente, o que é o passo para trás, e onde exatamente está o reaproveitamento que torna o custo viável.
-3. "Uma camada escondida basta para aproximar qualquer função contínua." Diga o que essa frase garante, o que ela não garante, e por que a diferença entre as duas coisas custou quase vinte anos à área.
+2. "Uma camada escondida basta para aproximar qualquer função contínua." Diga o que essa frase garante, o que ela não garante, e por que a diferença entre as duas coisas custou quase vinte anos à área.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a primeira vale mais como construção no papel, conferida por você linha a linha, do que como texto — e a segunda rende mais numa discussão.

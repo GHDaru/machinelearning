@@ -98,8 +98,16 @@ def _system_prompt(chapter: Optional[int], mode: str, achados: list[dict],
                 + (f"; ainda em aberto: {', '.join(pendentes[:8])}" if pendentes else "")
                 + ". Use isso para sugerir o próximo passo, sem entregar gabarito de exercício "
                   "que ele ainda não acertou — proponha a pista, não a resposta.")
-    ctx = ("\n\nTrechos do livro relevantes (use como evidência e cite a fonte entre colchetes):\n"
-           + "\n".join(f"- [{a['fonte']} · {a['titulo']}] {a['trecho']}" for a in achados)
+    # O nome do capítulo vem primeiro e é a referência a citar. Sem ele, o
+    # modelo recebia caminho de arquivo e título de seção, e inventava a
+    # numeração a partir do texto — foi assim que o tutor chamou o III.1 de
+    # "Capítulo 18", número que só existe em registro histórico.
+    ctx = ("\n\nTrechos do livro relevantes. Ao indicar onde algo está, cite o capítulo pelo "
+           "nome que aparece em «capítulo» — é a numeração vigente. NUNCA deduza número de "
+           "capítulo do texto do trecho: numeração antiga ainda aparece em textos históricos.\n"
+           + "\n".join(
+               f"- [capítulo: {a.get('capitulo') or 'documento de apoio'} · seção: {a['titulo']} · {a['fonte']}] {a['trecho']}"
+               for a in achados)
            ) if achados else ""
     modo_txt = ("Modo AVANÇADO: todas as capacidades disponíveis."
                 if mode == "avancado" else

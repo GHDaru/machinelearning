@@ -164,8 +164,24 @@ Proponha **três atributos novos** construídos a partir dessas colunas ou de da
 - A hipótese distribucional tem **setenta anos**; o *embedding* é a realização computacional dela.
 - O *deep learning* **mudou o artesanato de lugar**, não o eliminou: alguém ainda decide o que conta como contexto.
 
+:::exercicio {"id":"representacao-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Um colega guarda a data e hora de cada pedido como um único inteiro — segundos desde 1970 — e argumenta que "a informação está toda lá, o modelo que se vire". Explique por que essa representação é quase inútil para a maioria dos modelos, o que exatamente a decomposição em dia da semana e hora do dia acrescenta, e por que "a informação está toda lá" não é o mesmo que "o modelo consegue usá-la".
+
+> **rubrica:** explica que o inteiro só oferece ordem e distância, e que os padrões que interessam (semanal, diário) **não são função simples** dele — sábado aparece a cada 604 800 segundos, e nenhum corte no eixo do inteiro isola sábados;
+> diz o que a decomposição acrescenta: torna explícita uma regularidade cíclica que o modelo teria de reconstruir sozinho, e passa a permitir que ele a use com os cortes de que dispõe;
+> conecta ao limite geral — nenhum modelo aprende o que a representação não deixa expressar, e mais dados não compensam representação que apaga a estrutura;
+> não responde que "o modelo não entende datas": o problema não é o tipo do campo nem falta de inteligência do modelo, é qual informação a codificação torna **acessível** à família de funções que ele consegue formar
+> **porque:** O argumento do colega é literalmente verdadeiro e praticamente errado, e essa distância é o capítulo inteiro. A informação **está** no inteiro — é reversível, nada foi perdido. Mas "estar presente" e "estar acessível" são coisas diferentes: uma árvore corta em limiares, um modelo linear soma termos ponderados, e nenhum dos dois expressa "é sábado" a partir de um número que cresce sem parar.
+>
+> Repare no que a decomposição faz de fato: ela não acrescenta informação nenhuma, **ela reorganiza a mesma informação numa forma que o modelo consegue usar**. É o exemplo mais limpo do princípio de abertura — o modelo só vê o que você mostrou — e é por isso que este exercício vem no fim: a representação é a decisão que estabelece o **teto** do que qualquer modelo pode aprender, e ela é tomada antes de existir modelo.
+>
+> Um detalhe que a boa resposta costuma alcançar: a hora do dia também é cíclica, e 23h e 0h estão próximas no relógio e distantes no número. Quem percebe isso já está a um passo de codificar o ciclo com seno e cosseno — que é a mesma ideia, aplicada mais uma vez.
+> **volte para:** #o-problema-o-modelo-so-ve-o-que-voce-mostrou
+:::
+
 ## Verificação
 
-1. Por que uma data como inteiro é quase inútil para a maioria dos modelos, e o que exatamente a decomposição em dia da semana e hora do dia acrescenta?
-2. Você tem uma coluna com 8 000 códigos de produto distintos. Descreva duas estratégias de codificação e diga em que situação escolheria cada uma.
-3. A hipótese distribucional afirma que o sentido está na companhia. Dê um exemplo, fora de texto, em que representar um item pelo contexto funciona melhor que representá-lo pelos atributos próprios.
+1. Você tem uma coluna com 8 000 códigos de produto distintos. Descreva duas estratégias de codificação e diga em que situação escolheria cada uma.
+2. A hipótese distribucional afirma que o sentido está na companhia. Dê um exemplo, fora de texto, em que representar um item pelo contexto funciona melhor que representá-lo pelos atributos próprios.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a segunda, em especial, vale pelo exemplo que **você** traz — e um exemplo novo é melhor do que um exemplo certo.

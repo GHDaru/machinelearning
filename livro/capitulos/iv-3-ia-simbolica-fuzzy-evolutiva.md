@@ -176,8 +176,24 @@ Um colega propõe treinar uma rede neural com os 60 casos. Escreva a recomendaç
 - **A rejeição tem geografia.** A comunidade que rejeita uma ideia raramente é a que a reabilita. Se o método não anda, procure a sala certa antes de trocar o método.
 - **Aposta de arquitetura não é aposta de método.** O colapso de 1987 não mediu a qualidade da IA simbólica; mediu a durabilidade de um hardware especializado.
 
+:::exercicio {"id":"ia-simbolica-fuzzy-evolutiva-e4","tipo":"aberta","objetivo":"O4","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Você tem um problema de escalonamento com **40 tarefas** e um simulador que leva **8 segundos** por avaliação. Um algoritmo genético é candidato razoável? Estime a **ordem de grandeza** do custo, diga o que você mediria antes de decidir, e qual linha de base o algoritmo precisaria bater.
+
+> **rubrica:** faz a conta explicitamente — uma população de algumas dezenas por algumas centenas de gerações dá dezenas de milhares de avaliações, e a 8 segundos cada isso são semanas de simulador, não horas;
+> conclui a partir do número, e não da reputação do método: o custo por avaliação é o que decide, e é ele que torna o genético caro **aqui**, não uma qualidade intrínseca do algoritmo;
+> propõe o que medir antes de decidir — quanto uma busca aleatória com o mesmo orçamento de avaliações consegue, e se o simulador pode ser barateado, paralelizado ou substituído por uma aproximação;
+> nomeia a **linha de base** que o algoritmo precisa bater: uma heurística de escalonamento conhecida ou a busca aleatória com orçamento igual — e reconhece que ganhar da linha de base é a condição, não a métrica final
+> **porque:** A pergunta parece ser sobre algoritmos genéticos e é sobre **orçamento de avaliações**. Métodos evolutivos existem para buscar onde não há gradiente, e o preço é comprarem informação uma avaliação por vez, aos milhares. Onde a avaliação é barata, isso não custa nada; onde ela leva 8 segundos, o método herda o preço multiplicado.
+>
+> A conta importa mais do que a conclusão. `50 × 300 × 8 s ≈ 33 horas` de simulador puro no cenário otimista, e uma ordem de grandeza acima no realista — número que muda a conversa de "vamos tentar" para "vamos paralelizar, aproximar o simulador, ou usar outra coisa". Quem responde sem estimar não tem como saber de qual dos dois lados está.
+>
+> E o terceiro critério é o que quase sempre falta: **busca aleatória com o mesmo orçamento**. É a linha de base honesta, é trivial de implementar, e um genético que não a supera está pagando complexidade por nada. É o mesmo hábito que o capítulo [0.2](../0-2-fundamentos.md) cobra em modelos — só que aqui a linha de base é de busca, não de predição.
+> **volte para:** #evolutiva-buscar-onde-nao-existe-gradiente
+:::
+
 ## Verificação
 
 1. Um colega afirma que "IA simbólica é IA antiga". Dê dois cenários concretos do seu contexto em que a escolha simbólica seria tecnicamente superior — e diga qual característica do cenário determina isso.
 2. Explique, sem usar a palavra "probabilidade", a diferença entre dizer que uma leitura tem pertinência 0,7 ao conjunto "quente" e dizer que há 70% de chance de a água estar quente. Que decisão prática muda conforme a interpretação?
-3. Você tem um problema de escalonamento com 40 tarefas e um simulador que leva 8 segundos por avaliação. Um algoritmo genético é candidato razoável? Estime a ordem de grandeza do custo, diga o que você mediria antes de decidir e qual linha de base o algoritmo precisaria bater.
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a primeira pede cenários que só você conhece, e a segunda rende mais como discussão do que como resposta escrita.

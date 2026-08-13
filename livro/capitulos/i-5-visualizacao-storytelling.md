@@ -145,9 +145,25 @@ Complete a regra do título num gráfico de apresentação:
 - Um gráfico de apresentação tem **uma** mensagem, e ela vai no **título**. Rótulo de dados terceiriza a conclusão para a plateia.
 - Explorar (cap. I.4) é para você; comunicar (este) é para quem decide (cap. II.8). Muda o público, muda o gráfico — não a conclusão.
 
+:::exercicio {"id":"visualizacao-storytelling-e4","tipo":"aberta","objetivo":"O4","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Seu modelo mostrou que a inadimplência se concentra num canal de venda específico, e a estimativa tem incerteza considerável. Conte o mesmo achado **duas vezes**: em três minutos para a diretoria e em quinze para o time técnico. Diga o que entra em cada versão — e, sobretudo, **o que não pode mudar entre as duas**.
+
+> **rubrica:** diz o que entra na versão executiva (o achado, a consequência e a recomendação) e o que entra na técnica (método, incerteza quantificada, limitação e o que faria a conclusão cair);
+> identifica explicitamente o que **não pode mudar**: o achado, os números e a incerteza — e justifica por que mudá-los seria mentir, não resumir;
+> justifica cada corte pelo que o público **decide**, não pelo tempo disponível;
+> não trata a versão executiva como a técnica encurtada, nem sacrifica a incerteza para caber em três minutos
+> **porque:** Adaptar não é encurtar. As duas versões respondem a perguntas diferentes: a diretoria decide **o que fazer**, o time técnico decide **se dá para confiar**. Por isso o método sai da versão executiva sem prejuízo — quem decide o canal não precisa saber qual validação você usou — mas a **incerteza não sai de nenhuma das duas**.
+>
+> É aqui que quase toda apresentação escorrega, e o escorregão é sempre justificado pelo relógio: "não dava tempo de explicar o intervalo". O resultado é uma diretoria decidindo com uma certeza que ninguém tinha, e o custo aparece depois, quando o número não se confirma e a conversa vira sobre a sua credibilidade em vez de sobre a decisão.
+>
+> A regra que fecha o capítulo: **muda o público, muda o gráfico — não a conclusão.** Se as duas versões levam a decisões diferentes, uma das duas está errada, e é quase sempre a curta.
+> **volte para:** #o-grafico-que-decide
+:::
+
 ## Verificação
 
 1. Um diretor pede "um gráfico das vendas". Que perguntas você faz antes de escolher a forma — e como cada resposta muda a escolha?
 2. Pegue um gráfico de um jornal ou relatório desta semana. Ele trunca algum eixo, codifica quantidade em área, ou usa cor sem propósito? O que muda na conclusão se você corrigir?
 3. Reescreva três títulos de gráficos que você já viu, transformando rótulo em conclusão. Em qual deles o gráfico **não** sustentava a conclusão que você quis escrever?
-4. Conte o mesmo achado duas vezes: em três minutos para a diretoria e em quinze para o time técnico. O que entra em cada uma — e o que não pode mudar entre as duas?
+
+> Estas três não são corrigidas, e a omissão é deliberada: as três dependem de um material que só você tem à mão — o gráfico desta semana, os títulos que você já viu — e corrigir por rubrica um artefato que o corretor não viu seria fingir correção.

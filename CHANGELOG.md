@@ -6,6 +6,88 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — os endereços antigos voltam a chegar ao capítulo
+- **29 redirecionamentos**, um para cada capítulo renumerado pelo ADR 0011.
+  `05-modelos-lineares.html` → `ii-2-modelos-lineares.html`, e assim por diante.
+  O ADR aceitou quebrar os endereços; a conta chegou no meio do semestre, em
+  link de slide, de PDF de aula, do Moodle e de favorito de aluno.
+- **A âncora e a query sobrevivem** — `05-modelos-lineares.html#o-caso-da-limonada`
+  chega em `ii-2-modelos-lineares.html#o-caso-da-limonada`. É o caso que mais
+  importa, porque link de aula aponta para a *seção*, e o `meta refresh`
+  sozinho descartaria o fragmento. Verificado num navegador de verdade.
+- **Stub em HTML, não configuração de provedor**: o livro é servido em dois
+  lugares até o passo 8 da migração, e um arquivo funciona nos dois.
+- O mapa (`publicar/redirecionamentos.json`) foi **derivado da detecção de
+  rename do git**, não escrito à mão. Dois gates novos: uma rota que colida com
+  uma página viva (o stub apagaria o capítulo) ou que aponte para página
+  inexistente quebra o build.
+
+### Corrigido — o tutor citava numeração que não existe mais
+- **"Qual o capítulo do neurônio artificial?" → "Capítulo 18", citando o
+  `HISTORICO.md`.** Depois do ADR 0011 o capítulo é **III.1**, e a posição de
+  leitura é 17 — o 18 não existe em lugar nenhum do livro atual. Três causas
+  somadas, todas medidas antes de qualquer conserto:
+  1. **O `HISTORICO.md` entrava no corpus** com o mesmo peso de um capítulo — e
+     ele guarda numeração de edições antigas *por construção*. Editar o arquivo
+     não resolveria: cada edição nova acrescenta numeração que envelhece. Saiu
+     do índice, junto com o guia editorial e a documentação do banco.
+  2. **Os blocos não sabiam de que capítulo eram.** Só o bloco do H1 continha o
+     nome, então perguntar por um capítulo não recuperava esse capítulo — na
+     medição, o capítulo do neurônio não aparecia entre os três primeiros.
+     Agora todo bloco herda "Parte III … · III.1 — O Neurônio Artificial",
+     vindo do `sumario.json`, que é a fonte da numeração vigente.
+  3. **`buscar()` nunca entregava o nome canônico ao modelo** — só caminho de
+     arquivo e título de seção. O modelo *tinha* de deduzir o número do texto,
+     e deduziu do texto histórico. Agora recebe o capítulo e a instrução
+     explícita de não inferir numeração do conteúdo.
+- Sete testes novos cobram as três causas, vistos falhando antes de valerem.
+
+### Corrigido — onda 3: o download que entregava o gabarito
+- **O botão "⬇ md" servia o arquivo-fonte cru.** `docs/md/machine-learning.md`
+  trazia **79 gabaritos e 30 rubricas**, e o botão fica na página do capítulo,
+  ao lado do exercício que deveria custar duas tentativas. O desenho estava
+  certo — `renderizar()` protege o HTML — e a promessa era falsa, porque
+  ninguém tinha conferido a outra porta. `semGabarito()` limpa a exportação
+  (gabarito, `porque`, rubrica e a marcação `- [x]`), preservando enunciado,
+  alternativas e o `volte para`. **Gate novo**, visto falhando com 273
+  vazamentos antes de ser dado por pronto.
+- **Rubrica partida por `;` dentro do critério.** A rubrica é quebrada em `;`,
+  então `"aponta um mecanismo (A; B; C)"` virava **três critérios**. Como
+  `correto = atendidos == total`, quem respondesse exatamente o que foi pedido
+  — *um* mecanismo — falharia em dois. Atingia `ciclo-ciencia-de-dados-e5`, já
+  publicado. Gate novo: parêntese desbalanceado no critério quebra o build —
+  e ele **pegou o mesmo erro sendo cometido de novo**, uma hora depois, na
+  redação de um exercício novo. Um segundo gate (teto de 6 critérios) cobre a
+  variante que o parêntese não vê: lista com `;` sem parêntese nenhum, que
+  transformou "cite ao menos três" em oito exigências simultâneas.
+
+### Adicionado — onda 3: a promessa dos objetivos
+- **Vinte e um exercícios novos, 101 → 122.** Dezoito pagam objetivos que não
+  tinham cobrança nenhuma (**D11: 20 → 2**); três fecham os órfãos abertos ao
+  reapontar exercícios mal mapeados — que o gate bidirecional da onda 1
+  detectou no mesmo instante, como projetado.
+- **Os 2 órfãos restantes não são falta de exercício, e sim de conteúdo** (D16).
+  `v-2` declara "decidir entre lote e tempo real pelo requisito" e quem ensina
+  isso é o **`v-3`** — com a frase "escolhidas pelo requisito e não pelo gosto",
+  que é a redação do objetivo do outro capítulo. Escrever exercício ali seria
+  cobrar o que o capítulo não ensina; a saída é editorial, e ficou registrada.
+- **[ADR 0012](adr/0012-verificacao-como-superficie-corrigida.md) — a seção
+  `## Verificação` vira superfície corrigida, uma pergunta por capítulo.** Três
+  pareceres independentes (avaliação, arquitetura, professor com turma em
+  curso) convergiram em não converter as ~87, não criar tipo novo de bloco e
+  fasear. Divergiram sobre revelar a solução; o desacordo se resolve revelando
+  **os critérios**, não a solução pronta — o exemplo trabalhado vai para o
+  corpo do capítulo, onde serve o leitor solitário sem queimar a aula seguinte.
+  Marcação por atributo `secao`, agora carregado até o `banco.json`.
+- **Rubrica de 4 critérios obrigatória** nesses desafios, sendo o quarto o
+  **anti-critério** — o movimento errado comum, nomeado.
+- **As perguntas que ficam sem correção agora dizem por quê**, em vez de o
+  leitor ter de adivinhar. Três delas continuam sem correção de propósito:
+  dependem de material que só o leitor tem à mão, e rubricar artefato que o
+  corretor não viu seria fingir correção.
+- **O índice dos ADRs voltou a existir**: tinha parado no 0003 por oito
+  registros. Índice que não acompanha é pior do que índice nenhum.
+
 ### Corrigido — onda 2: o dano direto ao aluno
 - **O laboratório do `I.4` deixou de ser sabotado pelo próprio capítulo.** O
   enunciado pedia "encontre as duas colunas surpreendentes" e **duas linhas

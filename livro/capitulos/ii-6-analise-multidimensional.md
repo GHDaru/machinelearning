@@ -162,9 +162,25 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 - O cubo **pré-computado** perdeu terreno para o colunar barato; o **vocabulário** do cubo não perdeu nada.
 - A categoria "OLAP" nasceu com um episódio incômodo. **Pergunte de onde veio a categoria** antes de aceitá-la como natural — e julgue a embalagem separadamente da engenharia.
 
+:::exercicio {"id":"analise-multidimensional-e4","tipo":"aberta","objetivo":"O4","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** O cubo já calcula, para cada loja, a média de vendas do mês e o total do trimestre. Você quer usar essas agregações como variáveis de um modelo que prevê a venda **da próxima semana** — sai de graça, já está pronto. Descreva a verificação que você faria **antes**, para não vazar o futuro para dentro do passado, e diga como a agregação teria de ser recalculada para servir ao modelo.
+
+> **rubrica:** identifica que a agregação do cubo é calculada sobre o período **inteiro** — inclusive dias posteriores à data que a linha do modelo representa — e que isso coloca informação do futuro numa variável do passado;
+> propõe a correção concreta: a agregação de cada linha só pode usar dados **até a data daquela linha** (janela que termina antes do alvo), o que significa recalcular por linha em vez de reaproveitar a célula do cubo;
+> explica por que o sintoma é enganoso — a métrica fica ótima, e fica ótima **também na validação**, porque o vazamento está dentro do atributo e acompanha o dado onde ele for;
+> não confunde o problema com o grão nem com desnormalização: reduzir o grão ou normalizar a tabela não conserta nada, porque o defeito é **temporal**, não estrutural
+> **porque:** É o ponto de encontro dos dois capítulos, e a armadilha é boa porque o atalho é genuinamente tentador: o cubo **já tem** o número, com desempenho que ninguém vai bater recalculando.
+>
+> O que ele não tem é a **assimetria temporal**. O cubo foi construído para responder ao analista, que olha o passado inteiro de uma vez e para quem "média do mês" significa o mês fechado. O modelo pergunta outra coisa — *o que se sabia naquele instante* — e a mesma célula, lida com essa pergunta, contém dias que ainda não tinham acontecido.
+>
+> Repare no terceiro critério, que é o que torna este erro caro: o vazamento **viaja dentro do atributo**. Dividir treino e teste corretamente não ajuda em nada, porque as duas partes carregam a mesma contaminação, e a validação confirma o resultado em vez de denunciá-lo. Só produção revela — e revela caro.
+> **volte para:** #do-cubo-ao-modelo
+:::
+
 ## Verificação
 
 1. Escolha um sistema que você conhece e diga qual seria o **grão** da tabela-fato. Depois diga o que se perde ao subir um nível — e quem vai reclamar primeiro.
 2. Dê um exemplo, do seu contexto, de medida **semi-aditiva**. Em quais dimensões ela soma, e o que se calcula naquela em que não soma?
 3. O colega da farmácia diz que o cubo é dispensável porque "hoje o banco colunar aguenta". Em que ele tem razão, e o que continua valendo do modelo dimensional mesmo sem cubo pré-computado?
-4. Você usaria as agregações do cubo como variáveis de um modelo preditivo ([capítulo I.4](i-4-analise-exploratoria.md) antes, [capítulo I.3](i-3-dados.md) como alerta). Que verificação você faria **antes**, para não vazar o futuro para dentro do passado?
+
+> Estas três não são corrigidas, e a omissão é deliberada: as duas primeiras pedem um sistema que só você conhece, e a terceira rende mais como discussão do que como resposta escrita.

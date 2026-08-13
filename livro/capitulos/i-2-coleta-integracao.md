@@ -162,8 +162,24 @@ O modelo treinado com essa tabela alcança desempenho muito acima do esperado. E
 - Reprocessar é rotina, não exceção: `MERGE` por chave ou sobrescrita de partição, nunca `INSERT` puro.
 - De cada coluna: **quem produz, quando, e é sobrescrita ou versionada?** Junção sem recorte de tempo é a fábrica número um de vazamento.
 
+:::exercicio {"id":"coleta-integracao-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Você precisa extrair 4 milhões de registros de uma API paginada **que muda ao longo do dia**, e a mesma entidade também existe num banco relacional de produção. Descreva como faria cada extração e — a parte que decide — **o que garantiria que as duas descrevem o mesmo instante**.
+
+> **rubrica:** trata a paginação sobre base que se move: diz como evita registro repetido ou pulado quando a página 700 é lida depois de a base ter mudado (cursor estável, ordenação por chave imutável, ou releitura idempotente);
+> descreve a extração relacional por um recorte declarado e repetível — um corte de tempo explícito, não "tudo o que está lá agora";
+> nomeia um **instante de referência** único e diz como ele é fixado nas duas fontes (marca de tempo de corte, versão, ou snapshot), em vez de supor que "rodar as duas na mesma hora" basta;
+> não trata o problema como de volume: 4 milhões de registros é fácil, e a resposta que só fala de lote, paralelismo ou memória não respondeu à pergunta
+> **porque:** O número grande é a isca. Volume se resolve com paginação e paciência; o que quebra a integração é que **a fonte se move enquanto é lida** — quando você chega à última página, a primeira já não vale, e você produziu um retrato de nada: nem do começo, nem do fim.
+>
+> Daí a pergunta que importa não ser "como extrair", e sim "**a que instante este conjunto se refere?**". Sem essa resposta, a junção com o banco relacional cruza um cliente de hoje com um pedido de ontem e ninguém percebe, porque a contagem fecha e o pipeline não dá erro.
+>
+> É a mesma armadilha da última linha da síntese: junção sem recorte de tempo é a fábrica número um de vazamento. Aqui ela aparece antes do modelo, na coleta — e é mais barata de consertar aqui do que três capítulos adiante, quando o vazamento já virou uma métrica boa demais.
+> **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
+:::
+
 ## Verificação
 
-1. Você precisa extrair 4 milhões de registros de uma API paginada que muda ao longo do dia, e a mesma entidade também existe num banco relacional de produção. Descreva como faria cada extração e o que garantiria que as duas descrevem o mesmo instante.
-2. Uma diretora pergunta por que a empresa vai pagar por um data warehouse se "já existe o lake, e ele é mais barato". Responda em termos de custo por byte e custo por pergunta, com um exemplo de cada.
-3. Um colega diz que o pipeline dele está correto porque "roda todo dia sem erro há seis meses". Que três perguntas você faz antes de confiar nos dados que ele entrega?
+1. Uma diretora pergunta por que a empresa vai pagar por um data warehouse se "já existe o lake, e ele é mais barato". Responda em termos de custo por byte e custo por pergunta, com um exemplo de cada.
+2. Um colega diz que o pipeline dele está correto porque "roda todo dia sem erro há seis meses". Que três perguntas você faz antes de confiar nos dados que ele entrega?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: as duas se ganham convencendo alguém, e a resposta certa depende de quem está do outro lado da mesa.

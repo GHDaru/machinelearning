@@ -71,6 +71,16 @@ Duas coisas se pode aprender. A **política** responde "o que fazer aqui?" — �
 
 **O desconto (γ).** Recompensa futura vale menos que recompensa agora, e multiplica-se cada passo por um fator γ entre 0 e 1. Isso existe por dois motivos, um matemático e um honesto: sem desconto, a soma de recompensas de um processo sem fim não converge; e, com desconto, o agente pesa o futuro do jeito que qualquer decisor sensato pesa — com desconfiança crescente, porque previsão distante é previsão pior. γ perto de 0 produz um agente imediatista; γ perto de 1, um agente paciente e mais difícil de treinar.
 
+Em números, para não ficar abstrato. O **retorno** a partir de um instante é a soma descontada do que vem depois:
+
+$$G = r_0 + \gamma r_1 + \gamma^2 r_2 + \dots$$
+
+Com $\gamma = 0{,}9$ e as recompensas $5$, $0$, $10$:
+
+$$G = 5 + 0{,}9 \times 0 + 0{,}81 \times 10 = 5 + 0 + 8{,}1 = 13{,}1$$
+
+Repare no que o desconto fez: o prêmio de 10, dois passos à frente, entrou valendo **8,1**. É o mesmo 10 do mundo, pesado pela distância.
+
 :::exercicio {"id":"reforco-e1","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
 Um agente executa três passos e recebe as recompensas **3**, **0** e **10**, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?
 
@@ -168,8 +178,24 @@ Julgue: este problema merece reforço, ou é supervisionado (ou otimização) di
 - *Reward hacking* não é anedota: o agente otimiza a recompensa **escrita**, não a pretendida.
 - **Fonte autêntica ≠ afirmação verdadeira.** O próprio Bellman é o caso-modelo.
 
+:::exercicio {"id":"reforco-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Explique a diferença entre aprender uma **função de valor** e aprender uma **política** diretamente, e dê uma situação concreta em que você preferiria cada uma.
+
+> **rubrica:** enuncia as duas perguntas que cada abordagem responde — valor responde "quanto vale estar aqui", política responde "o que fazer aqui" — e deixa claro que são portas opostas para o mesmo problema;
+> descreve como o método de valor **age**: ele aprende a previsão e escolhe a ação sendo guloso sobre ela, de modo que a política existe, mas é derivada e não aprendida;
+> dá ao menos uma situação concreta para cada escolha e justifica pela **estrutura do problema**, não por preferência — por exemplo, poucas ações discretas favorecem valor, e ação contínua ou política deliberadamente aleatória favorece política direta;
+> não trata as duas como etapas de um mesmo procedimento nem confunde a distinção com *on-policy* × *off-policy*, que é uma questão diferente: de qual comportamento se aprende, não do que se aprende
+> **porque:** O quarto critério é o que este exercício realmente persegue, porque as duas distinções aparecem no mesmo capítulo e se embaralham com facilidade. **Valor × política** responde *o que o método aprende*. **On-policy × off-policy** responde *sobre qual comportamento ele aprende*. São eixos independentes, e é perfeitamente possível combinar qualquer par.
+>
+> A situação concreta é o que separa quem entendeu de quem decorou. Onde as ações são poucas e discretas, calcular um valor por ação e pegar o máximo é natural e barato. Onde a ação é **contínua** — o ângulo de um leme, a dose de um medicamento —, esse máximo vira um problema de otimização a cada passo, e aprender a política diretamente evita o problema em vez de resolvê-lo repetidamente.
+>
+> Há um segundo caso que a boa resposta às vezes alcança: quando a política **ótima é aleatória**. Um método de valor guloso sempre escolhe a mesma ação no mesmo estado; se o problema exige imprevisibilidade — um jogo com adversário que aprende —, essa determinação é uma fraqueza que o método de valor não consegue expressar.
+> **volte para:** #fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move
+:::
+
 ## Verificação
 
 1. Descreva um problema do seu trabalho como MDP: quem é o agente, o que é o estado, quais são as ações e qual é a recompensa. Em seguida, diga qual das quatro peças foi mais difícil de definir — e por quê essa dificuldade é um sinal sobre o problema, não sobre você.
-2. Explique a diferença entre aprender uma função de valor e aprender uma política diretamente, e dê uma situação concreta em que você preferiria cada uma.
-3. Um colega propõe reforço para ajustar preços em tempo real num *e-commerce*. Que três perguntas você faz antes de concordar — e qual resposta faria você recusar a formulação?
+2. Um colega propõe reforço para ajustar preços em tempo real num *e-commerce*. Que três perguntas você faz antes de concordar — e qual resposta faria você recusar a formulação?
+
+> Estas duas não são corrigidas, e a omissão é deliberada: a primeira pede um problema que só você conhece, e a segunda se ganha na conversa em que você recusa a formulação.

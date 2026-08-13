@@ -184,8 +184,27 @@ Escreva a recomendação que você levaria à diretoria — incluindo o que voc�
 - Contabilize em **benefício**, não em custo: benefício tem linha de base natural.
 - **Não lançar é uma decisão legítima**, e exige a mesma evidência de lançar.
 
+:::exercicio {"id":"do-modelo-a-decisao-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
+**Desafio de fechamento.** Seu modelo novo teve AUC de 0,91 contra 0,89 do atual, e a diferença **não** é maior que o ruído: os intervalos se sobrepõem. Você tem cinco minutos com a diretoria, que quer saber se troca ou não.
+
+Escreva o que você diria. A dificuldade é dupla: comunicar um empate estatístico a quem espera um vencedor, **sem** esconder a incerteza e **sem** transformar a conversa numa aula de estatística.
+
+> **rubrica:** comunica o resultado em consequência, não em métrica — o que muda no número de casos encontrados ou perdidos por período, e não "AUC de 0,91";
+> diz com todas as letras que a diferença **não se distingue do ruído**, e traduz isso em linguagem de decisão ("os dois modelos são indistinguíveis com o que medimos") em vez de omitir ou de expor o intervalo de confiança como se fosse autoexplicativo;
+> desloca a decisão para os critérios que **de fato** desempatam quando o desempenho empata — custo de operação, complexidade, interpretabilidade, esforço de manutenção, risco de mudança — e recomenda um caminho, em vez de devolver a dúvida para a mesa;
+> não vende o empate como vitória ("o novo é melhor") nem se refugia no tecnicismo ("estatisticamente inconclusivo") para não recomendar nada
+> **porque:** O quarto critério é o exercício inteiro, porque existem duas maneiras de trair o rigor e elas parecem opostas. **Arredondar para vitória** — "o novo deu 0,91 contra 0,89" — é a mentira por omissão que a diretoria não tem como detectar. **Refugiar-se no "inconclusivo"** parece honestidade, e é a outra falha: quem tem os dados e não recomenda transferiu a decisão para quem tem menos informação do que você.
+>
+> A saída é a que o capítulo vinha construindo: quando o desempenho empata, **a decisão não é de desempenho**. Ela passa a ser de custo, de risco e de operação — e essas são exatamente as perguntas que a diretoria sabe responder melhor do que você. Comunicar o empate direito é o que devolve a decisão para o lugar certo, com a informação certa.
+>
+> Repare no que **não** entra em cinco minutos: a divisão, a busca de hiperparâmetros, o teste usado para o intervalo. Nada disso é escondido — está no relatório, na parte de protocolo. Adaptar é escolher o que cabe, e a incerteza cabe sempre; o método, quase nunca.
+> **volte para:** #apresentar-sem-trair-o-rigor
+:::
+
 ## Verificação
 
 1. Um colega diz que o limiar padrão é 0,5 porque "é o meio". Em que situação isso é defensável, e por que quase nunca é o caso?
 2. Dois modelos empatam dentro do intervalo de confiança. Liste três critérios que você usaria para decidir, e diga qual pesaria mais no seu contexto.
 3. A área de negócio se recusa a estimar o custo de um falso negativo, dizendo que "é impossível colocar preço nisso". O que você faz — e por que aceitar o silêncio é a pior opção?
+
+> Estas três não são corrigidas, e a omissão é deliberada: as três se ganham numa conversa, e a terceira, em particular, depende de quem está do outro lado da mesa.

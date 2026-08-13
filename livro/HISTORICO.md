@@ -5,6 +5,35 @@
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
 
+## Edição 1.2 — 2026-08-12 · a auditoria de Bloom, e as portas que ninguém tinha conferido
+
+Edição inteiramente de **conserto e cobrança**: nenhum capítulo novo, e o livro melhorou mais do que em edições que ganharam capítulo. O disparador foi uma auditoria pedagógica que mediu os objetivos declarados contra o que o livro de fato cobra.
+
+**A numeração mudou** ([ADR 0011](../adr/0011-numeracao-por-parte.md)). O capítulo passou a ser identificado por parte e posição — `II.2 — Modelos Lineares` — porque nenhuma das 29 posições coincidia com o número de criação. E o **id do exercício se desatou do número** (`05-e1` → `modelos-lineares-e1`): fosse pelo número, inserir um capítulo apagaria o progresso de cada aluno nos capítulos seguintes, para sempre. Endereços antigos quebraram, por decisão explícita.
+
+**Os gates que passaram a cobrar.** A dívida deixou de ser *registrada* e passou a ser *cobrada* — cada gate nasceu de um defeito real, e cada um foi **visto falhando** antes de ser dado por pronto:
+
+- seções obrigatórias e verbos vagos nos objetivos;
+- âncora do `volte para` que não existe — duas estavam quebradas, uma há semanas;
+- **Backward Design nas duas direções.** Antes, exercício apontando para objetivo inexistente quebrava o build, e objetivo sem exercício não quebrava nada; foi por essa porta que 18 dívidas entraram sem registro. A lista de exceções agora falha **também** quando uma exceção deixa de ser necessária: dívida paga que continua na lista esconde a próxima;
+- gabarito vazando na exportação, e rubrica partida por `;` — os dois achados abaixo.
+
+**O que o uso derrubou desta vez** — de novo, sem nenhum gate mecânico acusando:
+
+1. **O botão "⬇ md" entregava o gabarito.** O livro protege o HTML com cuidado — a página nunca carrega a resposta certa — e servia, ao lado do exercício, um download com **79 gabaritos e 30 rubricas**. A superfície protegida era uma das duas.
+2. **Uma rubrica de três alternativas virava três exigências.** A rubrica é quebrada em `;`, então `"aponta um mecanismo (A; B; C)"` produzia três critérios — e, como a correção exige *todos*, quem respondesse exatamente o que foi pedido reprovava. Já estava publicado.
+
+**No conteúdo**
+
+- Exercícios: **96 → 122**. Dezoito cobrem objetivos que o livro declarava e não cobrava — a dívida caiu de 20 para **2**, e os dois que restam não são falta de exercício: são objetivos declarados em capítulos que não os ensinam.
+- **Exemplos numéricos trabalhados** entraram no corpo de quatro capítulos — antes existiam só dentro dos gabaritos, isto é, só para quem já tinha errado.
+- **Três laboratórios**: neurônio de McCulloch–Pitts, mínimos quadrados à mão, e exploração de variável sobre o conjunto da limonada.
+- A seção `## Verificação` começou a virar superfície corrigida, uma pergunta por capítulo ([ADR 0012](../adr/0012-verificacao-como-superficie-corrigida.md)), com rubrica de quatro critérios — o quarto sendo o **anti-critério**, o erro comum nomeado. As perguntas que ficam sem correção passaram a **dizer por que**.
+
+**Modelo de IA usado nesta edição:** Claude (Anthropic), em sessão conduzida pelo autor, com três pareceres independentes encomendados para a decisão do ADR 0012.
+
+> **A lição da edição.** A de 1.1 dizia: *saída tecnicamente válida, comportamento errado*. Esta acrescenta a variante mais cara — **a promessa cumprida numa superfície e falsa na outra**. O livro tinha uma regra explícita ("a página nunca carrega a resposta certa"), implementou-a corretamente, e a desmentiu num botão ao lado. Gate não confere intenção: confere porta. E porta que ninguém listou, ninguém confere.
+
 ## Edição 1.1 — 2026-08-11 · o livro em uso, e o que o uso quebrou
 
 Primeira edição publicada **enquanto uma turma usa o livro**. Quase tudo aqui nasceu de pedido do autor em preparação de aula, e três achados vieram de **usar** em vez de revisar.

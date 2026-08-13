@@ -92,6 +92,23 @@ Há uma regularidade nessa tabela, e ela é útil: **o que envelhece devagar é 
 
 Aplique isso ao que você acabou de estudar. **Se você aprendeu a reconhecer o aperto, você aprendeu a parte durável.** Se aprendeu só o procedimento, aprendeu a parte com prazo.
 
+:::exercicio {"id":"fronteira-e4","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
+As quatro afirmações abaixo são questões genuinamente em aberto. Quais delas mudam **o que você faz** num projeto na segunda-feira — e não apenas o que se discute num artigo?
+
+- [x] Não há critério consensual para escolher entre duas definições de justiça quando elas são matematicamente incompatíveis no seu caso concreto.
+- [ ] A atribuição de quem publicou primeiro a retropropagação é contestada, e a ordem de precedência segue em disputa.
+- [x] Não existe método confiável para saber, **antes** de colocar em produção, se a hipótese de mesma distribuição vai valer lá.
+- [ ] Não há acordo sobre qual arquitetura será o estado da arte daqui a cinco anos.
+
+> **gabarito:** A incompatibilidade entre definições de justiça, e a impossibilidade de verificar a hipótese de mesma distribuição antes do deploy
+> **porque:** O teste é este: **você precisa agir mesmo sem a resposta, e a decisão que toma depende dela.** As duas corretas passam. Você vai colocar um limiar em produção nesta semana e escolher uma definição de justiça em vez de outra — sem critério consensual, a escolha vira sua, e precisa ser documentada e defendida perante quem for afetado ([V.1](v-1-interpretabilidade-justica.md)). Com a distribuição acontece o mesmo: não podendo verificar antes, o projeto é obrigado a compensar com monitoramento depois ([V.3](v-3-mlops.md)) — a questão aberta vira requisito de arquitetura.
+>
+> As duas erradas são abertas e não são suas. A disputa de precedência da retropropagação é uma excelente questão — de história, e este capítulo mostra por que ela importa para **citar** com honestidade. Resolvê-la amanhã não muda uma linha do seu treino. A quarta nem questão é: é previsão, e a tabela acima a coloca do lado que envelhece rápido — planejar em torno dela é o oposto do que este capítulo recomenda.
+>
+> A regularidade: **questão aberta relevante para a prática é a que deixa uma decisão sua sem apoio.** Ela não se resolve esperando; resolve-se assumindo a escolha, escrevendo o porquê, e montando como você vai perceber que errou.
+> **volte para:** #o-que-envelhece-rapido-e-o-que-nao-envelhece
+:::
+
 :::exercicio {"id":"fronteira-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
 Escolha **um** capítulo deste livro que você leu. Escreva o que nele você espera que **ainda seja verdade em 2036**, o que espera que **esteja obsoleto**, e — a parte que importa — **qual observação futura faria você mudar de ideia** sobre cada um.
 
@@ -115,7 +132,7 @@ Isso tem um custo que vale nomear. **Um livro que registra as próprias previsõ
 
 A dívida atual está declarada no [roadmap](../../ROADMAP.md), e a maior delas é honesta o bastante para aparecer aqui: **boa parte das fontes históricas deste livro está selada ✓ᵐ**, o que significa que conferimos que a obra existe e não que a lemos por inteiro. O ciclo de aprofundamento existe para pagar isso, uma fonte por vez.
 
-:::exercicio {"id":"fronteira-e3","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+:::exercicio {"id":"fronteira-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Um capítulo declara: *"Estado da arte capturado em 2026-08."* O que exatamente essa data promete?
 
 - [ ] Que todas as informações do capítulo eram verdadeiras em agosto de 2026.

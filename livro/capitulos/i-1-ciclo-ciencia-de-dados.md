@@ -120,7 +120,7 @@ Entregue as **três** coisas que a fase 2 exige:
 2. as **primeiras estatísticas** que você pediria antes de qualquer modelo, e o que cada uma responderia;
 3. pelo menos **dois problemas de qualidade ou de confiança** que você iria procurar neste conjunto específico.
 
-> **rubrica:** separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer (vendas é o alvo; panfletos e preço são decisões da dona; temperatura e precipitação dependem de previsão do tempo, não do valor observado);
+> **rubrica:** separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer — vendas é o alvo, panfletos e preço são decisões da dona, e temperatura e precipitação dependem de previsão do tempo, não do valor observado;
 > pede estatísticas descritivas concretas — faixa, média, valores distintos, contagem por categoria — e diz o que cada uma responderia;
 > aponta pelo menos dois riscos reais do conjunto, entre: unidade da temperatura não declarada, preço com pouquíssimos valores distintos, período curto de um ano só, ausência de registro de dias fechados, dado possivelmente sintético;
 > não trata "sem valores faltantes" como prova de qualidade;

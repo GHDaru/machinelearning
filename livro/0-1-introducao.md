@@ -7,7 +7,7 @@
 ## Objetivos de aprendizagem
 
 - **O1.** Explicar o que distingue Machine Learning de programação convencional, em termos de *onde mora a regra*.
-- **O2.** Reconhecer quando um problema é candidato a ML — e quando não é.
+- **O2.** Avaliar se um problema é candidato a ML — e defender a resposta com a regra que ninguém consegue escrever, os exemplos disponíveis e uma medida de sucesso.
 - **O3.** Usar as três superfícies deste livro (texto, exercícios, construção) de forma deliberada, e não por acaso.
 
 ## O problema: a regra que ninguém consegue escrever
@@ -98,7 +98,24 @@ A tentação é ler tudo e praticar depois. A pesquisa sobre carga cognitiva diz
 
 Ler sem praticar produz a sensação de competência sem a competência. É o modo de falha mais comum do estudo técnico, e o único que o leitor não consegue detectar sozinho — porque a sensação é idêntica.
 
-:::exercicio {"id":"introducao-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"introducao-e4","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Você terminou o capítulo de modelos lineares. Consegue explicar em voz alta o que é o erro quadrático médio e por que ele é minimizado — mas, ao abrir um arquivo vazio para ajustar uma reta a um conjunto de dados, não sabe qual é a primeira linha. Qual superfície deste livro ataca **essa** lacuna?
+
+- [ ] Reler o corpo do capítulo com mais atenção à dedução: a lacuna é de compreensão.
+- [x] Fazer a etapa correspondente do `ml-zero`: a lacuna é entre o conceito e o código, e é essa a superfície que a fecha.
+- [ ] Responder à seção "Verificação", que cobra o nível mais alto do capítulo.
+- [ ] Refazer os exercícios do capítulo até acertar todos na primeira tentativa.
+
+> **gabarito:** Fazer a etapa correspondente do `ml-zero`
+> **porque:** Usar as três superfícies de forma deliberada começa por **diagnosticar qual lacuna você tem** — porque cada superfície fecha uma diferente. Você já explicou o conceito em voz alta: o texto cumpriu o papel dele. O que falta não é entendimento, é execução, e execução só se aprende executando.
+>
+> A primeira alternativa é a resposta que quase todo leitor dá, e é a menos eficaz: reler é confortável, produz de novo a sensação de competência, e não toca no que está faltando. Os exercícios pegam erro de conceito — você não tem um. A Verificação integra o que o capítulo ensinou — ela vem depois de você conseguir fazer, não no lugar disso.
+>
+> A regra prática: **texto para entender, exercício para descobrir que você não entendeu, `ml-zero` para descobrir que entender não bastava.** Trocar uma pela outra é o que transforma estudo em leitura.
+> **volte para:** #a-ordem-que-funciona
+:::
+
+:::exercicio {"id":"introducao-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"media"}
 Descreva um problema do seu trabalho ou da sua área de interesse que você acredita ser candidato a Machine Learning. Diga **qual regra ninguém consegue escrever**, **que exemplos existiriam** para aprender com eles, e **o que significaria "funcionar"** — em termos de uma medida, não de uma impressão.
 
 > **rubrica:** identifica uma regra concreta que é difícil de enunciar explicitamente;

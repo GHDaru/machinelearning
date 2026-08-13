@@ -191,6 +191,11 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
       objetivo: attrs.objetivo,
       pontos: Number(attrs.pontos) || 1,
       dificuldade: attrs.dificuldade || "media",
+      // "verificacao" = desafio integrador de fim de capítulo (ADR 0012).
+      // É atributo, e não tipo de bloco, porque a distinção é pedagógica: a
+      // mecânica de correção é a mesma. Quem consome isto segmenta ranking e
+      // barra de progresso, para que um item tudo-ou-nada não afogue o sinal.
+      secao: attrs.secao || "corpo",
       enunciado,
       opcoes,
       gabarito: meta.gabarito || null,
@@ -204,6 +209,43 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
   }
 
   return { exercicios, videos, laboratorios };
+}
+
+/** Metadados que revelam a resposta — nunca saem do backend. */
+const SEGREDOS = new Set(["gabarito", "porque", "rubrica"]);
+
+const AVISO_SEM_GABARITO =
+  "\n> _Gabarito, explicação e rubrica não vão neste arquivo. Quem corrige é o " +
+  "servidor, e a explicação completa é o que a segunda tentativa paga._";
+
+/**
+ * Remove do Markdown tudo que entrega a resposta — para a **exportação**.
+ *
+ * `renderizar()` já impedia o gabarito de chegar ao HTML, e por isso o time
+ * achou que a promessa estava cumprida. Não estava: o botão "⬇ md" ao lado de
+ * cada capítulo (e o "⬇ Markdown" da capa) serviam o arquivo-FONTE cru — 79
+ * gabaritos e 30 rubricas, um clique ao lado do exercício que deveria custar
+ * duas tentativas. A superfície protegida era uma das duas.
+ *
+ * O que sai: `gabarito`, `porque`, `rubrica` e a marcação `- [x]` da
+ * alternativa certa. O que fica: enunciado, alternativas e o `volte para` —
+ * que é ponteiro para a seção, não resposta.
+ */
+export function semGabarito(markdown) {
+  const emCerca = cercas(markdown);
+  return markdown.replace(RE_BLOCO, (bloco, tipoBloco, attrsJson, corpo, offset) => {
+    if (emCerca(offset) || tipoBloco !== "exercicio") return bloco;
+    const saida = [];
+    let ocultando = false;
+    for (const linha of corpo.split("\n")) {
+      const meta = linha.match(RE_META);
+      if (meta) ocultando = SEGREDOS.has(meta[1].trim().toLowerCase());
+      else if (!(ocultando && /^>/.test(linha))) ocultando = false; // fim da continuação
+      if (ocultando) continue;
+      saida.push(linha.replace(RE_OPCAO, "- [ ] $2"));
+    }
+    return `:::${tipoBloco} ${attrsJson}\n${saida.join("\n").trim()}${AVISO_SEM_GABARITO}\n:::`;
+  });
 }
 
 /**

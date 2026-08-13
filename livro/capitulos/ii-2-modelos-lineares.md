@@ -152,6 +152,12 @@ $$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 
 Duas contas — uma soma de produtos e uma soma de quadrados — e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
 
+**Uma vez com número.** Três pontos: (1, 3), (2, 5) e (3, 4). As médias são $\bar{x} = 2$ e $\bar{y} = 4$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-1$, $+1$, $0$.
+
+$$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1 \qquad S_{xx} = 1 + 0 + 1 = 2$$
+
+Logo $a = 1/2 = 0{,}5$, e $b = \bar{y} - a\bar{x} = 4 - 0{,}5 \times 2 = 3$. A reta é $\hat{y} = 0{,}5x + 3$ — e ela passa por $(2, 4)$, o centro de massa, como o passo 2 garantiu.
+
 **Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que você vai encontrar adiante, no caso da limonada, onde o preço **não varia** dentro de nenhum mês.
 
 > **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$ — as **equações normais** — resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
