@@ -81,6 +81,73 @@ Complete a sigla que nomeia a ordem adotada quando o armazenamento ficou barato 
 > **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
 :::
 
+:::exercicio {"id":"coleta-integracao-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Um pipeline consome uma fila de eventos e grava cada mensagem recebida. Depois de uma semana, o faturamento consolidado está 3% acima do real. Qual característica da fonte explica isso?
+
+- [ ] A fila perdeu mensagens, e o que sobrou ficou enviesado para cima.
+- [x] A fila entrega "ao menos uma vez", então duplicata é comportamento normal, e não defeito.
+- [ ] O esquema das mensagens mudou entre duas versões do aplicativo.
+- [ ] O consumo por *offset* leu as mensagens fora de ordem.
+
+> **gabarito:** entrega "ao menos uma vez", duplicata é normal
+> **porque:** É a linha de streaming da tabela de fontes, e a palavra que decide é **normal**. A garantia usual de uma fila é entregar cada mensagem ao menos uma vez, o que significa que ela pode entregar duas. Um consumidor que grava tudo o que recebe vai contar algumas vendas duas vezes, e ninguém verá erro nenhum no log.
+>
+> As outras três descrevem falhas reais de outras fontes ou de outros momentos: perda de mensagem produziria total **abaixo** do real, esquema instável é a dor do NoSQL e do arquivo, e leitura fora de ordem afeta a sequência, não a contagem.
+>
+> A correção não é "consertar a fila", é assumir a duplicata no destino: gravar com `MERGE` por chave de negócio, ou sobrescrever a partição inteira do período. É a mesma ideia da idempotência, chegando pela porta da coleta.
+> **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
+:::
+
+:::exercicio {"id":"coleta-integracao-e6","tipo":"multipla-multi","objetivo":"O1","dificuldade":"media"}
+Você vai extrair a mesma entidade de quatro portas diferentes. Quais pareamentos entre fonte e dor típica estão corretos? (marque todos que valem)
+
+- [x] Arquivo CSV: o esquema é implícito, e a codificação de caracteres costuma ser descoberta pelo erro.
+- [x] API paginada: o dado pode mudar entre uma página e a seguinte.
+- [x] Banco relacional: consultar direto a produção é o pecado que a réplica de leitura existe para evitar.
+- [ ] Parquet: como é arquivo, também entrega tudo como texto e sem tipo.
+- [ ] NoSQL: o esquema é garantido pelo banco, o que elimina divergência de formato.
+
+> **gabarito:** CSV com esquema implícito · API que muda entre páginas · produção consultada direto
+> **porque:** As três corretas são a coluna "o que costuma doer" da tabela de fontes, e cada uma pede uma defesa diferente: declarar o esquema na leitura, fixar um cursor estável na paginação, e apontar a extração para uma réplica.
+>
+> As duas erradas invertem exatamente a exceção de cada linha. O Parquet é o arquivo que **carrega** tipo e colunas, e é por isso que ele aparece destacado na tabela. E no NoSQL o esquema mora na aplicação, não no banco — daí o sintoma clássico de o mesmo campo ter dois formatos, porque duas versões do aplicativo escreveram nele.
+> **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
+:::
+
+:::exercicio {"id":"coleta-integracao-e9","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Uma empresa usa ETL há oito anos: o pipeline calcula "cliente ativo" na transformação e carrega apenas o resultado. A definição de cliente ativo acaba de mudar. O que essa arquitetura torna caro?
+
+- [ ] Recalcular a métrica, porque o SQL do warehouse é lento para agregações históricas.
+- [x] Recompor a série histórica, porque o dado bruto que permitiria recalcular não foi guardado.
+- [ ] Publicar a nova definição, porque o catálogo precisa ser reescrito.
+- [ ] Nada relevante: basta trocar a regra no pipeline e seguir.
+
+> **gabarito:** recompor a série histórica
+> **porque:** O preço do ETL é o descarte, e ele é irreversível. O que a transformação jogou fora antes da carga não está em lugar nenhum do repositório, então a nova definição só vale daqui para a frente — e comparar o antes com o depois exige uma extração nova, de um sistema de origem que talvez nem guarde mais aquele período.
+>
+> A última alternativa é a que a equipe costuma acreditar no primeiro dia: trocar a regra no pipeline de fato é fácil. O custo aparece na primeira reunião em que alguém pede a série dos últimos três anos sob o critério novo.
+>
+> É esta a vantagem que o ELT compra, e ela não é desempenho: é **reversibilidade**. Guardar o bruto custa armazenamento e disciplina de catálogo, e paga justamente no dia em que a regra de negócio muda, que é o dia que sempre chega.
+> **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
+:::
+
+:::exercicio {"id":"coleta-integracao-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Um time migrou tudo para ELT há dois anos: o bruto entra sem transformação e as regras viram SQL no repositório. Hoje existem dezessete tabelas chamadas alguma variação de `cliente`, a fatura mensal triplicou e os analistas conferem números entre si antes de reportar. O que esse quadro demonstra?
+
+- [ ] Que o ELT foi implementado errado, e o correto seria voltar ao ETL.
+- [x] Que o ELT troca o custo do descarte pelo custo de governança, e esse segundo custo foi ignorado.
+- [ ] Que o volume cresceu além do que o repositório suporta, e falta particionamento.
+- [ ] Que a equipe deveria transformar antes da carga apenas nas tabelas mais consultadas.
+
+> **gabarito:** trocou o custo do descarte pelo de governança, e ignorou o segundo
+> **porque:** Os três sintomas do enunciado são exatamente o preço declarado do ELT: paga-se para armazenar dado que ninguém pediu, e sem catálogo e sem dono ninguém sabe qual das dezessete tabelas `cliente` é a boa. A arquitetura não falhou; a metade não técnica dela nunca foi feita.
+>
+> A primeira alternativa é a reação comum e troca um problema por outro pior: voltar ao ETL resolve a fatura e restaura o descarte irreversível, que foi o motivo da migração. A quarta parece um meio-termo sensato e não toca em nenhum dos três sintomas, porque o problema não é onde a transformação roda, é ninguém responder pelo significado das tabelas.
+>
+> A leitura que fica vale além deste capítulo: quando uma decisão de arquitetura tem um preço declarado, não pagá-lo não cancela o preço — apenas o transfere para quem vai usar o sistema.
+> **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
+:::
+
 ## Onde o dado descansa: lake, warehouse, lakehouse
 
 Os três guardam dados, e a diferença que importa é **quando o esquema é cobrado**.
@@ -105,6 +172,39 @@ Uma equipe precisa de duas coisas ao mesmo tempo: guardar cinco anos de eventos 
 > **porque:** As duas necessidades têm perfis de custo **opostos**, e é isso que o exercício testa. O evento de clique tem esquema instável e valor por byte baixíssimo — exigir modelagem na escrita significaria remodelar a cada release e descartar campos novos que ninguém pediu ainda. O relatório do financeiro é o inverso: mesma pergunta, todo dia, no horário — aí compensa pagar caro na entrada para ler barato depois.
 >
 > Por que as outras erram: "só warehouse" transforma cada mudança do app em migração de esquema. "Só lake" ignora que barato **por byte** não é barato **por pergunta** — trinta relatórios diários varrendo JSON bruto custam mais em processamento do que a modelagem que se evitou, e o lake sem catálogo perde o significado dos arquivos em poucos meses. A réplica de leitura resolve só o problema dos anos 1980 (não derrubar a operação); ela não guarda histórico que a produção já apagou nem entrega o dado modelado.
+> **volte para:** #onde-o-dado-descansa-lake-warehouse-lakehouse
+:::
+
+:::exercicio {"id":"coleta-integracao-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Qual é a diferença que separa data warehouse de data lake, segundo esta seção?
+
+- [ ] O volume que cada um aguenta.
+- [x] O momento em que o esquema é cobrado: na escrita no warehouse, na leitura no lake.
+- [ ] O formato dos arquivos: o warehouse usa Parquet e o lake usa JSON.
+- [ ] A tecnologia de consulta: o warehouse usa SQL e o lake não.
+
+> **gabarito:** o momento em que o esquema é cobrado
+> **porque:** É a pergunta que organiza a tabela inteira, e dela decorrem as outras diferenças. Cobrar o esquema na escrita significa que nada entra fora do formato combinado, e é isso que o warehouse vende: se a linha entrou, ela está no formato. Cobrar na leitura significa aceitar qualquer arquivo e transferir a interpretação para quem consulta.
+>
+> O perfil de custo é consequência disso, não causa: caro por byte e barato por pergunta de um lado, o inverso do outro. As outras alternativas descrevem escolhas de implementação que variam de produto para produto, e nenhuma delas é o critério.
+> **volte para:** #onde-o-dado-descansa-lake-warehouse-lakehouse
+:::
+
+:::exercicio {"id":"coleta-integracao-e8","tipo":"multipla-multi","objetivo":"O2","dificuldade":"dificil"}
+Um fornecedor apresenta o lakehouse como "o fim da escolha entre lake e warehouse". Quais afirmações desta seção qualificam essa promessa? (marque todas que valem)
+
+- [x] O lakehouse cobra o esquema na leitura, mas sob contrato: esquema versionado, transação e histórico.
+- [x] Ele não elimina a decisão, apenas move o custo para a governança.
+- [ ] Ele cobra o esquema na escrita, como o warehouse, e por isso dá a mesma garantia.
+- [x] A camada de metadados e a disciplina que ela exige são onde o custo aparece.
+- [ ] Ele torna o catálogo desnecessário, porque o histórico das tabelas substitui a documentação.
+
+> **gabarito:** leitura sob contrato · move o custo para governança · o preço está na camada de metadados
+> **porque:** As três corretas são a linha do lakehouse lida com atenção. "Sob contrato" é a expressão-chave: a cobrança continua sendo na leitura, mas com garantias que o lake cru não dá, e essas garantias têm um preço em metadados e disciplina.
+>
+> As duas erradas são as duas leituras otimistas que o discurso comercial estimula. Cobrar na escrita seria virar warehouse, e aí o custo por byte voltaria. E histórico de tabela é um registro do que mudou, não do que cada arquivo significa nem de quem responde por ele — que é justamente o serviço do catálogo, e a ausência dele é o que transforma lake em pântano.
+>
+> A leitura útil não é que o lakehouse seja fraco: é que toda arquitetura que promete os dois lados está movendo o custo, não o eliminando, e a pergunta a fazer é sempre para onde ele foi.
 > **volte para:** #onde-o-dado-descansa-lake-warehouse-lakehouse
 :::
 
@@ -147,6 +247,43 @@ O modelo treinado com essa tabela alcança desempenho muito acima do esperado. E
 > O desempenho "muito acima do esperado" é o sinal, e vale como regra de ofício: **resultado bom demais é hipótese de vazamento até prova em contrário** — vá conferir a origem das colunas antes de comemorar.
 >
 > A correção estrutural é dar tempo à dimensão: guardar cada versão do cadastro com validade (`valido_de`, `valido_ate`) e juntar com `p.data_pedido BETWEEN c.valido_de AND c.valido_ate`. Onde isso não existe, sirva-se de snapshots datados do cadastro, ou recalcule o atributo a partir de eventos anteriores à data do pedido. E note o que a correção exige: alguém precisa ter decidido **guardar história** lá atrás. Por isso a pergunta de procedência é feita na coleta, não na modelagem — na modelagem já é tarde.
+> **volte para:** #de-onde-veio-este-dado-e-quem-o-produziu
+:::
+
+:::exercicio {"id":"coleta-integracao-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"facil"}
+Antes de usar uma coluna no conjunto de treino, quais perguntas de procedência esta seção manda fazer? (marque todas que valem)
+
+- [x] Quem produz esta coluna?
+- [x] Com que frequência ela é atualizada?
+- [x] Ela é sobrescrita ou versionada?
+- [ ] Qual é a correlação dela com o alvo?
+- [ ] Quantos valores faltantes ela tem?
+
+> **gabarito:** quem produz · com que frequência · sobrescrita ou versionada
+> **porque:** São as três perguntas do fim da seção, e as três respondem à mesma coisa: **em que instante esta coluna passou a valer**. Sem isso você não sabe se o valor que está na sua tabela existia no momento da decisão que o modelo deve apoiar.
+>
+> As duas erradas não são inúteis, são de outra etapa. Correlação com o alvo e contagem de faltantes são análise exploratória, e ambas serão altas e bonitas em uma coluna vazada — foi exatamente assim que o `score_risco` do exercício anterior pareceu um ótimo atributo. Perguntas de qualidade não detectam problema de procedência, porque uma coluna vazada é limpa, completa e preditiva.
+>
+> "Sobrescrita ou versionada" é a mais decisiva das três, e a que quase ninguém faz: uma dimensão sobrescrita carrega sempre o estado de hoje, e um `JOIN` sem recorte de tempo cola o hoje em um fato de doze meses atrás.
+> **volte para:** #de-onde-veio-este-dado-e-quem-o-produziu
+:::
+
+:::exercicio {"id":"coleta-integracao-e12","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Uma equipe encontra uma base pública que resolveria o problema, com download aberto e sem cadastro. Segundo este capítulo, o que ela deve fazer antes de usá-la?
+
+- [ ] Nada além de citar a fonte no relatório: download aberto implica uso livre.
+- [x] Ler a licença da base, porque acesso aberto não determina sozinho o que se pode fazer com o dado.
+- [ ] Confirmar apenas que o volume e o esquema atendem, já que a legalidade é assunto do jurídico.
+- [ ] Republicar uma cópia no lake da empresa, para garantir que o link não caia.
+
+> **gabarito:** ler a licença da base
+> **porque:** Acesso e permissão são coisas diferentes. Um arquivo poder ser baixado sem cadastro diz respeito a como ele é distribuído, e não ao que a licença autoriza — uso comercial, redistribuição, obrigação de citar, exigência de manter a mesma licença em obras derivadas. O capítulo é explícito: nenhuma base pública deve ser usada sem ler a sua.
+>
+> A terceira alternativa terceiriza a pergunta e é a mais comum na prática. Ela falha porque a decisão que a licença condiciona é técnica: se o dado não pode alimentar um produto comercial, isso muda a arquitetura, não só o parecer.
+>
+> A quarta acerta um cuidado operacional real e o aplica antes de ter direito a ele. Republicar uma cópia é redistribuição, que é precisamente uma das coisas que a licença pode proibir.
+>
+> **Dívida declarada:** o tratamento de licença neste capítulo é mais curto do que o objetivo O4 promete, e o aprofundamento está registrado no ledger do ciclo.
 > **volte para:** #de-onde-veio-este-dado-e-quem-o-produziu
 :::
 
