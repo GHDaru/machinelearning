@@ -40,13 +40,14 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 | Selo | Afirmação |
 |---|---|
 | ✓ᵐ | Hubel & Wiesel, *Receptive fields of single neurones in the cat's striate cortex*, **J. Physiol. 148:574–591 (1959)** — obra, autoria, ano e veículo |
-| ⏳ | Que a distinção entre **células simples e complexas** e a hierarquia entre elas estejam nesse artigo de 1959. A literatura a associa ao trabalho seguinte da dupla, de **1962**; não conferimos em qual dos dois ela aparece, e ✓ᵐ não autorizaria afirmar conteúdo interno de nenhum modo |
+| ✓ᵐ | O trabalho seguinte da dupla, que é o candidato usual para a distinção: **Hubel & Wiesel**, *"Receptive fields, binocular interaction and functional architecture in the cat's visual cortex"*, *J. Physiol.* **160**(1):106–154, 1962 |
+| ⏳ | Que a distinção entre **células simples e complexas** e a hierarquia entre elas estejam num desses dois artigos, e em qual. **Os dois estão digitalizados como imagem de página**, sem camada de texto, então não há como buscar dentro deles; ✓ᵐ não autoriza afirmar conteúdo interno |
 | ✓ᵐ | Fukushima, neocognitron (1979/80): S-cells e C-cells em cascata, herdando os nomes de Hubel & Wiesel |
 | ✓ᵐ | LeCun et al., **Neural Computation 1:541–551 (1989)** — obra, autoria, ano e veículo |
-| ⏳ | Os números internos desse artigo (7 291 imagens de 16×16, ~9 760 parâmetros, três dias numa SUN-4/260) e a origem postal do dado. **O artigo está atrás de paywall e não foi aberto**; ✓ᵐ prova que a obra existe, não o que ela mede |
+| ⏳ | Os números internos desse artigo (7 291 imagens de 16×16, ~9 760 parâmetros, três dias numa SUN-4/260) e a origem postal do dado. **Correção de 2026-08-13:** o PDF está publicamente disponível na página do autor, e o problema não é acesso, é que ele **não tem camada de texto** — é imagem digitalizada, e não dá para buscar dentro dele sem reconhecimento óptico |
 | ⏳ | A anedota da **borda da lâmina de vidro** como o estímulo que finalmente fez a célula disparar — atribuição corrente, não conferida em fonte primária |
 | ⏳ | Que a busca anterior era por um "detector de ponto", por suposição de que a visão se compõe a partir de pixels |
-| ⏳ | Que o neocognitron foi treinado sem retropropagação |
+| ✓ᵐ | Que o neocognitron **se auto-organiza**, o que exclui a retropropagação: está no próprio título do artigo — *"Neocognitron: A **self-organizing** neural network model for a mechanism of pattern recognition unaffected by shift in position"*, *Biological Cybernetics* 36(4):193–202, 1980 |
 | 📖 | A leitura de que "a primitiva certa não é a mais elementar" é a ideia exportável do episódio |
 | 📖 | A leitura do intervalo de 53 anos contra o ~1 ano do [capítulo III.6](iii-6-modelos-de-fundacao.md) como evidência de que **infraestrutura de reprodução** encurta o intervalo |
 | ✓ | **Tudo o que este capítulo atribui ao artigo da AlexNet** — o limite de 3 GB da GTX 580, a decisão de partir a rede em duas GPUs, os cinco a seis dias de treino, a ReLU seis vezes mais rápida que a tangente hiperbólica no CIFAR-10, e os 15,3% contra 26,2% de erro top-5 — vem do [PDF original do NIPS 2012](https://proceedings.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf), **lido**. As frases entre aspas na seção seguinte são transcrições literais |

@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — o motivo pelo qual uma fonte não foi lida (cap. III.4)
+- **O artigo de LeCun de 1989 não está atrás de paywall**, como o capítulo dizia. O
+  PDF é público na página do autor; o problema é que ele **não tem camada de
+  texto** — é imagem digitalizada. Os números internos continuam ⏳, e a razão
+  registrada passou a ser a verdadeira: não falta acesso, falta reconhecimento
+  óptico. Quem retomar precisa saber qual das duas coisas tentar.
+- **Entrou a ficha exata do artigo de 1962 de Hubel & Wiesel** (*J. Physiol.*
+  160(1):106–154), nomeando o candidato para a distinção entre células simples e
+  complexas. Em qual dos dois artigos ela aparece segue ⏳: os dois estão no
+  repositório como **imagem de página**, sem texto buscável.
+- **O neocognitron passou a ✓ᵐ quanto a auto-organizar-se**, e a evidência é o
+  próprio título: *"Neocognitron: A self-organizing neural network model…"*.
+
 ### Corrigido — a anedota mais repetida do dropout não está no artigo (cap. III.3)
 - **A história do caixa de banco que roda de guichê não aparece no texto do JMLR.**
   Procurei "bank", "teller", "fraud" e "conspir" no artigo inteiro: as únicas
