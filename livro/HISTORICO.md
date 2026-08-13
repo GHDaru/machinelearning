@@ -5,6 +5,24 @@
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
 
+## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações
+
+Fecha o **ciclo 009**, e fecha as quatro colunas que ele abriu para os 29 capítulos: voz, exercícios, prova e **fontes**. Modelo de IA usado: Claude Opus 5.
+
+**Os números.** 412 exercícios (342 de capítulo, três por objetivo em escada, mais 70 distribuídos em sete provas), 25 laboratórios, 48 páginas. Nenhuma prova vale nota, por decisão do [ADR 0014](../adr/0014-tres-exercicios-por-objetivo.md): pontua-se por ter feito.
+
+**A coluna `fontes` foi a que mais rendeu, e o que ela rendeu não foi conforto.** Vinte e oito capítulos conferidos um a um, abrindo cada fonte da tabela de selos. A maioria devolveu achado. Alguns exemplos do que estava publicado e não se sustentava:
+
+- o livro dizia que Power **entrevistou** o autor do estudo de "cerveja e fraldas". Ele não entrevistou ninguém: viu a gravação de um webcast da Teradata e recebeu a transcrição por e-mail da moderadora, da própria Teradata. Num capítulo sobre separar correlação achada de decisão tomada e de efeito medido;
+- "de Thorndike a Watkins são cerca de 80 anos" — são **91**, e o número errado tinha sido copiado para outros três capítulos;
+- o memorando de 1966 do "verão da visão" abriu (é digitalização sem camada de texto; as páginas foram lidas como imagem) e desmentiu o capítulo que o cita: o papel diz "Vision Memo. No. 100.", fala em *"our summer workers"* no plural, e escalona os objetivos.
+
+**As 22 animações do [ADR 0015](../adr/0015-animacao-e-laboratorio-sem-manopla.md) ficaram prontas**, cada uma com um teste que roda o `laboratorios.js` real e confere o número que o texto promete. **Cinco delas corrigiram o texto que as hospeda ou a própria spec** — o exercício do eixo truncado dizia onze vezes e são doze; a spec do gradiente previa 1e-7 e a medição deu 1,4e-12; a spec da memória repetia o folclore dos "onze passos" e a medição deu 95. **Quatro tiveram o desenho experimental refeito** depois de a primeira versão medir a coisa errada.
+
+**Um gate novo, nascido de um erro que se repetiu quatro vezes.** `publicar/intervalos.mjs` guarda os dois anos de cada intervalo histórico e calcula a diferença; qualquer menção em prosa que discorde da subtração quebra o build. Visto falhando antes de entrar.
+
+**A regra que este ciclo deixa escrita, e que vale além do livro:** *número em spec é hipótese, não resultado*. Das 22 animações, nenhuma saiu exatamente como planejada, e as que mais mudaram foram as que ensinaram mais.
+
 ## Edição 1.2 — 2026-08-12 · a auditoria de Bloom, e as portas que ninguém tinha conferido
 
 Edição inteiramente de **conserto e cobrança**: nenhum capítulo novo, e o livro melhorou mais do que em edições que ganharam capítulo. O disparador foi uma auditoria pedagógica que mediu os objetivos declarados contra o que o livro de fato cobra.
