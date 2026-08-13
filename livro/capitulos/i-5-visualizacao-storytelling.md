@@ -78,6 +78,41 @@ Você quer mostrar **como o tempo de resposta da API se espalha** entre as requi
 > **volte para:** #fundamentos-a-pergunta-escolhe-o-grafico
 :::
 
+:::exercicio {"id":"visualizacao-storytelling-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+A pergunta é "as sete regiões vendem quanto, e qual vende mais?". Qual forma responde melhor?
+
+- [x] Barra, porque comprimento a partir de uma base comum é o que o olho compara melhor.
+- [ ] Pizza, porque as sete regiões somam o total de vendas.
+- [ ] Linha, ligando as sete regiões em ordem alfabética.
+- [ ] Dispersão, com região no eixo X e vendas no eixo Y.
+
+> **gabarito:** barra
+> **porque:** A pergunta é de **comparação**, e a tabela do capítulo dá a forma direto: barra. A justificativa não é estética, é perceptiva — comprimento medido de uma base comum é a codificação que o olho humano lê com mais precisão.
+>
+> A pizza é a alternativa que parece defensável, porque as sete regiões de fato somam um todo. Só que a pergunta pede **ordem**, e é justamente nisso que a pizza falha: com sete fatias parecidas, quase ninguém acerta qual é a maior. Ela se sustenta com duas ou três categorias, quando o todo importa mais que a ordem.
+>
+> A linha é pior do que parece: ligar regiões sugere continuidade entre categorias que não têm ordem natural, e a inclinação entre "Nordeste" e "Norte" não significa nada.
+> **volte para:** #fundamentos-a-pergunta-escolhe-o-grafico
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e6","tipo":"multipla-multi","objetivo":"O1","dificuldade":"dificil"}
+Uma equipe precisa mostrar quatro coisas sobre a mesma base. Quais pareamentos entre pergunta e forma seguem a tabela do capítulo? (marque todos que valem)
+
+- [x] "O ticket médio subiu ou caiu ao longo de 24 meses?" → linha.
+- [x] "Clientes que compram mais também devolvem mais?" → dispersão.
+- [x] "Como se espalham os prazos de entrega?" → histograma ou boxplot.
+- [ ] "Qual das nove categorias de produto vende mais?" → pizza.
+- [ ] "O churn foi de 4,1%" → gráfico de rosca com o percentual destacado.
+
+> **gabarito:** evolução por linha · relação por dispersão · distribuição por histograma
+> **porque:** As três corretas são leitura direta da tabela, e cada uma escolhe a forma pelo que o olho precisa fazer: seguir uma inclinação, ver dois eixos ao mesmo tempo, ou perceber forma e cauda.
+>
+> A pizza com nove categorias é o caso que a seção seguinte desmonta: a pergunta é de ordem, e ângulo é a codificação que o olho lê pior.
+>
+> A última é a mais fina, e é a regra que quase nunca se aplica: às vezes a melhor visualização é **nenhuma**. Quando a resposta é um número só, o gráfico não acrescenta informação, só tinta — e uma rosca para exibir um percentual é tinta pura, com a agravante de codificar em ângulo aquilo que o texto já disse com precisão.
+> **volte para:** #fundamentos-a-pergunta-escolhe-o-grafico
+:::
+
 ## Como um gráfico mente sem dizer uma mentira
 
 Nenhum dos truques abaixo falsifica um número. Todos mudam a conclusão.
@@ -103,6 +138,40 @@ Julgue o gráfico: o que está errado, por que engana, e como você o refaria.
 > **porque:** Nenhum número foi falsificado — e é isso que torna o caso instrutivo. O engano está na **codificação**. Numa barra, a quantidade é o comprimento medido a partir de uma base comum; ao começar o eixo em 88, o comprimento passa a representar "quanto excede 88", que não é a grandeza do título. Daí a distorção: 1,1 ponto de variação real vira uma diferença visual de cerca de onze vezes.
 >
 > A correção mínima é a base zero — e note o efeito: com o eixo do zero, as quatro barras ficam praticamente idênticas, que é a verdade do dado. Se a variação pequena for genuinamente relevante (satisfação move-se devagar), a saída honesta não é truncar em silêncio: é trocar para **linha**, onde o codificador é a inclinação, com a escala declarada, mais a meta e a série histórica para dar referência. E vale reparar no título: "Satisfação do cliente" é rótulo dos dados, não conclusão — ele delega ao gráfico distorcido o trabalho de afirmar o que o autor não escreveu. Um título que dissesse "Satisfação subiu 1,1 ponto em um ano" teria denunciado o próprio gráfico.
+> **volte para:** #como-um-grafico-mente-sem-dizer-uma-mentira
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Por que a regra "barra sempre parte do zero" não se aplica igualmente a um gráfico de linha?
+
+- [ ] Porque linha é usada para dados contínuos, e barra para categorias.
+- [x] Porque em barra quem codifica a quantidade é o comprimento, e em linha é a inclinação.
+- [ ] Porque linhas são mais difíceis de distorcer do que barras.
+- [ ] Porque a regra vale para as duas, e a exceção não existe.
+
+> **gabarito:** o que codifica muda de uma forma para a outra
+> **porque:** É o critério que sustenta a regra, e é o que a torna aplicável em vez de decorável. Numa barra, a quantidade é o comprimento medido de uma base comum, então mover a base quebra a proporção: as barras deixam de representar os valores.
+>
+> Numa linha, quem carrega a informação é a inclinação entre pontos, e ela sobrevive a um eixo que não começa no zero. Por isso o corte é permitido ali — desde que **visível e declarado**, que é a segunda metade da regra e a que costuma sumir.
+>
+> A terceira alternativa é falsa e perigosa: linha se distorce com facilidade, pela escala do eixo e pela razão entre largura e altura, que muda a inclinação aparente sem tocar em número nenhum.
+> **volte para:** #como-um-grafico-mente-sem-dizer-uma-mentira
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e8","tipo":"multipla-multi","objetivo":"O2","dificuldade":"media"}
+Um painel usa: escala arco-íris para uma variável ordenada de 0 a 100, verde e vermelho como único sinal de bom e ruim, e círculos cujo raio dobra quando o valor dobra. Quais críticas desta seção se aplicam? (marque todas que valem)
+
+- [x] O arco-íris inventa fronteiras que não existem numa variável ordenada.
+- [x] Verde e vermelho sozinhos excluem parte dos leitores, e falham em preto e branco.
+- [x] Dobrar o raio quadruplica a área, e o leitor lê a área.
+- [ ] Círculos nunca devem ser usados para codificar quantidade, em nenhuma situação.
+
+> **gabarito:** arco-íris em dado ordenado · verde e vermelho como único sinal · raio dobrado quadruplica a área
+> **porque:** As três corretas são três dos quatro truques da seção, e nenhum deles falsifica um número: todos mudam a conclusão pela codificação.
+>
+> A do arco-íris é a menos óbvia. Uma variável ordenada pede uma escala que também seja ordenada, do claro ao escuro; o arco-íris tem saltos de matiz que o olho lê como fronteiras de categoria, e o leitor passa a ver grupos onde há um contínuo.
+>
+> A alternativa errada transforma uma crítica específica em proibição geral, que é o erro típico de quem decorou a regra. O problema não é o círculo: é codificar no raio o que o leitor lê como área. Codificando pela área, o círculo funciona.
 > **volte para:** #como-um-grafico-mente-sem-dizer-uma-mentira
 :::
 
@@ -132,6 +201,75 @@ Complete a regra do título num gráfico de apresentação:
 > **porque:** O título é o único elemento que todo mundo na sala lê — inclusive quem não vai olhar os eixos. Gastá-lo com "Vendas por região" desperdiça a única linha garantida do slide e transfere ao público o trabalho de interpretar; "Vendas caíram 30% no Sul" entrega a leitura já feita.
 >
 > Há um efeito colateral útil: quando você é obrigado a escrever a conclusão no título, descobre se o gráfico realmente a sustenta. Se não sai um título afirmativo, ou o gráfico está errado, ou você ainda não sabe o que achou. É o mesmo teste do slide: se o slide tem duas mensagens, são dois slides.
+> **volte para:** #o-grafico-que-decide
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e9","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Uma apresentação traz: o gráfico, o método usado, a conclusão e a lista de próximos passos, nessa ordem. Segundo os quatro tempos desta seção, o que falta?
+
+- [ ] Nada: os quatro elementos estão presentes, apenas em outra ordem.
+- [x] Faltam o contexto e a tensão, que são os dois primeiros tempos e o que dá sentido à evidência.
+- [ ] Falta a metodologia detalhada, que deveria abrir a apresentação.
+- [ ] Falta um segundo gráfico, para dar comparação ao primeiro.
+
+> **gabarito:** faltam contexto e tensão
+> **porque:** Os quatro tempos são contexto, tensão, evidência e recomendação. A apresentação descrita começa direto na evidência: o público recebe um gráfico sem saber o que era normal antes nem por que aquilo não pode continuar.
+>
+> É o defeito que faz uma boa análise não mudar nada. Sem tensão, a recomendação chega como opinião — a sala não tem como avaliar se a mudança justifica o custo, porque ninguém estabeleceu que havia um problema.
+>
+> Repare que o método aparece na apresentação e não está entre os quatro tempos. Ele não é dispensável, é **público-dependente**: para o time técnico entra no corpo, para a diretoria vai ao apêndice, disponível a quem pedir.
+> **volte para:** #o-grafico-que-decide
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Você escreve o título do gráfico e não consegue formular uma frase afirmativa: sai sempre "Receita por canal" ou "Análise de churn". O que esse fato indica?
+
+- [ ] Que o título deve mesmo ser neutro, para não induzir o público.
+- [x] Que ou o gráfico não sustenta uma conclusão, ou você ainda não sabe o que achou, e os dois casos pedem trabalho antes da apresentação.
+- [ ] Que faltam dados, e a análise deve ser refeita com uma amostra maior.
+- [ ] Que o gráfico tem informação demais e precisa ser dividido em dois.
+
+> **gabarito:** o gráfico não sustenta conclusão, ou você ainda não sabe o que achou
+> **porque:** É o efeito colateral útil da regra do título, e ele funciona como teste barato. A obrigação de escrever uma afirmação força a verificar se a evidência a sustenta, e a dificuldade em escrevê-la é informação, não bloqueio de redação.
+>
+> A primeira alternativa é a defesa mais comum do título neutro, e ela troca responsabilidade por aparência de isenção. Um título que não afirma nada não deixa o público livre: deixa cada pessoa da sala descobrindo uma coisa diferente, e transfere ao gráfico o trabalho de dizer o que o autor não quis assinar.
+>
+> A quarta descreve um sintoma vizinho e distinto, que vale conhecer: se o slide tem duas mensagens, são dois slides. Aí o problema é excesso de conclusão, não ausência dela, e o título sai fácil — só que sai dois.
+> **volte para:** #o-grafico-que-decide
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+O que muda ao adaptar a mesma análise da diretoria para o time técnico?
+
+- [ ] A conclusão, que precisa ser mais cautelosa diante de um público especialista.
+- [x] A ordem e o nível de detalhe: metodologia, incerteza e dados feios entram no corpo em vez de ficarem no apêndice.
+- [ ] Os números, que para a diretoria são arredondados e para o time são exatos.
+- [ ] Nada: uma boa análise se apresenta igual para qualquer público.
+
+> **gabarito:** a ordem e o nível de detalhe
+> **porque:** É a distinção que a seção faz com uma frase curta e dura: mudar a ordem e o nível de detalhe é adaptação, mudar a conclusão conforme a plateia é outra coisa, e tem outro nome.
+>
+> Para a diretoria, a recomendação vem primeiro, com um gráfico e o custo, e o resto fica disponível a quem pedir. Para o time técnico, o que estava no apêndice sobe: metodologia, incerteza, o que foi descartado e os dados feios são justamente o que aquele público precisa para avaliar se acredita.
+>
+> A terceira alternativa parece inofensiva e é uma versão pequena do mesmo problema: arredondar sem declarar muda o que o público consegue verificar. Arredondar tudo bem, esconder a precisão real não.
+> **volte para:** #o-grafico-que-decide
+:::
+
+:::exercicio {"id":"visualizacao-storytelling-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Uma analista apresenta o mesmo estudo duas vezes. Quais diferenças entre as duas versões são adaptação legítima ao público? (marque todas que valem)
+
+- [x] Na versão executiva, a recomendação abre a apresentação; na técnica, ela fecha.
+- [x] Na versão técnica, o que foi descartado da amostra é discutido; na executiva, vai para o apêndice.
+- [ ] Na versão executiva, o intervalo de incerteza é omitido porque "confunde".
+- [x] Na versão executiva há um gráfico; na técnica, cinco.
+- [ ] Na versão executiva, o efeito é descrito como confirmado; na técnica, como indício.
+
+> **gabarito:** recomendação na abertura · descarte de amostra no apêndice · um gráfico contra cinco
+> **porque:** As três corretas mudam ordem e profundidade, e qualquer pessoa das duas plateias que lesse as duas versões chegaria à mesma conclusão. É esse o teste.
+>
+> As duas erradas atravessam a linha, e é útil ver que elas atravessam de jeitos diferentes. Omitir a incerteza porque "confunde" não simplifica: remove a informação de que a conclusão pode estar errada, que é a que a diretoria mais precisa para decidir quanto apostar. E chamar o mesmo efeito de confirmado num slide e de indício no outro é dizer duas coisas diferentes, com a mesma assinatura embaixo.
+>
+> A regra que sobra é operacional: se as duas versões fossem impressas lado a lado, nenhuma frase de uma poderia contradizer a outra.
 > **volte para:** #o-grafico-que-decide
 :::
 
