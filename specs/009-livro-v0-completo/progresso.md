@@ -76,7 +76,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -178,6 +178,33 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > ficaram em ⏳ com a razão escrita. Uma citação que um dos especialistas trouxe estava
 > quase certa e não era literal; foi conferida contra o texto e corrigida antes de
 > entrar no livro. É o argumento para o resto da coluna: fonte relatada não é fonte lida.
+>
+> **No IV.1 o achado foi na CADEIA, não no fato.** A apuração de Power sobre "cerveja
+> e fraldas" estava em ✓ᵐ com a razão "não foi lida por inteiro". Lida por inteiro,
+> os números todos se confirmaram (1,2 milhão de cestas, cerca de 25 lojas, a janela
+> das 17h–19h, o rearranjo que não aconteceu) e um só se desfez: o livro dizia que
+> Power **entrevistou** o autor do estudo. Ele não entrevistou ninguém. Viu a gravação
+> de um webcast da Teradata e recebeu a transcrição por e-mail da moderadora, da
+> própria Teradata. O capítulo inteiro é sobre a diferença entre correlação achada,
+> decisão tomada e efeito medido, e ele estava fortalecendo em uma palavra a origem
+> da própria evidência. Também faltava a parte em que Power escreve *"Does everyone
+> agree with the above account? YES and NO!"*: dois relatos na mesma página contestam
+> a descoberta, e os números de um deles (50 lojas em um dia, 1990) não batem com os
+> de Blischok. Entraram no corpo.
+>
+> **E "junho de 1992" era precisão inventada.** A fonte diz só "in 1992". Ninguém
+> inventa um mês de propósito; ele aparece porque a frase fica melhor com ele.
+> Precisão a mais é tão errada quanto imprecisão, e é mais difícil de flagrar,
+> porque parece cuidado.
+>
+> **Bônus de uma fonte procurada por outro motivo.** O livro atribuía a Sokal & Sneath
+> um programa (tirar a classificação das mãos da autoridade) sem tê-los aberto. O
+> livro de 1963 continua fechado, mas o *Citation Classic* que o próprio Sokal
+> escreveu em 1982 está aberto, diz o programa em três linhas ("unaffected by
+> subjective or phylogenetic judgments") e ainda entrega, de graça, a tese desta
+> seção do capítulo pela boca do vencedor: *"in fact, we coined the name 'numerical
+> taxonomy'."* Uma ⏳ virou ✓ **com a ressalva registrada** de que a caracterização do
+> que havia antes é de quem estava atacando a prática, não de observador neutro.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

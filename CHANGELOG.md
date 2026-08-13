@@ -6,6 +6,40 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — "cerveja e fraldas": os números batiam, a cadeia de evidência não (cap. IV.1)
+- **O livro dizia que Power entrevistou o autor do estudo. Ele não entrevistou
+  ninguém.** Power não pôde assistir ao evento ao vivo, viu a gravação de um
+  webcast da Teradata de 31/07/2002 e recebeu a transcrição por e-mail da
+  moderadora, da própria Teradata. Num capítulo que separa correlação achada,
+  decisão tomada e efeito medido, o texto fortalecia em uma palavra a origem da
+  própria evidência.
+- **"Junho de 1992" era precisão inventada.** A apuração diz só "in 1992".
+- **Entrou a divergência que a fonte registra e o livro omitia.** Power abre a
+  última seção com *"Does everyone agree with the above account? YES and NO!"*:
+  Fawcett sustenta que o exemplo nunca foi sustentado por dado nenhum, e Kohavi
+  chega à pessoa que rodou as consultas, com números que não batem com os de
+  Blischok (50 lojas em um dia, 1990, contra 1,2 milhão de cestas de cerca de 25
+  lojas). Ela não achava o padrão significativo.
+- **Os números do relato se confirmaram** e agora aparecem entre aspas, na fala
+  de Blischok. O selo da apuração de Power sobe de ✓ᵐ para ✓ (lida por inteiro),
+  e os fatos em si ficam em ⏳, porque só os temos pelo relato dos envolvidos.
+- **Marcador `❌` fora de lugar removido:** o corpo marcava com `❌` uma negativa
+  apurada, e a tabela de selos logo abaixo explicava por que `❌` é o selo errado
+  nesse caso.
+
+### Alterado — Sokal & Sneath deixam de ser atribuição sem fonte (cap. IV.1)
+- O programa da taxonomia numérica estava afirmado sem que nada dos autores
+  tivesse sido aberto. O livro de 1963 segue fechado, mas o *Citation Classic*
+  que **Sokal escreveu sobre o próprio livro** (1982) está lido e entrega o
+  programa em primeira mão ("unaffected by subjective or phylogenetic
+  judgments"), a origem da aposta de 1953 em Kansas, e a frase que fecha a tríade
+  de precedência desta seção: *"in fact, we coined the name 'numerical
+  taxonomy'."*
+- O ⏳ de "antes se classificava por julgamento do especialista" sobe a ✓, **com a
+  ressalva escrita** de que é a caracterização de quem atacava a prática.
+- Erro dentro da própria tabela de selos: a referência cruzada dizia "capítulos
+  II.2 e 18", numeração que o livro não usa mais. Corrigida para III.1.
+
 ### Corrigido — a tolerância dos exercícios numéricos, que sumia em silêncio
 - **O parser trocava só a PRIMEIRA vírgula por ponto.** O livro é em português,
   e o gabarito natural é `0,45 ± 0,01`; com a troca não global, o valor saía

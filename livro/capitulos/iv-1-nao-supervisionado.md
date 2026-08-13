@@ -76,18 +76,23 @@ Por que avaliar agrupamento é qualitativamente mais difícil que avaliar classi
 
 **A leitura deste livro.** Os capítulos [II.2](ii-2-modelos-lineares.md) (Gauss × Legendre) e [III.1](iii-1-neuronio-artificial.md) (Linnainmaa × Rumelhart) contam a mesma história com **dois** pretendentes. Aqui há seis, em quatro campos isolados, e o nome vencedor foi cunhado para um algoritmo diferente. Os três casos, juntos, fecham a tríade e dizem o que nenhum diz sozinho: **não vence quem descobre, nem quem publica primeiro, nem sequer quem descreve o método que virou padrão. Vence quem escreve a palavra que pega.**
 
-Do lado hierárquico, o aperto era político-científico. **Sokal & Sneath**, em *Principles of Numerical Taxonomy* (1963), motivaram a pesquisa mundial em clustering ao tirar a classificação das mãos da autoridade e torná-la **reproduzível a partir de caracteres medidos**. O objetivo não era achar grupos: era acabar com a discussão sobre quem tinha o direito de defini-los. Do lado da redução de dimensionalidade, dois problemas diferentes, 32 anos, a mesma decomposição: Pearson (1901) chegou por geometria, com a reta ou o plano de melhor ajuste a uma nuvem de pontos; Hotelling (1933) chegou por álgebra, com motivação psicométrica, e é dele o nome "componentes principais".
+Do lado hierárquico, o aperto era político-científico. **Sokal & Sneath**, em *Principles of Numerical Taxonomy* (1963), motivaram a pesquisa mundial em clustering, no registro de Bock. O que eles propunham está resumido pelo próprio Sokal: classificar a partir de "a large number of equally weighted characters, unaffected by subjective or phylogenetic judgments", com algoritmos de agrupamento aplicados a matrizes de similaridade. O objetivo não era achar grupos: era **tirar da autoridade o direito de defini-los**.
+
+A origem do programa é bem mais prosaica que o programa. Sokal conta que num almoço de laboratório em Kansas, em 1953, fez a "brash claim" de que classificaria organismos melhor por meios estatísticos do que pela "traditional subjective approach"; Earl A. Bell apostou uma caixa de seis cervejas que não daria certo, e Charles D. Michener forneceu os dados de um grupo de abelhas. E há uma linha do mesmo texto que fecha com a tríade acima. Ao explicar por que o livro é tão citado, Sokal escreve: "in fact, we coined the name 'numerical taxonomy'."
+
+Do lado da redução de dimensionalidade, dois problemas diferentes, 32 anos, a mesma decomposição: Pearson (1901) chegou por geometria, com a reta ou o plano de melhor ajuste a uma nuvem de pontos; Hotelling (1933) chegou por álgebra, com motivação psicométrica, e é dele o nome "componentes principais".
 
 **Procedência das afirmações desta seção:**
 
 | Selo | Afirmação |
 |---|---|
 | ✓ | Toda a cadeia do k-means — Dalenius, Steinhaus, Lloyd, Forgy, Sebestyen, MacQueen, o nome cunhado para outro algoritmo, o resumo de Forgy sem o algoritmo, e a leitura de k-means como otimização alternada — de Bock, *"Origins and extensions of the k-means algorithm"* (JEHPS, 2008), **lido por inteiro** |
-| ✓ | Sokal & Sneath, *Principles of Numerical Taxonomy* (1963), como motivador da pesquisa mundial em clustering |
+| ✓ | Que Sokal & Sneath (1963) motivaram a pesquisa mundial em clustering: é afirmação de Bock, na mesma fonte acima |
+| ✓ | O programa da taxonomia numérica, a aposta de 1953 e o "we coined the name", de Sokal, *"This Week's Citation Classic"* sobre *Principles of Numerical Taxonomy*, [Current Contents (15 de setembro de 1982)](https://garfield.library.upenn.edu/classics1982/A1982PJ14400001.pdf), lido por inteiro. **O livro de 1963 em si não foi aberto**: o que dele aparece aqui vem desse comentário do autor |
 | ✓ᵐ | A publicação tardia de Lloyd (1957 → 1982) |
 | ✓ᵐ | Pearson (1901) e Hotelling (1933) como as duas formulações de componentes principais, e o nome vindo de Hotelling |
-| ⏳ | Que antes disso se classificava por julgamento do especialista, com a autoridade do taxonomista valendo como critério |
-| 📖 | A tríade com os capítulos II.2 e 18, e a leitura de que vence quem escreve a palavra que pega |
+| ✓ | Que antes disso se classificava por julgamento do especialista: é assim que Sokal descreve o que havia, como "the traditional subjective approach". **É a caracterização de quem estava atacando essa prática**, não a de um observador neutro |
+| 📖 | A tríade com os capítulos II.2 e III.1, e a leitura de que vence quem escreve a palavra que pega |
 
 ## Fundamentos: inventar o critério, depois alternar
 
@@ -184,17 +189,24 @@ A armadilha é confiança alta com lift 1. Se 60% de todas as cestas têm pão, 
 
 ### Cerveja e fraldas: verdadeira até a descoberta, inventada a partir da ação
 
-Todo curso conta esta história. Vale separar o que se sustenta do que não se sustenta, e a fratura está num ponto exato. **O estudo existe.** Junho de 1992, Thomas Blischok (NCR/Teradata) para a Osco Drug: cerca de 1,2 milhão de cestas, cerca de 25 lojas (⏳). **A correlação foi achada**: cerveja e fraldas juntas entre 17h e 19h (⏳).
+Todo curso conta esta história. Vale separar o que se sustenta do que não se sustenta, e a fratura está num ponto exato. **O estudo existe.** Em 1992, Thomas Blischok, que dirigia um grupo de consultoria de varejo na Teradata (divisão da NCR), analisou com a equipe as cestas da Osco Drug. Ele descreve o material nas próprias palavras: "We took over 1.2 million market baskets [...] And these represented transactions from about 25 stores." **A correlação foi achada**, e também está na fala dele: "we did discover that between 5:00 and 7:00 p.m. that consumers bought beer and diapers."
 
-**A parte que todo mundo ensina é falsa.** "Puseram a cerveja ao lado das fraldas e as vendas subiram": isto não aconteceu. Power, que entrevistou o autor do estudo, afirma que a Osco não explorou a relação movendo produtos, e Blischok confirma que **nunca fizeram nada com ela** (❌). Um participante ainda registra que o líder da equipe, ao falar com prospects, **não distinguia entre as afinidades testadas e as hipóteses** (⏳). A lenda nasceu no discurso de vendas, e isso está documentado.
+**A parte que todo mundo ensina é falsa.** "Puseram a cerveja ao lado das fraldas e as vendas subiram": isto não aconteceu. Quem nega é o próprio Blischok, na mesma fala: "in reality they never did anything with beer and diapers relationships." Power fecha a apuração dizendo que os gerentes da Osco "did NOT exploit the beer and diapers relationship by moving the products closer together on the shelves". A lenda nasceu no discurso de vendas. John Earle, que diz ter trabalhado na Teradata e nesse projeto, registra que Blischok, ao falar com prospects e com a imprensa, "didn't distinguish between the actual affinities tested and our hypotheses", e acrescenta a frase que explica o mecanismo: "Our job was to sell the value of systems. Sometimes in selling, fact blurred with folklore."
 
-Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de três coisas que o mercado trata como uma só — **correlação achada ≠ decisão tomada ≠ efeito medido**. O estudo produziu a primeira; a segunda nunca ocorreu; a terceira, portanto, não existe — e é justamente ela que todo mundo repete como resultado. É o mesmo padrão do [capítulo II.6](ii-6-analise-multidimensional.md), onde a categoria "OLAP" também foi fabricada pelo marketing: a técnica era boa, a embalagem é que não se sustenta.
+**E a cadeia de evidência é mais frouxa do que a história merecia.** Vale olhar como esses fatos chegaram até aqui, porque o próprio Power abre a última seção da apuração com "Does everyone agree with the above account? YES and NO!". Três coisas que o texto dele deixa explícitas e que quase nunca são repetidas junto com os números:
+
+- **Power não entrevistou ninguém.** Ele não pôde assistir ao evento ao vivo, viu a gravação de um webcast de 31 de julho de 2002 e recebeu a transcrição por e-mail da moderadora, Holly Michael, da Teradata.
+- **O webcast era da empresa que fez o estudo**, celebrando os dez anos da própria lenda. A versão canônica do "fato" chega por uma peça de comunicação da parte interessada.
+- **A descoberta em si é contestada.** Tom Fawcett, relatando em terceira mão, sustenta que Blischok inventou o exemplo e que ele "was never supported in any data that they analyzed". Ronny Kohavi diz ter chegado à pessoa que rodou as consultas (K. Heath, self joins em SQL, 1990, "50 stores over a day period") e registra que ela **não achava o padrão significativo**. Esses números não batem com os de Blischok: 50 lojas em um dia contra 1,2 milhão de cestas de cerca de 25 lojas.
+
+Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de três coisas que o mercado trata como uma só — **correlação achada ≠ decisão tomada ≠ efeito medido**. O estudo, tal como Blischok o conta, produziu a primeira; a segunda nunca ocorreu; a terceira, portanto, não existe — e é justamente ela que todo mundo repete como resultado. É o mesmo padrão do [capítulo II.6](ii-6-analise-multidimensional.md), onde a categoria "OLAP" também foi fabricada pelo marketing: a técnica era boa, a embalagem é que não se sustenta.
 
 | Selo | Afirmação |
 |---|---|
-| ✓ᵐ | A existência e a autoria da apuração de Power, *"Ask Dan!"*, [DSSResources (2002)](https://dssresources.com/newsletters/66.php) — página localizada e identificada. **A entrevista não foi lida por inteiro**, e por isso nada dela aparece aqui entre aspas |
-| ⏳ | Data, empresas, volume de cestas e a janela das 17h–19h, conforme relatados nessa entrevista |
-| ⏳ | Que o rearranjo de gôndola **não aconteceu** — a negativa é sustentada pela apuração de Power, mas **por fonte secundária**. `❌` seria dizer que não achamos fonte; aqui há fonte, e ela nega. A distinção importa: **não é o mesmo desconhecer e ter apurado que não** |
+| ✓ | A apuração de Power, *"Ask Dan! — What is the 'true story' about data mining, beer and diapers?"*, DSS News vol. 3 nº 23, 10 de novembro de 2002, [DSSResources](https://dssresources.com/newsletters/66.php), **lida por inteiro**. Todas as aspas desta seção saíram dela |
+| ✓ | Que as falas de Blischok (1,2 milhão de cestas, cerca de 25 lojas, a janela das 17h–19h, o "never did anything") chegam a Power pela transcrição de um webcast da Teradata de 31/07/2002, enviada por e-mail pela moderadora. **Power não entrevistou Blischok**, e a edição anterior deste capítulo dizia que sim |
+| ✓ | Que Power registra as objeções de Fawcett e de Kohavi, e que os números atribuídos a Kohavi (50 lojas, um dia, 1990) não batem com os de Blischok |
+| ⏳ | Os fatos em si (ano, empresas, volume de cestas, janela das 17h–19h, e o rearranjo de gôndola que **não aconteceu**), que só temos pelo relato dos envolvidos. `❌` seria dizer que não achamos fonte; aqui há fonte, e ela nega. A distinção importa: **não é o mesmo desconhecer e ter apurado que não** |
 | ✓ᵐ | Agrawal, Imieliński & Swami (SIGMOD 1993) e Apriori (Agrawal & Srikant, VLDB 1994) |
 
 :::exercicio {"id":"nao-supervisionado-e2","tipo":"numerica","objetivo":"O1","dificuldade":"media"}
