@@ -10152,6 +10152,80 @@
    ]
   },
   {
+   "id": "interpretabilidade-justica-e5",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um regulador pede que o banco explique **por que este cliente** teve o crédito negado. Qual tipo de explicação ele está exigindo, e o que costuma acontecer nos times?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Global, e times têm dificuldade em produzi-la."
+    },
+    {
+     "correta": true,
+     "texto": "Local, e a assimetria é grande: times produzem explicação global com facilidade e são cobrados por explicação local."
+    },
+    {
+     "correta": false,
+     "texto": "Global, e basta listar os atributos mais importantes do modelo."
+    },
+    {
+     "correta": false,
+     "texto": "Local, e ela é obtida diretamente da importância global de atributos."
+    }
+   ],
+   "gabarito": "local, e é a que falta",
+   "porque": "Global responde \"como este modelo funciona, no geral?\" e serve para auditar. Local responde \"por que **este** caso recebeu esta saída?\", e é o que a regulação normalmente exige.\n\nA quarta alternativa descreve o atalho mais comum e ele não funciona: importância global diz o que o modelo usa em média, e não o que pesou naquela decisão. Um atributo pouco importante no geral pode ter decidido aquele caso.\n\nA assimetria é o que torna isso um problema de projeto e não de ferramenta: produzir o que é fácil e ser cobrado pelo que é difícil é a situação padrão, e ela precisa ser prevista antes de o sistema entrar em produção.",
+   "volte_para": "#fundamentos-o-que-e-explicar-um-modelo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
+   "id": "interpretabilidade-justica-e6",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe reporta que a explicação post-hoc tem 96% de fidelidade ao modelo. A diretoria conclui que pode usá-la como justificativa oficial das decisões. Qual é a crítica correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Nenhuma: 96% é fidelidade alta o bastante para uso oficial."
+    },
+    {
+     "correta": true,
+     "texto": "Fidelidade é uma concordância média, e a pergunta do regulador é sobre **aquela** decisão; a explicação continua sendo uma aproximação, não a razão pela qual o modelo decidiu."
+    },
+    {
+     "correta": false,
+     "texto": "O erro é a fidelidade ser medida sobre o treino, e não sobre o teste."
+    },
+    {
+     "correta": false,
+     "texto": "O erro é usar explicação post-hoc, que nunca deve ser produzida."
+    }
+   ],
+   "gabarito": "fidelidade é média, e a exigência é sobre o caso individual",
+   "porque": "Os 4% restantes não estão distribuídos por igual, e não há como saber, olhando o número agregado, se o caso contestado está entre eles. Trocar uma propriedade categórica por uma métrica média é exatamente o movimento que a auditoria pega.\n\nA quarta alternativa exagera para uma proibição que o capítulo não faz. Explicação post-hoc é útil e defensável; o que não se pode é tratá-la como motivação da decisão.\n\nO caminho que o capítulo aponta quando a exigência de justificar é real: considerar pagar o preço do modelo interpretável por construção, porque a perda de desempenho costuma ser menor do que o time supõe e às vezes some dentro do intervalo de confiança.",
+   "volte_para": "#interpretavel-por-construcao-ou-explicado-depois",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
    "id": "interpretabilidade-justica-e1",
    "capitulo": 26,
    "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
@@ -10189,6 +10263,80 @@
    "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
   },
   {
+   "id": "interpretabilidade-justica-e7",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "A propriedade rara do SHAP é que as contribuições somam exatamente o desvio entre a previsão daquele caso e a previsão média. O que **não** decorre disso?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que nada some e nada aparece do nada na atribuição."
+    },
+    {
+     "correta": true,
+     "texto": "Que a contribuição é causal no mundo: \"renda contribuiu −0,4\" não diz o que aconteceria se a renda mudasse."
+    },
+    {
+     "correta": false,
+     "texto": "Que a atribuição é completa em relação à previsão daquele caso."
+    },
+    {
+     "correta": false,
+     "texto": "Que existe uma referência, a previsão média, contra a qual o desvio é medido."
+    }
+   ],
+   "gabarito": "não decorre causalidade",
+   "porque": "A propriedade de soma é sobre **contabilidade**: ela garante que a atribuição fecha, sem sobra nem falta. Contabilidade fechada não é mecanismo.\n\nÉ a confusão mais cara do capítulo porque a saída do SHAP se parece muito com uma afirmação causal, e costuma chegar à reunião como se fosse. \"Renda contribuiu −0,4\" descreve como o modelo se comporta, e não o que aconteceria com a pessoa se a renda dela mudasse.\n\nVale lembrar as outras duas limitações que acompanham: a atribuição não é a razão interna do modelo, e não é estável de graça — atributos correlacionados dividem crédito de formas que dependem da implementação.",
+   "volte_para": "#lime-e-shap-sem-formula",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
+   "id": "interpretabilidade-justica-e8",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é a diferença entre o que LIME e SHAP fazem?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O LIME gera variações do caso, pergunta ao modelo o que ele responde para cada uma e ajusta um modelo simples **só naquela vizinhança**; o SHAP atribui contribuição a cada atributo em média sobre todas as ordens de entrada."
+    },
+    {
+     "correta": false,
+     "texto": "O LIME é global e o SHAP é local."
+    },
+    {
+     "correta": false,
+     "texto": "O LIME funciona só com modelos lineares e o SHAP com qualquer modelo."
+    },
+    {
+     "correta": false,
+     "texto": "São implementações diferentes do mesmo algoritmo."
+    }
+   ],
+   "gabarito": "vizinhança local ajustada contra contribuição média sobre ordens",
+   "porque": "São mecanismos distintos com o mesmo propósito. O LIME faz o óbvio e o óbvio funciona: perturba o caso, observa as respostas e ajusta um modelo simples ali perto. A resposta dele é literalmente \"perto deste caso, o modelo se comporta assim\".\n\nO SHAP vem da teoria dos jogos cooperativos: a previsão é o prêmio, cada atributo é um jogador, e a contribuição é o quanto ele acrescenta ao prêmio em média sobre todas as ordens possíveis de entrada.\n\nA segunda alternativa inverte um fato: os dois são locais. E a terceira confunde o modelo **explicado** com o modelo **explicador** — o simples ajustado pelo LIME é linear, e o que ele explica pode ser qualquer coisa.",
+   "volte_para": "#lime-e-shap-sem-formula",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
    "id": "interpretabilidade-justica-e2",
    "capitulo": 26,
    "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
@@ -10211,6 +10359,154 @@
     "valor": 0.45,
     "tolerancia": 0
    }
+  },
+  {
+   "id": "interpretabilidade-justica-e9",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual das três definições de justiça **não** olha o desfecho?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Paridade demográfica: ela exige proporções iguais de decisões positivas, independentemente de quem de fato era positivo."
+    },
+    {
+     "correta": false,
+     "texto": "Igualdade de oportunidade."
+    },
+    {
+     "correta": false,
+     "texto": "Calibração."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhuma delas olha o desfecho."
+    }
+   ],
+   "gabarito": "paridade demográfica",
+   "porque": "Ela é uma exigência sobre as **decisões**, e só. Igualdade de oportunidade condiciona a quem de fato é positivo; calibração pergunta se o escore corresponde à probabilidade real. As duas precisam do desfecho, a primeira não.\n\nA distinção tem consequência prática: paridade pode ser satisfeita aprovando gente ao acaso no grupo sub-representado, o que atende à definição e não ajuda ninguém a receber a decisão correta.\n\nÉ por isso que a escolha entre as três não é técnica. Cada uma protege alguém diferente, e nomear quem é a primeira parte do trabalho.",
+   "volte_para": "#tres-definicoes-de-justica-que-nao-cabem-juntas",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
+   "id": "interpretabilidade-justica-e10",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Segundo a álgebra de Chouldechova, qual afirmação é correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Com dados suficientes, os três critérios podem ser satisfeitos simultaneamente."
+    },
+    {
+     "correta": true,
+     "texto": "Fixadas três das quatro grandezas, a quarta está determinada: é identidade, e não tendência empírica."
+    },
+    {
+     "correta": false,
+     "texto": "A incompatibilidade some quando o modelo é bem calibrado."
+    },
+    {
+     "correta": false,
+     "texto": "A relação vale apenas para modelos lineares."
+    }
+   ],
+   "gabarito": "é identidade, e não tendência",
+   "porque": "A palavra que carrega tudo é **identidade**. Não se trata de um padrão observado em alguns conjuntos: taxa de falso positivo, prevalência, valor preditivo positivo e taxa de falso negativo estão amarradas por álgebra, e nenhuma quantidade de dados afrouxa uma identidade.\n\nA primeira alternativa é a esperança que a frase existe para desfazer, e é a mais comum em reunião. Mais dados reduzem incerteza sobre estimativas; não alteram uma relação exata entre elas.\n\nA terceira inverte o papel da calibração, que é uma das exigências em conflito, e não a saída dele. A animação acima mostra isso de forma direta: com os dois grupos calibrados por construção, ainda assim o melhor que se consegue é dois de três.",
+   "volte_para": "#a-algebra-de-tres-linhas",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
+   "id": "interpretabilidade-justica-e11",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Ao medir desempenho por subgrupo, quais cuidados a seção exige? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Declarar os subgrupos **antes** de olhar os resultados, para não caçar o recorte conveniente."
+    },
+    {
+     "correta": true,
+     "texto": "Verificar se cada subgrupo tem gente suficiente para a estimativa significar algo."
+    },
+    {
+     "correta": true,
+     "texto": "Reportar a matriz de confusão inteira por subgrupo, em vez de uma métrica agregada."
+    },
+    {
+     "correta": false,
+     "texto": "Concluir que não há diferença quando um subgrupo pequeno não acusa diferença."
+    }
+   ],
+   "gabarito": "declarar antes · tamanho suficiente · matriz inteira",
+   "porque": "Os três protegem contra formas diferentes de se enganar, e o terceiro é o mais estrutural: a média esconde a decisão, e uma métrica agregada não deixa ver qual tipo de erro recai sobre quem.\n\nA alternativa errada é a armadilha que a seção nomeia com precisão: **ausência de diferença medida num subgrupo pequeno é ausência de medida, não ausência de diferença**. Ela é perigosa porque produz uma frase tranquilizadora a partir de dado insuficiente.\n\nDeclarar os subgrupos antes é o mesmo princípio do capítulo I.4 e do II.8: escolher o recorte depois de ver o resultado transforma exploração em confirmação.",
+   "volte_para": "#quando-o-teorema-diz-que-voce-tem-de-escolher",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
+  },
+  {
+   "id": "interpretabilidade-justica-e12",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Na animação deste capítulo, os três critérios acendem quando as prevalências se igualam. Que leitura prática isso autoriza?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que basta reamostrar os dados até as prevalências ficarem iguais, e o problema de justiça se resolve."
+    },
+    {
+     "correta": true,
+     "texto": "Que a impossibilidade depende de uma condição do mundo, e não do modelo — o que explica por que a ação mais valiosa às vezes está fora do modelo."
+    },
+    {
+     "correta": false,
+     "texto": "Que o teorema está errado, já que existe um caso em que os três valem."
+    },
+    {
+     "correta": false,
+     "texto": "Que a calibração deixa de ser necessária quando as prevalências são iguais."
+    }
+   ],
+   "gabarito": "a impossibilidade depende de uma condição do mundo",
+   "porque": "É a forma exata do teorema, e ela é mais útil que a frase \"não dá para ter tudo\". A incompatibilidade não é lei da natureza nem defeito do modelo: ela decorre da diferença de prevalência entre os grupos.\n\nA primeira alternativa confunde igualar a prevalência **nos dados** com igualá-la **no mundo**. Reamostrar muda a proporção do conjunto e não muda quem de fato tem o desfecho lá fora, e a medição passa a descrever uma população que não existe — o mesmo erro do reequilíbrio do teste no [capítulo II.1](ii-1-avaliacao.md).\n\nA leitura que sobra é desconfortável e é o ponto: a prevalência diferente costuma ser resíduo de um acesso desigual anterior. Otimizar sobre ela é herdar o problema, e a ação que resolveria pode não ser uma escolha de limiar.",
+   "volte_para": "#quando-o-teorema-diz-que-voce-tem-de-escolher",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-1-interpretabilidade-justica",
+   "titulo_capitulo": "V.1 — Interpretabilidade e Justiça"
   },
   {
    "id": "interpretabilidade-justica-e3",
@@ -12558,6 +12854,20 @@
    },
    "intro": "O método são **dois movimentos alternando**, e a animação os separa de propósito: atribuir cada ponto ao centro mais próximo, depois recolocar cada centro na média dos seus pontos. As cruzes são os centros — elas não são pontos do dado, e confundir as duas coisas é o mal-entendido mais comum aqui.\n\nOs três grupos foram desenhados bem separados, então não há ambiguidade no dado. Assista a inércia cair em degraus até estabilizar em **2,243**, na quarta iteração.\n\nAgora clique em **\"E se a semente for outra?\"**. Mesmo dado, mesmo algoritmo, mesmo k, mesmo critério, e só os centros iniciais mudam. A execução estabiliza em **24,159**, dez vezes pior, e o desenho mostra o que aconteceu: dois grupos verdadeiros foram fundidos num só, e o terceiro foi partido ao meio para pagar a conta.\n\nNão há erro em lugar nenhum. O método está correto, a implementação está correta, a execução está correta, e a resposta está errada — porque a inércia cai a cada passo e o algoritmo para no primeiro mínimo **local** que encontrar.\n\nDuas leituras que valem mais que a animação. A primeira: é por isso que as bibliotecas rodam várias inicializações e ficam com a melhor, e é por isso que rodar uma vez só é uma decisão, não um padrão inofensivo. A segunda é mais desconfortável — aqui o estrago é escandaloso, dez vezes na inércia, e qualquer comparação o pegaria. O caso perigoso é o outro: quando a partição infeliz sai só um pouco pior, parece plausível, e ninguém tem com o que compará-la.",
    "pagina": "iv-1-nao-supervisionado"
+  },
+  {
+   "id": "interpretabilidade-justica-l1",
+   "capitulo": 26,
+   "arquivo": "livro/capitulos/v-1-interpretabilidade-justica.md",
+   "tipo": "anima-justica",
+   "titulo": "Mova o limiar de um grupo e tente acender os três",
+   "config": {
+    "id": "interpretabilidade-justica-l1",
+    "tipo": "anima-justica",
+    "titulo": "Mova o limiar de um grupo e tente acender os três"
+   },
+   "intro": "A álgebra acima é curta e continua abstrata até alguém tentar. Aqui não há nada a treinar: os escores dos dois grupos já existem, o limiar do grupo B está fixo em 0,50, e a única coisa que se move é **onde se corta o escore do grupo A**.\n\nOs dois grupos são **calibrados por construção** — dentro de cada um, um escore de 0,7 corresponde mesmo a 70% de positivos. É a premissa do teorema, e é por isso que a terceira luz fica verde o tempo todo.\n\nAssista o limiar descer de 0,75 a 0,25 e olhe as três luzes. A paridade acende num ponto; a igualdade de oportunidade acende noutro; e **elas nunca acendem juntas**. O melhor que a varredura inteira consegue é **2 de 3**.\n\nAgora clique em **\"E se as prevalências fossem iguais?\"**. Mesmo modelo, mesmo procedimento, mesma varredura, e agora existe um limiar em que os três acendem: **3 de 3**.\n\nÉ essa a forma exata do teorema, e ela é mais útil que a frase \"não dá para ter tudo\": a impossibilidade **não é uma lei da natureza nem um defeito do modelo**. Ela depende de uma condição do mundo — a diferença de prevalência entre os grupos. E essa diferença costuma ser, ela mesma, resíduo de um acesso desigual anterior, o que explica por que a ação mais valiosa às vezes está fora do modelo.",
+   "pagina": "v-1-interpretabilidade-justica"
   }
  ],
  "gerado_de": "livro/"

@@ -78,6 +78,40 @@ Duas perguntas diferentes se escondem sob a mesma palavra. **Global**: *como est
 
 O modelo não tem "razões": tem pesos. A explicação é uma narrativa ajustada para se parecer com o comportamento dele naquela vizinhança. Pode ser útil, defensável e ainda assim **não** ser o que aconteceu por dentro. Tratá-la como motivação da decisão (num relatório, numa auditoria, em juízo) é trocar o modelo pelo retrato dele. Quando a decisão for de alto risco e a exigência de justificar for real, considere pagar o preço do modelo interpretável por construção: a perda de desempenho costuma ser menor do que o time supõe, e às vezes some dentro do intervalo de confiança (ver [capítulo II.8](ii-8-do-modelo-a-decisao.md)).
 
+:::exercicio {"id":"interpretabilidade-justica-e5","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Um regulador pede que o banco explique **por que este cliente** teve o crédito negado. Qual tipo de explicação ele está exigindo, e o que costuma acontecer nos times?
+
+- [ ] Global, e times têm dificuldade em produzi-la.
+- [x] Local, e a assimetria é grande: times produzem explicação global com facilidade e são cobrados por explicação local.
+- [ ] Global, e basta listar os atributos mais importantes do modelo.
+- [ ] Local, e ela é obtida diretamente da importância global de atributos.
+
+> **gabarito:** local, e é a que falta
+> **porque:** Global responde "como este modelo funciona, no geral?" e serve para auditar. Local responde "por que **este** caso recebeu esta saída?", e é o que a regulação normalmente exige.
+>
+> A quarta alternativa descreve o atalho mais comum e ele não funciona: importância global diz o que o modelo usa em média, e não o que pesou naquela decisão. Um atributo pouco importante no geral pode ter decidido aquele caso.
+>
+> A assimetria é o que torna isso um problema de projeto e não de ferramenta: produzir o que é fácil e ser cobrado pelo que é difícil é a situação padrão, e ela precisa ser prevista antes de o sistema entrar em produção.
+> **volte para:** #fundamentos-o-que-e-explicar-um-modelo
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e6","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Uma equipe reporta que a explicação post-hoc tem 96% de fidelidade ao modelo. A diretoria conclui que pode usá-la como justificativa oficial das decisões. Qual é a crítica correta?
+
+- [ ] Nenhuma: 96% é fidelidade alta o bastante para uso oficial.
+- [x] Fidelidade é uma concordância média, e a pergunta do regulador é sobre **aquela** decisão; a explicação continua sendo uma aproximação, não a razão pela qual o modelo decidiu.
+- [ ] O erro é a fidelidade ser medida sobre o treino, e não sobre o teste.
+- [ ] O erro é usar explicação post-hoc, que nunca deve ser produzida.
+
+> **gabarito:** fidelidade é média, e a exigência é sobre o caso individual
+> **porque:** Os 4% restantes não estão distribuídos por igual, e não há como saber, olhando o número agregado, se o caso contestado está entre eles. Trocar uma propriedade categórica por uma métrica média é exatamente o movimento que a auditoria pega.
+>
+> A quarta alternativa exagera para uma proibição que o capítulo não faz. Explicação post-hoc é útil e defensável; o que não se pode é tratá-la como motivação da decisão.
+>
+> O caminho que o capítulo aponta quando a exigência de justificar é real: considerar pagar o preço do modelo interpretável por construção, porque a perda de desempenho costuma ser menor do que o time supõe e às vezes some dentro do intervalo de confiança.
+> **volte para:** #interpretavel-por-construcao-ou-explicado-depois
+:::
+
 ### LIME e SHAP, sem fórmula
 
 **LIME** faz o óbvio, e o óbvio funciona: pega o caso que você quer explicar, gera variações dele em volta, pergunta ao modelo o que ele responde para cada variação e ajusta um modelo simples **só naquela vizinhança**. O resultado responde *"perto deste caso, o modelo se comporta assim"* — nada além disso.
@@ -99,6 +133,40 @@ Um banco usa um ensemble de árvores para decidir crédito e gera, para cada neg
 >
 > A terceira captura o erro mais sedutor — a soma exata é propriedade real e desejável, mas **coerência aritmética não é veracidade explicativa**: uma decomposição pode fechar a conta perfeitamente e ainda descrever mal o mecanismo. A quarta erra em dobro: modelo interpretável por construção resolve a explicação, **não** a justiça — regras visíveis podem produzir taxas de erro muito diferentes entre grupos, e você só descobre medindo.
 > **volte para:** #interpretavel-por-construcao-ou-explicado-depois
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+A propriedade rara do SHAP é que as contribuições somam exatamente o desvio entre a previsão daquele caso e a previsão média. O que **não** decorre disso?
+
+- [ ] Que nada some e nada aparece do nada na atribuição.
+- [x] Que a contribuição é causal no mundo: "renda contribuiu −0,4" não diz o que aconteceria se a renda mudasse.
+- [ ] Que a atribuição é completa em relação à previsão daquele caso.
+- [ ] Que existe uma referência, a previsão média, contra a qual o desvio é medido.
+
+> **gabarito:** não decorre causalidade
+> **porque:** A propriedade de soma é sobre **contabilidade**: ela garante que a atribuição fecha, sem sobra nem falta. Contabilidade fechada não é mecanismo.
+>
+> É a confusão mais cara do capítulo porque a saída do SHAP se parece muito com uma afirmação causal, e costuma chegar à reunião como se fosse. "Renda contribuiu −0,4" descreve como o modelo se comporta, e não o que aconteceria com a pessoa se a renda dela mudasse.
+>
+> Vale lembrar as outras duas limitações que acompanham: a atribuição não é a razão interna do modelo, e não é estável de graça — atributos correlacionados dividem crédito de formas que dependem da implementação.
+> **volte para:** #lime-e-shap-sem-formula
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e8","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Qual é a diferença entre o que LIME e SHAP fazem?
+
+- [x] O LIME gera variações do caso, pergunta ao modelo o que ele responde para cada uma e ajusta um modelo simples **só naquela vizinhança**; o SHAP atribui contribuição a cada atributo em média sobre todas as ordens de entrada.
+- [ ] O LIME é global e o SHAP é local.
+- [ ] O LIME funciona só com modelos lineares e o SHAP com qualquer modelo.
+- [ ] São implementações diferentes do mesmo algoritmo.
+
+> **gabarito:** vizinhança local ajustada contra contribuição média sobre ordens
+> **porque:** São mecanismos distintos com o mesmo propósito. O LIME faz o óbvio e o óbvio funciona: perturba o caso, observa as respostas e ajusta um modelo simples ali perto. A resposta dele é literalmente "perto deste caso, o modelo se comporta assim".
+>
+> O SHAP vem da teoria dos jogos cooperativos: a previsão é o prêmio, cada atributo é um jogador, e a contribuição é o quanto ele acrescenta ao prêmio em média sobre todas as ordens possíveis de entrada.
+>
+> A segunda alternativa inverte um fato: os dois são locais. E a terceira confunde o modelo **explicado** com o modelo **explicador** — o simples ajustado pelo LIME é linear, e o que ele explica pode ser qualquer coisa.
+> **volte para:** #lime-e-shap-sem-formula
 :::
 
 ## Três definições de justiça que não cabem juntas
@@ -136,6 +204,52 @@ Calcule a **taxa de falso positivo do grupo B**. Responda em fração, com duas 
 > **volte para:** #a-algebra-de-tres-linhas
 :::
 
+:::exercicio {"id":"interpretabilidade-justica-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Qual das três definições de justiça **não** olha o desfecho?
+
+- [x] Paridade demográfica: ela exige proporções iguais de decisões positivas, independentemente de quem de fato era positivo.
+- [ ] Igualdade de oportunidade.
+- [ ] Calibração.
+- [ ] Nenhuma delas olha o desfecho.
+
+> **gabarito:** paridade demográfica
+> **porque:** Ela é uma exigência sobre as **decisões**, e só. Igualdade de oportunidade condiciona a quem de fato é positivo; calibração pergunta se o escore corresponde à probabilidade real. As duas precisam do desfecho, a primeira não.
+>
+> A distinção tem consequência prática: paridade pode ser satisfeita aprovando gente ao acaso no grupo sub-representado, o que atende à definição e não ajuda ninguém a receber a decisão correta.
+>
+> É por isso que a escolha entre as três não é técnica. Cada uma protege alguém diferente, e nomear quem é a primeira parte do trabalho.
+> **volte para:** #tres-definicoes-de-justica-que-nao-cabem-juntas
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Segundo a álgebra de Chouldechova, qual afirmação é correta?
+
+- [ ] Com dados suficientes, os três critérios podem ser satisfeitos simultaneamente.
+- [x] Fixadas três das quatro grandezas, a quarta está determinada: é identidade, e não tendência empírica.
+- [ ] A incompatibilidade some quando o modelo é bem calibrado.
+- [ ] A relação vale apenas para modelos lineares.
+
+> **gabarito:** é identidade, e não tendência
+> **porque:** A palavra que carrega tudo é **identidade**. Não se trata de um padrão observado em alguns conjuntos: taxa de falso positivo, prevalência, valor preditivo positivo e taxa de falso negativo estão amarradas por álgebra, e nenhuma quantidade de dados afrouxa uma identidade.
+>
+> A primeira alternativa é a esperança que a frase existe para desfazer, e é a mais comum em reunião. Mais dados reduzem incerteza sobre estimativas; não alteram uma relação exata entre elas.
+>
+> A terceira inverte o papel da calibração, que é uma das exigências em conflito, e não a saída dele. A animação acima mostra isso de forma direta: com os dois grupos calibrados por construção, ainda assim o melhor que se consegue é dois de três.
+> **volte para:** #a-algebra-de-tres-linhas
+:::
+
+:::lab {"id":"interpretabilidade-justica-l1","tipo":"anima-justica","titulo":"Mova o limiar de um grupo e tente acender os três"}
+A álgebra acima é curta e continua abstrata até alguém tentar. Aqui não há nada a treinar: os escores dos dois grupos já existem, o limiar do grupo B está fixo em 0,50, e a única coisa que se move é **onde se corta o escore do grupo A**.
+
+Os dois grupos são **calibrados por construção** — dentro de cada um, um escore de 0,7 corresponde mesmo a 70% de positivos. É a premissa do teorema, e é por isso que a terceira luz fica verde o tempo todo.
+
+Assista o limiar descer de 0,75 a 0,25 e olhe as três luzes. A paridade acende num ponto; a igualdade de oportunidade acende noutro; e **elas nunca acendem juntas**. O melhor que a varredura inteira consegue é **2 de 3**.
+
+Agora clique em **"E se as prevalências fossem iguais?"**. Mesmo modelo, mesmo procedimento, mesma varredura, e agora existe um limiar em que os três acendem: **3 de 3**.
+
+É essa a forma exata do teorema, e ela é mais útil que a frase "não dá para ter tudo": a impossibilidade **não é uma lei da natureza nem um defeito do modelo**. Ela depende de uma condição do mundo — a diferença de prevalência entre os grupos. E essa diferença costuma ser, ela mesma, resíduo de um acesso desigual anterior, o que explica por que a ação mais valiosa às vezes está fora do modelo.
+:::
+
 ## Quando o teorema diz que você tem de escolher
 
 Provado que não dá para ter tudo, o trabalho muda de natureza: passa a ser de **procedimento**, em quatro partes.
@@ -145,6 +259,40 @@ Provado que não dá para ter tudo, o trabalho muda de natureza: passa a ser de 
 **2. Medir por subgrupo, sempre.** A média esconde a decisão. Reporte a **matriz de confusão inteira por subgrupo** (ver [capítulo II.1](ii-1-avaliacao.md)), não uma métrica agregada. Três cuidados: declare os subgrupos **antes** de olhar os resultados, para não caçar o recorte conveniente; verifique se cada um tem gente suficiente para a estimativa significar algo; e lembre que ausência de diferença medida num subgrupo pequeno é ausência de medida, não ausência de diferença.
 
 **3. Envolver quem paga a conta.** A escolha entre critérios distribui erro entre pessoas, e quem decide raramente é quem recebe. Levar a decisão a quem sofre a consequência não é gentileza: é a única forma de descobrir qual erro dói mais — informação que não está no conjunto de dados.
+
+:::exercicio {"id":"interpretabilidade-justica-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"facil"}
+Ao medir desempenho por subgrupo, quais cuidados a seção exige? (marque todos que valem)
+
+- [x] Declarar os subgrupos **antes** de olhar os resultados, para não caçar o recorte conveniente.
+- [x] Verificar se cada subgrupo tem gente suficiente para a estimativa significar algo.
+- [x] Reportar a matriz de confusão inteira por subgrupo, em vez de uma métrica agregada.
+- [ ] Concluir que não há diferença quando um subgrupo pequeno não acusa diferença.
+
+> **gabarito:** declarar antes · tamanho suficiente · matriz inteira
+> **porque:** Os três protegem contra formas diferentes de se enganar, e o terceiro é o mais estrutural: a média esconde a decisão, e uma métrica agregada não deixa ver qual tipo de erro recai sobre quem.
+>
+> A alternativa errada é a armadilha que a seção nomeia com precisão: **ausência de diferença medida num subgrupo pequeno é ausência de medida, não ausência de diferença**. Ela é perigosa porque produz uma frase tranquilizadora a partir de dado insuficiente.
+>
+> Declarar os subgrupos antes é o mesmo princípio do capítulo I.4 e do II.8: escolher o recorte depois de ver o resultado transforma exploração em confirmação.
+> **volte para:** #quando-o-teorema-diz-que-voce-tem-de-escolher
+:::
+
+:::exercicio {"id":"interpretabilidade-justica-e12","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
+Na animação deste capítulo, os três critérios acendem quando as prevalências se igualam. Que leitura prática isso autoriza?
+
+- [ ] Que basta reamostrar os dados até as prevalências ficarem iguais, e o problema de justiça se resolve.
+- [x] Que a impossibilidade depende de uma condição do mundo, e não do modelo — o que explica por que a ação mais valiosa às vezes está fora do modelo.
+- [ ] Que o teorema está errado, já que existe um caso em que os três valem.
+- [ ] Que a calibração deixa de ser necessária quando as prevalências são iguais.
+
+> **gabarito:** a impossibilidade depende de uma condição do mundo
+> **porque:** É a forma exata do teorema, e ela é mais útil que a frase "não dá para ter tudo". A incompatibilidade não é lei da natureza nem defeito do modelo: ela decorre da diferença de prevalência entre os grupos.
+>
+> A primeira alternativa confunde igualar a prevalência **nos dados** com igualá-la **no mundo**. Reamostrar muda a proporção do conjunto e não muda quem de fato tem o desfecho lá fora, e a medição passa a descrever uma população que não existe — o mesmo erro do reequilíbrio do teste no [capítulo II.1](ii-1-avaliacao.md).
+>
+> A leitura que sobra é desconfortável e é o ponto: a prevalência diferente costuma ser resíduo de um acesso desigual anterior. Otimizar sobre ela é herdar o problema, e a ação que resolveria pode não ser uma escolha de limiar.
+> **volte para:** #quando-o-teorema-diz-que-voce-tem-de-escolher
+:::
 
 **4. Registrar.** Um **Model Card** documenta o modelo como um datasheet documenta o dado: uso pretendido, uso desaconselhado, desempenho desagregado por subgrupo e considerações éticas. O elo com o [capítulo I.3](i-3-dados.md) não é analogia — é a **mesma autora**: Timnit Gebru assina os dois, no mesmo ano. Documentar o dado e documentar o modelo são um projeto só.
 

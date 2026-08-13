@@ -35,12 +35,13 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > O mapa e o estado de cada uma vivem em [`animacoes.md`](animacoes.md), que é
 > a fonte única desse recorte. Feitas até agora: **III.1** (o perceptron
 > aprendendo, com o botão do XOR), **III.2** (o MLP resolvendo o mesmo XOR,
-> com os botões de tirar a camada e de estragar a inicialização) e **IV.1**
-> (o k-means alternando, com a semente que decide o resultado). A dívida do
+> com os botões de tirar a camada e de estragar a inicialização), **IV.1**
+> (o k-means alternando, com a semente que decide o resultado) e **V.1** (o
+> limiar movendo contra os três critérios de justiça). A dívida do
 > núcleo compartilhado foi paga na segunda, como a ADR 0015 exigia.
 >
-> **As animações seguem a ordem de prioridade de `animacoes.md`** (0.2, II.4,
-> V.1 são as próximas), e não a ordem dos capítulos. Um capítulo pode
+> **As animações seguem a ordem de prioridade de `animacoes.md`** (0.2 e II.4
+> são as próximas), e não a ordem dos capítulos. Um capítulo pode
 > fechar a coluna de exercícios antes de receber a animação dele — III.4 é o
 > primeiro caso.
 
@@ -73,12 +74,12 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
-| 26 | V.1 — Interpretabilidade e Justiça | 4 | 4 | 12 | **ok** | — | — | — |
+| 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | **ok** | — | — | — |
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 357 exercícios hoje (311 de capítulo + 46 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 365 exercícios hoje (319 de capítulo + 46 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

@@ -48,7 +48,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | IV.1 | **feito** — atribuir e recentrar alternando, com o botão da semente infeliz |
 | IV.2 | grid-world com a Q-table pintando: recompensa por episódio e ε caindo; com ε=0 o agente trava num caminho pior |
 | IV.3 | algoritmo genético: melhor aptidão subindo enquanto a diversidade colapsa |
-| V.1 | limiar de um grupo movendo: paridade, igualdade de oportunidade e calibração, sempre dois verdes e um vermelho |
+| V.1 | **feito** — limiar de um grupo movendo, com o botão que iguala as prevalências |
 | V.2 | **não animar** — dívida técnica não tem dinâmica observável em 30 s |
 | V.3 | distribuição deslocando: o PSI cruzando 0,25 dias antes de a AUC real cair |
 | V.4 | **não animar** — é placar, e tabela datada é a forma certa |
@@ -138,3 +138,45 @@ iteração**, com atribuir e recentrar separados. Ver os dois movimentos alterna
 é o que mostra que o método são dois gestos, e não uma caixa que devolve grupos.
 
 Teste em `publicar/testes/anima-kmeans.mjs`, visto falhando.
+
+
+## O que a quarta animação ensinou (2026-08)
+
+**Terceira família servida pelo mesmo núcleo** ("limiar sobre scores fixos").
+Nada é treinado: os escores existem desde o começo e só o limiar se move. O
+núcleo veio inteiro de novo.
+
+**Duas armadilhas de construção, e as duas mudariam o que o leitor aprende:**
+
+1. *Calibração medindo artefato.* Na primeira versão os grupos não eram
+   calibrados por construção, e a "calibração" media a forma como eu gerei o
+   dado. Resultado: no máximo **um** verde, e o teorema não aparecia. A
+   correção é gerar o escore primeiro e sortear `y ~ Bernoulli(escore)` —
+   assim a calibração é premissa, como o teorema exige.
+2. *Limiar degenerado satisfazendo tudo.* Varrendo a faixa inteira, os melhores
+   resultados apareciam em limiares extremos, onde taxa de positivos e revocação
+   colapsam para perto de zero nos dois grupos e "casam" trivialmente. Um limiar
+   que quase não classifica ninguém satisfaz quase tudo, e exibi-lo como solução
+   ensinaria o contrário do capítulo. A varredura ficou restrita à faixa de
+   operação (0,25 a 0,75).
+
+**Medido:** com prevalências 0,64 contra 0,36, o melhor desvio conjunto na faixa
+é 0,037, acima da tolerância de 0,03 — nunca os três. Igualando as prevalências,
+o melhor desvio cai para 0,018 e os três acendem. É por isso que o botão existe:
+ele mostra que a impossibilidade depende de uma **condição do mundo**, e não do
+modelo.
+
+Teste em `publicar/testes/anima-justica.mjs`, visto falhando.
+
+## Placar das previsões desta spec
+
+Três animações construídas, três previsões escritas antes de medir:
+
+| Previsão | O que o dado disse |
+|---|---|
+| III.2 — "a perda caindo até zerar" | ✅ zera, mas só com semente boa: 44 de 60 inicializações resolvem |
+| IV.1 — "outra semente parando 18% pior" | ❌ **10× pior**, não 18% |
+| V.1 — "sempre dois verdes e um vermelho" | ✅ dois é o teto, e a condição que levanta virou botão |
+
+Uma em três previsões numéricas estava errada, e nenhuma das três teria sido
+detectada pelo build. É o argumento inteiro a favor de a animação vir com teste.

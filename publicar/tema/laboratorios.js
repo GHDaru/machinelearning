@@ -1328,9 +1328,158 @@
     rel.aoChegar(function () { rodar({}); });
   }
 
+  // Quarta animação, e a terceira família: "limiar sobre scores fixos". Nada é
+  // treinado aqui — os escores existem desde o começo, e a única coisa que se
+  // move é onde se corta o do grupo A.
+  //
+  // O que ela mostra é um teorema, não um comportamento: com prevalências
+  // diferentes, dois dos três critérios podem ficar verdes ao mesmo tempo, e os
+  // três nunca. O botão devolve as prevalências iguais e o terceiro acende.
+  //
+  // Dois cuidados que a construção exigiu, e que o teste guarda:
+  //
+  // 1. Os dois grupos são CALIBRADOS por construção — sorteia-se o escore e
+  //    depois y ~ Bernoulli(escore). Sem isso, a "calibração" mediria artefato
+  //    da geração do dado em vez da premissa do teorema. A primeira versão
+  //    errava aqui, e o resultado dava no máximo UM verde.
+  // 2. A varredura fica na faixa de operação (0,25 a 0,75). Fora dela as duas
+  //    métricas colapsam para perto de zero e "casam" trivialmente — um limiar
+  //    que quase não classifica ninguém satisfaz quase tudo, e exibir isso como
+  //    solução ensinaria o contrário do capítulo.
+  function animaJustica(area, cfg) {
+    var W = 460, H = 300, PAD = 26, LIM = 1;
+    var t = tela(area, W, H, PAD, LIM);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bIguais;
+    var TOL = 0.03, T_MIN = 0.25, T_MAX = 0.75, PASSO = 0.01, T_B = 0.5;
+    var est = { A: [], B: [], tA: T_MAX, mB: null, iguais: false, parou: false, melhor: null };
+
+    function gera(sem, n, desloc) {
+      var r = rng(sem), p = [], i, s;
+      for (i = 0; i < n; i++) {
+        s = (r() + r() + r()) / 3;
+        s = Math.min(0.97, Math.max(0.03, s + desloc));
+        p.push({ s: s, y: r() < s ? 1 : 0 });
+      }
+      return p;
+    }
+
+    function met(g, lim) {
+      var tp = 0, fp = 0, fn = 0;
+      g.forEach(function (p) {
+        var q = p.s >= lim ? 1 : 0;
+        if (q && p.y) tp++; else if (q && !p.y) fp++; else if (!q && p.y) fn++;
+      });
+      return { taxaPos: (tp + fp) / g.length, tpr: tp / (tp + fn || 1) };
+    }
+
+    function luzes() {
+      var mA = met(est.A, est.tA);
+      return {
+        mA: mA,
+        par: Math.abs(mA.taxaPos - est.mB.taxaPos) <= TOL,
+        opo: Math.abs(mA.tpr - est.mB.tpr) <= TOL,
+        cal: true                     // premissa: os dois grupos são calibrados
+      };
+    }
+
+    function prev(g) { var c = 0; g.forEach(function (p) { if (p.y) c++; }); return c / g.length; }
+
+    function faixa(g, y0, lim, escuro) {
+      var x0 = PAD, larg = W - 2 * PAD;
+      g.forEach(function (p, i) {
+        ctx.fillStyle = p.y ? (escuro ? "#8fb8dd" : "#35618e")
+                            : (escuro ? "#e0a24a" : "#b8761f");
+        ctx.beginPath();
+        ctx.arc(x0 + p.s * larg, y0 + ((i * 7) % 34), 1.7, 0, 6.2832);
+        ctx.fill();
+      });
+      ctx.strokeStyle = escuro ? "#e6e6e4" : "#1c1c1c";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x0 + lim * larg, y0 - 8);
+      ctx.lineTo(x0 + lim * larg, y0 + 42);
+      ctx.stroke();
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), l = luzes();
+      t.fundo(escuro);
+      ctx.font = "12px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("grupo A · prevalência " + prev(est.A).toFixed(2), PAD, PAD + 14);
+      faixa(est.A, PAD + 30, est.tA, escuro);
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("grupo B · prevalência " + prev(est.B).toFixed(2), PAD, PAD + 108);
+      faixa(est.B, PAD + 124, T_B, escuro);
+
+      var rot = ["paridade", "oportunidade", "calibração"];
+      var ok = [l.par, l.opo, l.cal];
+      rot.forEach(function (r, j) {
+        var x = PAD + j * 140, y = H - PAD - 6;
+        ctx.fillStyle = ok[j] ? (escuro ? "#87b89a" : "#2f7d4f")
+                              : (escuro ? "#d98a8a" : "#a83232");
+        ctx.beginPath(); ctx.arc(x + 6, y - 4, 5, 0, 6.2832); ctx.fill();
+        ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+        ctx.fillText(r, x + 17, y);
+      });
+    }
+
+    function texto() {
+      var l = luzes(), n = (l.par ? 1 : 0) + (l.opo ? 1 : 0) + 1;
+      placar.textContent =
+        (est.iguais ? "prevalências iguais · " : "prevalências diferentes · ") +
+        "limiar de A em " + est.tA.toFixed(2) +
+        " · taxa de positivos " + l.mA.taxaPos.toFixed(3) + " contra " + est.mB.taxaPos.toFixed(3) +
+        " · revocação " + l.mA.tpr.toFixed(3) + " contra " + est.mB.tpr.toFixed(3) +
+        " · " + n + " de 3 critérios" +
+        (est.parou ? " · melhor que deu: " + est.melhor + " de 3" : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var l = luzes(), n = (l.par ? 1 : 0) + (l.opo ? 1 : 0) + 1;
+      if (est.melhor == null || n > est.melhor) est.melhor = n;
+      est.tA -= PASSO;
+      if (est.tA < T_MIN - 1e-9) { est.tA = T_MIN; est.parou = true; }
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(opc) {
+      est.iguais = !!opc.iguais;
+      var d = est.iguais ? 0 : 0.13;
+      est.A = gera(11, 900, d);
+      est.B = gera(23, 900, -d);
+      est.mB = met(est.B, T_B);
+      est.tA = T_MAX; est.parou = false; est.melhor = null;
+      rel.comecar(Math.ceil((T_MAX - T_MIN) / PASSO) + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bIguais.textContent = est.iguais ? "Voltar às prevalências diferentes"
+                                       : "E se as prevalências fossem iguais?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar({ iguais: est.iguais }); });
+    bIguais = botao("E se as prevalências fossem iguais?", function () { rodar({ iguais: !est.iguais }); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 90);
+    est.A = gera(11, 900, 0.13); est.B = gera(23, 900, -0.13);
+    est.mB = met(est.B, T_B);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar({}); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
-                "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans };
+                "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
+                "anima-justica": animaJustica };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
