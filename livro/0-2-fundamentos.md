@@ -23,11 +23,11 @@ O que separa os dois é a **capacidade** do modelo: quantas hipóteses diferente
 
 ## De onde isto veio
 
-**O aperto, e ele não nasceu na computação.** Em **1931**, um psicometrista de sobrenome **Larson** tinha um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O artigo dele chama-se, literalmente, *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era esse — um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
+**O aperto, e ele não nasceu na computação.** Em 1931, um psicometrista de sobrenome Larson tinha um problema prático e irritante: ao ajustar uma regressão múltipla numa amostra e aplicá-la a outra, o coeficiente de correlação **encolhia**. Sempre. O artigo dele chama-se, literalmente, *"The Shrinkage of the Coefficient of Multiple Correlation"*. O aperto era esse — um número que descrevia bem os dados que o produziram e mentia sobre os próximos.
 
 **O que se fazia antes.** Avaliava-se o modelo nos mesmos dados em que ele foi ajustado, e o resultado era tomado como estimativa da qualidade. Não por ingenuidade: dado era caro, e separar metade dele para não usar parecia desperdício.
 
-**A virada.** Guardar dados que o modelo **não vê**. É uma ideia quase ofensiva de simples, e é a mais importante deste livro inteiro. Depois vieram as economias em cima dela: **Mosteller e Tukey (1968)** formulam o *leave-one-out*; **Stone (1974)** e **Geisser (1975)** constroem o arcabouço da validação cruzada. Note que Stone **cita explicitamente** Larson, Mosteller & Tukey e outros: o que ele traz de novo **não é a prática, é o arcabouço** que a justifica.
+**A virada.** Guardar dados que o modelo não vê. É uma ideia quase ofensiva de simples, e a mais importante deste livro inteiro. Depois vieram as economias em cima dela: Mosteller e Tukey (1968) formulam o *leave-one-out*; Stone (1974) e Geisser (1975) constroem o arcabouço da validação cruzada. Note que Stone **cita explicitamente** Larson, Mosteller & Tukey e outros: o que ele traz de novo **não é a prática, é o arcabouço** que a justifica.
 
 **A ideia reaproveitável.** **Quem avalia não pode ser quem produziu, nem usar a mesma informação.** A separação treino/teste é um caso particular de um princípio que vale muito além de modelos: o revisor precisa ser independente do autor; a prova precisa ter questões que não estavam na lista; o benchmark precisa ser secreto para medir alguma coisa. Toda vez que você vir um número bom demais, a primeira pergunta é **"quem avaliou, e com qual informação?"**.
 
@@ -61,7 +61,7 @@ Todo Machine Learning supervisionado repousa numa hipótese que raramente é dit
 
 > Os dados de treino e os dados que o modelo verá em produção vêm da **mesma distribuição**.
 
-Se essa hipótese vale, minimizar o erro nos exemplos que você tem é uma aproximação razoável de minimizar o erro nos exemplos que virão. Isso tem nome — **minimização do risco empírico** (*Empirical Risk Minimization*, ERM) — e é o que praticamente todo algoritmo de treino faz.
+Se essa hipótese vale, minimizar o erro nos exemplos que você tem é uma aproximação razoável de minimizar o erro nos exemplos que virão. Isso tem nome, **minimização do risco empírico** (*Empirical Risk Minimization*, ERM), e é o que praticamente todo algoritmo de treino faz.
 
 Se a hipótese não vale, tudo o que vem depois é decoração. E ela **frequentemente não vale**:
 
@@ -87,7 +87,7 @@ O teste existe para ser a testemunha que não foi coagida. Toda vez que você o 
 
 Separar um pedaço fixo para validação custa caro quando há pouca linha: o modelo treina com menos, e a estimativa fica ruidosa porque depende de quais exemplos calharam de ficar de fora.
 
-A **validação cruzada** resolve isso por rodízio. Divide-se o treino em $k$ partes iguais — cada uma é uma **dobra** (*fold*) —, treina-se em $k-1$ delas e mede-se na que sobrou. Repete-se até cada dobra ter sido a juíza uma vez. O resultado é a **média das $k$ medições**, e o **desvio entre elas** já diz quanto a estimativa é instável.
+A **validação cruzada** resolve isso por rodízio. Divide-se o treino em $k$ partes iguais, cada uma chamada de **dobra** (*fold*). Treina-se em $k-1$ delas e mede-se na que sobrou. Repete-se até cada dobra ter sido a juíza uma vez. O resultado é a média das $k$ medições, e o desvio entre elas já diz quanto a estimativa é instável.
 
 Três coisas que a definição não deixa ver e custam caro:
 
@@ -131,7 +131,7 @@ O sintoma é visível nas duas curvas de erro:
 
 A última linha merece atenção. Erro de validação *melhor* que o de treino costuma indicar que os conjuntos não são comparáveis — uma divisão mal feita, um vazamento invertido, ou regularização forte aplicada só no treino. É um resultado bom demais, e resultados bons demais são a pista mais confiável de que algo está errado (cap. I.3).
 
-**Uma advertência sobre a decomposição.** A ideia de que mais capacidade sempre aumenta a variância é uma simplificação útil — e é *falsa* no regime das redes modernas. Modelos muito grandes, treinados muito além do ponto de interpolação, frequentemente voltam a generalizar bem, num fenômeno chamado **double descent** ([Belkin et al., 2019](https://doi.org/10.1073/pnas.1903070116), ✓). A intuição viés–variância continua sendo a melhor ferramenta de diagnóstico para o regime clássico — que é onde vive a maior parte do trabalho tabular deste livro — mas **não é uma lei universal**, e o capítulo III.2 volta ao assunto.
+**Uma advertência sobre a decomposição.** A ideia de que mais capacidade sempre aumenta a variância é uma simplificação útil, e é *falsa* no regime das redes modernas. Modelos muito grandes, treinados muito além do ponto de interpolação, frequentemente voltam a generalizar bem, num fenômeno chamado **double descent** ([Belkin et al., 2019](https://doi.org/10.1073/pnas.1903070116), ✓). A intuição viés–variância continua sendo a melhor ferramenta de diagnóstico para o regime clássico, que é onde vive a maior parte do trabalho tabular deste livro, mas **não é uma lei universal**, e o capítulo III.2 volta ao assunto.
 
 > **Cláusula de expiração.** Escrevo em 2026 que a decomposição viés–variância é a ferramenta de diagnóstico dominante na prática tabular, e que o *double descent* é entendido como fenômeno do regime superparametrizado. Se, na próxima revisão, existir uma teoria unificada que preveja quantitativamente o comportamento de generalização nos dois regimes, esta seção precisa ser reescrita — não apenas emendada. Acompanhamento no [placar de expiração](HISTORICO.md).
 
@@ -144,7 +144,7 @@ Um modelo atinge 0,98 de acurácia no treino e 0,71 na validação. Qual é o di
 - [ ] Impossível diagnosticar sem ver o erro no teste.
 
 > **gabarito:** Variância alta
-> **porque:** A assinatura é o **vão** entre treino e validação: 0,98 contra 0,71. O modelo tem capacidade de sobra — ele consegue explicar quase perfeitamente os dados que viu — mas o que aprendeu não se transfere. Isso é variância alta, ou seja, overfitting. Aumentar a capacidade (alternativa 1) pioraria; o sintoma de viés alto seria erro **alto nos dois** conjuntos, e próximos entre si. E note por que a última alternativa é errada e perigosa: você não precisa — nem deve — consultar o teste para fazer esse diagnóstico. Diagnóstico se faz na validação; o teste é a testemunha que se preserva.
+> **porque:** A assinatura é o **vão** entre treino e validação: 0,98 contra 0,71. O modelo tem capacidade de sobra: consegue explicar quase perfeitamente os dados que viu, mas o que aprendeu não se transfere. Isso é variância alta, ou seja, overfitting. Aumentar a capacidade (alternativa 1) pioraria; o sintoma de viés alto seria erro **alto nos dois** conjuntos, e próximos entre si. E note por que a última alternativa é errada e perigosa: você não precisa, nem deve, consultar o teste para fazer esse diagnóstico. Diagnóstico se faz na validação; o teste é a testemunha que se preserva.
 > **volte para:** #o-diagnostico-pratico
 :::
 
@@ -154,7 +154,7 @@ Complete o termo que falta na decomposição do erro esperado de um modelo:
 `erro esperado ≈ viés² + ______ + ruído irredutível`
 
 > **gabarito:** variância|variancia
-> **porque:** A decomposição clássica tem três parcelas: o **viés²** (o quanto o modelo erra sistematicamente, por não conseguir representar o padrão), a **variância** (o quanto ele oscila conforme a amostra de treino muda) e o **ruído irredutível** (o que nenhum modelo alcança). O valor prático de decorar isto não é a fórmula — é que cada parcela pede uma ação diferente: viés pede mais expressividade, variância pede mais dados ou mais restrição, e ruído pede que você pare.
+> **porque:** A decomposição clássica tem três parcelas: o **viés²** (o quanto o modelo erra sistematicamente, por não conseguir representar o padrão), a **variância** (o quanto ele oscila conforme a amostra de treino muda) e o ruído irredutível (o que nenhum modelo alcança). O valor prático de decorar isto não é a fórmula: é que cada parcela pede uma ação diferente, viés pede mais expressividade, variância pede mais dados ou mais restrição, e ruído pede que você pare.
 > **volte para:** #a-decomposicao-vies-variancia
 :::
 
@@ -202,15 +202,15 @@ A decomposição viés–variância é um daqueles conceitos que a prosa explica
 :::exercicio {"id":"fundamentos-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
 **Desafio de fechamento.** Explique, **sem usar a palavra "overfitting"** nem sinônimo dela, por que um modelo pode ir muito bem no treino e mal em produção. A proibição é o exercício: o nome está barrado justamente porque nomear parece explicar.
 
-> **rubrica:** distingue as duas quantidades — o erro medido no que o modelo já viu e o erro esperado no que ele ainda não viu — e deixa claro que só a segunda interessa;
+> **rubrica:** distingue as duas quantidades (o erro medido no que o modelo já viu e o erro esperado no que ele ainda não viu) e deixa claro que só a segunda interessa;
 > aponta ao menos um mecanismo concreto pelo qual o desempenho no treino deixa de valer fora dele — o modelo se apoiou em particularidade da amostra, ou a amostra não representava o mundo, ou o mundo mudou depois;
-> nomeia a hipótese que precisa valer para o passado informar o futuro — que os dados de produção venham da mesma distribuição — e diz o que acontece com a promessa quando ela falha;
+> nomeia a hipótese que precisa valer para o passado informar o futuro, que é os dados de produção virem da mesma distribuição, e diz o que acontece com a promessa quando ela falha;
 > não substitui a explicação pelo nome: dizer que "o modelo decorou" sem dizer **o que** foi decorado, e por que aquilo não se repete fora da amostra, não atende
 > **porque:** A palavra foi proibida porque é um atalho que fecha a pergunta em vez de responder. "Deu overfitting" rotula o sintoma e para ali — e quem para ali não consegue decidir o que fazer, porque os três mecanismos acima pedem ações diferentes: regularizar, coletar dado representativo, ou monitorar e retreinar.
 >
 > A resposta completa passa pelas duas quantidades e pela ponte entre elas. O erro de treino é **medido**; o erro futuro é **esperado**, e a esperança se apoia numa hipótese — mesma distribuição. Todo número deste livro é promessa condicional a ela, e é por isso que o capítulo insiste que métrica de teste não é certificado: é aposta com prazo.
 >
-> Repare que o terceiro mecanismo — o mundo mudou — **não é falha de treino nenhuma**: o modelo estava certo e o mundo saiu de baixo dele. Chamar isso de "overfitting" é o erro de diagnóstico mais caro do capítulo [V.3](capitulos/v-3-mlops.md), e é exatamente o que o rótulo esconde.
+> Repare que o terceiro mecanismo, o mundo mudou, **não é falha de treino nenhuma**: o modelo estava certo e o mundo saiu de baixo dele. Chamar isso de "overfitting" é o erro de diagnóstico mais caro do capítulo [V.3](capitulos/v-3-mlops.md), e é exatamente o que o rótulo esconde.
 > **volte para:** #fundamentos-a-hipotese-que-sustenta-tudo
 :::
 

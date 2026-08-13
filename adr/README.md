@@ -30,6 +30,7 @@ A quinta é a que distingue um ADR de um anúncio. Uma decisão sem custo declar
 | [0012](0012-verificacao-como-superficie-corrigida.md) | A Verificação vira superfície corrigida, uma pergunta por capítulo | 2026-08-12 | aceito (faseado) |
 | [0013](0013-voz-do-livro-e-o-humanizer.md) | A `humanizer` entra como editora de concisão; §14 recusada | 2026-08-13 | aceito |
 | [0014](0014-tres-exercicios-por-objetivo-e-a-prova.md) | "Tópico" é o objetivo; a prova é por parte e determinística | 2026-08-13 | aceito |
+| [0015](0015-animacao-e-laboratorio-sem-manopla.md) | A animação não é quarta superfície: é laboratório sem manopla | 2026-08-13 | aceito |
 
 > Esta tabela ficou parada no 0003 por oito registros. Índice que não acompanha
 > é pior do que índice nenhum: quem chega procura aqui, não encontra o 0008, e
