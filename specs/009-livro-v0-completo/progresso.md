@@ -44,7 +44,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 17 | III.1 — O Neurônio Artificial | 4 | 4 | 12 | **ok** | — | — | — |
 | 18 | III.2 — Redes Multicamadas | 4 | 4 | 12 | **ok** | — | — | — |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 5 | 12 | **ok** | — | — | — |
-| 20 | III.4 — Visão Computacional | 4 | 4 | 12 | — | — | — | — |
+| 20 | III.4 — Visão Computacional | 4 | 4 | 12 | **ok** | — | — | — |
 | 21 | III.5 — Sequências e Linguagem | 4 | 4 | 12 | — | — | — | — |
 | 22 | III.6 — Modelos de Fundação | 4 | 4 | 12 | — | — | — | — |
 | 23 | IV.1 — Não Supervisionado | 4 | 4 | 12 | — | — | — | — |

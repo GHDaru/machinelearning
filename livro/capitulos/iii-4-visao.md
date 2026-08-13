@@ -27,13 +27,13 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 
 **A virada.** O córtex não detecta pontos: detecta **bordas com orientação**. Uma célula responde a uma barra inclinada a 30°, e cala diante da mesma barra a 90°. E há hierarquia — as "células simples", presas a uma posição, alimentam "células complexas", que respondem à mesma orientação **em qualquer lugar** do campo receptivo. Estrutura mais primitiva feita de partes, tolerância à posição construída em cima.
 
-**A ideia reaproveitável.** *A primitiva certa não é a mais elementar.* O ponto é mais simples que a borda — e é a primitiva **errada**. Achar a unidade mínima da **representação** não é o mesmo trabalho que achar a unidade mínima do **sinal**, e confundir as duas é o erro de projeto mais caro que existe. É o [capítulo I.6](i-6-representacao.md) inteiro, dito por um eletrodo.
+**A ideia reaproveitável.** *A primitiva certa não é a mais elementar.* O ponto é mais simples que a borda, e é a primitiva errada. Achar a unidade mínima da **representação** não é o mesmo trabalho que achar a unidade mínima do **sinal**, e confundir as duas é o erro de projeto mais caro que existe. É o [capítulo I.6](i-6-representacao.md) inteiro, dito por um eletrodo.
 
-**O nome.** "Célula simples" e "célula complexa" são deles. Em 1979/80, Kunihiko Fukushima empilha essas duas em cascata no **neocognitron** e chama as camadas de **S-cells** e **C-cells** — os nomes atravessaram da biologia para a engenharia sem tradução.
+**O nome.** "Célula simples" e "célula complexa" são deles. Em 1979/80, Kunihiko Fukushima empilha essas duas em cascata no **neocognitron** e chama as camadas de S-cells e C-cells: os nomes atravessaram da biologia para a engenharia sem tradução.
 
-**A linha.** Hubel & Wiesel (1959) → neocognitron de Fukushima (1979/80), já com S/C-cells alternadas e treinado **sem retropropagação** (ver [capítulo III.1](iii-1-neuronio-artificial.md)) → LeCun e colegas (1989) treinam uma rede convolucional em **CEPs manuscritos do Serviço Postal dos EUA**: 7 291 imagens de 16×16, cerca de 9 760 parâmetros, **três dias numa SUN-4/260** → LeNet-5 (1998) → AlexNet (2012) → ResNet (2016).
+**A linha.** Hubel & Wiesel (1959) → neocognitron de Fukushima (1979/80), já com S/C-cells alternadas e treinado **sem retropropagação** (ver [capítulo III.1](iii-1-neuronio-artificial.md)) → LeCun e colegas (1989) treinam uma rede convolucional em CEPs manuscritos do Serviço Postal dos EUA: 7 291 imagens de 16×16, cerca de 9 760 parâmetros, **três dias numa SUN-4/260** → LeNet-5 (1998) → AlexNet (2012) → ResNet (2016).
 
-**O intervalo, e é um dos maiores do livro.** De Hubel & Wiesel a AlexNet vão **53 anos**. Compare com os 59 do [capítulo I.6](i-6-representacao.md), os ~80 do [capítulo IV.2](iv-2-reforco.md), os 43 do [capítulo II.7](ii-7-series-temporais.md). Agora a contra-prova, que vem no [capítulo III.6](iii-6-modelos-de-fundacao.md): do Transformer (2017) a BERT e GPT (2018) passou-se **cerca de um ano**. A diferença não é a qualidade das ideias. É que em 2017 já existia **infraestrutura de reprodução compartilhada** — arXiv, código aberto, GPU comprável, benchmark comum — além da pergunta precisa. Meio século da história desta área foi, em boa parte, o tempo de construir isso.
+**O intervalo, e é um dos maiores do livro.** De Hubel & Wiesel a AlexNet vão **53 anos**. Compare com os 59 do [capítulo I.6](i-6-representacao.md), os ~80 do [capítulo IV.2](iv-2-reforco.md), os 43 do [capítulo II.7](ii-7-series-temporais.md). Agora a contra-prova, que vem no [capítulo III.6](iii-6-modelos-de-fundacao.md): do Transformer (2017) a BERT e GPT (2018) passou-se cerca de um ano. A diferença não é a qualidade das ideias. É que em 2017 já existia **infraestrutura de reprodução compartilhada** (arXiv, código aberto, GPU comprável, benchmark comum) além da pergunta precisa. Meio século da história desta área foi, em boa parte, o tempo de construir isso.
 
 **Procedência das afirmações desta seção:**
 
@@ -53,7 +53,7 @@ A consequência aparece na conta de dados. Um gato no canto superior esquerdo e 
 
 ## Fundamentos: o filtro que desliza e o peso que se repete
 
-Um **filtro** (ou *kernel*) é uma matrizinha de pesos — 3×3, 5×5 — que percorre a imagem inteira. Em cada posição, multiplica-se o filtro pelo pedaço de imagem sob ele e soma-se: um número. Deslize por todas as posições e o resultado é outra imagem, o **mapa de ativação**, alto onde o padrão do filtro apareceu e baixo onde não apareceu.
+Um **filtro** (ou *kernel*) é uma matrizinha de pesos, tipicamente 3×3 ou 5×5, que percorre a imagem inteira. Em cada posição, multiplica-se o filtro pelo pedaço de imagem sob ele e soma-se: um número. Deslize por todas as posições e o resultado é outra imagem, o **mapa de ativação**, alto onde o padrão do filtro apareceu e baixo onde não apareceu.
 
 **Uma coisa que a palavra "matrizinha" esconde: o filtro atravessa a profundidade inteira.** Numa imagem colorida há três canais (vermelho, verde, azul), e um filtro 3×3 sobre ela não tem 9 pesos — tem $3 \times 3 \times 3 = 27$, um conjunto 3×3 para cada canal de entrada, somados num único número de saída.
 
@@ -87,7 +87,7 @@ Quantos **pesos** (ignorando os vieses) essa camada tem?
 
 O **pooling** reduz a resolução do mapa de ativação — tipicamente pegando o máximo de cada janela 2×2. Perde-se posição exata e ganha-se duas coisas: tolerância a pequenos deslocamentos e um campo receptivo que **cresce** nas camadas seguintes, porque cada unidade passa a resumir uma região maior do original.
 
-Empilhe isso e aparece a **hierarquia de features**, que é a estrutura de Hubel e Wiesel repetida por mais andares do que a biologia mostrou: as primeiras camadas aprendem **bordas** e manchas de cor; as seguintes, **texturas** e cantos; depois, **partes** — um olho, uma roda; e no topo, **objetos**. Ninguém programou esses níveis. Eles emergem do treino, e são notavelmente parecidos entre redes treinadas em tarefas diferentes — fato que a seção de transferência vai cobrar.
+Empilhe isso e aparece a **hierarquia de features**, que é a estrutura de Hubel e Wiesel repetida por mais andares do que a biologia mostrou: as primeiras camadas aprendem bordas e manchas de cor; as seguintes, texturas e cantos; depois, partes, como um olho ou uma roda; e no topo, objetos inteiros. Ninguém programou esses níveis. Eles emergem do treino, e são notavelmente parecidos entre redes treinadas em tarefas diferentes — fato que a seção de transferência vai cobrar.
 
 ## O diagrama que é um limite de memória desenhado
 
@@ -99,7 +99,7 @@ Agora o detalhe que fecha o capítulo. Todo curso reproduz o diagrama da AlexNet
 
 📖 **O diagrama mais reproduzido da visão computacional é um limite de 3 gigabytes desenhado.** É o caso mais literal deste livro de restrição material gerando forma nova — ao lado de Playfair inventando o gráfico de barras porque não tinha os dados de série temporal ([capítulo I.5](i-5-visualizacao-storytelling.md)) e do cubo OLAP pré-computando agregados porque a consulta era lenta demais ([capítulo II.6](ii-6-analise-multidimensional.md)). A forma sobrevive à restrição que a gerou, e a geração seguinte a estuda como se fosse princípio.
 
-Quatro anos depois, a **ResNet** ataca outro problema — e a formulação dele é mais instrutiva que a solução. Empilhando mais camadas, a acurácia **de treino** piorava. Treino, não teste: isso **descarta sobreajuste** como explicação, porque um modelo que sobreajusta vai bem no treino por definição. O nome disso é **degradação**, e a resposta foram as conexões residuais: 152 camadas, 3,57% de erro. É o [capítulo III.3](iii-3-treinar-redes-profundas.md) aparecendo dentro deste.
+Quatro anos depois, a **ResNet** ataca outro problema, e a formulação dele é mais instrutiva que a solução. Empilhando mais camadas, a acurácia **de treino** piorava. Treino, não teste: isso descarta sobreajuste como explicação, porque um modelo que sobreajusta vai bem no treino por definição. O nome disso é **degradação**, e a resposta foram as conexões residuais: 152 camadas, 3,57% de erro. É o [capítulo III.3](iii-3-treinar-redes-profundas.md) aparecendo dentro deste.
 
 :::exercicio {"id":"visao-e2","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma equipe empilha camadas numa rede convolucional: 20, depois 34, depois 56 camadas. O erro **no conjunto de treino** piora a cada aumento. Qual é a leitura correta?
