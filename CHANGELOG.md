@@ -19,6 +19,23 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — três taxas de aprendizado na mesma paisagem (cap. II.4)
+- **`anima-taxas`**: 0,001, 0,1 e 1,5 descendo ao mesmo tempo, partindo do mesmo
+  ponto. Diagnóstico por forma de curva é a habilidade do capítulo, e forma não
+  se compara em sequência. A taxa 1,5 sai da moldura, com seta marcando a época
+  em que passou do teto; a fronteira de estabilidade desta paisagem é **1,0**,
+  e o texto diz por quê.
+- **O botão troca só a PERDA, mantendo as três taxas idênticas.** Mudar duas
+  variáveis de uma vez não é experimento. Com erro quadrático a taxa 1,5
+  estoura; com perda logística, sobre o mesmo dado, ela termina em **0,1455** e
+  é a **melhor das três**. A taxa destrutiva numa paisagem é a mais eficiente na
+  outra, que é a sutileza medida na etapa 05–06.
+- **Um rótulo ganhou critério declarado:** "quase parada" passou a ser menos de
+  **10% de queda em 60 épocas**, em vez de um corte escolhido até o rótulo sair
+  bonito.
+- `publicar/testes/anima-taxas.mjs`, com seis asserções sobre valores medidos, e
+  visto falhando ao se trocar um dígito do esperado.
+
 ### Adicionado — a animação da tese do livro (viés e variância, cap. 0.2)
 - **`anima-vies-variancia`**: o grau do polinômio sobe de 1 a 15, o erro de
   treino só desce e o de validação **vira para cima no grau 5**. É o único lugar

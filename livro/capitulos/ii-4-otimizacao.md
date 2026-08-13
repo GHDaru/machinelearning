@@ -98,6 +98,28 @@ Registre a perda a cada época e olhe o desenho. Quatro padrões cobrem quase tu
 
 A quarta linha é a única que exige duas curvas. Plote sempre as duas — treino e validação, no mesmo gráfico. Uma curva sozinha esconde exatamente o problema que mais custa caro.
 
+:::lab {"id":"otimizacao-l1","tipo":"anima-taxas","titulo":"Três taxas na mesma paisagem, e a mesma taxa em duas perdas"}
+A tabela acima descreve formas de curva, e forma não se compara em sequência: é preciso ver as três ao mesmo tempo. Aqui não há nada a manipular. O dado é o mesmo, a paisagem é a mesma, o ponto de partida é o mesmo, e a única diferença entre as três curvas é **o tamanho do passo**.
+
+São 60 épocas de gradiente descendente com taxas de **0,001**, **0,1** e **1,5**.
+
+Assista e compare com as três primeiras linhas da tabela:
+
+- **0,001** desce. Depois de 60 épocas, saiu de cerca de 0,58 para **0,5521** — menos de 10% do caminho. É a curva que "desce, mas quase imperceptivelmente", e o perigo dela é parecer saudável: ela nunca dá erro, nunca oscila, e só custa tempo.
+- **0,1** desce de verdade e chega a **0,0061**.
+- **1,5** sai da moldura. A seta marca a época em que ela passou do teto e a linha parou de ser desenhada.
+
+O 1,5 não estoura por azar. Nesta paisagem a fronteira de estabilidade é exatamente **1,0**: acima dela, cada passo salta o mínimo e chega mais longe do que estava, e a distância cresce a cada época.
+
+### Agora troque só a perda
+
+Clique em **"E se a perda fosse logística?"**. Vale prever antes: o mesmo 1,5 estoura de novo?
+
+**Não estoura.** Com perda logística, sobre o mesmo dado, a taxa 1,5 termina em **0,1455** — e é a **melhor das três**, à frente do 0,1, que chega a 0,4545. A taxa que era destrutiva em uma paisagem é a mais eficiente na outra.
+
+A razão está na seção seguinte, e é o motivo de esta animação existir: o erro quadrático não tem teto, e a perda logística tem. Guarde a consequência prática antes de ler o porquê: **"não explodiu" não é evidência de que a taxa está boa** — e, como o 0,001 mostra do outro lado, "não explodiu" também não é evidência de que ela está aprendendo.
+:::
+
 ### Uma sutileza que quase ninguém conta
 
 Taxa alta demais **nem sempre** produz explosão. Medimos, na [etapa 05–06](../trilha-ml-zero.md):

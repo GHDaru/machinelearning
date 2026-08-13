@@ -34,7 +34,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | II.1 | limiar varrendo 0→1: precisão, recall, a matriz de confusão, e o ponto andando sobre a ROC |
 | II.2 | gradiente ajustando a reta: soma dos quadrados caindo, e a distância até o ótimo das equações normais |
 | II.3 | \|w\| crescendo: log-loss ainda caindo depois que a acurácia estagnou |
-| II.4 | três taxas (0,001 / 0,1 / 1,5) na mesma paisagem: a perda de cada uma, a terceira saindo da escala |
+| II.4 | **feita** — três taxas (0,001 / 0,1 / 1,5) na mesma paisagem, a terceira saindo da escala, mais o botão que troca só a perda e faz a mesma 1,5 virar a melhor das três |
 | II.5 | árvore crescendo corte a corte com o ganho de Gini; depois o boosting, com o resíduo médio encolhendo por árvore |
 | II.6 | **não animar** — drill-down é navegação; cubo girando é decoração |
 | II.7 | janela *walk-forward* avançando: MAE por dobra, contra o MAE menor e mentiroso da divisão embaralhada |
@@ -179,8 +179,10 @@ Quatro animações construídas, cinco previsões escritas antes de medir:
 | V.1 — "sempre dois verdes e um vermelho" | ✅ dois é o teto, e a condição que levanta virou botão |
 | 0.2 — "o erro de validação virando para cima" | ✅ vira, e o fundo fica no grau 5 |
 | 0.2 — "com 3× mais dados o joelho anda para a direita" | ❌ **não anda**; fica no grau 5 nos dois casos |
+| II.4 — "a terceira taxa saindo da escala" | ✅ estoura, e a fronteira de estabilidade tem valor fechado: 1,0 |
+| II.4 — "com perda logística a mesma taxa não estoura" | ✅ e mais: ela vira a **melhor** das três (0,1455) |
 
-**Duas em cinco previsões numéricas estavam erradas**, e nenhuma delas teria
+**Duas em sete previsões numéricas estavam erradas**, e nenhuma delas teria
 sido detectada pelo build. É o argumento inteiro a favor de a animação vir com
 teste.
 
@@ -209,3 +211,31 @@ descobre o grau certo, ele torna o excesso quase inofensivo.
 **Um defeito de contagem que só o teste pegou:** o rótulo "varredura completa"
 nunca aparecia, por um `>` que devia ser `>=`. O placar é o que o leitor sem
 visão lê, então era uma falha de acessibilidade silenciosa.
+
+
+## O que a quinta animação ensinou (II.4 — três taxas)
+
+**O experimento mudou uma variável só, e isso foi decisão de conteúdo.** A
+tentação era usar taxa 1,5 no quadrático e 500 na logística, que são os números
+que o capítulo mede na etapa 05–06. Mas aí duas coisas mudam ao mesmo tempo, e o
+leitor não sabe a qual atribuir o resultado. Mantendo a taxa idêntica e trocando
+só a perda, a comparação vira experimento: **mesma taxa, mesma paisagem, mesmo
+ponto de partida, resultado oposto**.
+
+**O achado que não estava previsto:** na perda logística, a taxa 1,5 não apenas
+sobrevive — ela termina em 0,1455 e é a **menor perda das três**. A taxa
+"perigosa" é a mais eficiente ali. Isso reforça a lição do capítulo em vez de
+apenas ilustrá-la: se a mesma taxa é destrutiva numa paisagem e ótima na outra,
+não existe taxa boa em abstrato.
+
+**Um rótulo precisou de critério declarado.** "Quase parada" estava saindo como
+"descendo" para a taxa 0,001, por uma diferença de fração de ponto no corte. Em
+vez de mexer no número até o rótulo sair bonito, o corte foi escrito: **menos de
+10% de queda em 60 épocas é "quase parada"**, que é a leitura de "desce, mas
+quase imperceptivelmente" da tabela do capítulo. Corte arbitrário e não
+declarado é o começo de um número escolhido para agradar.
+
+**O núcleo aguentou o terceiro módulo.** `tela`, `placarDe`, `botoeiraDe` e
+`relogio` vieram inteiros de novo. Esta é do módulo A (laço de descida com
+placar), que cobre 7 das 23 — e é a primeira do módulo a rodar **três** laços
+simultâneos, sem que o núcleo precisasse saber disso.

@@ -1692,10 +1692,185 @@
     rel.aoChegar(function () { rodar({}); });
   }
 
+  // Três taxas de aprendizado na MESMA paisagem, ao mesmo tempo. A habilidade
+  // do capítulo é diagnosticar pela FORMA da curva, e forma não se compara em
+  // sequência: precisa das três lado a lado.
+  //
+  // O botão troca só a PERDA, mantendo as três taxas idênticas. É de propósito:
+  // mudar duas variáveis de uma vez não é experimento. Com erro quadrático a
+  // taxa 1,5 explode; com perda logística, a MESMA taxa não explode. É a
+  // sutileza que o capítulo mede na etapa 05–06, e o leitor tende a prever
+  // errado, que é o que o ADR 0015 exige de um controle.
+  function animaTaxas(area, cfg) {
+    var W = 460, H = 300, PAD = 34, EPOCAS = 60;
+    var TAXAS = [0.001, 0.1, 1.5];
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var est = { ep: 0, logistica: false, dados: null, trilhas: null };
+    var rel;
+
+    function gerar() {
+      var r = rng(Number(cfg.semente) || 20260813), i, x, pts = [];
+      for (i = 0; i < 40; i++) {
+        x = -1 + 2 * (i + 0.5) / 40;
+        var e = (r() + r() + r() + r() + r() + r() - 3) * 0.12;
+        // O mesmo x serve às duas perdas: regressão sobre `y`, classificação
+        // sobre `c`. Trocar a perda não troca o dado.
+        pts.push({ x: x, y: 1.2 * x + 0.3 + e, c: x > 0 ? 1 : 0 });
+      }
+      return pts;
+    }
+
+    function sig(z) { return 1 / (1 + Math.exp(-z)); }
+
+    /** Perda e gradiente em w = [b, a], para a perda escolhida. */
+    function perdaGrad(w) {
+      var pts = est.dados, n = pts.length, i, p, L = 0, gb = 0, ga = 0, z, d;
+      for (i = 0; i < n; i++) {
+        p = pts[i];
+        z = w[0] + w[1] * p.x;
+        if (est.logistica) {
+          var s = sig(z);
+          var eps = 1e-12;
+          L += -(p.c * Math.log(s + eps) + (1 - p.c) * Math.log(1 - s + eps));
+          d = s - p.c;
+        } else {
+          d = z - p.y;
+          L += d * d;
+        }
+        gb += d; ga += d * p.x;
+      }
+      // Fator 2 no quadrático para que a Hessiana seja (2/n)XᵀX: com x em
+      // [-1,1] o maior autovalor é 2, então a fronteira de estabilidade fica
+      // em taxa 1,0 — e é por isso que 1,5 diverge e 0,1 não.
+      var k = est.logistica ? 1 / n : 2 / n;
+      return { L: L / n, g: [k * gb, k * ga] };
+    }
+
+    function novaTrilha() {
+      return TAXAS.map(function (lr) {
+        return { lr: lr, w: [0, 0], hist: [], estourou: false };
+      });
+    }
+
+    function passo() {
+      if (est.ep >= EPOCAS) return true;
+      est.trilhas.forEach(function (tr) {
+        if (tr.estourou) { tr.hist.push(Infinity); return; }
+        var pg = perdaGrad(tr.w);
+        if (!isFinite(pg.L) || pg.L > 1e6) { tr.estourou = true; tr.hist.push(Infinity); return; }
+        tr.hist.push(pg.L);
+        tr.w[0] -= tr.lr * pg.g[0];
+        tr.w[1] -= tr.lr * pg.g[1];
+      });
+      est.ep++;
+      return est.ep >= EPOCAS;
+    }
+
+    /** O veredito de cada trilha, que é o que o capítulo pede para diagnosticar. */
+    function diagnostico(tr) {
+      if (tr.estourou) return "estourou";
+      var h = tr.hist, n = h.length;
+      if (n < 5) return "começando";
+      var queda = (h[0] - h[n - 1]) / (Math.abs(h[0]) || 1);
+      var ultimas = (h[n - 5] - h[n - 1]) / (Math.abs(h[n - 5]) || 1);
+      // "Quase parada" precisa de um corte declarado, senão vira gosto: menos
+      // de 10% de queda em 60 épocas é a linha adotada aqui, e é a leitura de
+      // "desce, mas quase imperceptivelmente" da tabela do capítulo.
+      if (queda < 0.10) return "quase parada";
+      if (ultimas < 0.005) return "estabilizou";
+      return "descendo";
+    }
+
+    function texto() {
+      var partes = [est.logistica ? "perda logística" : "erro quadrático",
+        "época " + est.ep];
+      est.trilhas.forEach(function (tr) {
+        var u = tr.hist[tr.hist.length - 1];
+        partes.push("taxa " + tr.lr + ": " +
+          (isFinite(u) ? u.toFixed(4) : "fora da escala") + " (" + diagnostico(tr) + ")");
+      });
+      placar.textContent = partes.join(" · ");
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      t.fundo(escuro);
+      // O teto é a maior perda FINITA do primeiro quadro: quem explode sai da
+      // moldura, e sair da moldura é a informação.
+      var teto = 0.01, i, j;
+      est.trilhas.forEach(function (tr) {
+        if (isFinite(tr.hist[0])) teto = Math.max(teto, tr.hist[0]);
+      });
+      teto *= 1.15;
+      var px = function (e) { return PAD + e / (EPOCAS - 1) * (W - 2 * PAD); };
+      var py = function (v) { return H - PAD - Math.min(v, teto) / teto * (H - 2 * PAD); };
+
+      ctx.font = "12px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#8b8c90" : "#6b6a66";
+      ctx.fillText("época", W / 2 - 18, H - 10);
+
+      var cores = escuro ? ["#7f8085", "#5ba3d0", "#e0864f"]
+                         : ["#8f8e8a", "#2f6f9f", "#c25a1e"];
+      est.trilhas.forEach(function (tr, idx) {
+        ctx.strokeStyle = cores[idx];
+        ctx.fillStyle = cores[idx];
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        var primeiro = true;
+        for (j = 0; j < tr.hist.length; j++) {
+          var v = tr.hist[j];
+          if (!isFinite(v)) break;                 // saiu da escala: a linha para
+          var X = px(j), Y = py(v);
+          if (primeiro) { ctx.moveTo(X, Y); primeiro = false; } else ctx.lineTo(X, Y);
+        }
+        ctx.stroke();
+        if (tr.estourou) {
+          // A seta para cima onde a curva sumiu, para que "fora da escala" não
+          // se confunda com "a curva acabou".
+          var xe = px(Math.max(0, tr.hist.findIndex(function (v) { return !isFinite(v); }) - 1));
+          ctx.beginPath();
+          ctx.moveTo(xe, PAD + 12); ctx.lineTo(xe - 4, PAD + 20); ctx.lineTo(xe + 4, PAD + 20);
+          ctx.closePath(); ctx.fill();
+        }
+        ctx.fillText("taxa " + tr.lr, PAD + 6, PAD + 16 + idx * 16);
+      });
+    }
+
+    function rodar(mudanca) {
+      if (rel) rel.parar();
+      if (mudanca && mudanca.logistica != null) est.logistica = mudanca.logistica;
+      est.ep = 0;
+      est.dados = est.dados || gerar();
+      est.trilhas = novaTrilha();
+      desenhar(); texto();
+      rel.comecar(EPOCAS + 2);
+    }
+
+    botao("Recomeçar", function () { rodar({}); });
+    botao("E se a perda fosse logística?", function () {
+      rodar({ logistica: !est.logistica });
+    });
+
+    rel = relogio(cv, function () {
+      var fim = passo();
+      desenhar(); texto();
+      return fim;
+    }, function () { desenhar(); }, 70);
+
+    est.dados = gerar();
+    est.trilhas = novaTrilha();
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar({}); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
-                "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia };
+                "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
+                "anima-taxas": animaTaxas };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
