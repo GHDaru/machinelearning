@@ -50,7 +50,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 11 | II.3 — Regressão Logística | 3 | 9 | 9 | **ok** | **ok** | — | — |
 | 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 13 | II.5 — Árvores e Ensembles | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 14 | II.6 — Análise Multidimensional | 4 | 4 | 12 | **ok** | — | — | — |
+| 14 | II.6 — Análise Multidimensional | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 15 | II.7 — Séries Temporais | 4 | 4 | 12 | **ok** | — | — | — |
 | 16 | II.8 — Do Modelo à Decisão | 4 | 4 | 12 | **ok** | — | — | — |
 | 17 | III.1 — O Neurônio Artificial | 4 | 4 | 12 | **ok** | — | — | — |
@@ -67,7 +67,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 232 exercícios hoje (216 de capítulo + 16 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 240 exercícios hoje (224 de capítulo + 16 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
