@@ -90,3 +90,31 @@ def test_buscar_entrega_a_numeracao_vigente_ao_modelo(indice):
     assert "III.1" in cap
     assert "Parte III" in cap
     assert "18" not in cap  # a numeração de criação não pode voltar por nenhuma via
+
+
+# ------------------------- 4. o corpus não carrega resposta
+
+# A superfície protegida era uma das duas. O livro nunca põe o gabarito no HTML,
+# e o índice do tutor lia o Markdown cru linha a linha — então `> **gabarito:**`
+# virava bloco recuperável como qualquer parágrafo, e a explicação continuava
+# por vários parágrafos de citação depois dele. Mesma família do botão "⬇ md".
+
+@pytest.mark.parametrize("resposta", [
+    "44 °C está no ramo",                       # `porque` de ia-simbolica-fuzzy-evolutiva-e2
+    "Má ideia: a regra é conhecida",            # `gabarito` de introducao-e1
+    "identifica que `clientes` é sobrescrita",  # `rubrica` de coleta-integracao-e3
+])
+def test_o_gabarito_nao_entra_no_corpus(indice, resposta):
+    vazou = [b["fonte"] for b in indice.blocos if resposta.lower() in b["texto"].lower()]
+    assert not vazou, f"o tutor pode servir a resposta a partir de {vazou}"
+
+
+def test_o_enunciado_continua_no_corpus(indice):
+    """Tirar a resposta não pode calar o tutor sobre o exercício."""
+    assert [b for b in indice.blocos
+            if "pertinência" in b["texto"] and "triangular" in b["texto"]]
+
+
+def test_a_prova_fica_inteira_fora_do_corpus(indice):
+    """Prova mede recuperação sem rota de volta; tutor que a serve é a rota."""
+    assert not [b for b in indice.blocos if "livro/provas/" in b["fonte"]]

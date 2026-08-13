@@ -31,6 +31,22 @@ _STOP = set("de da do das dos a o e que em para com sem por no na nos nas um uma
 # erro que cresce a cada edição.
 _FORA_DO_CORPUS = {"HISTORICO.md", "GUIA-EDITORIAL.md", "BANCO-DE-EXERCICIOS.md"}
 
+# As provas saem INTEIRAS do corpus (ADR 0014). Uma prova é evento sincronizado
+# e mede recuperação sem rota de volta; um tutor que responde a partir da página
+# da prova é a rota de volta, aberta durante a prova. O enunciado continua
+# público no Markdown, e é isso que a ADR já assumia — o que não pode existir é
+# quem o sirva sob demanda com a resposta junto.
+_PASTAS_FORA_DO_CORPUS = ("livro/provas/",)
+
+# O gabarito NUNCA entra no corpus, nem o de exercício de capítulo.
+#
+# O índice lia o Markdown cru linha a linha, então `> **gabarito:** 0,70` virava
+# bloco recuperável como qualquer parágrafo. É a mesma falha do botão "⬇ md",
+# que exportava 79 gabaritos e 30 rubricas ao lado do exercício: o livro protege
+# o HTML com cuidado, e servia a resposta pela porta do lado. Aqui a porta era o
+# tutor. Princípio VIII.2: o leitor recebe a pista, não a resposta.
+_LINHA_SEGREDO = re.compile(r"^>?\s*\*\*(gabarito|porque|rubrica|volte para)[:\*]", re.I)
+
 
 def _mapa_de_capitulos(repo_root) -> dict:
     """`arquivo` -> "Parte III … · III.1 — O Neurônio Artificial".
@@ -89,8 +105,11 @@ class BookIndex:
         return len(dados)
 
     def _carregar(self, repo_root: Path) -> None:
-        fontes = sorted(p for p in (repo_root / "livro").rglob("*.md")
-                        if p.name not in _FORA_DO_CORPUS)
+        fontes = sorted(
+            p for p in (repo_root / "livro").rglob("*.md")
+            if p.name not in _FORA_DO_CORPUS
+            and not p.relative_to(repo_root).as_posix().startswith(_PASTAS_FORA_DO_CORPUS)
+        )
         trilha = repo_root / "ml-zero" / "README.md"
         if trilha.exists():
             fontes.append(trilha)
@@ -116,7 +135,25 @@ class BookIndex:
                              # identidade da página em que vive, não só o H1.
                              "termos": _norm(cap + " " + titulo_atual + " " + corpo)})
 
+            # `em_segredo` liga na primeira linha de gabarito/rubrica e só
+            # desliga no fim do bloco do exercício. Filtrar linha a linha não
+            # bastaria: a explicação continua por vários parágrafos de citação
+            # depois do `> **porque:**`, e são justamente eles que entregam a
+            # resposta em prosa.
+            em_segredo = False
             for linha in texto.splitlines():
+                if linha.startswith(":::"):
+                    em_segredo = False
+                    flush()
+                    buffer = []
+                    continue
+                if _LINHA_SEGREDO.match(linha):
+                    em_segredo = True
+                    flush()
+                    buffer = []
+                    continue
+                if em_segredo:
+                    continue
                 if linha.startswith("#"):
                     flush()
                     buffer = []

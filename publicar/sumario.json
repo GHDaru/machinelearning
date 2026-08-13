@@ -210,6 +210,21 @@
       ]
     },
     {
+      "nome": "Provas",
+      "itens": [
+        {
+          "arquivo": "livro/provas/prova-abertura.md",
+          "titulo": "Prova da Abertura — 0.1 e 0.2",
+          "teaser": "Seis itens cruzados sobre os dois capítulos de abertura."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-i.md",
+          "titulo": "Prova da Parte I — Ciência de Dados",
+          "teaser": "Dez itens cruzados sobre os seis capítulos da Parte I."
+        }
+      ]
+    },
+    {
       "nome": "Trilhas",
       "itens": [
         {

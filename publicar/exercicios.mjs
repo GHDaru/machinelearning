@@ -136,6 +136,59 @@ for (const item of itens) {
   }
 }
 
+// ---- O que faz de uma prova uma prova (ADR 0014) ----
+//
+// A ADR promete quatro coisas mecânicas, e promessa sem gate é declaração. As
+// quatro viram falha de build aqui. A primeira é a que distingue prova de "mais
+// um exercício": o item é CRUZADO, declara objetivo de dois capítulos ou mais,
+// e cada referência é conferida contra os objetivos realmente declarados
+// naquele capítulo — um item que aponta para I.3-O9 quebra o build.
+//
+// A quarta regra é a inversa: `objetivos` fora de item de prova também falha,
+// senão o campo vira decoração que ninguém cobra.
+const DETERMINISTICOS = new Set(["multipla", "multipla-multi", "numerica", "completar"]);
+for (const ex of exercicios) {
+  const ondeErro = `${ex.arquivo} · ${ex.id}`;
+  if (ex.secao !== "prova") {
+    if (ex.objetivos) {
+      problemas.push(`${ondeErro}: declarou "objetivos" (cruzado) sem ser item de prova. ` +
+        `O campo só existe para secao "prova" — use "objetivo" no singular.`);
+    }
+    continue;
+  }
+  if (!DETERMINISTICOS.has(ex.tipo)) {
+    problemas.push(`${ondeErro}: item de prova tem de ser determinístico (${[...DETERMINISTICOS].join(", ")}), ` +
+      `e este é "${ex.tipo}". Prova é evento sincronizado: item aberto chama o modelo por aluno e derruba o backend junto com o tutor.`);
+  }
+  if (ex.volte_para) {
+    problemas.push(`${ondeErro}: item de prova não leva "volte para" — a prova mede recuperação sem rota de volta.`);
+  }
+  const refs = ex.objetivos || [];
+  if (refs.length < 2) {
+    problemas.push(`${ondeErro}: item de prova precisa ser cruzado — declare "objetivos" com dois ou mais, ` +
+      `no formato "livro/capitulos/i-3-dados.md:O2". É isto que separa prova de mais um exercício.`);
+  }
+  const capitulosCitados = new Set();
+  for (const ref of refs) {
+    const [arq, obj] = String(ref).split(":");
+    const declarados = objetivosPorArquivo.get(arq);
+    if (!declarados) {
+      problemas.push(`${ondeErro}: "${ref}" aponta para um arquivo que não está no sumário.`);
+      continue;
+    }
+    if (!declarados.has(obj)) {
+      problemas.push(`${ondeErro}: "${ref}" — ${arq} não declara ${obj} ` +
+        `(tem: ${[...declarados].join(", ") || "nenhum"}).`);
+      continue;
+    }
+    capitulosCitados.add(arq);
+  }
+  if (refs.length >= 2 && capitulosCitados.size < 2) {
+    problemas.push(`${ondeErro}: os objetivos declarados vêm todos do mesmo capítulo. ` +
+      `Cruzado quer dizer dois capítulos ou mais.`);
+  }
+}
+
 // ---- Backward Design nas DUAS direções ----
 const cobertos = new Map();
 for (const ex of exercicios) {

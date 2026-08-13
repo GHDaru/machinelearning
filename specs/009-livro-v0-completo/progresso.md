@@ -12,8 +12,20 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 |---|---|---|
 | **voz** | revisão de prosa do ADR 0013 | gate de prosa verde no build |
 | **exs** | 3 exercícios por objetivo (ADR 0014) | `node publicar/exercicios.mjs --verificar` |
-| **prova** | avaliação de fechamento (ADR 0014) | bloco presente e no banco |
+| **prova** | avaliação de fechamento (ADR 0014) | prova da parte verde no gate cruzado |
 | **fontes** | selos de procedência conferidos | selo atualizado no capítulo |
+
+> **A prova é por PARTE, não por capítulo** (ADR 0014). A coluna `prova` de um
+> capítulo fecha quando a prova da parte dele existe e passa no gate. As provas
+> vivem em `livro/provas/`, numa parte própria ao fim do sumário — posição
+> escolhida para não renumerar nenhum dos 29 capítulos.
+>
+> | Parte | Prova | Itens | Estado |
+> |---|---|---|---|
+> | Abertura | `prova-abertura.md` | 6 | **ok** |
+> | I | `prova-parte-i.md` | 10 | **ok** |
+> | II · III · IV · V | — | — | esperam a coluna `exs` da parte |
+> | Final cumulativa | — | — | por último |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
 > capítulo: 23 dos 29 animam, 6 não, e o critério é o do [ADR 0015](../../adr/0015-animacao-e-laboratorio-sem-manopla.md).
@@ -25,14 +37,14 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 
 | # | Capítulo | obj | exs hoje | exs alvo | voz | exs | prova | fontes |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | — | — |
-| 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | — | — |
+| 1 | 0.1 — Introdução | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
+| 2 | 0.2 — Fundamentos | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 9 | II.1 — Avaliação | 5 | 5 | 15 | **ok** | — | — | — |
 | 10 | II.2 — Modelos Lineares | 4 | 5 | 12 | **ok** | — | — | — |
 | 11 | II.3 — Regressão Logística | 3 | 3 | 9 | **ok** | — | — | — |
@@ -55,7 +67,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 178 exercícios hoje · **342 no alvo**.
+**Totais:** 114 objetivos · 194 exercícios hoje (178 de capítulo + 16 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

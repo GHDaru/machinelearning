@@ -9,6 +9,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe precisa validar se um número de cartão de crédito é sintaticamente válido antes de enviá-lo ao adquirente. Alguém propõe treinar um classificador com milhões de cartões válidos e inválidos. Qual é a melhor avaliação dessa proposta?",
    "opcoes": [
     {
@@ -45,6 +46,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma rede de farmácias quer um sistema que decida, sozinho e sem revisão humana, quais receitas de medicamento controlado são fraudulentas e devem ser recusadas no balcão. A regra jurídica do que é fraude está escrita em norma. A rede tem 300 casos confirmados de fraude nos últimos cinco anos. Ninguém na reunião definiu o que seria um bom resultado.\n\nQuais dos quatro sinais de \"não use ML\" desta seção aparecem neste caso? (marque todos que valem)",
    "opcoes": [
     {
@@ -81,6 +83,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Quais afirmações descrevem diferenças **estruturais** entre um sistema aprendido e um sistema programado? (marque todas que valem)",
    "opcoes": [
     {
@@ -121,6 +124,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um sistema de crédito passou a recusar pedidos que antes aprovava. Ninguém alterou uma linha de código, e o histórico do repositório confirma isso. O que esse único fato já permite afirmar?",
    "opcoes": [
     {
@@ -157,6 +161,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Explique, para uma pessoa que programa há dez anos e nunca fez ML, o que muda quando a regra passa a ser aprendida. Use um exemplo de sistema que ela conheça, não o exemplo do capítulo.",
    "opcoes": [],
    "gabarito": null,
@@ -183,6 +188,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você terminou o capítulo de modelos lineares. Consegue explicar em voz alta o que é o erro quadrático médio e por que ele é minimizado — mas, ao abrir um arquivo vazio para ajustar uma reta a um conjunto de dados, não sabe qual é a primeira linha. Qual superfície deste livro ataca **essa** lacuna?",
    "opcoes": [
     {
@@ -219,6 +225,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Das três superfícies deste livro, qual é a única que consegue te informar que você **não** entendeu alguma coisa?",
    "opcoes": [
     {
@@ -255,6 +262,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Cinco estudantes descrevem como vão estudar o capítulo de árvores e ensembles. Quais descrições usam as três superfícies de forma deliberada, no sentido desta seção? (marque todas que valem)",
    "opcoes": [
     {
@@ -295,6 +303,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Descreva um problema do seu trabalho ou da sua área de interesse que você acredita ser candidato a Machine Learning. Diga **qual regra ninguém consegue escrever**, **que exemplos existiriam** para aprender com eles, e **o que significaria \"funcionar\"** — em termos de uma medida, não de uma impressão.",
    "opcoes": [],
    "gabarito": null,
@@ -320,6 +329,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe testa 40 configurações de modelo, medindo cada uma no conjunto de teste, e reporta a melhor: 94,2% de acurácia. Qual é o problema mais grave dessa prática?",
    "opcoes": [
     {
@@ -356,6 +366,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Segundo a tabela das três divisões, quantas vezes se olha para cada conjunto?",
    "opcoes": [
     {
@@ -392,6 +403,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "O modelo A erra 2% no treino e 9% na validação. O modelo B erra 6% no treino e 7% na validação. Qual dos dois generaliza melhor?",
    "opcoes": [
     {
@@ -428,6 +440,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "\"A métrica de teste é uma promessa condicional.\" Quais consequências decorrem dessa frase? (marque todas que valem)",
    "opcoes": [
     {
@@ -468,6 +481,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo atinge 0,98 de acurácia no treino e 0,71 na validação. Qual é o diagnóstico e a primeira ação razoável?",
    "opcoes": [
     {
@@ -504,6 +518,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo erra 31% no treino e 33% na validação. Qual é o diagnóstico?",
    "opcoes": [
     {
@@ -540,6 +555,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um estagiário mostra o resultado, animado: 18% de erro no treino e 9% na validação. Qual é a leitura correta?",
    "opcoes": [
     {
@@ -576,6 +592,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe prevê se um paciente vai faltar à consulta. Nos últimos quatro meses trocou de modelo cinco vezes, quadruplicou os atributos e ajustou hiperparâmetros à exaustão. O erro de validação melhorou de 27% para 26,4% e não sai dali, sempre próximo do erro de treino. Qual parcela do erro explica melhor esse platô, e o que fazer?",
    "opcoes": [
     {
@@ -612,6 +629,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você herda um modelo de previsão de demanda com 4% de erro no treino e 19% na validação. Depois de dobrar a base de dados, os números passam a 7% e 15%. Depois de dobrar de novo, 9% e 14%.\n\nDecomponha o que está acontecendo em viés, variância e ruído, e diga qual é a próxima ação — e qual você já pode descartar, com base nesses números.",
    "opcoes": [],
    "gabarito": null,
@@ -638,6 +656,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Complete o termo que falta na decomposição do erro esperado de um modelo:\n\n`erro esperado ≈ viés² + ______ + ruído irredutível`",
    "opcoes": [],
    "gabarito": "variância|variancia",
@@ -657,6 +676,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Explique, **sem usar a palavra \"overfitting\"** nem sinônimo dela, por que um modelo pode ir muito bem no treino e mal em produção. A proibição é o exercício: o nome está barrado justamente porque nomear parece explicar.",
    "opcoes": [],
    "gabarito": null,
@@ -682,6 +702,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** O modelo foi medido no teste: 91%. Uma correção pequena foi feita depois disso, e a gerência pede para medir de novo no teste, \"só para confirmar que a correção não piorou nada\". O pedido é razoável e a pessoa que o faz não está sendo descuidada.\n\nEscreva a resposta que você daria. Justifique por que a segunda medição custa alguma coisa, diga o que essa coisa é, e proponha o que fazer no lugar.",
    "opcoes": [],
    "gabarito": null,
@@ -708,6 +729,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma seguradora pede um modelo para \"reduzir os sinistros de automóvel\". O projeto tem seis semanas. O que o CRISP-DM manda fazer na primeira?",
    "opcoes": [
     {
@@ -744,6 +766,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "\"Conjunto de treino e teste, atributos e rótulo definido.\" Qual fase do CRISP-DM entrega esse artefato?",
    "opcoes": [
     {
@@ -780,6 +803,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um relatório de projeto lista o que a equipe produziu nas duas primeiras semanas. Quais itens são entrega da **fase 1**, e não de outra fase? (marque todos que valem)",
    "opcoes": [
     {
@@ -820,6 +844,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um colega objeta: \"não dá para conversar com o negócio antes de olhar os dados, porque não sabemos o que é possível prometer\". Qual é a melhor avaliação dessa objeção?",
    "opcoes": [
     {
@@ -856,6 +881,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "**Fase 1 — Entendimento do negócio.** *Que decisão vai mudar, de quem, e quando?*\n\nUma barraca de limonada guarda, há um ano, o registro diário de tempo, panfletos distribuídos, preço praticado e copos vendidos. A dona quer \"usar os dados para vender mais\".\n\nEscreva os **três artefatos** que a fase 1 tem de entregar antes de alguém abrir a planilha:\n\n1. o **objetivo de negócio** (não o objetivo técnico);\n2. o **critério de sucesso**, com um número ou um limiar que dê para verificar depois;\n3. a **restrição de ação** — o que a dona **consegue** mudar, com que antecedência.",
    "opcoes": [],
    "gabarito": null,
@@ -882,6 +908,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "**Fase 2 — Entendimento dos dados.** *O que existe, e dá para confiar?*\n\nO registro da barraca tem 365 linhas e sete colunas: `data`, `dia_semana`, `temperatura`, `precipitacao`, `panfletos`, `preco`, `vendas`. Nenhum valor faltante.\n\nEntregue as **três** coisas que a fase 2 exige:\n\n1. o **inventário**: o que cada coluna é e, na pergunta que separa a fase 2 da fase 3, **quais delas você teria em mãos no momento de decidir**;\n2. as **primeiras estatísticas** que você pediria antes de qualquer modelo, e o que cada uma responderia;\n3. pelo menos **dois problemas de qualidade ou de confiança** que você iria procurar neste conjunto específico.",
    "opcoes": [],
    "gabarito": null,
@@ -908,6 +935,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Na fase de avaliação, a equipe descobre que rotulou como \"cliente perdido\" quem ficou 90 dias sem comprar — enquanto, para a área de retenção, perder um cliente é ele **não renovar o contrato**. O modelo prevê muito bem o rótulo que recebeu.\n\nPara qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.",
    "opcoes": [],
    "gabarito": "1",
@@ -931,6 +959,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Qual das quatro voltas do ciclo é a mais frequente em um projeto, segundo esta seção?",
    "opcoes": [
     {
@@ -967,6 +996,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma gerente propõe: \"vamos fechar cada fase com uma aprovação formal e só então liberar a seguinte, para o projeto não ficar rodando em círculo\". Quais consequências previsíveis essa proposta tem, à luz desta seção? (marque todas que valem)",
    "opcoes": [
     {
@@ -1007,6 +1037,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um time de três pessoas (um engenheiro de dados, um cientista de dados e um engenheiro de ML) vai retomar o projeto de *churn* do começo do capítulo.\n\nDistribua as seis fases entre os três, aponte a fase que corre risco de ficar **sem dono** e diga como você resolveria isso.",
    "opcoes": [],
    "gabarito": null,
@@ -1034,6 +1065,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "De quem é a entrega \"as fontes confiáveis e o pipeline que as mantém\"?",
    "opcoes": [
     {
@@ -1070,6 +1102,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Numa retrospectiva, uma equipe relata os fatos abaixo. Quais deles são sintoma de **fase sem dono declarado**, no sentido desta seção? (marque todos que valem)",
    "opcoes": [
     {
@@ -1110,6 +1143,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Complete a sigla que nomeia a ordem adotada quando o armazenamento ficou barato — carregar o dado bruto primeiro e transformá-lo depois, dentro do próprio repositório analítico:\n\n`Extract → Load → Transform = ______`",
    "opcoes": [],
    "gabarito": "ELT|elt",
@@ -1129,6 +1163,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um pipeline consome uma fila de eventos e grava cada mensagem recebida. Depois de uma semana, o faturamento consolidado está 3% acima do real. Qual característica da fonte explica isso?",
    "opcoes": [
     {
@@ -1165,6 +1200,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você vai extrair a mesma entidade de quatro portas diferentes. Quais pareamentos entre fonte e dor típica estão corretos? (marque todos que valem)",
    "opcoes": [
     {
@@ -1205,6 +1241,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma empresa usa ETL há oito anos: o pipeline calcula \"cliente ativo\" na transformação e carrega apenas o resultado. A definição de cliente ativo acaba de mudar. O que essa arquitetura torna caro?",
    "opcoes": [
     {
@@ -1241,6 +1278,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um time migrou tudo para ELT há dois anos: o bruto entra sem transformação e as regras viram SQL no repositório. Hoje existem dezessete tabelas chamadas alguma variação de `cliente`, a fatura mensal triplicou e os analistas conferem números entre si antes de reportar. O que esse quadro demonstra?",
    "opcoes": [
     {
@@ -1277,6 +1315,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe precisa de duas coisas ao mesmo tempo: guardar cinco anos de eventos brutos de clique (JSON, com o esquema mudando a cada release do aplicativo) e servir trinta relatórios fixos ao financeiro, todo dia às 7h. Qual arranjo atende melhor?",
    "opcoes": [
     {
@@ -1313,6 +1352,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Qual é a diferença que separa data warehouse de data lake, segundo esta seção?",
    "opcoes": [
     {
@@ -1349,6 +1389,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um fornecedor apresenta o lakehouse como \"o fim da escolha entre lake e warehouse\". Quais afirmações desta seção qualificam essa promessa? (marque todas que valem)",
    "opcoes": [
     {
@@ -1389,6 +1430,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você monta o conjunto de treino de um modelo que prevê **inadimplência no momento da compra**. Os pedidos de 2025 estão no data warehouse; o cadastro vem de outro sistema, e a tabela `clientes` é sincronizada todas as noites **sobrescrevendo** a linha do cliente.\n\n```sql\nSELECT p.pedido_id, p.data_pedido, p.valor,\n       c.score_risco, c.situacao_cadastral\nFROM   pedidos p\nJOIN   clientes c ON c.cliente_id = p.cliente_id\nWHERE  p.data_pedido BETWEEN '2025-01-01' AND '2025-12-31';\n```\n\nO modelo treinado com essa tabela alcança desempenho muito acima do esperado. Explique o que está errado e o que você faria.",
    "opcoes": [],
    "gabarito": null,
@@ -1415,6 +1457,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Antes de usar uma coluna no conjunto de treino, quais perguntas de procedência esta seção manda fazer? (marque todas que valem)",
    "opcoes": [
     {
@@ -1455,6 +1498,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe encontra uma base pública que resolveria o problema, com download aberto e sem cadastro. Segundo este capítulo, o que ela deve fazer antes de usá-la?",
    "opcoes": [
     {
@@ -1491,6 +1535,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Você precisa extrair 4 milhões de registros de uma API paginada **que muda ao longo do dia**, e a mesma entidade também existe num banco relacional de produção. Descreva como faria cada extração e, na parte que decide, **o que garantiria que as duas descrevem o mesmo instante**.",
    "opcoes": [],
    "gabarito": null,
@@ -1516,6 +1561,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Qual das três fontes de vazamento deste capítulo descreve um `StandardScaler` ajustado sobre a base inteira antes do `train_test_split`?",
    "opcoes": [
     {
@@ -1552,6 +1598,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe prevê inadimplência em 30 dias. O modelo atinge 0,96 de AUC — três vezes melhor que qualquer tentativa anterior. Entre os atributos está `dias_de_atraso_atual`. Qual é a leitura mais provável?",
    "opcoes": [
     {
@@ -1588,6 +1635,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Quais destas práticas introduzem vazamento? (marque todas que valem)",
    "opcoes": [
     {
@@ -1628,6 +1676,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um hospital quer prever readmissão em 30 dias. A base tem 50.000 internações de 12.000 pacientes, coletadas ao longo de 4 anos. O sistema vai atender pacientes que chegam pela primeira vez. Qual divisão é a correta?",
    "opcoes": [
     {
@@ -1664,6 +1713,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo prevê a demanda com 30 dias de antecedência. A divisão é temporal: treino até 31 de março, teste a partir de 1º de abril. O que ainda falta?",
    "opcoes": [
     {
@@ -1700,6 +1750,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma base tem tempo, grupo (o mesmo sujeito repetido) e classe positiva rara. Qual é a ordem de precedência ao montar a divisão?",
    "opcoes": [
     {
@@ -1736,6 +1787,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você recebeu uma base de 200.000 avaliações de produtos, rotuladas como \"positiva\" ou \"negativa\", para treinar um classificador de sentimento. O rótulo foi gerado automaticamente: avaliações de 4–5 estrelas viraram \"positiva\", de 1–2 estrelas viraram \"negativa\", e as de 3 estrelas foram descartadas.\n\nEscreva as **três perguntas mais importantes** que você faria antes de treinar, e diga o que cada resposta mudaria na sua decisão.",
    "opcoes": [],
    "gabarito": null,
@@ -1761,6 +1813,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Na ficha de dataset deste livro, qual pergunta existe para pegar o viés de seleção?",
    "opcoes": [
     {
@@ -1797,6 +1850,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma ficha informa: \"o alvo `fraude` foi definido como as transações que o sistema de regras antigo bloqueou\". Qual é a consequência mais séria dessa resposta à pergunta 5?",
    "opcoes": [
     {
@@ -1833,6 +1887,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um banco treina um modelo de inadimplência com o histórico dos últimos cinco anos: 800 mil contratos, rótulo confiável (pagou ou não pagou), sem faltantes. A taxa de inadimplência na base é de 4%. O modelo vai decidir quem recebe crédito a partir do mês que vem.\n\nA equipe está satisfeita: a base é grande, o rótulo é objetivo e a métrica ficou ótima. **Diagnostique o problema desta coleta** e diga o que ele fará com o modelo em produção.",
    "opcoes": [],
    "gabarito": null,
@@ -1858,6 +1913,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Qual das duas situações abaixo **não** se resolve coletando mais dados do mesmo jeito?",
    "opcoes": [
     {
@@ -1894,6 +1950,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Quais destes fatos, sozinhos, **não** servem como evidência de que uma base está livre de viés de seleção? (marque todos que valem)",
    "opcoes": [
     {
@@ -1934,6 +1991,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Os salários mensais (em milhares de reais) de sete funcionários de uma equipe são:\n\n`3, 3, 4, 4, 5, 6, 40`\n\nQual é a **mediana** desse conjunto?",
    "opcoes": [],
    "gabarito": "4",
@@ -1957,6 +2015,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Duas equipes medem o tempo de resposta de uma mesma API por uma semana. A equipe A reporta média 180 ms e desvio-padrão 640 ms. A equipe B reporta mediana 95 ms e IQR 40 ms. O que essa combinação de números já permite afirmar?",
    "opcoes": [
     {
@@ -1993,6 +2052,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Abra o laboratório e escolha a coluna **`preco`**. Quantos pontos a regra da cerca de 1,5 × IQR acusa?",
    "opcoes": [],
    "gabarito": "62",
@@ -2016,6 +2076,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você acabou de ver a cerca acusar 62 pontos em `preco`. Olhe, no painel do laboratório, o **IQR** e os **valores distintos** dessa coluna. Qual é a leitura correta?",
    "opcoes": [
     {
@@ -2052,6 +2113,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação entre si praticamente idênticas às de outro par de colunas. Que conclusão é legítima?",
    "opcoes": [
     {
@@ -2088,6 +2150,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "A correlação de Pearson entre duas variáveis é 0,02. O que se pode concluir?",
    "opcoes": [
     {
@@ -2124,6 +2187,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma exploração encontra correlação de 0,71 entre \"número de chamados ao suporte\" e \"cancelamento do contrato\". Quais explicações concorrem com \"chamados causam cancelamento\", segundo esta seção? (marque todas que valem)",
    "opcoes": [
     {
@@ -2160,6 +2224,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você explora a base de vendas de uma rede de lojas e encontra 12 pedidos (de 400 mil) com valor acima de R$ 500 mil — a mediana dos pedidos é R$ 180. O modelo a treinar prevê o valor do próximo pedido de um cliente.\n\nEscreva o que você faz com esses 12 pedidos: **como decide** e **o que registra**.",
    "opcoes": [],
    "gabarito": null,
@@ -2186,6 +2251,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "No laboratório, escolha a coluna **`precipitacao`** e leia o painel: média, mediana, mínimo, máximo e quantos pontos a regra da cerca de 1,5 × IQR acusa.\n\nEscreva um parágrafo de análise monovariada dessa variável, respondendo:\n\n1. a distribuição é simétrica? Para que lado puxa, e como você sabe?\n2. média ou mediana descreve melhor esta variável — e por quê?\n3. os pontos acusados **são** outliers? O que você faria com eles, e com que critério declarado?",
    "opcoes": [],
    "gabarito": null,
@@ -2213,6 +2279,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma analista cruza 40 pares de variáveis, encontra o padrão mais forte, e o reporta com o valor-p calculado sobre os mesmos dados. Qual é a crítica correta?",
    "opcoes": [
     {
@@ -2249,6 +2316,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Numa base de transações de cartão, o modelo a treinar prevê fraude. A regra de 1,5 × IQR acusa 380 transações de valor muito acima do normal, e boa parte delas é fraude confirmada. O que fazer com esses pontos?",
    "opcoes": [
     {
@@ -2285,6 +2353,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Explorando, você encontrou um padrão forte num segmento de clientes: quem compra pela manhã devolve muito menos. Descreva **o que precisa acontecer** antes de esse padrão virar uma afirmação na apresentação para a diretoria.",
    "opcoes": [],
    "gabarito": null,
@@ -2310,6 +2379,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você quer mostrar **como o tempo de resposta da API se espalha** entre as requisições — se há cauda longa, onde estão os piores casos. Qual forma responde a essa pergunta?",
    "opcoes": [
     {
@@ -2346,6 +2416,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "A pergunta é \"as sete regiões vendem quanto, e qual vende mais?\". Qual forma responde melhor?",
    "opcoes": [
     {
@@ -2382,6 +2453,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe precisa mostrar quatro coisas sobre a mesma base. Quais pareamentos entre pergunta e forma seguem a tabela do capítulo? (marque todos que valem)",
    "opcoes": [
     {
@@ -2422,6 +2494,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um gerente leva à diretoria um gráfico de barras com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em 88 e termina em 89,5. Não há nota de rodapé. O título é \"Satisfação do cliente\". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.\n\nJulgue o gráfico: o que está errado, por que engana, e como você o refaria.",
    "opcoes": [],
    "gabarito": null,
@@ -2448,6 +2521,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Por que a regra \"barra sempre parte do zero\" não se aplica igualmente a um gráfico de linha?",
    "opcoes": [
     {
@@ -2484,6 +2558,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um painel usa: escala arco-íris para uma variável ordenada de 0 a 100, verde e vermelho como único sinal de bom e ruim, e círculos cujo raio dobra quando o valor dobra. Quais críticas desta seção se aplicam? (marque todas que valem)",
    "opcoes": [
     {
@@ -2520,6 +2595,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Complete a regra do título num gráfico de apresentação:\n\n`O título de um gráfico que decide deve ser a ______, e não o rótulo dos dados.`",
    "opcoes": [],
    "gabarito": "conclusão|conclusao|mensagem",
@@ -2539,6 +2615,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma apresentação traz: o gráfico, o método usado, a conclusão e a lista de próximos passos, nessa ordem. Segundo os quatro tempos desta seção, o que falta?",
    "opcoes": [
     {
@@ -2575,6 +2652,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você escreve o título do gráfico e não consegue formular uma frase afirmativa: sai sempre \"Receita por canal\" ou \"Análise de churn\". O que esse fato indica?",
    "opcoes": [
     {
@@ -2611,6 +2689,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "O que muda ao adaptar a mesma análise da diretoria para o time técnico?",
    "opcoes": [
     {
@@ -2647,6 +2726,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma analista apresenta o mesmo estudo duas vezes. Quais diferenças entre as duas versões são adaptação legítima ao público? (marque todas que valem)",
    "opcoes": [
     {
@@ -2687,6 +2767,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Seu modelo mostrou que a inadimplência se concentra num canal de venda específico, e a estimativa tem incerteza considerável. Conte o mesmo achado **duas vezes**: em três minutos para a diretoria e em quinze para o time técnico. Diga o que entra em cada versão — e, sobretudo, **o que não pode mudar entre as duas**.",
    "opcoes": [],
    "gabarito": null,
@@ -2712,6 +2793,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "A mesma data aparece de duas formas: como inteiro `1721692800` e decomposta em dia da semana, hora e proximidade de feriado. O que muda entre as duas?",
    "opcoes": [
     {
@@ -2748,6 +2830,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você treina um *random forest* para prever inadimplência. Um colega revisa o código e sugere padronizar todos os atributos numéricos (média 0, desvio 1) antes do treino, \"porque é boa prática\". O que acontece com o desempenho?",
    "opcoes": [
     {
@@ -2784,6 +2867,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Para quais destes a normalização muda o resultado, segundo a tabela do capítulo?",
    "opcoes": [
     {
@@ -2820,6 +2904,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma regressão com regularização L2 tem dois atributos: `renda_mensal` em reais (milhares) e `anos_de_relacionamento` (unidades). Ninguém normalizou. Qual é a consequência específica da regularização aqui?",
    "opcoes": [
     {
@@ -2856,6 +2941,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma variável categórica `regiao` tem 5 valores possíveis. Você vai usá-la numa **regressão linear com intercepto**.\n\nQuantas colunas *dummy* você deve criar para evitar a indeterminação?",
    "opcoes": [],
    "gabarito": "4",
@@ -2879,6 +2965,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma coluna `codigo_produto` tem 14 mil valores distintos. Um estagiário aplica one-hot. O que acontece?",
    "opcoes": [
     {
@@ -2915,6 +3002,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe codifica `cidade` pela média do alvo em cada cidade, calculada sobre a base inteira antes da divisão treino/teste. A validação fica excelente. Qual é o diagnóstico?",
    "opcoes": [
     {
@@ -2951,6 +3039,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "\"O aprendizado de representações eliminou a engenharia de atributos.\" Quais correções esta seção faz a essa afirmação? (marque todas que valem)",
    "opcoes": [
     {
@@ -2987,6 +3076,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma rede de farmácias quer prever quais clientes vão abandonar o programa de fidelidade nos próximos 90 dias. A tabela disponível tem uma linha por cliente com: `cpf`, `data_cadastro`, `cidade`, `total_gasto_historico`, `numero_de_compras`.\n\nProponha **três atributos novos** construídos a partir dessas colunas ou de dados que você pediria, justifique cada um pela hipótese de negócio, e descreva como mediria se eles pagaram.",
    "opcoes": [],
    "gabarito": null,
@@ -3013,6 +3103,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um atributo novo é proposto numa reunião e todos concordam que faz sentido. Segundo esta seção, o que autoriza mantê-lo no modelo?",
    "opcoes": [
     {
@@ -3049,6 +3140,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma tabela de clientes tem `total_gasto_historico`, `numero_de_compras` e `data_cadastro`. Quais afirmações desta seção se aplicam à construção de atributos aqui? (marque todas que valem)",
    "opcoes": [
     {
@@ -3085,6 +3177,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Um colega guarda a data e hora de cada pedido como um único inteiro (segundos desde 1970) e argumenta que \"a informação está toda lá, o modelo que se vire\". Explique por que essa representação é quase inútil para a maioria dos modelos, o que exatamente a decomposição em dia da semana e hora do dia acrescenta, e por que \"a informação está toda lá\" não é o mesmo que \"o modelo consegue usá-la\".",
    "opcoes": [],
    "gabarito": null,
@@ -3110,6 +3203,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge 99,5% de acurácia no teste. Qual leitura é correta?",
    "opcoes": [
     {
@@ -3146,6 +3240,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um classificador produziu a seguinte matriz de confusão: VP = 45, FP = 15, FN = 30, VN = 410.\n\nQual é a **precisão**? Responda com 2 casas decimais.",
    "opcoes": [],
    "gabarito": "0.75 ± 0.01",
@@ -3169,6 +3264,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um sistema faz a triagem inicial de currículos, descartando candidatos antes de qualquer olhar humano. Qual métrica deve orientar a decisão de limiar, e por quê?",
    "opcoes": [
     {
@@ -3205,6 +3301,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo tem AUC-ROC de 0,95 no teste. Quais conclusões são **legítimas** a partir só desse número? (marque todas que valem)",
    "opcoes": [
     {
@@ -3245,6 +3342,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Sua equipe compara dois modelos no mesmo conjunto de teste de 800 exemplos: o modelo A tem F1 = 0,812 e o modelo B, F1 = 0,829. Alguém propõe substituir A por B em produção.\n\nEscreva a resposta que você daria: **o que falta saber** antes dessa decisão, e **como você obteria** essa informação.",
    "opcoes": [],
    "gabarito": null,
@@ -3270,6 +3368,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?",
    "opcoes": [
     {
@@ -3306,6 +3405,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).\n\nCalcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy} / S_{xx}$. Responda com duas casas decimais.",
    "opcoes": [],
    "gabarito": "1.40 ± 0.02",
@@ -3329,6 +3429,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.",
    "opcoes": [],
    "gabarito": "53 ± 4",
@@ -3352,6 +3453,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?",
    "opcoes": [
     {
@@ -3388,6 +3490,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.\n\nEscreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.",
    "opcoes": [],
    "gabarito": null,
@@ -3414,6 +3517,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Numa regressão logística, o que é linear nos atributos?",
    "opcoes": [
     {
@@ -3450,6 +3554,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Por que a regressão logística não tem solução fechada, como a linear tem?",
    "opcoes": [
     {
@@ -3486,6 +3591,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 para `dívida_atual`. Quais leituras são **corretas**? (marque todas que valem)",
    "opcoes": [
     {
@@ -3526,6 +3632,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "A curva de perda de treino desce rapidamente nas primeiras épocas e depois oscila para cima e para baixo sem estabilizar, mantendo-se num patamar alto. Qual é o diagnóstico mais provável?",
    "opcoes": [
     {
@@ -3562,6 +3669,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você tem 300 atributos, suspeita que a maioria é irrelevante, e precisa entregar um modelo que a equipe consiga explicar. Qual regularização escolher, e por quê?",
    "opcoes": [
     {
@@ -3598,6 +3706,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Quais afirmações sobre early stopping são corretas? (marque todas que valem)",
    "opcoes": [
     {
@@ -3638,6 +3747,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Complete o nome do hiperparâmetro que define o **tamanho do passo** na atualização abaixo:\n\n`w ← w − ______ × ∇L(w)`",
    "opcoes": [],
    "gabarito": "taxa de aprendizado|learning rate|taxa|eta|η",
@@ -3657,6 +3767,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um nó contém 100 exemplos, 50 de cada classe. Um corte candidato produz um filho com 50 exemplos (45 positivos, 5 negativos) e outro com 50 (5 positivos, 45 negativos). Qual é o ganho de Gini desse corte?",
    "opcoes": [
     {
@@ -3693,6 +3804,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe treina uma floresta aleatória com 50 árvores e obtém 0,88 de AUC na validação. Aumentam para 500 árvores. O que se espera?",
    "opcoes": [
     {
@@ -3729,6 +3841,7 @@
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Quais afirmações sobre a floresta aleatória são corretas? (marque todas que valem)",
    "opcoes": [
     {
@@ -3769,6 +3882,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo de boosting foi treinado com taxa de aprendizado η = 0,2 e 50 árvores. Você decide reduzir a taxa para 0,05, mantendo o mesmo \"caminho percorrido\" pelo modelo. Aproximadamente quantas árvores serão necessárias?",
    "opcoes": [],
    "gabarito": "200 ± 5",
@@ -3792,6 +3906,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Sua equipe tem 8.000 linhas, 40 colunas tabulares, e um prazo de duas semanas. Um colega propõe começar por uma rede neural profunda, argumentando que \"deep learning é o estado da arte\".\n\nEscreva a resposta que você daria: qual sua **recomendação**, com que **evidência**, e em que **condição** você mudaria de ideia.",
    "opcoes": [],
    "gabarito": null,
@@ -3818,6 +3933,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você modela as vendas de uma rede de farmácias. A base tem: `valor_do_item`, `quantidade`, `nome_do_produto`, `categoria_do_produto`, `cidade_da_loja`, `data_da_venda`, `desconto_concedido`. Qual conjunto pertence à **tabela-fato**, no grão \"um item de venda\"?",
    "opcoes": [
     {
@@ -3854,6 +3970,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um cubo de vendas tem três dimensões, no grão mais fino: **Produto** (40 produtos, agrupados em 8 categorias), **Região** (5 regiões) e **Tempo** (12 meses).\n\nPartindo do cubo completo, você aplica um **slice** em Tempo = março e, em seguida, um **roll-up** de produto para categoria. Quantas células tem o cubo resultante?",
    "opcoes": [],
    "gabarito": "40 ± 0",
@@ -3877,6 +3994,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você propõe um esquema estrela para o repositório analítico. Um colega, DBA experiente, recusa: *\"Isso viola a terceira forma normal. A categoria do produto vai estar repetida em milhares de linhas da dimensão. Se alguém renomear uma categoria, você tem anomalia de atualização. Normalize.\"*\n\nEscreva a resposta que você daria a ele — reconhecendo o que ele tem de razão.",
    "opcoes": [],
    "gabarito": null,
@@ -3903,6 +4021,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** O cubo já calcula, para cada loja, a média de vendas do mês e o total do trimestre. Você quer usar essas agregações como variáveis de um modelo que prevê a venda **da próxima semana** — sai de graça, já está pronto. Descreva a verificação que você faria **antes**, para não vazar o futuro para dentro do passado, e diga como a agregação teria de ser recalculada para servir ao modelo.",
    "opcoes": [],
    "gabarito": null,
@@ -3928,6 +4047,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você plota a série mensal de vendas de uma loja e observa: as vendas sobem de forma consistente ao longo de quatro anos, e todo dezembro é muito maior que os meses vizinhos. Qual decomposição descreve isso?",
    "opcoes": [
     {
@@ -3964,6 +4084,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Vendas mensais (em milhares):\n\n| Mês | 2024 | 2025 |\n|---|---|---|\n| jan | 100 | 110 |\n| fev | 120 | 126 |\n| mar | 90 | 99 |\n\nCalcule o **MAE** (erro absoluto médio) da previsão ingênua sazonal, em que cada mês de 2025 é previsto pelo mesmo mês de 2024, nos três meses de 2025. Responda com 2 casas decimais.",
    "opcoes": [],
    "gabarito": "8.33 ± 0.01",
@@ -3987,6 +4108,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma colega apresenta este protocolo para prever a demanda diária de um e-commerce:\n\n> \"Peguei 3 anos de dados diários. Criei atributos defasados (venda de 1, 7 e 30 dias atrás) e a média móvel de 30 dias, tudo calculado sobre a base completa. Depois embaralhei as linhas e fiz `train_test_split` com 20% de teste, mais um k-fold de 5 dobras para ajustar os hiperparâmetros. Deu 3,1% de erro percentual. Também rodei uma validação cruzada aleatória repetida para confirmar, e o intervalo ficou estreito.\"\n\nIdentifique os problemas do protocolo e descreva o que você faria no lugar.",
    "opcoes": [],
    "gabarito": null,
@@ -4013,6 +4135,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Um colega quer abandonar os modelos de série e resolver a previsão de demanda com um ensemble de árvores: monta janelas (vendas dos últimos 7, 14 e 28 dias), acrescenta dia da semana e feriado, e trata cada linha como uma observação independente. \"Virou tabular, agora é só treinar.\"\n\nDiga **em que condições essa transformação é legítima** e liste tudo que continua tendo de respeitar a ordem temporal mesmo depois de a tabela parecer comum.",
    "opcoes": [],
    "gabarito": null,
@@ -4038,6 +4161,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você comparou dois modelos no mesmo conjunto de teste: A deu 0,913 de AUC e B deu 0,907. O bootstrap pareado com mil reamostragens devolveu um intervalo de 95% para a diferença (A − B) de **[−0,004; +0,016]**. O que reportar?",
    "opcoes": [
     {
@@ -4074,6 +4198,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um modelo prevê inadimplência. Aprovar um cliente **bom** dá lucro de **R$ 200**. Aprovar um cliente **mau** dá prejuízo de **R$ 1 000**. Negar não gera lucro nem prejuízo (R$ 0), qualquer que seja o cliente.\n\nAcima de qual **probabilidade de inadimplência** vale mais negar do que aprovar? Responda em fração, com duas casas decimais.",
    "opcoes": [],
    "gabarito": "0,17",
@@ -4097,6 +4222,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Seu modelo de triagem de currículos alcança 0,89 de AUC no conjunto de teste, bem acima da triagem manual atual. Ao segmentar o resultado, você descobre que o desempenho é **0,91 para candidatos formados nas cinco universidades mais frequentes na base histórica** e **0,63 para os demais**.\n\nEscreva a recomendação que você levaria à diretoria — incluindo o que você recomenda fazer e por quê.",
    "opcoes": [],
    "gabarito": null,
@@ -4123,6 +4249,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Seu modelo novo teve AUC de 0,91 contra 0,89 do atual, e a diferença **não** é maior que o ruído: os intervalos se sobrepõem. Você tem cinco minutos com a diretoria, que quer saber se troca ou não.\n\nEscreva o que você diria. A dificuldade é dupla: comunicar um empate estatístico a quem espera um vencedor, **sem** esconder a incerteza e **sem** transformar a conversa numa aula de estatística.",
    "opcoes": [],
    "gabarito": null,
@@ -4148,6 +4275,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR?",
    "opcoes": [
     {
@@ -4184,6 +4312,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (1969)?",
    "opcoes": [
     {
@@ -4220,6 +4349,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você quer construir a função **OU (OR)** com pesos `w₁ = 1` e `w₂ = 1`.\n\nQual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar corretamente?",
    "opcoes": [],
    "gabarito": "1",
@@ -4243,6 +4373,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Explique, para alguém que nunca viu redes neurais, **o que um neurônio artificial faz** — e diga em que ele se parece e em que ele **não** se parece com um neurônio biológico.",
    "opcoes": [],
    "gabarito": null,
@@ -4269,6 +4400,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma rede tem duas camadas densas empilhadas, **sem nenhuma função de ativação entre elas**. O que essa rede consegue computar?",
    "opcoes": [
     {
@@ -4305,6 +4437,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um MLP densa tem 4 entradas, uma camada escondida de 5 unidades e 3 saídas. Todas as camadas têm **viés**.\n\nQuantos parâmetros treináveis a rede tem no total?",
    "opcoes": [],
    "gabarito": "43",
@@ -4328,6 +4461,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um colega justifica a escolha da arquitetura assim: *\"pelo teorema da aproximação universal, uma camada escondida basta — então se o modelo não está aprendendo, é porque faltam unidades.\"*\n\nExplique por que o teorema **não** sustenta essa conclusão, e liste o que mais pode estar impedindo o treino.",
    "opcoes": [],
    "gabarito": null,
@@ -4354,6 +4488,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Explique backpropagation a alguém que **conhece a regra da cadeia** mas nunca viu uma rede. Diga o que é o passo para frente, o que é o passo para trás e, na parte que decide, **onde exatamente está o reaproveitamento** que torna o custo viável.",
    "opcoes": [],
    "gabarito": null,
@@ -4379,6 +4514,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Numa rede com sigmoide, suponha que cada camada atravessada multiplique o gradiente por **0,25** (o melhor caso da sigmoide). A partir de quantas camadas o gradiente que chega à primeira fica **abaixo de um milionésimo** (10⁻⁶) do que saiu da última?\n\nResponda com um número inteiro de camadas.",
    "opcoes": [],
    "gabarito": "10 ± 0,4",
@@ -4402,6 +4538,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe troca a ativação de uma rede de 30 camadas de `tanh` para `ReLU` e mantém a inicialização de Xavier/Glorot, que vinha funcionando. O treino, que antes convergia devagar, agora estagna. Qual é a explicação mais precisa?",
    "opcoes": [
     {
@@ -4438,6 +4575,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe tem duas semanas para entregar a primeira linha de base de um classificador de imagens sobre um conjunto novo: a arquitetura ainda está em discussão e ninguém tem intuição sobre a taxa de aprendizado adequada. Dois meses depois, com a arquitetura congelada e a linha de base publicada, o time disputa décimos de ponto percentual e tem máquina ociosa à noite. Qual escolha de otimizador é a mais defensável em cada momento?",
    "opcoes": [
     {
@@ -4474,6 +4612,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe treina uma rede densa de 40 camadas com sigmoide, inicialização uniforme pequena e SGD. A perda cai de 2,30 para 2,25 na primeira época e depois não se move por 50 épocas. A acurácia fica em nível de acaso. Em três semanas, a equipe trocou o otimizador de SGD para Adam, depois para RMSProp, testou seis taxas de aprendizado e dobrou o conjunto de dados. Nada mudou.\n\nDiga o que você mediria **antes** de propor qualquer correção, qual é o diagnóstico mais provável e o que faria em seguida.",
    "opcoes": [],
    "gabarito": null,
@@ -4501,6 +4640,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Você usa dropout, normalização em lote e aumento de dados no mesmo treino. Para cada um, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso, **sem recorrer à justificativa que veio no artigo original**.",
    "opcoes": [],
    "gabarito": null,
@@ -4526,6 +4666,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma imagem colorida de 224×224 tem 3 canais. Considere uma camada convolucional com **64 filtros de 3×3**, aplicada a essa entrada.\n\nQuantos **pesos** (ignorando os vieses) essa camada tem?",
    "opcoes": [],
    "gabarito": "1728",
@@ -4549,6 +4690,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe empilha camadas numa rede convolucional: 20, depois 34, depois 56 camadas. O erro **no conjunto de treino** piora a cada aumento. Qual é a leitura correta?",
    "opcoes": [
     {
@@ -4585,6 +4727,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma indústria quer classificar peças metálicas em \"com trinca\" / \"sem trinca\" a partir de fotos da linha de produção. Há **800 imagens rotuladas** por um inspetor experiente — 640 sem trinca, 160 com. Novas fotos custam caro para rotular. A câmera é fixa, a peça sempre entra na mesma orientação.\n\nTreinar do zero ou transferir? Decida, justifique e diga o que você congelaria e que aumentações usaria.",
    "opcoes": [],
    "gabarito": null,
@@ -4611,6 +4754,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Você vai contar piscinas em **imagens de satélite** de uma cidade, para uma prefeitura. As imagens vêm de passagens em diferentes meses e horas do dia; o recorte de cada bairro é arbitrário.\n\n**Projete a aumentação de dados** deste problema: liste as transformações que entram, as que ficam de fora, e justifique cada decisão pelo **processo que gera as imagens** — não pelo que a biblioteca oferece.",
    "opcoes": [],
    "gabarito": null,
@@ -4636,6 +4780,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma RNN simples é treinada para classificar avaliações de produto e vai bem em textos curtos, mas erra sistematicamente quando a negação aparece no começo de um parágrafo longo (\"Não recomendo… *[80 palavras]* …o acabamento é bonito\"). Qual é o diagnóstico correto?",
    "opcoes": [
     {
@@ -4672,6 +4817,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Numa camada de autoatenção, cada posição da sequência é comparada com todas as posições. Se o comprimento da sequência passa de **512** para **4096** elementos, por qual fator o número de comparações da atenção é multiplicado?\n\nResponda com um número inteiro.",
    "opcoes": [],
    "gabarito": "64 ± 0",
@@ -4695,6 +4841,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um colega diz: *\"Atenção é só uma forma de dar mais memória ao modelo — no fundo é uma LSTM melhorzinha.\"* Explique por que essa leitura está errada, usando (a) o que a atenção substitui, (b) o que ela custa e (c) o que o artigo de 2017 de fato removeu.",
    "opcoes": [],
    "gabarito": null,
@@ -4721,6 +4868,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Um sistema registra, para cada sessão de um site, a lista de páginas visitadas em ordem. Um colega monta a tabela com uma linha por visita (sessão, página, tempo na página) e treina um modelo para prever se a sessão terminará em compra, tratando cada linha como observação independente.\n\nExplique, **sem usar exemplo de texto**, por que tratar esses registros como independentes destrói informação, e diga **exatamente o que se perde** ao embaralhar a ordem.",
    "opcoes": [],
    "gabarito": null,
@@ -4746,6 +4894,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma equipe indexou 30 mil chamados de suporte com **embeddings estáticos** (um vetor fixo por palavra, somados por documento) para fazer busca semântica. A busca por \"**manga quebrada na esteira**\" devolve receitas de suco de fruta. Qual é o diagnóstico mais preciso?",
    "opcoes": [
     {
@@ -4782,6 +4931,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "No artigo do ULMFiT (2018), o modelo transferido atinge, **com 100 exemplos rotulados**, o mesmo desempenho de um modelo treinado do zero com **10 000** exemplos.\n\nPor qual fator a quantidade de rótulos necessária foi dividida? Responda com um número inteiro.",
    "opcoes": [],
    "gabarito": "100 ± 0",
@@ -4805,6 +4955,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma operadora de saúde quer um assistente interno que responda dúvidas sobre **cobertura de procedimentos**. As regras mudam **toda semana** por decisão de comitê, existem cerca de 4 mil páginas de normas vigentes, e **toda resposta precisa apontar a norma que a sustenta**, porque a auditoria confere por amostragem.\n\nA liderança técnica propôs \"fazer fine-tuning do modelo nas normas\". Julgue a proposta e diga o que você faria — incluindo o que mediria para saber se funcionou.",
    "opcoes": [],
    "gabarito": null,
@@ -4832,6 +4983,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Um colega diz que \"RAG é só colocar os documentos no prompt\". Aponte **três compromissos de arquitetura** que essa frase esconde, e diga qual deles costuma aparecer primeiro em produção.",
    "opcoes": [],
    "gabarito": null,
@@ -4857,6 +5009,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Seus dados têm dois grupos visíveis: um alongado, em forma de arco, com 800 pontos, e outro pequeno e denso, com 60 pontos. Você roda k-means com k=2 e o resultado corta o arco ao meio, juntando uma das metades ao grupo pequeno. Qual é o diagnóstico correto?",
    "opcoes": [
     {
@@ -4893,6 +5046,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "De 1 000 cestas de um supermercado: 600 contêm pão, 500 contêm leite e 300 contêm os dois.\n\nCalcule o **lift** da regra `{leite} → {pão}`. Responda com duas casas decimais.",
    "opcoes": [],
    "gabarito": "1.00 ± 0.01",
@@ -4916,6 +5070,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma analista segmenta 40 mil clientes com k-means. Ela testou k de 2 a 10, escolheu **k=5** porque \"foi onde os grupos ficaram mais interpretáveis\", nomeou os cinco segmentos, e a diretoria aprovou uma campanha diferente para cada um.\n\nEscreva a crítica que você faria e o que proporia em seguida.",
    "opcoes": [],
    "gabarito": null,
@@ -4942,6 +5097,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Você reduziu 200 colunas a 10 componentes principais que retêm **95% da variância**, e o modelo seguinte **piorou**. Explique como isso é possível, se você \"quase não perdeu informação\".",
    "opcoes": [],
    "gabarito": null,
@@ -4967,6 +5123,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um agente executa três passos e recebe as recompensas 3, 0 e 10, nessa ordem. Com fator de desconto **γ = 0,9**, qual é o retorno descontado visto do instante inicial?\n\nResponda com uma casa decimal.",
    "opcoes": [],
    "gabarito": "11,1 ± 0,05",
@@ -4990,6 +5147,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um sistema de recomendação foi treinado por reforço e, após duas semanas, converge para exibir sempre os mesmos 40 itens — os que renderam mais cliques no começo. O catálogo tem 12 mil itens. Qual é o diagnóstico mais provável?",
    "opcoes": [
     {
@@ -5026,6 +5184,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Uma transportadora quer \"usar aprendizado por reforço para otimizar a roteirização das entregas do dia\". Há histórico de 4 anos de rotas executadas, com tempos reais. Não existe simulador. Cada rota mal planejada custa horas extras e atraso com o cliente.\n\nJulgue: este problema merece reforço, ou é supervisionado (ou otimização) disfarçado? Justifique e proponha o que fazer.",
    "opcoes": [],
    "gabarito": null,
@@ -5052,6 +5211,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Explique a diferença entre aprender uma **função de valor** e aprender uma **política** diretamente, e dê uma situação concreta em que você preferiria cada uma.",
    "opcoes": [],
    "gabarito": null,
@@ -5077,6 +5237,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Sua empresa quer transformar em sistema especialista o conhecimento de três engenheiros veteranos que aprovam ou reprovam lotes de produção. Onde está o gargalo real do projeto?",
    "opcoes": [
     {
@@ -5113,6 +5274,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "O termo linguístico \"água quente\" é definido por uma função de pertinência **triangular**: pertinência 0 em 30 °C, 1 em 50 °C e 0 em 70 °C, com variação linear entre esses pontos.\n\nQual é o grau de pertinência de uma leitura de **44 °C** ao conjunto \"água quente\"? Responda com duas casas decimais.",
    "opcoes": [],
    "gabarito": "0,70",
@@ -5136,6 +5298,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um hospital pede um sistema de apoio ao diagnóstico para uma doença rara. Há **60 casos confirmados** em dez anos de prontuários, um consenso clínico publicado que descreve quais fatores causam quais sintomas, e uma exigência do comitê de ética: **toda recomendação precisa vir acompanhada da justificativa clínica**.\n\nUm colega propõe treinar uma rede neural com os 60 casos. Escreva a recomendação que você levaria à reunião, dizendo o que usar e por quê.",
    "opcoes": [],
    "gabarito": null,
@@ -5162,6 +5325,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Você tem um problema de escalonamento com 40 tarefas e um simulador que leva 8 segundos por avaliação. Um algoritmo genético é candidato razoável? Estime a **ordem de grandeza** do custo, diga o que você mediria antes de decidir, e qual linha de base o algoritmo precisaria bater.",
    "opcoes": [],
    "gabarito": null,
@@ -5187,6 +5351,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um banco usa um ensemble de árvores para decidir crédito e gera, para cada negativa, uma explicação SHAP com os três atributos de maior contribuição. O jurídico pergunta se essa explicação pode ser apresentada como a motivação da decisão. Qual leitura é correta?",
    "opcoes": [
     {
@@ -5223,6 +5388,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um escore de risco foi avaliado separadamente em dois grupos, com mil pessoas cada. A tabela traz as quatro células da matriz de confusão de cada um:\n\n| Grupo | Positivo real, previsto positivo | Positivo real, previsto negativo | Negativo real, previsto positivo | Negativo real, previsto negativo |\n|---|---|---|---|---|\n| **A** (prevalência 40%) | 280 | 120 | 120 | 480 |\n| **B** (prevalência 60%) | 420 | 180 | 180 | 220 |\n\nCalcule a **taxa de falso positivo do grupo B**. Responda em fração, com duas casas decimais.",
    "opcoes": [],
    "gabarito": "0,45 ± 0,01",
@@ -5246,6 +5412,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um plano de saúde vai usar um escore para selecionar pacientes crônicos que entram num programa de acompanhamento intensivo — as vagas são limitadas e o programa reduz internações. A prevalência de complicação grave é **maior no grupo X** do que no grupo Y, por razões conhecidas de acesso histórico a atendimento.\n\nA diretoria pede que o escore seja, ao mesmo tempo, **calibrado** (o mesmo escore significa a mesma probabilidade nos dois grupos) e **igualitário em oportunidade** (mesma taxa de acerto entre quem de fato vai complicar).\n\nEscreva a resposta que você levaria à diretoria: explique por que o pedido é impossível como está, escolha **um** dos dois critérios, e diga **quem paga a conta** da sua escolha.",
    "opcoes": [],
    "gabarito": null,
@@ -5273,6 +5440,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "verificacao",
+   "objetivos": null,
    "enunciado": "**Desafio de fechamento.** Um colega mostra uma explicação SHAP de uma negativa de crédito e conclui: **\"foi a renda que causou a recusa\"**. Reescreva a frase de modo tecnicamente defensável, e diga o que se perde na versão original.",
    "opcoes": [],
    "gabarito": null,
@@ -5298,6 +5466,7 @@
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você vai apresentar a arquitetura do sistema de recomendação da empresa. Qual descrição é fiel ao que um sistema de ML em produção é?",
    "opcoes": [
     {
@@ -5334,6 +5503,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Sua equipe calcula `media_de_compras_90d` num job Spark noturno para treinar, e reimplementa o mesmo atributo em Java no serviço de inferência. Quais medidas atacam de fato o *train/serve skew*? Marque todas que valem.",
    "opcoes": [
     {
@@ -5374,6 +5544,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um sistema de previsão de demanda funciona assim: um job diário raspa três bancos internos e uma planilha do time comercial, junta tudo e amostra os últimos 18 meses. Sobre a saída do modelo de demanda, um segundo modelo aplica uma correção sazonal, e um terceiro corrige a correção para as lojas do Nordeste. O time de precificação lê a tabela final — o time de demanda descobriu isso no mês passado. O comportamento do sistema é regido por um arquivo `params.yaml` de 600 linhas que fica na máquina do analista sênior.\n\nListe as dívidas ocultas deste sistema, **usando os nomes do capítulo**, e diga por onde você começaria a pagar — justificando a ordem.",
    "opcoes": [],
    "gabarito": null,
@@ -5401,6 +5572,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um auditor pergunta: *\"este modelo em produção foi treinado com quais dados?\"*. O time tem o código no Git, o modelo salvo em disco e os notebooks de treino. O que falta para responder com segurança?",
    "opcoes": [
     {
@@ -5437,6 +5609,7 @@
    "pontos": 3,
    "dificuldade": "dificil",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você opera um modelo que prevê, na assinatura do contrato, se um cliente vai ficar inadimplente. O **rótulo verdadeiro só existe 90 dias depois** — é o prazo para a primeira parcela vencer e o atraso ser confirmado.\n\nDescreva como você monitora esse modelo **durante os 90 dias**, e o que faria disparar uma investigação antes do rótulo chegar.",
    "opcoes": [],
    "gabarito": null,
@@ -5463,6 +5636,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você vai promover uma nova versão de um modelo de recomendação. Quais práticas reduzem o risco **antes** de o usuário ser afetado?",
    "opcoes": [
     {
@@ -5503,6 +5677,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Você lê num post: *\"Estudos mostram que modelos de linguagem já superam médicos em diagnóstico.\"* Qual é a **primeira** pergunta a fazer?",
    "opcoes": [
     {
@@ -5539,6 +5714,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "As quatro afirmações abaixo são questões genuinamente em aberto. Quais delas mudam **o que você faz** num projeto na segunda-feira — e não apenas o que se discute num artigo?",
    "opcoes": [
     {
@@ -5575,6 +5751,7 @@
    "pontos": 3,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Escolha **um** capítulo deste livro que você leu.\n\nEscreva o que nele você espera que ainda seja verdade em 2036, o que espera que esteja obsoleto e, a parte que importa, **qual observação futura faria você mudar de ideia** sobre cada um.",
    "opcoes": [],
    "gabarito": null,
@@ -5600,6 +5777,7 @@
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
+   "objetivos": null,
    "enunciado": "Um capítulo declara: *\"Estado da arte capturado em 2026-08.\"* O que exatamente essa data promete?",
    "opcoes": [
     {
@@ -5626,6 +5804,615 @@
    "versoes": null,
    "pagina": "v-4-fronteira",
    "titulo_capitulo": "V.4 — Fronteira e Expiração"
+  },
+  {
+   "id": "prova-abertura-q1",
+   "capitulo": 30,
+   "arquivo": "livro/provas/prova-abertura.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/0-1-introducao.md:O1",
+    "livro/0-2-fundamentos.md:O1"
+   ],
+   "enunciado": "Uma prefeitura mantém há doze anos um sistema que calcula o IPTU a partir da metragem, da região e da idade do imóvel, seguindo a lei municipal. No ano passado a equipe acrescentou um segundo sistema, que estima o valor de mercado do imóvel a partir de vendas recentes da vizinhança.\n\nO primeiro sistema nunca errou. O segundo passou a errar mais neste ano do que no ano passado, sem que ninguém tenha tocado no código dele.\n\nQual afirmação descreve corretamente os dois sistemas?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Os dois aprendem regras a partir de dados; o segundo apenas tem mais ruído."
+    },
+    {
+     "correta": true,
+     "texto": "No primeiro a regra está no código e por isso ele não envelhece sozinho; no segundo a regra está em parâmetros ajustados a exemplos, e a piora indica que o mundo de onde ela foi aprendida mudou."
+    },
+    {
+     "correta": false,
+     "texto": "O segundo sistema tem um bug introduzido na última atualização, já que software não muda de comportamento sozinho."
+    },
+    {
+     "correta": false,
+     "texto": "O primeiro sistema é um caso de Machine Learning supervisionado com rótulo dado pela lei."
+    }
+   ],
+   "gabarito": "regra no código de um lado, regra em parâmetros do outro, e o segundo envelhece sozinho",
+   "porque": "O item pede as duas metades ao mesmo tempo. A primeira é onde mora a regra: a lei do IPTU é escrevível, alguém a escreveu, e o sistema executa o que foi escrito. Valor de mercado é a regra que ninguém consegue enunciar, e por isso ela é ajustada a exemplos.\n\nA segunda metade é o que a diferença implica no tempo. Um sistema cuja regra está no código só muda quando o requisito muda. Um sistema cuja regra veio de dados envelhece sozinho, porque o que garantia a validade dele era a semelhança entre o passado de onde aprendeu e o presente em que opera.\n\nA terceira alternativa é verdadeira sobre programação convencional e falsa sobre o segundo sistema, e é a resposta que quase toda equipe de manutenção dá antes de conhecer a distinção. A quarta confunde \"há uma regra clara\" com \"há aprendizado\": a lei não é um rótulo aprendido, é a própria função.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-abertura",
+   "titulo_capitulo": "Prova da Abertura — 0.1 e 0.2"
+  },
+  {
+   "id": "prova-abertura-q2",
+   "capitulo": 30,
+   "arquivo": "livro/provas/prova-abertura.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/0-1-introducao.md:O2",
+    "livro/0-2-fundamentos.md:O4"
+   ],
+   "enunciado": "Uma editora quer prever quais manuscritos recebidos virarão sucesso de vendas. Tem 260 livros publicados nos últimos vinte anos, com vendas conhecidas. A diretoria pergunta se o projeto é viável e pede que a equipe \"meça direito, no conjunto de teste, para não haver dúvida\".\n\nQual é a resposta tecnicamente correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "É viável, e medir no teste é de fato a forma mais confiável de decidir."
+    },
+    {
+     "correta": true,
+     "texto": "O projeto é frágil por falta de exemplos, e a proposta de decidir pelo teste é justamente o uso que destrói a única estimativa imparcial disponível."
+    },
+    {
+     "correta": false,
+     "texto": "É viável desde que a acurácia no teste passe de 90%, o que a diretoria estabeleceu como critério."
+    },
+    {
+     "correta": false,
+     "texto": "Não é viável, porque prever vendas exige modelo de série temporal e não de classificação."
+    }
+   ],
+   "gabarito": "frágil por falta de exemplos, e decidir pelo teste destrói a estimativa",
+   "porque": "Duas coisas erradas no mesmo pedido, uma de cada capítulo, e responder só a uma delas é meia resposta.\n\nA primeira é a viabilidade. Duzentos e sessenta exemplos, num fenômeno com tantas causas quanto o sucesso de um livro, é pouco: a estimativa de qualquer métrica sobre um teste tirado dali carrega ruído grande o bastante para tornar a decisão uma loteria.\n\nA segunda está escondida na palavra \"decidir\". Um número de teste só é imparcial enquanto nenhuma decisão foi tomada com ele. Usá-lo para decidir se o projeto continua faz dele parte do processo, e a partir daí não sobra estimativa limpa para reportar depois. O lugar dessa decisão é a validação, e o teste fica reservado para uma medição final declarada.\n\nA terceira é a armadilha, porque parece rigor: fixar um limiar não conserta nada quando a medição é ruidosa e o conjunto que a produz é o mesmo que decide.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-abertura",
+   "titulo_capitulo": "Prova da Abertura — 0.1 e 0.2"
+  },
+  {
+   "id": "prova-abertura-q3",
+   "capitulo": 30,
+   "arquivo": "livro/provas/prova-abertura.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/0-1-introducao.md:O2",
+    "livro/0-2-fundamentos.md:O3"
+   ],
+   "enunciado": "Uma companhia de ônibus quer prever se um veículo vai quebrar na próxima semana. Tem cinco anos de ordens de serviço, telemetria de motor e um mecânico que acerta quase sempre, \"pelo barulho\", e não consegue explicar como.\n\nDepois de quatro meses e sete modelos diferentes, o erro de treino e o de validação estão ambos em 21% e não saem dali.\n\nQual leitura é a correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O problema não era candidato a ML, porque o mecânico já resolve."
+    },
+    {
+     "correta": true,
+     "texto": "O problema é candidato a ML, e o platô com treino e validação juntos aponta para informação ausente, e não para escolha ruim de modelo."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é de variância alta, e a solução é regularizar os sete modelos."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é de rótulo, e a única saída é pedir que o mecânico rotule manualmente cada veículo."
+    }
+   ],
+   "gabarito": "é candidato, e o platô aponta para informação ausente",
+   "porque": "A primeira metade vem do critério de candidatura: existe uma regra, o mecânico a executa, e ninguém consegue escrevê-la. É a definição de problema de ML, e a competência do mecânico é argumento a favor, não contra.\n\nA segunda metade é diagnóstico de erro. Erro alto e **próximo** nos dois conjuntos descarta variância, e sete modelos de famílias diferentes chegando ao mesmo lugar torna a hipótese de viés frágil. Sobra a parcela irredutível: aquilo que decide a quebra talvez esteja no som que o mecânico escuta e não na telemetria coletada.\n\nA ação que isso indica não é de modelagem: é buscar informação nova, por exemplo instrumentar o áudio, ou declarar o teto e parar. É o oposto do que os quatro meses vinham fazendo.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-abertura",
+   "titulo_capitulo": "Prova da Abertura — 0.1 e 0.2"
+  },
+  {
+   "id": "prova-abertura-q4",
+   "capitulo": 30,
+   "arquivo": "livro/provas/prova-abertura.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/0-1-introducao.md:O3",
+    "livro/0-2-fundamentos.md:O2"
+   ],
+   "enunciado": "Uma estudante diz: \"Entendi o capítulo de otimização. Consigo explicar o que é a taxa de aprendizado e por que ela pode divergir. Mas, quando fui ajustar o modelo do trabalho, o erro de treino ficou em 4% e o de validação em 26%, e eu não soube o que fazer.\"\n\nQuais leituras são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Ela tem uma lacuna de execução, não de compreensão, e a superfície que a fecha é a construção."
+    },
+    {
+     "correta": true,
+     "texto": "Os números que ela relata são a assinatura de variância alta, com ações conhecidas."
+    },
+    {
+     "correta": false,
+     "texto": "Ela deve reler o capítulo de otimização com mais atenção à dedução."
+    },
+    {
+     "correta": true,
+     "texto": "Saber diagnosticar pelas curvas é o que transforma o travamento dela numa próxima ação concreta."
+    },
+    {
+     "correta": false,
+     "texto": "Ela precisa medir no conjunto de teste para descobrir o que está acontecendo."
+    }
+   ],
+   "gabarito": "lacuna de execução · variância alta · o diagnóstico dá a próxima ação",
+   "porque": "O item cruza qual superfície fecha qual lacuna com o diagnóstico pelas curvas, e as três corretas se encadeiam: o vão de 22 pontos nomeia o problema, o nome dá as ações (mais dados, regularização, modelo mais simples), e o que falta a ela é executá-las.\n\nReler é a resposta que quase todo estudante escolhe e a menos eficaz aqui: ela já explicou o conceito em voz alta, então o texto cumpriu o papel dele. Reler produz de novo a sensação de competência sem tocar no que falta.\n\nA última alternativa é a mais perigosa das cinco, porque parece diligência. Diagnóstico se faz na validação, e ela já tem o número de que precisa. Ir ao teste para investigar gasta a testemunha antes da hora, e não acrescenta informação nenhuma ao diagnóstico.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-abertura",
+   "titulo_capitulo": "Prova da Abertura — 0.1 e 0.2"
+  },
+  {
+   "id": "prova-abertura-q5",
+   "capitulo": 30,
+   "arquivo": "livro/provas/prova-abertura.md",
+   "tipo": "numerica",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/0-2-fundamentos.md:O4",
+    "livro/0-1-introducao.md:O2"
+   ],
+   "enunciado": "Uma equipe tem três conjuntos: treino, validação e teste. Ao longo do projeto ela compara 18 configurações de modelo, escolhe a melhor, corrige dois defeitos encontrados no caminho e reporta o resultado final à diretoria.\n\nSegundo a regra deste livro, quantas vezes o **conjunto de teste** deveria ter sido consultado?",
+   "opcoes": [],
+   "gabarito": "1",
+   "porque": "A tabela das três divisões é explícita: o teste se olha o mínimo possível, idealmente uma vez. Comparar as 18 configurações e verificar as duas correções é trabalho de **validação**, que existe justamente para ser olhada muitas vezes.\n\nA resposta errada mais comum é 3, contando uma consulta para a escolha e uma para cada correção. Ela é errada por um motivo mecânico, não estilístico: cada consulta que muda uma decisão transfere um pouco da informação do teste para dentro do modelo, e o número reportado no fim já não é imparcial.\n\nE o custo é invisível. Não há erro na tela nem alarme: o número apenas vai ficando menos verdadeiro, e a diferença só aparece em produção, quando não há mais como saber quanto dele era real.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-abertura",
+   "titulo_capitulo": "Prova da Abertura — 0.1 e 0.2",
+   "gabarito_num": {
+    "valor": 1,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "prova-abertura-q6",
+   "capitulo": 30,
+   "arquivo": "livro/provas/prova-abertura.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/0-1-introducao.md:O1",
+    "livro/0-2-fundamentos.md:O1"
+   ],
+   "enunciado": "Um sistema de triagem de currículos foi treinado em 2021 e mede 0,89 de acurácia no teste separado na época. Em 2026 ele continua com o mesmo código, o mesmo modelo e os mesmos pesos. Uma auditoria mede a acurácia sobre os currículos que chegaram neste ano: 0,63.\n\nQual afirmação explica isso sem inventar uma falha que o enunciado não sustenta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O modelo tinha overfitting em 2021, e o 0,89 era otimista desde sempre."
+    },
+    {
+     "correta": true,
+     "texto": "A métrica de 2021 era uma promessa condicional, e a condição deixou de valer: o modelo não mudou, mudou a população de currículos."
+    },
+    {
+     "correta": false,
+     "texto": "O conjunto de teste de 2021 estava contaminado por vazamento, e a queda revela isso."
+    },
+    {
+     "correta": false,
+     "texto": "A acurácia é uma métrica inadequada, e com outra métrica os dois números coincidiriam."
+    }
+   ],
+   "gabarito": "a métrica era promessa condicional, e a condição deixou de valer",
+   "porque": "As três alternativas erradas têm algo em comum: todas acusam um defeito de 2021 que o enunciado não dá evidência nenhuma para sustentar. Overfitting e vazamento produziriam queda **imediata**, não cinco anos depois, e trocar de métrica não reconcilia duas medições feitas sobre populações diferentes.\n\nA resposta correta não acusa ninguém. O número de 2021 dizia \"se o futuro se parecer com este conjunto, o erro será aproximadamente este\", e isso valia. O que aconteceu foi a condição expirar — currículos, vocabulário, formação e mercado de 2026 não são os de 2021.\n\nEsse é o modo de envelhecimento que distingue um sistema aprendido de um programado, e é a razão de a métrica precisar ser reportada com a condição junto. Um número sem a condição é meia informação, e cinco anos depois é a metade que faltava que decide.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-abertura",
+   "titulo_capitulo": "Prova da Abertura — 0.1 e 0.2"
+  },
+  {
+   "id": "prova-parte-i-q1",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-1-ciclo-ciencia-de-dados.md:O2",
+    "livro/capitulos/i-6-representacao.md:O4"
+   ],
+   "enunciado": "Uma rede de academias quer prever quais alunos vão cancelar a matrícula. A equipe técnica se reúne na segunda-feira e sai com uma lista de trinta atributos derivados do histórico de frequência.\n\nNa sexta, a área comercial informa que só consegue agir sobre um aluno **no dia da renovação mensal**, e que a lista precisa estar pronta sete dias antes.\n\nO que essa informação torna necessário?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Nada nos atributos: basta programar a entrega da lista com sete dias de antecedência."
+    },
+    {
+     "correta": true,
+     "texto": "Refazer os atributos com corte na data de decisão, porque qualquer um que use frequência dos últimos sete dias não existirá no momento em que a lista precisa sair."
+    },
+    {
+     "correta": false,
+     "texto": "Trocar o modelo por um de série temporal, já que agora há uma data envolvida."
+    },
+    {
+     "correta": false,
+     "texto": "Aumentar a janela de histórico de trinta para noventa dias, para compensar os sete dias perdidos."
+    }
+   ],
+   "gabarito": "refazer os atributos com corte na data de decisão",
+   "porque": "A restrição de ação é entrega da fase 1, e ela não é burocracia: ela determina sozinha quais atributos podem existir. Sete dias de antecedência significa que tudo o que o modelo usa precisa ser conhecido sete dias antes da renovação.\n\nA primeira alternativa é o erro que a Parte I inteira combate, e ele é sedutor porque parece uma questão de agendamento. Um atributo de \"frequência nos últimos sete dias\" calculado sobre o histórico completo funciona perfeitamente no treino e é impossível de calcular em produção no instante certo. O modelo fica ótimo e inútil.\n\nA terceira confunde \"há prazo\" com \"há série temporal\", e a quarta trata como problema de volume o que é problema de disponibilidade da informação no momento da decisão.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q2",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-2-coleta-integracao.md:O4",
+    "livro/capitulos/i-3-dados.md:O1"
+   ],
+   "enunciado": "Um pipeline monta o conjunto de treino de um modelo de cancelamento juntando a tabela de contratos com a tabela de clientes. A tabela de clientes é sincronizada toda madrugada, sobrescrevendo a linha do cliente. A coluna `situacao` vem dessa tabela.\n\nO modelo atinge desempenho três vezes melhor que qualquer tentativa anterior. Onde está o problema, e de que tipo ele é?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "É um problema de modelagem: o modelo está com capacidade demais e decorou o treino."
+    },
+    {
+     "correta": true,
+     "texto": "É um problema de integração: a junção não recorta o tempo, então `situacao` chega com o estado de hoje colado num contrato antigo, e o rótulo entra disfarçado de atributo."
+    },
+    {
+     "correta": false,
+     "texto": "É um problema de amostragem: a base tem contratos demais de um período só."
+    },
+    {
+     "correta": false,
+     "texto": "Não há problema: desempenho melhor indica que os atributos novos funcionaram."
+    }
+   ],
+   "gabarito": "problema de integração, com junção sem recorte de tempo",
+   "porque": "O item cruza a pergunta de procedência com as fontes de vazamento, e a resposta depende das duas. Uma tabela sobrescrita carrega sempre o estado de **hoje**; uma junção sem recorte temporal cola esse hoje num fato de meses atrás. O cliente que cancelou em novembro aparece como cancelado também no contrato de janeiro.\n\nA primeira alternativa é a leitura mais comum e manda consertar o lugar errado. Decorar produziria treino bom e validação ruim; aqui a validação também fica boa, porque ela sofre do mesmo vazamento.\n\nA última é a que o entusiasmo produz, e o capítulo dá a regra de ofício contra ela: resultado bom demais é hipótese de vazamento até prova em contrário, e a prova se procura na origem das colunas, não na métrica.\n\nO reparo é dar tempo à dimensão, com validade por versão ou snapshot datado, e isso exige que alguém tenha decidido guardar história antes. É por isso que a pergunta de procedência se faz na coleta: na modelagem já é tarde.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q3",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-4-analise-exploratoria.md:O2",
+    "livro/capitulos/i-5-visualizacao-storytelling.md:O1"
+   ],
+   "enunciado": "Uma analista precisa mostrar à diretoria o tempo de espera no atendimento. Média 14 min, mediana 6 min, e uma cauda de casos acima de 90 min.\n\nQuais escolhas respeitam o que a Parte I ensina? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Reportar a mediana como o tempo típico, e a cauda separadamente."
+    },
+    {
+     "correta": true,
+     "texto": "Usar histograma ou boxplot, porque a pergunta é de distribuição."
+    },
+    {
+     "correta": false,
+     "texto": "Usar um gráfico de barras com a média por dia da semana, que é a forma mais legível para diretoria."
+    },
+    {
+     "correta": true,
+     "texto": "Escrever no título a conclusão, por exemplo que metade é atendida em até 6 minutos e uma minoria espera mais de uma hora."
+    },
+    {
+     "correta": false,
+     "texto": "Reportar só a média, porque um número único é mais fácil de decidir em cima."
+    }
+   ],
+   "gabarito": "mediana como típico · histograma ou boxplot · título com a conclusão",
+   "porque": "As três corretas encadeiam a escolha da medida, a escolha da forma e a escolha do título, e as três decorrem do mesmo fato: a distribuição é assimétrica, com média bem acima da mediana.\n\nA barra com a média por dia responde a outra pergunta, de comparação e evolução, e usa exatamente a estatística que apaga a cauda que interessa. Reportar só a média é pior: ela descreve uma espera que quase ninguém vive, nem quem espera 6 minutos nem quem espera 90.\n\nO título com a conclusão é o item que mais gente deixa passar, e tem um efeito colateral útil: escrever a afirmação obriga a verificar se o gráfico a sustenta. Um título que precisa citar dois números é o sinal de que a distribuição tem duas histórias, e é isso mesmo que a diretoria precisa ouvir.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q4",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-4-analise-exploratoria.md:O3",
+    "livro/capitulos/i-1-ciclo-ciencia-de-dados.md:O3"
+   ],
+   "enunciado": "Uma equipe explora a base por três semanas, cruza dezenas de variáveis e encontra que clientes de um determinado plano cancelam muito mais. Reporta o achado como conclusão, com o valor-p calculado sobre a mesma base, e a diretoria aprova mudar o plano.\n\nQuais são os dois erros, e de que fases eles são?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Explorar demais e reportar rápido demais; os dois são da fase 2."
+    },
+    {
+     "correta": true,
+     "texto": "Confirmar a hipótese no conjunto que a escolheu, e tratar um achado da fase 2 como decisão da fase 5 sem passar pela pergunta da fase 1."
+    },
+    {
+     "correta": false,
+     "texto": "Usar valor-p em vez de intervalo de confiança, e não estratificar a amostra."
+    },
+    {
+     "correta": false,
+     "texto": "Não há erro: exploração longa aumenta a confiança no achado."
+    }
+   ],
+   "gabarito": "confirmar onde escolheu, e pular da fase 2 para a decisão",
+   "porque": "O primeiro erro é o da fronteira entre explorar e confirmar: escolher o padrão mais forte entre dezenas e testá-lo nos mesmos dados garante que o teste já nasceu contaminado pela escolha. O produto legítimo de uma exploração é uma lista de hipóteses ordenada, não uma conclusão.\n\nO segundo é de processo, e o CRISP-DM o nomeia. Um achado da fase 2 virou decisão de negócio sem passar pela fase 1, ou seja, sem que ninguém perguntasse qual decisão vai mudar, de quem, e com qual critério de sucesso. É a seta de volta da fase 2 para a 1, que existe justamente para isso.\n\nA última alternativa inverte a relação: exploração longa aumenta o número de padrões examinados, e portanto aumenta a chance de o mais forte ser o extremo do ruído. Mais tempo explorando exige mais disciplina na confirmação, não menos.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q5",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-6-representacao.md:O2",
+    "livro/capitulos/i-3-dados.md:O2"
+   ],
+   "enunciado": "Uma variável categórica `turno` tem 3 valores. Ela entra numa **regressão logística com intercepto**, e a validação é feita por validação cruzada de 5 dobras.\n\nQuantas colunas *dummy* devem ser criadas para `turno`?",
+   "opcoes": [],
+   "gabarito": "2",
+   "porque": "A regra é k − 1 colunas para k categorias quando há intercepto, então 2. Com as três, elas somam 1 em toda linha, que é exatamente o que a coluna do intercepto já vale, e o sistema perde a solução única.\n\nA validação cruzada aparece no enunciado por outro motivo, e é o cruzamento que o item cobra: o número de dummies não muda com ela, mas **onde a codificação é calculada** muda. Toda transformação aprendida dos dados entra dentro de cada dobra, com o treino daquela dobra, e não antes.\n\nPara one-hot puro isso quase não importa, porque a transformação não olha o alvo nem estatística nenhuma da coluna. Para codificação pelo alvo importa muito, e é essa distinção que faz a regra valer a pena decorar como \"estatística aprendida entra no laço\", em vez de \"sempre transforme dentro da dobra\".",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados",
+   "gabarito_num": {
+    "valor": 2,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "prova-parte-i-q6",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-3-dados.md:O2",
+    "livro/capitulos/i-2-coleta-integracao.md:O1"
+   ],
+   "enunciado": "Um sistema industrial coleta leituras de 60 sensores em 14 máquinas, por dois anos, via fila de mensagens. O modelo vai prever falha em máquinas do mesmo parque, incluindo três que serão instaladas no ano que vem.\n\nQual conjunto de cuidados a divisão exige?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Embaralhar as leituras e estratificar pela taxa de falha, que é rara."
+    },
+    {
+     "correta": true,
+     "texto": "Dividir por tempo, garantir que nenhuma máquina apareça nos dois lados, e deduplicar antes, porque a fila entrega ao menos uma vez."
+    },
+    {
+     "correta": false,
+     "texto": "Dividir por máquina apenas, já que a estrutura de grupo é a mais forte aqui."
+    },
+    {
+     "correta": false,
+     "texto": "Usar validação cruzada de 10 dobras sobre as leituras, que é mais robusta que divisão única."
+    }
+   ],
+   "gabarito": "tempo, grupo e deduplicação",
+   "porque": "Três estruturas se acumulam, e ignorar qualquer uma invalida a medição. **Tempo**, porque o parque, a operação e o desgaste mudam em dois anos. **Grupo**, porque o caso de uso declarado inclui máquinas novas, e um modelo que aprende a reconhecer a máquina vai bem no teste e falha exatamente onde foi prometido.\n\nA terceira vem da coleta, e é a que quase ninguém lembra numa questão de divisão: fila entrega ao menos uma vez, então duplicata é comportamento normal. Leituras duplicadas caindo dos dois lados da divisão fazem o teste medir memória, e nenhuma disciplina de tempo ou de grupo detecta isso.\n\nA alternativa da validação cruzada é a mais elegante e a mais enganosa. Robustez contra ruído amostral não conserta viés: dez dobras embaralhadas erradas produzem uma estimativa errada com intervalo estreito, que é pior do que uma estimativa errada e visivelmente incerta.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q7",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-3-dados.md:O3",
+    "livro/capitulos/i-2-coleta-integracao.md:O4"
+   ],
+   "enunciado": "Uma equipe vai usar uma base pública de imagens médicas, baixada sem cadastro, para treinar um produto comercial. Quais perguntas a Parte I obriga a responder antes? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Qual é a licença, e se ela permite uso comercial e redistribuição."
+    },
+    {
+     "correta": true,
+     "texto": "Como um exemplo entrou nesta base, que é onde mora o viés de seleção."
+    },
+    {
+     "correta": true,
+     "texto": "Como o alvo foi rotulado, e por quem."
+    },
+    {
+     "correta": false,
+     "texto": "Qual é a correlação de cada atributo com o diagnóstico, para descartar os fracos cedo."
+    },
+    {
+     "correta": true,
+     "texto": "Se há dado pessoal e, havendo, se está anonimizado."
+    }
+   ],
+   "gabarito": "licença · como o exemplo entrou · como o alvo foi rotulado · dado pessoal",
+   "porque": "As quatro corretas são perguntas da ficha de dataset, e nenhuma delas se responde olhando as colunas: todas exigem procurar quem produziu a base. É esse o ponto da ficha, e é por isso que ela vem antes do treino.\n\nDuas merecem destaque neste caso. Download aberto não é permissão: acesso descreve como o arquivo é distribuído, não o que a licença autoriza, e uso comercial é justamente o que costuma ser restrito em base médica. E \"como o alvo foi rotulado\" decide o teto do modelo — se o diagnóstico veio de um sistema anterior, o modelo aprende aquele sistema, não a doença.\n\nA alternativa errada é de outra etapa e, pior, seria enganosa aqui: correlação com o alvo medida na base inteira é o sintoma típico de vazamento, e nenhuma pergunta de qualidade detecta problema de procedência. Coluna vazada é limpa, completa e preditiva.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q8",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-6-representacao.md:O3",
+    "livro/capitulos/i-4-analise-exploratoria.md:O1"
+   ],
+   "enunciado": "Uma tabela tem `renda_mensal` (milhares de reais, distribuição com cauda longa à direita) e `anos_de_estudo` (0 a 25). A equipe vai comparar dois modelos: um k-NN e uma floresta aleatória.\n\nO que a diferença de escala exige de cada um?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Dos dois, porque escalas díspares sempre prejudicam o treino."
+    },
+    {
+     "correta": true,
+     "texto": "Do k-NN, que soma unidades diferentes numa distância; da floresta, nada, porque cada corte olha um atributo por vez."
+    },
+    {
+     "correta": false,
+     "texto": "Da floresta, que compara atributos entre si ao escolher o corte."
+    },
+    {
+     "correta": false,
+     "texto": "De nenhum, desde que a renda seja transformada por logaritmo antes."
+    }
+   ],
+   "gabarito": "exige do k-NN, e nada da floresta",
+   "porque": "A resposta depende do modelo, e essa é a resposta que quase ninguém dá. O k-NN define vizinhança por distância, e distância soma unidades diferentes: sem escala comum, a renda em milhares domina os anos de estudo só porque os números são maiores. A floresta é indiferente, porque padronizar é transformação monotônica dentro de cada atributo e não muda a ordem dos valores.\n\nA terceira alternativa inverte a mecânica da árvore, que nunca compara dois atributos na mesma conta.\n\nA quarta é a mais interessante, porque mistura duas decisões diferentes. Transformar a renda por logaritmo é uma resposta à **assimetria**, que é uma questão de forma da distribuição, e ajuda a leitura e alguns modelos. Ela não substitui a padronização exigida pelo k-NN: depois do logaritmo as duas variáveis continuam em unidades diferentes.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q9",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-1-ciclo-ciencia-de-dados.md:O4",
+    "livro/capitulos/i-3-dados.md:O4"
+   ],
+   "enunciado": "Um time de quatro pessoas técnicas opera há dois anos um modelo que aprova pedidos de reembolso. A base de treino cresce todo mês com os pedidos processados. O desempenho medido nunca caiu. Ninguém foi designado para conversar com a área que recebe as reclamações dos reembolsos negados.\n\nQual é o diagnóstico mais completo?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Não há problema: desempenho estável por dois anos é o melhor sinal possível."
+    },
+    {
+     "correta": true,
+     "texto": "Duas fases estão sem dono, e a base cresce por uma porta que o próprio modelo filtra, então o desempenho estável mede uma fatia cada vez mais estreita."
+    },
+    {
+     "correta": false,
+     "texto": "Há viés de seleção, e a solução é coletar mais dados por mais tempo."
+    },
+    {
+     "correta": false,
+     "texto": "Falta um engenheiro de ML, que é quem monitoraria a fase 6."
+    }
+   ],
+   "gabarito": "duas fases sem dono, e a base filtrada pelo próprio modelo",
+   "porque": "O item soma um diagnóstico de processo com um de coleta, e cada um sozinho deixa metade do problema de pé.\n\nDo lado do processo: num time só de gente técnica a fase 1 fica sem dono, e aqui a fase 5 também, porque ninguém pergunta se o resultado resolve o problema de quem recebe as reclamações. Fase sem responsável declarado é diferente de pessoa com dois chapéus, que é normal e funciona.\n\nDo lado da coleta: cada pedido novo entra na base já filtrado pela decisão anterior do modelo. Os negados não geram histórico de desfecho, e o sistema fica mais confiante sobre uma população que ele mesmo selecionou. Por isso a terceira alternativa é a armadilha: mais dados pela mesma porta pioram o problema, e o erro cresce junto com a base.\n\nA quarta acerta uma lacuna real e para cedo. Monitorar a fase 6 detectaria queda de métrica, e aqui a métrica não cai — ela mede a fatia estreita com precisão crescente.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-i-q10",
+   "capitulo": 31,
+   "arquivo": "livro/provas/prova-parte-i.md",
+   "tipo": "completar",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/i-6-representacao.md:O1",
+    "livro/capitulos/i-1-ciclo-ciencia-de-dados.md:O1"
+   ],
+   "enunciado": "Complete a fase do CRISP-DM em que se decide como o dado vira uma tabela treinável, com atributos construídos e rótulo definido. É também a fase mais revisitada do ciclo:\n\n`fase ______ — preparação dos dados`",
+   "opcoes": [],
+   "gabarito": "3|três|tres",
+   "porque": "A fase 3 entrega o pacote que a modelagem consome: divisões feitas, atributos construídos, rótulo definido. Ela é a mais revisitada porque cada erro do modelo, na fase 4, devolve trabalho para ela.\n\nO cruzamento com o capítulo de representação é o que dá sentido a decorar isto. As três decisões de representação (como codificar categórica, se a escala importa, e que atributo não está lá) são todas tomadas dentro da fase 3, e é por isso que a fase mais revisitada é também aquela onde o teto do projeto é decidido.\n\nQuem monta o cronograma reservando tempo para \"modelar\" e tratando a preparação como etapa que acontece uma vez está orçando o projeto errado, e vai gastar a diferença sem tê-la previsto.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-i",
+   "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
   }
  ],
  "videos": [

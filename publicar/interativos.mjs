@@ -196,6 +196,11 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
       // mecânica de correção é a mesma. Quem consome isto segmenta ranking e
       // barra de progresso, para que um item tudo-ou-nada não afogue o sinal.
       secao: attrs.secao || "corpo",
+      // Item de prova é CRUZADO por definição (ADR 0014): declara os objetivos
+      // de dois capítulos ou mais, e é isso que o distingue de "mais um
+      // exercício". Cada entrada tem a forma "<arquivo-do-capitulo>:O<n>".
+      // Quem cobra a regra é exercicios.mjs; aqui só se carrega o campo.
+      objetivos: Array.isArray(attrs.objetivos) ? attrs.objetivos : null,
       enunciado,
       opcoes,
       gabarito: meta.gabarito || null,
