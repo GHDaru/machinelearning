@@ -25,21 +25,21 @@ O erro que este capítulo previne é tratar isso como problema de otimização d
 
 **O que se fazia antes.** SQL direto sobre o transacional, com muitos `GROUP BY` encadeados — lento, e reescrito por inteiro a cada nova pergunta. O conhecimento acumulado ficava nas consultas de alguém, não no modelo.
 
-**A virada.** Parar de tratar o dado como *tabelas* e passar a tratá-lo como **cubo**: eixos (as **dimensões** — produto, região, tempo) e **medidas** (o que se soma — receita, quantidade). Com as agregações **pré-computadas**, mudar de pergunta deixa de ser reescrever a consulta e vira **navegar**: descer o nível de detalhe, subir, fatiar, girar.
+**A virada.** Parar de tratar o dado como *tabelas* e passar a tratá-lo como **cubo**: eixos, que são as dimensões (produto, região, tempo), e medidas, que é o que se soma (receita, quantidade). Com as agregações pré-computadas, mudar de pergunta deixa de ser reescrever a consulta e vira navegar: descer o nível de detalhe, subir, fatiar, girar.
 
 **A ideia reaproveitável.** **Trocar espaço e frescor por tempo de resposta é uma decisão de projeto, não um detalhe.** O cubo é essa troca tornada arquitetura: ele ocupa mais disco, duplica dado e responde com números de ontem — em troca de responder *agora*. É o mesmo padrão do [capítulo I.5](i-5-visualizacao-storytelling.md), onde Playfair inventa a barra por falta de dados, e do [capítulo III.1](iii-1-neuronio-artificial.md), onde o neurônio nasce sem aprendizado porque não havia como treinar: **restrição material gera forma nova**, e a forma sobrevive à restrição que a criou.
 
-**O nome.** *Online Analytical Processing* (OLAP) é cunhado no relatório de **1993** de **E. F. Codd, S. B. Codd e C. T. Salley**, *"Providing OLAP to User-Analysts: An IT Mandate"*, que também lista **12 regras** para o que seria um produto OLAP legítimo. Codd é o mesmo Codd do modelo relacional — o que dá ao documento uma autoridade imediata.
+**O nome.** *Online Analytical Processing* (OLAP) é cunhado no relatório de 1993 de **E. F. Codd, S. B. Codd e C. T. Salley**, *"Providing OLAP to User-Analysts: An IT Mandate"*, que também lista **12 regras** para o que seria um produto OLAP legítimo. Codd é o mesmo Codd do modelo relacional, o que dá ao documento uma autoridade imediata.
 
 ### O episódio que convém não omitir
 
 E aqui entra a parte incômoda, com o cuidado que ela exige.
 
-**A versão corrente é que** o relatório que cunhou "OLAP" foi **patrocinado pela Arbor Software**, fabricante do Essbase — um produto lançado no ano anterior —, e que as 12 regras coincidiam notavelmente com as características desse produto. **Conta-se também que** o patrocínio não estava declarado no documento, que a *Computerworld* apurou o caso, e que o artigo acabou retirado.
+**A versão corrente é que** o relatório que cunhou "OLAP" foi **patrocinado pela Arbor Software**, fabricante do Essbase, um produto lançado no ano anterior, e que as 12 regras coincidiam notavelmente com as características desse produto. **Conta-se também que** o patrocínio não estava declarado no documento, que a *Computerworld* apurou o caso, e que o artigo acabou retirado.
 
 **Registre o estatuto disto:** é uma acusação de conduta envolvendo pessoas reais, e **a fonte primária não foi conferida** — o material da *Computerworld* da época não foi aberto para escrever este capítulo. O que existe aqui é um relato repetido de forma consistente em fontes secundárias. Por isso o selo é ⏳, e por isso o texto diz "a versão corrente é que", nunca "aconteceu que". A diferença entre essas duas formas é o capítulo inteiro em matéria de método. O que se sabe com segurança é o resto: Codd seguiu reconhecido como o pai do modelo relacional, e a categoria OLAP permaneceu — e prosperou por três décadas.
 
-**Por que não omitir.** Porque ensina uma coisa que nenhum tutorial ensina: **categorias de tecnologia às vezes nascem de marketing, não de necessidade técnica.** Antes de aceitar que uma categoria é natural — *data lakehouse*, *feature store*, *vector database* —, pergunte de onde ela veio e quem se beneficia de ela existir. É a lição de ceticismo mais barata deste livro, e a única que você vai usar em toda contratação de ferramenta pelo resto da carreira. Note o detalhe fino: a técnica do cubo era **boa e resolvia um problema real** — o que está em causa é a *embalagem*, não a *engenharia*. As duas coisas podem ser julgadas em separado.
+**Por que não omitir.** Porque ensina uma coisa que nenhum tutorial ensina: **categorias de tecnologia às vezes nascem de marketing, não de necessidade técnica.** Antes de aceitar que uma categoria é natural (*data lakehouse*, *feature store*, *vector database*), pergunte de onde ela veio e quem se beneficia de ela existir. É a lição de ceticismo mais barata deste livro, e a única que você vai usar em toda contratação de ferramenta pelo resto da carreira. Note o detalhe fino: a técnica do cubo era **boa e resolvia um problema real** — o que está em causa é a *embalagem*, não a *engenharia*. As duas coisas podem ser julgadas em separado.
 
 **Procedência das afirmações desta seção:**
 
@@ -110,7 +110,7 @@ Um cubo de vendas tem três dimensões, no grão mais fino: **Produto** (40 prod
 Partindo do cubo completo, você aplica um **slice** em Tempo = março e, em seguida, um **roll-up** de produto para categoria. Quantas células tem o cubo resultante?
 
 > **gabarito:** 40 ± 0
-> **porque:** O cubo completo tem 40 × 5 × 12 = **2 400** células. O **slice** fixa um valor de uma dimensão (março), sobrando 40 × 5 = **200**. O **roll-up** sobe Produto de 40 itens para 8 categorias: 8 × 5 = **40** células.
+> **porque:** O cubo completo tem 40 × 5 × 12 = 2 400 células. O *slice* fixa um valor de uma dimensão (março), sobrando 40 × 5 = 200. O *roll-up* sobe Produto de 40 itens para 8 categorias: 8 × 5 = **40** células.
 >
 > Dois erros comuns valem a atenção. O primeiro é achar que o roll-up **descarta** dado: ele não descarta, ele **agrega** — a receita das 40 células vira a receita das 8, e a soma total continua a mesma. O segundo é confundir slice com dice: se em vez de "março" você tivesse pedido "março e abril, no Sul e no Sudeste", seria um **dice**, e o resultado seria 8 × 2 × 2 = 32. E note o que o número mostra: você saiu de 2 400 células para 40 sem escrever consulta nova — foi exatamente isso que a arquitetura comprou.
 > **volte para:** #as-cinco-operacoes
@@ -122,7 +122,7 @@ Este é o detalhe que separa quem entendeu o modelo de quem decorou o desenho. M
 
 **Aditivas** — somam em **todas** as dimensões. Receita, quantidade vendida, custo. É o caso confortável, e o que todo mundo assume por padrão.
 
-**Semi-aditivas** — somam em **algumas** dimensões e não em outras. O exemplo clássico é **estoque**: somar o estoque de um produto **ao longo das lojas** faz todo sentido (é o estoque da rede); somar o estoque **ao longo do tempo** não significa nada — janeiro tinha 100 unidades, fevereiro tinha 100 unidades, e "200" não descreve coisa nenhuma. Ao longo do tempo, o que faz sentido é o **último valor** ou a **média**. Saldo bancário e número de assinantes ativos têm exatamente o mesmo comportamento.
+**Semi-aditivas** somam em algumas dimensões e não em outras. O exemplo clássico é o estoque: somar o estoque de um produto ao longo das lojas faz todo sentido, porque é o estoque da rede; somar o estoque ao longo do tempo não significa nada, já que janeiro tinha 100 unidades, fevereiro tinha 100 unidades, e "200" não descreve coisa nenhuma. Ao longo do tempo, o que faz sentido é o último valor ou a média. Saldo bancário e número de assinantes ativos têm exatamente o mesmo comportamento.
 
 **Não aditivas** — não somam em dimensão nenhuma. Razões e percentuais: a margem média de duas lojas não é a soma das margens, nem a média simples delas. A regra é guardar no fato os **componentes** (receita e custo) e calcular a razão **depois** da agregação, no nível pedido.
 
@@ -130,7 +130,7 @@ Um painel que soma coluna semi-aditiva ao longo do tempo é um dos erros mais si
 
 ### Do cubo ao modelo
 
-O cubo responde "o que aconteceu"; o modelo preditivo responde "o que vai acontecer" — e os dois consomem o **mesmo** trabalho de base. A tabela que um modelo consome é, quase sempre, um cubo **achatado num grão escolhido**: uma linha por entidade-e-instante, medidas agregadas em janelas (receita nos últimos 30 dias, número de compras no trimestre) e atributos vindos das dimensões. Duas armadilhas na travessia. A primeira: **o grão do cubo vira o grão do dataset**, e um grão grosso demais impede o modelo de existir. A segunda, e mais grave: agregar sem respeitar o **corte de tempo** é o vazamento do [capítulo I.3](i-3-dados.md) na forma mais fácil de cometer — se a janela de agregação inclui informação posterior ao instante da previsão, seu modelo tem um desempenho excelente e inútil.
+O cubo responde "o que aconteceu"; o modelo preditivo responde "o que vai acontecer", e os dois consomem o mesmo trabalho de base. A tabela que um modelo consome é, quase sempre, um cubo **achatado num grão escolhido**: uma linha por entidade-e-instante, medidas agregadas em janelas (receita nos últimos 30 dias, número de compras no trimestre) e atributos vindos das dimensões. Duas armadilhas na travessia. A primeira: **o grão do cubo vira o grão do dataset**, e um grão grosso demais impede o modelo de existir. A segunda, e mais grave: agregar sem respeitar o **corte de tempo** é o vazamento do [capítulo I.3](i-3-dados.md) na forma mais fácil de cometer — se a janela de agregação inclui informação posterior ao instante da previsão, seu modelo tem um desempenho excelente e inútil.
 
 :::exercicio {"id":"analise-multidimensional-e3","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Você propõe um esquema estrela para o repositório analítico. Um colega, DBA experiente, recusa: *"Isso viola a terceira forma normal. A categoria do produto vai estar repetida em milhares de linhas da dimensão. Se alguém renomear uma categoria, você tem anomalia de atualização. Normalize."*
@@ -165,13 +165,13 @@ Escreva a resposta que você daria a ele — reconhecendo o que ele tem de razã
 :::exercicio {"id":"analise-multidimensional-e4","tipo":"aberta","objetivo":"O4","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
 **Desafio de fechamento.** O cubo já calcula, para cada loja, a média de vendas do mês e o total do trimestre. Você quer usar essas agregações como variáveis de um modelo que prevê a venda **da próxima semana** — sai de graça, já está pronto. Descreva a verificação que você faria **antes**, para não vazar o futuro para dentro do passado, e diga como a agregação teria de ser recalculada para servir ao modelo.
 
-> **rubrica:** identifica que a agregação do cubo é calculada sobre o período **inteiro** — inclusive dias posteriores à data que a linha do modelo representa — e que isso coloca informação do futuro numa variável do passado;
+> **rubrica:** identifica que a agregação do cubo é calculada sobre o período **inteiro**, inclusive dias posteriores à data que a linha do modelo representa, e que isso coloca informação do futuro numa variável do passado;
 > propõe a correção concreta: a agregação de cada linha só pode usar dados **até a data daquela linha** (janela que termina antes do alvo), o que significa recalcular por linha em vez de reaproveitar a célula do cubo;
 > explica por que o sintoma é enganoso — a métrica fica ótima, e fica ótima **também na validação**, porque o vazamento está dentro do atributo e acompanha o dado onde ele for;
 > não confunde o problema com o grão nem com desnormalização: reduzir o grão ou normalizar a tabela não conserta nada, porque o defeito é **temporal**, não estrutural
 > **porque:** É o ponto de encontro dos dois capítulos, e a armadilha é boa porque o atalho é genuinamente tentador: o cubo **já tem** o número, com desempenho que ninguém vai bater recalculando.
 >
-> O que ele não tem é a **assimetria temporal**. O cubo foi construído para responder ao analista, que olha o passado inteiro de uma vez e para quem "média do mês" significa o mês fechado. O modelo pergunta outra coisa — *o que se sabia naquele instante* — e a mesma célula, lida com essa pergunta, contém dias que ainda não tinham acontecido.
+> O que ele não tem é a **assimetria temporal**. O cubo foi construído para responder ao analista, que olha o passado inteiro de uma vez e para quem "média do mês" significa o mês fechado. O modelo pergunta outra coisa, *o que se sabia naquele instante*, e a mesma célula, lida com essa pergunta, contém dias que ainda não tinham acontecido.
 >
 > Repare no terceiro critério, que é o que torna este erro caro: o vazamento **viaja dentro do atributo**. Dividir treino e teste corretamente não ajuda em nada, porque as duas partes carregam a mesma contaminação, e a validação confirma o resultado em vez de denunciá-lo. Só produção revela — e revela caro.
 > **volte para:** #do-cubo-ao-modelo
