@@ -19,6 +19,21 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — excesso de certeza sobre Gauss × Legendre (caps. II.2 e III.1)
+- **O livro afirmava mais do que a fonte.** Dizia que "a avaliação histórica moderna
+  é que Gauss tinha o método antes". O estudo de referência da disputa diz: *"It is
+  argued (though not conclusively) that Gauss probably possessed the method well
+  before Legendre, but that he was unsuccessful in communicating it"* — e acrescenta
+  que dados do arco meridiano francês poderiam um dia permitir verificação
+  definitiva. O caso segue **aberto**, e o capítulo passa a dizer isso.
+- **A correção vazava para outro capítulo.** Três passagens do III.1 tratavam a
+  descoberta anterior como fato, uma delas dentro do gabarito de um exercício.
+  Foram alinhadas no mesmo commit.
+- Stigler ganhou selo ✓ᵃ com volume, páginas e DOI. As notas de Olbers e Bessel e o
+  ataque de Legendre em 1820 continuam ⏳: o resumo fala em *"new evidence, both
+  documentary and statistical"* **sem nomear qual**, e ✓ᵃ não autoriza afirmar o que
+  está no corpo do artigo.
+
 ### Alterado — a linhagem da curva ROC ganha ficha, e o que não abriu fica dito (cap. II.1)
 - **"Peterson *et al.*, 1954" virou a citação inteira:** Peterson, Birdsall & Fox,
   *"The theory of signal detectability"*, *Transactions of the IRE* 4(4):171–212,

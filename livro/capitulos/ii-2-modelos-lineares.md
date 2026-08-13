@@ -45,7 +45,9 @@ E há a razão pedagógica: é no modelo linear que otimização, regularizaçã
 
 **Legendre publicou primeiro**, em 1805, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando usar o método desde 1795.
 
-Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes. A avaliação histórica moderna é que Gauss provavelmente **tinha** o método antes e **falhou em comunicá-lo**.
+Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes.
+
+O estudo de referência sobre a disputa é o de **Stephen Stigler** (1981), e vale citar a conclusão dele com o hedge que ele mesmo pôs: *"It is argued (though not conclusively) that Gauss probably possessed the method well before Legendre, but that he was unsuccessful in communicating it to his contemporaries."* Argumenta-se, **sem concluir**, que Gauss provavelmente tinha o método bem antes, e que falhou em comunicá-lo. Stigler acrescenta que dados do arco meridiano francês poderiam, concebivelmente, permitir uma verificação definitiva — ou seja, o caso segue **aberto**, e não resolvido a favor de Gauss.
 
 > **O espelho disto está no [capítulo III.1](iii-1-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e Schmidhuber resume: *não é o primeiro inventor que leva o crédito, é o último reinventor*. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
 >
@@ -56,9 +58,8 @@ Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se
 | Selo | Afirmação |
 |---|---|
 | ✓ᵐ | Legendre (1805) e Gauss (1809): obra, ano e conteúdo geral. Nenhuma das duas lida no original |
-| ✓ᵐ | [Stigler, "Gauss and the Invention of Least Squares", *Annals of Statistics*, 1981](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full) — localizado e identificado, **não lido** |
-| ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820 |
-| ⏳ | A avaliação de que Gauss tinha o método antes mas falhou em comunicá-lo |
+| ✓ᵃ | A tese que **Stigler declara** e o trecho citado entre aspas, do resumo de ["Gauss and the Invention of Least Squares"](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full), *Annals of Statistics* 9(3):465–474, 1981, [10.1214/aos/1176345451](https://doi.org/10.1214/aos/1176345451) — **resumo lido no original; o corpo, não** |
+| ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820. O resumo de Stigler fala em "new evidence, both documentary and statistical", **sem nomear quais** — e o selo ✓ᵃ não autoriza afirmar o que está no corpo do artigo |
 | 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo III.1 |
 
 ## Fundamentos: regressão linear como minimização

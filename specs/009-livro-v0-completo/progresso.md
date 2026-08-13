@@ -63,7 +63,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | **ok** | **ok** |
-| 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 11 | II.3 — Regressão Logística | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
 | 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 13 | II.5 — Árvores e Ensembles | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -151,6 +151,19 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > em vez de documento, o da universidade respondeu com desafio de robô. A linha
 > ficou ⏳ **com as tentativas registradas**, que é mais útil do que ⏳ sozinho:
 > quem retomar sabe o que já falhou.
+>
+> **No II.2 o achado foi de EXCESSO DE CERTEZA, e ele vazava para outro capítulo.**
+> O livro dizia que "a avaliação histórica moderna é que Gauss tinha o método
+> antes"; o estudo de referência diz *"it is argued (though not conclusively) that
+> Gauss probably possessed the method"* e acrescenta que dados do arco meridiano
+> poderiam um dia permitir verificação definitiva. O caso segue **aberto**. Três
+> passagens do III.1 afirmavam a descoberta como fato, uma delas dentro de um
+> gabarito, e foram alinhadas no mesmo commit.
+>
+> **A lição de varredura:** quando um capítulo é corrigido, `grep` no livro inteiro
+> pelo nome próprio envolvido. Afirmação histórica viaja entre capítulos, e corrigir
+> só onde a fonte está citada deixa a versão errada viva onde ela é usada como
+> exemplo.
 >
 > **A regra que este ciclo deixou:** resumo de máquina não confere fonte. Ao ler a
 > carta do *double descent*, uma extração automática afirmou que ela **não**

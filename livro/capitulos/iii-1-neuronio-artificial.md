@@ -70,7 +70,7 @@ A saída, em 1986, tem uma moral que vale além da história: **a limitação nu
 
 E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram** o backpropagation; a descrição é de Linnainmaa, dezesseis anos antes, em finlandês, sem mencionar redes neurais. Jürgen Schmidhuber, que passou anos reivindicando a atribuição correta, resume assim: **não é o primeiro inventor que leva o crédito, é o último reinventor.**
 
-> **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss descobriu os mínimos quadrados antes e **perdeu** a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar faz parte do método, não da burocracia.
+> **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss **provavelmente** tinha os mínimos quadrados antes e perdeu a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. O "provavelmente" é do estudo de referência sobre a disputa, que argumenta sem concluir. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar faz parte do método, não da burocracia.
 
 > **Sobre "um italiano em 1979".** Essa memória circula, e não encontrei quem a sustente. O que existe em 1979 são as publicações de Werbos (americano) e o neocognitron de Fukushima (japonês, em inglês no ano seguinte); a prioridade de 1970 é de Linnainmaa, finlandês. Se você tiver a referência, ela entra aqui — até lá o livro registra a dúvida em vez de escolher uma versão.
 
@@ -200,7 +200,7 @@ Qual frase resume o padrão de crédito que este capítulo e o [II.2](ii-2-model
 - [ ] Quem publica em inglês leva o crédito, e o idioma é a única variável.
 
 > **gabarito:** crédito não segue descoberta, segue comunicação
-> **porque:** Os dois casos juntos dizem o que nenhum diz sozinho. Linnainmaa descreve o método em 1970, em finlandês, sem mencionar redes, e o crédito fica com quem o popularizou em 1986. Gauss descobre os mínimos quadrados antes e perde a prioridade para Legendre, que publicou primeiro.
+> **porque:** Os dois casos juntos dizem o que nenhum diz sozinho. Linnainmaa descreve o método em 1970, em finlandês, sem mencionar redes, e o crédito fica com quem o popularizou em 1986. Gauss provavelmente tinha os mínimos quadrados antes e perde a prioridade para Legendre, que publicou primeiro.
 >
 > A primeira alternativa é justamente a regra que os dois casos refutam: Gauss tinha o registro e mesmo assim perdeu.
 >
