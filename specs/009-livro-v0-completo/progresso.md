@@ -60,7 +60,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 4 | I.2 — Coleta e Integração | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | **ok** | — |
 | 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
@@ -125,6 +125,17 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > (paywall), mas os onze pontos de cada conjunto foram recalculados, e o capítulo
 > trocou "praticamente idênticas" por uma tabela com os seis números. Selo ✓ para
 > os valores, ✓ᵐ para a ficha do artigo, e a diferença entre os dois declarada.
+>
+> **E no I.5 o livro se pegou errando uma citação.** A frase de Playfair estava na
+> forma que circula nas secundárias (*"As the knowledge of mankind increases…"*);
+> o texto da terceira edição, digitalizado, diz *"As knowledge increases amongst
+> mankind…"*. A diferença não muda o sentido, e é por isso que sobreviveu: variação
+> que não atrapalha a leitura não é corrigida por ninguém. O capítulo passou a
+> registrar o próprio erro, porque é o padrão que o V.4 descreve, achado em casa.
+>
+> **Truque de busca que essa passagem deixou:** digitalização de texto antigo usa o
+> s longo, e o OCR devolve `ſ` ou `f`. Buscar a frase literal falha; normalizar
+> antes de buscar acha. Duas edições foram varridas assim.
 >
 > **A regra que este ciclo deixou:** resumo de máquina não confere fonte. Ao ler a
 > carta do *double descent*, uma extração automática afirmou que ela **não**

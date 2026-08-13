@@ -19,6 +19,23 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — a citação de Playfair, no capítulo I.5, estava na forma que circula
+- **O livro se pegou errando uma citação.** O capítulo trazia *"As **the knowledge
+  of mankind increases**, and transactions multiply…"*, que é a forma repetida em
+  fontes secundárias. O texto de Playfair, lido na digitalização da **terceira
+  edição** do atlas, diz *"As **knowledge increases amongst mankind**…"* — e segue
+  por mais uma oração, que o capítulo cortava sem marcar.
+- **A frase também estava no lugar errado:** era atribuída à edição de 1786, e está
+  na introdução da terceira edição. Ela **não aparece** no texto da de 1787.
+- **Entrou uma frase nova, que data a invenção pela mão do autor:** *"It is now
+  sixteen years since I first thought of applying lines to subjects of Finance."*
+  A terceira edição é de 1801, e dezesseis anos antes dá 1785, o ano da edição
+  preliminar privada que o capítulo já citava.
+- **O capítulo registra o próprio erro ao leitor**, porque é o padrão que o V.4
+  descreve: a procedência apodrece antes do conteúdo, e variação que não atrapalha
+  a leitura não é corrigida por ninguém. Desta vez o caso é de dentro de casa.
+- Beniger & Robyn ganhou ficha com DOI; a frase citada deles continua ⏳.
+
 ### Alterado — o quarteto de Anscombe deixa de ser "praticamente idêntico" (cap. I.4)
 - **Os seis números entraram numa tabela**, recalculados sobre os onze pontos de
   cada conjunto: médias de 9,00 e 7,50, variância de x igual a 11,00 nos quatro,

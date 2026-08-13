@@ -31,7 +31,13 @@ Visualização é interface. Como toda interface, ela pode ser honesta ou pode e
 
 É o mesmo padrão do [capítulo III.1](iii-1-neuronio-artificial.md), em que McCulloch e Pitts fazem um neurônio **sem aprendizado** porque não havia como treinar, e do [capítulo II.6](ii-6-analise-multidimensional.md), onde o cubo OLAP pré-computa porque a consulta era lenta demais. Restrição material gera forma nova; e a forma sobrevive à restrição que a criou.
 
-**O nome.** *The Commercial and Political Atlas*, 1786 (com uma edição preliminar privada em 1785). O próprio Playfair explicou por que insistia: *"As the knowledge of mankind increases, and transactions multiply, it becomes more and more desirable to abbreviate and facilitate the modes of conveying information."*
+**O nome.** *The Commercial and Political Atlas*, 1786 (com uma edição preliminar privada em 1785). O próprio Playfair explicou por que insistia, na introdução da terceira edição:
+
+> *"As knowledge increases amongst mankind, and transactions multiply, it becomes more and more desirable to abbreviate and facilitate the modes of conveying information from one person to another, and from one individual to the many."*
+
+Duas linhas adiante ele data a própria invenção: *"It is now sixteen years since I first thought of applying lines to subjects of Finance."* A terceira edição é de 1801, e dezesseis anos antes dá **1785**, que é justamente o ano da edição preliminar privada.
+
+> **Este livro se pegou errando esta frase.** Até 2026-08, o parágrafo acima citava *"As the knowledge of mankind increases…"*, que é a forma que circula em fontes secundárias. O texto de Playfair diz *"As knowledge increases amongst mankind…"*. A diferença não muda o sentido, e é exatamente por isso que ela sobreviveu: **variação que não atrapalha a leitura não é corrigida por ninguém.** É o padrão que o [capítulo V.4](v-4-fronteira.md) descreve, a procedência apodrecendo antes do conteúdo, encontrado desta vez dentro de casa e por leitura da fonte.
 
 **Procedência das afirmações desta seção:**
 
@@ -39,8 +45,9 @@ Visualização é interface. Como toda interface, ela pode ser honesta ou pode e
 |---|---|
 | ✓ᵐ | Playfair, *The Commercial and Political Atlas* (1786; edição preliminar privada em 1785), e a invenção do gráfico de linhas e do de barras |
 | ⏳ | Que antes disso o padrão fosse a tabela lida linha a linha |
-| ⏳ | A citação de Beniger & Robyn (1978), *"driven to this invention by a lack of data"*, tomada de [friendly.github.io/HistDataVis](https://friendly.github.io/HistDataVis/ch05-playfair.html) — fonte secundária que cita a primária; **não conferida** em Beniger & Robyn |
-| ⏳ | A frase do próprio Playfair — citada de forma consistente em várias secundárias; **não conferida** na edição de 1786 |
+| ⏳ | A citação de Beniger & Robyn, *"driven to this invention by a lack of data"*, tomada de [friendly.github.io/HistDataVis](https://friendly.github.io/HistDataVis/ch05-playfair.html) — fonte secundária que cita a primária. A **ficha** do artigo está conferida (*The American Statistician* 32(1):1–11, 1978, [10.1080/00031305.1978.10479235](https://doi.org/10.1080/00031305.1978.10479235)); a **frase**, não |
+| ✓ | As duas frases de Playfair citadas acima, lidas no texto da **terceira edição do atlas (1801)**, digitalizada no Internet Archive: a da introdução e a dos "sixteen years", que datam a invenção em 1785 |
+| ❌ | **Correção de 2026-08-13.** Este capítulo trazia a frase da introdução como *"As **the knowledge of mankind increases**, and transactions multiply…"*, que é a forma que circula nas secundárias. O texto de Playfair diz *"As **knowledge increases amongst mankind**…"*, e segue por mais uma oração, que o capítulo cortava sem marcar. A frase estava atribuída à edição de 1786; ela está na introdução da **terceira** edição, e **não aparece** no texto da de 1787 |
 | 📖 | A leitura de que "uma restrição de dados pode gerar uma forma nova", e o paralelo com os capítulos III.1 e 23 |
 
 ## Fundamentos: a pergunta escolhe o gráfico
