@@ -23,7 +23,7 @@ Isso não é uma anedota de iniciante. **Foi o estado normal do campo até cerca
 
 **O aperto — Munique, 15 de junho de 1991.** Um aluno de **graduação** da Technische Universität München entrega uma *Diplomarbeit* de 74 páginas e faz o que ninguém tinha feito: em vez de propor mais um truque, ele **mede** por que o erro não chega às camadas do fundo.
 
-Vale ler a folha de rosto com atenção, porque ela contraria a lembrança coletiva. O autor assina **Josef Hochreiter** — não "Sepp". O *Aufgabensteller*, o orientador formal, é o **Prof. W. Brauer**. **Jürgen Schmidhuber** aparece como *Betreuer*, o supervisor de fato. E o capítulo 4 do trabalho já se chama **"Konstanter Fehlerrückfluß"** — refluxo *constante* do erro. Isto é: **a LSTM de 1997 já estava nomeada em 1991**, seis anos antes de existir. A §2.3 diz, em alemão, que o produto dos pesos "exponentiell fällt bzw. steigt": cai ou cresce exponencialmente.
+Vale ler a folha de rosto com atenção, porque ela contraria a lembrança coletiva. O autor assina **Josef Hochreiter**, não "Sepp". O *Aufgabensteller*, o orientador formal, é o Prof. W. Brauer. Jürgen Schmidhuber aparece como *Betreuer*, o supervisor de fato. E o capítulo 4 do trabalho já se chama **"Konstanter Fehlerrückfluß"** — refluxo *constante* do erro. Isto é: **a LSTM de 1997 já estava nomeada em 1991**, seis anos antes de existir. A §2.3 diz, em alemão, que o produto dos pesos "exponentiell fällt bzw. steigt": cai ou cresce exponencialmente.
 
 **O que se fazia antes.** Culpava-se a arquitetura, os dados, o passo de aprendizado. Tratava-se sintoma. Cada equipe tinha seu conjunto de superstições sobre o que fazia uma rede profunda treinar, e nenhuma delas explicava por que o remédio funcionava aqui e falhava ali.
 
@@ -119,7 +119,7 @@ A conexão residual fecha o argumento de forma quase literária: se o problema �
 
 **Normalização.** A *batch normalization* (Ioffe & Szegedy, 2015) padroniza as ativações de cada camada usando as estatísticas do lote; a *layer normalization* faz o mesmo usando as estatísticas de **cada exemplo**, dentro da camada — o que a torna a escolha quando o lote é pequeno ou o comprimento varia, como em sequências.
 
-**Dropout.** Srivastava, Hinton *et al.* (JMLR, 2014) desligam unidades ao acaso durante o treino. Repare que este remédio resolve **outro** problema: é regularização, combate *overfitting*, não o gradiente. A anedota do caixa de banco que roda de guichê para impedir conluio entre funcionários — usada para explicar por que impedir a coadaptação entre neurônios ajuda — circula muito e **não foi conferida em fala primária**: ⏳.
+**Dropout.** Srivastava, Hinton *et al.* (JMLR, 2014) desligam unidades ao acaso durante o treino. Repare que este remédio resolve **outro** problema: é regularização, combate *overfitting*, não o gradiente. A anedota do caixa de banco que roda de guichê para impedir conluio entre funcionários, usada para explicar por que impedir a coadaptação entre neurônios ajuda, circula muito e **não foi conferida em fala primária**: ⏳.
 
 **Otimizadores.** Adam (Kingma & Ba, 2014) mantém estimativas de primeiro e segundo momentos do gradiente e adapta o passo por parâmetro. Na prática: converge rápido e **perdoa uma taxa de aprendizado mal escolhida** — o que é exatamente sua virtude e seu risco, porque esconde diagnósticos. SGD (*Stochastic Gradient Descent*) com momento, bem ajustado e com boa agenda de taxa, ainda entrega generalização igual ou melhor em visão, ao custo de exigir mais ajuste manual. Critério honesto: **Adam para começar e para iterar rápido; SGD com momento quando o último ponto percentual importa e há orçamento para ajustar.** E nenhum dos dois conserta uma exponencial.
 
@@ -164,7 +164,7 @@ Diga o que você mediria **antes** de propor qualquer correção, qual é o diag
 > explica **por que a troca de otimizador não podia funcionar**: otimizador reescala o passo, não restaura sinal que chegou como 10⁻²⁰ — nenhum hiperparâmetro conserta uma exponencial;
 > propõe correções que atacam o produto (ReLU, inicialização He, conexões residuais, normalização), não hiperparâmetros;
 > distingue os sintomas: perda travada = gradiente sumindo; perda em `NaN` = gradiente explodindo, e aí o remédio é o grampo
-> **porque:** A resposta fraca escolhe um remédio — "use ReLU", "põe batch norm" — e pode até acertar por sorte. A resposta forte faz o que a tese de 1991 fez: **mede primeiro**. Uma linha que imprime a norma do gradiente por camada encerra a discussão em minutos, e mostra a queda de várias ordens de grandeza entre a camada 40 e a camada 1.
+> **porque:** A resposta fraca escolhe um remédio ("use ReLU", "põe batch norm") e pode até acertar por sorte. A resposta forte faz o que a tese de 1991 fez: **mede primeiro**. Uma linha que imprime a norma do gradiente por camada encerra a discussão em minutos, e mostra a queda de várias ordens de grandeza entre a camada 40 e a camada 1.
 >
 > As três semanas perdidas são o conteúdo do exercício, não um detalhe do enunciado. Otimizador, taxa de aprendizado e volume de dados são todos ajustes **multiplicativos sobre um sinal que não existe**. Nenhum deles poderia funcionar, e isso era previsível antes do primeiro teste — bastava conhecer o diagnóstico.
 >
@@ -186,7 +186,7 @@ Diga o que você mediria **antes** de propor qualquer correção, qual é o diag
 - **"Funciona" e "sabemos por quê" são afirmações independentes.** A batch norm é o caso-modelo: o método sobreviveu, a explicação não.
 
 :::exercicio {"id":"treinar-redes-profundas-e5","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
-**Desafio de fechamento.** Você usa dropout, normalização em lote e aumento de dados no mesmo treino. Para **cada um**, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso — **sem recorrer à justificativa que veio no artigo original**.
+**Desafio de fechamento.** Você usa dropout, normalização em lote e aumento de dados no mesmo treino. Para cada um, diga qual problema ele ataca e como você **mediria** se está ajudando neste seu caso, **sem recorrer à justificativa que veio no artigo original**.
 
 > **rubrica:** separa os alvos: dropout e aumento de dados atacam generalização (o vão entre treino e validação), enquanto a normalização em lote atua sobre a otimização — e não trata os três como "regularização" indistinta;
 > propõe, para cada um, uma medição concreta e comparável — treinar com e sem o componente, tudo o mais igual, e olhar a quantidade que ele deveria mover;
