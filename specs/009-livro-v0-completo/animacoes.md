@@ -38,7 +38,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | II.5 | árvore crescendo corte a corte com o ganho de Gini; depois o boosting, com o resíduo médio encolhendo por árvore |
 | II.6 | **não animar** — drill-down é navegação; cubo girando é decoração |
 | II.7 | **feita** — as 8 dobras de origem móvel avançando, contra a linha do embaralhado: 1,47 contra 0,76 sem quebra, e 3,07 contra 0,82 com quebra de regime |
-| II.8 | custo do falso negativo de 1 para 10: o limiar ótimo se deslocando e o lucro esperado em reais |
+| II.8 | **feita** — custo do FN de 1 a 10: o limiar ótimo DESCENDO de 0,46 a 0,115, colado na fórmula 1/(1+custo), e o botão que espreme a calibração e derruba a fórmula |
 | III.1 | **feito** — o perceptron aprendendo, e o XOR onde ele não para |
 | III.2 | **feito** — MLP no mesmo XOR do III.1: as duas retas girando, mais o botão que tira a camada e o que estraga a inicialização |
 | III.3 | **feita** — a retropropagação descendo 20 camadas: 1,4e-12 na primeira com sigmoide + Xavier, 1,2e-3 com ReLU + Xavier (a ReLU sozinha não basta) e 0,86 com ReLU + He |
@@ -429,3 +429,35 @@ ensinaria que erro de método é detalhe.
 O teste foi **visto falhando**: tirei o embaralhamento (mantendo o corte 80/20 em
 ordem cronológica) e a linha do sinal acusou na hora — o "embaralhado" passou a
 errar **mais** que a origem móvel, 1,89 contra 1,47.
+
+
+## O que a décima primeira animação ensinou (II.8, 2026-08)
+
+**Escore calibrado por construção transformou a animação de tendência em
+resultado.** Sorteando o escore e depois y ~ Bernoulli(escore), o limiar ótimo
+passa a ter forma fechada, **1/(1+custo)**, e o tracejado da fórmula pode ser
+desenhado por cima da curva medida. O leitor vê as duas coincidirem, e o teste
+confere o desvio médio (0,015 ao longo da varredura). Sem a calibração por
+construção, a animação mostraria uma curva descendo e pediria fé.
+
+**O segundo botão é a contraprova, e ele vale mais que o primeiro.** Espremer os
+escores para perto de 0,3 preserva a ORDEM (a AUC não muda) e mata a calibração.
+A fórmula desaba na hora: o limiar ótimo quase para de responder ao custo, indo
+de 0,34 a 0,26 onde deveria ir de 0,50 a 0,11. É a distinção do II.1 entre
+ordenar e calibrar, aparecendo como dinheiro perdido em vez de nota de rodapé.
+
+**Uma asserção do teste nasceu arbitrária e foi corrigida.** Eu tinha escrito
+"desvio médio do espremido > 0,15", e ele reprovou com 0,104. O número 0,15 era
+chute; o que a afirmação diz é "a fórmula deixa de ser um bom guia", e isso só
+existe **em relação** ao caso em que ela é um bom guia. A asserção virou
+`dEsp > dCal * 4`, e 0,104 contra 0,015 passa com folga. Corrigir o corte para o
+teste passar seria trapaça; trocar um corte arbitrário pela comparação que a
+frase realmente faz é o conserto.
+
+**O número para a reunião não é uma métrica.** Manter o limiar em 0,50 "porque é
+o padrão" custa **2 220 a mais por mil casos** quando o falso negativo vale 10.
+É o O2 do capítulo (traduzir métrica em consequência) numa linha do placar.
+
+O teste foi **visto falhando**: tirei o peso do falso negativo da conta de custo
+e quatro das seis linhas acusaram, incluindo a da direção — o limiar parou de
+descer.

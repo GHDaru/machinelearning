@@ -154,6 +154,20 @@ Aqui o capítulo cumpre o seu nome. Toda decisão binária tem quatro resultados
 
 Preenchida a tabela, o limiar ótimo deixa de ser opinião: é o corte que **maximiza o benefício esperado**. E, seguindo Elkan, preencha-a em **benefício**, com a linha de base sendo *o que aconteceria se você não fizesse nada*.
 
+:::lab {"id":"do-modelo-a-decisao-l1","tipo":"anima-custo","titulo":"Encareça o falso negativo e veja para onde o limiar vai"}
+O modelo não muda em nenhum quadro desta animação. Os escores são os mesmos do começo ao fim. O que sobe é o **custo do falso negativo**, de 1 a 10, com o falso positivo valendo 1; a linha azul é o limiar que minimiza o custo esperado, medido por varredura.
+
+**Antes de assistir, preveja a direção.** Deixar passar um positivo ficou dez vezes mais caro que dar um alarme falso. O limiar ótimo sobe ou desce?
+
+**Desce**, de 0,46 para 0,115. A intuição diz "preciso ter mais certeza antes de agir", e ela está exatamente invertida: o que encareceu foi **não agir**. Quando errar por omissão dói mais, o corte certo é apontar mais gente, aceitando mais alarme falso de propósito.
+
+O tracejado é a fórmula **1/(1 + custo)**, e a linha medida a acompanha. Não é coincidência: com escore calibrado, esse é o corte ótimo, e ele sai de uma conta de duas linhas. A animação está exibindo um resultado, não uma tendência.
+
+**O preço de não decidir.** Quem deixa o limiar em 0,50 "porque é o padrão" não fica parado: no custo 10, essa inércia sai **2 220 mais cara por mil casos** que o corte ótimo. Esse é o número para levar à reunião, e ele não é uma métrica estatística.
+
+> **Agora clique em "E se o escore não fosse calibrado?".** Os escores são espremidos para perto de 0,3, o que **preserva a ordem** e mata a calibração: a AUC não muda, e o modelo continua ordenando igual. A fórmula desaba na hora — o limiar ótimo medido quase para de responder ao custo, indo de 0,34 a 0,26 onde deveria ir de 0,50 a 0,11. É a terceira pergunta do [capítulo II.1](ii-1-avaliacao.md), a da calibração, aparecendo aqui como dinheiro perdido em vez de refinamento técnico. **Se a decisão a jusante multiplica a probabilidade por um valor, calibração deixou de ser opcional.**
+:::
+
 Três avisos que economizam retrabalho:
 
 **Os números não são seus.** Quem sabe quanto custa um falso negativo é a área de risco, a área médica, o jurídico. O seu papel é **exigir os números e registrar quem os forneceu** — porque quando o limiar for questionado, a pergunta vai ser "quem decidiu isso?".

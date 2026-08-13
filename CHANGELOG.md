@@ -6,6 +6,28 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação do custo, e o limiar que desce quando encarece errar (cap. II.8)
+- **Décima primeira animação** (`anima-custo`): o custo do falso negativo sobe de
+  1 a 10 e o limiar ótimo anda por causa disso. O modelo não muda em nenhum
+  quadro; muda quanto dói cada tipo de erro.
+- **O leitor erra a direção.** O limiar **desce**, de 0,46 para 0,115. A intuição
+  diz "preciso ter mais certeza antes de agir"; o que encareceu foi **não agir**.
+- **É resultado, não tendência.** Os escores são calibrados por construção, então
+  o limiar ótimo tem forma fechada, 1/(1+custo), desenhada em tracejado por cima
+  da curva medida. Desvio médio de 0,015 ao longo da varredura.
+- **O número para a reunião:** manter 0,50 "porque é o padrão" custa **2 220 a
+  mais por mil casos** quando o falso negativo vale 10.
+- **O segundo botão é a contraprova.** Espremendo os escores para perto de 0,3, a
+  ordem se mantém (a AUC não muda) e a calibração morre: o limiar ótimo quase
+  para de responder ao custo, indo de 0,34 a 0,26 onde deveria ir de 0,50 a 0,11.
+  A terceira pergunta do II.1 aparece como dinheiro perdido.
+- **Uma asserção do teste nasceu arbitrária e foi corrigida.** Exigia desvio do
+  espremido acima de 0,15 e reprovou com 0,104. O 0,15 era chute; a afirmação é
+  "a fórmula deixa de ser um bom guia", que só existe em relação ao caso em que
+  ela é um bom guia. Virou `dEsp > dCal * 4` (0,104 contra 0,015).
+- Teste **visto falhando**: retirado o peso do falso negativo da conta, quatro das
+  seis linhas acusaram, incluindo a da direção.
+
 ### Adicionado — a animação da origem móvel, e o erro que aparece MENOR (cap. II.7)
 - **Décima animação** (`anima-origem-movel`): a mesma série, o mesmo modelo, os
   mesmos atributos, avaliados de dois jeitos. As oito dobras de origem móvel

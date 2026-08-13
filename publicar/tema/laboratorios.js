@@ -2637,13 +2637,160 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+  // A animação do capítulo II.8: o custo do falso negativo subindo de 1 a 10, e o
+  // LIMIAR ÓTIMO andando por causa disso. O modelo não muda em nenhum quadro; o
+  // que muda é quanto dói cada tipo de erro.
+  //
+  // O leitor erra a previsão na DIREÇÃO. Perguntado o que acontece com o limiar
+  // quando errar por omissão fica dez vezes mais caro, a resposta intuitiva é
+  // "sobe, é preciso ter mais certeza". Ele desce, porque o que ficou caro foi
+  // deixar passar. E há um segundo erro dentro do primeiro: quem mantém 0,50 "por
+  // padrão" não fica parado, fica cada vez mais caro.
+  //
+  // Os escores são CALIBRADOS por construção (sorteia-se s, depois y ~ Bernoulli(s)),
+  // e isso não é conveniência: com escore calibrado o limiar ótimo tem forma
+  // fechada, 1/(1+custo). A animação passa a exibir um resultado conferível em vez
+  // de uma tendência, e o teste confere a curva medida contra a fórmula. O segundo
+  // botão espreme os escores para o meio, e é aí que a fórmula deixa de valer —
+  // que é a terceira pergunta do capítulo II.1 aparecendo como consequência de
+  // dinheiro, e não como refinamento técnico.
+  function animaCusto(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bCal;
+    var N = 4000, GRID = 200, C0 = 1, C1 = 10, PASSO = 0.25, POR = 1000;
+    var BASE = (function () {
+      var r = rng(19), v = [], i, s;
+      for (i = 0; i < N; i++) {
+        s = Math.min(0.95, Math.max(0.02, (r() + r() + r()) / 3 * 0.6));
+        v.push({ s: s, y: r() < s ? 1 : 0 });           // calibrado por construção
+      }
+      return v;
+    })();
+    var est = { custo: C0, trilha: [], parou: false, espremido: false, dados: BASE };
+
+    /** Espremer o escore para perto de 0,3 preserva a ORDEM e mata a calibração. */
+    function espremer(v) {
+      return v.map(function (p) { return { s: 0.3 + (p.s - 0.3) * 0.25, y: p.y }; });
+    }
+
+    /** Custo esperado por mil casos, com o falso positivo valendo 1. */
+    function gasto(lim, cFN) {
+      var fp = 0, fn = 0, i, d = est.dados;
+      for (i = 0; i < N; i++) {
+        if (d[i].s >= lim) { if (!d[i].y) fp++; }
+        else if (d[i].y) fn++;
+      }
+      return (fp + fn * cFN) / N * POR;
+    }
+
+    function otimo(cFN) {
+      var melhor = null, i, lim, g;
+      for (i = 0; i <= GRID; i++) {
+        lim = i / GRID;
+        g = gasto(lim, cFN);
+        if (melhor == null || g < melhor.g) melhor = { lim: lim, g: g };
+      }
+      return melhor;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, p, c;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 18, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.espremido ? "escore espremido" : "escore calibrado") +
+                   " · limiar ótimo medido, contra 1/(1+custo)", x0, PAD + 12);
+      function px(cc) { return x0 + ((cc - C0) / (C1 - C0)) * larg; }
+      function py(l) { return base - l * alt; }
+      ctx.strokeStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (i = 0; i <= 60; i++) {
+        c = C0 + (C1 - C0) * i / 60;
+        if (i === 0) ctx.moveTo(px(c), py(1 / (1 + c))); else ctx.lineTo(px(c), py(1 / (1 + c)));
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      est.trilha.forEach(function (q, j) {
+        if (j === 0) ctx.moveTo(px(q.c), py(q.lim)); else ctx.lineTo(px(q.c), py(q.lim));
+      });
+      ctx.stroke();
+      p = est.trilha[est.trilha.length - 1];
+      if (p) {
+        ctx.fillStyle = escuro ? "#e6e6e4" : "#1c1c1c";
+        ctx.beginPath(); ctx.arc(px(p.c), py(p.lim), 3.5, 0, 6.2832); ctx.fill();
+      }
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("custo do FN = 1", x0, base + 14);
+      ctx.fillText("= 10", x0 + larg - 24, base + 14);
+      ctx.fillText("limiar 1,0", x0, PAD + 26);
+      ctx.fillText("limiar 0,0", x0, base - 3);
+    }
+
+    function texto() {
+      var p = est.trilha[est.trilha.length - 1];
+      if (!p) { placar.textContent = "pronto para rodar"; return; }
+      placar.textContent =
+        (est.espremido ? "escore espremido" : "escore calibrado") +
+        " · custo do falso negativo " + p.c.toFixed(2) +
+        " · limiar ótimo " + p.lim.toFixed(3) +
+        " · a fórmula 1/(1+custo) dá " + (1 / (1 + p.c)).toFixed(3) +
+        " · custo por " + POR + " casos " + p.g.toFixed(1) +
+        " · mantendo 0,50 seria " + p.g50.toFixed(1) +
+        (est.parou
+          ? " · no custo " + C1 + ", manter 0,50 sai " + (p.g50 - p.g).toFixed(1) +
+            " mais caro por " + POR + " casos"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var o = otimo(est.custo);
+      est.trilha.push({ c: est.custo, lim: o.lim, g: o.g, g50: gasto(0.5, est.custo) });
+      est.custo += PASSO;
+      if (est.custo > C1 + 1e-9) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(espremido) {
+      est.espremido = espremido;
+      est.dados = espremido ? espremer(BASE) : BASE;
+      est.custo = C0; est.trilha = []; est.parou = false;
+      rel.comecar(Math.ceil((C1 - C0) / PASSO) + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bCal.textContent = est.espremido ? "Voltar ao escore calibrado"
+                                       : "E se o escore não fosse calibrado?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.espremido); });
+    bCal = botao("E se o escore não fosse calibrado?", function () { rodar(!est.espremido); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 90);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
                 "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento,
                 "anima-limiar": animaLimiar, "anima-gradiente": animaGradiente,
-                "anima-origem-movel": animaOrigemMovel };
+                "anima-origem-movel": animaOrigemMovel, "anima-custo": animaCusto };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
