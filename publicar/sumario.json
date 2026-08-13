@@ -241,6 +241,11 @@
           "arquivo": "livro/provas/prova-parte-v.md",
           "titulo": "Prova da Parte V — No mundo real",
           "teaser": "Dez itens cruzados sobre os quatro capítulos da Parte V."
+        },
+        {
+          "arquivo": "livro/provas/prova-final.md",
+          "titulo": "Prova final — o livro inteiro",
+          "teaser": "Quatorze itens que cruzam partes, e não apenas capítulos."
         }
       ]
     },

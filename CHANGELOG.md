@@ -19,6 +19,16 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — a prova final, e as sete provas do livro completas
+- **Prova final** (`livro/provas/prova-final.md`), quatorze itens que cruzam
+  **partes**, e não apenas capítulos: a hipótese de mesma distribuição contra
+  drift; o XOR como problema de representação; acurácia enganosa e silhueta
+  enganosa como a mesma armadilha; o vazamento da Parte I reaparecendo como
+  divergência entre treino e serviço na Parte V.
+- Com ela, as **7 provas** existem: seis de parte mais a final, 70 itens, todos
+  determinísticos, com cenário inédito e sem `volte para`. Nenhuma vale nota, e
+  nenhuma entra no corpus do tutor.
+
 ### Adicionado — a Parte V fecha, e com ela os 29 capítulos
 - **Prova da Parte V** (`livro/provas/prova-parte-v.md`), dez itens cruzados
   sobre os quatro capítulos da parte, todos com cenário inédito e correção

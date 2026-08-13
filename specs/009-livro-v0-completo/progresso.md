@@ -28,7 +28,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > | III | `prova-parte-iii.md` | 10 | **ok** |
 > | IV | `prova-parte-iv.md` | 8 | **ok** |
 > | V | `prova-parte-v.md` | 10 | **ok** |
-> | Final cumulativa | — | — | por último |
+> | Final cumulativa | `prova-final.md` | 14 | **ok** |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
 > capítulo: 23 dos 29 animam, 6 não, e o critério é o do [ADR 0015](../../adr/0015-animacao-e-laboratorio-sem-manopla.md).
@@ -79,7 +79,13 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
 | 29 | V.4 — Fronteira e Expiração | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
 
-**Totais:** 114 objetivos · 398 exercícios hoje (342 de capítulo + 56 de prova) · **342 no alvo — a coluna `exs` fechou nos 29 capítulos**.
+**Totais:** 114 objetivos · 412 exercícios hoje (342 de capítulo + 70 de prova) · **342 no alvo — as colunas `exs` e `prova` fecharam nos 29 capítulos**.
+
+> **As 7 provas existem.** As seis de parte cruzam capítulos dentro da parte; a
+> final cruza **partes**, que é a diferença que ela existe para cobrar. Nenhuma
+> vale nota, por decisão do ADR 0014: pontua-se por ter feito, nunca por ter
+> acertado. E nenhuma entra no corpus do tutor, porque `livro/provas/` está fora
+> dele por construção, com teste de regressão.
 
 > **A `ORFAOS_ACEITOS` do gate ficou vazia.** Era a lista dos objetivos que o
 > livro declarava e não ensinava, e ela existia desde a auditoria de Bloom. Os
