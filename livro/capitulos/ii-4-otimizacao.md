@@ -124,6 +124,23 @@ A curva de perda de treino desce rapidamente nas primeiras épocas e depois osci
 > **volte para:** #diagnostico-pela-curva-de-perda
 :::
 
+:::exercicio {"id":"otimizacao-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Qual dos quatro padrões de curva é o **único** que não pode ser diagnosticado com a curva de treino sozinha?
+
+- [ ] Sobe, oscila muito ou vira NaN.
+- [ ] Desce, mas quase imperceptivelmente.
+- [ ] Desce e estabiliza num patamar.
+- [x] Desce no treino e sobe na validação.
+
+> **gabarito:** desce no treino e sobe na validação
+> **porque:** É a única linha da tabela que cita duas curvas, e por isso a única invisível com uma só. Os outros três padrões são afirmações sobre o formato de uma única série: explosão, lentidão e estabilização.
+>
+> O quarto é uma afirmação sobre a **relação** entre duas séries, e é justamente o problema que custa mais caro. Uma curva de treino descendo bonito é compatível com um modelo que está piorando onde importa.
+>
+> Daí a regra operacional: plote sempre as duas no mesmo gráfico. Não é capricho de apresentação — uma curva sozinha esconde exatamente o problema que o resto do livro passa o tempo tentando evitar.
+> **volte para:** #diagnostico-pela-curva-de-perda
+:::
+
 ## Regularização: impedir que a descida vá longe demais
 
 Minimizar o erro no treino até o fim é decorar. Regularizar é acrescentar à perda um termo que penaliza complexidade:
@@ -169,6 +186,40 @@ Você tem 300 atributos, suspeita que a maioria é irrelevante, e precisa entreg
 > **volte para:** #l2-encolhe-todos-l1-zera-alguns
 :::
 
+:::exercicio {"id":"otimizacao-e8","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Por que a L1 zera coeficientes e a L2 não?
+
+- [ ] Porque a L1 usa valor absoluto, que é sempre positivo.
+- [x] Porque o gradiente da L1 tem magnitude constante, e o da L2 é proporcional ao peso: perto de zero, o empurrão da L2 enfraquece e o da L1 não.
+- [ ] Porque a L1 é aplicada depois do treino e a L2 durante.
+- [ ] Porque a L2 usa um λ menor por convenção.
+
+> **gabarito:** magnitude constante contra empurrão proporcional
+> **porque:** É a última linha da tabela, e ela explica todas as anteriores. O gradiente da penalidade L2 é $2w_j$: quanto mais perto de zero o peso está, mais fraco o empurrão, então ele se aproxima de zero sem nunca chegar. O da L1 é $\text{sign}(w_j)$, que não enfraquece — o peso chega a zero e fica.
+>
+> A primeira alternativa cita a característica visível da fórmula e não explica nada: o quadrado da L2 também é sempre positivo.
+>
+> O efeito medido no capítulo torna a diferença concreta. Com 2 atributos úteis e 8 de ruído, a L2 deixou 10 coeficientes não nulos de 10, e a L1 eliminou pelo menos 4 dos 8 de ruído, preservando os dois úteis.
+> **volte para:** #l2-encolhe-todos-l1-zera-alguns
+:::
+
+:::exercicio {"id":"otimizacao-e9","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Um modelo de crédito tem `renda_declarada` e `renda_comprovada`, quase perfeitamente correlacionadas, e ambas úteis. A equipe quer coeficientes estáveis entre reamostragens. Qual regularização atende melhor, e por quê?
+
+- [x] L2, que encolhe os dois e distribui o peso entre eles, em vez de escolher um arbitrariamente.
+- [ ] L1, porque eliminar um dos dois resolve a redundância de vez.
+- [ ] Nenhuma das duas: colinearidade se resolve removendo uma coluna à mão.
+- [ ] As duas dão o mesmo resultado quando os atributos são correlacionados.
+
+> **gabarito:** L2
+> **porque:** O requisito declarado é **estabilidade**, e é aí que as duas penalidades se separam. Sob colinearidade, a L1 tende a escolher um dos atributos e zerar o outro, e qual dos dois ela escolhe pode mudar com uma reamostragem — o que é exatamente a instabilidade que a equipe quer evitar. A L2 encolhe os dois e reparte o peso entre eles.
+>
+> A segunda alternativa não é absurda, e é a resposta certa para outro requisito. Se o objetivo fosse um modelo enxuto e explicável, zerar um dos dois seria desejável. O enunciado pede outra coisa.
+>
+> A terceira propõe uma decisão razoável e a apresenta como exclusiva. Remover uma coluna à mão é legítimo e frequentemente o melhor caminho, e não dispensa regularizar o resto do modelo.
+> **volte para:** #l2-encolhe-todos-l1-zera-alguns
+:::
+
 ## Early stopping: a regularização de graça
 
 Treine, e a cada época meça a perda **na validação**. Quando ela parar de melhorar por algumas épocas seguidas, pare — e fique com os pesos do melhor momento.
@@ -207,6 +258,40 @@ Quais afirmações sobre early stopping são corretas? (marque todas que valem)
 > **volte para:** #early-stopping-a-regularizacao-de-graca
 :::
 
+:::exercicio {"id":"otimizacao-e10","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Por que parar o treino cedo funciona como regularização?
+
+- [ ] Porque menos épocas significam menos dados vistos, e menos dados evitam decorar.
+- [x] Porque o treino percorre modelos em ordem crescente de complexidade, então parar antes seleciona um modelo menos complexo.
+- [ ] Porque interromper o gradiente injeta ruído, e ruído regulariza.
+- [ ] Porque a perda de validação é sempre menor no início do treino.
+
+> **gabarito:** o treino percorre modelos em ordem crescente de complexidade
+> **porque:** Os pesos começam pequenos e crescem ao longo do treino. Cada época é um modelo um pouco mais expressivo que o da anterior, e parar cedo é escolher um ponto anterior nessa trajetória. É o mesmo efeito de uma penalidade, obtido sem penalizar.
+>
+> A primeira alternativa confunde épocas com dados. O modelo vê o conjunto inteiro a cada época; parar cedo não reduz quantos exemplos ele viu, reduz quanto ele se ajustou a eles.
+>
+> A quarta é falsa como regra: a perda de validação costuma cair no começo e só depois subir. Se ela fosse sempre menor no início, o treino não teria valor nenhum.
+> **volte para:** #early-stopping-a-regularizacao-de-graca
+:::
+
+:::exercicio {"id":"otimizacao-e11","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Ao testar o early stopping num conjunto limpo e separável, o critério nunca dispara. O que se conclui?
+
+- [ ] Que o critério está com defeito e precisa ser corrigido.
+- [x] Que naquele cenário não há sobreajuste a detectar, e um instrumento de diagnóstico pressupõe que o problema exista.
+- [ ] Que o limiar `min_delta` está alto demais.
+- [ ] Que a validação deveria ser trocada pelo treino nesse caso.
+
+> **gabarito:** não há sobreajuste a detectar naquele cenário
+> **porque:** Foi a descoberta que a implementação da etapa 05–06 forçou. Com dados limpos e separáveis, nem a validação estagnava: não existia ponto a partir do qual ajustar mais piorasse, então não havia nada que o critério pudesse detectar. Foi preciso injetar ruído e atributos inúteis para o instrumento ter função.
+>
+> A primeira alternativa é a conclusão natural e errada, e é o motivo de esta lição valer além do early stopping: testar um instrumento num cenário sem o problema não valida nada, e ainda passa a falsa impressão de que ele está quebrado.
+>
+> A quarta é a saída pior de todas, porque conserta o sintoma na direção errada. Com dados separáveis a perda de treino cai indefinidamente, e um critério que a observe nunca dispararia — e, se disparasse, estaria medindo o que o modelo decorou.
+> **volte para:** #as-duas-armadilhas-que-descobrimos-implementando
+:::
+
 :::exercicio {"id":"otimizacao-e4","tipo":"completar","objetivo":"O1","dificuldade":"facil"}
 Complete o nome do hiperparâmetro que define o **tamanho do passo** na atualização abaixo:
 
@@ -217,6 +302,57 @@ Complete o nome do hiperparâmetro que define o **tamanho do passo** na atualiza
 >
 > Repare que ela não muda *para onde* ir — o gradiente já decidiu a direção. Ela só decide **quanto** andar naquela direção. Confundir as duas coisas é a origem da tentativa comum e inútil de "consertar a direção" mexendo na taxa.
 > **volte para:** #fundamentos-descer-sem-enxergar-a-paisagem
+:::
+
+:::exercicio {"id":"otimizacao-e5","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Por que o ruído do mini-batch não é apenas tolerado, mas ajuda?
+
+- [ ] Porque reduz o custo de memória, e memória é o gargalo do treino.
+- [x] Porque uma trajetória perfeitamente lisa desce até o primeiro vale e para lá, enquanto o ruído dá chance de escapar de vales rasos.
+- [ ] Porque o ruído aumenta a taxa de aprendizado efetiva.
+- [ ] Porque o gradiente calculado sobre poucos exemplos é mais preciso.
+
+> **gabarito:** o ruído dá chance de escapar de vales rasos
+> **porque:** O gradiente de lote completo é a direção **mais precisa** da descida, e é exatamente isso que o prende: uma trajetória lisa segue a inclinação local até onde ela some, e para no primeiro mínimo que encontrar.
+>
+> A última alternativa inverte o fato. O gradiente de um mini-batch é uma estimativa **ruidosa** do gradiente verdadeiro, e o valor dele está justamente em ser ruidosa. Precisão, aqui, não é o objetivo.
+>
+> O custo de memória é uma vantagem real do mini-batch e não é a razão que a seção dá. Vale distinguir as duas: a econômica explica por que o mini-batch é viável, e a do ruído explica por que ele é preferível mesmo quando o lote inteiro caberia.
+> **volte para:** #fundamentos-descer-sem-enxergar-a-paisagem
+:::
+
+:::exercicio {"id":"otimizacao-e12","tipo":"multipla-multi","objetivo":"O1","dificuldade":"dificil"}
+Um estudante descreve o gradiente descendente assim: "é a fórmula que calcula os pesos ótimos do modelo". Quais correções o capítulo faz? (marque todas que valem)
+
+- [x] Não é fórmula, é procedimento repetido: sentir a inclinação, dar um passo, sentir de novo.
+- [x] Ele não garante o ótimo, apenas desce enquanto houver inclinação sob os pés.
+- [x] Ele nem sempre vê a paisagem inteira: com mini-batch, cada passo usa uma estimativa ruidosa da inclinação.
+- [ ] Ele só funciona quando existe solução fechada para comparar.
+
+> **gabarito:** procedimento e não fórmula · não garante ótimo · a inclinação é estimada
+> **porque:** As três corretas desfazem a mesma ilusão, que é tratar o gradiente como um cálculo que devolve a resposta. Ele é um laço, e o que ele devolve depende de onde começou, de quanto andou por passo e de quando parou.
+>
+> A imagem da encosta no escuro carrega as três: você não vê o vale, só sente a inclinação onde está, e nada garante que o vale onde você parou seja o mais fundo.
+>
+> A alternativa errada inverte a relação estabelecida no [capítulo II.2](ii-2-modelos-lineares.md). A solução fechada serviu para **conferir** o gradiente onde ela existia, e a conclusão foi o contrário do que a frase sugere: o gradiente é a ferramenta geral, e é justamente onde não há fórmula fechada que ele deixa de ser opcional.
+> **volte para:** #fundamentos-descer-sem-enxergar-a-paisagem
+:::
+
+:::exercicio {"id":"otimizacao-e6","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Uma equipe treina com taxa 500 numa regressão logística e a perda não explode. Conclui que a taxa está adequada. Onde está o erro?
+
+- [ ] Não há erro: ausência de explosão é o critério prático de estabilidade.
+- [x] A perda logística é limitada e satura, então "não explodiu" não é evidência de taxa boa; quem responde é a curva.
+- [ ] O erro é usar taxa fixa em regressão logística, que sempre exige agendamento.
+- [ ] O erro é medir a perda na validação em vez de no treino.
+
+> **gabarito:** a perda logística satura, e ausência de explosão não é evidência
+> **porque:** É a sutileza que o capítulo mediu na etapa 05–06. Com erro quadrático e taxa 50, a perda vira infinito, porque o quadrado não tem teto. Com logística e taxa 500, dez vezes maior, ela não explode: quando a sigmoide satura, o logaritmo é cortado e a perda para de crescer.
+>
+> Há uma segunda razão, específica de problema separável: o primeiro gradiente já aponta na direção certa, e um passo gigante nessa direção **acerta** em vez de divergir.
+>
+> A lição é um critério de confiança, não um número. "Não deu NaN" é ausência de um sintoma, e ausência de sintoma não é diagnóstico.
+> **volte para:** #uma-sutileza-que-quase-ninguem-conta
 :::
 
 ## Mão na massa

@@ -4454,6 +4454,43 @@
    "titulo_capitulo": "II.4 — Otimização e Regularização"
   },
   {
+   "id": "otimizacao-e7",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual dos quatro padrões de curva é o **único** que não pode ser diagnosticado com a curva de treino sozinha?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Sobe, oscila muito ou vira NaN."
+    },
+    {
+     "correta": false,
+     "texto": "Desce, mas quase imperceptivelmente."
+    },
+    {
+     "correta": false,
+     "texto": "Desce e estabiliza num patamar."
+    },
+    {
+     "correta": true,
+     "texto": "Desce no treino e sobe na validação."
+    }
+   ],
+   "gabarito": "desce no treino e sobe na validação",
+   "porque": "É a única linha da tabela que cita duas curvas, e por isso a única invisível com uma só. Os outros três padrões são afirmações sobre o formato de uma única série: explosão, lentidão e estabilização.\n\nO quarto é uma afirmação sobre a **relação** entre duas séries, e é justamente o problema que custa mais caro. Uma curva de treino descendo bonito é compatível com um modelo que está piorando onde importa.\n\nDaí a regra operacional: plote sempre as duas no mesmo gráfico. Não é capricho de apresentação — uma curva sozinha esconde exatamente o problema que o resto do livro passa o tempo tentando evitar.",
+   "volte_para": "#diagnostico-pela-curva-de-perda",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
    "id": "otimizacao-e2",
    "capitulo": 12,
    "arquivo": "livro/capitulos/ii-4-otimizacao.md",
@@ -4484,6 +4521,80 @@
    ],
    "gabarito": "L1",
    "porque": "O requisito declarado é **explicabilidade**, e um modelo com 30 coeficientes não nulos é explicável de um jeito que um modelo com 300 coeficientes pequenos não é. L1 entrega isso porque o gradiente da penalidade tem magnitude constante — o empurrão para zero não enfraquece quando o peso se aproxima de zero, então ele chega lá.\n\nL2 é de fato mais estável numericamente e melhor sob colinearidade, mas **não zera nada**: você terminaria com 300 coeficientes pequenos, tecnicamente regularizados e praticamente ilegíveis. A terceira alternativa inverte a situação: com 300 atributos e suspeita de irrelevância, regularizar é justamente o que **preserva** informação útil, ao impedir que o modelo gaste capacidade ajustando ruído.\n\nNa prática há uma quarta opção que o capítulo não cobre e vale conhecer: *elastic net*, que combina as duas penalidades e costuma se comportar melhor quando os atributos irrelevantes são correlacionados entre si.",
+   "volte_para": "#l2-encolhe-todos-l1-zera-alguns",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
+   "id": "otimizacao-e8",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que a L1 zera coeficientes e a L2 não?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque a L1 usa valor absoluto, que é sempre positivo."
+    },
+    {
+     "correta": true,
+     "texto": "Porque o gradiente da L1 tem magnitude constante, e o da L2 é proporcional ao peso: perto de zero, o empurrão da L2 enfraquece e o da L1 não."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a L1 é aplicada depois do treino e a L2 durante."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a L2 usa um λ menor por convenção."
+    }
+   ],
+   "gabarito": "magnitude constante contra empurrão proporcional",
+   "porque": "É a última linha da tabela, e ela explica todas as anteriores. O gradiente da penalidade L2 é $2w_j$: quanto mais perto de zero o peso está, mais fraco o empurrão, então ele se aproxima de zero sem nunca chegar. O da L1 é $\\text{sign}(w_j)$, que não enfraquece — o peso chega a zero e fica.\n\nA primeira alternativa cita a característica visível da fórmula e não explica nada: o quadrado da L2 também é sempre positivo.\n\nO efeito medido no capítulo torna a diferença concreta. Com 2 atributos úteis e 8 de ruído, a L2 deixou 10 coeficientes não nulos de 10, e a L1 eliminou pelo menos 4 dos 8 de ruído, preservando os dois úteis.",
+   "volte_para": "#l2-encolhe-todos-l1-zera-alguns",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
+   "id": "otimizacao-e9",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um modelo de crédito tem `renda_declarada` e `renda_comprovada`, quase perfeitamente correlacionadas, e ambas úteis. A equipe quer coeficientes estáveis entre reamostragens. Qual regularização atende melhor, e por quê?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "L2, que encolhe os dois e distribui o peso entre eles, em vez de escolher um arbitrariamente."
+    },
+    {
+     "correta": false,
+     "texto": "L1, porque eliminar um dos dois resolve a redundância de vez."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhuma das duas: colinearidade se resolve removendo uma coluna à mão."
+    },
+    {
+     "correta": false,
+     "texto": "As duas dão o mesmo resultado quando os atributos são correlacionados."
+    }
+   ],
+   "gabarito": "L2",
+   "porque": "O requisito declarado é **estabilidade**, e é aí que as duas penalidades se separam. Sob colinearidade, a L1 tende a escolher um dos atributos e zerar o outro, e qual dos dois ela escolhe pode mudar com uma reamostragem — o que é exatamente a instabilidade que a equipe quer evitar. A L2 encolhe os dois e reparte o peso entre eles.\n\nA segunda alternativa não é absurda, e é a resposta certa para outro requisito. Se o objetivo fosse um modelo enxuto e explicável, zerar um dos dois seria desejável. O enunciado pede outra coisa.\n\nA terceira propõe uma decisão razoável e a apresenta como exclusiva. Remover uma coluna à mão é legítimo e frequentemente o melhor caminho, e não dispensa regularizar o resto do modelo.",
    "volte_para": "#l2-encolhe-todos-l1-zera-alguns",
    "rubrica": null,
    "versoes": null,
@@ -4532,6 +4643,80 @@
    "titulo_capitulo": "II.4 — Otimização e Regularização"
   },
   {
+   "id": "otimizacao-e10",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que parar o treino cedo funciona como regularização?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque menos épocas significam menos dados vistos, e menos dados evitam decorar."
+    },
+    {
+     "correta": true,
+     "texto": "Porque o treino percorre modelos em ordem crescente de complexidade, então parar antes seleciona um modelo menos complexo."
+    },
+    {
+     "correta": false,
+     "texto": "Porque interromper o gradiente injeta ruído, e ruído regulariza."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a perda de validação é sempre menor no início do treino."
+    }
+   ],
+   "gabarito": "o treino percorre modelos em ordem crescente de complexidade",
+   "porque": "Os pesos começam pequenos e crescem ao longo do treino. Cada época é um modelo um pouco mais expressivo que o da anterior, e parar cedo é escolher um ponto anterior nessa trajetória. É o mesmo efeito de uma penalidade, obtido sem penalizar.\n\nA primeira alternativa confunde épocas com dados. O modelo vê o conjunto inteiro a cada época; parar cedo não reduz quantos exemplos ele viu, reduz quanto ele se ajustou a eles.\n\nA quarta é falsa como regra: a perda de validação costuma cair no começo e só depois subir. Se ela fosse sempre menor no início, o treino não teria valor nenhum.",
+   "volte_para": "#early-stopping-a-regularizacao-de-graca",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
+   "id": "otimizacao-e11",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Ao testar o early stopping num conjunto limpo e separável, o critério nunca dispara. O que se conclui?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que o critério está com defeito e precisa ser corrigido."
+    },
+    {
+     "correta": true,
+     "texto": "Que naquele cenário não há sobreajuste a detectar, e um instrumento de diagnóstico pressupõe que o problema exista."
+    },
+    {
+     "correta": false,
+     "texto": "Que o limiar `min_delta` está alto demais."
+    },
+    {
+     "correta": false,
+     "texto": "Que a validação deveria ser trocada pelo treino nesse caso."
+    }
+   ],
+   "gabarito": "não há sobreajuste a detectar naquele cenário",
+   "porque": "Foi a descoberta que a implementação da etapa 05–06 forçou. Com dados limpos e separáveis, nem a validação estagnava: não existia ponto a partir do qual ajustar mais piorasse, então não havia nada que o critério pudesse detectar. Foi preciso injetar ruído e atributos inúteis para o instrumento ter função.\n\nA primeira alternativa é a conclusão natural e errada, e é o motivo de esta lição valer além do early stopping: testar um instrumento num cenário sem o problema não valida nada, e ainda passa a falsa impressão de que ele está quebrado.\n\nA quarta é a saída pior de todas, porque conserta o sintoma na direção errada. Com dados separáveis a perda de treino cai indefinidamente, e um critério que a observe nunca dispararia — e, se disparasse, estaria medindo o que o modelo decorou.",
+   "volte_para": "#as-duas-armadilhas-que-descobrimos-implementando",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
    "id": "otimizacao-e4",
    "capitulo": 12,
    "arquivo": "livro/capitulos/ii-4-otimizacao.md",
@@ -4546,6 +4731,117 @@
    "gabarito": "taxa de aprendizado|learning rate|taxa|eta|η",
    "porque": "É a **taxa de aprendizado** (η), e ela é o hiperparâmetro que mais decide entre um treino que funciona e um que não funciona. Alta demais: o passo salta por cima do mínimo e a perda oscila ou explode. Baixa demais: a perda desce imperceptivelmente e o treino termina antes de chegar a lugar nenhum.\n\nRepare que ela não muda *para onde* ir — o gradiente já decidiu a direção. Ela só decide **quanto** andar naquela direção. Confundir as duas coisas é a origem da tentativa comum e inútil de \"consertar a direção\" mexendo na taxa.",
    "volte_para": "#fundamentos-descer-sem-enxergar-a-paisagem",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
+   "id": "otimizacao-e5",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que o ruído do mini-batch não é apenas tolerado, mas ajuda?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque reduz o custo de memória, e memória é o gargalo do treino."
+    },
+    {
+     "correta": true,
+     "texto": "Porque uma trajetória perfeitamente lisa desce até o primeiro vale e para lá, enquanto o ruído dá chance de escapar de vales rasos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o ruído aumenta a taxa de aprendizado efetiva."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o gradiente calculado sobre poucos exemplos é mais preciso."
+    }
+   ],
+   "gabarito": "o ruído dá chance de escapar de vales rasos",
+   "porque": "O gradiente de lote completo é a direção **mais precisa** da descida, e é exatamente isso que o prende: uma trajetória lisa segue a inclinação local até onde ela some, e para no primeiro mínimo que encontrar.\n\nA última alternativa inverte o fato. O gradiente de um mini-batch é uma estimativa **ruidosa** do gradiente verdadeiro, e o valor dele está justamente em ser ruidosa. Precisão, aqui, não é o objetivo.\n\nO custo de memória é uma vantagem real do mini-batch e não é a razão que a seção dá. Vale distinguir as duas: a econômica explica por que o mini-batch é viável, e a do ruído explica por que ele é preferível mesmo quando o lote inteiro caberia.",
+   "volte_para": "#fundamentos-descer-sem-enxergar-a-paisagem",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
+   "id": "otimizacao-e12",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um estudante descreve o gradiente descendente assim: \"é a fórmula que calcula os pesos ótimos do modelo\". Quais correções o capítulo faz? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Não é fórmula, é procedimento repetido: sentir a inclinação, dar um passo, sentir de novo."
+    },
+    {
+     "correta": true,
+     "texto": "Ele não garante o ótimo, apenas desce enquanto houver inclinação sob os pés."
+    },
+    {
+     "correta": true,
+     "texto": "Ele nem sempre vê a paisagem inteira: com mini-batch, cada passo usa uma estimativa ruidosa da inclinação."
+    },
+    {
+     "correta": false,
+     "texto": "Ele só funciona quando existe solução fechada para comparar."
+    }
+   ],
+   "gabarito": "procedimento e não fórmula · não garante ótimo · a inclinação é estimada",
+   "porque": "As três corretas desfazem a mesma ilusão, que é tratar o gradiente como um cálculo que devolve a resposta. Ele é um laço, e o que ele devolve depende de onde começou, de quanto andou por passo e de quando parou.\n\nA imagem da encosta no escuro carrega as três: você não vê o vale, só sente a inclinação onde está, e nada garante que o vale onde você parou seja o mais fundo.\n\nA alternativa errada inverte a relação estabelecida no [capítulo II.2](ii-2-modelos-lineares.md). A solução fechada serviu para **conferir** o gradiente onde ela existia, e a conclusão foi o contrário do que a frase sugere: o gradiente é a ferramenta geral, e é justamente onde não há fórmula fechada que ele deixa de ser opcional.",
+   "volte_para": "#fundamentos-descer-sem-enxergar-a-paisagem",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-4-otimizacao",
+   "titulo_capitulo": "II.4 — Otimização e Regularização"
+  },
+  {
+   "id": "otimizacao-e6",
+   "capitulo": 12,
+   "arquivo": "livro/capitulos/ii-4-otimizacao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe treina com taxa 500 numa regressão logística e a perda não explode. Conclui que a taxa está adequada. Onde está o erro?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Não há erro: ausência de explosão é o critério prático de estabilidade."
+    },
+    {
+     "correta": true,
+     "texto": "A perda logística é limitada e satura, então \"não explodiu\" não é evidência de taxa boa; quem responde é a curva."
+    },
+    {
+     "correta": false,
+     "texto": "O erro é usar taxa fixa em regressão logística, que sempre exige agendamento."
+    },
+    {
+     "correta": false,
+     "texto": "O erro é medir a perda na validação em vez de no treino."
+    }
+   ],
+   "gabarito": "a perda logística satura, e ausência de explosão não é evidência",
+   "porque": "É a sutileza que o capítulo mediu na etapa 05–06. Com erro quadrático e taxa 50, a perda vira infinito, porque o quadrado não tem teto. Com logística e taxa 500, dez vezes maior, ela não explode: quando a sigmoide satura, o logaritmo é cortado e a perda para de crescer.\n\nHá uma segunda razão, específica de problema separável: o primeiro gradiente já aponta na direção certa, e um passo gigante nessa direção **acerta** em vez de divergir.\n\nA lição é um critério de confiança, não um número. \"Não deu NaN\" é ausência de um sintoma, e ausência de sintoma não é diagnóstico.",
+   "volte_para": "#uma-sutileza-que-quase-ninguem-conta",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-4-otimizacao",
