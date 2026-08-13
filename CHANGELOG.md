@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — evidência de época para o episódio do OLAP, sem tocar na acusação (cap. II.6)
+- **Nada a corrigir:** o capítulo já dizia "a versão corrente é que" em vez de
+  "aconteceu que", declarava o selo ⏳ no próprio corpo e explicava ao leitor por
+  quê. A acusação envolve pessoas reais e **continua não conferida**; a busca de
+  agosto de 2026 não localizou o material de época.
+- **Entrou uma evidência parcial que dá para verificar.** O estatuto de maio de 1995
+  do grupo `comp.databases.olap` define o escopo pelo relatório de Codd, é assinado
+  por um funcionário da Arbor Software da área de alianças estratégicas, e termina
+  com *"This posting is not officially sponsored by Arbor Software"*.
+- **Com o limite escrito:** a linha de selo diz explicitamente que esse documento
+  **não** sustenta a acusação sobre o relatório de 1993 — sustenta apenas a
+  centralidade da empresa na institucionalização do termo.
+
 ### Corrigido — o manuscrito do *hypothesis boosting* é de Kearns sozinho (cap. II.5)
 - **O erro estava na tabela de procedência, não no corpo.** A linha atribuía o
   manuscrito a "Kearns & Valiant". A ficha, lida na bibliografia de quem respondeu
