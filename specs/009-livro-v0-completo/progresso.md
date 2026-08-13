@@ -79,7 +79,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
 | 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
 | 29 | V.4 — Fronteira e Expiração | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
@@ -252,6 +252,24 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > submissão e resenhar um artigo publicado alhures são coisas diferentes), mas
 > desmente a leitura fácil dela: **"a revista rejeitou" e "a revista ignorou" não são
 > a mesma afirmação**. Entrou no corpo com a distinção explícita.
+>
+> **No V.1 a regra deste ciclo foi aplicada contra o próprio capítulo.** A linha da
+> ProPublica estava em ✓ᵐ com a razão escrita: os quatro percentuais tinham sido
+> devolvidos "por extrator automático". Como a regra do ciclo é que **resumo de
+> máquina não confere fonte**, a linha não podia ficar assim. Página baixada, texto
+> extraído aqui, e os quatro números batem, inclusive a direção de cada comparação.
+> Entraram de lambuja o título da tabela e o acerto global do instrumento (61%).
+> Selo ✓.
+>
+> **E havia um erro de meses, do mesmo tipo dos erros de anos.** "Cinco meses depois
+> da reportagem, Kleinberg [...]": de 23/05 a 19/09 são quatro. O "cinco" é o vão
+> completo, até 24/10, que aparece certo duas linhas adiante. A mesma mecânica do IV.3:
+> **um número certo do parágrafo de baixo migra para o de cima**, onde está errado.
+> Vale como padrão de busca, não como caso isolado.
+>
+> **O ❌ do V.1 continua ❌, e agora com as tentativas escritas.** A réplica da
+> Northpointe devolve 404 no domínio da fornecedora e 403 atrás de Cloudflare no
+> espelho, na página e na API. Registrar o que já falhou vale mais do que ❌ sozinho.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

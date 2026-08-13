@@ -6,6 +6,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — a regra do ciclo aplicada contra o próprio capítulo (cap. V.1)
+- **Os quatro percentuais da ProPublica sobem de ✓ᵐ para ✓.** Estavam marcados com
+  a razão escrita: números "devolvidos por extrator automático". Como a regra deste
+  ciclo é que resumo de máquina não confere fonte, a página foi baixada e o texto
+  extraído localmente. Os quatro batem, inclusive a direção de cada comparação.
+  Entraram junto o título da tabela (*"Prediction Fails Differently for Black
+  Defendants"*) e o acerto global do instrumento: *"correctly predicts recidivism
+  61 percent of the time"*.
+- **"Cinco meses depois da reportagem, Kleinberg…": são quatro.** De 23/05 a 19/09
+  são quatro meses; o "cinco" é o vão completo até 24/10, que aparece certo duas
+  linhas adiante. Mesma mecânica do IV.3: um número certo do parágrafo vizinho
+  migra para onde está errado.
+- **O ❌ da réplica da Northpointe continua ❌, agora com as tentativas escritas:**
+  404 no domínio da fornecedora, 403 atrás de Cloudflare no espelho público, na
+  página e na API.
+
 ### Adicionado — gate dos intervalos: a subtração passa a ser da máquina
 - `publicar/intervalos.mjs` guarda os **dois anos** de cada intervalo que o livro
   cita entre capítulos e calcula a diferença. Qualquer menção em prosa que
