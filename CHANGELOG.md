@@ -6,6 +6,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — 91 anos, não 80: o maior intervalo do livro estava mal contado (cap. IV.2)
+- **De Thorndike (1898) a Watkins (1989) são 91 anos**, e o capítulo dizia "cerca de
+  80" na mesma frase em que apresenta os dois anos. A conclusão sobrevive: 91 segue
+  sendo o maior intervalo registrado no livro, contra 59 (I.6), 43 (II.7) e 7 (II.5).
+- **O Thorndike de 1898 entrou no corpo em primeira mão.** O fac-símile de *Animal
+  Intelligence* (1911), que reimprime o monográfico, dá o mecanismo nas palavras dele
+  (*"stamped in" / "stamped out"*) e, o que faltava, dá a **evidência**: se o gato
+  raciocinasse, haveria *"a sudden vertical descent in the time-curve"*; a inclinação
+  gradual é o argumento. A lei do efeito está na p. 244, sob o título "Provisional
+  Laws of Acquired Behavior or Learning".
+- **Duas ⏳ novas, de propósito.** A monografia de 1898 é chamada de tese de doutorado
+  em todo lugar e o volume de 1911 não diz isso: o corpo parou de chamá-la de tese.
+  A data de comunicação do artigo de Bellman no *PNAS* (05/06/1952) não pôde ser
+  conferida no fac-símile, e ficou ⏳ com a nota de que **o argumento não depende
+  dela** — o fascículo de agosto de 1952 já é anterior à posse de Wilson.
+- **Selos que subiram:** a apuração de Dreyfus foi conferida contra o texto (p. 159,
+  *Operations Research* 50(1), pp. 48–51), as datas dos Secretários de Defesa passam
+  a vir da ficha do Historical Office do Departamento de Defesa, e o TD-Gammon de
+  Tesauro, que estava só no corpo, ganhou ficha com DOI.
+
 ### Corrigido — "cerveja e fraldas": os números batiam, a cadeia de evidência não (cap. IV.1)
 - **O livro dizia que Power entrevistou o autor do estudo. Ele não entrevistou
   ninguém.** Power não pôde assistir ao evento ao vivo, viu a gravação de um

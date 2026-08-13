@@ -77,7 +77,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
@@ -205,6 +205,29 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > seção do capítulo pela boca do vencedor: *"in fact, we coined the name 'numerical
 > taxonomy'."* Uma ⏳ virou ✓ **com a ressalva registrada** de que a caracterização do
 > que havia antes é de quem estava atacando a prática, não de observador neutro.
+>
+> **No IV.2 o achado foi ARITMÉTICO, e estava numa frase que o capítulo usa como
+> tese.** "De Thorndike (1898) a Watkins (1989) são cerca de 80 anos — o maior
+> intervalo registrado neste livro." São 91. A conclusão sobrevive (91 continua sendo
+> o maior), o número não sobrevivia. Vale como técnica de varredura: **onde o texto
+> dá dois anos e a diferença entre eles, subtraia**. É a checagem mais barata do
+> livro inteiro e ninguém a faz, porque o número já vem escrito.
+>
+> **E o Thorndike de 1898 é mais fino do que a paráfrase que circula.** Aberto o
+> fac-símile de 1911 (que reimprime o monográfico), o mecanismo está lá em palavras
+> dele ("stamped in" / "stamped out") e, melhor, a **evidência** é uma curva: se o
+> gato raciocinasse, haveria "a sudden vertical descent in the time-curve"; a
+> inclinação gradual é o argumento. Um capítulo sobre atribuição de crédito estava
+> deixando de fora que o avô da área já argumentava por curva de aprendizado. Entrou
+> no corpo. De quebra, a lei do efeito aparece sob um título que ninguém cita:
+> "Provisional Laws".
+>
+> **Duas ⏳ novas, criadas de propósito.** A monografia de 1898 é chamada de "tese de
+> doutorado" em todo lugar, e o volume de 1911 não diz isso: o capítulo parou de
+> chamá-la de tese e registrou a dúvida. E a data de comunicação do artigo de Bellman
+> no PNAS (05/06/1952) não pôde ser conferida no fac-símile; ficou ⏳ **com a nota de
+> que o argumento não depende dela**, porque o fascículo de agosto de 1952 já é
+> anterior à posse de Wilson. Criar ⏳ onde havia ✓ᵐ sem lastro é ganho, não perda.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
