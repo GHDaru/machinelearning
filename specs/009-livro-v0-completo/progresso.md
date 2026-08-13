@@ -24,7 +24,8 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > |---|---|---|---|
 > | Abertura | `prova-abertura.md` | 6 | **ok** |
 > | I | `prova-parte-i.md` | 10 | **ok** |
-> | II · III · IV · V | — | — | esperam a coluna `exs` da parte |
+> | II | `prova-parte-ii.md` | 12 | **ok** |
+> | III · IV · V | — | — | esperam a coluna `exs` da parte |
 > | Final cumulativa | — | — | por último |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
@@ -45,14 +46,14 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 6 | I.4 — Análise Exploratória | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 7 | I.5 — Visualização e Storytelling | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 8 | I.6 — Representação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
-| 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | — | — |
-| 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 11 | II.3 — Regressão Logística | 3 | 9 | 9 | **ok** | **ok** | — | — |
-| 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 13 | II.5 — Árvores e Ensembles | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 14 | II.6 — Análise Multidimensional | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 15 | II.7 — Séries Temporais | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 16 | II.8 — Do Modelo à Decisão | 4 | 4 | 12 | **ok** | — | — | — |
+| 9 | II.1 — Avaliação | 5 | 15 | 15 | **ok** | **ok** | **ok** | — |
+| 10 | II.2 — Modelos Lineares | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 11 | II.3 — Regressão Logística | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
+| 12 | II.4 — Otimização e Regularização | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 13 | II.5 — Árvores e Ensembles | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 14 | II.6 — Análise Multidimensional | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 15 | II.7 — Séries Temporais | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 16 | II.8 — Do Modelo à Decisão | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 17 | III.1 — O Neurônio Artificial | 4 | 4 | 12 | **ok** | — | — | — |
 | 18 | III.2 — Redes Multicamadas | 4 | 4 | 12 | **ok** | — | — | — |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 5 | 12 | **ok** | — | — | — |
@@ -67,7 +68,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 248 exercícios hoje (232 de capítulo + 16 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 268 exercícios hoje (240 de capítulo + 28 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

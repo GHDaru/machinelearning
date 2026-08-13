@@ -6104,6 +6104,80 @@
    "titulo_capitulo": "II.8 — Do Modelo à Decisão"
   },
   {
+   "id": "do-modelo-a-decisao-e5",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais são as três exigências de uma comparação justa entre duas técnicas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O mesmo dado, na mesma divisão."
+    },
+    {
+     "correta": true,
+     "texto": "O mesmo orçamento de busca de hiperparâmetros."
+    },
+    {
+     "correta": true,
+     "texto": "A mesma métrica, escolhida antes de ver os resultados."
+    },
+    {
+     "correta": false,
+     "texto": "O mesmo tempo de treino em segundos para os dois modelos."
+    }
+   ],
+   "gabarito": "mesmo dado e divisão · mesmo orçamento de busca · métrica escolhida antes",
+   "porque": "As três protegem contra formas diferentes de se enganar. Divisões distintas comparam divisões, não modelos. Busca desigual compara esforço, não método. E métrica escolhida depois seleciona a régua que favorece o modelo que você já preferia, que é a forma mais inocente de trapaça, porque quem a comete costuma não perceber.\n\nA alternativa errada iguala o que não precisa ser igual. Tempo de treino é uma característica legítima dos modelos e frequentemente um critério de decisão, e forçá-lo a ser igual estragaria a comparação em vez de protegê-la.\n\nRepare que a terceira exigência é a única que se cumpre **antes** de rodar qualquer coisa, e é por isso que ela é a mais fácil de esquecer.",
+   "volte_para": "#fundamentos-comparar-duas-tecnicas-sem-se-enganar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
+  },
+  {
+   "id": "do-modelo-a-decisao-e6",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que o bootstrap precisa ser **pareado** para comparar dois modelos?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque assim o número de reamostragens necessário cai pela metade."
+    },
+    {
+     "correta": true,
+     "texto": "Porque avaliar os dois na mesma reamostragem cancela a variação que vem do conjunto e isola a que vem do modelo."
+    },
+    {
+     "correta": false,
+     "texto": "Porque modelos diferentes exigem conjuntos de teste diferentes."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o pareamento corrige a falta de calibração das probabilidades."
+    }
+   ],
+   "gabarito": "cancela a variação do conjunto e isola a do modelo",
+   "porque": "Boa parte da variação de uma métrica vem de **quais exemplos** caíram na reamostragem, e essa parte afeta os dois modelos igualmente. Calculando a diferença dentro da mesma reamostragem, ela se cancela, e o que sobra é a diferença entre os modelos.\n\nComparar dois intervalos independentes desperdiça essa informação e é bem menos sensível: dois intervalos que se sobrepõem podem esconder uma diferença que o teste pareado detectaria.\n\nA quarta alternativa junta dois assuntos reais e independentes. Calibração é propriedade dos escores e continua sendo problema depois do pareamento; o bootstrap não a conserta nem depende dela para comparar ordenações.",
+   "volte_para": "#a-diferenca-e-maior-que-o-ruido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
+  },
+  {
    "id": "do-modelo-a-decisao-e2",
    "capitulo": 16,
    "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
@@ -6126,6 +6200,158 @@
     "valor": 0.17,
     "tolerancia": 0
    }
+  },
+  {
+   "id": "do-modelo-a-decisao-e7",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quem deve fornecer os valores da matriz de custo?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A equipe de dados, que conhece o modelo e as métricas."
+    },
+    {
+     "correta": true,
+     "texto": "A área que responde pela consequência (risco, jurídico, clínica), e o papel da equipe de dados é exigir os números e registrar quem os forneceu."
+    },
+    {
+     "correta": false,
+     "texto": "Ninguém: os valores se estimam do próprio histórico do modelo."
+    },
+    {
+     "correta": false,
+     "texto": "O fornecedor da ferramenta de modelagem, que traz valores de referência do setor."
+    }
+   ],
+   "gabarito": "a área que responde pela consequência",
+   "porque": "Quanto custa um falso negativo é uma pergunta de negócio, e a equipe de dados não tem como respondê-la. O que ela tem é a obrigação de **exigir** o número e registrar a origem.\n\nA razão do registro é operacional e aparece depois: quando o limiar for questionado, a pergunta será \"quem decidiu isso?\". Sem o registro, a resposta vira \"o modelo\", que não é uma resposta.\n\nA terceira alternativa parece técnica e é circular: estimar o custo do erro a partir do histórico do próprio modelo usa como evidência as decisões que se quer avaliar. Valores de referência de setor podem informar a conversa e não substituem a decisão de quem paga a conta.",
+   "volte_para": "#da-metrica-ao-dinheiro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
+  },
+  {
+   "id": "do-modelo-a-decisao-e8",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "A matriz de custo do trimestre muda: o prejuízo de aprovar um cliente mau passa de R$ 1 000 para R$ 2 000. O que precisa ser refeito?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O treino do modelo, com a nova matriz entrando na função de perda."
+    },
+    {
+     "correta": true,
+     "texto": "Só o limiar, recalculado sobre as mesmas probabilidades já previstas."
+    },
+    {
+     "correta": false,
+     "texto": "O modelo inteiro, incluindo seleção de atributos e busca de hiperparâmetros."
+    },
+    {
+     "correta": false,
+     "texto": "Nada: o limiar ótimo não depende dos custos, só da prevalência."
+    }
+   ],
+   "gabarito": "só o limiar",
+   "porque": "É a maior vantagem prática de separar o modelo, que **ordena**, da decisão, que **corta**. As probabilidades previstas não mudam quando o custo muda; o que muda é onde vale a pena cortar.\n\nCom o novo valor, o ponto de indiferença vira $200 = 2200p$, ou seja $p \\approx 0{,}09$: o limiar desce, e o sistema fica mais cauteloso. Nenhum treino foi necessário.\n\nA última alternativa inverte o resultado do exercício anterior, que mostrou o limiar em 0,17 e não em 0,5 justamente porque os erros custam preços diferentes. Prevalência importa para a métrica; custo importa para o corte.\n\nUma condição fica pressuposta em tudo isso: as probabilidades precisam significar o que dizem. Com escores mal calibrados, o cálculo do limiar ótimo é aritmética sobre números que não são probabilidades.",
+   "volte_para": "#da-metrica-ao-dinheiro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
+  },
+  {
+   "id": "do-modelo-a-decisao-e9",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual das seis partes do relatório mínimo é a que quase todo mundo corta, e a que teria impedido a recomendação errada da limonada?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Protocolo."
+    },
+    {
+     "correta": false,
+     "texto": "Resultado com incerteza."
+    },
+    {
+     "correta": true,
+     "texto": "Limitações."
+    },
+    {
+     "correta": false,
+     "texto": "Recomendação."
+    }
+   ],
+   "gabarito": "limitações",
+   "porque": "É lá que se escreve \"o preço nunca variou fora da alta temporada, logo este modelo não estima efeito de preço\". Nenhuma das outras cinco partes pegaria o problema: o protocolo estava correto, o resultado era um R² de 0,982 legítimo, e a recomendação é justamente o que se queria impedir.\n\nA seção diz por que ela também é a que constrói confiança. Um relatório que declara onde o modelo falha é levado mais a sério do que um que só apresenta vitórias, porque o leitor entende que alguém procurou.\n\nRepare na ironia útil: a parte mais cortada por parecer fraqueza é a única que teria evitado o erro caro.",
+   "volte_para": "#apresentar-sem-trair-o-rigor",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
+  },
+  {
+   "id": "do-modelo-a-decisao-e10",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais frases seguem as três regras de conversa com público não técnico? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "\"Entre os 10% que o modelo mais suspeita, encontramos 6 de cada 10 fraudes do período.\""
+    },
+    {
+     "correta": true,
+     "texto": "\"Num mês ruim, esperamos que cerca de um terço dos alarmes seja falso.\""
+    },
+    {
+     "correta": false,
+     "texto": "\"O modelo tem AUC de 0,91, o que é considerado excelente na literatura.\""
+    },
+    {
+     "correta": true,
+     "texto": "\"O número medido no teste tende a cair em produção, porque o dado de lá difere; vamos acompanhar.\""
+    },
+    {
+     "correta": false,
+     "texto": "\"Garantimos 91% de acerto quando entrar em produção.\""
+    }
+   ],
+   "gabarito": "consequência em vez de métrica · cenário do dia ruim · aviso de que o teste não é produção",
+   "porque": "As três corretas cobrem as três regras. A primeira troca a métrica pela consequência que a sala consegue avaliar. A segunda traz o dia ruim, e não só o dia médio, que é o que quem decide precisa para dimensionar equipe e orçamento. A terceira antecipa a diferença entre teste e produção, e dizer isso antes é o que preserva a confiança quando o número cair.\n\nA frase da AUC não é falsa e não informa: quem ouve não tem como converter 0,91 em decisão, e \"excelente na literatura\" transfere autoridade em vez de dar entendimento.\n\nA última é a pior das cinco, porque promete o número do teste como se fosse o de produção. É a promessa que a realidade vai desmentir, e o custo não é só o do erro: é a perda de crédito de todo relatório seguinte.",
+   "volte_para": "#apresentar-sem-trair-o-rigor",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
   },
   {
    "id": "do-modelo-a-decisao-e3",
@@ -6153,6 +6379,84 @@
     "propõe ao menos uma ação concreta — reponderar/coletar dados do subgrupo, usar o modelo só como apoio com revisão humana, ou restringir o escopo declarando a limitação",
     "menciona a consequência para pessoas reais, não só a métrica"
    ]
+  },
+  {
+   "id": "do-modelo-a-decisao-e11",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais motivos, segundo esta seção, bastam para recusar um modelo que **passa** nas métricas? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O ganho não paga o custo de manter."
+    },
+    {
+     "correta": true,
+     "texto": "O desempenho é bom no geral e ruim num subgrupo que importa."
+    },
+    {
+     "correta": true,
+     "texto": "Ninguém consegue explicar uma decisão individual quando ela for contestada."
+    },
+    {
+     "correta": true,
+     "texto": "Não há como monitorar o modelo depois de implantado."
+    },
+    {
+     "correta": false,
+     "texto": "A equipe preferia outra família de modelo."
+    }
+   ],
+   "gabarito": "custo de manutenção · subgrupo ruim · decisão inexplicável · impossível monitorar",
+   "porque": "Os quatro são motivos suficientes, e nenhum deles aparece na métrica que o modelo passou. É essa a razão de a seção existir: métrica boa é condição necessária e não suficiente para lançar.\n\nA alternativa errada não é um critério, é uma preferência — e é justamente contra esse tipo de argumento que a seção exige o mesmo aparato do lançamento: números, protocolo e critério explícito.\n\nA frase que fecha vale guardar: \"não vamos lançar\" com evidência é trabalho concluído, não trabalho perdido.",
+   "volte_para": "#a-decisao-de-nao-lancar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
+  },
+  {
+   "id": "do-modelo-a-decisao-e12",
+   "capitulo": 16,
+   "arquivo": "livro/capitulos/ii-8-do-modelo-a-decisao.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe decide não lançar e é cobrada em reunião: \"vocês passaram três meses e não entregaram nada\". Qual resposta é coerente com esta seção?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Reconhecer que o projeto falhou e propor recomeçar com outra abordagem."
+    },
+    {
+     "correta": true,
+     "texto": "Apresentar a recusa com o mesmo aparato de um lançamento (números, protocolo e critério explícito), porque a decisão fundamentada é a entrega."
+    },
+    {
+     "correta": false,
+     "texto": "Lançar em escopo reduzido, para mostrar resultado."
+    },
+    {
+     "correta": false,
+     "texto": "Adiar a decisão até obter mais dados, sem se comprometer."
+    }
+   ],
+   "gabarito": "apresentar a recusa com o mesmo aparato de um lançamento",
+   "porque": "A seção é explícita: defender a recusa exige exatamente o que defender o lançamento exigiria. Uma recusa fundamentada informa a empresa sobre o que não funciona e por quê, e isso tem valor — o que não tem valor é uma recusa sem evidência, que é indistinguível de desistência.\n\nA terceira alternativa é a mais perigosa porque parece pragmática. Lançar em escopo reduzido para mostrar resultado inverte a ordem: o escopo passa a ser escolhido pela necessidade política de entregar, e não pelo que o modelo sustenta. Se o escopo reduzido for defensável pelos próprios critérios, ele já teria sido a recomendação.\n\nA quarta troca decisão por adiamento e mantém o custo correndo sem nenhum critério declarado para encerrar.",
+   "volte_para": "#a-decisao-de-nao-lancar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-8-do-modelo-a-decisao",
+   "titulo_capitulo": "II.8 — Do Modelo à Decisão"
   },
   {
    "id": "do-modelo-a-decisao-e4",
@@ -8327,6 +8631,460 @@
    "versoes": null,
    "pagina": "prova-parte-i",
    "titulo_capitulo": "Prova da Parte I — Ciência de Dados"
+  },
+  {
+   "id": "prova-parte-ii-q1",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-1-avaliacao.md:O3",
+    "livro/capitulos/ii-8-do-modelo-a-decisao.md:O2"
+   ],
+   "enunciado": "Uma transportadora usa um modelo para decidir quais cargas passam por inspeção extra. Inspecionar custa R$ 80. Uma carga irregular que passa sem inspeção custa R$ 3 200 em multa. Não inspecionar carga regular não custa nada.\n\nQual é a leitura correta da relação entre métrica e limiar aqui?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A métrica que orienta o limiar é a acurácia, porque ela considera as quatro células."
+    },
+    {
+     "correta": true,
+     "texto": "O custo assimétrico desloca o limiar bem abaixo de 0,5, e quem escolhe o modelo é a métrica de ordenação, enquanto quem opera o modelo é a matriz de custo."
+    },
+    {
+     "correta": false,
+     "texto": "Como inspecionar é barato, o limiar deve ser 0,5 para equilibrar os dois erros."
+    },
+    {
+     "correta": false,
+     "texto": "O limiar ótimo depende apenas da proporção de cargas irregulares na base."
+    }
+   ],
+   "gabarito": "o custo assimétrico desloca o limiar, e métrica e matriz têm papéis distintos",
+   "porque": "Uma multa vale quarenta inspeções, então deixar passar é muito mais caro que inspecionar à toa. O ponto de indiferença fica bem abaixo de 0,5, e chegar nele não é opinião: é a conta da matriz de custo.\n\nA segunda metade do item é a que cruza os capítulos. A métrica de ordenação decide **qual modelo** usar; a matriz de custo decide **onde cortar** o escore desse modelo. São perguntas diferentes, e é por isso que uma mudança de custo no trimestre seguinte não exige treinar nada de novo.\n\nA última alternativa isola a prevalência, que importa para interpretar a métrica e não determina sozinha o corte. Dois problemas com a mesma prevalência e custos diferentes têm limiares diferentes.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q2",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-2-modelos-lineares.md:O3",
+    "livro/capitulos/ii-4-otimizacao.md:O3"
+   ],
+   "enunciado": "Um modelo linear tem dois atributos quase perfeitamente correlacionados. Sem regularização, os coeficientes trocam de sinal entre reamostragens. Com L1, um dos dois é zerado, e qual deles muda de execução para execução. Com L2, ambos ficam pequenos e estáveis.\n\nQual leitura é correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A L1 é sempre preferível, porque um modelo com menos atributos é mais confiável."
+    },
+    {
+     "correta": true,
+     "texto": "Nenhuma das três situações é defeito de implementação: a colinearidade torna muitas combinações de pesos quase equivalentes, e cada tratamento escolhe uma forma diferente de resolver o empate."
+    },
+    {
+     "correta": false,
+     "texto": "A instabilidade indica erro nos dados, e o correto é remover as linhas discrepantes."
+    },
+    {
+     "correta": false,
+     "texto": "A L2 elimina a colinearidade, e por isso os coeficientes passam a ser interpretáveis individualmente."
+    }
+   ],
+   "gabarito": "nenhuma é defeito; cada tratamento resolve o empate de um jeito",
+   "porque": "Quando dois atributos carregam quase a mesma informação, várias combinações de pesos produzem quase as mesmas previsões. Sem penalidade, o ajuste escolhe entre elas por detalhes da amostra; a L1 desempata zerando um; a L2 desempata repartindo.\n\nA quarta alternativa é a mais fina e é falsa numa palavra. A L2 estabiliza os coeficientes e **não** os torna interpretáveis separadamente: eles continuam descrevendo dois atributos que se movem juntos, e nenhum dos dois tem efeito isolado no mundo.\n\nA escolha entre L1 e L2 aqui não é de qualidade, é de requisito: modelo enxuto e explicável pede L1, coeficiente estável entre execuções pede L2.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q3",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-5-arvores-ensembles.md:O2",
+    "livro/capitulos/ii-4-otimizacao.md:O4"
+   ],
+   "enunciado": "Uma equipe treina um gradient boosting e uma floresta aleatória no mesmo problema. Quais decisões estão corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Usar early stopping na validação para escolher o número de árvores do boosting."
+    },
+    {
+     "correta": true,
+     "texto": "Fixar um número grande de árvores na floresta sem medo de piorar o resultado."
+    },
+    {
+     "correta": false,
+     "texto": "Usar early stopping também para escolher o número de árvores da floresta."
+    },
+    {
+     "correta": true,
+     "texto": "Deixar as árvores do boosting rasas e as da floresta profundas."
+    }
+   ],
+   "gabarito": "early stopping no boosting · muitas árvores na floresta sem risco · rasas no boosting, profundas na floresta",
+   "porque": "As três corretas decorrem de bagging e boosting atacarem erros diferentes. Em boosting cada árvore persegue o resíduo, inclusive o ruído, então o número de árvores é hiperparâmetro de regularização e o early stopping é a forma padrão de escolhê-lo. Em bagging cada árvore é mais um termo numa média, e acrescentar termos satura em vez de piorar.\n\nA profundidade segue a mesma lógica invertida: o boosting usa árvores deliberadamente fracas e soma correções, enquanto a floresta usa árvores fortes e instáveis e conta com o cancelamento dos erros.\n\nA alternativa errada aplica ao bagging um instrumento que pressupõe degradação. Sem degradação para detectar, o critério não tem função — é o mesmo tipo de erro do early stopping testado em dados separáveis, onde a ausência de disparo foi confundida com defeito.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q4",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-3-regressao-logistica.md:O2",
+    "livro/capitulos/ii-1-avaliacao.md:O4"
+   ],
+   "enunciado": "Um modelo de regressão logística prevê probabilidade 0,25 para um cliente. Qual é a **chance** (*odds*) correspondente? Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "0.33 ± 0.01",
+   "porque": "Chance é $p/(1-p) = 0{,}25/0{,}75 = 1/3 \\approx \\mathbf{0{,}33}$, ou \"um para três\".\n\nO cruzamento está no que a conta pressupõe. Converter probabilidade em chance só faz sentido se o 0,25 for mesmo uma probabilidade, ou seja, se o modelo estiver **calibrado**. Um escore que ordena bem e não é calibrado passa pela mesma aritmética e produz um número sem significado.\n\nÉ a distinção entre as três perguntas: ordenar bem, decidir bem e ter escores honestos são propriedades independentes. A regressão logística costuma sair razoavelmente calibrada, e é por isso que ela sobrevive onde a probabilidade vira dinheiro.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva",
+   "gabarito_num": {
+    "valor": 0.33,
+    "tolerancia": 0.01
+   }
+  },
+  {
+   "id": "prova-parte-ii-q5",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-7-series-temporais.md:O2",
+    "livro/capitulos/ii-6-analise-multidimensional.md:O4"
+   ],
+   "enunciado": "Uma equipe monta o conjunto de treino a partir do cubo de vendas, com uma linha por cliente e mês, e atributos de janela vindos das medidas agregadas. Depois divide o conjunto cronologicamente, com cuidado, e valida com origem móvel.\n\nAinda assim o desempenho em produção é muito pior que na validação. Qual é a explicação mais provável?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A validação com origem móvel é otimista por construção e precisa ser substituída por um corte único."
+    },
+    {
+     "correta": true,
+     "texto": "Os atributos de janela foram agregados sobre a base inteira antes da divisão, então cada linha de treino já contém informação posterior ao seu instante."
+    },
+    {
+     "correta": false,
+     "texto": "O grão de cliente e mês é fino demais, e agregar por trimestre resolveria."
+    },
+    {
+     "correta": false,
+     "texto": "O cubo não deveria ser usado como origem de conjunto de treino."
+    }
+   ],
+   "gabarito": "os atributos de janela foram agregados antes da divisão",
+   "porque": "São dois vazamentos independentes, e a equipe corrigiu só um. A divisão cronológica resolve a ordem das **linhas**; ela não diz nada sobre quando cada **coluna** foi calculada. Uma média agregada sobre a base inteira carrega o futuro para dentro de cada linha, e sobrevive intacta a qualquer protocolo de divisão.\n\nÉ a travessia do cubo para o modelo na sua forma mais fácil de errar, porque a consulta que produz o atributo é natural e curta, e o sintoma é o de sempre: desempenho excelente e inútil.\n\nA primeira alternativa acusa o instrumento correto. A origem móvel não é otimista; ela é justamente o que dá várias medidas em vez de uma, e um corte único seria menos informativo, não mais seguro.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q6",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-1-avaliacao.md:O5",
+    "livro/capitulos/ii-8-do-modelo-a-decisao.md:O1"
+   ],
+   "enunciado": "Dois modelos são comparados no mesmo teste. A diferença de F1 é de 0,004, e o bootstrap pareado devolve um intervalo de 95% de [−0,009; +0,017] para a diferença. Um deles custa três vezes mais para servir. O que fazer?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Escolher o de maior F1, porque a estimativa pontual é o melhor palpite disponível."
+    },
+    {
+     "correta": true,
+     "texto": "Tratar como empate estatístico e decidir pelo custo, que é um critério real e não empatado."
+    },
+    {
+     "correta": false,
+     "texto": "Rodar dez mil reamostragens, para estreitar o intervalo e desempatar."
+    },
+    {
+     "correta": false,
+     "texto": "Adiar a decisão até coletar mais dados de treino."
+    }
+   ],
+   "gabarito": "empate estatístico, e o custo decide",
+   "porque": "O intervalo cruza o zero, então os dados são compatíveis com qualquer um dos dois sendo melhor. Reportar o de maior F1 como vencedor é apresentar ruído como resultado.\n\nO empate é uma boa notícia disfarçada: ele **libera** a decisão para os critérios de engenharia, e três vezes o custo de servir é uma diferença que não está empatada.\n\nA terceira alternativa é o erro mais comum na prática. Aumentar reamostragens não estreita o intervalo de forma relevante, porque a incerteza vem do tamanho do conjunto de teste, e não do número de reamostragens. Mais dado de **teste** ajudaria; mais dado de treino, que é o que a quarta alternativa propõe, responde a outra pergunta.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q7",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-2-modelos-lineares.md:O4",
+    "livro/capitulos/ii-5-arvores-ensembles.md:O4"
+   ],
+   "enunciado": "Um hospital precisa de um modelo com 1 200 registros, 60 atributos tabulares, justificativa por escrito em cada recusa de exame, e resposta em menos de 20 ms. Quais afirmações estão corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Poucos dados por atributo favorecem menos parâmetros, o que aponta para o linear."
+    },
+    {
+     "correta": true,
+     "texto": "A exigência de justificativa por decisão individual pesa contra ensembles."
+    },
+    {
+     "correta": true,
+     "texto": "Um boosting bem ajustado provavelmente teria desempenho preditivo melhor neste tipo de dado."
+    },
+    {
+     "correta": false,
+     "texto": "Como o boosting tende a prever melhor, ele é a escolha correta aqui."
+    }
+   ],
+   "gabarito": "poucos dados por atributo · justificativa individual · boosting provavelmente prevê melhor",
+   "porque": "As três primeiras podem ser verdadeiras ao mesmo tempo, e é isso que o item cobra. Reconhecer que o boosting provavelmente prevê melhor **não** o torna a escolha, porque desempenho preditivo é um critério entre quatro, e três dos outros apontam para o outro lado.\n\nA alternativa errada é a que confunde \"melhor no teste\" com \"melhor decisão\". Latência, auditabilidade e o regime de poucos dados por atributo não aparecem em métrica nenhuma, e ignorá-los é escolher pelo que é fácil de medir.\n\nA decisão defensável aqui é o linear, e ela não é consolo: é engenharia. Um ganho de desempenho teria de ser grande o bastante para pagar três perdas simultâneas.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q8",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-6-analise-multidimensional.md:O1",
+    "livro/capitulos/ii-1-avaliacao.md:O1"
+   ],
+   "enunciado": "Um painel executivo mostra \"taxa de conversão média das lojas: 4,2%\", calculada como a média simples das taxas de cada loja. Uma loja nova, com 12 visitas e 3 conversões, entra na conta com 25%.\n\nQual é o problema?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Taxa é medida não aditiva: a razão precisa ser calculada depois da agregação, a partir dos componentes, e não como média de razões."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é a loja nova ser um outlier, e removê-la corrige o número."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é a métrica escolhida, e a mediana das taxas seria correta."
+    },
+    {
+     "correta": false,
+     "texto": "Não há problema: média de taxas é a definição usual de taxa média."
+    }
+   ],
+   "gabarito": "taxa é não aditiva, e a razão se calcula depois da agregação",
+   "porque": "A regra é guardar no fato os **componentes** (visitas e conversões) e calcular a razão no nível pedido. A média das razões dá a cada loja o mesmo peso, então doze visitas influenciam tanto quanto doze mil.\n\nA segunda alternativa trata como outlier o que é comportamento previsível da fórmula errada: com média de razões, **qualquer** loja pequena distorce, e remover uma não impede a próxima.\n\nA terceira troca uma estatística por outra sem corrigir a estrutura. A mediana das taxas continua sendo uma estatística sobre razões, e continua ignorando o tamanho de cada loja.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q9",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-4-otimizacao.md:O2",
+    "livro/capitulos/ii-3-regressao-logistica.md:O3"
+   ],
+   "enunciado": "Uma equipe troca a perda de uma classificação de entropia cruzada para erro quadrático sobre a saída da sigmoide. O treino roda sem erro, a perda desce, e o resultado final varia de execução para execução com a mesma configuração.\n\nQual é a explicação?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O erro quadrático não é diferenciável na saída da sigmoide, e o gradiente fica indefinido."
+    },
+    {
+     "correta": true,
+     "texto": "A superfície deixou de ser convexa: surgem mínimos locais, e onde o otimizador para passa a depender da inicialização."
+    },
+    {
+     "correta": false,
+     "texto": "A taxa de aprendizado ficou alta demais depois da troca de perda."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é o número de épocas, e treinar mais faria as execuções convergirem."
+    }
+   ],
+   "gabarito": "a superfície deixou de ser convexa",
+   "porque": "É exatamente a razão pela qual a logística usa entropia cruzada. Erro quadrático sobre a saída da sigmoide produz uma superfície com mínimos locais, e o otimizador pode parar em qualquer um deles conforme o ponto de partida.\n\nO sintoma do enunciado é a assinatura disso: nada quebra, a perda desce, e o resultado muda entre execuções idênticas. Variação com a mesma configuração é informação sobre a **paisagem**, não sobre a implementação.\n\nA primeira alternativa inverte um fato: o erro quadrático é diferenciável ali. E treinar mais não resolve, porque num mínimo local o gradiente já é nulo — o otimizador não está lento, ele chegou.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q10",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-7-series-temporais.md:O3",
+    "livro/capitulos/ii-1-avaliacao.md:O1"
+   ],
+   "enunciado": "Uma série mensal tem sazonalidade anual forte. Um relatório compara o modelo novo contra a previsão ingênua **simples** e celebra 40% de redução de erro.\n\nQuantas linhas de base diferentes deveriam ter sido reportadas, no mínimo, para a comparação ser honesta?",
+   "opcoes": [],
+   "gabarito": "2",
+   "porque": "Duas: a ingênua simples e a **ingênua sazonal**. Com sazonalidade forte, a sazonal é a régua correta, e é bem mais difícil de bater.\n\nComparar só com a simples é escolher o adversário fraco, e o resultado fica desonesto sem má-fé: o número de 40% é verdadeiro e responde a uma pergunta que ninguém deveria ter feito.\n\nÉ a mesma disciplina que a acurácia exige sob desbalanceamento, aplicada ao tempo. Em ambos os casos a regra é a mesma: a linha de base tem de ser a melhor coisa trivial disponível, não a mais fácil de vencer.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva",
+   "gabarito_num": {
+    "valor": 2,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "prova-parte-ii-q11",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-8-do-modelo-a-decisao.md:O3",
+    "livro/capitulos/ii-2-modelos-lineares.md:O3"
+   ],
+   "enunciado": "Um relatório traz: problema, dados, protocolo, resultado com intervalo de confiança e recomendação de aumentar o preço com base num coeficiente positivo. O protocolo está impecável e o R² é 0,982.\n\nQual parte do relatório mínimo está faltando, e o que ela teria impedido?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O resultado com incerteza, que teria mostrado que o coeficiente não é significativo."
+    },
+    {
+     "correta": true,
+     "texto": "As limitações, que teriam registrado que o preço nunca variou fora da alta temporada, e portanto o modelo não estima efeito de preço."
+    },
+    {
+     "correta": false,
+     "texto": "O protocolo, que deveria ter usado validação cruzada."
+    },
+    {
+     "correta": false,
+     "texto": "Nenhuma: com R² de 0,982 e protocolo correto, a recomendação se sustenta."
+    }
+   ],
+   "gabarito": "as limitações",
+   "porque": "Nenhuma das outras partes pegaria o problema, e é isso que torna o caso instrutivo. O protocolo estava correto, o R² é legítimo, e o intervalo de confiança do coeficiente pode ser perfeitamente estreito — o coeficiente é preciso e responde sobre a estação, não sobre o preço.\n\nO que falta é a frase que só cabe em limitações: o preço nunca variou dentro de um mesmo período, então o dado não contém a informação que a recomendação exige.\n\nÉ a parte que quase todo mundo corta por parecer fraqueza, e a única que teria evitado o erro caro. Vale como regra: um coeficiente só responde sobre o que variou de forma independente nos dados.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
+  },
+  {
+   "id": "prova-parte-ii-q12",
+   "capitulo": 32,
+   "arquivo": "livro/provas/prova-parte-ii.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/ii-8-do-modelo-a-decisao.md:O4",
+    "livro/capitulos/ii-1-avaliacao.md:O5"
+   ],
+   "enunciado": "Um modelo de priorização de atendimento tem AUC de 0,88 ± 0,01 entre as dobras, bate a linha de base com folga e o ganho financeiro estimado paga o custo. Ao segmentar, o desempenho cai para 0,61 no grupo de pacientes que chegam pelo pronto-socorro, que é 18% do volume.\n\nQuais conclusões se sustentam? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A média de 0,88 esconde um subgrupo relevante com desempenho próximo do acaso."
+    },
+    {
+     "correta": true,
+     "texto": "Desempenho ruim num subgrupo que importa é motivo suficiente para não lançar, mesmo passando nas métricas."
+    },
+    {
+     "correta": true,
+     "texto": "Recusar o lançamento exige o mesmo aparato de defendê-lo: números, protocolo e critério explícito."
+    },
+    {
+     "correta": false,
+     "texto": "Como o intervalo entre dobras é estreito, o resultado é estável e o subgrupo é ruído amostral."
+    }
+   ],
+   "gabarito": "a média esconde o subgrupo · motivo suficiente para não lançar · a recusa exige o mesmo aparato",
+   "porque": "As três corretas encadeiam medição, critério e processo. Um AUC de 0,61 aplicado a decisões de atendimento significa priorizar perto do sorteio, enquanto a instituição acredita operar um sistema de 0,88.\n\nA alternativa errada usa corretamente um fato e tira a conclusão oposta. Intervalo estreito entre dobras diz que a média é estável, e uma média estável de um número que agrega dois subgrupos muito diferentes continua escondendo os dois. Estabilidade não é homogeneidade.\n\nO terceiro item é o que evita que a recusa vire opinião. \"Não vamos lançar\" com evidência é trabalho concluído, e é assim que ele precisa chegar à reunião.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-ii",
+   "titulo_capitulo": "Prova da Parte II — Análise Preditiva"
   }
  ],
  "videos": [

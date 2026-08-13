@@ -221,6 +221,11 @@
           "arquivo": "livro/provas/prova-parte-i.md",
           "titulo": "Prova da Parte I — Ciência de Dados",
           "teaser": "Dez itens cruzados sobre os seis capítulos da Parte I."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-ii.md",
+          "titulo": "Prova da Parte II — Análise Preditiva",
+          "teaser": "Doze itens cruzados sobre os oito capítulos da Parte II."
         }
       ]
     },
