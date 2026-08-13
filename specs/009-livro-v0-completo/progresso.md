@@ -82,9 +82,25 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 29 | V.4 — Fronteira e Expiração | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
+| 29 | V.4 — Fronteira e Expiração | 3 | 9 | 9 | **ok** | **ok** | **ok** | **ok** |
 
-**Totais:** 114 objetivos · 412 exercícios hoje (342 de capítulo + 70 de prova) · **342 no alvo — as colunas `exs` e `prova` fecharam nos 29 capítulos**.
+**Totais:** 114 objetivos · 412 exercícios hoje (342 de capítulo + 70 de prova) · **342 no alvo — as quatro colunas fecharam nos 29 capítulos**.
+
+> **A coluna `fontes` fechou no V.4**, e o último capítulo foi o que melhor resume a
+> coluna inteira. Ele é o capítulo sobre "a procedência apodrece antes do conteúdo",
+> e o memorando de 1966 que ele usa como prova disso estava, nele próprio, em ✓ᵐ com
+> a razão escrita: o PDF não abria. Abriu. É digitalização sem camada de texto, então
+> as páginas saíram como imagem e foram lidas assim. O que apareceu confirmou a tese
+> do capítulo contra o próprio capítulo: até o rótulo do memorando viaja diferente do
+> que está no papel, que diz "Vision Memo. No. 100." e não "AI Memo 100".
+>
+> **Placar da coluna: 29 capítulos, 1 marcado `n/a` (o 0.1, que não faz afirmação
+> histórica), 28 conferidos.** A maioria rendeu achado, e os que não renderam também
+> são resultado: o I.6 foi o primeiro capítulo em que as afirmações centrais bateram
+> com a fonte, e o III.6 fechou sem erro, com um ⏳ que era ✓. Quem for contar a taxa
+> exata, conte pelas entradas do CHANGELOG deste ciclo, que é onde cada achado está
+> registrado um a um. Não vale estimar de cabeça: é o erro que esta coluna passou o
+> ciclo inteiro corrigindo.
 
 > **As 7 provas existem.** As seis de parte cruzam capítulos dentro da parte; a
 > final cruza **partes**, que é a diferença que ela existe para cobrar. Nenhuma
@@ -296,6 +312,35 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > hoje: distinguir ruído de deriva quando o preditor erra. A lista de referências não
 > traz fonte anterior para o termo, o que **não** prova primazia; o cunho ficou em ⏳
 > com essa distinção escrita.
+>
+> **O V.4 fecha a coluna, e fecha com a coluna se aplicando a si mesma.** É o capítulo
+> sobre "a procedência apodrece antes do conteúdo", e a prova que ele usa disso, o
+> memorando de 1966, estava nele em ✓ᵐ porque o PDF não abria. Abriu, em três URLs
+> diferentes, e a razão registrada antes era imprecisa: não era erro do repositório,
+> é digitalização **sem camada de texto**. Extraí as páginas como imagem e li assim.
+> Foi o mesmo diagnóstico que o III.4 já tinha registrado para os artigos de Hubel &
+> Wiesel; se eu tivesse lido a nota do III.4 antes, teria tentado a extração de
+> imagem na primeira passagem em vez de anotar "o repositório devolveu erro".
+>
+> **E o memorando confirmou a tese do capítulo contra o capítulo.** Ele fala em
+> *"our summer workers"* no plural, registra Sussman coordenando reuniões abertas a
+> *"anyone who wishes to participate"*, e escalona o objetivo (figura-fundo, depois
+> região, depois objeto), com o subobjetivo de julho limitado a cenas de objetos não
+> sobrepostos. A lenda achata o escopo para baixo ("resolver visão num verão") e o
+> livro estava achatando para o outro lado, chamando a ambição de exagerada quando o
+> texto declara querer *"a real landmark"*. E o rótulo: o papel diz "Vision Memo. No.
+> 100.", não "AI Memo 100". Num capítulo cuja tese é que o rótulo apodrece primeiro,
+> o rótulo tinha apodrecido.
+>
+> **Um segundo erro de numeração velha, igual ao do IV.1.** A linha 📖 remetia aos
+> "caps. IV.1, 13 e 23", e o livro não usa mais numeração corrida. São IV.1, IV.2 e
+> II.6, que é o que o próprio box diz duas linhas acima. Segunda ocorrência dessa
+> classe no ciclo (a primeira foi o "II.2 e 18" do IV.1): **numeração antiga sobrevive
+> dentro das tabelas de selo**, porque ninguém relê a tabela procurando link. Varri o
+> livro inteiro atrás de uma terceira e não há: as demais menções a "capítulo <número>"
+> são a capítulos de outras obras (o 2 do *Principia*, o 4 da tese de Hochreiter, o 7
+> do *Designing ML Systems*), e as do `HISTORICO.md` são registro de edição antiga,
+> que é para ficar como está.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

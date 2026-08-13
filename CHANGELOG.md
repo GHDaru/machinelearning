@@ -6,6 +6,27 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado — o memorando de 1966 foi lido, e desmente o capítulo que o cita (cap. V.4)
+- **O PDF que "não abria" abriu**, e a razão antes registrada estava errada: não era
+  erro do repositório, é **digitalização sem camada de texto**. As páginas foram
+  extraídas como imagem e lidas assim, que é o mesmo diagnóstico já registrado no
+  III.4 para os artigos de Hubel & Wiesel.
+- **O papel diz "Vision Memo. No. 100.", não "AI Memo 100".** O arquivo do MIT o
+  cataloga como AIM-100, e daí o nome pelo qual circula. Num capítulo cuja tese é
+  que o rótulo apodrece antes do conteúdo, o rótulo tinha apodrecido.
+- **A lenda erra em três pontos, e agora com citação para cada um.** Não era um
+  aluno: o texto fala em *"our summer workers"*, no plural, e registra Sussman
+  coordenando reuniões abertas a *"anyone who wishes to participate"*. E o escopo é
+  escalonado: figura-fundo, depois região, depois objeto, com o subobjetivo de julho
+  limitado a cenas *"consisting of non-overlapping objects"*.
+- **A correção corre para os dois lados.** O capítulo dizia "ambição exagerada"; o
+  memorando declara querer *"a real landmark in the development of 'pattern
+  recognition'"*. A lenda achata o escopo para baixo e o livro estava achatando para
+  cima.
+- **Numeração antiga dentro da tabela de selos:** a linha 📖 remetia aos "caps. IV.1,
+  13 e 23". São IV.1, IV.2 e II.6. Segunda ocorrência da classe neste ciclo, depois
+  do "II.2 e 18" do IV.1; o livro foi varrido e não há uma terceira.
+
 ### Corrigido — train/serve skew tinha três causas e o livro contava uma (cap. V.2)
 - **A definição estava estreitada.** A fonte diz *"training-serving skew is a
   difference between performance during training and performance during serving"*

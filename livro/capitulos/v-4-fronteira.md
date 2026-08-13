@@ -40,7 +40,13 @@ A previsão de que "de três a oito anos teremos uma máquina com a inteligênci
 
 A história mais repetida das três: *Minsky teria mandado um aluno resolver visão computacional num verão*.
 
-O documento existe, e é o **MIT AI Memo 100, "The Summer Vision Project", de 7 de julho de 1966** — assinado por **Seymour Papert**, não por Minsky, e propondo trabalho para um grupo, não para um aluno solitário. **O nome trocado, o número de pessoas inflado, e a ambição exagerada** — a versão popular erra nos três.
+O documento existe, e agora está lido. O cabeçalho traz "MASSACHUSETTS INSTITUTE OF TECHNOLOGY", "PROJECT MAC", o grupo ("Artificial Intelligence Group"), a data (7 de julho de 1966) e uma numeração que quase ninguém cita: **"Vision Memo. No. 100."** O arquivo do MIT o cataloga como AIM-100, e daí ele circular como "AI Memo 100"; o papel diz outra coisa. Assina **Seymour Papert**, não Minsky.
+
+Não era um aluno. A primeira frase fala em *"our summer workers"*, no plural, e a página seguinte registra que Sussman coordena as reuniões do "Vision Project" e *"should be consulted by anyone who wishes to participate"*. Um grupo aberto, com coordenação, e não uma tarefa despejada em alguém.
+
+E o escopo corre para os dois lados, o que é a parte que ninguém conta. O objetivo declarado não é "resolver visão": é dividir uma imagem em *"likely objects, likely background areas, chaos"*, o que o texto chama de FIGURE-GROUND analysis, depois descrever regiões e só então identificar objetos *"by matching them with a vocabulary of known objects"*. O subobjetivo de julho é ainda mais estreito: cenas *"consisting of non-overlapping objects"*. Mas seria falso pintar o memorando como modesto, porque ele declara querer *"a real landmark in the development of 'pattern recognition'"*, com as aspas de reserva que são do próprio Papert.
+
+**O nome trocado, o número de pessoas inflado, o escopo achatado nas duas pontas.** A versão popular erra nos três. E a mais reveladora é a primeira: até o rótulo do memorando, que é o dado mais fácil de copiar certo, viaja diferente do que está no papel.
 
 > ### A lição, e ela é melhor do que "especialistas erram"
 >
@@ -55,10 +61,10 @@ O documento existe, e é o **MIT AI Memo 100, "The Summer Vision Project", de 7 
 | Selo | Afirmação |
 |---|---|
 | ✓ᵃ | A frase de Simon e a correção da fonte de 1965 para *The New Science of Management Decision* (1960, p. 38) — via verificação que exibe a página do original |
-| ✓ᵐ | O **MIT AI Memo 100**, *The Summer Vision Project*, 07/07/1966, assinado por **Seymour Papert** — obra, autoria e data. **O PDF não abriu** (o repositório devolveu erro) |
-| ⏳ | Que a previsão de "três a oito anos" foi publicada na *Life* de 20/11/1970, em reportagem de Brad Darrach, **e** que Minsky contestou o artigo — a negativa chega por fonte de segunda mão, e a revista **não foi aberta** |
-| ⏳ | Que a versão popular da lenda do "verão da visão" atribui o memorando a Minsky e a um aluno só |
-| 📖 | A leitura de que a **procedência apodrece antes do conteúdo**, e a ligação com os caps. IV.1, 13 e 23 |
+| ✓ | *The Summer Vision Project*, MIT Project MAC, Artificial Intelligence Group, **"Vision Memo. No. 100."**, 7 de julho de 1966, assinado por **Seymour Papert**: cabeçalho, autoria, data, os *"summer workers"* no plural, a coordenação de Sussman, a cadeia FIGURE-GROUND → região → objeto, o subobjetivo de julho com objetos não sobrepostos e o *"real landmark"*. O PDF, que numa passagem anterior não abriu, está no [repositório do MIT](https://dspace.mit.edu/handle/1721.1/6125). **É digitalização sem camada de texto**: as páginas foram extraídas como imagem e lidas assim |
+| ✓ᵐ | Que o mesmo documento é catalogado como **AIM-100**, que é a origem do nome "AI Memo 100" pelo qual ele circula |
+| ⏳ | Que a previsão de "três a oito anos" foi publicada na *Life* de 20/11/1970, em reportagem de Brad Darrach, **e** que Minsky contestou o artigo. A negativa chega por fonte de segunda mão, e a revista **não foi aberta** |
+| 📖 | A leitura de que a **procedência apodrece antes do conteúdo**, e a ligação com os capítulos IV.1 (cerveja e fraldas), IV.2 (o nome *dynamic programming*) e II.6 (o batismo do OLAP) |
 
 :::exercicio {"id":"fronteira-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Você lê num post: *"Estudos mostram que modelos de linguagem já superam médicos em diagnóstico."* Qual é a **primeira** pergunta a fazer?
