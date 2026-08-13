@@ -46,10 +46,10 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > a ReLU sozinha não bastando) e **II.7** (a origem móvel contra a divisão
 > embaralhada, que erra MENOS) e **II.8** (o custo do falso negativo subindo e o
 > limiar ótimo DESCENDO) e **V.3** (o PSI e a AUC na mesma linha do tempo, com a
-> deriva que não dói) e **I.5** (a base do eixo subindo, com os valores parados).
-> A dívida do núcleo compartilhado foi paga na
+> deriva que não dói) e **I.5** (a base do eixo subindo, com os valores parados) e **II.3** (a perda
+> caindo depois que a acurácia congelou). A dívida do núcleo compartilhado foi paga na
 > segunda, como a ADR 0015 exigia.
-> **13 feitas, 9 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
+> **14 feitas, 8 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
 > erro de conta de `animacoes.md`, corrigido em 2026-08-13).
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a

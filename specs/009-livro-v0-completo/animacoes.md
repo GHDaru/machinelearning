@@ -33,7 +33,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
 | II.1 | **feita** — limiar descendo de 0,98 a 0,00: matriz de confusão, acurácia, precisão e revocação mudando junto, o ponto andando sobre a ROC, e o botão da prevalência de 1% |
 | II.2 | gradiente ajustando a reta: soma dos quadrados caindo, e a distância até o ótimo das equações normais |
-| II.3 | \|w\| crescendo: log-loss ainda caindo depois que a acurácia estagnou |
+| II.3 | **feita** — acurácia congelando em 1,000 no passo 52 enquanto a norma de w vai de 6,08 a 7,91 e a perda de 0,23 a 0,078; o botão da L2 devolve o ponto ótimo |
 | II.4 | **feita** — três taxas (0,001 / 0,1 / 1,5) na mesma paisagem, a terceira saindo da escala, mais o botão que troca só a perda e faz a mesma 1,5 virar a melhor das três |
 | II.5 | árvore crescendo corte a corte com o ganho de Gini; depois o boosting, com o resíduo médio encolhendo por árvore |
 | II.6 | **não animar** — drill-down é navegação; cubo girando é decoração |
@@ -518,3 +518,27 @@ enuncia: em barra o comprimento codifica, em linha codifica a inclinação.
 
 **Uma comparação que depende do ponto de parada não é uma comparação.** Foi só
 medir para ver; antes de medir, ela parecia a melhor parte da animação.
+
+
+## O que a décima quarta animação ensinou (II.3, 2026-08)
+
+**A primeira versão respondia à pergunta cedo demais.** Com margem larga, a
+acurácia batia 1,000 no passo 0 e a animação começava já com a resposta na tela.
+Estreitei a margem, e a acurácia passou a chegar a 1,000 no passo **52**, o que dá
+ao leitor 52 quadros de "está melhorando" antes dos 348 de "não está mais". A
+lição precisa do intervalo entre as duas fases para existir.
+
+**O que ela ensina é uma NÃO-EXISTÊNCIA, e isso é raro numa animação.** Com dado
+separável, o máximo da verossimilhança não existe em ponto nenhum: a perda tende
+a zero com a norma indo ao infinito. A tela mostra o processo não convergindo, e
+o placar dá o número que prova (6,08 no passo 200 contra 7,91 no 400). É a
+demonstração operacional do O3, que em prosa é uma frase sobre sistema
+transcendental.
+
+**E o botão da L2 é o argumento inteiro de por que regularizar não é ajuste
+fino.** Com penalização, a norma para em 3,31 e a perda em 0,226, com a mesma
+acurácia de 1,000. A penalização não melhorou a classificação: ela **devolveu ao
+problema um ponto ótimo que ele não tinha**.
+
+Teste **visto falhando**: tirei a penalização do gradiente e as duas linhas da L2
+acusaram, com a norma "regularizada" indo a 7,91 igual à outra.

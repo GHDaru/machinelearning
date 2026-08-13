@@ -3083,6 +3083,157 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+  // A animação do capítulo II.3: dado linearmente separável, descida de gradiente
+  // na entropia cruzada, e três números na tela — a norma de w, a perda e a
+  // acurácia. A acurácia congela em 1,000 nas primeiras dezenas de passos; a
+  // perda continua caindo; e a norma de w continua crescendo, sem parar.
+  //
+  // O leitor erra a previsão numa pergunta que parece boba: "a perda ainda está
+  // caindo, então o modelo ainda está melhorando?" Não está. Ele está ficando
+  // mais CONFIANTE sobre a mesma fronteira, e nada mais. Com dado separável o
+  // máximo da verossimilhança não existe em ponto nenhum: a perda tende a zero
+  // com a norma indo ao infinito, e é isso que "não há solução fechada" (O3)
+  // quer dizer na prática.
+  //
+  // O segundo botão liga a penalização L2. A norma para de crescer, a perda
+  // estabiliza acima de zero, e a fronteira é a mesma. É o argumento inteiro de
+  // por que regularizar não é um detalhe de ajuste fino.
+  function animaSeparavel(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bReg;
+    var N = 200, PASSOS = 400, ETA = 0.5, LAMBDA = 0.02;
+    var DADOS = (function () {
+      var r = rng(23), v = [], i, x1, x2, y;
+      for (i = 0; i < N; i++) {
+        y = i % 2;
+        x1 = (r() * 2 - 1) * 1.6;
+        x2 = (r() * 0.9 + 0.06) * (y ? 1 : -1);      // margem estreita: separável, mas não de graça
+        v.push({ x: [x1, x2], y: y });
+      }
+      return v;
+    })();
+    var est = { reg: false, i: 0, w: [0, 0], b: 0, hist: [], parou: false,
+                iAcc: null, perda: 1, acc: 0, norma: 0 };
+
+    function sig(z) { return 1 / (1 + Math.exp(-z)); }
+
+    function medir() {
+      var s = 0, ac = 0, i, z, p;
+      for (i = 0; i < N; i++) {
+        z = est.w[0] * DADOS[i].x[0] + est.w[1] * DADOS[i].x[1] + est.b;
+        p = sig(z);
+        s -= DADOS[i].y ? Math.log(Math.max(p, 1e-12)) : Math.log(Math.max(1 - p, 1e-12));
+        if ((p >= 0.5 ? 1 : 0) === DADOS[i].y) ac++;
+      }
+      est.perda = s / N;
+      est.acc = ac / N;
+      est.norma = Math.sqrt(est.w[0] * est.w[0] + est.w[1] * est.w[1]);
+    }
+
+    function iterar() {
+      var g0 = 0, g1 = 0, gb = 0, i, z, p, e;
+      for (i = 0; i < N; i++) {
+        z = est.w[0] * DADOS[i].x[0] + est.w[1] * DADOS[i].x[1] + est.b;
+        p = sig(z); e = p - DADOS[i].y;
+        g0 += e * DADOS[i].x[0]; g1 += e * DADOS[i].x[1]; gb += e;
+      }
+      g0 /= N; g1 /= N; gb /= N;
+      if (est.reg) { g0 += LAMBDA * est.w[0]; g1 += LAMBDA * est.w[1]; }
+      est.w[0] -= ETA * g0; est.w[1] -= ETA * g1; est.b -= ETA * gb;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, h;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 20, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.reg ? "com penalização L2" : "sem penalização") +
+                   " · norma de w (laranja) e perda (azul)", x0, PAD + 12);
+      var maxN = 1;
+      est.hist.forEach(function (q) { if (q.n > maxN) maxN = q.n; });
+      ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+      ctx.lineWidth = 2; ctx.beginPath();
+      est.hist.forEach(function (q, j) {
+        var px = x0 + (j / PASSOS) * larg, py = base - (q.n / maxN) * alt;
+        if (j === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.beginPath();
+      est.hist.forEach(function (q, j) {
+        var px = x0 + (j / PASSOS) * larg, py = base - (q.p / 0.7) * alt;
+        if (j === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      if (est.iAcc != null) {
+        ctx.strokeStyle = escuro ? "#87b89a" : "#2f7d4f";
+        ctx.setLineDash([2, 3]); ctx.lineWidth = 1;
+        h = x0 + (est.iAcc / PASSOS) * larg;
+        ctx.beginPath(); ctx.moveTo(h, PAD + 18); ctx.lineTo(h, base); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = escuro ? "#87b89a" : "#2f7d4f";
+        ctx.fillText("acurácia 1,000 desde o passo " + est.iAcc, h + 4, PAD + 30);
+      }
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("passo 0", x0, base + 14);
+      ctx.fillText("passo " + PASSOS, x0 + larg - 48, base + 14);
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.reg ? "com penalização L2" : "sem penalização") +
+        " · passo " + est.i +
+        " · norma de w " + est.norma.toFixed(2) +
+        " · perda " + est.perda.toFixed(4) +
+        " · acurácia " + est.acc.toFixed(3) +
+        (est.iAcc != null ? " · a acurácia chegou a 1,000 no passo " + est.iAcc : "") +
+        (est.parou
+          ? (est.reg
+              ? " · a norma parou de crescer"
+              : " · e a norma seguiu crescendo por mais " + (PASSOS - est.iAcc) + " passos sem mexer na acurácia")
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      iterar(); medir();
+      if (est.iAcc == null && est.acc >= 1) est.iAcc = est.i;
+      est.hist.push({ n: est.norma, p: est.perda });
+      est.i++;
+      if (est.i >= PASSOS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(reg) {
+      est.reg = reg; est.i = 0; est.w = [0, 0]; est.b = 0;
+      est.hist = []; est.iAcc = null; est.parou = false;
+      medir();
+      rel.comecar(PASSOS + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bReg.textContent = est.reg ? "Tirar a penalização" : "E se houvesse penalização L2?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.reg); });
+    bReg = botao("E se houvesse penalização L2?", function () { rodar(!est.reg); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 20);
+    medir(); desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
+
 
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
@@ -3092,7 +3243,8 @@
                 "anima-limiar": animaLimiar, "anima-gradiente": animaGradiente,
                 "anima-origem-movel": animaOrigemMovel, "anima-custo": animaCusto,
                 "anima-deriva": animaDeriva,
-                "anima-eixo": animaEixo };
+                "anima-eixo": animaEixo,
+                "anima-separavel": animaSeparavel };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

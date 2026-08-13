@@ -137,6 +137,18 @@ que tem a **mesma forma** da condição do capítulo II.2 — resíduo ortogonal
 
 É por isso que a logística **não tem** equações normais, e o gradiente deixa de ser uma alternativa elegante para virar a única saída. A frase do capítulo II.2, *"o gradiente é a ferramenta geral; a solução fechada é o caso de sorte"*, recebe aqui a sua demonstração.
 
+:::lab {"id":"regressao-logistica-l1","tipo":"anima-separavel","titulo":"A perda ainda cai. O modelo ainda melhora?"}
+Duzentos pontos, duas classes, linearmente separáveis por uma folga estreita. Descida de gradiente na entropia cruzada, 400 passos. Três números no placar: a **norma de w**, a perda e a acurácia.
+
+No passo 52 a acurácia chega a 1,000 e não sai mais de lá. Todos os pontos do lado certo, todos.
+
+**Aqui vem a pergunta que a animação existe para fazer.** Do passo 52 ao 400 a perda continua caindo, de 0,23 para 0,078. O modelo continua melhorando?
+
+**Não.** A fronteira é a mesma; o que muda é a confiança. A norma de w vai de 6,08 no passo 200 para 7,91 no passo 400, e continuaria subindo se a animação não parasse. Com dado separável, o máximo da verossimilhança **não existe em ponto nenhum**: a perda tende a zero à medida que a norma tende ao infinito, empurrando as probabilidades para 0 e para 1. Não é o otimizador que está mal ajustado, é que não há ponto ótimo a alcançar. E "não há solução fechada" quer dizer exatamente isto quando se olha de perto.
+
+**Clique em "E se houvesse penalização L2?".** A norma para em 3,31 e fica lá, a perda estabiliza em 0,226, e a acurácia continua 1,000. A penalização não melhorou a classificação: ela **devolveu ao problema um ponto ótimo que ele não tinha**. É por isso que regularizar não é ajuste fino.
+:::
+
 :::exercicio {"id":"regressao-logistica-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Por que a regressão logística não tem solução fechada, como a linear tem?
 

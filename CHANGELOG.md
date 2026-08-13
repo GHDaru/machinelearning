@@ -6,6 +6,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação do dado separável, e a perda que cai sem melhorar nada (cap. II.3)
+- **Décima quarta animação** (`anima-separavel`): 400 passos de descida na
+  entropia cruzada sobre dado linearmente separável, com a norma de w, a perda e
+  a acurácia no placar.
+- **A acurácia congela em 1,000 no passo 52 e a perda continua caindo** até o
+  passo 400, de 0,23 para 0,078. O modelo não está melhorando: está ficando mais
+  confiante sobre a mesma fronteira. A norma de w vai de 6,08 (passo 200) para
+  7,91 (passo 400) e continuaria subindo.
+- **Ela ensina uma não-existência**, que é raro numa animação: com dado
+  separável, o máximo da verossimilhança não existe em ponto nenhum. É a
+  demonstração operacional do O3, que em prosa é uma frase sobre sistema
+  transcendental.
+- **O botão da L2 é o argumento de por que regularizar não é ajuste fino:** a
+  norma para em 3,31, a perda em 0,226, e a acurácia segue 1,000. A penalização
+  não melhorou a classificação, **devolveu ao problema um ponto ótimo que ele não
+  tinha**.
+- A primeira versão respondia cedo demais (acurácia 1,000 já no passo 0, com
+  margem larga). A margem foi estreitada para que existam 52 quadros de "está
+  melhorando" antes dos 348 de "não está mais".
+
 ### Corrigido — não são onze vezes, são doze (cap. I.5)
 - O exercício do eixo truncado dizia que, com o eixo começando em 88, a última
   barra fica "cerca de **onze vezes**" a altura da primeira. As alturas viram
