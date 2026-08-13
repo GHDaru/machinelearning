@@ -254,6 +254,18 @@ Um classificador quase sempre produz um **escore** contínuo, e só vira decisã
 
 > **Cláusula de expiração.** Escrevo em 2026 que AUC-PR é a escolha padrão para classes raras e que a calibração é tratada como etapa pós-treino (Platt, isotônica). Se, na próxima revisão, os modelos de uso geral estiverem entregando escores bem calibrados sem etapa dedicada, esta seção muda de recomendação. Acompanhamento no [placar de expiração](../HISTORICO.md).
 
+:::lab {"id":"avaliacao-l1","tipo":"anima-limiar","titulo":"Desça o limiar e veja quais números se mexem"}
+Não há nada a treinar aqui. Os escores já existem, os positivos sorteados de uma distribuição e os negativos de outra, e a única coisa que se move é **onde se corta**. O limiar desce de 0,98 a 0,00, e a cada quadro a matriz de confusão, a acurácia, a precisão e a revocação mudam junto, com o ponto andando sobre a ROC.
+
+Assista uma vez com as classes equilibradas. Precisão e revocação andam em direções opostas, que é a troca da qual o capítulo inteiro depende, e o melhor F1 aparece no meio do caminho.
+
+Agora, **antes de clicar**, responda: se só 1% dos casos fosse positivo, o que aconteceria com a acurácia? Escreva a sua resposta e então clique em "E se só 1% fosse positivo?".
+
+Ela **sobe**. No limiar alto a acurácia bate 0,992 com revocação de 0,168: o modelo está deixando escapar mais de 80% dos positivos e acertando quase tudo, porque quase tudo é negativo. Dizer "não" a todo mundo já daria 0,990. É o O1 deste capítulo em três números na tela.
+
+Repare agora no que **não** se mexeu. A AUC-ROC fica em 0,968 nas duas prevalências, dígito por dígito. Não é coincidência da simulação, é a definição: a ROC compara positivos com positivos e negativos com negativos, e a proporção entre os dois não entra na conta. Já a AUC-PR cai de 0,925 para 0,578, porque a precisão depende da prevalência. É por isso que a seção acima prefere a AUC-PR para classe rara, e é a distância entre o O4 e o O1 vista de uma vez só.
+:::
+
 :::exercicio {"id":"avaliacao-e4","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
 Um modelo tem AUC-ROC de 0,95 no teste. Quais conclusões são **legítimas** a partir só desse número? (marque todas que valem)
 

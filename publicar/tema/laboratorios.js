@@ -2118,11 +2118,194 @@
     rel.aoChegar(function () { rodar(); });
   }
 
+  // A animação do capítulo II.1: o limiar varrendo os escores, com a matriz de
+  // confusão, precisão e revocação mudando junto, e o ponto andando sobre a ROC.
+  //
+  // O controle que o leitor erra ao prever é a PREVALÊNCIA. Perguntado o que
+  // acontece com a acurácia quando os positivos caem de 50% para 1%, quase todo
+  // mundo responde "cai". Ela sobe: no limiar alto o modelo praticamente só diz
+  // "não", e a essa altura quase sempre acerta. Quem desaba é a precisão, e a
+  // AUC-ROC não se move um dígito.
+  //
+  // A decisão de implementação que sustenta a lição: a prevalência entra como
+  // PESO, e não por reamostragem. Os escores dos positivos e dos negativos vêm
+  // de dois poços fixos, e π só decide quanto cada poço pesa na contagem. Com
+  // isso TPR e FPR ficam EXATAMENTE invariantes à prevalência, que é o teorema
+  // do capítulo (a ROC só olha para dentro de cada classe), em vez de
+  // aproximadamente invariantes a menos de ruído de amostragem. Uma animação
+  // que ensina "este número não muda" não pode exibir o número tremendo.
+  function animaLimiar(area, cfg) {
+    var W = 460, H = 300, PAD = 22;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bPrev;
+    var N = 2000, PASSO = 0.02, T0 = 0.98, T_FIM = 0.0, GRID = 501;
+
+    function poco(sem, n, desloc) {
+      var r = rng(sem), v = [], i, s;
+      for (i = 0; i < n; i++) {
+        s = (r() + r() + r()) / 3 + desloc;
+        v.push(Math.min(0.999, Math.max(0.001, s)));
+      }
+      v.sort(function (a, b) { return a - b; });
+      return v;
+    }
+
+    var POS = poco(7, 4000, 0.22), NEG = poco(13, 4000, -0.22);
+    var est = { lim: T0, pi: 0.5, parou: false, roc: [], melhorF1: 0, limF1: 0 };
+
+    /** Fração do poço (ordenado) com escore >= lim, por busca binária. */
+    function acima(v, lim) {
+      var lo = 0, hi = v.length, m;
+      while (lo < hi) { m = (lo + hi) >> 1; if (v[m] >= lim) hi = m; else lo = m + 1; }
+      return (v.length - lo) / v.length;
+    }
+
+    function met(lim, pi) {
+      var tpr = acima(POS, lim), fpr = acima(NEG, lim);
+      var tp = pi * tpr, fn = pi * (1 - tpr);
+      var fp = (1 - pi) * fpr, tn = (1 - pi) * (1 - fpr);
+      return { tpr: tpr, fpr: fpr, tp: tp, fn: fn, fp: fp, tn: tn,
+               acc: tp + tn, rec: tpr,
+               prec: (tp + fp) > 1e-12 ? tp / (tp + fp) : null };
+    }
+
+    /** AUC por trapézio numa grade própria, independente do passo da animação. */
+    function areas(pi) {
+      var i, lim, m, roc = 0, pr = 0, ant = met(1.0001, pi);
+      for (i = 1; i < GRID; i++) {
+        lim = 1 - i / (GRID - 1);
+        m = met(lim, pi);
+        roc += (m.fpr - ant.fpr) * (m.tpr + ant.tpr) / 2;
+        if (m.prec != null && ant.prec != null) {
+          pr += (m.rec - ant.rec) * (m.prec + ant.prec) / 2;
+        }
+        ant = m;
+      }
+      return { roc: roc, pr: pr };
+    }
+
+    function faixa(v, y0, cor) {
+      var x0 = PAD + 4, larg = W / 2 - PAD - 14, i;
+      ctx.fillStyle = cor;
+      for (i = 0; i < v.length; i += 7) {
+        ctx.fillRect(x0 + v[i] * larg, y0 + (((i / 7) | 0) % 26), 1.4, 1.4);
+      }
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), m = met(est.lim, est.pi);
+      var x0 = PAD + 4, larg = W / 2 - PAD - 14;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("escores dos positivos", x0, PAD + 12);
+      faixa(POS, PAD + 18, escuro ? "#8fb8dd" : "#35618e");
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("escores dos negativos", x0, PAD + 68);
+      faixa(NEG, PAD + 74, escuro ? "#e0a24a" : "#b8761f");
+      ctx.strokeStyle = escuro ? "#e6e6e4" : "#1c1c1c";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x0 + est.lim * larg, PAD + 14);
+      ctx.lineTo(x0 + est.lim * larg, PAD + 104);
+      ctx.stroke();
+
+      var cx = x0, cy = PAD + 130;
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("matriz de confusão (de " + N + ")", cx, cy);
+      [["VP", m.tp], ["FP", m.fp], ["FN", m.fn], ["VN", m.tn]].forEach(function (c, j) {
+        var px = cx + (j % 2) * 96, py = cy + 18 + (j > 1 ? 20 : 0);
+        ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+        ctx.fillText(c[0], px, py);
+        ctx.fillStyle = escuro ? "#e6e6e4" : "#1c1c1c";
+        ctx.fillText(String(Math.round(c[1] * N)), px + 24, py);
+      });
+
+      var rx = W / 2 + 14, ry = PAD + 12, rl = H - 2 * PAD - 34;
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(rx, ry, rl, rl);
+      ctx.beginPath(); ctx.moveTo(rx, ry + rl); ctx.lineTo(rx + rl, ry); ctx.stroke();
+      ctx.strokeStyle = escuro ? "#87b89a" : "#2f7d4f";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      est.roc.forEach(function (p, j) {
+        var px = rx + p[0] * rl, py = ry + rl - p[1] * rl;
+        if (j === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.fillStyle = escuro ? "#e6e6e4" : "#1c1c1c";
+      ctx.beginPath();
+      ctx.arc(rx + m.fpr * rl, ry + rl - m.tpr * rl, 3.5, 0, 6.2832);
+      ctx.fill();
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("ROC · falso positivo × revocação", rx, ry + rl + 16);
+    }
+
+    function texto() {
+      var m = met(est.lim, est.pi), a = areas(est.pi);
+      placar.textContent =
+        "prevalência " + est.pi.toFixed(2) +
+        " · limiar " + est.lim.toFixed(2) +
+        " · VP " + Math.round(m.tp * N) + " FP " + Math.round(m.fp * N) +
+        " FN " + Math.round(m.fn * N) + " VN " + Math.round(m.tn * N) +
+        " · acurácia " + m.acc.toFixed(3) +
+        " · precisão " + (m.prec == null ? "—" : m.prec.toFixed(3)) +
+        " · revocação " + m.rec.toFixed(3) +
+        " · AUC-ROC " + a.roc.toFixed(3) + " · AUC-PR " + a.pr.toFixed(3) +
+        (est.parou
+          ? " · melhor F1 " + est.melhorF1.toFixed(3) + " no limiar " + est.limF1.toFixed(2) +
+            " · dizer não a tudo dá acurácia " + (1 - est.pi).toFixed(3)
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var m = met(est.lim, est.pi), f1;
+      est.roc.push([m.fpr, m.tpr]);
+      if (m.prec != null && (m.prec + m.rec) > 0) {
+        f1 = 2 * m.prec * m.rec / (m.prec + m.rec);
+        if (f1 > est.melhorF1) { est.melhorF1 = f1; est.limF1 = est.lim; }
+      }
+      est.lim -= PASSO;
+      if (est.lim < T_FIM - 1e-9) { est.lim = T_FIM; est.parou = true; }
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(pi) {
+      est.pi = pi; est.lim = T0; est.parou = false;
+      est.roc = []; est.melhorF1 = 0; est.limF1 = 0;
+      rel.comecar(Math.ceil((T0 - T_FIM) / PASSO) + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bPrev.textContent = est.pi > 0.1 ? "E se só 1% fosse positivo?"
+                                       : "Voltar às classes equilibradas";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.pi); });
+    bPrev = botao("E se só 1% fosse positivo?", function () {
+      rodar(est.pi > 0.1 ? 0.01 : 0.5);
+    });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 70);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(est.pi); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
-                "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento };
+                "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento,
+                "anima-limiar": animaLimiar };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

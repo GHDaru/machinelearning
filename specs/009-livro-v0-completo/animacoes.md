@@ -31,7 +31,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | I.4 | **não animar** — já tem `explorar-variavel`, e manipular ensina mais que assistir |
 | I.5 | base do eixo y subindo de 0 a 95: razão percebida entre as barras de 1,05 para 4,0, com os valores reais fixos |
 | I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
-| II.1 | limiar varrendo 0→1: precisão, recall, a matriz de confusão, e o ponto andando sobre a ROC |
+| II.1 | **feita** — limiar descendo de 0,98 a 0,00: matriz de confusão, acurácia, precisão e revocação mudando junto, o ponto andando sobre a ROC, e o botão da prevalência de 1% |
 | II.2 | gradiente ajustando a reta: soma dos quadrados caindo, e a distância até o ótimo das equações normais |
 | II.3 | \|w\| crescendo: log-loss ainda caindo depois que a acurácia estagnou |
 | II.4 | **feita** — três taxas (0,001 / 0,1 / 1,5) na mesma paisagem, a terceira saindo da escala, mais o botão que troca só a perda e faz a mesma 1,5 virar a melhor das três |
@@ -53,7 +53,15 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | V.3 | distribuição deslocando: o PSI cruzando 0,25 dias antes de a AUC real cair |
 | V.4 | **não animar** — é placar, e tabela datada é a forma certa |
 
-**23 animações, 6 capítulos sem.**
+**22 animações, 7 capítulos sem.**
+
+> **Correção de 2026-08-13.** Esta linha dizia "23 animações, 6 capítulos sem", e a
+> conta estava errada por um: as linhas com "**não animar**" na tabela acima são
+> **sete** (0.1, I.2, I.4, II.6, III.6, V.2 e V.4), e 29 − 7 = 22. O erro tinha sido
+> copiado para o ledger, que dizia "7 feitas, 16 pendentes"; são 15 pendentes. É a
+> mesma classe de defeito que o gate de `publicar/intervalos.mjs` passou a cobrar no
+> corpo do livro: **número escrito à mão ao lado da lista que o determina**. A lista é
+> a fonte da verdade; a soma é derivada dela.
 
 ## As cinco primeiras, em ordem
 
@@ -310,3 +318,44 @@ não se lê no erro, e sim no quanto a estatística vazada se mexe.**
 **O modelo é k-vizinhos, e por um motivo:** é o mais simples que memoriza. Com
 um linear, a fonte 3 (duplicata) teria efeito perto de zero e o capítulo perderia
 justamente "o modelo que já viu a prova".
+
+
+## O que a oitava animação ensinou (II.1, 2026-08)
+
+**A prevalência entra como PESO, e essa é a decisão inteira.** A tentação era
+reamostrar: gerar 2000 casos com 1% de positivos e medir. Teria funcionado, e
+teria arruinado a lição. O capítulo ensina que a AUC-ROC **não depende da
+prevalência**, porque a ROC compara positivos com positivos e negativos com
+negativos. Com reamostragem, o número mudaria no terceiro dígito por ruído
+amostral, e o leitor atento veria tremer justamente o número que o texto promete
+imóvel. Com π entrando como peso sobre dois poços fixos de escores, TPR e FPR
+ficam **exatamente** invariantes, e o placar mostra 0,968 nos dois regimes,
+dígito por dígito.
+
+A regra que isto deixa: **quando a animação ensina "este número não muda", a
+simulação tem de tornar isso verdade por construção, não por sorte.** Uma
+animação que ilustra um teorema com ruído em cima está ensinando que o teorema é
+uma tendência.
+
+**Os números medidos, que são melhores do que a spec previa:**
+
+| | equilibrado | 1% de positivos |
+|---|---|---|
+| AUC-ROC | 0,968 | **0,968** |
+| AUC-PR | 0,925 | 0,578 |
+| acurácia no limiar 0,88 | — | **0,992** |
+| revocação no mesmo limiar | — | 0,168 |
+| dizer "não" a tudo | 0,500 | 0,990 |
+
+A linha da acurácia é o O1 do capítulo em um número: 0,992 de acurácia deixando
+escapar 83% dos positivos. E o par AUC-ROC/AUC-PR é o O4 na mesma tela, sem
+precisar de uma segunda figura.
+
+**O botão pede a previsão antes de ser clicado**, e o texto do laboratório
+manda escrever a resposta primeiro. É o requisito 2 do ADR 0015 levado à letra:
+não basta o controle existir, o leitor precisa ter cometido a previsão errada
+para que o clique ensine.
+
+O teste (`publicar/testes/anima-limiar.mjs`) foi **visto falhando**: quebrei a
+invariância fazendo `tpr` depender de π, e ele acusou 0,968 contra 0,874 na
+linha certa, com as outras cinco asserções ainda verdes.

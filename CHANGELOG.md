@@ -6,6 +6,32 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação do limiar, e a acurácia que sobe quando deveria cair (cap. II.1)
+- **Oitava animação** (`anima-limiar`): o limiar desce de 0,98 a 0,00 e a matriz
+  de confusão, a acurácia, a precisão e a revocação mudam junto, com o ponto
+  andando sobre a ROC.
+- **O controle que o leitor erra ao prever é a prevalência.** Com 1% de
+  positivos, a acurácia **sobe** a 0,992 no limiar alto, com revocação de 0,168:
+  o modelo deixa escapar 83% dos positivos e acerta quase tudo, porque quase tudo
+  é negativo. Dizer "não" a todo mundo já daria 0,990. É o O1 do capítulo em três
+  números na tela, e o texto do laboratório pede a previsão **antes** do clique.
+- **E o que não se mexe é a outra metade da lição.** A AUC-ROC fica em 0,968 nas
+  duas prevalências, dígito por dígito, enquanto a AUC-PR cai de 0,925 para
+  0,578. É o O4 do capítulo, na mesma tela, sem uma segunda figura.
+- **A prevalência entra como peso, não por reamostragem.** Os escores vêm de dois
+  poços fixos e π só decide quanto cada um pesa na contagem, o que torna TPR e
+  FPR **exatamente** invariantes. Uma animação que ensina "este número não muda"
+  não pode exibir o número tremendo no terceiro dígito por ruído amostral.
+- Teste em `publicar/testes/anima-limiar.mjs`, **visto falhando**: quebrada a
+  invariância, ele acusou 0,968 contra 0,874 na linha certa.
+
+### Corrigido — a conta das animações estava errada por um
+- `animacoes.md` dizia "23 animações, 6 capítulos sem". As linhas com "não
+  animar" são **sete**, e 29 − 7 = 22. O erro tinha sido copiado para o ledger
+  como "7 feitas, 16 pendentes". Mesma classe de defeito que o gate de intervalos
+  passou a cobrar no corpo do livro: número escrito à mão ao lado da lista que o
+  determina.
+
 ### Alterado — o memorando de 1966 foi lido, e desmente o capítulo que o cita (cap. V.4)
 - **O PDF que "não abria" abriu**, e a razão antes registrada estava errada: não era
   erro do repositório, é **digitalização sem camada de texto**. As páginas foram

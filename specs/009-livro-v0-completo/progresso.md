@@ -31,7 +31,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > | Final cumulativa | `prova-final.md` | 14 | **ok** |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
-> capítulo: 23 dos 29 animam, 6 não, e o critério é o do [ADR 0015](../../adr/0015-animacao-e-laboratorio-sem-manopla.md).
+> capítulo: 22 dos 29 animam, 7 não, e o critério é o do [ADR 0015](../../adr/0015-animacao-e-laboratorio-sem-manopla.md).
 > O mapa e o estado de cada uma vivem em [`animacoes.md`](animacoes.md), que é
 > a fonte única desse recorte. Feitas até agora: **III.1** (o perceptron
 > aprendendo, com o botão do XOR), **III.2** (o MLP resolvendo o mesmo XOR,
@@ -40,9 +40,12 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > limiar movendo contra os três critérios de justiça), **0.2** (o grau do
 > polinômio subindo, com a validação virando no grau 5 e o piso do ruído à
 > vista), **II.4** (três taxas na mesma paisagem, com o botão que troca só a
-> perda) e **I.3** (as fontes de vazamento medidas lado a lado). A dívida do
-> núcleo compartilhado foi paga na segunda, como a ADR 0015 exigia.
-> **7 feitas, 16 pendentes.**
+> perda), **I.3** (as fontes de vazamento medidas lado a lado) e **II.1** (o
+> limiar descendo, com a acurácia SUBINDO quando a classe fica rara e a AUC-ROC
+> parada no mesmo 0,968). A dívida do núcleo compartilhado foi paga na segunda,
+> como a ADR 0015 exigia.
+> **8 feitas, 14 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
+> erro de conta de `animacoes.md`, corrigido em 2026-08-13).
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a
 > ordem dos capítulos. As cinco primeiras da fila estão feitas; a próxima sai
