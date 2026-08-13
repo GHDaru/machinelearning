@@ -30,13 +30,13 @@ Medimos. No dado do experimento da [etapa 07](../trilha-ml-zero.md), com o teto 
 | Floresta (25 árvores) | 0,9332 | 99,3% |
 | Boosting (50 árvores, η=0,2) | **0,9392** | **99,9%** |
 
-O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que ele não tem como ir bem. Já uma árvore de **profundidade 3** — três perguntas encadeadas — chega a 98% do teto.
+O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que ele não tem como ir bem. Já uma árvore de **profundidade 3**, ou seja, três perguntas encadeadas, chega a 98% do teto.
 
 ## De onde isto veio
 
 ### As árvores: Breiman fora da universidade
 
-**O aperto.** Leo Breiman **deixou a academia em 1967** e passou treze anos como consultor, voltando a Berkeley só em **1980**. Nesse período ele modelou coisas como padrões de tráfego em autoestradas, gargalos no sistema judiciário e o nível de ozônio do dia seguinte na bacia de Los Angeles. Três características em comum, e nenhuma delas aparece num seminário de estatística: **variáveis de tipos misturados** (número, categoria, ordem), **dados faltando** por razões banais, e o resultado tendo de ser explicado a quem **não lê estatística** — um juiz, um engenheiro de tráfego, um secretário municipal.
+**O aperto.** Leo Breiman deixou a academia em 1967 e passou treze anos como consultor, voltando a Berkeley só em 1980. Nesse período ele modelou coisas como padrões de tráfego em autoestradas, gargalos no sistema judiciário e o nível de ozônio do dia seguinte na bacia de Los Angeles. Três características em comum, e nenhuma delas aparece num seminário de estatística: variáveis de tipos misturados (número, categoria, ordem), dados faltando por razões banais, e o resultado tendo de ser explicado a quem **não lê estatística** — um juiz, um engenheiro de tráfego, um secretário municipal.
 
 **O que se fazia antes.** Modelos paramétricos que exigiam que o consultor jurasse a forma da relação antes de olhar o dado, e que devolviam uma equação impossível de defender numa reunião com quem decide.
 
@@ -44,13 +44,13 @@ O modelo linear está em 0,4963 — **acaso**. Não é que ele vá mal; é que e
 
 **A ideia reaproveitável.** **A restrição de quem vai usar o resultado é um requisito de projeto, não uma limitação a lamentar.** CART tem a forma que tem porque nasceu na consultoria e não no seminário. Sempre que você escolher um modelo, a pergunta "quem vai precisar defender esta decisão, e para quem?" muda a resposta — e é uma pergunta técnica, não política.
 
-**O nome.** *Classification and Regression Trees* (Breiman, Friedman, Olshen & Stone, Wadsworth, **1984**). Em paralelo, na linha da inteligência artificial, Quinlan desenvolve o **ID3** — *Iterative Dichotomiser 3* —, herdeiro do CLS de Hunt (1966); conta-se que o gatilho foi um desafio de Donald Michie: decidir, só por atributos do tabuleiro, se um final de xadrez Rei-Torre contra Rei-Cavalo está perdido em número fixo de lances.
+**O nome.** *Classification and Regression Trees* (Breiman, Friedman, Olshen & Stone, Wadsworth, **1984**). Em paralelo, na linha da inteligência artificial, Quinlan desenvolve o **ID3** (*Iterative Dichotomiser 3*), herdeiro do CLS de Hunt (1966); conta-se que o gatilho foi um desafio de Donald Michie: decidir, só por atributos do tabuleiro, se um final de xadrez Rei-Torre contra Rei-Cavalo está perdido em número fixo de lances.
 
 ### O boosting: uma pergunta que virou algoritmo
 
 Esta é a origem menos conhecida e a mais instrutiva do capítulo, porque **ninguém estava procurando boosting**.
 
-Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Em **1990**, Robert Schapire respondeu que **sim** — e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
+Em 1988, Michael Kearns e Leslie Valiant fizeram uma pergunta teórica: um aprendiz que só acerta um pouco mais que o acaso pode ser transformado num aprendiz arbitrariamente bom? Era uma questão sobre **limites do possível**, não um pedido de algoritmo. Em 1990, Robert Schapire respondeu que sim, e a prova era **construtiva**. A construção era o método. AdaBoost, com Freund, vem em seguida.
 
 **A ideia reaproveitável.** **Uma pergunta bem-posta sobre limites vira algoritmo.** Quando você consegue formular precisamente *"isto é possível?"*, a resposta afirmativa frequentemente já contém o *como*. Vale mais aprender isso do que decorar o AdaBoost.
 
@@ -60,7 +60,7 @@ Em **1988**, Michael Kearns e Leslie Valiant fizeram uma pergunta **teórica**: 
 
 ### E a ponte com o capítulo II.4
 
-Bagging — *bootstrap aggregating*, Breiman, 1996 — vem do mesmo diagnóstico que produziu o LASSO no [capítulo II.4](ii-4-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
+Bagging (*bootstrap aggregating*, Breiman, 1996) vem do mesmo diagnóstico que produziu o LASSO no [capítulo II.4](ii-4-otimizacao.md): **instabilidade**. Breiman classificou métodos entre estáveis e instáveis, e a árvore é o caso extremo de instável — mude poucos exemplos e a árvore inteira muda.
 
 Do lado "instabilidade é defeito, encolha os coeficientes" saiu a regularização. Do lado **"instabilidade é insumo"** saiu o bagging: se o modelo varia muito com o dado, então **perturbe de propósito** e tire a média. Random Forests (2001) é a mesma frase dita de novo, com uma perturbação a mais. **O mesmo diagnóstico, dois métodos, dois capítulos.**
 
@@ -110,7 +110,7 @@ Um nó contém 100 exemplos, 50 de cada classe. Um corte candidato produz um fil
 - [ ] Não dá para calcular sem saber qual atributo foi usado.
 
 > **gabarito:** Aproximadamente 0,320
-> **porque:** Gini do pai: 2 × 0,5 × 0,5 = **0,5**. Cada filho tem p = 45/50 = 0,9, logo Gini = 2 × 0,9 × 0,1 = **0,18**. Como os dois filhos têm o mesmo tamanho, a média ponderada é 0,18. Ganho = 0,5 − 0,18 = **0,32**.
+> **porque:** Gini do pai: 2 × 0,5 × 0,5 = 0,5. Cada filho tem p = 45/50 = 0,9, logo Gini = 2 × 0,9 × 0,1 = 0,18. Como os dois filhos têm o mesmo tamanho, a média ponderada é 0,18. Ganho = 0,5 − 0,18 = **0,32**.
 >
 > A primeira alternativa é o mal-entendido que vale corrigir: um corte não precisa deixar os filhos **puros** para valer muito. Ele precisa deixá-los **mais puros que o pai** — e este corte quase resolve o problema. Já a última alternativa confunde o que a fórmula usa: o ganho depende só de **como os exemplos se distribuem** entre os filhos, nunca de qual atributo produziu a separação. Por isso a mesma conta serve para qualquer atributo, e por isso escala não importa.
 > **volte para:** #fundamentos-como-a-arvore-escolhe-cada-corte
@@ -129,7 +129,7 @@ Medindo a variância da predição, Var[f̂(x)], sobre 5 reamostragens *bootstra
 
 **Seis vezes menos.** Treine a mesma árvore profunda em amostras ligeiramente diferentes do mesmo fenômeno e ela produz previsões visivelmente diferentes para o mesmo cliente. A floresta, não.
 
-É essa instabilidade — não a falta de acerto — que os *ensembles* atacam primeiro.
+É essa instabilidade, e não a falta de acerto, que os *ensembles* atacam primeiro.
 
 ## Bagging e boosting atacam erros diferentes
 
@@ -244,7 +244,7 @@ Escreva a resposta que você daria: qual sua **recomendação**, com que **evid�
 > menciona ao menos um dos três mecanismos (atributos não informativos, funções irregulares, orientação dos eixos) e não apenas o placar;
 > declara uma condição concreta que mudaria a recomendação, em vez de tratá-la como regra absoluta;
 > considera o custo de iteração dentro do prazo, e não só a métrica final
-> **porque:** A recomendação defensável é **boosting**, e o argumento tem três camadas. **Evidência**: 8.000 linhas e 40 colunas caem exatamente no regime medido por Grinsztajn et al. (2022) — porte médio, tabular —, onde modelos de árvore permanecem no estado da arte. **Mecanismo**: entre 40 colunas quase certamente há colunas irrelevantes, que árvores descartam sem custo. **Prazo**: boosting treina em minutos e tem poucos hiperparâmetros que importam, o que permite muitas iterações em duas semanas — e o número de iterações costuma decidir mais que a escolha de família de modelo.
+> **porque:** A recomendação defensável é **boosting**, e o argumento tem três camadas. Evidência: 8.000 linhas e 40 colunas caem exatamente no regime medido por Grinsztajn et al. (2022), porte médio e tabular, onde modelos de árvore permanecem no estado da arte. Mecanismo: entre 40 colunas quase certamente há colunas irrelevantes, que árvores descartam sem custo. Prazo: boosting treina em minutos e tem poucos hiperparâmetros que importam, o que permite muitas iterações em duas semanas, e o número de iterações costuma decidir mais que a escolha de família de modelo.
 >
 > A parte que separa uma boa resposta de uma dogmática é a **condição de mudança**. Exemplos legítimos: se houver texto livre ou imagem entre as colunas, se o volume crescer uma ou duas ordens de grandeza, se houver um modelo pré-treinado do domínio para aproveitar, ou se o requisito for aprender representação transferível para outra tarefa. Uma resposta que apenas afirma "árvore sempre ganha em tabular" acerta a recomendação e erra o raciocínio — e é essa a diferença que o exercício mede.
 > **volte para:** #fundamentos-cientificos-por-que-arvores-ainda-ganham-em-tabular
