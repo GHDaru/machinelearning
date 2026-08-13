@@ -790,8 +790,123 @@
 
   // ------------------------------------------------------------- registro
 
+  // A animação é a quarta superfície, e a mais barata: o leitor não manipula,
+  // ele ASSISTE o método corrigir o próprio erro. A regra aqui é a de 1958,
+  // como o capítulo a enuncia: para cada exemplo errado, empurre os pesos na
+  // direção dele.
+  //
+  // O botão do XOR existe porque a animação sozinha contaria meia verdade. Com
+  // dados separáveis a reta assenta; com XOR ela nunca para. Ver a fronteira
+  // oscilando sem fim ensina o limite melhor que o parágrafo sobre ele.
+  function animaPerceptron(area, cfg) {
+    var W = 460, H = 300, PAD = 28, LIM = 2.6;
+    var cv = document.createElement("canvas");
+    cv.width = W; cv.height = H; cv.className = "lab-canvas";
+    cv.setAttribute("role", "img");
+    area.appendChild(cv);
+    var ctx = cv.getContext("2d");
+    var placar = el("div", "lab-placar"); area.appendChild(placar);
+    var botoes = el("div", "lab-botoes"); area.appendChild(botoes);
+
+    var calmo = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var est = { pts: [], w: [0, 0], b: 0, i: 0, epoca: 0, erros: 0, xor: false, timer: null, parou: false };
+
+    function dados(xor) {
+      var r = rng(Number(cfg.semente) || 7), p = [], k;
+      if (xor) {
+        [[-1, -1, 1], [1, 1, 1], [-1, 1, -1], [1, -1, -1]].forEach(function (c) {
+          for (k = 0; k < 9; k++) p.push({ x: c[0] + (r() - .5) * .7, y: c[1] + (r() - .5) * .7, t: c[2] });
+        });
+      } else {
+        for (k = 0; k < 36; k++) {
+          var t = k % 2 ? 1 : -1;
+          p.push({ x: t * .9 + (r() - .5) * 1.5, y: t * .8 + (r() - .5) * 1.5, t: t });
+        }
+      }
+      return p;
+    }
+    function esc(v, px) { return PAD + (v + LIM) / (2 * LIM) * (px - 2 * PAD); }
+
+    function desenhar() {
+      var escuro = document.documentElement.getAttribute("data-tema") === "escuro" ||
+        (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      ctx.fillStyle = escuro ? "#1a1b1e" : "#faf9f7";
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(PAD, PAD, W - 2 * PAD, H - 2 * PAD);
+
+      if (Math.abs(est.w[1]) > 1e-6) {   // w0*x + w1*y + b = 0
+        var y1 = (-est.b - est.w[0] * -LIM) / est.w[1], y2 = (-est.b - est.w[0] * LIM) / est.w[1];
+        ctx.strokeStyle = escuro ? "#e6e6e4" : "#1c1c1c";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(esc(-LIM, W), H - esc(y1, H));
+        ctx.lineTo(esc(LIM, W), H - esc(y2, H));
+        ctx.stroke();
+      }
+      est.pts.forEach(function (p, k) {
+        ctx.fillStyle = p.t > 0 ? (escuro ? "#8fb8dd" : "#35618e") : (escuro ? "#e0a24a" : "#b8761f");
+        ctx.beginPath();
+        ctx.arc(esc(p.x, W), H - esc(p.y, H), (k === est.i && !est.parou) ? 6.5 : 4, 0, 6.2832);
+        ctx.fill();
+        if (k === est.i && !est.parou) {
+          ctx.strokeStyle = escuro ? "#e6e6e4" : "#1c1c1c"; ctx.lineWidth = 1.5; ctx.stroke();
+        }
+      });
+    }
+
+    function texto() {
+      placar.textContent = est.xor
+        ? "XOR · época " + est.epoca + " · " + est.erros + " erros nesta passada, e não vai zerar"
+        : "época " + est.epoca + " · " + est.erros + " erros nesta passada" + (est.parou ? " · convergiu" : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var p = est.pts[est.i];
+      if (((est.w[0] * p.x + est.w[1] * p.y + est.b) >= 0 ? 1 : -1) !== p.t) {
+        est.w[0] += 0.1 * p.t * p.x; est.w[1] += 0.1 * p.t * p.y; est.b += 0.1 * p.t;
+        est.erros++;
+      }
+      est.i++;
+      if (est.i >= est.pts.length) {
+        est.i = 0; est.epoca++;
+        if (est.erros === 0) est.parou = true; else est.erros = 0;
+        if (est.epoca > 60) est.parou = true;      // trava: o XOR não roda para sempre
+      }
+      desenhar(); texto();
+      if (est.parou && est.timer) { clearInterval(est.timer); est.timer = null; sincBotoes(); }
+    }
+
+    function rodar(xor) {
+      if (est.timer) clearInterval(est.timer);
+      est.xor = !!xor; est.pts = dados(est.xor);
+      est.w = [0, 0]; est.b = 0; est.i = 0; est.epoca = 0; est.erros = 0; est.parou = false;
+      if (calmo) {                                  // quem pediu menos movimento recebe o resultado
+        for (var k = 0; k < est.pts.length * 61 && !est.parou; k++) passo();
+        est.parou = true; desenhar(); texto(); sincBotoes(); return;
+      }
+      est.timer = setInterval(passo, 55);
+      sincBotoes();
+    }
+
+    var bRodar, bXor;
+    function sincBotoes() {
+      bRodar.textContent = est.timer ? "Recomeçar" : "Rodar de novo";
+      bXor.textContent = est.xor ? "Voltar aos dados separáveis" : "E se os dados forem XOR?";
+    }
+    function botao(txt, fn) {
+      var b = el("button", "lab-botao", txt);
+      b.type = "button"; b.addEventListener("click", fn); botoes.appendChild(b); return b;
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.xor); });
+    bXor = botao("E se os dados forem XOR?", function () { rodar(!est.xor); });
+    rodar(false);
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
-                "explorar-variavel": explorarVariavel };
+                "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

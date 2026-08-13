@@ -3738,6 +3738,21 @@
    },
    "intro": "Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.\n\nSua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.\n\nComece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.",
    "pagina": "iii-1-neuronio-artificial"
+  },
+  {
+   "id": "neuronio-artificial-l2",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "anima-perceptron",
+   "titulo": "O perceptron aprendendo, e onde ele para",
+   "config": {
+    "id": "neuronio-artificial-l2",
+    "tipo": "anima-perceptron",
+    "titulo": "O perceptron aprendendo, e onde ele para",
+    "semente": 7
+   },
+   "intro": "No laboratório acima **você** procurou os pesos. Aqui quem procura é o método: a cada passo ele olha um exemplo, e se errou, empurra a fronteira na direção daquele ponto. É a regra de 1958 inteira, e não há mais nada nela.\n\nAssista até a contagem de erros zerar. Depois clique em **\"E se os dados forem XOR?\"** e assista de novo, com o relógio na mão. O que você vai ver na segunda vez é o assunto da próxima seção.",
+   "pagina": "iii-1-neuronio-artificial"
   }
  ],
  "gerado_de": "livro/"

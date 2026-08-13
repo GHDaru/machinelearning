@@ -108,6 +108,12 @@ Comece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos
 
 **Terceiro — e este é o ponto do capítulo:** no XOR você travou em 3 de 4.
 
+:::lab {"id":"neuronio-artificial-l2","tipo":"anima-perceptron","titulo":"O perceptron aprendendo, e onde ele para","semente":7}
+No laboratório acima **você** procurou os pesos. Aqui quem procura é o método: a cada passo ele olha um exemplo, e se errou, empurra a fronteira na direção daquele ponto. É a regra de 1958 inteira, e não há mais nada nela.
+
+Assista até a contagem de erros zerar. Depois clique em **"E se os dados forem XOR?"** e assista de novo, com o relógio na mão. O que você vai ver na segunda vez é o assunto da próxima seção.
+:::
+
 ## Por que o XOR é impossível
 
 Não é falta de habilidade nem de paciência. É geometria.
