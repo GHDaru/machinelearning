@@ -50,7 +50,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | IV.3 | algoritmo genético: melhor aptidão subindo enquanto a diversidade colapsa |
 | V.1 | **feito** — limiar de um grupo movendo, com o botão que iguala as prevalências |
 | V.2 | **não animar** — dívida técnica não tem dinâmica observável em 30 s |
-| V.3 | distribuição deslocando: o PSI cruzando 0,25 dias antes de a AUC real cair |
+| V.3 | **feita** — 60 dias com PSI e AUC na mesma linha do tempo, e o botão da deriva que NÃO dói: mesmo PSI, AUC intacta |
 | V.4 | **não animar** — é placar, e tabela datada é a forma certa |
 
 **22 animações, 7 capítulos sem.**
@@ -461,3 +461,34 @@ o padrão" custa **2 220 a mais por mil casos** quando o falso negativo vale 10.
 O teste foi **visto falhando**: tirei o peso do falso negativo da conta de custo
 e quatro das seis linhas acusaram, incluindo a da direção — o limiar parou de
 descer.
+
+
+## O que a décima segunda animação ensinou (V.3, 2026-08)
+
+**A spec estava errada sobre o mecanismo, e o erro era do tipo lisonjeiro.** Ela
+prometia "o PSI cruzando 0,25 **dias antes** de a AUC real cair". Medido: os dois
+cruzam no **mesmo dia 32**. O PSI não tem dianteira nenhuma sobre a degradação;
+ele não é mais sensível, é apenas **observável mais cedo**. O adiantamento real
+vem da latência do rótulo: com 21 dias para o rótulo chegar, a queda do dia 32 só
+fica visível no dia 53, e os 21 dias de vantagem são exatamente a latência.
+
+Dava para forçar uma dianteira (bastava começar a deriva de conceito depois da
+deriva de covariáveis) e a animação ficaria mais bonita. Seria ensinar um
+mecanismo falso. O mecanismo verdadeiro já estava escrito no capítulo, três
+parágrafos acima: *"ela só pode ser calculada quando o rótulo chega"*.
+
+**O segundo botão é o que impede a animação de virar propaganda de PSI.** A mesma
+deriva de entrada, o mesmo PSI dia a dia, e a AUC desabando num modo e imóvel no
+outro (0,58 contra 0,85). O leitor vê o mesmo alarme acompanhar um desastre e um
+não-evento. É a ressalva que o capítulo já fazia em prosa, agora com número.
+
+**E o primeiro defeito da construção foi de ruído virando sinal.** Com 400 casos
+por dia, a AUC de um dia contra a AUC do dia 0 acusava "queda de cinco pontos" no
+**dia 9**, inclusive no modo que não dói, e o adiantamento saía **negativo** (−21
+dias). O alarme estava medindo sorteio. Três correções: amostra diária de 400
+para 2 000, referência passando a ser a média dos cinco primeiros dias, e leitura
+por média móvel de três. É a mesma disciplina que uma detecção de drift de
+verdade precisa ter, e a animação teria ensinado o contrário sem ela.
+
+Teste **visto falhando**: deixei a deriva "que não dói" corroer o sinal também, e
+a linha do contraste acusou na hora.

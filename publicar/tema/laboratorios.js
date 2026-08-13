@@ -2784,13 +2784,197 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+  // A animação do capítulo V.3: os dias passando, com o PSI da entrada e a AUC
+  // real do modelo na mesma linha do tempo. O PSI se calcula hoje; a AUC exige o
+  // rótulo, que chega semanas depois. A distância entre as duas linhas verticais
+  // é o adiantamento que o monitoramento compra.
+  //
+  // O segundo botão é o que impede a animação de virar propaganda de PSI. A MESMA
+  // deriva de entrada roda nos dois modos, com o mesmo PSI dia a dia; no primeiro
+  // a AUC desaba junto, no segundo ela não se mexe. É a frase do próprio capítulo,
+  // medida em vez de afirmada: deriva de entrada não implica queda de desempenho.
+  // Um alarme que dispara nos dois casos é alarme, não veredito.
+  function animaDeriva(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bTipo;
+    var DIAS = 60, POR_DIA = 2000, FAIXAS = 10, LIM_PSI = 0.25, W1 = 1.8;
+    var CALMA = 5, JANELA = 3, QUEDA = 0.05;   // dias de referência, suavização, queda
+    var LATENCIA = 21;                         // dias até o rótulo chegar
+    // O adiantamento NÃO vem de o PSI se mexer antes da AUC: medido, os dois
+    // cruzam no mesmo dia 32. Vem de o PSI ser observável HOJE e a AUC exigir o
+    // rótulo, que chega 21 dias depois. Inventar uma dianteira para o PSI seria
+    // mais bonito e seria mentira; o mecanismo verdadeiro é a latência, e é o que
+    // o capítulo já diz: enquanto o rótulo não chega, sobra o que não depende dele.
+    var est = { doi: true, dia: 0, psi: [], auc: [], ref: null, parou: false,
+                diaPSI: null, diaAUC: null, auc0: null };
+
+    function normal(r) {
+      var u = Math.max(1e-12, r()), v = r();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283185307 * v);
+    }
+
+    /** Deslocamento da entrada no dia d: parado, depois rampa. Igual nos dois modos. */
+    function desloc(d) { return d < 20 ? 0 : Math.min(1.5, (d - 20) / 30 * 1.5); }
+
+    /** Quanto do sinal ainda vale no dia d. Só o modo "dói" o corrói. */
+    function forca(d, doi) { return doi ? Math.max(0.15, 1 - Math.max(0, d - 20) / 40) : 1; }
+
+    function dia(d, doi) {
+      var r = rng(1000 + d), x = [], y = [], i, xi, p;
+      for (i = 0; i < POR_DIA; i++) {
+        xi = normal(r) + desloc(d);
+        p = 1 / (1 + Math.exp(-W1 * forca(d, doi) * xi));
+        x.push(xi); y.push(r() < p ? 1 : 0);
+      }
+      return { x: x, y: y };
+    }
+
+    function hist(x) {
+      var h = [], i, k;
+      for (i = 0; i < FAIXAS; i++) h.push(0);
+      for (i = 0; i < x.length; i++) {
+        k = Math.floor((x[i] + 3) / 6 * FAIXAS);
+        h[Math.min(FAIXAS - 1, Math.max(0, k))]++;
+      }
+      return h.map(function (c) { return Math.max(c / x.length, 1e-4); });
+    }
+
+    function psi(a, b) {
+      var s = 0, i;
+      for (i = 0; i < a.length; i++) s += (b[i] - a[i]) * Math.log(b[i] / a[i]);
+      return s;
+    }
+
+    function media(v) {
+      var s = 0, i; for (i = 0; i < v.length; i++) s += v[i];
+      return v.length ? s / v.length : 0;
+    }
+
+    /** AUC pelo posto: probabilidade de um positivo receber escore maior. */
+    function auc(x, y) {
+      var p = x.map(function (xi, i) { return { s: xi, y: y[i] }; });
+      p.sort(function (u, v) { return u.s - v.s; });
+      var np = 0, nn = 0, soma = 0, i;
+      for (i = 0; i < p.length; i++) {
+        if (p[i].y) { np++; soma += nn; } else nn++;
+      }
+      return (np && nn) ? soma / (np * nn) : 0.5;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 18, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.doi ? "deriva que DÓI" : "deriva que NÃO dói") +
+                   " · PSI (laranja) e AUC real (azul)", x0, PAD + 12);
+      function px(d) { return x0 + (d / (DIAS - 1)) * larg; }
+      var yLim = base - (LIM_PSI / 0.8) * alt;
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x0, yLim); ctx.lineTo(x0 + larg, yLim); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("PSI 0,25", x0 + larg - 46, yLim - 3);
+      ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+      ctx.lineWidth = 2; ctx.beginPath();
+      est.psi.forEach(function (v, d) {
+        var py = base - Math.min(1, v / 0.8) * alt;
+        if (d === 0) ctx.moveTo(px(d), py); else ctx.lineTo(px(d), py);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.beginPath();
+      est.auc.forEach(function (v, d) {
+        var py = base - Math.max(0, Math.min(1, (v - 0.5) / 0.45)) * alt;
+        if (d === 0) ctx.moveTo(px(d), py); else ctx.lineTo(px(d), py);
+      });
+      ctx.stroke();
+      [[est.diaPSI, escuro ? "#e0a24a" : "#b8761f"],
+       [est.diaAUC, escuro ? "#8fb8dd" : "#35618e"]].forEach(function (m) {
+        if (m[0] == null) return;
+        ctx.strokeStyle = m[1]; ctx.setLineDash([2, 3]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(px(m[0]), PAD + 18); ctx.lineTo(px(m[0]), base);
+        ctx.stroke(); ctx.setLineDash([]);
+      });
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("dia 0", x0, base + 14);
+      ctx.fillText("dia " + (DIAS - 1), x0 + larg - 32, base + 14);
+    }
+
+    function texto() {
+      var d = est.psi.length - 1;
+      placar.textContent =
+        (est.doi ? "deriva que dói" : "deriva que não dói") +
+        " · dia " + (d < 0 ? 0 : d) +
+        (d >= 0 ? " · PSI " + est.psi[d].toFixed(3) + " · AUC " + est.auc[d].toFixed(3) : "") +
+        (est.diaPSI != null ? " · PSI cruzou 0,25 no dia " + est.diaPSI
+                            : " · PSI ainda abaixo de 0,25") +
+        (est.diaAUC != null
+          ? " · a AUC caiu 5 pontos no dia " + est.diaAUC +
+            " · com o rótulo levando " + LATENCIA + " dias, você só saberia no dia " +
+            (est.diaAUC + LATENCIA) +
+            " · o PSI avisou " + (est.diaAUC + LATENCIA - est.diaPSI) + " dias antes"
+          : (est.parou ? " · a AUC nunca caiu 5 pontos" : ""));
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var d = est.dia, dd = dia(d, est.doi);
+      var a = auc(dd.x, dd.y), p = psi(est.ref, hist(dd.x));
+      est.psi.push(p); est.auc.push(a);
+      // A referência é a MÉDIA dos primeiros dias, e a detecção usa média móvel.
+      // Com um dia só de referência e leitura de um dia só, o ruído amostral
+      // dispara "queda" no dia 9 até na deriva que não dói: o alarme mediria
+      // sorteio. Foi o primeiro defeito desta animação, e ele invertia o sinal
+      // do adiantamento.
+      if (d === CALMA - 1) est.auc0 = media(est.auc.slice(0, CALMA));
+      if (est.diaPSI == null && p >= LIM_PSI) est.diaPSI = d;
+      if (est.diaAUC == null && est.auc0 != null && d >= CALMA + JANELA - 1 &&
+          media(est.auc.slice(d - JANELA + 1, d + 1)) <= est.auc0 - QUEDA) est.diaAUC = d;
+      est.dia++;
+      if (est.dia >= DIAS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(doi) {
+      est.doi = doi; est.dia = 0; est.psi = []; est.auc = [];
+      est.diaPSI = null; est.diaAUC = null; est.auc0 = null; est.parou = false;
+      est.ref = hist(dia(0, doi).x);
+      rel.comecar(DIAS + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bTipo.textContent = est.doi ? "E se a deriva não doesse?" : "Voltar à deriva que dói";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.doi); });
+    bTipo = botao("E se a deriva não doesse?", function () { rodar(!est.doi); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 45);
+    est.ref = hist(dia(0, true).x);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(true); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
                 "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento,
                 "anima-limiar": animaLimiar, "anima-gradiente": animaGradiente,
-                "anima-origem-movel": animaOrigemMovel, "anima-custo": animaCusto };
+                "anima-origem-movel": animaOrigemMovel, "anima-custo": animaCusto,
+                "anima-deriva": animaDeriva };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

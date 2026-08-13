@@ -6,6 +6,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação da deriva, e o PSI que não tem dianteira nenhuma (cap. V.3)
+- **Décima segunda animação** (`anima-deriva`): 60 dias com o PSI da entrada e a
+  AUC real do modelo na mesma linha do tempo.
+- **A spec estava errada sobre o mecanismo.** Ela prometia o PSI cruzando 0,25
+  *dias antes* de a AUC cair. Medido: os dois cruzam no **mesmo dia 32**. O PSI
+  não é mais sensível, é apenas **observável mais cedo**. O adiantamento real vem
+  da latência do rótulo: com 21 dias de espera, a queda do dia 32 só fica visível
+  no dia 53, e a vantagem é exatamente esses 21 dias. Forçar uma dianteira era
+  fácil e seria ensinar um mecanismo falso.
+- **O segundo botão impede a animação de virar propaganda de PSI.** A mesma
+  deriva de entrada, o mesmo PSI dia a dia, e a AUC desabando num modo (0,58) e
+  imóvel no outro (0,85). O mesmo alarme acompanha um desastre e um não-evento.
+- **Um defeito de ruído virando sinal foi corrigido antes de publicar.** Com 400
+  casos por dia, a AUC de um dia contra a do dia 0 acusava queda de cinco pontos
+  no **dia 9**, inclusive no modo que não dói, com adiantamento **negativo**.
+  Amostra diária foi a 2 000, a referência virou a média dos cinco primeiros dias
+  e a leitura virou média móvel de três.
+- Teste **visto falhando**: com a deriva "que não dói" corroendo o sinal também,
+  a linha do contraste acusou.
+
 ### Adicionado — a animação do custo, e o limiar que desce quando encarece errar (cap. II.8)
 - **Décima primeira animação** (`anima-custo`): o custo do falso negativo sobe de
   1 a 10 e o limiar ótimo anda por causa disso. O modelo não muda em nenhum

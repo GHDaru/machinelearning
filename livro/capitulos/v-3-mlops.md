@@ -214,6 +214,18 @@ Monitoramento de ML não é um painel: são **três** painéis, com donos e temp
 
 O drift é exatamente a quebra da hipótese que o [capítulo 0.2](../0-2-fundamentos.md) coloca na fundação: treino e produção vindo da mesma distribuição. Nada no modelo protege contra isso, porque a hipótese é anterior ao modelo.
 
+:::lab {"id":"mlops-l1","tipo":"anima-deriva","titulo":"O PSI e a AUC na mesma linha do tempo"}
+Sessenta dias. A linha laranja é o **PSI** da entrada contra a janela de referência, que você calcula hoje; a azul é a **AUC real**, que exige o rótulo. A partir do dia 20 a distribuição da entrada começa a andar.
+
+O PSI cruza 0,25 no dia 32. A AUC também cai cinco pontos no dia 32, e vale insistir nisso porque contraria o que se costuma prometer: **o PSI não se mexeu antes**. Os dois se movem juntos.
+
+O adiantamento vem de outro lugar, e é o lugar certo: **o rótulo demora**. Com 21 dias de latência, a queda do dia 32 só fica visível no dia 53. O PSI avisou 21 dias antes, e os 21 são exatamente a latência, não uma sensibilidade mágica do indicador.
+
+**Agora clique em "E se a deriva não doesse?".** A entrada anda exatamente do mesmo jeito: mesmo PSI, cruzando 0,25 no mesmo dia 32. E a AUC fica onde estava, em 0,85, sem nunca disparar a queda de cinco pontos.
+
+> **É a diferença entre alarme e veredito, medida.** O mesmo valor de PSI acompanha um desastre e um não-evento. Quem religiosamente retreina quando o PSI passa de 0,25 vai retreinar à toa metade das vezes, e vai gastar a credibilidade do alarme antes da vez em que ele importava. O indicador de entrada diz **"vá olhar"**; quem diz se houve dano é o rótulo, quando chegar.
+:::
+
 **Detectar sem rótulo.** Enquanto o rótulo não chega, sobra o que não depende dele: comparar a **distribuição da entrada** de hoje com a de referência (a janela de treino), atributo a atributo, e comparar a **distribuição da saída** — o histograma das probabilidades previstas. Se o modelo começa a prever positivo com o dobro da frequência de antes, algo mudou, mesmo que ninguém ainda saiba se ele está certo. É um alarme, não um veredito: drift de entrada não implica queda de desempenho, e queda de desempenho pode acontecer sem drift visível na entrada.
 
 :::exercicio {"id":"mlops-e6","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}

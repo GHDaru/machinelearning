@@ -14719,6 +14719,20 @@
    },
    "intro": "A álgebra acima é curta e continua abstrata até alguém tentar. Aqui não há nada a treinar: os escores dos dois grupos já existem, o limiar do grupo B está fixo em 0,50, e a única coisa que se move é **onde se corta o escore do grupo A**.\n\nOs dois grupos são **calibrados por construção** — dentro de cada um, um escore de 0,7 corresponde mesmo a 70% de positivos. É a premissa do teorema, e é por isso que a terceira luz fica verde o tempo todo.\n\nAssista o limiar descer de 0,75 a 0,25 e olhe as três luzes. A paridade acende num ponto; a igualdade de oportunidade acende noutro; e **elas nunca acendem juntas**. O melhor que a varredura inteira consegue é **2 de 3**.\n\nAgora clique em **\"E se as prevalências fossem iguais?\"**. Mesmo modelo, mesmo procedimento, mesma varredura, e agora existe um limiar em que os três acendem: **3 de 3**.\n\nÉ essa a forma exata do teorema, e ela é mais útil que a frase \"não dá para ter tudo\": a impossibilidade **não é uma lei da natureza nem um defeito do modelo**. Ela depende de uma condição do mundo — a diferença de prevalência entre os grupos. E essa diferença costuma ser, ela mesma, resíduo de um acesso desigual anterior, o que explica por que a ação mais valiosa às vezes está fora do modelo.",
    "pagina": "v-1-interpretabilidade-justica"
+  },
+  {
+   "id": "mlops-l1",
+   "capitulo": 28,
+   "arquivo": "livro/capitulos/v-3-mlops.md",
+   "tipo": "anima-deriva",
+   "titulo": "O PSI e a AUC na mesma linha do tempo",
+   "config": {
+    "id": "mlops-l1",
+    "tipo": "anima-deriva",
+    "titulo": "O PSI e a AUC na mesma linha do tempo"
+   },
+   "intro": "Sessenta dias. A linha laranja é o **PSI** da entrada contra a janela de referência, que você calcula hoje; a azul é a **AUC real**, que exige o rótulo. A partir do dia 20 a distribuição da entrada começa a andar.\n\nO PSI cruza 0,25 no dia 32. A AUC também cai cinco pontos no dia 32, e vale insistir nisso porque contraria o que se costuma prometer: **o PSI não se mexeu antes**. Os dois se movem juntos.\n\nO adiantamento vem de outro lugar, e é o lugar certo: **o rótulo demora**. Com 21 dias de latência, a queda do dia 32 só fica visível no dia 53. O PSI avisou 21 dias antes, e os 21 são exatamente a latência, não uma sensibilidade mágica do indicador.\n\n**Agora clique em \"E se a deriva não doesse?\".** A entrada anda exatamente do mesmo jeito: mesmo PSI, cruzando 0,25 no mesmo dia 32. E a AUC fica onde estava, em 0,85, sem nunca disparar a queda de cinco pontos.\n\n> **É a diferença entre alarme e veredito, medida.** O mesmo valor de PSI acompanha um desastre e um não-evento. Quem religiosamente retreina quando o PSI passa de 0,25 vai retreinar à toa metade das vezes, e vai gastar a credibilidade do alarme antes da vez em que ele importava. O indicador de entrada diz **\"vá olhar\"**; quem diz se houve dano é o rótulo, quando chegar.",
+   "pagina": "v-3-mlops"
   }
  ],
  "gerado_de": "livro/"
