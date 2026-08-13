@@ -141,6 +141,41 @@ Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR
 > **volte para:** #por-que-o-xor-e-impossivel
 :::
 
+:::exercicio {"id":"neuronio-artificial-e9","tipo":"multipla-multi","objetivo":"O3","dificuldade":"facil"}
+Quais funções lógicas de duas entradas são linearmente separáveis? (marque todas que valem)
+
+- [x] AND
+- [x] OR
+- [x] NAND
+- [x] NOR
+- [ ] XOR
+
+> **gabarito:** AND · OR · NAND · NOR
+> **porque:** Nas quatro primeiras, os pontos que disparam ficam de um lado de alguma reta, e os que não disparam do outro. No laboratório isso aparece como uma reta que você consegue posicionar, e em cada caso há infinitas posições válidas.
+>
+> O XOR é a exceção porque os pontos que disparam, (0,1) e (1,0), estão em **cantos opostos** do quadrado, e os que não disparam também. Uma reta divide o plano em dois lados, e nenhum posicionamento deixa dois cantos opostos de um lado e os outros dois do outro.
+>
+> Vale registrar que o XOR não é um caso raro: das dezesseis funções booleanas de duas entradas, duas não são separáveis — o XOR e a negação dele.
+> **volte para:** #por-que-o-xor-e-impossivel
+:::
+
+:::exercicio {"id":"neuronio-artificial-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Um estudante propõe: "se o problema é que a reta é reta, basta trocar o limiar por uma sigmoide, que a fronteira fica curva e o XOR sai". Onde está o erro?
+
+- [ ] Em nada: a sigmoide de fato curva a fronteira e resolve o XOR.
+- [x] A sigmoide curva a leitura, não a separação: a fronteira de decisão continua sendo $w \cdot x + b = 0$, que é uma reta.
+- [ ] A sigmoide não é diferenciável, então não pode substituir o limiar.
+- [ ] O erro é usar duas entradas, quando o XOR precisa de três.
+
+> **gabarito:** a sigmoide curva a leitura, não a separação
+> **porque:** A sigmoide transforma a distância até a fronteira numa probabilidade, e a fronteira em si continua sendo o conjunto onde $w \cdot x + b = 0$, que é uma reta. A saída deixa de ser tudo-ou-nada e a separação não muda.
+>
+> A prova disso já está no livro: a regressão logística é exatamente um neurônio com ativação contínua, e ela é um classificador **linear**. Se a sigmoide resolvesse o XOR, o [capítulo II.3](ii-3-regressao-logistica.md) teria dito isso.
+>
+> Onde a proposta acerta é no papel da sigmoide como **condição** do remédio: sem derivada não há gradiente, e sem gradiente não há backpropagation. Ela é necessária para treinar várias camadas, e não é o que resolve a geometria — quem resolve é a camada a mais.
+> **volte para:** #por-que-o-xor-e-impossivel
+:::
+
 :::exercicio {"id":"neuronio-artificial-e2","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
 O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (1969)?
 
@@ -156,6 +191,40 @@ O que, historicamente, destravou a limitação demonstrada em *Perceptrons* (196
 > **volte para:** #a-linha-ate-1986-e-o-que-ela-ensina-sobre-credito
 :::
 
+:::exercicio {"id":"neuronio-artificial-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Qual frase resume o padrão de crédito que este capítulo e o [II.2](ii-2-modelos-lineares.md) documentam juntos?
+
+- [ ] Quem descobre primeiro leva o crédito, desde que registre a data.
+- [x] Crédito não segue descoberta, segue comunicação.
+- [ ] O crédito é sempre disputado, e não há padrão discernível.
+- [ ] Quem publica em inglês leva o crédito, e o idioma é a única variável.
+
+> **gabarito:** crédito não segue descoberta, segue comunicação
+> **porque:** Os dois casos juntos dizem o que nenhum diz sozinho. Linnainmaa descreve o método em 1970, em finlandês, sem mencionar redes, e o crédito fica com quem o popularizou em 1986. Gauss descobre os mínimos quadrados antes e perde a prioridade para Legendre, que publicou primeiro.
+>
+> A primeira alternativa é justamente a regra que os dois casos refutam: Gauss tinha o registro e mesmo assim perdeu.
+>
+> A quarta isola uma variável real e a transforma na única. Idioma pesou no caso de Linnainmaa, e não explica Gauss e Legendre, que publicavam no mesmo circuito. O que explica os dois é publicar, datar e documentar — que por isso são método, e não burocracia.
+> **volte para:** #a-linha-ate-1986-e-o-que-ela-ensina-sobre-credito
+:::
+
+:::exercicio {"id":"neuronio-artificial-e12","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
+Sobre a afirmação "um italiano desenvolveu o backpropagation em 1979", o capítulo registra o selo ❌. O que isso significa, e por que a escolha é essa?
+
+- [ ] Que a afirmação foi verificada e é comprovadamente falsa.
+- [x] Que ela foi procurada e não foi encontrada fonte, e o livro registra a dúvida em vez de escolher uma versão.
+- [ ] Que a afirmação é irrelevante e por isso não foi investigada.
+- [ ] Que a fonte existe mas está em italiano, e ainda não foi traduzida.
+
+> **gabarito:** foi procurada, não se achou fonte, e o livro registra a dúvida
+> **porque:** O selo marca uma busca feita sem resultado, e não uma refutação. A diferença importa: dizer "é falso" exigiria evidência que também não existe.
+>
+> O que o capítulo faz no lugar é oferecer o que **tem** fonte: Linnainmaa em 1970, Werbos com publicações no fim dos anos 1970, Fukushima com o neocognitron em 1979 — nenhum italiano. E deixa a porta aberta: se a referência aparecer, ela entra.
+>
+> É o Princípio I na sua forma mais desconfortável. O caminho fácil seria escolher a versão mais plausível e escrevê-la sem selo; registrar a ausência custa mais e é a única forma de o leitor saber o que o livro conferiu e o que não conferiu.
+> **volte para:** #a-linha-ate-1986-e-o-que-ela-ensina-sobre-credito
+:::
+
 :::exercicio {"id":"neuronio-artificial-e3","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
 Você quer construir a função **OU (OR)** com pesos `w₁ = 1` e `w₂ = 1`.
 
@@ -166,6 +235,37 @@ Qual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar c
 >
 > Com θ = 2 você teria construído o **AND**, não o OR: só (1,1) alcançaria o limiar. Esse é o achado que vale levar do exercício — a mesma dupla de pesos produz funções diferentes conforme o limiar. O limiar não é um detalhe de calibração: ele é parte da função que o neurônio computa. Volte ao laboratório e confirme deslizando só o θ.
 > **volte para:** #mao-na-massa-encontre-os-pesos-voce-mesmo
+:::
+
+:::exercicio {"id":"neuronio-artificial-e5","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+Você quer construir a função **NÃO-E (NAND)**, que dispara em (0,0), (0,1) e (1,0), e **não** dispara em (1,1). Use `w₁ = −1` e `w₂ = −1`.
+
+Qual é o **menor** valor inteiro de limiar `θ` que faz o neurônio funcionar corretamente?
+
+> **gabarito:** -1
+> **porque:** Some as entradas ponderadas em cada linha: (0,0) → 0; (0,1) → −1; (1,0) → −1; (1,1) → −2. O NAND deve disparar nas três primeiras e não na última, então θ precisa ser maior que −2 e menor ou igual a −1. O menor inteiro que satisfaz isso é **θ = −1**.
+>
+> O que este exercício acrescenta ao do OR é o papel do **sinal do peso**. Peso negativo inverte a contribuição da entrada: ligar a entrada passa a empurrar a soma para baixo, e a função vira a negação da versão com pesos positivos.
+>
+> Vale conferir no laboratório: com `w₁ = w₂ = −1`, deslizar o θ percorre NAND e NOR, exatamente como com pesos positivos ele percorria OR e AND.
+> **volte para:** #mao-na-massa-encontre-os-pesos-voce-mesmo
+:::
+
+:::exercicio {"id":"neuronio-artificial-e6","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+No laboratório, três configurações resolvem o AND: (1; 1; 2), (0,6; 0,6; 1) e (3; 2; 4,5). O que essa multiplicidade indica?
+
+- [ ] Que o laboratório aceita respostas erradas, e só a primeira é a canônica.
+- [x] Que infinitas retas separam aqueles quatro pontos, e isso é a natureza do problema, não defeito.
+- [ ] Que o modelo precisa de regularização para ter solução única.
+- [ ] Que as três configurações produzem fronteiras idênticas, apenas escritas de forma diferente.
+
+> **gabarito:** infinitas retas separam os quatro pontos
+> **porque:** Quando os pontos são separáveis com folga, existe uma faixa inteira de retas válidas, e qualquer uma resolve a tabela-verdade. Não há "a" resposta certa, e o laboratório aceita as três porque as três funcionam.
+>
+> A última alternativa é a mais fina e é falsa: as fronteiras **não** são idênticas. Elas passam por lugares diferentes do plano, e apenas coincidem na classificação daqueles quatro pontos, que são os únicos que existem no problema.
+>
+> É a mesma razão pela qual dois modelos treinados com sementes diferentes chegam a coeficientes diferentes e à mesma qualidade. E a terceira alternativa aponta para algo real dito no lugar errado: regularização de fato escolhe uma entre as infinitas, o que é uma decisão adicional, não um conserto.
+> **volte para:** #o-que-voce-deveria-ter-notado
 :::
 
 :::exercicio {"id":"neuronio-artificial-e4","tipo":"aberta","objetivo":"O1","pontos":3,"dificuldade":"media"}
@@ -182,6 +282,40 @@ Explique, para alguém que nunca viu redes neurais, **o que um neurônio artific
 >
 > Vale saber por que isso importa na prática: tratar a analogia como literal é a origem de boa parte do exagero sobre o que redes neurais "entendem". O nome é herança histórica, não descrição do mecanismo.
 > **volte para:** #o-problema-pode-uma-maquina-pensar-em-logica
+:::
+
+:::exercicio {"id":"neuronio-artificial-e7","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+O que exatamente um neurônio de McCulloch–Pitts computa?
+
+- [x] Uma soma ponderada das entradas, comparada a um limiar, com saída tudo-ou-nada.
+- [ ] A média das entradas, com saída contínua entre 0 e 1.
+- [ ] A correlação entre as entradas e a saída desejada.
+- [ ] Uma simulação da química sináptica de um neurônio real.
+
+> **gabarito:** soma ponderada comparada a um limiar
+> **porque:** Multiplica cada entrada pelo seu peso, soma, e dispara se a soma alcançar o limiar. O peso é "quanto essa entrada importa"; o limiar é "quão convencido preciso estar para dizer sim".
+>
+> A segunda alternativa troca duas coisas: não é média, é soma ponderada, e a saída original é tudo-ou-nada, não contínua. A saída contínua chega depois, com a sigmoide, e é o que torna o gradiente possível.
+>
+> A última é a confusão que o nome do modelo alimenta. A analogia biológica é real e limitada: o neurônio real opera no tempo, com sinais químicos e plasticidade, e o artificial é uma soma estática. McCulloch e Pitts sabiam disso — o modelo era abstração deliberada, feita para responder a uma pergunta lógica.
+> **volte para:** #o-problema-pode-uma-maquina-pensar-em-logica
+:::
+
+:::exercicio {"id":"neuronio-artificial-e8","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+O neurônio de 1943 não tinha aprendizado: os pesos eram escolhidos à mão. Como o capítulo lê esse fato?
+
+- [ ] Como um defeito do modelo, corrigido em 1958 pelo perceptron.
+- [x] Como consequência da restrição material da época, e como sinal de que o valor do modelo estava em permitir **provar** o que uma rede de neurônios poderia computar.
+- [ ] Como prova de que McCulloch e Pitts não entendiam de aprendizado.
+- [ ] Como uma escolha arbitrária, sem consequência para o que veio depois.
+
+> **gabarito:** consequência da restrição material, e o valor estava em permitir provar
+> **porque:** Em 1943 não havia como treinar coisa alguma, e o modelo respondia a outra pergunta: **o que** uma rede de neurônios é capaz de computar, não como ela chegaria lá sozinha. A ideia reaproveitável do capítulo é essa — uma abstração vale pelo que permite provar.
+>
+> A primeira alternativa trata como defeito o que era escopo. O perceptron acrescentou aprendizado, e isso não corrigiu um erro de 1943: respondeu a uma pergunta que 1943 não tinha feito.
+>
+> É o mesmo padrão que o livro encontra em outros capítulos: falta de recurso é o que mais produz forma nova. Playfair inventa o gráfico de barras porque não tinha série temporal; aqui o modelo nasce sem aprendizado porque não havia como treinar.
+> **volte para:** #de-onde-isto-veio
 :::
 
 ## Mão na massa: rode o código
