@@ -24,7 +24,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 3 | I.1 — O Ciclo da Ciência de Dados | 4 | 5 | 12 | **ok** | — | — | — |
 | 4 | I.2 — Coleta e Integração | 4 | 4 | 12 | **ok** | — | — | — |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 5 | 12 | **ok** | — | — | — |
-| 6 | I.4 — Análise Exploratória | 4 | 7 | 12 | — | — | — | — |
+| 6 | I.4 — Análise Exploratória | 4 | 7 | 12 | **ok** | — | — | — |
 | 7 | I.5 — Visualização e Storytelling | 4 | 4 | 12 | — | — | — | — |
 | 8 | I.6 — Representação | 4 | 4 | 12 | — | — | — | — |
 | 9 | II.1 — Avaliação | 5 | 5 | 15 | — | — | — | — |

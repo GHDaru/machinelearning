@@ -25,7 +25,7 @@ Antes de modelar, **olhe**. É a etapa que quase todo mundo pula e quase todo mu
 
 **O que se fazia antes.** Ou se testava uma hipótese, ou não se estava fazendo estatística. Examinar os números sem hipótese na mão era, na melhor das hipóteses, uma preliminar informal que não entrava no artigo.
 
-**A virada.** John Tukey nomeia **análise de dados** como disciplina própria — da qual a inferência é *um* componente, não o todo. É uma jogada de definição antes de ser técnica: uma vez que a exploração tem nome e estatuto, ela pode ter método. E aí vêm as ferramentas: o **boxplot**, o **stem-and-leaf**, e o hábito que atravessa tudo — preferir medidas **resistentes** a valores extremos.
+**A virada.** John Tukey nomeia **análise de dados** como disciplina própria, da qual a inferência é *um* componente, não o todo. É uma jogada de definição antes de ser técnica: uma vez que a exploração tem nome e estatuto, ela pode ter método. E aí vêm as ferramentas: o boxplot, o stem-and-leaf, e o hábito que atravessa tudo, o de preferir medidas **resistentes** a valores extremos.
 
 **A ideia reaproveitável.** **Antes de testar a resposta, é preciso ter permissão para procurar a pergunta.** Um campo que só valoriza a etapa confirmatória fica cego para a etapa que *gera* a hipótese — e, pior, empurra essa etapa para a informalidade, onde ela acontece assim mesmo, só que sem método e sem registro. Vale muito além da estatística: teste automatizado só verifica o que alguém pensou em perguntar; nenhuma suíte verde descobre a pergunta que ninguém fez.
 
@@ -53,7 +53,7 @@ Repare no intervalo: **quinze anos** entre o manifesto e o livro. É o mesmo for
 
 ## Fundamentos: a média mente, a mediana aguenta
 
-Volte à rua: `3, 3, 4, 4, 5, 6, 6, 400` (em milhares). A **média** é 52,1. A **mediana** — o valor que deixa metade dos dados de cada lado — é 4,5. A diferença não é de precisão, é de natureza: a média usa o *valor* de cada ponto, então um único extremo a arrasta sem limite; a mediana usa só a *posição*, e trocar o 400 por 4 milhões a deixa em 4,5. Isso se chama **resistência**, e é a propriedade que Tukey pôs no centro do método.
+Volte à rua: `3, 3, 4, 4, 5, 6, 6, 400` (em milhares). A **média** é 52,1. A **mediana**, o valor que deixa metade dos dados de cada lado, é 4,5. A diferença não é de precisão, é de natureza: a média usa o *valor* de cada ponto, então um único extremo a arrasta sem limite; a mediana usa só a *posição*, e trocar o 400 por 4 milhões a deixa em 4,5. Isso se chama **resistência**, e é a propriedade que Tukey pôs no centro do método.
 
 O mesmo par existe para dispersão:
 
@@ -65,7 +65,7 @@ O mesmo par existe para dispersão:
 
 O desvio-padrão eleva as diferenças ao quadrado — o que dá ao ponto extremo um voto elevado ao quadrado. O IQR é a largura da faixa que contém os 50% centrais: ignora, por construção, as duas caudas.
 
-**Como ler um boxplot.** A caixa vai de Q1 a Q3 (é o IQR), e o traço dentro dela é a mediana. Os "bigodes" se estendem até o ponto mais distante que ainda esteja dentro de 1,5 × IQR a partir da borda da caixa; o que sobra é desenhado como ponto individual. Três leituras saem de bater o olho: **onde está o centro**, **quão espalhado** é o meio dos dados, e **se a mediana está descentrada dentro da caixa** — sinal de assimetria.
+**Como ler um boxplot.** A caixa vai de Q1 a Q3 (é o IQR), e o traço dentro dela é a mediana. Os "bigodes" se estendem até o ponto mais distante que ainda esteja dentro de 1,5 × IQR a partir da borda da caixa; o que sobra é desenhado como ponto individual. Três leituras saem de bater o olho: onde está o centro, quão espalhado é o meio dos dados, e se a mediana está descentrada dentro da caixa, que é sinal de assimetria.
 
 **Assimetria é a regra, não a exceção.** Renda, tempo de resposta de API, valor de compra, número de sessões por usuário: quase tudo que tem piso em zero e não tem teto forma uma **cauda longa** à direita. Nessas distribuições, média > mediana sempre, e reportar a média é reportar a cauda.
 
@@ -128,13 +128,13 @@ Você acabou de ver a cerca acusar 62 pontos em `preco`. Olhe, no painel do labo
 >
 > A última alternativa é a mais instrutiva entre as erradas: com IQR igual a zero, **qualquer** multiplicador dá cerca de largura zero. 3,0 × 0 continua sendo 0. O problema não é a folga, é a régua.
 >
-> A lição do capítulo, em uma frase: **critério de outlier é escolha declarada, não verdade estatística.** A regra de 1,5 × IQR pressupõe uma distribuição contínua e razoavelmente espalhada. Aplicada a uma variável quase constante — ou a uma categórica disfarçada de número — ela produz um resultado tecnicamente correto e completamente sem sentido.
+> A lição do capítulo, em uma frase: **critério de outlier é escolha declarada, não verdade estatística.** A regra de 1,5 × IQR pressupõe uma distribuição contínua e razoavelmente espalhada. Aplicada a uma variável quase constante, ou a uma categórica disfarçada de número, ela produz um resultado tecnicamente correto e completamente sem sentido.
 > **volte para:** #olhe-uma-variavel-de-cada-vez
 :::
 
 ## Correlação: o que ela mede e o que ela não prova
 
-A correlação de Pearson resume, num número entre −1 e 1, o quanto duas variáveis andam juntas **em linha reta**. As duas palavras finais são a armadilha inteira: uma relação forte e curva — um U perfeito, por exemplo — pode dar correlação próxima de zero. Correlação zero não significa "não há relação"; significa "não há relação *linear*".
+A correlação de Pearson resume, num número entre −1 e 1, o quanto duas variáveis andam juntas **em linha reta**. As duas palavras finais são a armadilha inteira: uma relação forte e curva (um U perfeito, por exemplo) pode dar correlação próxima de zero. Correlação zero não significa "não há relação"; significa "não há relação *linear*".
 
 O argumento definitivo contra confiar no número sem ver o gráfico é o **quarteto de Anscombe** (1973): quatro conjuntos de onze pontos cada, com médias, variâncias, correlação (≈ 0,816) e reta de regressão **praticamente idênticas** — e formas completamente diferentes quando plotados. Um é uma nuvem linear honesta; outro é uma curva perfeita; outro é uma reta com um ponto fora; o último é uma coluna de pontos e um único ponto distante que sozinho cria a correlação. Mesmo resumo numérico, quatro histórias.
 
@@ -164,11 +164,11 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 > **volte para:** #correlacao-o-que-ela-mede-e-o-que-ela-nao-prova
 :::
 
-> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha — `df.groupby("preco")[["temperatura","vendas"]].mean()` — e ela precede qualquer modelo. O desdobramento está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
+> **Um conjunto para praticar isto.** [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de venda com um caso limpo do que esta seção afirma: `preco` correlaciona **+0,513** com as vendas, e o que essa correlação mede é o mês de julho. A exploração que revela isso é uma linha só, `df.groupby("preco")[["temperatura","vendas"]].mean()`, e ela precede qualquer modelo. O desdobramento está no [capítulo II.2](ii-2-modelos-lineares.md#o-caso-da-limonada).
 
 ## Faltantes, outliers e a fronteira entre explorar e confirmar
 
-**Faltantes.** A pergunta útil nunca é "como preencho?", é **"por que falta?"**. Falta ao acaso (o sensor caiu numa terça) é um problema de imputação. Falta por mecanismo (renda alta declarada com menos frequência) enviesa qualquer preenchimento pela média. E falta com significado — um campo que só existe para quem comprou — é vazamento disfarçado de ausência. Antes de qualquer `dropna()`, conte os faltantes **por coluna e por subgrupo**: um faltante concentrado numa região, num período ou num canal é sinal de processo quebrado, não de dado ausente.
+**Faltantes.** A pergunta útil nunca é "como preencho?", é **"por que falta?"**. Falta ao acaso (o sensor caiu numa terça) é um problema de imputação. Falta por mecanismo (renda alta declarada com menos frequência) enviesa qualquer preenchimento pela média. E falta com significado (um campo que só existe para quem comprou) é vazamento disfarçado de ausência. Antes de qualquer `dropna()`, conte os faltantes **por coluna e por subgrupo**: um faltante concentrado numa região, num período ou num canal é sinal de processo quebrado, não de dado ausente.
 
 **Outliers.** Um ponto extremo é uma de três coisas, e a única forma de decidir é olhar a linha inteira:
 
@@ -180,7 +180,7 @@ Duas colunas de um mesmo relatório têm média, desvio-padrão e correlação e
 
 A regra de 1,5 × IQR do boxplot **marca candidatos, não decide nada**. Decidir exige critério declarado por escrito: o que foi removido, por qual regra, quantas linhas, e o que acontece com o resultado se a regra mudar. "Limpei os outliers" não é descrição de método; é a ausência de uma.
 
-**E a fronteira.** Se você olha quarenta gráficos e escolhe o padrão mais forte, você não achou o efeito mais forte: achou o **extremo do ruído** — a coincidência amostral do item 4 acima, agora garimpada de propósito. É a armadilha que a dupla de Tukey existe para prevenir. A regra prática é simples e barata: **separe uma parte dos dados antes de começar a olhar** e não a toque; explore no resto à vontade; escreva a hipótese **antes** de testá-la na parte guardada. Explorar produz candidatas; confirmar exige dado que não participou da escolha. Fazer as duas coisas no mesmo conjunto é o mesmo erro que o [capítulo II.1](ii-1-avaliacao.md) combate quando o limiar é escolhido no teste.
+**E a fronteira.** Se você olha quarenta gráficos e escolhe o padrão mais forte, você não achou o efeito mais forte: achou o **extremo do ruído**, a coincidência amostral do item 4 acima, agora garimpada de propósito. É a armadilha que a dupla de Tukey existe para prevenir. A regra prática é simples e barata: **separe uma parte dos dados antes de começar a olhar** e não a toque; explore no resto à vontade; escreva a hipótese antes de testá-la na parte guardada. Explorar produz candidatas; confirmar exige dado que não participou da escolha. Fazer as duas coisas no mesmo conjunto é o mesmo erro que o [capítulo II.1](ii-1-avaliacao.md) combate quando o limiar é escolhido no teste.
 
 O produto legítimo de uma boa exploração não é uma conclusão — é uma **lista de hipóteses ordenada por quanto valeria confirmá-las**, mais uma lista de problemas de dado a consertar. Transformar essa lista em gráfico que convence é o [capítulo I.5](i-5-visualizacao-storytelling.md).
 
@@ -235,7 +235,7 @@ Escreva um parágrafo de análise monovariada dessa variável, respondendo:
 
 O mesmo caminho do laboratório, agora com o **código à vista**: tipo de cada campo, contagem e nulidade, média × mediana × moda, decis e quartis (com a verificação de que P50 = Q2 = D5), histograma e boxplot desenhados juntos na mesma escala, e a regra da cerca de 1,5 × IQR calculada coluna a coluna.
 
-> Este é o **único** notebook da trilha que usa `pandas` e `matplotlib` — as duas já vêm no Colab. A razão está no [ADR 0010](https://github.com/GHDaru/machinelearning/blob/main/adr/0010-pandas-na-etapa-de-exploracao.md): o assunto aqui é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho. A conta em si — quantil, cerca, descritivas — está escrita à mão no laboratório, em 30 linhas de JavaScript.
+> Este é o **único** notebook da trilha que usa `pandas` e `matplotlib` — as duas já vêm no Colab. A razão está no [ADR 0010](https://github.com/GHDaru/machinelearning/blob/main/adr/0010-pandas-na-etapa-de-exploracao.md): o assunto aqui é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho. A conta em si (quantil, cerca, descritivas) está escrita à mão no laboratório, em 30 linhas de JavaScript.
 
 ## Síntese — o que levar
 
