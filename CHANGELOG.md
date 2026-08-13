@@ -19,6 +19,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — a briga do logito contra o probito, com o que faltava (cap. II.3)
+- **A polêmica tinha uma segunda camada que o capítulo não contava.** A disputa
+  logito × probito veio embrulhada nos ataques simultâneos de Berkson à máxima
+  verossimilhança, com trocas ácidas entre ele e R. A. Fisher. O capítulo dizia
+  apenas que o nome "carrega a polêmica".
+- **O probito também tem paternidade disputada:** creditado a Gaddum (1933) e Bliss
+  (1934), com a fonte advertindo que isso *"is too simple"* e raízes que recuam até
+  Fechner. É mais um caso do padrão que o livro persegue, agora dentro do capítulo
+  que usava o probito só como "método concorrente".
+- **Berkson foi ridicularizado no início**, o que o capítulo não registrava:
+  cunhou *logit* *"by analogy to the 'probit' of Bliss (for which he was initially
+  much derided)"*.
+- **A motivação foi separada em duas:** a vantagem de **cálculo** ficou ✓ (*"in the
+  practical aspect of ease of computation the logit had a clear advantage"*); a de
+  **interpretabilidade clínica** continua ⏳, porque não a achei na fonte lida.
+
 ### Corrigido — excesso de certeza sobre Gauss × Legendre (caps. II.2 e III.1)
 - **O livro afirmava mais do que a fonte.** Dizia que "a avaliação histórica moderna
   é que Gauss tinha o método antes". O estudo de referência da disputa diz: *"It is

@@ -36,7 +36,13 @@ O lado esquerdo varre a reta inteira, de $-\infty$ a $+\infty$; o direito é lin
 
 **A ideia reaproveitável.** **Quando a saída tem fronteiras e o modelo não, transforme a saída — não restrinja o modelo.** É o mesmo movimento que aparece no logaritmo de valores positivos, no *softmax* de várias classes e na função de ligação de qualquer modelo linear generalizado. A restrição vira mudança de escala, e o maquinário linear continua valendo inteiro.
 
-**O nome.** *Logit*, contração de *logistic unit* (em português, **logito**), foi cunhado por **Joseph Berkson** em 1944, ecoando deliberadamente o *probit* (*probability unit*) do método concorrente. O nome carrega a polêmica: era uma proposta de substituição, não de complemento. A palavra *logística* vem antes, da curva logística de Pierre François Verhulst (1838), estudando crescimento populacional limitado — a mesma curva em S, chegando aqui por outro caminho.
+**O nome.** *Logit*, contração de *logistic unit* (em português, **logito**), foi cunhado por **Joseph Berkson** em 1944. A história de referência sobre a origem do modelo é direta quanto ao gesto: ele *"proposed the use of the logistic, coining the term 'logit' by analogy to the 'probit' of Bliss (for which he was initially much derided)"*. O nome era um eco proposital do concorrente, e Berkson foi bastante ridicularizado por isso no começo.
+
+A polêmica que se seguiu não foi só entre as duas escalas, e essa parte costuma sumir no resumo. Nas palavras da mesma fonte, *"the issue of logit versus probit was tangled by Berkson's simultaneous attacks on the method of maximum likelihood and his advocacy of minimum chi-squared estimation instead"*. Ou seja: a briga do logito contra o probito veio embrulhada numa segunda briga, sobre como estimar, e chegou ao ponto de trocas ácidas entre Berkson e R. A. Fisher.
+
+Vale registrar a ironia, porque ela é o padrão que este livro persegue: **o próprio probito tem paternidade disputada.** A invenção é usualmente creditada a Gaddum (1933) e Bliss (1934), e a mesma fonte adverte que isso *"is too simple"*, com raízes que recuam até Fechner, no século XIX.
+
+A palavra *logística* vem antes de tudo isso, da curva de Pierre François Verhulst (1838), estudando crescimento populacional limitado. É a mesma curva em S, chegando aqui por outro caminho.
 
 **Procedência das afirmações desta seção:**
 
@@ -45,8 +51,9 @@ O lado esquerdo varre a reta inteira, de $-\infty$ a $+\infty$; o direito é lin
 | ✓ᵐ | Berkson, "Application of the Logistic Function to Bio-Assay", *Journal of the American Statistical Association*, 1944 — obra, ano e o fato de cunhar *logit*. [DOI 10.1080/01621459.1944.10500699](https://doi.org/10.1080/01621459.1944.10500699). **Não lida** |
 | ✓ᵐ | Verhulst (1838), "Notice sur la loi que la population suit dans son accroissement" — a curva logística e o nome. **Não lida** |
 | ✓ᵐ | Cox, "The Regression Analysis of Binary Sequences", *Journal of the Royal Statistical Society B*, 1958 — o trabalho que consolida o modelo na forma usada hoje. [DOI 10.1111/j.2517-6161.1958.tb00292.x](https://doi.org/10.1111/j.2517-6161.1958.tb00292.x). **Não lida** |
-| ⏳ | Que o *logit* foi proposto como **substituto** do *probit*, e a controvérsia entre as duas escolas |
-| ⏳ | Que a motivação era interpretabilidade clínica e custo de cálculo |
+| ✓ | O gesto de Berkson em 1944 e os trechos citados entre aspas, mais a paternidade disputada do próprio probito e o embrulho com a disputa sobre máxima verossimilhança, em [J. S. Cramer, *"The Origins of Logistic Regression"*](https://papers.tinbergen.nl/02119.pdf) (Tinbergen Institute, TI 2002-119/4), **lido** |
+| ✓ | Que a **facilidade de cálculo** pesou a favor do logito: a mesma fonte diz que *"in the practical aspect of ease of computation the logit had a clear advantage over the probit"*, e cita Cochran sobre a adoção de um método depender da simplicidade das contas |
+| ⏳ | Que a motivação incluísse **interpretabilidade clínica**. A vantagem de cálculo está conferida; a de explicar o coeficiente a um médico é a leitura corrente, e não a encontrei afirmada na fonte lida |
 | ❌ | A data em que o método passou a ser padrão em crédito e seguro — procurei e não achei fonte com data defensável |
 | 📖 | A ideia reaproveitável ("transforme a saída, não restrinja o modelo") e a ligação com o *softmax* |
 
