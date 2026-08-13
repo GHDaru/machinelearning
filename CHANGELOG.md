@@ -6,6 +6,35 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — gate dos intervalos: a subtração passa a ser da máquina
+- `publicar/intervalos.mjs` guarda os **dois anos** de cada intervalo que o livro
+  cita entre capítulos e calcula a diferença. Qualquer menção em prosa que
+  discorde da subtração quebra o build. Roda dentro de `build.mjs` e sozinho.
+- **Por que existe:** o "cerca de 80 anos" errado do IV.2 estava copiado em mais
+  três capítulos (III.4, III.6, IV.3), porque cada um compara o seu intervalo com
+  o dos outros. Um erro, quatro páginas, nenhuma delas errada por conta própria.
+- **Visto falhando** antes de entrar: com o "~80" reintroduzido no III.4 e no
+  III.6, o build saiu com código 1 nas duas vezes; verde depois de corrigido.
+- A primeira versão do regex dava falso positivo, lendo "970 no [II.7]" dentro de
+  "1927→1970 no [II.7]". Um ano citado não é um intervalo citado; o *lookbehind*
+  que separa os dois está comentado no arquivo.
+
+### Corrigido — o Turing de Pearl e a resenha que a anedota escondia (cap. IV.3)
+- **"Pearl recebeu o Turing 22 anos depois" de 1985: são 26.** O 22 é o intervalo
+  Zadeh→Sendai, duas linhas abaixo no mesmo box, e vazou para a linha de cima.
+- **Os três capítulos que citavam "cerca de 80" para o IV.2** (III.4, III.6, IV.3)
+  passam a citar 91.
+- **O *Journal of Symbolic Logic* resenhou o artigo do Logic Theory Machine** em
+  setembro de 1957, por Andrzej Ehrenfeucht (vol. 22 nº 3, pp. 331–332). Não
+  desmente a anedota da recusa, que é sobre uma submissão, mas desmente a leitura
+  fácil dela: "a revista rejeitou" e "a revista ignorou" não são a mesma
+  afirmação. Entrou no corpo com a distinção explícita.
+- **Tentativas registradas onde a fonte não abriu:** o artigo de Zadeh (403 no
+  editor, 404 no espelho, sem depósito no repositório aberto) e o do Logic Theory
+  Machine seguem em ✓ᵐ/⏳ com as fichas conferidas e o motivo escrito. A abertura
+  do metrô de Sendai ganhou data e autoria, com a ressalva de que a consistência
+  entre fontes terciárias não é confirmação: elas se copiam.
+
 ### Corrigido — 91 anos, não 80: o maior intervalo do livro estava mal contado (cap. IV.2)
 - **De Thorndike (1898) a Watkins (1989) são 91 anos**, e o capítulo dizia "cerca de
   80" na mesma frase em que apresenta os dois anos. A conclusão sobrevive: 91 segue

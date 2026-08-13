@@ -22,6 +22,7 @@ import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair, semGabarito } from "./interativos.mjs";
 import { verificar as verificarProsa } from "./prosa.mjs";
+import { verificar as verificarIntervalos } from "./intervalos.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -917,6 +918,15 @@ if (prosaRuim.length) {
   console.error(`✗ ${prosaRuim.length} problema(s) de prosa (ADR 0013):`);
   prosaRuim.slice(0, 20).forEach((q) => console.error("   " + q));
   if (prosaRuim.length > 20) console.error(`   … e mais ${prosaRuim.length - 20}`);
+  process.exit(1);
+}
+
+// Intervalos citados entre capítulos. Um capítulo é dono de dois anos; os
+// outros citam a diferença. Aqui a diferença é calculada, nunca lida.
+const intervalosRuins = verificarIntervalos();
+if (intervalosRuins.length) {
+  console.error(`✗ ${intervalosRuins.length} intervalo(s) citado(s) fora da conta:`);
+  intervalosRuins.forEach((q) => console.error("   " + q));
   process.exit(1);
 }
 

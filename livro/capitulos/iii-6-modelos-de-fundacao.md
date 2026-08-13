@@ -47,7 +47,7 @@ A objeção mais citada ao termo é atribuída a **Meredith Whittaker**: renomea
 
 > **A leitura deste livro (📖).** É a lição do caso OLAP, no [capítulo II.6](ii-6-analise-multidimensional.md): **quem batiza uma categoria decide o que ela herda de história e de crítica**. A diferença, e ela é a favor deste caso, é que aqui os autores **declararam a limitação no próprio resumo**, o oposto do relatório patrocinado de 1993.
 
-O intervalo é a contra-prova do livro. Transformer em 2017; BERT e GPT em 2018. Cerca de **um ano**. Compare com 53 anos no [capítulo III.4](iii-4-visao.md), 59 no [capítulo I.6](i-6-representacao.md), cerca de 80 no [capítulo IV.2](iv-2-reforco.md). O [capítulo II.5](ii-5-arvores-ensembles.md) já apontava a primeira condição para o intervalo encurtar: **a precisão da pergunta**. Este caso acrescenta a segunda: **infraestrutura de reprodução compartilhada** (arXiv, código aberto, GPU comprável, benchmark comum). Com as duas presentes, o intervalo cai de décadas para meses. 📖
+O intervalo é a contra-prova do livro. Transformer em 2017; BERT e GPT em 2018. Cerca de **um ano**. Compare com 53 anos no [capítulo III.4](iii-4-visao.md), 59 no [capítulo I.6](i-6-representacao.md), 91 no [capítulo IV.2](iv-2-reforco.md). O [capítulo II.5](ii-5-arvores-ensembles.md) já apontava a primeira condição para o intervalo encurtar: **a precisão da pergunta**. Este caso acrescenta a segunda: **infraestrutura de reprodução compartilhada** (arXiv, código aberto, GPU comprável, benchmark comum). Com as duas presentes, o intervalo cai de décadas para meses. 📖
 
 **Procedência das afirmações desta seção** (`✓ᵃ` = página do artigo aberta e **resumo lido**; o corpo, não):
 

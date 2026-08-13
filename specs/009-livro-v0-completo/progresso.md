@@ -78,7 +78,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
 | 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
@@ -228,6 +228,30 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > no PNAS (05/06/1952) não pôde ser conferida no fac-símile; ficou ⏳ **com a nota de
 > que o argumento não depende dela**, porque o fascículo de agosto de 1952 já é
 > anterior à posse de Wilson. Criar ⏳ onde havia ✓ᵐ sem lastro é ganho, não perda.
+>
+> **E aí o IV.3 mostrou que o erro do IV.2 tinha VIAJADO.** Os capítulos comparam os
+> seus intervalos uns com os outros, então "cerca de 80" estava copiado em III.4,
+> III.6 e IV.3. Um erro, quatro páginas, e nenhuma delas errada por conta própria:
+> erradas **por citação**. No mesmo box do IV.3 havia um segundo erro de subtração,
+> independente: "Pearl [...] recebeu o Turing 22 anos depois", de 1985 a 2011. São 26.
+> O 22 é do intervalo Zadeh→Sendai, duas linhas abaixo, e vazou para a linha de cima.
+>
+> **Isso virou gate, e não conselho.** `publicar/intervalos.mjs` guarda os DOIS ANOS de
+> cada intervalo e calcula a diferença; qualquer menção em prosa que discorde da
+> subtração quebra o build. Visto falhando antes de entrar (reintroduzi o "~80" no
+> III.4 e no III.6, o build saiu com 1 nas duas vezes) e visto passando depois. A
+> primeira versão do regex acusava um falso positivo: em "1927→1970 no [II.7]" ele
+> lia "970 no [II.7]". **Um ano citado não é um intervalo citado**, e o lookbehind que
+> conserta isso está comentado no arquivo.
+>
+> **O achado de conteúdo do IV.3 veio de um lugar inesperado.** Procurando a ficha do
+> artigo do Logic Theory Machine, o Crossref devolveu de brinde uma **resenha desse
+> artigo publicada no próprio *Journal of Symbolic Logic***, em setembro de 1957, por
+> Andrzej Ehrenfeucht. O capítulo conta a anedota de que o JSL teria recusado um
+> artigo coautorado por um programa. A resenha não desmente a anedota (recusar uma
+> submissão e resenhar um artigo publicado alhures são coisas diferentes), mas
+> desmente a leitura fácil dela: **"a revista rejeitou" e "a revista ignorou" não são
+> a mesma afirmação**. Entrou no corpo com a distinção explícita.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

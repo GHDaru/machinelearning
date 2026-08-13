@@ -25,7 +25,9 @@ Este capítulo é o panorama dessas quatro tradições. Cada uma nasceu de um ap
 
 São quatro linhagens, quatro apertos, quatro viradas. Vale ler as quatro mini-histórias antes de olhar para o que elas têm em comum — porque o que elas têm em comum é a lição do capítulo, e ela não aparece se você ler só uma.
 
-**1. A simbólica — provar teorema sem busca cega.** Allen Newell, John Clifford Shaw e Herbert Simon, meados dos anos 1950. O terceiro nome quase sempre some das citações, e some porque Shaw era o programador; registre-o. O aperto: uma prova de lógica é uma sequência de aplicações de regras, e o número de sequências possíveis explode antes do quinto passo. **A virada** foi escrever o problema como *estado, operadores e uma heurística que poda* — buscar guiado em vez de buscar tudo. O **Logic Theorist** provou 38 dos 52 primeiros teoremas do capítulo 2 do *Principia Mathematica* e, para o teorema 2.85, achou uma prova mais curta que a de Whitehead e Russell ⏳. Foi demonstrado em Dartmouth, no verão de 1956 ✓ᵐ. Conta-se que o *Journal of Symbolic Logic* teria recusado publicar um artigo coautorado por um programa ⏳ — anedota excelente e fonte fraca, exatamente o tipo de coisa que este capítulo pede para você tratar com ceticismo.
+**1. A simbólica — provar teorema sem busca cega.** Allen Newell, John Clifford Shaw e Herbert Simon, meados dos anos 1950. O terceiro nome quase sempre some das citações, e some porque Shaw era o programador; registre-o. O aperto: uma prova de lógica é uma sequência de aplicações de regras, e o número de sequências possíveis explode antes do quinto passo. **A virada** foi escrever o problema como *estado, operadores e uma heurística que poda* — buscar guiado em vez de buscar tudo. O **Logic Theorist** provou 38 dos 52 primeiros teoremas do capítulo 2 do *Principia Mathematica* e, para o teorema 2.85, achou uma prova mais curta que a de Whitehead e Russell ⏳. Foi demonstrado em Dartmouth, no verão de 1956 ✓ᵐ. Conta-se que o *Journal of Symbolic Logic* teria recusado publicar um artigo coautorado por um programa ⏳: anedota excelente e fonte fraca, exatamente o tipo de coisa que este capítulo pede para você tratar com ceticismo.
+
+O que **está** documentado é o contrário do que a anedota sugere sobre a recepção. O *Journal of Symbolic Logic* publicou, em setembro de 1957, uma **resenha** do artigo do Logic Theory Machine, assinada pelo lógico Andrzej Ehrenfeucht (vol. 22, nº 3, pp. 331–332) ✓ᵐ. Isso não desmente a anedota, que é sobre uma submissão, e não sobre uma resenha. Serve para uma distinção que vale mais que a história: **"a revista rejeitou um artigo" e "a revista ignorou o trabalho" são afirmações diferentes**, e só a segunda o registro contradiz.
 
 Depois vieram os sistemas especialistas de verdade: **DENDRAL** (Stanford, a partir de 1965), que inferia estrutura química a partir de espectro de massa, e **MYCIN** (Shortliffe, 1972–76), que diagnosticava infecção bacteriana no nível de um especialista humano e **nunca foi usado clinicamente** ⏳. O mercado de máquinas LISP evaporou em 1987 ⏳.
 
@@ -41,26 +43,27 @@ Depois vieram os sistemas especialistas de verdade: **DENDRAL** (Stanford, a par
 
 > ### A rejeição tem geografia
 >
-> Duas das quatro histórias terminam com a mesma forma. A lógica fuzzy foi hostilizada no Ocidente (em boa parte por causa da palavra) e adotada industrialmente no Japão. Pearl estava fora do mainstream da IA em 1985 e recebeu o Turing 22 anos depois. Ambos venceram **por fora**.
+> Duas das quatro histórias terminam com a mesma forma. A lógica fuzzy foi hostilizada no Ocidente (em boa parte por causa da palavra) e adotada industrialmente no Japão. Pearl estava fora do mainstream da IA em 1985 e recebeu o Turing 26 anos depois. Ambos venceram **por fora**.
 >
 > **A comunidade que rejeita uma ideia raramente é a que a reabilita.** Isso não é consolo para quem tem uma ideia rejeitada; é uma instrução de busca. Se o seu método não anda, a pergunta útil talvez não seja "como convenço esta sala?", e sim "qual é a sala em que este método é obviamente útil?".
 >
-> **Repare no relógio: 22 anos e um oceano.** De Zadeh (1965) a Sendai (1987) foram 22 anos **e uma mudança de continente**. Compare com os 43 anos do [capítulo II.7](ii-7-series-temporais.md), os 59 do [I.6](i-6-representacao.md) e os cerca de 80 do [IV.2](iv-2-reforco.md). O atraso aqui é curto para o padrão do livro — o que custou tempo não foi formular a ideia nem construir a ferramenta, foi **encontrar quem quisesse ouvir**. 📖
+> **Repare no relógio: 22 anos e um oceano.** De Zadeh (1965) a Sendai (1987) foram 22 anos **e uma mudança de continente**. Compare com os 43 anos do [capítulo II.7](ii-7-series-temporais.md), os 59 do [I.6](i-6-representacao.md) e os 91 do [IV.2](iv-2-reforco.md). O atraso aqui é curto para o padrão do livro — o que custou tempo não foi formular a ideia nem construir a ferramenta, foi **encontrar quem quisesse ouvir**. 📖
 
 **Procedência das afirmações desta seção:**
 
 | Selo | Afirmação |
 |---|---|
-| ⏳ | Logic Theorist: 38 dos 52 primeiros teoremas do capítulo 2 do *Principia Mathematica*, e a prova mais curta para o teorema 2.85 |
+| ⏳ | Logic Theorist: 38 dos 52 primeiros teoremas do capítulo 2 do *Principia Mathematica*, e a prova mais curta para o teorema 2.85. A fonte primária é Newell & Simon, *"The logic theory machine: a complex information processing system"*, **IRE Transactions on Information Theory IT-2(3), 61–79, set. 1956**, DOI [10.1109/tit.1956.1056797](https://doi.org/10.1109/tit.1956.1056797). **A ficha está conferida; o artigo não abriu** (repositórios institucional e do editor devolveram 403/404), e por isso os dois números continuam ⏳ |
 | ✓ᵐ | A demonstração do Logic Theorist em Dartmouth, verão de 1956 |
-| ⏳ | A recusa atribuída ao *Journal of Symbolic Logic* a um artigo coautorado por um programa |
+| ⏳ | A recusa atribuída ao *Journal of Symbolic Logic* a um artigo coautorado por um programa. Continua sem fonte primária |
+| ✓ᵐ | Que o *Journal of Symbolic Logic* **resenhou** o artigo do Logic Theory Machine em setembro de 1957, por Andrzej Ehrenfeucht, vol. 22 nº 3, pp. 331–332, DOI [10.2307/2963663](https://doi.org/10.2307/2963663). Ficha conferida no registro da resenha; a resenha em si não foi lida |
 | ⏳ | DENDRAL em Stanford a partir de 1965; MYCIN (Shortliffe, 1972–76) no nível de especialista e nunca usado clinicamente |
 | ⏳ | O colapso de 1987 do mercado de máquinas LISP diante de workstations genéricas |
-| ✓ᵐ | Zadeh, *Fuzzy Sets*, **Information and Control** 8, 338–353 (1965). **Metadados conferidos; não lido** |
+| ✓ᵐ | Zadeh, *Fuzzy Sets*, **Information and Control** 8, 338–353 (1965), DOI [10.1016/S0019-9958(65)90241-X](https://doi.org/10.1016/S0019-9958(65)90241-X). **Metadados conferidos; não lido**, e as tentativas ficam registradas: o editor devolveu 403, o espelho institucional 404 e o repositório aberto não tem o depósito. Nada do artigo aparece aqui entre aspas |
 | ⏳ | O nome *fuzzy* como escolha ruim e a década de recepção perdida; a frase de Zadeh sobre o conselho editorial (só em fontes secundárias) |
-| ⏳ | As cartas do Japão a partir de 1968 e o metrô de Sendai (linha Namboku) com controle fuzzy em operação em 1987 |
+| ⏳ | As cartas do Japão a partir de 1968 e o metrô de Sendai (linha Namboku) com controle fuzzy em operação em 1987. A abertura da linha em **15/07/1987** e a autoria do controle (Hitachi, com Seiji Yasunobu) aparecem de forma consistente em fontes enciclopédicas e de divulgação, **e em nenhuma primária que tenhamos aberto**. Consistência entre terciárias não é confirmação: elas se copiam |
 | ⏳ | As três origens independentes da computação evolutiva e os ~25 anos de desconhecimento mútuo — Holland (1962/1975), Fogel (1962/1966), Bienert–Rechenberg–Schwefel (~1965) |
-| ✓ᵐ | Pearl, *Bayesian Networks…*, UCLA TR CSD-850017, Cognitive Science Society, abril de 1985; livro em 1988; Turing em 2011. **Metadados conferidos; não lido** |
+| ✓ᵐ | Pearl, *Bayesian Networks…*, UCLA TR CSD-850017, Cognitive Science Society, abril de 1985; livro em 1988; Turing em 2011. **Metadados conferidos; não lido.** De 1985 a 2011 são **26 anos**, e não os 22 que uma edição anterior deste capítulo somava por engano |
 | ⏳ | Probabilidade como posição fora do mainstream da IA em 1985 |
 | 📖 | A ideia reaproveitável geral; a leitura do colapso de 1987 como aposta de arquitetura; "a rejeição tem geografia"; a comparação de relógios |
 
