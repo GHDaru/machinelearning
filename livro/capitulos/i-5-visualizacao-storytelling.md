@@ -21,15 +21,15 @@ Visualização é interface. Como toda interface, ela pode ser honesta ou pode e
 
 ## De onde isto veio
 
-**O aperto.** Fim do século XVIII. O comércio internacional cresce, os governos precisam acompanhá-lo, e os números existem em um único formato: **tabelas**. William Playfair — engenheiro e economista político escocês — queria algo que a tabela não dava: que um leitor apreendesse uma tendência de décadas **de relance**, sem somar coluna nenhuma.
+**O aperto.** Fim do século XVIII. O comércio internacional cresce, os governos precisam acompanhá-lo, e os números existem em um único formato: **tabelas**. William Playfair, engenheiro e economista político escocês, queria algo que a tabela não dava: que um leitor apreendesse uma tendência de décadas **de relance**, sem somar coluna nenhuma.
 
 **O que se fazia antes.** Tabela de números, lida linha a linha. Para comparar dois anos, o leitor fazia a subtração de cabeça; para ver uma tendência de trinta anos, fazia trinta.
 
 **A virada.** Usar **posição** e **comprimento** para representar quantidade. Se a quantidade vira distância no papel, comparar deixa de ser aritmética e vira percepção. Dessa ideia saem o gráfico de linhas e o de barras — os dois nascem ali.
 
-**A ideia reaproveitável — e é o achado deste capítulo: uma restrição de dados pode gerar uma forma nova.** O atlas de Playfair é feito de séries temporais: 34 pranchas de importação e exportação ao longo dos anos, todas em linha. Mas para a **Escócia** ele tinha os dados de **um único ano (1781)**. Sem eixo do tempo não há linha a traçar. A saída foi desenhar 34 **barras**, uma para cada sentido do comércio com 17 parceiros. Beniger & Robyn resumem: *"Playfair was driven to this invention by a lack of data"*. Ou seja: **a barra não é uma linha simplificada — é a resposta a uma pergunta que a linha não podia responder.** Guarde isso, porque é a razão de o próximo tópico existir: cada forma responde a um tipo de pergunta, e usar a forma errada é responder outra coisa.
+**A ideia reaproveitável, e é o achado deste capítulo: uma restrição de dados pode gerar uma forma nova.** O atlas de Playfair é feito de séries temporais: 34 pranchas de importação e exportação ao longo dos anos, todas em linha. Mas para a Escócia ele tinha os dados de um único ano, 1781. Sem eixo do tempo não há linha a traçar. A saída foi desenhar 34 **barras**, uma para cada sentido do comércio com 17 parceiros. Beniger & Robyn resumem: *"Playfair was driven to this invention by a lack of data"*. Ou seja: **a barra não é uma linha simplificada — é a resposta a uma pergunta que a linha não podia responder.** Guarde isso, porque é a razão de o próximo tópico existir: cada forma responde a um tipo de pergunta, e usar a forma errada é responder outra coisa.
 
-É o mesmo padrão do [capítulo III.1](iii-1-neuronio-artificial.md) — McCulloch e Pitts fazem um neurônio **sem aprendizado** porque não havia como treinar — e do [capítulo II.6](ii-6-analise-multidimensional.md), onde o cubo OLAP pré-computa porque a consulta era lenta demais. Restrição material gera forma nova; e a forma sobrevive à restrição que a criou.
+É o mesmo padrão do [capítulo III.1](iii-1-neuronio-artificial.md), em que McCulloch e Pitts fazem um neurônio **sem aprendizado** porque não havia como treinar, e do [capítulo II.6](ii-6-analise-multidimensional.md), onde o cubo OLAP pré-computa porque a consulta era lenta demais. Restrição material gera forma nova; e a forma sobrevive à restrição que a criou.
 
 **O nome.** *The Commercial and Political Atlas*, 1786 (com uma edição preliminar privada em 1785). O próprio Playfair explicou por que insistia: *"As the knowledge of mankind increases, and transactions multiply, it becomes more and more desirable to abbreviate and facilitate the modes of conveying information."*
 
@@ -72,7 +72,7 @@ Você quer mostrar **como o tempo de resposta da API se espalha** entre as requi
 - [ ] Um gráfico de linhas do tempo médio ao longo da semana.
 
 > **gabarito:** Histograma ou boxplot
-> **porque:** A pergunta é de **distribuição** — "como os valores se espalham" —, e só histograma e boxplot mostram forma, cauda e assimetria. Latência quase sempre tem cauda longa: a média fica confortável e o percentil 99 é o que derruba o usuário.
+> **porque:** A pergunta é de **distribuição**, isto é, como os valores se espalham, e só histograma e boxplot mostram forma, cauda e assimetria. Latência quase sempre tem cauda longa: a média fica confortável e o percentil 99 é o que derruba o usuário.
 >
 > As duas alternativas com **média** (barra por dia, linha na semana) são o erro mais comum e o mais caro: elas respondem "quanto, em geral" e "para onde está indo", que são perguntas de comparação e de evolução — e a média é exatamente a estatística que apaga a cauda que você foi procurar. A pizza é a pior de todas: fatiar o tempo em faixas transforma uma variável contínua em composição, e ainda entrega a comparação ao ângulo, que o olho lê mal.
 > **volte para:** #fundamentos-a-pergunta-escolhe-o-grafico
@@ -88,10 +88,10 @@ Nenhum dos truques abaixo falsifica um número. Todos mudam a conclusão.
 
 **Excesso de tinta.** Grades pesadas, sombras, gradientes, 3D, ícones decorativos: tinta que não carrega informação. Ela não só polui — ela compete com o dado pela atenção, e às vezes vence.
 
-**Cor sem propósito.** Cor é para **destacar** (uma série importa, o resto é cinza), para **ordenar** (escala contínua clara→escura) ou para **categorizar** (poucas cores distintas). Escolher paleta arco-íris para dados ordenados inventa fronteiras que não existem. E cerca de um em cada doze homens tem alguma forma de daltonismo: **nunca use verde/vermelho como o único sinal** de bom/ruim — acrescente forma, posição ou rótulo. Um gráfico que só funciona colorido também não funciona impresso em preto e branco.
+**Cor sem propósito.** Cor é para destacar (uma série importa, o resto é cinza), para ordenar (escala contínua clara→escura) ou para categorizar (poucas cores distintas). Escolher paleta arco-íris para dados ordenados inventa fronteiras que não existem. E cerca de um em cada doze homens tem alguma forma de daltonismo: **nunca use verde/vermelho como o único sinal** de bom/ruim — acrescente forma, posição ou rótulo. Um gráfico que só funciona colorido também não funciona impresso em preto e branco.
 
 :::exercicio {"id":"visualizacao-storytelling-e2","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
-Um gerente leva à diretoria um gráfico de **barras** com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em **88** e termina em **89,5**. Não há nota de rodapé. O título é "Satisfação do cliente". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.
+Um gerente leva à diretoria um gráfico de barras com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em 88 e termina em 89,5. Não há nota de rodapé. O título é "Satisfação do cliente". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.
 
 Julgue o gráfico: o que está errado, por que engana, e como você o refaria.
 
@@ -152,7 +152,7 @@ Complete a regra do título num gráfico de apresentação:
 > identifica explicitamente o que **não pode mudar**: o achado, os números e a incerteza — e justifica por que mudá-los seria mentir, não resumir;
 > justifica cada corte pelo que o público **decide**, não pelo tempo disponível;
 > não trata a versão executiva como a técnica encurtada, nem sacrifica a incerteza para caber em três minutos
-> **porque:** Adaptar não é encurtar. As duas versões respondem a perguntas diferentes: a diretoria decide **o que fazer**, o time técnico decide **se dá para confiar**. Por isso o método sai da versão executiva sem prejuízo — quem decide o canal não precisa saber qual validação você usou — mas a **incerteza não sai de nenhuma das duas**.
+> **porque:** Adaptar não é encurtar. As duas versões respondem a perguntas diferentes: a diretoria decide o que fazer, o time técnico decide se dá para confiar. Por isso o método sai da versão executiva sem prejuízo, já que quem decide o canal não precisa saber qual validação você usou, mas a **incerteza não sai de nenhuma das duas**.
 >
 > É aqui que quase toda apresentação escorrega, e o escorregão é sempre justificado pelo relógio: "não dava tempo de explicar o intervalo". O resultado é uma diretoria decidindo com uma certeza que ninguém tinha, e o custo aparece depois, quando o número não se confirma e a conversa vira sobre a sua credibilidade em vez de sobre a decisão.
 >
@@ -166,4 +166,4 @@ Complete a regra do título num gráfico de apresentação:
 2. Pegue um gráfico de um jornal ou relatório desta semana. Ele trunca algum eixo, codifica quantidade em área, ou usa cor sem propósito? O que muda na conclusão se você corrigir?
 3. Reescreva três títulos de gráficos que você já viu, transformando rótulo em conclusão. Em qual deles o gráfico **não** sustentava a conclusão que você quis escrever?
 
-> Estas três não são corrigidas, e a omissão é deliberada: as três dependem de um material que só você tem à mão — o gráfico desta semana, os títulos que você já viu — e corrigir por rubrica um artefato que o corretor não viu seria fingir correção.
+> Estas três não são corrigidas, e a omissão é deliberada: dependem de um material que só você tem à mão (o gráfico desta semana, os títulos que você já viu), e corrigir por rubrica um artefato que o corretor não viu seria fingir correção.

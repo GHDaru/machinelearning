@@ -25,7 +25,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 4 | I.2 — Coleta e Integração | 4 | 4 | 12 | **ok** | — | — | — |
 | 5 | I.3 — Qualidade e Vazamento | 4 | 5 | 12 | **ok** | — | — | — |
 | 6 | I.4 — Análise Exploratória | 4 | 7 | 12 | **ok** | — | — | — |
-| 7 | I.5 — Visualização e Storytelling | 4 | 4 | 12 | — | — | — | — |
+| 7 | I.5 — Visualização e Storytelling | 4 | 4 | 12 | **ok** | — | — | — |
 | 8 | I.6 — Representação | 4 | 4 | 12 | — | — | — | — |
 | 9 | II.1 — Avaliação | 5 | 5 | 15 | — | — | — | — |
 | 10 | II.2 — Modelos Lineares | 4 | 5 | 12 | — | — | — | — |
