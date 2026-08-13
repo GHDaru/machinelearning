@@ -2967,6 +2967,123 @@
     rel.aoChegar(function () { rodar(true); });
   }
 
+  // A animação do capítulo I.5: as barras da satisfação do cliente do exercício
+  // deste capítulo (88,1 · 88,4 · 88,9 · 89,2), com a BASE do eixo subindo de 0
+  // até rente à menor delas. Os quatro valores não mudam em quadro nenhum.
+  //
+  // O que o leitor erra ao prever não é a direção, que todo mundo acerta: é a
+  // MAGNITUDE. A razão real entre a maior e a menor barra é 1,0125; com a base em
+  // 88, a razão do que se vê na tela é 12. E o segundo botão mostra o corolário
+  // que quase nunca se diz: com dados que têm diferença real grande, o mesmo
+  // truque acrescenta pouco. **O eixo truncado paga mais quando há menos a
+  // mostrar**, que é exatamente quando alguém tem motivo para usá-lo.
+  function animaEixo(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bDados;
+    // Os números são os do exercício deste capítulo, e a varredura termina na
+    // base 88 que ele descreve. Assim a animação e o exercício respondem à mesma
+    // pergunta, e um confere o outro.
+    var SERIE = { rot: "satisfação do cliente", v: [88.1, 88.4, 88.9, 89.2],
+                  rots: ["T1", "T2", "T3", "T4"] };
+    var BASE_FIM = 88, PASSOS = 60;
+    var est = { linha: false, i: 0, base: 0, parou: false };
+
+    function dados() { return SERIE; }
+    function menor() { return Math.min.apply(null, dados().v); }
+    function maior() { return Math.max.apply(null, dados().v); }
+
+    function baseDe(i) { return (i / PASSOS) * BASE_FIM; }
+
+    function razaoVista(base) {
+      var lo = menor() - base, hi = maior() - base;
+      return lo > 1e-9 ? hi / lo : Infinity;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), d = dados(), i, h;
+      var x0 = PAD + 10, larg = W - 2 * PAD - 20;
+      var base = H - PAD - 22, alt = base - PAD - 30;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText(d.rot + " · " + (est.linha ? "linha" : "barra") +
+                   " · base do eixo em " + est.base.toFixed(1), x0, PAD + 14);
+      var lo = est.base, hi = maior() + (maior() - menor()) * 0.3;
+      var passoX = larg / d.v.length;
+      if (est.linha) {
+        ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+        ctx.lineWidth = 2; ctx.beginPath();
+        for (i = 0; i < d.v.length; i++) {
+          h = Math.max(0, (d.v[i] - lo) / (hi - lo)) * alt;
+          var pxi = x0 + i * passoX + passoX / 2;
+          if (i === 0) ctx.moveTo(pxi, base - h); else ctx.lineTo(pxi, base - h);
+        }
+        ctx.stroke();
+      } else {
+        for (i = 0; i < d.v.length; i++) {
+          h = Math.max(0, (d.v[i] - lo) / (hi - lo)) * alt;
+          ctx.fillStyle = escuro ? "#8fb8dd" : "#35618e";
+          ctx.fillRect(x0 + i * passoX + 12, base - h, passoX - 24, h);
+        }
+      }
+      for (i = 0; i < d.v.length; i++) {
+        ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+        ctx.fillText(d.rots[i] + "  " + d.v[i], x0 + i * passoX + 12, base + 14);
+      }
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x0, base); ctx.lineTo(x0 + larg, base); ctx.stroke();
+    }
+
+    function texto() {
+      var d = dados(), rv = razaoVista(est.base), real = maior() / menor();
+      placar.textContent =
+        d.rot + " · " + (est.linha ? "linha" : "barra") +
+        " · valores " + d.v.join(" · ") + " (inalterados)" +
+        " · base do eixo " + est.base.toFixed(1) +
+        " · razão real entre a maior e a menor " + real.toFixed(4) +
+        (est.linha
+          ? " · na linha o comprimento não codifica nada, e a razão de alturas deixa de significar"
+          : " · razão das alturas na tela " + (isFinite(rv) ? rv.toFixed(2) : "infinita")) +
+        (est.parou && !est.linha
+          ? " · na base " + BASE_FIM + " o exagero é de " + (rv / real).toFixed(1) + " vezes"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      est.base = baseDe(est.i);
+      est.i++;
+      if (est.i > PASSOS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(linha) {
+      est.linha = linha; est.i = 0; est.base = 0; est.parou = false;
+      rel.comecar(PASSOS + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bDados.textContent = est.linha ? "Voltar para barra" : "E se fosse uma linha?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.linha); });
+    bDados = botao("E se fosse uma linha?", function () { rodar(!est.linha); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 70);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -2974,7 +3091,8 @@
                 "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento,
                 "anima-limiar": animaLimiar, "anima-gradiente": animaGradiente,
                 "anima-origem-movel": animaOrigemMovel, "anima-custo": animaCusto,
-                "anima-deriva": animaDeriva };
+                "anima-deriva": animaDeriva,
+                "anima-eixo": animaEixo };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

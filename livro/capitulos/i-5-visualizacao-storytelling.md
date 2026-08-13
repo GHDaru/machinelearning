@@ -126,6 +126,18 @@ Nenhum dos truques abaixo falsifica um número. Todos mudam a conclusão.
 
 **Eixo Y truncado.** Comece o eixo em 97 em vez de 0 e uma queda de 3% vira um despenhadeiro. O leitor não lê a escala — lê a **altura da barra**. Como o comprimento é o que codifica a quantidade, cortar a base quebra a codificação: as barras deixam de ser proporcionais ao que representam. Regra: **barra sempre parte do zero**; linha pode não partir, porque nela o que codifica é a inclinação, não o comprimento — mas o corte precisa estar visível e declarado.
 
+:::lab {"id":"visualizacao-storytelling-l1","tipo":"anima-eixo","titulo":"Suba a base do eixo e veja o que acontece com o que não mudou"}
+Quatro barras, quatro números: **88,1 · 88,4 · 88,9 · 89,2**. Eles não mudam em nenhum quadro desta animação. O que sobe é a **base do eixo**, de 0 até 88.
+
+**Antes de assistir, arrisque um número.** Com o eixo começando em 88, quantas vezes a última barra fica maior que a primeira na tela?
+
+**Doze.** As alturas passam a valer 0,1 · 0,4 · 0,9 · 1,2, e 1,2 ÷ 0,1 = 12. A razão real entre os dois valores é 1,0125, ou seja, uma diferença de pouco mais de 1%. O exagero é de quase doze vezes, e nenhum número foi falsificado no caminho.
+
+> **Esta animação corrigiu o próprio livro.** O exercício logo abaixo dizia "cerca de onze vezes". São doze, exatamente. A conta é curta e passou despercebida até a máquina fazê-la, o que é a versão caseira do que o [capítulo IV.1](iv-1-nao-supervisionado.md) conta sobre números que viajam sem ser conferidos.
+
+Agora clique em **"E se fosse uma linha?"**. Mesmos dados, mesma base truncada, e a leitura deixa de ser abusiva. Não é indulgência: numa linha o que codifica a quantidade é a **inclinação**, não o comprimento, então cortar a base não quebra a codificação. Por isso a regra do capítulo tem duas metades: barra sempre parte do zero; linha pode não partir, desde que o corte esteja visível e declarado.
+:::
+
 **Área por raio.** Ao dobrar o valor, dobrar o raio de um círculo quadruplica a área. O leitor lê a área. Um crescimento de 2× vira 4×.
 
 **Excesso de tinta.** Grades pesadas, sombras, gradientes, 3D, ícones decorativos: tinta que não carrega informação. Ela não só polui — ela compete com o dado pela atenção, e às vezes vence.
@@ -133,16 +145,16 @@ Nenhum dos truques abaixo falsifica um número. Todos mudam a conclusão.
 **Cor sem propósito.** Cor é para destacar (uma série importa, o resto é cinza), para ordenar (escala contínua clara→escura) ou para categorizar (poucas cores distintas). Escolher paleta arco-íris para dados ordenados inventa fronteiras que não existem. E cerca de um em cada doze homens tem alguma forma de daltonismo: **nunca use verde/vermelho como o único sinal** de bom/ruim — acrescente forma, posição ou rótulo. Um gráfico que só funciona colorido também não funciona impresso em preto e branco.
 
 :::exercicio {"id":"visualizacao-storytelling-e2","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
-Um gerente leva à diretoria um gráfico de barras com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em 88 e termina em 89,5. Não há nota de rodapé. O título é "Satisfação do cliente". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.
+Um gerente leva à diretoria um gráfico de barras com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em 88 e termina em 89,5. Não há nota de rodapé. O título é "Satisfação do cliente". Na tela, a última barra tem **doze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.
 
 Julgue o gráfico: o que está errado, por que engana, e como você o refaria.
 
 > **rubrica:** identifica o eixo Y truncado como o problema central;
 > explica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores;
-> observa que a variação real é pequena (cerca de 1,1 ponto, ~1%) e que a impressão visual (~11×) não corresponde a ela;
+> observa que a variação real é pequena (1,1 ponto, cerca de 1%) e que a impressão visual (12×) não corresponde a ela;
 > propõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível;
 > menciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)
-> **porque:** Nenhum número foi falsificado — e é isso que torna o caso instrutivo. O engano está na **codificação**. Numa barra, a quantidade é o comprimento medido a partir de uma base comum; ao começar o eixo em 88, o comprimento passa a representar "quanto excede 88", que não é a grandeza do título. Daí a distorção: 1,1 ponto de variação real vira uma diferença visual de cerca de onze vezes.
+> **porque:** Nenhum número foi falsificado — e é isso que torna o caso instrutivo. O engano está na **codificação**. Numa barra, a quantidade é o comprimento medido a partir de uma base comum; ao começar o eixo em 88, o comprimento passa a representar "quanto excede 88", que não é a grandeza do título. Daí a distorção: 1,1 ponto de variação real vira uma diferença visual de doze vezes, porque as alturas passam a ser 0,1 · 0,4 · 0,9 · 1,2 e 1,2 ÷ 0,1 = 12.
 >
 > A correção mínima é a base zero — e note o efeito: com o eixo do zero, as quatro barras ficam praticamente idênticas, que é a verdade do dado. Se a variação pequena for genuinamente relevante (satisfação move-se devagar), a saída honesta não é truncar em silêncio: é trocar para **linha**, onde o codificador é a inclinação, com a escala declarada, mais a meta e a série histórica para dar referência. E vale reparar no título: "Satisfação do cliente" é rótulo dos dados, não conclusão — ele delega ao gráfico distorcido o trabalho de afirmar o que o autor não escreveu. Um título que dissesse "Satisfação subiu 1,1 ponto em um ano" teria denunciado o próprio gráfico.
 > **volte para:** #como-um-grafico-mente-sem-dizer-uma-mentira

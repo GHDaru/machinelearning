@@ -6,6 +6,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — não são onze vezes, são doze (cap. I.5)
+- O exercício do eixo truncado dizia que, com o eixo começando em 88, a última
+  barra fica "cerca de **onze vezes**" a altura da primeira. As alturas viram
+  0,1 · 0,4 · 0,9 · 1,2, e 1,2 ÷ 0,1 = **12**, exatamente. Enunciado, rubrica e
+  explicação corrigidos. Terceira ocorrência neste ciclo de número escrito à mão
+  ao lado dos dados que o determinam.
+
+### Adicionado — a animação do eixo truncado (cap. I.5)
+- **Décima terceira animação** (`anima-eixo`): a base do eixo sobe de 0 a 88 sobre
+  os quatro números do exercício, que não mudam em quadro nenhum. A razão vista
+  chega a 12,00 enquanto a real fica em 1,0125: exagero de quase doze vezes, sem
+  nenhum número falsificado. **Foi ela quem achou o erro acima.**
+- Segundo botão: troca barra por linha na mesma base truncada, que é a regra que
+  o capítulo enuncia (em barra o comprimento codifica; em linha, a inclinação).
+- **Uma segunda série de dados foi projetada e descartada por medição.** A ideia
+  era mostrar que o truque paga mais quando há menos diferença real, mas o
+  resultado dependia de onde eu parasse a base: com a regra mais natural, a razão
+  vista dá 11 nos dois casos, por identidade algébrica. Comparação que depende do
+  ponto de parada não compara nada.
+
 ### Adicionado — a animação da deriva, e o PSI que não tem dianteira nenhuma (cap. V.3)
 - **Décima segunda animação** (`anima-deriva`): 60 dias com o PSI da entrada e a
   AUC real do modelo na mesma linha do tempo.

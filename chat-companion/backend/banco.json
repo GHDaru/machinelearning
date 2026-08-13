@@ -2495,19 +2495,19 @@
    "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Um gerente leva à diretoria um gráfico de barras com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em 88 e termina em 89,5. Não há nota de rodapé. O título é \"Satisfação do cliente\". Na tela, a última barra tem cerca de **onze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.\n\nJulgue o gráfico: o que está errado, por que engana, e como você o refaria.",
+   "enunciado": "Um gerente leva à diretoria um gráfico de barras com a satisfação do cliente nos últimos quatro trimestres: 88,1 · 88,4 · 88,9 · 89,2. O eixo Y começa em 88 e termina em 89,5. Não há nota de rodapé. O título é \"Satisfação do cliente\". Na tela, a última barra tem **doze vezes** a altura da primeira, e a diretoria aprova mais verba para o programa.\n\nJulgue o gráfico: o que está errado, por que engana, e como você o refaria.",
    "opcoes": [],
    "gabarito": null,
-   "porque": "Nenhum número foi falsificado — e é isso que torna o caso instrutivo. O engano está na **codificação**. Numa barra, a quantidade é o comprimento medido a partir de uma base comum; ao começar o eixo em 88, o comprimento passa a representar \"quanto excede 88\", que não é a grandeza do título. Daí a distorção: 1,1 ponto de variação real vira uma diferença visual de cerca de onze vezes.\n\nA correção mínima é a base zero — e note o efeito: com o eixo do zero, as quatro barras ficam praticamente idênticas, que é a verdade do dado. Se a variação pequena for genuinamente relevante (satisfação move-se devagar), a saída honesta não é truncar em silêncio: é trocar para **linha**, onde o codificador é a inclinação, com a escala declarada, mais a meta e a série histórica para dar referência. E vale reparar no título: \"Satisfação do cliente\" é rótulo dos dados, não conclusão — ele delega ao gráfico distorcido o trabalho de afirmar o que o autor não escreveu. Um título que dissesse \"Satisfação subiu 1,1 ponto em um ano\" teria denunciado o próprio gráfico.",
+   "porque": "Nenhum número foi falsificado — e é isso que torna o caso instrutivo. O engano está na **codificação**. Numa barra, a quantidade é o comprimento medido a partir de uma base comum; ao começar o eixo em 88, o comprimento passa a representar \"quanto excede 88\", que não é a grandeza do título. Daí a distorção: 1,1 ponto de variação real vira uma diferença visual de doze vezes, porque as alturas passam a ser 0,1 · 0,4 · 0,9 · 1,2 e 1,2 ÷ 0,1 = 12.\n\nA correção mínima é a base zero — e note o efeito: com o eixo do zero, as quatro barras ficam praticamente idênticas, que é a verdade do dado. Se a variação pequena for genuinamente relevante (satisfação move-se devagar), a saída honesta não é truncar em silêncio: é trocar para **linha**, onde o codificador é a inclinação, com a escala declarada, mais a meta e a série histórica para dar referência. E vale reparar no título: \"Satisfação do cliente\" é rótulo dos dados, não conclusão — ele delega ao gráfico distorcido o trabalho de afirmar o que o autor não escreveu. Um título que dissesse \"Satisfação subiu 1,1 ponto em um ano\" teria denunciado o próprio gráfico.",
    "volte_para": "#como-um-grafico-mente-sem-dizer-uma-mentira",
-   "rubrica": "identifica o eixo Y truncado como o problema central;\nexplica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores;\nobserva que a variação real é pequena (cerca de 1,1 ponto, ~1%) e que a impressão visual (~11×) não corresponde a ela;\npropõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível;\nmenciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)",
+   "rubrica": "identifica o eixo Y truncado como o problema central;\nexplica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores;\nobserva que a variação real é pequena (1,1 ponto, cerca de 1%) e que a impressão visual (12×) não corresponde a ela;\npropõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível;\nmenciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)",
    "versoes": null,
    "pagina": "i-5-visualizacao-storytelling",
    "titulo_capitulo": "I.5 — Visualização e Storytelling",
    "criterios": [
     "identifica o eixo Y truncado como o problema central",
     "explica que em barra o comprimento codifica a quantidade, então cortar a base torna as barras não proporcionais aos valores",
-    "observa que a variação real é pequena (cerca de 1,1 ponto, ~1%) e que a impressão visual (~11×) não corresponde a ela",
+    "observa que a variação real é pequena (1,1 ponto, cerca de 1%) e que a impressão visual (12×) não corresponde a ela",
     "propõe uma correção concreta — barra a partir do zero, ou trocar por linha com o corte de escala declarado e visível",
     "menciona o título como parte do problema ou da solução (rótulo em vez de conclusão), ou aponta a ausência de contexto (meta, margem de erro, série mais longa)"
    ]
@@ -14556,6 +14556,20 @@
    },
    "intro": "As cinco colunas numéricas do conjunto de [365 dias de venda de limonada](https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada). Em cima o **histograma**, embaixo o **boxplot**, na mesma escala horizontal — para você ver os dois falando da mesma distribuição.\n\nA linha tracejada **laranja** é a média; a **verde**, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe.\n\nPercorra as cinco colunas e responda, para cada uma:\n\n1. A distribuição é **simétrica**? De que lado ela puxa?\n2. Há **outliers** pela regra da cerca de 1,5 × IQR? Quantos?\n3. A **média** é uma boa descrição desta variável — ou a mediana descreve melhor?\n\n**Duas colunas têm respostas surpreendentes.** Os exercícios logo abaixo pedem os números que só o painel mostra — abra o laboratório antes de responder, porque o enunciado não os entrega.",
    "pagina": "i-4-analise-exploratoria"
+  },
+  {
+   "id": "visualizacao-storytelling-l1",
+   "capitulo": 7,
+   "arquivo": "livro/capitulos/i-5-visualizacao-storytelling.md",
+   "tipo": "anima-eixo",
+   "titulo": "Suba a base do eixo e veja o que acontece com o que não mudou",
+   "config": {
+    "id": "visualizacao-storytelling-l1",
+    "tipo": "anima-eixo",
+    "titulo": "Suba a base do eixo e veja o que acontece com o que não mudou"
+   },
+   "intro": "Quatro barras, quatro números: **88,1 · 88,4 · 88,9 · 89,2**. Eles não mudam em nenhum quadro desta animação. O que sobe é a **base do eixo**, de 0 até 88.\n\n**Antes de assistir, arrisque um número.** Com o eixo começando em 88, quantas vezes a última barra fica maior que a primeira na tela?\n\n**Doze.** As alturas passam a valer 0,1 · 0,4 · 0,9 · 1,2, e 1,2 ÷ 0,1 = 12. A razão real entre os dois valores é 1,0125, ou seja, uma diferença de pouco mais de 1%. O exagero é de quase doze vezes, e nenhum número foi falsificado no caminho.\n\n> **Esta animação corrigiu o próprio livro.** O exercício logo abaixo dizia \"cerca de onze vezes\". São doze, exatamente. A conta é curta e passou despercebida até a máquina fazê-la, o que é a versão caseira do que o [capítulo IV.1](iv-1-nao-supervisionado.md) conta sobre números que viajam sem ser conferidos.\n\nAgora clique em **\"E se fosse uma linha?\"**. Mesmos dados, mesma base truncada, e a leitura deixa de ser abusiva. Não é indulgência: numa linha o que codifica a quantidade é a **inclinação**, não o comprimento, então cortar a base não quebra a codificação. Por isso a regra do capítulo tem duas metades: barra sempre parte do zero; linha pode não partir, desde que o corte esteja visível e declarado.",
+   "pagina": "i-5-visualizacao-storytelling"
   },
   {
    "id": "avaliacao-l1",

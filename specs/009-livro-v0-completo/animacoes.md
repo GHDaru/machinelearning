@@ -29,7 +29,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | I.2 | **não animar** — arquitetura não tem estado que evolui |
 | I.3 | **feita** — as três fontes de vazamento com a intensidade subindo, e uma quarta curva (codificar por alvo) que é a fonte 2 sobre outra estatística |
 | I.4 | **não animar** — já tem `explorar-variavel`, e manipular ensina mais que assistir |
-| I.5 | base do eixo y subindo de 0 a 95: razão percebida entre as barras de 1,05 para 4,0, com os valores reais fixos |
+| I.5 | **feita** — base do eixo subindo de 0 a 88 sobre os números do exercício do capítulo: razão vista chegando a 12,00 com a real parada em 1,0125, e o botão que troca barra por linha |
 | I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
 | II.1 | **feita** — limiar descendo de 0,98 a 0,00: matriz de confusão, acurácia, precisão e revocação mudando junto, o ponto andando sobre a ROC, e o botão da prevalência de 1% |
 | II.2 | gradiente ajustando a reta: soma dos quadrados caindo, e a distância até o ótimo das equações normais |
@@ -492,3 +492,29 @@ verdade precisa ter, e a animação teria ensinado o contrário sem ela.
 
 Teste **visto falhando**: deixei a deriva "que não dói" corroer o sinal também, e
 a linha do contraste acusou na hora.
+
+
+## O que a décima terceira animação ensinou (I.5, 2026-08)
+
+**A animação corrigiu o capítulo que a hospeda.** O exercício dizia que, com o
+eixo começando em 88, a última barra fica "cerca de **onze** vezes" a altura da
+primeira. São **doze**, exatamente: as alturas viram 0,1 · 0,4 · 0,9 · 1,2 e
+1,2 ÷ 0,1 = 12. A conta tem uma linha e passou por três revisões sem que ninguém
+a fizesse. O texto e a rubrica foram corrigidos no mesmo commit.
+
+É a terceira vez neste ciclo que um número escrito à mão ao lado dos dados que o
+determinam sai errado (as outras foram o intervalo do IV.2 e a soma das
+animações). O padrão já tem nome no repositório: **onde o texto dá os
+ingredientes da conta, faça a conta**.
+
+**A segunda série que eu tinha planejado foi descartada, e vale registrar por
+quê.** A ideia era comparar "dados de diferença pequena" com "dados de diferença
+grande" para mostrar que o truque paga mais quando há menos a mostrar. Medindo,
+descobri que o resultado dependia inteiramente de **onde eu escolhesse parar a
+base**, e que com a regra mais natural (base = mínimo − 10% da amplitude) a razão
+vista dá **11 nos dois casos, por identidade algébrica**. A comparação não media
+nada. Troquei pelo botão barra/linha, que é a regra que o capítulo de fato
+enuncia: em barra o comprimento codifica, em linha codifica a inclinação.
+
+**Uma comparação que depende do ponto de parada não é uma comparação.** Foi só
+medir para ver; antes de medir, ela parecia a melhor parte da animação.
