@@ -77,6 +77,23 @@ Você lê num post: *"Estudos mostram que modelos de linguagem já superam médi
 > **volte para:** #o-que-os-especialistas-erraram-e-como-o-erro-chega-ate-voce
 :::
 
+:::exercicio {"id":"fronteira-e5","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Um colega diz: *"conferi o identificador digital do artigo, ele existe e é esse mesmo. Pode marcar como verificado."*
+
+Que selo essa conferência dá, na convenção deste livro?
+
+- [ ] ✓, porque a fonte foi localizada e é a correta
+- [x] ✓ᵐ, porque só os metadados foram conferidos
+- [ ] ⏳, porque conferir identificador não é conferir nada
+- [ ] 📖, porque a escolha de confiar no identificador é uma leitura editorial
+
+> **gabarito:** ✓ᵐ
+> **porque:** Conferir o identificador prova que a obra existe, que o autor é aquele e que o ano está certo. Não prova que ela diz o que você está afirmando que ela diz, e essa é toda a diferença entre os dois selos.
+>
+> A terceira alternativa erra para o outro lado, e é injusta com o trabalho: conferir metadados é conferência de verdade, e é ela que pega data errada e autor trocado, que são dois dos três erros das previsões célebres deste capítulo. O que ela não pega é o terceiro tipo de erro, o de conteúdo, e é por isso que existe um selo separado em vez de um só.
+> **volte para:** #o-placar-deste-livro
+:::
+
 ## O que envelhece rápido, e o que não envelhece
 
 | Envelhece devagar | Envelhece rápido |
@@ -109,7 +126,37 @@ As quatro afirmações abaixo são questões genuinamente em aberto. Quais delas
 > **volte para:** #o-que-envelhece-rapido-e-o-que-nao-envelhece
 :::
 
-:::exercicio {"id":"fronteira-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"media"}
+:::exercicio {"id":"fronteira-e6","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Duas questões estão genuinamente em aberto. Qual delas muda o que você faz num projeto nesta semana?
+
+- [x] Não existe método confiável para verificar, antes do deploy, se a distribuição de produção vai parecer com a do treino.
+- [ ] Não há consenso sobre qual será a arquitetura dominante daqui a cinco anos.
+
+> **gabarito:** a impossibilidade de verificar a distribuição antes do deploy
+> **porque:** O teste é o mesmo do capítulo: você precisa agir mesmo sem a resposta, e a decisão que toma depende dela. Não podendo verificar antes, o projeto é obrigado a compensar depois, com o monitoramento do [capítulo V.3](v-3-mlops.md). A questão aberta vira requisito de arquitetura, nesta semana.
+>
+> A segunda nem questão aberta é, no sentido útil: é previsão sobre o futuro, e a tabela deste capítulo a coloca do lado que envelhece rápido. Planejar em torno dela é o oposto do que o capítulo recomenda, porque nenhuma decisão sua de hoje melhora se alguém acertar esse palpite.
+> **volte para:** #o-que-envelhece-rapido-e-o-que-nao-envelhece
+:::
+
+:::exercicio {"id":"fronteira-e7","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Quatro afirmações são verdadeiras e todas descrevem alguma coisa em aberto. Qual delas é **relevante para a prática** pelo critério deste capítulo, e não apenas interessante?
+
+- [ ] A comunidade não chegou a acordo sobre a definição precisa de "modelo de fundação", e o termo é usado com escopos diferentes.
+- [x] Não há critério consensual para escolher entre definições de justiça quando elas são matematicamente incompatíveis no seu caso.
+- [ ] A ordem de precedência histórica da retropropagação segue disputada entre Linnainmaa e o grupo de Rumelhart.
+- [ ] Não se sabe qual será o tamanho de modelo considerado grande em 2031.
+
+> **gabarito:** a incompatibilidade entre definições de justiça
+> **porque:** É a única das quatro que deixa **uma decisão sua** sem apoio. Você vai escolher uma definição em vez de outra ao pôr um limiar em produção, e não existe critério consensual para essa escolha, então a escolha vira sua e precisa ser documentada perante quem for afetado ([capítulo V.1](v-1-interpretabilidade-justica.md)).
+>
+> As três erradas são a parte difícil deste exercício, porque todas parecem práticas. A disputa sobre o termo "modelo de fundação" atrapalha a conversa e não muda uma linha do que você treina; ela é resolvida dizendo o que você quer dizer. A precedência da retropropagação importa para citar com honestidade, que é assunto deste capítulo, e resolvê-la amanhã não muda o seu treino. E o tamanho considerado grande em 2031 é previsão, não questão aberta.
+>
+> A regularidade que fica: questão aberta relevante para a prática é a que **deixa uma decisão sua sem apoio**. Ela não se resolve esperando; resolve-se assumindo a escolha, escrevendo o porquê, e montando como você vai perceber que errou.
+> **volte para:** #o-que-envelhece-rapido-e-o-que-nao-envelhece
+:::
+
+:::exercicio {"id":"fronteira-e2","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
 Escolha **um** capítulo deste livro que você leu.
 
 Escreva o que nele você espera que ainda seja verdade em 2036, o que espera que esteja obsoleto e, a parte que importa, **qual observação futura faria você mudar de ideia** sobre cada um.
@@ -133,6 +180,40 @@ O [histórico](../HISTORICO.md) mantém o registro de expiração: cada previsã
 Isso tem um custo que vale nomear. **Um livro que registra as próprias previsões vai ser pego errando** — e é essa a intenção. O placar não existe para o livro parecer sábio; existe para que o leitor possa medir quanta confiança dar a ele. Um capítulo cujas previsões anteriores foram refutadas merece mais desconfiança que um que acertou, e sem o placar não há como saber qual é qual.
 
 A dívida atual está declarada no [roadmap](../../ROADMAP.md), e a maior delas é honesta o bastante para aparecer aqui: **boa parte das fontes históricas deste livro está selada ✓ᵐ**, o que significa que conferimos que a obra existe e não que a lemos por inteiro. O ciclo de aprofundamento existe para pagar isso, uma fonte por vez.
+
+:::exercicio {"id":"fronteira-e8","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Você terminou o livro. Das quatro coisas que aprendeu, qual tem o prazo de validade mais curto?
+
+- [ ] Que vazamento se evita com divisões que respeitam a estrutura do dado
+- [x] Qual biblioteca usar para treinar um modelo de árvore com bom desempenho
+- [ ] Que o limiar de decisão é escolha de negócio, e não saída do modelo
+- [ ] Que a representação limita o que qualquer modelo consegue aprender
+
+> **gabarito:** qual biblioteca usar
+> **porque:** As outras três são diagnóstico, e diagnóstico envelhece devagar: descrevem uma restrição que existe independentemente da ferramenta da vez. A biblioteca é remédio, e remédio é a coluna que gira.
+>
+> Aplique isso ao que você acabou de estudar, que é o serviço deste capítulo. Se você aprendeu a reconhecer o aperto, aprendeu a parte durável. Se aprendeu só o procedimento, aprendeu a parte com prazo — e vale saber qual das duas coisas você tem antes de precisar dela.
+> **volte para:** #o-que-envelhece-rapido-e-o-que-nao-envelhece
+:::
+
+:::exercicio {"id":"fronteira-e9","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Você confere a alegação do post e o estudo existe mesmo: publicado, revisado, com método descrito. Ele mede a concordância entre a saída do modelo e um gabarito escrito, sobre 300 casos clínicos selecionados de um banco de provas de residência, sem exame físico e sem histórico do paciente. Os médicos do grupo de comparação responderam às mesmas 300 questões, com tempo limitado e sem consultar nada.
+
+O post dizia: *"modelos de linguagem já superam médicos em diagnóstico"*. Qual é a avaliação correta?
+
+- [x] A alegação extrapola: o estudo mede desempenho em questões de prova sob restrição, e diagnóstico clínico envolve o que foi justamente removido do desenho.
+- [ ] A alegação está correta, porque o estudo existe, foi revisado e o modelo venceu a comparação.
+- [ ] A alegação é insustentável porque 300 casos são poucos para qualquer conclusão.
+- [ ] A alegação só valeria se o estudo tivesse usado a versão mais recente do modelo.
+
+> **gabarito:** a alegação extrapola o que o estudo mediu
+> **porque:** O estudo morreu no segundo passo da ordem deste capítulo, que é *o que ele mediu*. A resposta a questões de prova, sem paciente, sem exame e sem histórico, é uma tarefa bem definida e não é a tarefa que a palavra "diagnóstico" evoca em quem lê o post. E repare no detalhe do grupo de comparação: médicos com tempo limitado e sem consultar nada não estão exercendo a prática deles, estão fazendo prova.
+>
+> A segunda alternativa é o atalho que este capítulo combate desde a primeira seção: existir e ser revisado responde ao primeiro passo, e as pessoas param aí. A terceira ataca o tamanho da amostra, que é a crítica reflexa, e ela é fraca aqui porque 300 casos sustentam uma conclusão sobre a tarefa medida; o problema não é o tamanho, é a tarefa. A quarta troca a discussão por uma atualização, e não resolveria nada: um modelo mais novo respondendo às mesmas 300 questões continuaria não medindo diagnóstico clínico.
+>
+> Guarde a formulação: quase toda alegação de estado da arte morre no segundo passo, e o segundo passo é sempre a mesma pergunta — o que exatamente foi medido, e sob que condição?
+> **volte para:** #o-que-os-especialistas-erraram-e-como-o-erro-chega-ate-voce
+:::
 
 :::exercicio {"id":"fronteira-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Um capítulo declara: *"Estado da arte capturado em 2026-08."* O que exatamente essa data promete?

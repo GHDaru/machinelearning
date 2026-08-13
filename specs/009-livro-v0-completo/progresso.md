@@ -27,7 +27,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > | II | `prova-parte-ii.md` | 12 | **ok** |
 > | III | `prova-parte-iii.md` | 10 | **ok** |
 > | IV | `prova-parte-iv.md` | 8 | **ok** |
-> | V | — | — | espera a coluna `exs` da parte |
+> | V | `prova-parte-v.md` | 10 | **ok** |
 > | Final cumulativa | — | — | por último |
 
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
@@ -74,12 +74,12 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
-| 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | — | ~ |
-| 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | — | ~ |
-| 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
+| 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
+| 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
+| 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
+| 29 | V.4 — Fronteira e Expiração | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
 
-**Totais:** 114 objetivos · 383 exercícios hoje (337 de capítulo + 46 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 398 exercícios hoje (342 de capítulo + 56 de prova) · **342 no alvo — a coluna `exs` fechou nos 29 capítulos**.
 
 > **A `ORFAOS_ACEITOS` do gate ficou vazia.** Era a lista dos objetivos que o
 > livro declarava e não ensinava, e ela existia desde a auditoria de Bloom. Os

@@ -236,6 +236,11 @@
           "arquivo": "livro/provas/prova-parte-iv.md",
           "titulo": "Prova da Parte IV — Além do supervisionado",
           "teaser": "Oito itens cruzados sobre os três capítulos da Parte IV."
+        },
+        {
+          "arquivo": "livro/provas/prova-parte-v.md",
+          "titulo": "Prova da Parte V — No mundo real",
+          "teaser": "Dez itens cruzados sobre os quatro capítulos da Parte V."
         }
       ]
     },

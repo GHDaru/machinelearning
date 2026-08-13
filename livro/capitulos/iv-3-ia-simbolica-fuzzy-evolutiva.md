@@ -145,7 +145,7 @@ O termo linguístico "água quente" é definido por uma função de pertinência
 
 Qual é o grau de pertinência de uma leitura de **44 °C** ao conjunto "água quente"? Responda com duas casas decimais.
 
-> **gabarito:** 0,70
+> **gabarito:** 0,70 ± 0,01
 > **porque:** 44 °C está no ramo **ascendente** do triângulo, entre 30 °C (grau 0) e 50 °C (grau 1). A interpolação linear é `(44 − 30) / (50 − 30) = 14 / 20 = 0,70`.
 >
 > Dois pontos que o cálculo torna concretos. Primeiro: **não há limiar**. A 43 °C o grau seria 0,65, a 45 °C seria 0,75 — nada "vira" quente em lugar nenhum, que era exatamente o aperto de Zadeh. Segundo: esse 0,70 **não é uma probabilidade de 70%** de a água estar quente. A temperatura é conhecida com certeza; o que é parcial é a aplicação da palavra. A mesma leitura de 44 °C pode ter grau 0,45 em "morna" ao mesmo tempo, e a soma passar de 1 sem que nada esteja errado.

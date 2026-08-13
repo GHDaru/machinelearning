@@ -6,6 +6,28 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — a tolerância dos exercícios numéricos, que sumia em silêncio
+- **O parser trocava só a PRIMEIRA vírgula por ponto.** O livro é em português,
+  e o gabarito natural é `0,45 ± 0,01`; com a troca não global, o valor saía
+  certo e a tolerância virava **0**. Três exercícios já publicados declaravam
+  tolerância e corrigiam por igualdade exata: `reforco-e1`, `reforco-e6` e
+  `interpretabilidade-justica-e2`. Achado ao escrever a prova da Parte V, e o
+  teste `publicar/testes/numerico.mjs` foi **visto falhando** antes do conserto.
+- **Gate novo:** gabarito numérico decimal sem `±` passa a quebrar o build.
+  Sem tolerância, a correção exige igualdade exata e reprova quem arredondou de
+  outro jeito. Dois exercícios estavam nesse estado e ganharam tolerância:
+  `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
+  dispensado, e `± 0` continua valendo quando for escolha escrita.
+
+### Adicionado — a Parte V fecha, e com ela os 29 capítulos
+- **Prova da Parte V** (`livro/provas/prova-parte-v.md`), dez itens cruzados
+  sobre os quatro capítulos da parte, todos com cenário inédito e correção
+  determinística. Vários cruzam para fora da parte, que é o que a Parte V faz:
+  pega o livro em condição de laboratório e pergunta o que sobra no mundo.
+- **Nove exercícios no V.4**, fechando três por objetivo. Com isso **a coluna de
+  exercícios fecha nos 29 capítulos**: 342 de capítulo, três por objetivo, em
+  escada e com teto no verbo declarado.
+
 ### Adicionado — o V.3 ganha a fronteira do serviço, e a lista de dívidas do gate zera
 - **Seção "A fronteira do serviço: contrato e validação de entrada"** no V.3,
   dentro de "Fundamentos". O capítulo prometia implantar atrás de uma API com

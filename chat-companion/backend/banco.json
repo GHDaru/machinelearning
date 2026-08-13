@@ -6189,7 +6189,7 @@
    "objetivos": null,
    "enunciado": "Um modelo prevê inadimplência. Aprovar um cliente **bom** dá lucro de **R$ 200**. Aprovar um cliente **mau** dá prejuízo de **R$ 1 000**. Negar não gera lucro nem prejuízo (R$ 0), qualquer que seja o cliente.\n\nAcima de qual **probabilidade de inadimplência** vale mais negar do que aprovar? Responda em fração, com duas casas decimais.",
    "opcoes": [],
-   "gabarito": "0,17",
+   "gabarito": "0,17 ± 0,01",
    "porque": "Chame de *p* a probabilidade de o cliente ser mau. Aprovar tem valor esperado `200 × (1 − p) − 1000 × p`; negar tem valor esperado **0**. O ponto de indiferença é onde os dois se igualam: `200 − 200p − 1000p = 0`, ou seja `200 = 1200p`, então `p = 1/6 ≈ 0,1667` — **0,17** arredondado.\n\nRepare no que acabou de acontecer: o limiar **não é 0,5**. E não é por causa de desequilíbrio de classes — é porque **os erros custam preços diferentes**. Um mau cliente destrói o lucro de cinco bons, então a régua se desloca para o lado cauteloso.\n\nEste é o cálculo que responde a pergunta da diretora lá do início do capítulo. Note também que ele **não usou a AUC**: a AUC serve para escolher o modelo; a matriz de custo serve para operá-lo.",
    "volte_para": "#da-metrica-ao-dinheiro",
    "rubrica": null,
@@ -6198,7 +6198,7 @@
    "titulo_capitulo": "II.8 — Do Modelo à Decisão",
    "gabarito_num": {
     "valor": 0.17,
-    "tolerancia": 0
+    "tolerancia": 0.01
    }
   },
   {
@@ -9365,7 +9365,7 @@
    "titulo_capitulo": "IV.2 — Aprendizado por Reforço",
    "gabarito_num": {
     "valor": 11.1,
-    "tolerancia": 0
+    "tolerancia": 0.05
    }
   },
   {
@@ -9426,7 +9426,7 @@
    "titulo_capitulo": "IV.2 — Aprendizado por Reforço",
    "gabarito_num": {
     "valor": 5.5,
-    "tolerancia": 0
+    "tolerancia": 0.05
    }
   },
   {
@@ -9864,7 +9864,7 @@
    "objetivos": null,
    "enunciado": "O termo linguístico \"água quente\" é definido por uma função de pertinência **triangular**: pertinência 0 em 30 °C, 1 em 50 °C e 0 em 70 °C, com variação linear entre esses pontos.\n\nQual é o grau de pertinência de uma leitura de **44 °C** ao conjunto \"água quente\"? Responda com duas casas decimais.",
    "opcoes": [],
-   "gabarito": "0,70",
+   "gabarito": "0,70 ± 0,01",
    "porque": "44 °C está no ramo **ascendente** do triângulo, entre 30 °C (grau 0) e 50 °C (grau 1). A interpolação linear é `(44 − 30) / (50 − 30) = 14 / 20 = 0,70`.\n\nDois pontos que o cálculo torna concretos. Primeiro: **não há limiar**. A 43 °C o grau seria 0,65, a 45 °C seria 0,75 — nada \"vira\" quente em lugar nenhum, que era exatamente o aperto de Zadeh. Segundo: esse 0,70 **não é uma probabilidade de 70%** de a água estar quente. A temperatura é conhecida com certeza; o que é parcial é a aplicação da palavra. A mesma leitura de 44 °C pode ter grau 0,45 em \"morna\" ao mesmo tempo, e a soma passar de 1 sem que nada esteja errado.",
    "volte_para": "#fuzzy-o-grau-entre-o-sim-e-o-nao",
    "rubrica": null,
@@ -9873,7 +9873,7 @@
    "titulo_capitulo": "IV.3 — IA Simbólica, Fuzzy e Evolutiva",
    "gabarito_num": {
     "valor": 0.7,
-    "tolerancia": 0
+    "tolerancia": 0.01
    }
   },
   {
@@ -10357,7 +10357,7 @@
    "titulo_capitulo": "V.1 — Interpretabilidade e Justiça",
    "gabarito_num": {
     "valor": 0.45,
-    "tolerancia": 0
+    "tolerancia": 0.01
    }
   },
   {
@@ -11458,6 +11458,43 @@
    "titulo_capitulo": "V.4 — Fronteira e Expiração"
   },
   {
+   "id": "fronteira-e5",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Um colega diz: *\"conferi o identificador digital do artigo, ele existe e é esse mesmo. Pode marcar como verificado.\"*\n\nQue selo essa conferência dá, na convenção deste livro?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "✓, porque a fonte foi localizada e é a correta"
+    },
+    {
+     "correta": true,
+     "texto": "✓ᵐ, porque só os metadados foram conferidos"
+    },
+    {
+     "correta": false,
+     "texto": "⏳, porque conferir identificador não é conferir nada"
+    },
+    {
+     "correta": false,
+     "texto": "📖, porque a escolha de confiar no identificador é uma leitura editorial"
+    }
+   ],
+   "gabarito": "✓ᵐ",
+   "porque": "Conferir o identificador prova que a obra existe, que o autor é aquele e que o ano está certo. Não prova que ela diz o que você está afirmando que ela diz, e essa é toda a diferença entre os dois selos.\n\nA terceira alternativa erra para o outro lado, e é injusta com o trabalho: conferir metadados é conferência de verdade, e é ela que pega data errada e autor trocado, que são dois dos três erros das previsões célebres deste capítulo. O que ela não pega é o terceiro tipo de erro, o de conteúdo, e é por isso que existe um selo separado em vez de um só.",
+   "volte_para": "#o-placar-deste-livro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
+  },
+  {
    "id": "fronteira-e4",
    "capitulo": 29,
    "arquivo": "livro/capitulos/v-4-fronteira.md",
@@ -11495,13 +11532,79 @@
    "titulo_capitulo": "V.4 — Fronteira e Expiração"
   },
   {
+   "id": "fronteira-e6",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Duas questões estão genuinamente em aberto. Qual delas muda o que você faz num projeto nesta semana?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Não existe método confiável para verificar, antes do deploy, se a distribuição de produção vai parecer com a do treino."
+    },
+    {
+     "correta": false,
+     "texto": "Não há consenso sobre qual será a arquitetura dominante daqui a cinco anos."
+    }
+   ],
+   "gabarito": "a impossibilidade de verificar a distribuição antes do deploy",
+   "porque": "O teste é o mesmo do capítulo: você precisa agir mesmo sem a resposta, e a decisão que toma depende dela. Não podendo verificar antes, o projeto é obrigado a compensar depois, com o monitoramento do [capítulo V.3](v-3-mlops.md). A questão aberta vira requisito de arquitetura, nesta semana.\n\nA segunda nem questão aberta é, no sentido útil: é previsão sobre o futuro, e a tabela deste capítulo a coloca do lado que envelhece rápido. Planejar em torno dela é o oposto do que o capítulo recomenda, porque nenhuma decisão sua de hoje melhora se alguém acertar esse palpite.",
+   "volte_para": "#o-que-envelhece-rapido-e-o-que-nao-envelhece",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
+  },
+  {
+   "id": "fronteira-e7",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quatro afirmações são verdadeiras e todas descrevem alguma coisa em aberto. Qual delas é **relevante para a prática** pelo critério deste capítulo, e não apenas interessante?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A comunidade não chegou a acordo sobre a definição precisa de \"modelo de fundação\", e o termo é usado com escopos diferentes."
+    },
+    {
+     "correta": true,
+     "texto": "Não há critério consensual para escolher entre definições de justiça quando elas são matematicamente incompatíveis no seu caso."
+    },
+    {
+     "correta": false,
+     "texto": "A ordem de precedência histórica da retropropagação segue disputada entre Linnainmaa e o grupo de Rumelhart."
+    },
+    {
+     "correta": false,
+     "texto": "Não se sabe qual será o tamanho de modelo considerado grande em 2031."
+    }
+   ],
+   "gabarito": "a incompatibilidade entre definições de justiça",
+   "porque": "É a única das quatro que deixa **uma decisão sua** sem apoio. Você vai escolher uma definição em vez de outra ao pôr um limiar em produção, e não existe critério consensual para essa escolha, então a escolha vira sua e precisa ser documentada perante quem for afetado ([capítulo V.1](v-1-interpretabilidade-justica.md)).\n\nAs três erradas são a parte difícil deste exercício, porque todas parecem práticas. A disputa sobre o termo \"modelo de fundação\" atrapalha a conversa e não muda uma linha do que você treina; ela é resolvida dizendo o que você quer dizer. A precedência da retropropagação importa para citar com honestidade, que é assunto deste capítulo, e resolvê-la amanhã não muda o seu treino. E o tamanho considerado grande em 2031 é previsão, não questão aberta.\n\nA regularidade que fica: questão aberta relevante para a prática é a que **deixa uma decisão sua sem apoio**. Ela não se resolve esperando; resolve-se assumindo a escolha, escrevendo o porquê, e montando como você vai perceber que errou.",
+   "volte_para": "#o-que-envelhece-rapido-e-o-que-nao-envelhece",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
+  },
+  {
    "id": "fronteira-e2",
    "capitulo": 29,
    "arquivo": "livro/capitulos/v-4-fronteira.md",
    "tipo": "aberta",
    "objetivo": "O3",
    "pontos": 3,
-   "dificuldade": "media",
+   "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
    "enunciado": "Escolha **um** capítulo deste livro que você leu.\n\nEscreva o que nele você espera que ainda seja verdade em 2036, o que espera que esteja obsoleto e, a parte que importa, **qual observação futura faria você mudar de ideia** sobre cada um.",
@@ -11519,6 +11622,80 @@
     "propõe uma **observação falsificável** para cada previsão — algo que, se acontecesse, mostraria que a previsão estava errada",
     "não trata \"fundamentos duram\" como slogan, mas aplica ao conteúdo concreto do capítulo escolhido"
    ]
+  },
+  {
+   "id": "fronteira-e8",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Você terminou o livro. Das quatro coisas que aprendeu, qual tem o prazo de validade mais curto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que vazamento se evita com divisões que respeitam a estrutura do dado"
+    },
+    {
+     "correta": true,
+     "texto": "Qual biblioteca usar para treinar um modelo de árvore com bom desempenho"
+    },
+    {
+     "correta": false,
+     "texto": "Que o limiar de decisão é escolha de negócio, e não saída do modelo"
+    },
+    {
+     "correta": false,
+     "texto": "Que a representação limita o que qualquer modelo consegue aprender"
+    }
+   ],
+   "gabarito": "qual biblioteca usar",
+   "porque": "As outras três são diagnóstico, e diagnóstico envelhece devagar: descrevem uma restrição que existe independentemente da ferramenta da vez. A biblioteca é remédio, e remédio é a coluna que gira.\n\nAplique isso ao que você acabou de estudar, que é o serviço deste capítulo. Se você aprendeu a reconhecer o aperto, aprendeu a parte durável. Se aprendeu só o procedimento, aprendeu a parte com prazo — e vale saber qual das duas coisas você tem antes de precisar dela.",
+   "volte_para": "#o-que-envelhece-rapido-e-o-que-nao-envelhece",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
+  },
+  {
+   "id": "fronteira-e9",
+   "capitulo": 29,
+   "arquivo": "livro/capitulos/v-4-fronteira.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Você confere a alegação do post e o estudo existe mesmo: publicado, revisado, com método descrito. Ele mede a concordância entre a saída do modelo e um gabarito escrito, sobre 300 casos clínicos selecionados de um banco de provas de residência, sem exame físico e sem histórico do paciente. Os médicos do grupo de comparação responderam às mesmas 300 questões, com tempo limitado e sem consultar nada.\n\nO post dizia: *\"modelos de linguagem já superam médicos em diagnóstico\"*. Qual é a avaliação correta?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A alegação extrapola: o estudo mede desempenho em questões de prova sob restrição, e diagnóstico clínico envolve o que foi justamente removido do desenho."
+    },
+    {
+     "correta": false,
+     "texto": "A alegação está correta, porque o estudo existe, foi revisado e o modelo venceu a comparação."
+    },
+    {
+     "correta": false,
+     "texto": "A alegação é insustentável porque 300 casos são poucos para qualquer conclusão."
+    },
+    {
+     "correta": false,
+     "texto": "A alegação só valeria se o estudo tivesse usado a versão mais recente do modelo."
+    }
+   ],
+   "gabarito": "a alegação extrapola o que o estudo mediu",
+   "porque": "O estudo morreu no segundo passo da ordem deste capítulo, que é *o que ele mediu*. A resposta a questões de prova, sem paciente, sem exame e sem histórico, é uma tarefa bem definida e não é a tarefa que a palavra \"diagnóstico\" evoca em quem lê o post. E repare no detalhe do grupo de comparação: médicos com tempo limitado e sem consultar nada não estão exercendo a prática deles, estão fazendo prova.\n\nA segunda alternativa é o atalho que este capítulo combate desde a primeira seção: existir e ser revisado responde ao primeiro passo, e as pessoas param aí. A terceira ataca o tamanho da amostra, que é a crítica reflexa, e ela é fraca aqui porque 300 casos sustentam uma conclusão sobre a tarefa medida; o problema não é o tamanho, é a tarefa. A quarta troca a discussão por uma atualização, e não resolveria nada: um modelo mais novo respondendo às mesmas 300 questões continuaria não medindo diagnóstico clínico.\n\nGuarde a formulação: quase toda alegação de estado da arte morre no segundo passo, e o segundo passo é sempre a mesma pergunta — o que exatamente foi medido, e sob que condição?",
+   "volte_para": "#o-que-os-especialistas-erraram-e-como-o-erro-chega-ate-voce",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "v-4-fronteira",
+   "titulo_capitulo": "V.4 — Fronteira e Expiração"
   },
   {
    "id": "fronteira-e3",
@@ -13313,6 +13490,401 @@
    "versoes": null,
    "pagina": "prova-parte-iv",
    "titulo_capitulo": "Prova da Parte IV — Além do supervisionado"
+  },
+  {
+   "id": "prova-parte-v-q1",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-1-interpretabilidade-justica.md:O1",
+    "livro/capitulos/v-2-sistemas-de-ml.md:O1"
+   ],
+   "enunciado": "Uma seguradora quer trocar o modelo de precificação, hoje uma regressão logística com doze variáveis, por um ensemble de árvores mais preciso. A área jurídica exige que a empresa continue conseguindo explicar cada preço a quem reclamar.\n\nUm engenheiro propõe: *\"trocamos o modelo e acoplamos uma camada de explicação por cima; do ponto de vista do sistema, é só mais um componente.\"*\n\nQual avaliação da proposta é correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Está certa: explicação post-hoc é equivalente a modelo interpretável, e o sistema ganha precisão sem perder nada."
+    },
+    {
+     "correta": true,
+     "texto": "Está errada em duas frentes: a explicação passa a ser uma aproximação da decisão, e não a decisão; e o componente novo é mais encanamento para manter, sujeito ao mesmo princípio de que mudar qualquer coisa muda tudo."
+    },
+    {
+     "correta": false,
+     "texto": "Está errada só na parte jurídica: tecnicamente o sistema fica idêntico, e o problema é de conformidade."
+    },
+    {
+     "correta": false,
+     "texto": "Está certa desde que a camada de explicação seja treinada com o mesmo dado do modelo."
+    }
+   ],
+   "gabarito": "erra nas duas frentes, a da explicação e a do sistema",
+   "porque": "O item cruza os dois capítulos de propósito, porque a proposta é tentadora justamente por parecer razoável nos dois.\n\nDo lado da interpretabilidade: no modelo logístico, o coeficiente **é** o mecanismo da decisão. Com a explicação acoplada, o que se entrega a quem reclama é uma atribuição calculada depois, relativa a uma referência escolhida, sobre uma decisão que foi tomada por outro caminho. As duas coisas não são intercambiáveis, e a diferença aparece exatamente no caso contestado.\n\nDo lado do sistema: \"só mais um componente\" é a frase que constrói encanamento. O componente novo tem dono, versão, custo de latência e modo de falha próprio, e passa a ser mais uma superfície onde uma mudança aparentemente local muda o resultado.\n\nA quarta alternativa é a errada mais sedutora: treinar a explicação com o mesmo dado não a torna o mecanismo; ela continua sendo uma aproximação, agora com aparência de rigor.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q2",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-1-interpretabilidade-justica.md:O3",
+    "livro/capitulos/v-3-mlops.md:O3"
+   ],
+   "enunciado": "Um sistema de triagem de candidatos foi lançado com paridade de taxas de aprovação entre dois grupos, medida e documentada. Oito meses depois, o painel mostra que a distribuição das entradas mudou muito num dos grupos: chegam candidatos com outro perfil de formação. A taxa de aprovação daquele grupo caiu.\n\nQual leitura combina corretamente os dois capítulos?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Houve drift de covariáveis, e a paridade que havia sido calibrada sobre a distribuição antiga não é uma propriedade que se conserva sozinha quando a entrada muda."
+    },
+    {
+     "correta": false,
+     "texto": "Houve drift de conceito, porque a relação entre candidato e aprovação claramente mudou para aquele grupo."
+    },
+    {
+     "correta": false,
+     "texto": "Não houve drift, porque o modelo é o mesmo e nada nele foi alterado."
+    },
+    {
+     "correta": false,
+     "texto": "Houve violação de justiça independentemente de drift, porque taxas diferentes são, por definição, discriminação."
+    }
+   ],
+   "gabarito": "drift de covariáveis, e a paridade não se conserva sozinha",
+   "porque": "É o cruzamento que a Parte V existe para fazer. Uma garantia de justiça é medida sobre uma distribuição, num instante. Ela não é uma propriedade do modelo, é uma propriedade da relação entre o modelo e a população que chega. Quando a população muda, a garantia pode cair sem que ninguém toque no código.\n\nA segunda alternativa confunde os dois drifts: mudou quem chega, e nada no enunciado diz que a relação entre formação e desempenho mudou. A terceira usa a definição errada de drift, a que exige alteração no modelo. E a quarta é a leitura que o capítulo V.1 desmonta: taxas diferentes podem ser consequência aritmética de prevalências diferentes, e chamar isso de discriminação por definição impede a discussão que de fato importa, que é qual critério se escolhe e por quê.\n\nA consequência prática é a que interessa: métrica de justiça pertence ao painel de monitoramento, com janela e alarme, e não ao relatório de lançamento.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q3",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-2-sistemas-de-ml.md:O3",
+    "livro/capitulos/v-3-mlops.md:O2"
+   ],
+   "enunciado": "Um modelo de previsão de cancelamento é servido por uma API. Um dos atributos, `meses_de_contrato`, é calculado no treino a partir da tabela de contratos e, no serviço, a partir de uma data que o aplicativo envia. Nos últimos meses, uma versão antiga do aplicativo passou a enviar a data em outro formato, e o serviço converte silenciosamente o que não entende para zero.\n\nQuais afirmações são corretas? Marque todas que valem.",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O defeito é de contrato de fronteira, e um contrato que declarasse tipo e faixa transformaria a degradação lenta em falha ruidosa."
+    },
+    {
+     "correta": true,
+     "texto": "Há divergência entre treino e serviço, e reutilizar o mesmo código de cálculo nos dois lados a tornaria impossível em vez de improvável."
+    },
+    {
+     "correta": true,
+     "texto": "A conversão silenciosa é a política mais perigosa das três, porque nada registra que ela aconteceu."
+    },
+    {
+     "correta": false,
+     "texto": "O problema se resolve retreinando o modelo com dados recentes, que já incluem os zeros."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é de qualidade do aplicativo, e não do serviço de modelo, que apenas recebeu o que lhe mandaram."
+    }
+   ],
+   "gabarito": "contrato de fronteira; divergência entre treino e serviço; a política silenciosa",
+   "porque": "As três corretas atacam a causa em camadas diferentes e todas as três valem ao mesmo tempo, que é a razão de o item ser de múltipla marcação.\n\nA primeira errada é a mais cara na prática: retreinar com os zeros ensina o modelo a tratar contrato de duração zero como um caso frequente, o que dá a um defeito de integração a aparência de um padrão do negócio. O erro sai do painel e entra no modelo.\n\nA segunda errada é a que aparece em reunião. Tecnicamente é verdade que o aplicativo mudou o comportamento; e é irrelevante, porque a fronteira existe justamente para o caso de quem chama fazer algo inesperado. Um serviço que só funciona quando todos os chamadores se comportam não tem contrato, tem expectativa.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q4",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-2-sistemas-de-ml.md:O4",
+    "livro/capitulos/v-3-mlops.md:O4"
+   ],
+   "enunciado": "Uma operadora de saúde prevê risco de reinternação para acionar uma equipe de acompanhamento. A decisão é tomada uma vez por dia, de manhã, para a lista de pacientes com alta na véspera. Um dos atributos exige agregar dois anos de histórico do prontuário, e calculá-lo leva perto de um minuto por paciente.\n\nO time de plataforma quer migrar tudo para serviço em linha, \"para modernizar\". Qual é a avaliação correta, e o que ela implica para o plano de rollback?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "O requisito não pede tempo real, e o atributo caro reforça a escolha por lote; num sistema em lote, uma promoção ruim é notada no ciclo seguinte e desfeita com um recálculo, o que muda o desenho do rollback, mas não dispensa escrevê-lo."
+    },
+    {
+     "correta": false,
+     "texto": "Migrar é correto, porque serviço em linha é sempre preferível quando existe infraestrutura, e o rollback fica mais simples com versões endereçáveis."
+    },
+    {
+     "correta": false,
+     "texto": "Manter em lote e, por isso, dispensar o plano de rollback: em lote não há usuário afetado em tempo real."
+    },
+    {
+     "correta": false,
+     "texto": "A decisão depende apenas do custo de infraestrutura das duas opções, que é o único eixo objetivo da escolha."
+    }
+   ],
+   "gabarito": "fica em lote, e o rollback continua obrigatório com outro desenho",
+   "porque": "Os dois primeiros eixos da escolha apontam para o mesmo lado. A decisão é consumida de manhã, sobre a lista da véspera, então ninguém espera resposta; e o atributo custa um minuto, que não cabe em orçamento nenhum de requisição.\n\nA parte que separa quem entendeu os dois capítulos é a segunda metade. Lote **não** dispensa rollback, dispensa pressa. A pergunta muda: em vez de quantos segundos até reverter, é quantos pacientes entraram na lista errada antes de alguém perceber, e como se refaz a lista. Métrica de disparo, limite, responsável e tempo continuam sendo os quatro itens, e o terceiro item é o mais frágil aqui, porque num ciclo diário o incidente costuma ser descoberto por quem recebe a lista, e não por quem opera o modelo.\n\nA segunda alternativa é a armadilha da modernidade, que o capítulo V.2 nomeia e que a recomendação de uma autora conhecida alimenta. A quarta reduz a escolha a custo, que é um eixo real e não é o primeiro.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q5",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-2-sistemas-de-ml.md:O2",
+    "livro/capitulos/v-4-fronteira.md:O2"
+   ],
+   "enunciado": "Num relatório interno, um time escreve: *\"o modelo de recomendação aumentou a receita em 12%\"*. Ao conferir, você descobre que o número compara o mês de dezembro com o de novembro, que o modelo entrou no ar em 3 de dezembro, e que a empresa fez uma campanha de fim de ano no mesmo período.\n\nQual é a crítica mais precisa?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O número está errado, porque 12% é grande demais para um sistema de recomendação."
+    },
+    {
+     "correta": true,
+     "texto": "O número existe e não sustenta a alegação: a comparação não isola o efeito do modelo do efeito da campanha e da sazonalidade."
+    },
+    {
+     "correta": false,
+     "texto": "O problema é o tamanho da amostra, que abrange apenas um mês de operação."
+    },
+    {
+     "correta": false,
+     "texto": "A alegação é aceitável internamente, e só precisaria de rigor se fosse publicada fora da empresa."
+    }
+   ],
+   "gabarito": "o número existe e não sustenta a alegação",
+   "porque": "É a ordem de avaliação do capítulo V.4 aplicada a uma alegação de dentro de casa: existe o número, o que ele mediu, sob que condição, e é isso que estão dizendo? Ele morre no terceiro passo, porque a condição incluiu duas outras causas suficientes para explicar a variação.\n\nA primeira alternativa é o reflexo de descartar pelo tamanho do efeito, e é fraco: 12% pode ser perfeitamente plausível, e a implausibilidade não é o defeito. A terceira ataca a amostra, e o problema não é quantidade de dado, é ausência de comparação. A quarta é a mais perigosa das quatro, e por isso está aqui: alegação interna decide orçamento, promoção de projeto e o que a empresa faz no ano seguinte. É onde o rigor tem consequência mais direta, e é justamente onde ele costuma ser dispensado.\n\nRepare no encanamento por trás: o time que não consegue isolar o efeito é quase sempre o time que não tem como servir metade do tráfego com a versão anterior. O rigor da avaliação depende de uma capacidade de sistema.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q6",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-3-mlops.md:O1",
+    "livro/capitulos/v-1-interpretabilidade-justica.md:O4"
+   ],
+   "enunciado": "Um órgão regulador pede que a empresa demonstre, para uma decisão automatizada tomada em março, qual foi o desempenho do modelo por subgrupo naquele momento. Estamos em novembro. A empresa tem o modelo de março guardado, o código no repositório e o dado de treino identificado por hash.\n\nO que ainda pode impedir a resposta?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A definição dos subgrupos e o limiar vigentes em março, que são configuração e podem ter mudado sem deixar registro datado."
+    },
+    {
+     "correta": false,
+     "texto": "Nada: com modelo, código e dado, o desempenho por subgrupo é recalculável e a resposta está garantida."
+    },
+    {
+     "correta": false,
+     "texto": "A ausência do conjunto de teste de março, que precisaria ter sido copiado por inteiro."
+    },
+    {
+     "correta": false,
+     "texto": "A impossibilidade de recuperar as predições exatas, já que modelos são não determinísticos por natureza."
+    }
+   ],
+   "gabarito": "a configuração, isto é, os subgrupos declarados e o limiar",
+   "porque": "O item cruza a linhagem do V.3 com a exigência do V.1 de declarar os subgrupos **antes** de olhar o resultado. Reprodutibilidade exige cinco versionamentos, e o enunciado entrega três: código, dado e modelo. Faltam configuração e ambiente, e a configuração é a que decide esta resposta.\n\nDuas coisas mudam a métrica por subgrupo sem tocar no modelo: o limiar, que altera quem é aprovado, e a própria definição dos recortes, que altera quem é comparado com quem. Se qualquer das duas foi ajustada entre março e novembro sem registro datado, o número que você calcular hoje é sobre outra pergunta.\n\nA terceira alternativa erra o método: o hash é o que evita copiar o conjunto por inteiro. A quarta usa uma meia verdade, porque a não determinação do treino é resolvida por semente e ambiente fixos, e a inferência de um modelo salvo é determinística.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q7",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "numerica",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-1-interpretabilidade-justica.md:O4",
+    "livro/capitulos/v-3-mlops.md:O3"
+   ],
+   "enunciado": "Um modelo de aprovação de cadastro é monitorado por subgrupo. No grupo A, 4000 solicitantes, 1800 aprovados. No grupo B, 2000 solicitantes, 600 aprovados.\n\nCalcule a diferença entre as taxas de aprovação dos dois grupos, em módulo. Responda como número decimal entre 0 e 1, com duas casas.",
+   "opcoes": [],
+   "gabarito": "0.15 ± 0.01",
+   "porque": "A taxa do grupo A é 1800 dividido por 4000, igual a 0,45. A do grupo B é 600 dividido por 2000, igual a 0,30. A diferença em módulo é 0,15.\n\nO número em si é a parte fácil, e a razão de ele estar numa prova é outra: essa diferença é uma **medida**, não um veredito. Ela pode vir de discriminação do modelo, de diferença real de prevalência entre os grupos, ou das duas coisas somadas, e nenhuma conta feita só com estes quatro números separa as três hipóteses. O que o valor obriga é a próxima pergunta, não a conclusão.\n\nE há a leitura de operação: uma diferença assim é exatamente o tipo de grandeza que precisa estar num painel com janela e alarme, porque ela se move quando a distribuição de quem chega se move, sem que ninguém altere o modelo.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real",
+   "gabarito_num": {
+    "valor": 0.15,
+    "tolerancia": 0.01
+   }
+  },
+  {
+   "id": "prova-parte-v-q8",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-2-sistemas-de-ml.md:O2",
+    "livro/capitulos/v-3-mlops.md:O1"
+   ],
+   "enunciado": "Uma empresa tem, hoje: um script sem dono que junta quatro fontes toda madrugada; um segundo modelo que aprende a corrigir a saída do primeiro; um arquivo de parâmetros de 400 linhas na máquina de um analista; e a descoberta recente de que o time de cobrança consome a tabela de saída.\n\nO time pergunta por onde começar. Quais justificativas para a ordem de pagamento são defensáveis pelo que a Parte V ensina? Marque todas que valem.",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Começar pelo arquivo de parâmetros, porque pô-lo sob revisão e no repositório é barato e elimina um ponto único de falha que também impede reproduzir qualquer resultado."
+    },
+    {
+     "correta": true,
+     "texto": "Tratar cedo os consumidores não declarados, porque enquanto eles existirem qualquer melhoria sua vira incidente de outra pessoa."
+    },
+    {
+     "correta": false,
+     "texto": "Começar pela cascata de correções, porque ela é a dívida mais cara e o mais caro deve vir primeiro."
+    },
+    {
+     "correta": true,
+     "texto": "Declarar contratos nas quatro fontes antes de mexer na cascata, porque sem eles não há como saber se uma mudança piorou algo."
+    },
+    {
+     "correta": false,
+     "texto": "Reescrever o script da madrugada como primeiro passo, porque a selva de pipelines é a raiz de tudo."
+    }
+   ],
+   "gabarito": "configuração primeiro; consumidores declarados cedo; contratos antes da cascata",
+   "porque": "As três corretas seguem o mesmo critério, que é retorno por esforço combinado com redução de risco, e não gravidade absoluta.\n\nA alternativa da cascata inverte o critério: caro não é o mesmo que primeiro. Mexer na cascata exige negociar com quem depende dela e é o trabalho mais lento da lista, e fazê-lo antes de haver contrato significa mudar o sistema sem instrumento para perceber o estrago.\n\nA alternativa do script é a mais instrutiva das erradas, porque ela parece a mais corajosa. Reescrever a selva sem mudar a divisão de trabalho que a criou produz uma selva nova, e isso não é opinião do livro: é o diagnóstico dos próprios autores que nomearam a dívida, que a descrevem como sintoma de papéis de pesquisa e engenharia separados demais.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q9",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-4-fronteira.md:O3",
+    "livro/capitulos/v-3-mlops.md:O3"
+   ],
+   "enunciado": "Um capítulo técnico afirma duas coisas. A primeira: *\"a hipótese de que treino e produção vêm da mesma distribuição não é verificável antes do deploy.\"* A segunda: *\"a biblioteca X é hoje a escolha padrão para servir modelos com baixa latência.\"*\n\nQual classificação, quanto à validade no tempo, está correta?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A primeira envelhece devagar, porque é uma restrição estrutural do problema; a segunda envelhece rápido, porque é escolha de ferramenta."
+    },
+    {
+     "correta": false,
+     "texto": "As duas envelhecem rápido, porque toda afirmação técnica tem prazo."
+    },
+    {
+     "correta": false,
+     "texto": "A primeira envelhece rápido, porque métodos de detecção de drift estão evoluindo e podem torná-la falsa."
+    },
+    {
+     "correta": false,
+     "texto": "A segunda envelhece devagar, porque a necessidade de baixa latência é permanente."
+    }
+   ],
+   "gabarito": "a primeira devagar, a segunda rápido",
+   "porque": "É a regularidade da tabela do V.4: o que envelhece devagar é diagnóstico, o que envelhece rápido é remédio. A primeira afirmação descreve uma limitação de conhecimento sobre o futuro, e nenhum avanço de ferramenta a remove.\n\nA terceira alternativa merece atenção porque quase acerta. Métodos de detecção melhoram e vão continuar melhorando, e o que eles detectam é o drift **depois** que ele começou a aparecer nos dados. Isso não é o mesmo que verificar antes do deploy se a distribuição futura vai coincidir, e é essa distinção que mantém a afirmação de pé.\n\nA quarta troca a necessidade pela solução: precisar de baixa latência é durável, e qual biblioteca entrega isso é a parte que gira.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
+  },
+  {
+   "id": "prova-parte-v-q10",
+   "capitulo": 35,
+   "arquivo": "livro/provas/prova-parte-v.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "prova",
+   "objetivos": [
+    "livro/capitulos/v-4-fronteira.md:O1",
+    "livro/capitulos/v-1-interpretabilidade-justica.md:O3"
+   ],
+   "enunciado": "Você lidera um projeto que vai decidir quem recebe uma tarifa social. Duas definições de justiça razoáveis para o caso são incompatíveis entre si, dadas as prevalências dos grupos, e não há critério consensual na literatura para escolher entre elas.\n\nQual é a conduta que este livro sustenta?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Escolher uma, escrever a justificativa e a quem ela desfavorece, e montar o monitoramento que mostraria que a escolha foi ruim."
+    },
+    {
+     "correta": false,
+     "texto": "Adiar a decisão até que a literatura produza um critério consensual, já que decidir sem base é arbitrário."
+    },
+    {
+     "correta": false,
+     "texto": "Escolher a definição que produzir os números mais equilibrados no relatório de lançamento."
+    },
+    {
+     "correta": false,
+     "texto": "Delegar a escolha ao jurídico, porque a questão é normativa e não técnica."
+    }
+   ],
+   "gabarito": "escolher, justificar por escrito e montar como perceber o erro",
+   "porque": "É a definição de questão aberta relevante para a prática: você precisa agir mesmo sem a resposta, e a decisão depende dela. Esperar não é neutro, porque o sistema entra no ar de um jeito ou de outro, ou não entra, e não entrar também é uma decisão com efeito sobre gente.\n\nA terceira alternativa é a que mais acontece, e o defeito dela não é escolher: é escolher pelo resultado que o número dá, o que transforma um critério de justiça em enfeite de relatório. A quarta terceiriza a parte que é sua: a área jurídica decide o que é permitido, e não qual definição formal corresponde melhor ao que se quer proteger, porque essa correspondência exige entender o que cada definição mede.\n\nO terceiro pedaço da resposta certa é o que a Parte V acrescenta ao V.1 sozinho. Escolha declarada é auditável; escolha declarada **com um mecanismo de perceber que estava errada** é o que separa uma decisão defensável de uma justificativa bem escrita.",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "prova-parte-v",
+   "titulo_capitulo": "Prova da Parte V — No mundo real"
   }
  ],
  "videos": [

@@ -120,6 +120,16 @@ function validarExercicio(ex, arquivo) {
     if (ex.tipo === "multipla-multi" && certas < 1) erro("precisa de ao menos 1 alternativa correta");
   } else if (ex.tipo === "numerica") {
     if (ex.gabarito == null || !/-?\d/.test(String(ex.gabarito))) erro("`> **gabarito:**` precisa de um número (ex.: `0.75 ± 0.02`)");
+    // Resposta decimal sem tolerância declarada corrige por igualdade exata, e
+    // o leitor que arredondou de outro jeito erra por arredondamento e não por
+    // conteúdo. Inteiro pode dispensar; decimal precisa dizer quanto aceita —
+    // `± 0` continua valendo, desde que seja escolha escrita.
+    const num = parseNumerico(ex.gabarito);
+    const declarou = /(±|\+\/-|\+-)/.test(String(ex.gabarito));
+    if (num && !Number.isInteger(num.valor) && !declarou) {
+      erro(`gabarito numérico decimal (${ex.gabarito}) sem tolerância declarada — ` +
+        "escreva `± <margem>`, senão a correção exige igualdade exata e pune arredondamento");
+    }
   } else if (ex.tipo === "completar") {
     if (!ex.gabarito) erro("`> **gabarito:**` precisa do texto que preenche a lacuna");
   } else if (ex.tipo === "aberta") {
@@ -127,11 +137,18 @@ function validarExercicio(ex, arquivo) {
   }
 }
 
-/** Interpreta `0.75 ± 0.02` / `0.75 +- 0.02` / `0.75` -> {valor, tolerancia}. */
+/** Interpreta `0.75 ± 0.02` / `0.75 +- 0.02` / `0.75` -> {valor, tolerancia}.
+ *
+ * A troca de vírgula por ponto é GLOBAL, e isso não é detalhe de estilo. O
+ * livro é em português, então o gabarito natural é `0,45 ± 0,01`; trocando só
+ * a primeira vírgula, o valor saía certo e a tolerância virava 0 em silêncio.
+ * Três exercícios publicados corrigiam por igualdade exata por causa disso.
+ * Ver `publicar/testes/numerico.mjs`. */
 export function parseNumerico(txt) {
-  const m = String(txt).replace(",", ".").match(/(-?[\d.]+(?:e-?\d+)?)\s*(?:±|\+\/-|\+-)\s*([\d.]+(?:e-?\d+)?)/i);
+  const normal = String(txt).replace(/,/g, ".");
+  const m = normal.match(/(-?[\d.]+(?:e-?\d+)?)\s*(?:±|\+\/-|\+-)\s*([\d.]+(?:e-?\d+)?)/i);
   if (m) return { valor: Number(m[1]), tolerancia: Number(m[2]) };
-  const n = Number(String(txt).replace(",", ".").trim());
+  const n = Number(normal.trim());
   return Number.isFinite(n) ? { valor: n, tolerancia: 0 } : null;
 }
 

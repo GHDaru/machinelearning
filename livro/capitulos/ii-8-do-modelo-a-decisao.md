@@ -160,7 +160,7 @@ Um modelo prevê inadimplência. Aprovar um cliente **bom** dá lucro de **R$ 20
 
 Acima de qual **probabilidade de inadimplência** vale mais negar do que aprovar? Responda em fração, com duas casas decimais.
 
-> **gabarito:** 0,17
+> **gabarito:** 0,17 ± 0,01
 > **porque:** Chame de *p* a probabilidade de o cliente ser mau. Aprovar tem valor esperado `200 × (1 − p) − 1000 × p`; negar tem valor esperado **0**. O ponto de indiferença é onde os dois se igualam: `200 − 200p − 1000p = 0`, ou seja `200 = 1200p`, então `p = 1/6 ≈ 0,1667` — **0,17** arredondado.
 >
 > Repare no que acabou de acontecer: o limiar **não é 0,5**. E não é por causa de desequilíbrio de classes — é porque **os erros custam preços diferentes**. Um mau cliente destrói o lucro de cinco bons, então a régua se desloca para o lado cauteloso.
