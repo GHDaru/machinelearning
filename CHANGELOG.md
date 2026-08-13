@@ -6,6 +6,39 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — train/serve skew tinha três causas e o livro contava uma (cap. V.2)
+- **A definição estava estreitada.** A fonte diz *"training-serving skew is a
+  difference between performance during training and performance during serving"*
+  e lista três causas: divergência entre os dois encanamentos, mudança no dado
+  entre treinar e servir, e realimentação entre modelo e algoritmo. O capítulo
+  tratava só da primeira sem dizer que era uma de três. Agora nomeia as três e
+  aponta onde o livro trata as outras duas.
+- **A faixa "regras #29 a #37" sobe de ⏳ para ✓**, e pelo caminho mais simples:
+  o documento tem uma seção intitulada *"Training-Serving Skew"* que começa depois
+  da regra #28 e termina na #37, onde entra a "ML Phase III".
+- **Tentativa registrada:** a página do Michelangelo, que sustenta a data de
+  setembro de 2017 para o termo *feature store*, passou a responder 406. A data
+  segue ⏳, agora com a tentativa datada.
+
+### Alterado — duas fontes fechadas se abriram, e uma delas confirmou um vão (cap. V.3)
+- **Schlimmer & Granger (1986) saiu de ⏳ para ✓.** Os anais do AAAI-86 são
+  abertos: *"Beyond incremental processing: Tracking concept drift"*, pp. 502–507,
+  UC Irvine. O resumo define o termo entre parênteses, como quem apresenta
+  vocabulário novo (*"drift (concepts that change over time)"*), e enuncia o
+  problema que ainda é o de hoje: quando o preditor erra, decidir *"whether this
+  situation is an instance of noise or an indication that the concept is beginning
+  to drift"*. Ambos entraram no corpo.
+- **O cunho do termo continua ⏳, de propósito.** A lista de referências do artigo
+  não traz fonte anterior para "concept drift", e ausência de contra-exemplo em um
+  lugar só não é prova de primazia.
+- **O *ML Test Score* foi lido** (o PDF está no arquivo público de publicações do
+  Google) e confirma os 28 testes em quatro grupos de sete. Dele entraram os testes
+  "Data 1" e "Monitor 2".
+- **E lê-lo NÃO fechou o ❌ vizinho.** Falta fonte que prescreva o que fazer quando
+  *uma requisição* viola o contrato; o Monitor 2 manda *"alert when they diverge
+  significantly"*, com limiar entre falso positivo e falso negativo, que é política
+  de agregado. Abrir a fonte que faltava confirmou o vão em vez de fechá-lo.
+
 ### Corrigido — a regra do ciclo aplicada contra o próprio capítulo (cap. V.1)
 - **Os quatro percentuais da ProPublica sobem de ✓ᵐ para ✓.** Estavam marcados com
   a razão escrita: números "devolvidos por extrator automático". Como a regra deste

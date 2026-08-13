@@ -80,8 +80,8 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
-| 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
-| 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | ~ |
+| 27 | V.2 — Sistemas de ML | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
+| 28 | V.3 — MLOps | 4 | 12 | 12 | **ok** | **ok** | **ok** | **ok** |
 | 29 | V.4 — Fronteira e Expiração | 3 | 9 | 9 | **ok** | **ok** | **ok** | — |
 
 **Totais:** 114 objetivos · 412 exercícios hoje (342 de capítulo + 70 de prova) · **342 no alvo — as colunas `exs` e `prova` fecharam nos 29 capítulos**.
@@ -270,6 +270,32 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > **O ❌ do V.1 continua ❌, e agora com as tentativas escritas.** A réplica da
 > Northpointe devolve 404 no domínio da fornecedora e 403 atrás de Cloudflare no
 > espelho, na página e na API. Registrar o que já falhou vale mais do que ❌ sozinho.
+>
+> **No V.2 o achado foi de PARÁFRASE QUE ESTREITA**, que é o espelho do achado do
+> I.2. O capítulo definia *train/serve skew* como "o mesmo atributo calculado de
+> dois jeitos". A fonte é mais larga: *"a difference between performance during
+> training and performance during serving"*, com **três** causas, e a do capítulo é
+> só a primeira. Corrigido, com as outras duas nomeadas e endereçadas a onde o livro
+> as trata. O ⏳ da faixa "#29 a #37" virou ✓ pelo caminho mais bobo possível: baixar
+> a página e olhar. Existe uma seção com o título exato "Training-Serving Skew", que
+> começa depois da #28 e acaba na #37. Eu tinha suposto que a faixa era generosa
+> demais; era literal.
+>
+> **No V.3 uma fonte que "não abria" abriu, e o ganho foi contrário ao esperado.** O
+> *ML Test Score* estava em ✓ᵐ porque o PDF não abria; ele está no arquivo público de
+> publicações do Google. Só que lê-lo **não fechou** o ❌ vizinho, o de que falta
+> fonte prescrevendo o que fazer quando UMA requisição viola o contrato: o Monitor 2
+> manda medir e alertar quando o dado diverge "significativamente", com limiar entre
+> falso positivo e falso negativo, o que é política de agregado. **Abrir a fonte que
+> faltava confirmou o vão em vez de fechá-lo**, e isso é um resultado melhor do que o
+> ❌ anterior, que era só ausência de busca bem-sucedida.
+>
+> **E o Schlimmer & Granger de 1986 estava a um clique.** Os anais do AAAI-86 são
+> abertos. O termo está no título, a definição está no resumo entre parênteses
+> (*"drift (concepts that change over time)"*) e o problema que eles enunciam é o de
+> hoje: distinguir ruído de deriva quando o preditor erra. A lista de referências não
+> traz fonte anterior para o termo, o que **não** prova primazia; o cunho ficou em ⏳
+> com essa distinção escrita.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

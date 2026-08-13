@@ -44,9 +44,9 @@ Nada disso é bug. Nada disso aparece num teste. E, principalmente, **nada disso
 | ✓ | A metáfora do *plumbing* (encanamento) **não é dos autores**: no artigo ela é creditada a **Lin e Ryaboy**. O crédito some em quase toda repetição da metáfora — registre-o quando repetir |
 | ✓ᵐ | *Technical debt*, de **Ward Cunningham**, addendum aos anais da **OOPSLA '92**, e a frase *"Shipping first time code is like going into debt."* |
 | ✓ | O *feature store* na descrição do Michelangelo, plataforma de ML do Uber, como repositório central de atributos canônicos compartilhados entre times, em *["Meet Michelangelo: Uber's Machine Learning Platform"](https://www.uber.com/blog/michelangelo-machine-learning-platform/)* |
-| ⏳ | A data de **setembro de 2017** para a aparição pública do termo, e a redação de que a camada "garante consistência entre offline e online" — o texto aberto descreve o repositório compartilhado, e não confirma essa formulação |
+| ⏳ | A data de **setembro de 2017** para a aparição pública do termo, e a redação de que a camada "garante consistência entre offline e online": o texto aberto descreve o repositório compartilhado, e não confirma essa formulação. Nova tentativa em 2026-08-13 de reabrir a página para conferir a data: o domínio passou a responder **406**, e a data segue não conferida |
 | ✓ | As regras **#31** e **#32** de *[Rules of Machine Learning](https://developers.google.com/machine-learning/guides/rules-of-ml)*, de **Martin Zinkevich** (Google), lidas no texto da própria regra — com a #32 como receita central: reutilizar o código entre treino e serviço |
-| ⏳ | Que a formulação canônica de *train/serve skew* ocupe a faixa inteira das regras **#29 a #37** — li a #31 e a #32, e não a faixa toda |
+| ✓ | Que a formulação canônica de *train/serve skew* ocupe a faixa das regras **#29 a #37**: o documento tem uma seção intitulada *"Training-Serving Skew"* que começa depois da regra #28 e termina na #37, onde entra a "ML Phase III". Dessa seção vêm também a definição citada e as três causas. Página baixada e o texto varrido aqui |
 | 📖 | A leitura de que a virada foi importar vocabulário, e de que a figura 1 e a AlexNet são o par de imagens-argumento do campo |
 
 ## Fundamentos: o que é o sistema, além do modelo
@@ -185,9 +185,11 @@ Três movimentos, em ordem de retorno por esforço.
 
 ### O contrato entre treino e serviço
 
-O *train/serve skew* é a fronteira mais cara do sistema: o mesmo atributo calculado de dois jeitos — um no treino, em lote, com a tabela inteira disponível; outro no serviço, sob latência, com o que chegou na requisição.
+O *train/serve skew* é a fronteira mais cara do sistema. A definição da fonte é mais larga que a intuição corrente: *"training-serving skew is a difference between performance during training and performance during serving"*, e ela lista **três causas**, não uma. Divergência em como o dado é tratado nos dois encanamentos; mudança no dado entre o momento de treinar e o de servir; e realimentação entre o modelo e o algoritmo.
 
-A formulação canônica está nas *Rules of Machine Learning*, de Martin Zinkevich, regras #29 a #37 (⏳). A regra #32 é a receita inteira, e é curta: **reutilize o código entre treino e serviço.** Não "escreva os dois com cuidado", não "documente a fórmula" — reutilize o mesmo código, de modo que a divergência se torne impossível em vez de improvável.
+Este capítulo trata sobretudo da primeira, que é a mais barata de evitar e a mais cara de descobrir: o mesmo atributo calculado de dois jeitos, um no treino, em lote, com a tabela inteira disponível, e outro no serviço, sob latência, com o que chegou na requisição. A segunda é o *drift* do [capítulo V.3](v-3-mlops.md), e a terceira é o laço de realimentação que a regra #36 da mesma fonte trata à parte.
+
+A formulação canônica está nas *Rules of Machine Learning*, de Martin Zinkevich: o documento tem uma seção com esse nome exato, **"Training-Serving Skew"**, e ela vai da regra #29 à #37 ✓. A regra #32 é a receita inteira, e é curta: **reutilize o código entre treino e serviço.** Não "escreva os dois com cuidado", não "documente a fórmula": reutilize o mesmo código, de modo que a divergência se torne impossível em vez de improvável.
 
 A *feature store* é a versão de plataforma dessa ideia: uma camada compartilhada que serve o mesmo atributo ao treino e à inferência. O termo aparece publicamente em setembro de 2017, na descrição do Michelangelo, plataforma de ML do Uber (⏳). O custo é que ela é mais uma peça de encanamento para manter — e o CACE também vale para ela.
 

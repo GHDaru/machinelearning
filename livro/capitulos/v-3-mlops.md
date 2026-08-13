@@ -41,7 +41,9 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 >
 > **Aqui o campo não tinha um autor para o nome e fabricou um retroativamente**, escolhendo o artigo mais citado da vizinhança. E a atribuição sobreviveu apesar de ser **falsificável em trinta segundos** por quem tivesse o PDF aberto e uma busca de texto.
 
-**Concept drift tem nome desde 1986.** Schlimmer & Granger publicam naquele ano dois trabalhos: *"Beyond Incremental Processing: Tracking Concept Drift"* (AAAI-86 — o termo está no título) e *"Incremental learning from noisy data"* (*Machine Learning* 1(3):317–354). O survey que organizou o campo é o de Gama, Žliobaitė, Bifet, Pechenizkiy & Bouchachia (*ACM Computing Surveys* 46(4), art. 44, 2014) ✓ᵐ. **De 1986 a 2014: vinte e oito anos entre o nome e a síntese.**
+**Concept drift tem nome desde 1986.** Schlimmer & Granger, então na Universidade da Califórnia em Irvine, publicam naquele ano dois trabalhos: *"Beyond incremental processing: Tracking concept drift"* (AAAI-86, pp. 502–507) e *"Incremental learning from noisy data"* (*Machine Learning* 1(3):317–354) ✓. O primeiro está aberto e define o termo já no resumo, entre parênteses, como quem apresenta vocabulário novo: *"drift (concepts that change over time)"*.
+
+E o problema que eles enunciam continua sendo o problema de hoje, palavra por palavra. Quando um preditor aprendido erra, escrevem, o sistema *"must be able to determine whether this situation is an instance of noise or an indication that the concept is beginning to drift"*. Distinguir ruído de deriva é a mesma pergunta que um painel de monitoramento faz quarenta anos depois, e é por isso que a seção sobre alarmes, mais adiante, insiste que drift detectado não é veredito. O survey que organizou o campo é o de Gama, Žliobaitė, Bifet, Pechenizkiy & Bouchachia (*ACM Computing Surveys* 46(4), art. 44, 2014) ✓ᵐ. **De 1986 a 2014: vinte e oito anos entre o nome e a síntese.**
 
 **E o procedimento veio rápido.** *The ML Test Score* (Breck, Cai, Nielsen, Salib & Sculley, IEEE Big Data 2017) traz **28 testes e necessidades de monitoramento** pontuados ✓ᵐ. Repare no subtítulo: *"…and Technical Debt Reduction"*. É explicitamente a continuação do [capítulo V.2](v-2-sistemas-de-ml.md): mesmo autor sênior, dois anos depois, transformando o diagnóstico em checklist. **Diagnóstico (2015) → procedimento (2017): dois anos.** Compare com as décadas do resto do livro — quando o diagnóstico é preciso *e* já existe infraestrutura, o procedimento chega rápido. É o mesmo fio dos capítulos [II.5](ii-5-arvores-ensembles.md) e [III.6](iii-6-modelos-de-fundacao.md).
 
@@ -52,9 +54,11 @@ A filiação a DevOps, essa sim, está documentada: *"The first devopsdays was h
 | ✓ | "MLOps", "feature store" e "training/serving skew" **não aparecem** no artigo de Sculley et al. (2015) — texto integral extraído e buscado |
 | ✓ᵃ | O primeiro devopsdays em Ghent, Bélgica, 2009, e Patrick Debois como fundador — página oficial do evento |
 | ✓ᵐ | Sato, Wider & Windheuser, *Continuous Delivery for Machine Learning* (martinfowler.com, 2019), e a tese dos três eixos |
-| ✓ᵐ | Breck, Cai, Nielsen, Salib & Sculley, *The ML Test Score* (IEEE Big Data, 2017), com 28 testes e necessidades de monitoramento |
+| ✓ | Breck, Cai, Nielsen, Salib & Sculley, *"The ML Test Score: A Rubric for ML Production Readiness and Technical Debt Reduction"*, **lido** no arquivo público de publicações do Google. O resumo diz literalmente *"we present 28 specific tests and monitoring needs"*, e os quatro grupos são Data, Model, Infra e Monitor, com sete testes cada. O veículo (IEEE Big Data, 2017) é ✓ᵐ: a cópia lida não traz a folha de rosto do evento |
 | ✓ᵐ | Gama, Žliobaitė, Bifet, Pechenizkiy & Bouchachia, *ACM Computing Surveys* 46(4), art. 44, 2014 |
-| ⏳ | Schlimmer & Granger (1986) como cunho de *concept drift* — **nenhum dos dois trabalhos foi aberto**; o título do AAAI-86 é a evidência mais forte obtida |
+| ✓ | Schlimmer & Granger, *"Beyond incremental processing: Tracking concept drift"*, **AAAI-86, pp. 502–507**, Universidade da Califórnia em Irvine: título, autoria, veículo, a definição *"drift (concepts that change over time)"* e a formulação ruído-contra-deriva, do [PDF aberto dos anais](https://cdn.aaai.org/AAAI/1986/AAAI86-084.pdf), **lido** |
+| ⏳ | Que o termo tenha sido **cunhado** ali. O artigo o usa no título e o apresenta no resumo como vocabulário novo, e a lista de referências dele não traz fonte anterior para o termo. Nada disso é prova de primazia: é ausência de contra-exemplo em um lugar só |
+| ✓ᵐ | O segundo trabalho de 1986, *"Incremental learning from noisy data"*, *Machine Learning* 1(3):317–354. **Ficha conferida; não lido** |
 | ⏳ | A origem da hashtag "#devops" no limite de caracteres do Twitter |
 | 📖 | A leitura do "sexto caso" do padrão *crédito segue o vocabulário*, e a inversão "modelo se degrada quando ninguém edita" |
 
@@ -96,6 +100,8 @@ A regra que vale reter não é qual das três escolher, e sim que **a política 
 
 **A rejeição é sinal, não só erro.** Um pico de entradas recusadas é a camada 2 do monitoramento funcionando na fronteira, e chega antes de qualquer métrica de desempenho. Para isso a recusa precisa ser contada, e não apenas devolvida.
 
+Repare no que a literatura oferece e no que ela não oferece. O *ML Test Score* traz o teste "Data 1", que manda escrever as expectativas dos atributos num esquema (*"an adult human is surely between one and ten feet in height"*), e o "Monitor 2", que manda *"measure whether data matches the schema and alert when they diverge significantly"*. Note o verbo e o advérbio: **medir** e **divergir significativamente** são operações sobre um agregado, com limiar afinado entre falso positivo e falso negativo. O que fazer com a requisição da vez continua sem prescrição na fonte, e é por isso que a decisão é sua e precisa estar escrita.
+
 Aqui o exemplo deste livro **falha**, e vale dizer em voz alta: o serviço não conta nenhuma rejeição. O que ele observa é só o sucesso, através das tentativas que foram gravadas. Um serviço de modelo em produção deveria contar as duas coisas, e a ausência dessa contagem é o tipo de dívida que só aparece no incidente.
 
 **Versão do modelo endereçável.** A resposta diz qual versão do modelo respondeu, e a versão anterior continua servível. Sem isso, o canário não tem como comparar, e o rollback da seção seguinte não tem para onde voltar. É também o que torna auditável a resposta que alguém contestar seis meses depois.
@@ -110,8 +116,8 @@ Aqui o exemplo deste livro **falha**, e vale dizer em voz alta: o serviço não 
 | ✓ | As regras **#10**, **#29** e **#37** de *[Rules of Machine Learning](https://developers.google.com/machine-learning/guides/rules-of-ml)*, e os trechos citados, lidos no texto da regra |
 | ✓ | O que um esquema codifica, do [guia do TensorFlow Data Validation](https://www.tensorflow.org/tfx/guide/tfdv) |
 | ✓ | As três políticas convivendo num serviço real, com as linhas indicadas, em `chat-companion/backend/app.py` deste repositório |
-| ✓ᵐ | *The ML Test Score* (Breck, Cai, Nielsen, Salib & Sculley, IEEE Big Data, 2017) trata de prontidão para produção, mas **o PDF não abriu**, e por isso nenhum teste numerado dele é citado aqui |
-| ❌ | Uma fonte que prescreva o que fazer quando **uma requisição** viola o contrato: procurei e não achei. As fontes tratam de esquema sobre lotes e de skew entre treino e serviço, e não da política por requisição |
+| ✓ | *The ML Test Score* (Breck, Cai, Nielsen, Salib & Sculley, Google), **agora lido**: o PDF que antes não abria está no arquivo público de publicações do Google. Dele vêm o teste **Data 1** (*"Feature expectations are captured in a schema"*, com o exemplo do humano adulto entre um e dez pés de altura) e o **Monitor 2** (*"Data invariants hold in training and serving inputs"*) |
+| ❌ | Uma fonte que prescreva o que fazer quando **uma requisição** viola o contrato. A busca continua sem achado, e agora com a fonte que faltava aberta: o Monitor 2 manda *"measure whether data matches the schema and alert when they diverge significantly"*, com afinação de limiar entre falso positivo e falso negativo. Isso é política de **agregado**, não de requisição. Abrir a fonte confirmou o vão em vez de fechá-lo |
 | 📖 | A leitura de que a política de violação é decisão escrita no contrato, e de que a rejeição não contada é dívida — e a escolha de usar o serviço deste livro como exemplo, defeitos inclusive |
 
 :::exercicio {"id":"mlops-e10","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
