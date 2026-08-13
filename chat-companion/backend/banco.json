@@ -14649,6 +14649,20 @@
    "pagina": "iii-2-redes-neurais"
   },
   {
+   "id": "treinar-redes-profundas-l1",
+   "capitulo": 19,
+   "arquivo": "livro/capitulos/iii-3-treinar-redes-profundas.md",
+   "tipo": "anima-gradiente",
+   "titulo": "Veja o gradiente descer 20 camadas, e a ReLU não bastar",
+   "config": {
+    "id": "treinar-redes-profundas-l1",
+    "tipo": "anima-gradiente",
+    "titulo": "Veja o gradiente descer 20 camadas, e a ReLU não bastar"
+   },
+   "intro": "A animação é o próprio passo para trás. Uma rede de 20 camadas com 48 unidades cada, pesos sorteados de verdade, e a barra de cada camada é a **norma do gradiente** que chega ali, em escala logarítmica. A linha tracejada marca 10⁻⁶, o \"dividido por um milhão\" da seção anterior.\n\nComece com **sigmoide + Xavier** e acompanhe as barras encolhendo da direita para a esquerda. A última camada recebe 1,09; a primeira recebe **1,4 × 10⁻¹²**. Não é aprender devagar, é não aprender: o gradiente atravessou a linha do milionésimo lá pela camada 10 e continuou caindo.\n\nAgora, **antes de clicar**, preveja: trocando a sigmoide pela ReLU, as barras ficam de pé?\n\nClique em \"Trocar para ReLU + Xavier\". Elas melhoram **nove ordens de grandeza**, e ainda assim a primeira camada fica em 1,2 × 10⁻³. A ReLU sozinha não resolveu; ela transformou um problema fatal num problema grave. O motivo está três parágrafos acima: a dedução de Xavier supõe ativação aproximadamente linear, e a ReLU zera metade das entradas.\n\nClique de novo, para **ReLU + He**. A primeira camada recebe 0,86, contra 1,09 na última. As barras ficam de pé, e o que mudou foi um fator 2 na variância dos pesos.\n\n> **Os três modos são a mesma rede.** Os pesos saem do mesmo sorteio nos três; o que muda é a escala e a ativação. Entre Xavier e He, inclusive, os pesos são literalmente os mesmos multiplicados por √2 em cada camada — e como escalar por um número positivo não muda o sinal de nada, a máscara da ReLU é idêntica nos dois. Por isso a razão entre as duas primeiras camadas é exatamente (√2)¹⁹ ≈ 724, e não um número qualquer. Se fossem três redes diferentes, a comparação mediria sorteio, não inicialização.",
+   "pagina": "iii-3-treinar-redes-profundas"
+  },
+  {
    "id": "nao-supervisionado-l1",
    "capitulo": 23,
    "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",

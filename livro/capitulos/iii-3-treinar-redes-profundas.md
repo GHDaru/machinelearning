@@ -138,6 +138,20 @@ A história de como ela entrou é instrutiva. Nair & Hinton (2010) a apresentam 
 
 O preço tem nome: **neurônio morto**. Uma unidade que passa a receber só entradas negativas devolve zero, tem derivada zero e nunca mais se atualiza — está desligada em definitivo. Variantes como *Leaky* ReLU e GELU existem para manter uma inclinação pequena no lado negativo e evitar exatamente isso.
 
+:::lab {"id":"treinar-redes-profundas-l1","tipo":"anima-gradiente","titulo":"Veja o gradiente descer 20 camadas, e a ReLU não bastar"}
+A animação é o próprio passo para trás. Uma rede de 20 camadas com 48 unidades cada, pesos sorteados de verdade, e a barra de cada camada é a **norma do gradiente** que chega ali, em escala logarítmica. A linha tracejada marca 10⁻⁶, o "dividido por um milhão" da seção anterior.
+
+Comece com **sigmoide + Xavier** e acompanhe as barras encolhendo da direita para a esquerda. A última camada recebe 1,09; a primeira recebe **1,4 × 10⁻¹²**. Não é aprender devagar, é não aprender: o gradiente atravessou a linha do milionésimo lá pela camada 10 e continuou caindo.
+
+Agora, **antes de clicar**, preveja: trocando a sigmoide pela ReLU, as barras ficam de pé?
+
+Clique em "Trocar para ReLU + Xavier". Elas melhoram **nove ordens de grandeza**, e ainda assim a primeira camada fica em 1,2 × 10⁻³. A ReLU sozinha não resolveu; ela transformou um problema fatal num problema grave. O motivo está três parágrafos acima: a dedução de Xavier supõe ativação aproximadamente linear, e a ReLU zera metade das entradas.
+
+Clique de novo, para **ReLU + He**. A primeira camada recebe 0,86, contra 1,09 na última. As barras ficam de pé, e o que mudou foi um fator 2 na variância dos pesos.
+
+> **Os três modos são a mesma rede.** Os pesos saem do mesmo sorteio nos três; o que muda é a escala e a ativação. Entre Xavier e He, inclusive, os pesos são literalmente os mesmos multiplicados por √2 em cada camada — e como escalar por um número positivo não muda o sinal de nada, a máscara da ReLU é idêntica nos dois. Por isso a razão entre as duas primeiras camadas é exatamente (√2)¹⁹ ≈ 724, e não um número qualquer. Se fossem três redes diferentes, a comparação mediria sorteio, não inicialização.
+:::
+
 :::exercicio {"id":"treinar-redes-profundas-e8","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Duas equipes relatam problemas de treino. Na A, a perda salta, vira `inf` e depois `NaN` em poucas iterações. Na B, a perda desce um pouco e fica parada, e as primeiras camadas quase não mudam de peso. Qual é o diagnóstico de cada uma, e qual delas está em situação melhor?
 

@@ -6,6 +6,32 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação do gradiente, e a ReLU que não basta (cap. III.3)
+- **Nona animação** (`anima-gradiente`): a retropropagação descendo 20 camadas de
+  48 unidades, com a norma do gradiente de cada camada em escala logarítmica e a
+  linha de 10⁻⁶ marcada. Pesos sorteados, passo para a frente e passo para trás
+  calculados; a barra é a norma L2 de δ.
+- **O segundo clique é a lição.** Que rede profunda mate o gradiente já se
+  espera: com sigmoide e Xavier, a primeira camada recebe **1,4 × 10⁻¹²**. O que
+  quase ninguém prevê é que a ReLU sozinha não resolva: com Xavier ela melhora
+  nove ordens de grandeza e ainda perde um fator de mil (1,2 × 10⁻³), porque a
+  dedução de Xavier supõe ativação linear. Só ReLU com He mantém as barras de pé
+  (0,86 contra 1,09 na última camada).
+- **A previsão da spec estava errada por cinco ordens de grandeza.** Ela dizia
+  "1e-7 na primeira com sigmoide", estimado a partir do 0,25¹⁰ do corpo, que é o
+  melhor caso da derivada da sigmoide. A rede real não opera no melhor caso.
+  Corrigida a previsão, não a medição.
+- **Os três modos são a mesma rede**, do mesmo sorteio. Entre Xavier e He os
+  pesos são os mesmos vezes √2 por camada, e escalar por positivo não muda sinal:
+  a máscara da ReLU é idêntica, e a razão entre as primeiras camadas é exatamente
+  (√2)¹⁹ ≈ 724,08, medida em 723,9.
+- **O teste nasceu com um furo, achado por vê-lo falhar.** A linha que eu escrevi
+  para guardar a comparação controlada conferia a norma da última camada, que é
+  ||δ|| na saída e vem de semente própria: passava nos dois mundos, e portanto não
+  guardava nada. Trocada pela razão exata (√2)¹⁹, que com a semente quebrada por
+  modo cai para ~275. **Ver o teste falhar também serve para descobrir quais
+  asserções não pegam nada.**
+
 ### Adicionado — a animação do limiar, e a acurácia que sobe quando deveria cair (cap. II.1)
 - **Oitava animação** (`anima-limiar`): o limiar desce de 0,98 a 0,00 e a matriz
   de confusão, a acurácia, a precisão e a revocação mudam junto, com o ponto

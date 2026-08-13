@@ -41,7 +41,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | II.8 | custo do falso negativo de 1 para 10: o limiar ótimo se deslocando e o lucro esperado em reais |
 | III.1 | **feito** — o perceptron aprendendo, e o XOR onde ele não para |
 | III.2 | **feito** — MLP no mesmo XOR do III.1: as duas retas girando, mais o botão que tira a camada e o que estraga a inicialização |
-| III.3 | norma do gradiente por camada: 1e-7 na primeira com sigmoide, e as barras voltando com ReLU e He |
+| III.3 | **feita** — a retropropagação descendo 20 camadas: 1,4e-12 na primeira com sigmoide + Xavier, 1,2e-3 com ReLU + Xavier (a ReLU sozinha não basta) e 0,86 com ReLU + He |
 | III.4 | filtro deslizando com o mapa de ativação: nº de parâmetros (densa 3,2 M × conv 2 400) **e o botão que desloca a imagem 3 px** |
 | III.5 | pesos de atenção acendendo numa frase, contra o sinal de gradiente da RNN caindo a zero em 11 passos |
 | III.6 | **não animar** — nada treinável honestamente no navegador vira encenação |
@@ -359,3 +359,38 @@ para que o clique ensine.
 O teste (`publicar/testes/anima-limiar.mjs`) foi **visto falhando**: quebrei a
 invariância fazendo `tpr` depender de π, e ele acusou 0,968 contra 0,874 na
 linha certa, com as outras cinco asserções ainda verdes.
+
+
+## O que a nona animação ensinou (III.3, 2026-08)
+
+**A previsão da spec estava otimista por cinco ordens de grandeza, e para o lado
+certo.** A tabela previa "1e-7 na primeira com sigmoide". Medido numa rede de 20
+camadas por 48 unidades: **1,4 × 10⁻¹²**. A spec tinha estimado de cabeça a
+partir do 0,25¹⁰ do corpo do capítulo, que é o **melhor caso** da derivada da
+sigmoide; a rede real não opera no melhor caso, porque as ativações saem
+descentradas de (0, 1) e a variância encolhe junto. Não corrigi a medição para
+caber na previsão: corrigi a previsão.
+
+**A lição de projeto é o segundo clique, não o primeiro.** Rede profunda mata o
+gradiente é o que todo mundo já espera. O que quase ninguém prevê é que **a ReLU
+sozinha não resolve**: ela melhora nove ordens de grandeza e ainda perde um fator
+de mil, porque a dedução de Xavier supõe ativação linear. Sem esse segundo
+clique, a animação ilustraria o que o leitor já sabe.
+
+**Os três modos são a mesma rede**, sorteada do mesmo fluxo, com escala e
+ativação diferentes. Entre Xavier e He os pesos são os mesmos vezes √2 por
+camada, e como escalar por positivo não muda sinal, a máscara da ReLU é idêntica
+nos dois: a razão entre as normas da primeira camada é **exatamente (√2)¹⁹ ≈
+724,08**, medida em 723,9.
+
+**E o teste nasceu com um furo, achado por vê-lo falhar.** A asserção que eu
+tinha escrito para guardar a comparação controlada conferia a norma da ÚLTIMA
+camada nos três modos. Ela é ||δ|| na saída, sorteada de uma semente própria, e
+portanto igual nos três aconteça o que acontecer: a linha estava verde sem
+guardar nada. Só apareceu porque quebrei a semente por modo de propósito e vi a
+linha do método continuar passando enquanto outra falhava. A checagem foi
+trocada pela razão exata (√2)¹⁹, que com a semente quebrada cai para ~275.
+
+**A regra que isto deixa: uma asserção que passa nos dois mundos não é
+asserção.** Ver o teste falhar não serve só para provar que ele pega o defeito
+que você imaginou; serve para descobrir quais das suas linhas não pegam nada.

@@ -42,9 +42,10 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > vista), **II.4** (três taxas na mesma paisagem, com o botão que troca só a
 > perda), **I.3** (as fontes de vazamento medidas lado a lado) e **II.1** (o
 > limiar descendo, com a acurácia SUBINDO quando a classe fica rara e a AUC-ROC
-> parada no mesmo 0,968). A dívida do núcleo compartilhado foi paga na segunda,
-> como a ADR 0015 exigia.
-> **8 feitas, 14 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
+> parada no mesmo 0,968) e **III.3** (a retropropagação descendo 20 camadas, com
+> a ReLU sozinha não bastando). A dívida do núcleo compartilhado foi paga na
+> segunda, como a ADR 0015 exigia.
+> **9 feitas, 13 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
 > erro de conta de `animacoes.md`, corrigido em 2026-08-13).
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a

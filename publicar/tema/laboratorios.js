@@ -2300,12 +2300,171 @@
     rel.aoChegar(function () { rodar(est.pi); });
   }
 
+  // A animação do capítulo III.3: a retropropagação descendo camada a camada
+  // numa rede de 20, com a NORMA DO GRADIENTE de cada camada aparecendo em
+  // escala logarítmica. A animação é o próprio passo para trás.
+  //
+  // Aqui o leitor erra a previsão DUAS vezes, e a segunda é a que interessa.
+  // Primeiro ele espera que rede profunda sempre mate o gradiente; depois, ao
+  // trocar a ativação, espera que a ReLU resolva sozinha. A dedução de Xavier
+  // supõe ativação linear, e a ReLU zera metade das entradas: só a terceira
+  // combinação (ReLU com He) mantém as barras de pé. É o argumento da seção
+  // "Inicialização" do capítulo, medido em vez de afirmado.
+  //
+  // Nada aqui é encenado: os pesos são sorteados, o passo para a frente e o
+  // passo para trás são calculados, e a barra é a norma L2 de δ na camada.
+  function animaGradiente(area, cfg) {
+    var W = 460, H = 300, PAD = 24;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bModo;
+    var L = 20, N = 48, DEC = 12;          // DEC décadas na escala vertical
+    var MODOS = [
+      { rot: "sigmoide + Xavier", ativ: "sig", ganho: 1 },
+      { rot: "ReLU + Xavier", ativ: "relu", ganho: 1 },
+      { rot: "ReLU + He", ativ: "relu", ganho: 2 }
+    ];
+    var est = { modo: 0, camada: L + 1, normas: [], parou: false, rede: null };
+
+    function normal(r) {                    // Box-Muller, descartando o par
+      var u = Math.max(1e-12, r()), v = r();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.283185307 * v);
+    }
+
+    function dsig(x) { var g = 1 / (1 + Math.exp(-x)); return g * (1 - g); }
+
+    function construir(m) {
+      var r = rng(101), l, i, j, dp, Wl, zl, al, s;
+      var a = [], Ws = [], pres = [];
+      for (i = 0; i < N; i++) a.push(normal(r));
+      for (l = 0; l < L; l++) {
+        dp = Math.sqrt(m.ganho / N);
+        Wl = [];
+        for (i = 0; i < N; i++) {
+          Wl.push([]);
+          for (j = 0; j < N; j++) Wl[i].push(normal(r) * dp);
+        }
+        Ws.push(Wl);
+        zl = []; al = [];
+        for (i = 0; i < N; i++) {
+          s = 0;
+          for (j = 0; j < N; j++) s += Wl[i][j] * a[j];
+          zl.push(s);
+          al.push(m.ativ === "sig" ? 1 / (1 + Math.exp(-s)) : Math.max(0, s));
+        }
+        pres.push(zl); a = al;
+      }
+      return { Ws: Ws, z: pres, m: m };
+    }
+
+    /** δ na saída, e o passo para trás guardando a norma L2 de cada camada. */
+    function retro(rede) {
+      var r = rng(7), d = [], i, l, j, s, nv, novo, zp, norm = [];
+      for (i = 0; i < N; i++) d.push(normal(r) / Math.sqrt(N));
+      for (l = L - 1; l >= 0; l--) {
+        s = 0;
+        for (i = 0; i < N; i++) s += d[i] * d[i];
+        norm[l] = Math.sqrt(s);
+        novo = [];
+        for (j = 0; j < N; j++) {
+          nv = 0;
+          for (i = 0; i < N; i++) nv += rede.Ws[l][i][j] * d[i];
+          if (l > 0) {
+            zp = rede.z[l - 1][j];
+            nv *= rede.m.ativ === "sig" ? dsig(zp) : (zp > 0 ? 1 : 0);
+          }
+          novo.push(nv);
+        }
+        d = novo;
+      }
+      return norm;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, v, alt;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 22, altMax = base - PAD - 26;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText(MODOS[est.modo].rot + " · norma do gradiente por camada (log)",
+                   x0, PAD + 14);
+      var yRef = base - (1 - 6 / DEC) * altMax;
+      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+      ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x0, yRef); ctx.lineTo(x0 + larg, yRef); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("10⁻⁶", x0 + larg - 28, yRef - 3);
+      for (i = 0; i < L; i++) {
+        v = est.normas[i];
+        if (v == null || i + 1 > est.camada) continue;
+        alt = Math.max(1, (1 + Math.log(Math.max(v, 1e-12)) / Math.LN10 / DEC) * altMax);
+        ctx.fillStyle = escuro ? "#8fb8dd" : "#35618e";
+        ctx.fillRect(x0 + i * (larg / L) + 2, base - alt, larg / L - 4, alt);
+      }
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("camada 1", x0, base + 14);
+      ctx.fillText("camada " + L, x0 + larg - 54, base + 14);
+    }
+
+    function texto() {
+      var pri = est.normas[0], ult = est.normas[L - 1];
+      placar.textContent =
+        MODOS[est.modo].rot + " · rede de " + L + " camadas" +
+        (!est.parou && est.camada <= L && est.normas[est.camada - 1] != null
+          ? " · camada " + est.camada + ": norma " + est.normas[est.camada - 1].toExponential(2)
+          : "") +
+        (est.parou
+          ? " · última camada " + ult.toExponential(2) +
+            " · primeira camada " + pri.toExponential(2) +
+            " · a primeira recebe " + (pri / ult).toExponential(2) + " do que saiu da última"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      est.camada--;
+      if (est.camada < 1) { est.camada = 1; est.parou = true; }
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar() {
+      est.rede = construir(MODOS[est.modo]);
+      est.normas = retro(est.rede);
+      est.camada = L + 1; est.parou = false;
+      rel.comecar(L + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bModo.textContent = "Trocar para " + MODOS[(est.modo + 1) % MODOS.length].rot;
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(); });
+    bModo = botao("Trocar para " + MODOS[1].rot, function () {
+      est.modo = (est.modo + 1) % MODOS.length; rodar();
+    });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 90);
+    est.rede = construir(MODOS[0]);
+    est.normas = retro(est.rede);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
                 "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento,
-                "anima-limiar": animaLimiar };
+                "anima-limiar": animaLimiar,
+                "anima-gradiente": animaGradiente };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
