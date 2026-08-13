@@ -53,10 +53,13 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > guloso preso na saída pequena, com 5 achados contra 529) e **III.5** (o gradiente
 > recuando pela sequência, com a razão por passo medida) e **II.5** (o mesmo
 > orçamento de cortes gasto de dois jeitos) e **IV.3** (a população que termina
-> pior do que começou). A dívida do núcleo
+> pior do que começou), **I.6** (a escala de uma coluna virando 31% dos rótulos) e
+> **I.1** (a AUC subindo enquanto a lista chega tarde). A dívida do núcleo
 > compartilhado foi paga na segunda, como a ADR 0015 exigia.
-> **20 feitas, 2 pendentes: I.1 e I.6.** (A linha já dissera "7 feitas, 16
-> pendentes", herdando um erro de conta de `animacoes.md`, corrigido em 2026-08-13.)
+> **AS 22 FECHARAM.** (A linha já dissera "7 feitas, 16 pendentes", herdando um
+> erro de conta de `animacoes.md`, corrigido em 2026-08-13.) Cinco das 22
+> corrigiram o texto que as hospeda ou a própria spec, e quatro tiveram o desenho
+> experimental refeito por medição — o placar completo está em `animacoes.md`.
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a
 > ordem dos capítulos. As cinco primeiras da fila estão feitas; a próxima sai

@@ -25,12 +25,12 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 |---|---|
 | 0.1 | **não animar** — é orientação de leitura, não procedimento |
 | 0.2 | **feita** — grau do polinômio de 1 a 15: treino sempre descendo, validação virando no grau 5, o piso do ruído visível e o botão dos 3× dados |
-| I.1 | horizonte do rótulo deslizando de 30 para 90 dias: % de clientes ainda acionáveis caindo, com a AUC subindo junto |
+| I.1 | **feita** — horizonte de 5 a 120 dias: AUC subindo de 0,66 a 0,76 enquanto a fração acionável cai a 0,000; o produto tem máximo em 23 dias, e vai para 11 se a renovação for no dia 30 |
 | I.2 | **não animar** — arquitetura não tem estado que evolui |
 | I.3 | **feita** — as três fontes de vazamento com a intensidade subindo, e uma quarta curva (codificar por alvo) que é a fonte 2 sobre outra estatística |
 | I.4 | **não animar** — já tem `explorar-variavel`, e manipular ensina mais que assistir |
 | I.5 | **feita** — base do eixo subindo de 0 a 88 sobre os números do exercício do capítulo: razão vista chegando a 12,00 com a real parada em 1,0125, e o botão que troca barra por linha |
-| I.6 | escala de uma coluna × 100: quantos dos 5 vizinhos trocaram, e o rótulo previsto virando |
+| I.6 | **feita** — escala de uma coluna até 100×: sobram 0,81 dos 5 vizinhos e 31% dos rótulos viram; padronizando antes, 5,00 vizinhos e 0,0%, exatos |
 | II.1 | **feita** — limiar descendo de 0,98 a 0,00: matriz de confusão, acurácia, precisão e revocação mudando junto, o ponto andando sobre a ROC, e o botão da prevalência de 1% |
 | II.2 | **feita** — 4 000 passos de gradiente contra o ótimo fechado: com atributos colineares para em 2,8% de excesso, padronizados chega a 1% no passo 1 460 |
 | II.3 | **feita** — acurácia congelando em 1,000 no passo 52 enquanto a norma de w vai de 6,08 a 7,91 e a perda de 0,23 a 0,078; o botão da L2 devolve o ponto ótimo |
@@ -714,3 +714,32 @@ duas porque as duas pareciam certas no papel:
 
 **A frase que sobrou é a que eu não teria escrito sem medir:** "manter diversidade"
 e "não jogar fora o que já se achou" parecem a mesma receita e não são.
+
+
+## As 22 animações fecharam (2026-08-13)
+
+**Placar final: 22 animações, 7 capítulos sem, 29 no total.** As sete que não
+animam continuam não animando pelo critério do ADR 0015, e isso também é
+resultado: recusar animação onde ela seria decoração foi o que manteve a régua.
+
+**Cinco das vinte e duas corrigiram o texto que as hospeda ou a própria spec.**
+Vale listar, porque é o argumento inteiro a favor de animar medindo em vez de
+ilustrar:
+
+| Animação | O que a medição derrubou |
+|---|---|
+| I.5 | o exercício dizia "cerca de onze vezes"; são **doze**, exatos |
+| III.3 | a spec previa 1e-7 na primeira camada; medido, **1,4e-12** |
+| III.5 | a spec previa queda a zero em 11 passos; com init padrão, **95 passos** |
+| III.4 | a spec pedia "densa 3,2 M × conv 2 400", números de lugar nenhum |
+| IV.3 | a spec dizia que a diversidade explicava; ela **colapsa igual** nos dois modos |
+
+**E quatro tiveram o desenho experimental refeito por medição**, cada uma por um
+motivo diferente e nenhum deles óbvio no papel: II.2 (passo de aprendizado comum
+mascarando condicionamento, e ‖w − w*‖ comparando parametrizações diferentes),
+II.7 (o tamanho da mentira dependia da tendência, e a varredura virou parte da
+lição), IV.2 (a saída pequena colada na largada virava poço absorvente que pegava
+os dois modos), V.3 (ruído amostral disparando alarme falso no dia 9).
+
+**A regra que o conjunto deixa:** *número em spec é hipótese*. Das 22, nenhuma
+saiu exatamente como planejada, e as que mais mudaram foram as que ensinaram mais.

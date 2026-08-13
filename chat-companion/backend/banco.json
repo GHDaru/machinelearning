@@ -14523,6 +14523,20 @@
    "pagina": "0-2-fundamentos"
   },
   {
+   "id": "ciclo-ciencia-de-dados-l1",
+   "capitulo": 3,
+   "arquivo": "livro/capitulos/i-1-ciclo-ciencia-de-dados.md",
+   "tipo": "anima-horizonte",
+   "titulo": "A AUC sobe, a lista chega tarde",
+   "config": {
+    "id": "ciclo-ciencia-de-dados-l1",
+    "tipo": "anima-horizonte",
+    "titulo": "A AUC sobe, a lista chega tarde"
+   },
+   "intro": "Mil e duzentos clientes. O horizonte do rótulo desliza de 5 a 120 dias de silêncio, e duas curvas aparecem juntas: em **azul**, a AUC do modelo; em **vermelho**, a fração dos clientes marcados que **ainda dá para acionar** quando o alarme toca, dado que cada um decide a renovação na data dele.\n\nAssista as duas. Elas andam em sentidos opostos.\n\nA AUC sobe de 0,66 para **0,76**, e sobe por um motivo legítimo: cliente calado há quatro meses é fácil de prever. É esta curva que vai para o relatório, e é ela que faz a equipe do capítulo escolher os 90 dias. Do outro lado, a fração acionável cai até **0,000**: no horizonte longo, todo mundo que o modelo aponta já passou da própria renovação.\n\n**O produto das duas tem máximo no meio.** Com a renovação caindo em média no dia 60, o melhor valor aparece no horizonte de **23 dias** — muito antes do ponto onde a AUC é melhor.\n\nAgora clique em **\"E se a renovação fosse no dia 30?\"**. Nada no modelo mudou, nada nos dados mudou. O ótimo vai para **11 dias**.\n\n> **É a tese do capítulo em dois números.** O horizonte certo não sai da tabela, sai do **prazo da operação** — e quando o prazo muda, o rótulo tem de mudar junto, mesmo que os dados sejam exatamente os mesmos. A curva azul não sabe disso e nunca vai saber, porque a AUC não tem como perguntar quando a decisão pode ser tomada. É por isso que o entendimento do negócio é a fase 1, e não uma conversa que se tem depois de o modelo ficar pronto.",
+   "pagina": "i-1-ciclo-ciencia-de-dados"
+  },
+  {
    "id": "dados-l1",
    "capitulo": 5,
    "arquivo": "livro/capitulos/i-3-dados.md",
@@ -14570,6 +14584,20 @@
    },
    "intro": "Quatro barras, quatro números: **88,1 · 88,4 · 88,9 · 89,2**. Eles não mudam em nenhum quadro desta animação. O que sobe é a **base do eixo**, de 0 até 88.\n\n**Antes de assistir, arrisque um número.** Com o eixo começando em 88, quantas vezes a última barra fica maior que a primeira na tela?\n\n**Doze.** As alturas passam a valer 0,1 · 0,4 · 0,9 · 1,2, e 1,2 ÷ 0,1 = 12. A razão real entre os dois valores é 1,0125, ou seja, uma diferença de pouco mais de 1%. O exagero é de quase doze vezes, e nenhum número foi falsificado no caminho.\n\n> **Esta animação corrigiu o próprio livro.** O exercício logo abaixo dizia \"cerca de onze vezes\". São doze, exatamente. A conta é curta e passou despercebida até a máquina fazê-la, o que é a versão caseira do que o [capítulo IV.1](iv-1-nao-supervisionado.md) conta sobre números que viajam sem ser conferidos.\n\nAgora clique em **\"E se fosse uma linha?\"**. Mesmos dados, mesma base truncada, e a leitura deixa de ser abusiva. Não é indulgência: numa linha o que codifica a quantidade é a **inclinação**, não o comprimento, então cortar a base não quebra a codificação. Por isso a regra do capítulo tem duas metades: barra sempre parte do zero; linha pode não partir, desde que o corte esteja visível e declarado.",
    "pagina": "i-5-visualizacao-storytelling"
+  },
+  {
+   "id": "representacao-l1",
+   "capitulo": 8,
+   "arquivo": "livro/capitulos/i-6-representacao.md",
+   "tipo": "anima-escala",
+   "titulo": "Troque a unidade de uma coluna e conte os vizinhos",
+   "config": {
+    "id": "representacao-l1",
+    "tipo": "anima-escala",
+    "titulo": "Troque a unidade de uma coluna e conte os vizinhos"
+   },
+   "intro": "Trezentos pontos, dois atributos, k-vizinhos com k = 5. A tabela é a mesma do começo ao fim: o que muda é a **unidade da primeira coluna**, multiplicada progressivamente até 100×. Metros para centímetros, reais para centavos, a coisa mais inofensiva que existe numa planilha.\n\nDuas curvas: quantos dos 5 vizinhos de cada ponto **ainda são os mesmos**, e a fração de rótulos previstos que **virou**.\n\n**Antes de assistir, arrisque.** Trocando a unidade de uma coluna, quantos dos 5 vizinhos você acha que sobrevivem?\n\nSobram **0,81**. Menos de um de cinco. E **31% dos rótulos previstos viram** — quase um terço das decisões do modelo muda porque alguém exportou a planilha em outra unidade. Nenhum número foi corrompido; nenhuma linha foi perdida.\n\nAgora clique em **\"E se as colunas fossem padronizadas antes?\"**. Os 5 vizinhos continuam os 5 vizinhos, e 0,0% dos rótulos viram.\n\n> **Repare que a segunda linha não é uma melhora: é uma invariância.** Não são \"quase 5\" nem \"poucos rótulos\"; são exatamente 5,00 e exatamente 0,0%. Padronizar não deixa o k-NN mais esperto. Deixa a resposta dele **indiferente à unidade em que o dado chegou** — e é isso que se quer, porque a unidade não é informação sobre o problema, é acidente de quem exportou.\n>\n> **E a ordem é o assunto.** Padronizar não protege se a padronização rodar antes da troca de unidade: aí ela padroniza a régua velha e a nova passa por cima. Só protege quem padroniza **depois** que o dado chegou, dentro do pipeline, toda vez. É a mesma disciplina que o [capítulo I.3](i-3-dados.md) exige contra vazamento, aplicada a outro risco.",
+   "pagina": "i-6-representacao"
   },
   {
    "id": "avaliacao-l1",

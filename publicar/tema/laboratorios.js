@@ -4379,6 +4379,328 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+
+  // A animação do capítulo I.6: a escala de UMA coluna subindo de 1x a 100x, com
+  // o k-vizinhos rodando por cima. Os dados não mudam: muda a unidade de medida de
+  // um atributo, que é a coisa mais inocente que existe numa planilha.
+  //
+  // O leitor erra a previsão sobre o tamanho do estrago. "Trocar metros por
+  // centímetros" soa como formatação. Aqui, quantos dos 5 vizinhos de cada ponto
+  // ainda são os mesmos, e quantos rótulos previstos viram, ficam na tela.
+  //
+  // O segundo botão padroniza as colunas antes de tudo. A curva vira uma reta
+  // horizontal: a padronização não melhora o modelo, ela torna o modelo
+  // INDIFERENTE à unidade, que é outra coisa e é a coisa que se quer.
+  function animaEscala(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bPad;
+    var N = 300, K = 5, PASSOS = 60, FATOR_MAX = 100;
+    var BRUTO = (function () {
+      var r = rng(83), v = [], i, a, b, y;
+      for (i = 0; i < N; i++) {
+        y = i % 2;
+        a = r() * 4 + (y ? 1.2 : 0);              // atributo informativo
+        b = r() * 4 + (y ? 1.0 : 0);              // segundo atributo, também útil
+        v.push({ x: [a, b], y: y });
+      }
+      return v;
+    })();
+    var est = { pad: false, i: 0, fator: 1, parou: false, iguais: 5, virados: 0, base: null };
+
+    function padronizar(D) {
+      var m = [0, 0], s = [0, 0], i, k;
+      for (k = 0; k < 2; k++) {
+        for (i = 0; i < N; i++) m[k] += D[i].x[k];
+        m[k] /= N;
+        for (i = 0; i < N; i++) s[k] += Math.pow(D[i].x[k] - m[k], 2);
+        s[k] = Math.sqrt(s[k] / N) || 1;
+      }
+      return D.map(function (p) {
+        return { x: [(p.x[0] - m[0]) / s[0], (p.x[1] - m[1]) / s[1]], y: p.y };
+      });
+    }
+
+    /** A ORDEM importa e é o assunto: a coluna chega na unidade nova, e SÓ
+     *  DEPOIS o pré-processamento roda. Padronizar antes da troca de unidade não
+     *  protegeria de nada — foi o primeiro defeito desta animação, e ele fazia os
+     *  dois modos darem o mesmo resultado. */
+    function dadosCom(f) {
+      var D = BRUTO.map(function (p) { return { x: [p.x[0] * f, p.x[1]], y: p.y }; });
+      return est.pad ? padronizar(D) : D;
+    }
+
+    function vizinhos(D, i) {
+      var d = [], j, a, b;
+      for (j = 0; j < N; j++) {
+        if (j === i) continue;
+        a = D[i].x[0] - D[j].x[0];
+        b = D[i].x[1] - D[j].x[1];
+        d.push({ j: j, d: a * a + b * b, y: D[j].y });
+      }
+      d.sort(function (p, q) { return p.d - q.d; });
+      return d.slice(0, K);
+    }
+
+    function rotulo(viz) {
+      var s = 0, i;
+      for (i = 0; i < viz.length; i++) s += viz[i].y;
+      return s > K / 2 ? 1 : 0;
+    }
+
+    function medir(f) {
+      var D = dadosCom(f);
+      var somaIguais = 0, virados = 0, i, j, viz, conj;
+      for (i = 0; i < N; i++) {
+        viz = vizinhos(D, i);
+        conj = {};
+        for (j = 0; j < K; j++) conj[viz[j].j] = 1;
+        var comuns = 0;
+        for (j = 0; j < K; j++) if (conj[est.base[i].viz[j]]) comuns++;
+        somaIguais += comuns;
+        if (rotulo(viz) !== est.base[i].rot) virados++;
+      }
+      est.iguais = somaIguais / N;
+      est.virados = virados / N;
+    }
+
+    function fixarBase() {
+      var D = dadosCom(1);
+      var i, j, viz;
+      est.base = [];
+      for (i = 0; i < N; i++) {
+        viz = vizinhos(D, i);
+        var ids = [];
+        for (j = 0; j < K; j++) ids.push(viz[j].j);
+        est.base.push({ viz: ids, rot: rotulo(viz) });
+      }
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 20, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.pad ? "colunas padronizadas antes" : "colunas como vieram") +
+                   " · escala da coluna 1 em " + est.fator.toFixed(1) + "x", x0, PAD + 12);
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.lineWidth = 2; ctx.beginPath();
+      est.hist.forEach(function (h, k) {
+        var px = x0 + (k / PASSOS) * larg, py = base - (h.iguais / K) * alt;
+        if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = escuro ? "#d98a8a" : "#a83232";
+      ctx.beginPath();
+      est.hist.forEach(function (h, k) {
+        var px = x0 + (k / PASSOS) * larg, py = base - h.virados * alt;
+        if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("azul = vizinhos ainda iguais (de " + K + ")", x0, base + 14);
+      ctx.fillText("vermelho = fração de rótulos virados", x0 + 190, base + 14);
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.pad ? "colunas padronizadas antes" : "colunas como vieram") +
+        " · escala da coluna 1 em " + est.fator.toFixed(1) + "x" +
+        " · dos " + K + " vizinhos, ainda são os mesmos " + est.iguais.toFixed(2) +
+        " · rótulos previstos que viraram " + (est.virados * 100).toFixed(1) + "%" +
+        (est.parou ? " · com 100x, sobram " + est.iguais.toFixed(2) + " vizinhos dos " + K : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      est.fator = Math.pow(FATOR_MAX, est.i / PASSOS);
+      medir(est.fator);
+      est.hist.push({ iguais: est.iguais, virados: est.virados });
+      est.i++;
+      if (est.i > PASSOS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(pad) {
+      est.pad = pad; est.i = 0; est.fator = 1; est.parou = false; est.hist = [];
+      fixarBase(); medir(1);
+      rel.comecar(PASSOS + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bPad.textContent = est.pad ? "Voltar às colunas como vieram"
+                                 : "E se as colunas fossem padronizadas antes?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.pad); });
+    bPad = botao("E se as colunas fossem padronizadas antes?", function () { rodar(!est.pad); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 45);
+    est.hist = []; fixarBase(); medir(1);
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
+
+  // A animação do capítulo I.1: o horizonte do rótulo deslizando de 30 para 120
+  // dias de silêncio, com DUAS curvas que andam em sentidos opostos. A AUC sobe,
+  // porque cliente calado há muito tempo é fácil de prever. E a fração de clientes
+  // ainda ACIONÁVEIS na hora do alarme cai, porque a renovação já passou.
+  //
+  // O leitor erra a previsão porque só uma das duas curvas costuma estar no
+  // relatório. Perguntado se um horizonte mais longo melhora o modelo, ele
+  // responde que sim, e está certo: a AUC melhora mesmo. O que ele não vê é que
+  // cada ponto de AUC comprado com horizonte é comprado em cima de gente que já
+  // foi embora.
+  //
+  // O produto das duas é o que o capítulo chama de valor da lista, e ele tem um
+  // máximo em algum lugar do meio. É o mesmo formato do II.8: a métrica sozinha
+  // não decide, porque a métrica não sabe quando a decisão pode ser tomada.
+  function animaHorizonte(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bRenov;
+    var N = 1200, H0 = 5, H1 = 120, PASSO = 2;
+    var RENOV = [60, 30];                       // dias até a renovação: padrão e curto
+    var DADOS = (function () {
+      var r = rng(97), v = [], i, risco, silencio;
+      for (i = 0; i < N; i++) {
+        risco = r();                            // propensão latente a abandonar
+        // dias desde a última compra: quem tem risco alto fica calado mais tempo
+        silencio = Math.floor(-Math.log(Math.max(1e-9, r())) * (10 + 110 * risco));
+        // Cada cliente tem a SUA data de renovação, sorteada em torno da média.
+        // Com uma data só para todos, a fração acionável vira um degrau e os dois
+        // modos ficam idênticos — foi o primeiro defeito desta animação.
+        v.push({ risco: risco, silencio: silencio, escore: risco + (r() - 0.5) * 0.35,
+                 renovFator: 0.4 + r() * 1.4 });
+      }
+      return v;
+    })();
+    var est = { renov: 0, h: H0, parou: false, auc: 0, acion: 0, hist: [],
+                melhorVal: 0, melhorH: H0 };
+
+    /** Rotula com o horizonte h e devolve AUC do escore contra esse rótulo. */
+    function medir(h) {
+      var pos = [], neg = [], i;
+      for (i = 0; i < N; i++) {
+        (DADOS[i].silencio >= h ? pos : neg).push(DADOS[i].escore);
+      }
+      if (!pos.length || !neg.length) return { auc: 0.5, acion: 0 };
+      var todos = [];
+      for (i = 0; i < pos.length; i++) todos.push({ s: pos[i], y: 1 });
+      for (i = 0; i < neg.length; i++) todos.push({ s: neg[i], y: 0 });
+      todos.sort(function (a, b) { return a.s - b.s; });
+      var np = 0, nn = 0, soma = 0;
+      for (i = 0; i < todos.length; i++) {
+        if (todos[i].y) { np++; soma += nn; } else nn++;
+      }
+      // Acionável: o alarme dispara no dia h de silêncio; o cliente decide a
+      // renovação no dia dele. Quem já passou da própria renovação quando o
+      // alarme toca, saiu antes de a lista chegar.
+      var dentro = 0, marcados = 0, prazo;
+      for (i = 0; i < N; i++) {
+        if (DADOS[i].silencio < h) continue;
+        marcados++;
+        prazo = RENOV[est.renov] * DADOS[i].renovFator;
+        if (h <= prazo) dentro++;
+      }
+      return { auc: soma / (np * nn), acion: marcados ? dentro / marcados : 0 };
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var base = H - PAD - 20, alt = base - PAD - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("renovação no dia " + RENOV[est.renov] +
+                   " · horizonte do rótulo em " + est.h + " dias", x0, PAD + 12);
+      function px(h) { return x0 + ((h - H0) / (H1 - H0)) * larg; }
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.lineWidth = 2; ctx.beginPath();
+      est.hist.forEach(function (q, k) {
+        var py = base - ((q.auc - 0.5) / 0.5) * alt;
+        if (k === 0) ctx.moveTo(px(q.h), py); else ctx.lineTo(px(q.h), py);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = escuro ? "#d98a8a" : "#a83232";
+      ctx.beginPath();
+      est.hist.forEach(function (q, k) {
+        var py = base - q.acion * alt;
+        if (k === 0) ctx.moveTo(px(q.h), py); else ctx.lineTo(px(q.h), py);
+      });
+      ctx.stroke();
+      ctx.strokeStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(px(RENOV[est.renov]), PAD + 18); ctx.lineTo(px(RENOV[est.renov]), base);
+      ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("azul = AUC · vermelho = fração ainda acionável", x0, base + 14);
+      ctx.fillText("tracejado = a renovação", px(RENOV[est.renov]) + 4, PAD + 28);
+    }
+
+    function texto() {
+      placar.textContent =
+        "renovação no dia " + RENOV[est.renov] +
+        " · horizonte " + est.h + " dias" +
+        " · AUC " + est.auc.toFixed(4) +
+        " · fração ainda acionável " + est.acion.toFixed(3) +
+        (est.parou
+          ? " · o melhor produto AUC × acionável foi " + est.melhorVal.toFixed(4) +
+            " no horizonte de " + est.melhorH + " dias"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var m = medir(est.h);
+      est.auc = m.auc; est.acion = m.acion;
+      var val = m.auc * m.acion;
+      if (val > est.melhorVal) { est.melhorVal = val; est.melhorH = est.h; }
+      est.hist.push({ h: est.h, auc: m.auc, acion: m.acion });
+      est.h += PASSO;
+      if (est.h > H1) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(renov) {
+      est.renov = renov; est.h = H0; est.parou = false; est.hist = [];
+      est.melhorVal = 0; est.melhorH = H0;
+      rel.comecar(Math.ceil((H1 - H0) / PASSO) + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bRenov.textContent = est.renov ? "Voltar à renovação no dia 60"
+                                     : "E se a renovação fosse no dia 30?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.renov); });
+    bRenov = botao("E se a renovação fosse no dia 30?", function () { rodar(est.renov ? 0 : 1); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 45);
+    var m0 = medir(H0); est.auc = m0.auc; est.acion = m0.acion;
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(0); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -4394,7 +4716,9 @@
                 "anima-exploracao": animaExploracao,
                 "anima-memoria": animaMemoria,
                 "anima-ensemble": animaEnsemble,
-                "anima-evolucao": animaEvolucao };
+                "anima-evolucao": animaEvolucao,
+                "anima-escala": animaEscala,
+                "anima-horizonte": animaHorizonte };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

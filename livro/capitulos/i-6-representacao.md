@@ -106,6 +106,22 @@ Depende inteiramente do modelo, e essa é a resposta que quase ninguém dá.
 
 A consequência prática é útil: se o seu pipeline normaliza antes de um *random forest*, você não fez mal — fez trabalho à toa, e adicionou uma peça que pode quebrar.
 
+:::lab {"id":"representacao-l1","tipo":"anima-escala","titulo":"Troque a unidade de uma coluna e conte os vizinhos"}
+Trezentos pontos, dois atributos, k-vizinhos com k = 5. A tabela é a mesma do começo ao fim: o que muda é a **unidade da primeira coluna**, multiplicada progressivamente até 100×. Metros para centímetros, reais para centavos, a coisa mais inofensiva que existe numa planilha.
+
+Duas curvas: quantos dos 5 vizinhos de cada ponto **ainda são os mesmos**, e a fração de rótulos previstos que **virou**.
+
+**Antes de assistir, arrisque.** Trocando a unidade de uma coluna, quantos dos 5 vizinhos você acha que sobrevivem?
+
+Sobram **0,81**. Menos de um de cinco. E **31% dos rótulos previstos viram** — quase um terço das decisões do modelo muda porque alguém exportou a planilha em outra unidade. Nenhum número foi corrompido; nenhuma linha foi perdida.
+
+Agora clique em **"E se as colunas fossem padronizadas antes?"**. Os 5 vizinhos continuam os 5 vizinhos, e 0,0% dos rótulos viram.
+
+> **Repare que a segunda linha não é uma melhora: é uma invariância.** Não são "quase 5" nem "poucos rótulos"; são exatamente 5,00 e exatamente 0,0%. Padronizar não deixa o k-NN mais esperto. Deixa a resposta dele **indiferente à unidade em que o dado chegou** — e é isso que se quer, porque a unidade não é informação sobre o problema, é acidente de quem exportou.
+>
+> **E a ordem é o assunto.** Padronizar não protege se a padronização rodar antes da troca de unidade: aí ela padroniza a régua velha e a nova passa por cima. Só protege quem padroniza **depois** que o dado chegou, dentro do pipeline, toda vez. É a mesma disciplina que o [capítulo I.3](i-3-dados.md) exige contra vazamento, aplicada a outro risco.
+:::
+
 ### 3. Domínio: que atributo não está lá?
 
 É aqui que o conhecimento de negócio entra, e onde o ganho costuma ser maior. Razões em vez de valores absolutos (*ticket* médio em vez de total e contagem separados), diferenças temporais (dias desde a última compra), agregações por grupo (gasto do cliente sobre a média da região dele).

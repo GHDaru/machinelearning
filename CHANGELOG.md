@@ -6,6 +6,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — as duas últimas animações, e a v0 do livro fecha (caps. I.6 e I.1)
+- **I.6 — a escala de uma coluna** (`anima-escala`): a unidade de um atributo sobe
+  até 100×, e do k-vizinhos sobram **0,81 dos 5 vizinhos**, com **31% dos rótulos
+  previstos virando**. Padronizando antes, a resposta é **invariante**: 5,00 de 5
+  e 0,0%. Não é uma melhora, é indiferença à unidade — e a ordem importa, porque
+  padronizar antes de a unidade nova chegar não protege de nada.
+- **I.1 — o horizonte do rótulo** (`anima-horizonte`): de 5 a 120 dias de silêncio,
+  a AUC sobe de 0,66 a **0,76** enquanto a fração ainda acionável cai a **0,000**.
+  O produto tem máximo no meio, em **23 dias**; trocando a renovação para o dia 30,
+  o ótimo vai para **11**. O prazo da operação escolhe o horizonte, e a curva de
+  AUC não sabe disso.
+- **Com estas duas, as 22 animações do ciclo 009 estão feitas** (7 capítulos não
+  animam, pelo critério do ADR 0015). Cinco delas corrigiram o texto que as
+  hospeda ou a própria spec; quatro tiveram o desenho experimental refeito por
+  medição. O placar completo está em `specs/009-livro-v0-completo/animacoes.md`.
+
 ### Adicionado — a animação da evolução, e a população que termina pior do que começou (cap. IV.3)
 - **Vigésima animação** (`anima-evolucao`): 80 candidatas espalhadas por uma
   paisagem de dois picos, um largo e baixo (0,7) e um estreito e alto (1,0), ao

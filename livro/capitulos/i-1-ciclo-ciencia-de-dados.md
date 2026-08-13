@@ -19,6 +19,20 @@ O motivo apareceu na primeira reunião com a área de retenção: eles só conse
 
 Nenhuma métrica do [capítulo II.1](ii-1-avaliacao.md) capturaria isso. O modelo é bom; o alvo é que responde a uma pergunta que ninguém tinha. E repare no mecanismo do erro: a equipe começou **pelos dados disponíveis**, e o rótulo saiu do que era fácil de calcular, não do que era possível decidir.
 
+:::lab {"id":"ciclo-ciencia-de-dados-l1","tipo":"anima-horizonte","titulo":"A AUC sobe, a lista chega tarde"}
+Mil e duzentos clientes. O horizonte do rótulo desliza de 5 a 120 dias de silêncio, e duas curvas aparecem juntas: em **azul**, a AUC do modelo; em **vermelho**, a fração dos clientes marcados que **ainda dá para acionar** quando o alarme toca, dado que cada um decide a renovação na data dele.
+
+Assista as duas. Elas andam em sentidos opostos.
+
+A AUC sobe de 0,66 para **0,76**, e sobe por um motivo legítimo: cliente calado há quatro meses é fácil de prever. É esta curva que vai para o relatório, e é ela que faz a equipe do capítulo escolher os 90 dias. Do outro lado, a fração acionável cai até **0,000**: no horizonte longo, todo mundo que o modelo aponta já passou da própria renovação.
+
+**O produto das duas tem máximo no meio.** Com a renovação caindo em média no dia 60, o melhor valor aparece no horizonte de **23 dias** — muito antes do ponto onde a AUC é melhor.
+
+Agora clique em **"E se a renovação fosse no dia 30?"**. Nada no modelo mudou, nada nos dados mudou. O ótimo vai para **11 dias**.
+
+> **É a tese do capítulo em dois números.** O horizonte certo não sai da tabela, sai do **prazo da operação** — e quando o prazo muda, o rótulo tem de mudar junto, mesmo que os dados sejam exatamente os mesmos. A curva azul não sabe disso e nunca vai saber, porque a AUC não tem como perguntar quando a decisão pode ser tomada. É por isso que o entendimento do negócio é a fase 1, e não uma conversa que se tem depois de o modelo ficar pronto.
+:::
+
 O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para tornar esse erro difícil de cometer. Ele coloca *entendimento do negócio* como fase 1 e *modelagem* como fase 4 — e essa ordem é a lição inteira do capítulo.
 
 ## De onde isto veio
