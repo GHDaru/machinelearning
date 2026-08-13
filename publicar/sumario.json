@@ -228,6 +228,11 @@
           "teaser": "Doze itens cruzados sobre os oito capítulos da Parte II."
         },
         {
+          "arquivo": "livro/provas/prova-iii-1.md",
+          "titulo": "Prova do capítulo III.1",
+          "teaser": "Doze itens fechados sobre o capítulo III.1, para aplicação em sala."
+        },
+        {
           "arquivo": "livro/provas/prova-parte-iii.md",
           "titulo": "Prova da Parte III — Redes Neurais e Deep Learning",
           "teaser": "Dez itens cruzados sobre os seis capítulos da Parte III."

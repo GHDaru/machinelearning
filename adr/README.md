@@ -34,6 +34,7 @@ A quinta é a que distingue um ADR de um anúncio. Uma decisão sem custo declar
 | [0016](0016-a-quem-pertence-a-escolha-da-forma-de-servico.md) | A escolha da forma de serviço é desenho, e fica no V.2 | 2026-08-13 | aceito (contra a maioria do comitê) |
 | [0017](0017-a-fronteira-do-servico-entra-no-v3.md) | A fronteira do serviço entra no V.3; a política de violação é decisão do leitor | 2026-08-13 | aceito |
 | [0018](0018-o-playground-entra-vendorizado.md) | O TensorFlow Playground entra no III.2, vendorizado e com roteiro | aceito | 2026-08-13 |
+| [0019](0019-prova-de-capitulo-para-aplicacao-em-sala.md) | Prova de capítulo existe, e é para a sala de aula | aceito | 2026-08-13 |
 
 > Esta tabela ficou parada no 0003 por oito registros. Índice que não acompanha
 > é pior do que índice nenhum: quem chega procura aqui, não encontra o 0008, e

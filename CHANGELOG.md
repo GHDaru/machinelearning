@@ -6,6 +6,30 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — prova do capítulo III.1, para aplicar em sala (12 itens)
+- `livro/provas/prova-iii-1.md`: **12 itens 100% determinísticos** (nenhum aberto),
+  três por objetivo, progressão fácil → difícil, com **quatro itens de conta à mão**.
+  Cada item explica por que o gabarito é o gabarito e por que cada distrator erra.
+- **O ADR 0014 recusava prova de capítulo**, e a recusa era boa para o leitor sozinho.
+  O [ADR 0019](adr/0019-prova-de-capitulo-para-aplicacao-em-sala.md) a emenda: o caso
+  que não estava coberto é o do professor aplicando numa turma. Os três instrumentos
+  passam a conviver com propósitos separados (`Verificação`, prova de parte, prova de
+  capítulo).
+- **Tensão registrada, não escondida:** o gate exige item cruzado em toda prova, e
+  prova de capítulo é monocapítulo. Cada item liga o objetivo do III.1 a um de
+  capítulo anterior — cumpre a letra, não o espírito. Se vier uma segunda, o gate
+  ganha caso próprio em vez de continuar sendo dobrado.
+- Exercícios do livro: **412 → 424**.
+
+### Corrigido — doze anos, não treze (cap. III.1)
+- O capítulo dizia **três vezes** que o neurônio artificial é "treze anos mais velho"
+  que o termo "inteligência artificial". A tabela do próprio capítulo data o termo em
+  **31/08/1955** e o neurônio em **1943**: são **doze**. O treze só fecharia com o
+  workshop de 1956, que não é o que a tabela diz.
+- Quinta ocorrência da classe neste ciclo — número escrito à mão ao lado dos dados que
+  o determinam. Achado por quem estava **escrevendo a prova**, o que sugere que montar
+  avaliação é, por si só, uma auditoria do capítulo.
+
 ### Adicionado — o Playground vendorizado no III.2, e dois laboratórios novos no III.1
 - **TensorFlow Playground entra no III.2** ([ADR 0018](adr/0018-o-playground-entra-vendorizado.md)),
   **vendorizado** em `publicar/tema/playground/` e servido pelo nosso site — não por

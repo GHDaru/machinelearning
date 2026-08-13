@@ -39,7 +39,7 @@ O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem comp
 
 **A ideia reaproveitável.** **Uma abstração vale pelo que ela permite provar, não pela fidelidade ao original.** O neurônio de 1943 é biologicamente errado de propósito — e é justamente por ter descartado a biologia que rendeu um teorema. Todo modelo que você vai construir neste livro faz a mesma aposta: joga fora o que não serve à pergunta. Saber **o que** foi jogado fora é o que separa usar um modelo de acreditar nele — e é a origem de boa parte do exagero sobre o que redes neurais "entendem".
 
-**O nome.** "Neurônio artificial" é herança da motivação, não descrição do mecanismo. E é mais velho que o campo: a expressão *inteligência artificial* só apareceria treze anos depois.
+**O nome.** "Neurônio artificial" é herança da motivação, não descrição do mecanismo. E é mais velho que o campo: a expressão *inteligência artificial* só apareceria doze anos depois.
 
 | Quando | O quê |
 |---|---|
@@ -49,7 +49,7 @@ O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem comp
 | **31 de agosto de 1955** | McCarthy, Minsky, Rochester e Shannon assinam a [proposta do projeto de Dartmouth](https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html) — onde **"artificial intelligence" aparece pela primeira vez** |
 | **1956** | O workshop de Dartmouth acontece, e é tomado como o evento fundador do campo |
 
-Duas coisas valem ficar: **o neurônio artificial é treze anos mais velho que o nome do campo em que vive**, e a ideia de Turing sobre máquinas pensantes é de **1948**, não de 1950 — o texto famoso é o segundo, e o primeiro passou vinte anos numa gaveta.
+Duas coisas valem ficar: **o neurônio artificial é doze anos mais velho que o nome do campo em que vive**, e a ideia de Turing sobre máquinas pensantes é de **1948**, não de 1950 — o texto famoso é o segundo, e o primeiro passou vinte anos numa gaveta.
 
 ### A linha até 1986, e o que ela ensina sobre crédito
 
@@ -387,7 +387,7 @@ Esse último ponto é o que transforma "é impossível" de afirmação em result
 - Encontrar pesos à mão é fazer manualmente o que o gradiente faz sozinho: mover a fronteira até os erros acabarem.
 - Há **infinitas** soluções para cada função separável — e **nenhuma** para o XOR, por geometria.
 - A limitação era da **arquitetura de uma camada**, não do neurônio. A saída foi empilhar camadas e treiná-las com backpropagation.
-- O neurônio artificial (1943) é **treze anos mais velho que o termo "inteligência artificial"** (1955) — e a ideia de Turing sobre máquinas pensantes está no relatório de **1948**, não no artigo famoso de 1950.
+- O neurônio artificial (1943) é **doze anos mais velho que o termo "inteligência artificial"** (1955) — e a ideia de Turing sobre máquinas pensantes está no relatório de **1948**, não no artigo famoso de 1950.
 - O backpropagation foi descrito em **1970** (Linnainmaa), aplicado a redes em **1981** (Werbos) e popularizado em **1986**. A leitura deste livro: o crédito vai ao último reinventor.
 
 ## Verificação
