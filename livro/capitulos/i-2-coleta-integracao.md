@@ -17,11 +17,11 @@ Uma rede de varejo pede um modelo de recompra. A equipe precisa de uma linha por
 
 A equipe faz o que parece óbvio: junta por nome. O resultado sai em duas horas e parece bom. Semanas depois alguém descobre que 12% da base virou dois clientes diferentes, e um punhado de homônimos virou um cliente só — com o histórico de compras de duas pessoas somado. O modelo aprendeu de um mundo que não existe.
 
-Este é o capítulo menos glamouroso do livro e um dos que mais decidem o prazo do projeto. Ele cobre as fases 2 e 3 do ciclo do [capítulo I.1](i-1-ciclo-ciencia-de-dados.md) — entender e preparar os dados —, e o erro que previne não é de algoritmo: é acreditar que "trazer o dado" é uma tarefa de cópia. Não é. É uma tarefa de **reconciliação**, porque cada sistema tem a sua própria noção do que é um cliente, uma data e um valor ausente.
+Este é o capítulo menos glamouroso do livro e um dos que mais decidem o prazo do projeto. Ele cobre as fases 2 e 3 do ciclo do [capítulo I.1](i-1-ciclo-ciencia-de-dados.md), entender e preparar os dados, e o erro que previne não é de algoritmo: é acreditar que "trazer o dado" é uma tarefa de cópia. Não é. É uma tarefa de **reconciliação**, porque cada sistema tem a sua própria noção do que é um cliente, uma data e um valor ausente.
 
 ## De onde isto veio
 
-**O aperto.** Anos 1980–90. Os dados da empresa viviam nos sistemas transacionais — o sistema do caixa, do estoque, da cobrança —, todos projetados para **registrar**, não para **perguntar**. Registrar exige gravar uma linha por vez, rápido e sem inconsistência. Perguntar exige varrer milhões de linhas de uma vez. Os dois disputavam a mesma máquina, e quando o gerente pedia o relatório do trimestre, a consulta pesada competia com a operação — e podia derrubá-la. O relatório do gerente travava a venda no caixa.
+**O aperto.** Anos 1980–90. Os dados da empresa viviam nos sistemas transacionais (o do caixa, o do estoque, o da cobrança), todos projetados para **registrar**, não para **perguntar**. Registrar exige gravar uma linha por vez, rápido e sem inconsistência. Perguntar exige varrer milhões de linhas de uma vez. Os dois disputavam a mesma máquina, e quando o gerente pedia o relatório do trimestre, a consulta pesada competia com a operação — e podia derrubá-la. O relatório do gerente travava a venda no caixa.
 
 **O que se fazia antes.** Extraía-se o relatório direto do sistema de produção, em janela noturna. Funcionava enquanto a janela coubesse na noite e enquanto ninguém precisasse perguntar de dia.
 
@@ -35,7 +35,7 @@ Este é o capítulo menos glamouroso do livro e um dos que mais decidem o prazo 
 
 E aqui está a parte mais útil desta seção, justamente por não ter vencedor.
 
-**Inmon** defende uma arquitetura *hub-and-spoke*: um warehouse central **normalizado**, fiel ao modelo corporativo, e *data marts* dependentes a jusante, montados a partir dele para cada área. **Ralph Kimball** defende a *bus matrix*: o warehouse **inteiro** em forma dimensional, feito de marts que se ligam por **dimensões conformadas** — a mesma dimensão "cliente", com a mesma chave e o mesmo significado, usada por todos.
+**Inmon** defende uma arquitetura *hub-and-spoke*: um warehouse central normalizado, fiel ao modelo corporativo, e *data marts* dependentes a jusante, montados a partir dele para cada área. **Kimball** defende a *bus matrix*: o warehouse inteiro em forma dimensional, feito de marts que se ligam por **dimensões conformadas**, isto é, a mesma dimensão "cliente", com a mesma chave e o mesmo significado, usada por todos.
 
 Repare no que os dois **concordam**: modelagem dimensional serve, e é ela que faz o cubo do [capítulo II.6](ii-6-analise-multidimensional.md) responder rápido. A discordância é sobre **onde ela entra** — no fim do caminho ou desde a porta de entrada.
 
@@ -77,7 +77,7 @@ Complete a sigla que nomeia a ordem adotada quando o armazenamento ficou barato 
 `Extract → Load → Transform = ______`
 
 > **gabarito:** ELT|elt
-> **porque:** No **ETL**, a transformação acontece **antes** da carga: chega ao repositório apenas o que já foi limpo, modelado e, muitas vezes, agregado — e o que ficou de fora não volta. No **ELT**, o bruto entra primeiro e as regras viram SQL dentro do repositório. A vantagem decisiva não é desempenho, é **reversibilidade**: quando a definição de "cliente ativo" mudar (e ela muda), você recalcula a partir do bruto em vez de pedir uma extração nova a um sistema que talvez nem exista mais. Não confunda a ordem com virtude: ELT sem catálogo, sem dono e sem controle de custo produz um repositório caro que ninguém confia.
+> **porque:** No ETL, a transformação acontece antes da carga: chega ao repositório apenas o que já foi limpo, modelado e, muitas vezes, agregado, e o que ficou de fora não volta. No ELT, o bruto entra primeiro e as regras viram SQL dentro do repositório. A vantagem decisiva não é desempenho, é **reversibilidade**: quando a definição de "cliente ativo" mudar (e ela muda), você recalcula a partir do bruto em vez de pedir uma extração nova a um sistema que talvez nem exista mais. Não confunda a ordem com virtude: ELT sem catálogo, sem dono e sem controle de custo produz um repositório caro que ninguém confia.
 > **volte para:** #fundamentos-as-fontes-e-a-ordem-da-transformacao
 :::
 
@@ -163,7 +163,7 @@ O modelo treinado com essa tabela alcança desempenho muito acima do esperado. E
 - De cada coluna: **quem produz, quando, e é sobrescrita ou versionada?** Junção sem recorte de tempo é a fábrica número um de vazamento.
 
 :::exercicio {"id":"coleta-integracao-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
-**Desafio de fechamento.** Você precisa extrair 4 milhões de registros de uma API paginada **que muda ao longo do dia**, e a mesma entidade também existe num banco relacional de produção. Descreva como faria cada extração e — a parte que decide — **o que garantiria que as duas descrevem o mesmo instante**.
+**Desafio de fechamento.** Você precisa extrair 4 milhões de registros de uma API paginada **que muda ao longo do dia**, e a mesma entidade também existe num banco relacional de produção. Descreva como faria cada extração e, na parte que decide, **o que garantiria que as duas descrevem o mesmo instante**.
 
 > **rubrica:** trata a paginação sobre base que se move: diz como evita registro repetido ou pulado quando a página 700 é lida depois de a base ter mudado (cursor estável, ordenação por chave imutável, ou releitura idempotente);
 > descreve a extração relacional por um recorte declarado e repetível — um corte de tempo explícito, não "tudo o que está lá agora";
