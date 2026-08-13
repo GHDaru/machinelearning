@@ -348,6 +348,118 @@
    "titulo_capitulo": "0.2 — Fundamentos"
   },
   {
+   "id": "fundamentos-e11",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "enunciado": "Segundo a tabela das três divisões, quantas vezes se olha para cada conjunto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Treino uma vez, validação uma vez, teste muitas vezes."
+    },
+    {
+     "correta": true,
+     "texto": "Treino o tempo todo, validação muitas vezes, teste o mínimo possível."
+    },
+    {
+     "correta": false,
+     "texto": "Os três o mesmo número de vezes: é o que torna a comparação justa."
+    },
+    {
+     "correta": false,
+     "texto": "Validação o mínimo possível, teste muitas vezes, porque o teste é maior."
+    }
+   ],
+   "gabarito": "treino o tempo todo, validação muitas vezes, teste o mínimo possível",
+   "porque": "A validação existe **para** ser olhada muitas vezes: é nela que você compara modelos, ajusta hiperparâmetro e decide quando parar. Olhar muito para ela não é abuso, é a função dela.\n\nO teste é o oposto, e a assimetria é o ponto de toda a seção. Ele estima o erro de generalização, e essa estimativa só vale enquanto nenhuma decisão sua tiver sido tomada com base nele. A terceira alternativa parece equilibrada e é o erro exato: tratar os três igualmente destrói justamente o que torna o teste útil.",
+   "volte_para": "#as-tres-divisoes-e-por-que-sao-tres",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
+   "id": "fundamentos-e5",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "enunciado": "O modelo A erra 2% no treino e 9% na validação. O modelo B erra 6% no treino e 7% na validação. Qual dos dois generaliza melhor?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O A, porque o erro de treino dele é três vezes menor."
+    },
+    {
+     "correta": true,
+     "texto": "O B, porque generalizar é errar pouco no que ainda não se viu, e é onde ele erra menos."
+    },
+    {
+     "correta": false,
+     "texto": "Empatam: a soma dos dois erros é parecida nos dois modelos."
+    },
+    {
+     "correta": false,
+     "texto": "Não dá para dizer sem saber o erro dos dois no teste."
+    }
+   ],
+   "gabarito": "o B",
+   "porque": "Generalização é uma afirmação sobre o erro no que virá, e o único dado disponível sobre isso é o erro na validação: 9% contra 7%. O erro de treino do A é menor e não interessa — ele mede o desempenho nos exemplos que o próprio modelo usou para se ajustar, que é a pergunta que ninguém precisa responder.\n\nA última alternativa merece cuidado porque parece rigor. Consultar o teste para escolher entre A e B é exatamente o que o teste não pode fazer: no instante em que ele decide, deixa de ser testemunha e vira validação. A decisão é na validação, e o teste vem depois, uma vez.",
+   "volte_para": "#o-problema-decorar-nao-e-aprender",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
+   "id": "fundamentos-e6",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "enunciado": "\"A métrica de teste é uma promessa condicional.\" Quais consequências decorrem dessa frase? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Reportar uma métrica sem dizer sobre qual conjunto ela foi medida é reportar meia informação."
+    },
+    {
+     "correta": true,
+     "texto": "Um modelo pode estar certo e a métrica dele deixar de valer, sem que nada no modelo tenha mudado."
+    },
+    {
+     "correta": false,
+     "texto": "Métricas de teste são pouco confiáveis e devem ser substituídas por avaliação qualitativa."
+    },
+    {
+     "correta": true,
+     "texto": "Antes de acreditar num número, cabe perguntar se os dados de produção se parecem com os de teste."
+    },
+    {
+     "correta": false,
+     "texto": "Se a acurácia de teste for alta o bastante, a condição deixa de importar."
+    }
+   ],
+   "gabarito": "meia informação sem a condição · pode deixar de valer sem o modelo mudar · cabe perguntar se produção se parece com o teste",
+   "porque": "A palavra **condicional** é o que carrega as três corretas. A promessa tem a forma \"se o futuro se parecer com este conjunto, o erro será aproximadamente este\" — então a condição é parte do número, e omiti-la é omitir metade dele.\n\nAs duas erradas erram em direções opostas, e as duas são comuns. Concluir que métrica não presta é jogar fora a única evidência quantitativa disponível: a promessa é condicional, não vazia. E imaginar que um valor alto dispensa a condição inverte a lógica: quanto mais alto o número, mais caro sai descobrir tarde que a condição não valia.",
+   "volte_para": "#fundamentos-a-hipotese-que-sustenta-tudo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
    "id": "fundamentos-e2",
    "capitulo": 2,
    "arquivo": "livro/0-2-fundamentos.md",
@@ -382,6 +494,140 @@
    "versoes": null,
    "pagina": "0-2-fundamentos",
    "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
+   "id": "fundamentos-e7",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "enunciado": "Um modelo erra 31% no treino e 33% na validação. Qual é o diagnóstico?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Viés alto: o modelo é simples demais para o padrão, e erra parecido nos dois conjuntos."
+    },
+    {
+     "correta": false,
+     "texto": "Variância alta: 33% de erro na validação é muito."
+    },
+    {
+     "correta": false,
+     "texto": "Está bom: os dois números são próximos, que é o que se quer."
+    },
+    {
+     "correta": false,
+     "texto": "Vazamento de dados: erros tão parecidos indicam que os conjuntos se misturaram."
+    }
+   ],
+   "gabarito": "viés alto",
+   "porque": "O diagnóstico não se lê no nível do erro, e sim na relação entre os dois. Erro **alto e parecido** nos dois conjuntos é a assinatura de viés alto: o modelo erra do mesmo jeito em toda parte porque não consegue representar o padrão, e mais dados não resolveriam isso.\n\nA terceira alternativa é a armadilha desta linha da tabela. Números próximos são condição necessária de um modelo saudável, não suficiente: próximos **e altos** é underfitting, próximos e baixos é o caso bom. Confundir os dois faz uma equipe parar de melhorar um modelo que ainda tinha muito a ganhar.",
+   "volte_para": "#o-diagnostico-pratico",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
+   "id": "fundamentos-e8",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "enunciado": "Um estagiário mostra o resultado, animado: 18% de erro no treino e 9% na validação. Qual é a leitura correta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Excelente: o modelo generaliza melhor do que memoriza, que é o objetivo."
+    },
+    {
+     "correta": false,
+     "texto": "Viés alto no treino e variância baixa na validação, uma combinação incomum mas boa."
+    },
+    {
+     "correta": true,
+     "texto": "Quase sempre um bug: erro de validação melhor que o de treino indica conjuntos não comparáveis, e a divisão precisa ser investigada antes de qualquer comemoração."
+    },
+    {
+     "correta": false,
+     "texto": "Ruído irredutível alto no treino, que a validação por acaso não tem."
+    }
+   ],
+   "gabarito": "quase sempre um bug",
+   "porque": "É a última linha da tabela, e a única cujo \"o que fazer\" não é técnica de modelagem, e sim investigação. As causas típicas são três: uma divisão mal feita, em que a validação ficou mais fácil que o treino, um vazamento invertido, ou regularização forte aplicada apenas durante o treino, que infla o erro medido lá dentro.\n\nA primeira alternativa é a leitura que quase todo mundo faz na primeira vez, e é sedutora porque usa o vocabulário certo. Mas generalizar melhor do que se ajusta é uma afirmação sem sentido: o modelo viu os dados de treino, e um desempenho pior justamente onde ele teve mais informação não descreve nenhum mecanismo de aprendizado.\n\nA regra prática que fica vale para o livro inteiro: resultado bom demais é a pista mais confiável de que algo está errado. É o mesmo instinto do [capítulo I.3](capitulos/i-3-dados.md), aplicado antes de haver qualquer suspeita.",
+   "volte_para": "#o-diagnostico-pratico",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
+   "id": "fundamentos-e9",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "enunciado": "Uma equipe prevê se um paciente vai faltar à consulta. Nos últimos quatro meses trocou de modelo cinco vezes, quadruplicou os atributos e ajustou hiperparâmetros à exaustão. O erro de validação melhorou de 27% para 26,4% e não sai dali, sempre próximo do erro de treino. Qual parcela do erro explica melhor esse platô, e o que fazer?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Variância: os modelos estão instáveis, e falta regularização."
+    },
+    {
+     "correta": false,
+     "texto": "Viés: nenhum dos modelos testados tem capacidade suficiente."
+    },
+    {
+     "correta": true,
+     "texto": "Ruído irredutível: a informação que decidiria o caso não está nos dados, e a ação é buscar informação nova ou parar."
+    },
+    {
+     "correta": false,
+     "texto": "Vazamento: um platô tão estável indica que a divisão está contaminada."
+    }
+   ],
+   "gabarito": "ruído irredutível",
+   "porque": "Duas pistas apontam para a mesma parcela. O erro de validação está **próximo** do de treino, o que descarta variância alta. E cinco modelos de capacidades diferentes chegaram ao mesmo lugar, o que torna viés uma explicação frágil: se fosse falta de expressividade, algum dos cinco teria andado.\n\nSobra a terceira parcela, e ela é a única cuja ação não é de modelagem. Se a decisão depende de algo que não está na tabela (o paciente teve transporte naquele dia, alguém da família adoeceu), nenhum modelo alcança. As duas saídas honestas são buscar uma fonte de informação nova ou declarar o teto e parar.\n\nReconhecer isso cedo é o que o capítulo chama de não desperdiçar um trimestre. O sinal de alerta é justamente o que a equipe viveu: muito esforço, muitas trocas, ganho marginal estável.",
+   "volte_para": "#a-decomposicao-vies-variancia",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos"
+  },
+  {
+   "id": "fundamentos-e10",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "aberta",
+   "objetivo": "O3",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "enunciado": "Você herda um modelo de previsão de demanda com 4% de erro no treino e 19% na validação. Depois de dobrar a base de dados, os números passam a 7% e 15%. Depois de dobrar de novo, 9% e 14%.\n\nDecomponha o que está acontecendo em viés, variância e ruído, e diga qual é a próxima ação — e qual você já pode descartar, com base nesses números.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O exercício pede a leitura de uma **trajetória**, e não de um retrato. Um retrato isolado diz onde você está; a trajetória diz para onde a ação que você tomou estava levando, o que é a informação que decide a próxima.\n\nA resposta fraca diagnostica a primeira linha, acerta \"variância alta\" e recomenda mais dados. É a resposta certa para a pergunta de ontem: os dados já foram dobrados duas vezes, e a própria série mostra o retorno caindo.\n\nA resposta forte percebe que as duas parcelas trocaram de lugar. O erro de treino subiu de 4% para 9%, que é o esperado quando mais dados impedem o modelo de decorar, e o vão encolheu de 15 para 5 pontos. Sobra um erro de 14% em que treino e validação já estão próximos — a assinatura da qual variância não é mais o principal suspeito. A partir daí a decisão é entre atacar viés e medir o teto do problema, e as duas são defensáveis desde que declaradas.",
+   "volte_para": "#o-diagnostico-pratico",
+   "rubrica": "lê a primeira medição como variância alta, pelo vão de 15 pontos entre treino e validação;\nlê a trajetória corretamente: mais dados reduziram o vão de 15 para 5 pontos, que é o efeito esperado sobre variância;\nrepara que o ganho está desacelerando, porque a segunda duplicação melhorou a validação em apenas 1 ponto contra 4 da primeira;\nconclui que continuar dobrando a base é a ação com o pior retorno esperado, e justifica pela desaceleração e não por opinião;\npropõe uma ação coerente com o que sobrou, como mais capacidade ou melhores atributos para atacar viés, ou investigar quanto do erro restante é irredutível",
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos",
+   "criterios": [
+    "lê a primeira medição como variância alta, pelo vão de 15 pontos entre treino e validação",
+    "lê a trajetória corretamente: mais dados reduziram o vão de 15 para 5 pontos, que é o efeito esperado sobre variância",
+    "repara que o ganho está desacelerando, porque a segunda duplicação melhorou a validação em apenas 1 ponto contra 4 da primeira",
+    "conclui que continuar dobrando a base é a ação com o pior retorno esperado, e justifica pela desaceleração e não por opinião",
+    "propõe uma ação coerente com o que sobrou, como mais capacidade ou melhores atributos para atacar viés, ou investigar quanto do erro restante é irredutível"
+   ]
   },
   {
    "id": "fundamentos-e3",
@@ -425,6 +671,32 @@
     "aponta ao menos um mecanismo concreto pelo qual o desempenho no treino deixa de valer fora dele — o modelo se apoiou em particularidade da amostra, ou a amostra não representava o mundo, ou o mundo mudou depois",
     "nomeia a hipótese que precisa valer para o passado informar o futuro, que é os dados de produção virem da mesma distribuição, e diz o que acontece com a promessa quando ela falha",
     "não substitui a explicação pelo nome: dizer que \"o modelo decorou\" sem dizer **o que** foi decorado, e por que aquilo não se repete fora da amostra, não atende"
+   ]
+  },
+  {
+   "id": "fundamentos-e12",
+   "capitulo": 2,
+   "arquivo": "livro/0-2-fundamentos.md",
+   "tipo": "aberta",
+   "objetivo": "O4",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "verificacao",
+   "enunciado": "**Desafio de fechamento.** O modelo foi medido no teste: 91%. Uma correção pequena foi feita depois disso, e a gerência pede para medir de novo no teste, \"só para confirmar que a correção não piorou nada\". O pedido é razoável e a pessoa que o faz não está sendo descuidada.\n\nEscreva a resposta que você daria. Justifique por que a segunda medição custa alguma coisa, diga o que essa coisa é, e proponha o que fazer no lugar.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "A dificuldade deste exercício não é técnica, é de argumentação. A regra \"não toque no teste\" é fácil de recitar e difícil de defender diante de alguém que está sendo cuidadoso — e recitá-la sem defender é como a regra morre na prática, porque a gerência tem uma razão e você tem uma citação.\n\nO argumento que funciona é o do mecanismo. Se a segunda medição pudesse mudar o que a equipe faz (reverter a correção, ajustá-la, adiar o lançamento), então ela é uma decisão tomada com o teste, e o teste passa a fazer parte do processo de ajuste. O 91% inicial era uma estimativa imparcial. O número seguinte, obtido depois de um ciclo de reação, já carrega escolha.\n\nA resposta excelente nota que o custo é invisível, e é por isso que a prática se degrada: não existe alarme. Uma equipe pode consultar o teste doze vezes sem ver nada de errado, e descobrir a diferença apenas em produção, quando não há mais como saber quanto do número era real.\n\nE oferece a saída: medir a correção na validação, que existe exatamente para isso, e combinar de antemão uma única medição final no teste, declarada como tal no relatório.",
+   "volte_para": "#as-tres-divisoes-e-por-que-sao-tres",
+   "rubrica": "explica que a segunda medição não é gratuita porque o resultado dela vai influenciar uma decisão, e é isso que consome a independência do conjunto;\ndeixa claro o que se perde, que é a imparcialidade da estimativa, e não a validade do dado ou o acesso ao arquivo;\nreconhece que nada quebra visivelmente: não há erro na tela, o número apenas fica menos verdadeiro a cada consulta;\npropõe medir a correção na validação, e reservar o teste para uma medição final declarada;\ntrata o pedido como legítimo e responde a ele, em vez de apenas citar a regra",
+   "versoes": null,
+   "pagina": "0-2-fundamentos",
+   "titulo_capitulo": "0.2 — Fundamentos",
+   "criterios": [
+    "explica que a segunda medição não é gratuita porque o resultado dela vai influenciar uma decisão, e é isso que consome a independência do conjunto",
+    "deixa claro o que se perde, que é a imparcialidade da estimativa, e não a validade do dado ou o acesso ao arquivo",
+    "reconhece que nada quebra visivelmente: não há erro na tela, o número apenas fica menos verdadeiro a cada consulta",
+    "propõe medir a correção na validação, e reservar o teste para uma medição final declarada",
+    "trata o pedido como legítimo e responde a ele, em vez de apenas citar a regra"
    ]
   },
   {
