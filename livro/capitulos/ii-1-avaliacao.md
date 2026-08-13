@@ -45,6 +45,35 @@ Numa base de detecção de fraude com 0,3% de casos positivos, um modelo atinge 
 > **volte para:** #a-linha-de-base-que-voce-precisa-bater
 :::
 
+:::exercicio {"id":"avaliacao-e6","tipo":"numerica","objetivo":"O1","dificuldade":"facil"}
+Uma base de manutenção preditiva tem 8% de máquinas com falha no período. Qual acurácia um classificador trivial, que prevê sempre "sem falha", alcança? Responda em fração, com duas casas decimais.
+
+> **gabarito:** 0.92 ± 0.01
+> **porque:** O trivial acerta todos os negativos e erra todos os positivos, então a acurácia dele é exatamente a proporção da classe majoritária: 100% − 8% = **92%**.
+>
+> A conta é banal e o hábito de fazê-la não é. Ela é o piso contra o qual todo o resto se mede, e é o gesto mais barato de higiene metodológica que existe. Um modelo que reporta 0,93 neste problema ganhou um ponto percentual sobre não fazer nada, e essa é a informação que a acurácia sozinha esconde.
+>
+> Repare no efeito colateral útil: calcular a linha de base **antes** de treinar já revela quanto espaço existe. Com 92% de piso, qualquer promessa de "95% de acurácia" precisa ser lida como três pontos de ganho, não como quase perfeição.
+> **volte para:** #a-linha-de-base-que-voce-precisa-bater
+:::
+
+:::exercicio {"id":"avaliacao-e7","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Uma equipe rebate: "sabemos do desbalanceamento, por isso reequilibramos a base por reamostragem antes de treinar. Agora as classes estão 50/50 e a acurácia de 0,88 é honesta". Qual é a avaliação correta?
+
+- [ ] Correto: com as classes equilibradas, a acurácia volta a ser uma métrica adequada.
+- [x] O 0,88 descreve um mundo 50/50 que não existe em produção, onde a prevalência continua sendo a original.
+- [ ] Errado, porque reamostrar a base é sempre uma prática inválida.
+- [ ] Correto, desde que a reamostragem tenha sido feita também no conjunto de teste.
+
+> **gabarito:** o 0,88 descreve um mundo que não existe em produção
+> **porque:** Reequilibrar o **treino** é uma técnica legítima, e às vezes ajuda o modelo a aprender a classe rara. Reequilibrar o conjunto que **mede** é outra coisa: ele deixa de representar a população onde o modelo vai operar, e toda métrica calculada ali passa a responder a uma pergunta hipotética.
+>
+> É por isso que a quarta alternativa é a mais perigosa da lista — ela propõe justamente a piora, com a aparência de coerência metodológica. O teste tem de manter a prevalência real, sempre.
+>
+> A terceira erra pelo lado oposto e proíbe uma técnica útil. O problema nunca foi reamostrar; foi medir onde não se deve, que é a mesma família de erro do capítulo inteiro: a métrica escolhida sem a condição em que ela informa.
+> **volte para:** #a-linha-de-base-que-voce-precisa-bater
+:::
+
 ## De onde isto veio
 
 Este capítulo tem um nome estranho no meio dele — **curva ROC**, "característica de operação do receptor". Receptor de quê? A resposta explica a métrica inteira.
@@ -126,6 +155,40 @@ Qual é a **precisão**? Responda com 2 casas decimais.
 > **volte para:** #fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva
 :::
 
+:::exercicio {"id":"avaliacao-e8","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Qual pergunta a **revocação** responde?
+
+- [ ] Dos que apontei como positivos, quantos eram mesmo?
+- [x] Dos que eram positivos, quantos eu encontrei?
+- [ ] De tudo, quanto eu acertei?
+- [ ] Dos negativos, quantos eu deixei em paz?
+
+> **gabarito:** dos que eram positivos, quantos encontrei
+> **porque:** É a mnemônica que evita a troca mais comum do capítulo: **precisão olha para a coluna do que você apontou, revocação olha para a linha do que existia**. O denominador segue a pergunta — em revocação é tudo o que era positivo de verdade, ou seja, VP mais FN.
+>
+> A primeira alternativa é a precisão, a terceira é a acurácia e a quarta é a especificidade. As quatro nascem dos mesmos quatro números da matriz, e trocar uma pela outra não é erro de conta: é responder a uma pergunta diferente da que foi feita.
+>
+> Vale guardar a pergunta em vez da fórmula. Quem decora VP/(VP+FN) troca os denominadores sob pressão; quem guarda "dos que eram, quantos achei" reconstrói a fórmula na hora.
+> **volte para:** #fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva
+:::
+
+:::exercicio {"id":"avaliacao-e9","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+Um modelo tem precisão 0,90 e revocação 0,30. Uma equipe propõe baixar o limiar para "melhorar a revocação sem perder precisão". O que se pode afirmar?
+
+- [ ] É possível, se o modelo for retreinado com mais dados junto com a mudança de limiar.
+- [x] Mover o limiar desloca o modelo ao longo do compromisso entre as duas: baixá-lo aumenta a revocação e reduz a precisão, sempre.
+- [ ] Baixar o limiar aumenta as duas, porque o modelo passa a encontrar mais positivos.
+- [ ] O limiar não afeta precisão nem revocação, apenas a acurácia.
+
+> **gabarito:** baixar o limiar aumenta revocação e reduz precisão
+> **porque:** O limiar não muda o modelo, muda onde você corta o escore que ele já produziu. Baixá-lo faz o modelo apontar mais casos: entre os novos apontados há positivos que antes escapavam, o que sobe a revocação, e também negativos, o que desce a precisão. O caso extremo torna isso óbvio — apontar tudo dá revocação 1,0 e precisão igual à prevalência.
+>
+> A primeira alternativa é a que confunde duas coisas diferentes e por isso é instrutiva. Retreinar **pode** mesmo melhorar as duas, porque muda a curva inteira; mover o limiar **anda sobre** a curva existente. A frase da equipe pede a segunda coisa com a expectativa da primeira.
+>
+> Diante de precisão 0,90 e revocação 0,30, a pergunta útil não é qual limiar usar: é qual dos dois erros custa mais neste problema. O limiar é a resposta a essa pergunta, não um parâmetro a otimizar sozinho.
+> **volte para:** #fundamentos-a-matriz-de-confusao-e-o-que-dela-deriva
+:::
+
 :::exercicio {"id":"avaliacao-e3","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Um sistema faz a triagem inicial de currículos, descartando candidatos antes de qualquer olhar humano. Qual métrica deve orientar a decisão de limiar, e por quê?
 
@@ -136,6 +199,43 @@ Um sistema faz a triagem inicial de currículos, descartando candidatos antes de
 
 > **gabarito:** Revocação
 > **porque:** A pergunta não é estatística, é de **assimetria de custo e de visibilidade**. Um falso positivo (candidato mediano que passa) custa uma entrevista — é caro, mas é detectado e corrigido pelo humano na etapa seguinte. Um falso negativo (candidato bom descartado) é invisível: ninguém no processo jamais saberá que ele existiu, o erro nunca aparece em nenhum relatório e não há mecanismo de correção. Erros invisíveis são mais perigosos que erros caros, porque não geram aprendizado. Escolher F1 aqui (alternativa 4) é a resposta mais sedutora e a mais preguiçosa: F1 assume que os dois erros pesam igual, e a premissa inteira deste caso é que **não pesam**. Escolher F1 é declarar indiferença — só que sem perceber que está declarando.
+> **volte para:** #worked-example-a-mesma-matriz-tres-leituras
+:::
+
+:::exercicio {"id":"avaliacao-e10","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Num filtro de spam, qual erro custa mais caro ao usuário?
+
+- [ ] O falso negativo: um spam que chega à caixa de entrada.
+- [x] O falso positivo: uma fatura legítima mandada para a pasta de lixo.
+- [ ] Os dois custam igual, e por isso a métrica correta é F1.
+- [ ] Depende apenas do volume de mensagens, não do tipo de erro.
+
+> **gabarito:** o falso positivo
+> **porque:** É o par invertido da triagem médica, e o capítulo os põe lado a lado de propósito. Um spam na caixa de entrada é um incômodo que o usuário vê e apaga em dois segundos. Uma fatura na pasta de lixo é uma perda que ele **não vê**, e que descobre quando o serviço é cortado.
+>
+> A terceira alternativa é a saída que evita a decisão. F1 assume que os dois erros pesam igual, e a premissa deste caso é que não pesam — escolher F1 aqui é declarar indiferença sem perceber que está declarando.
+>
+> Mesmo formalismo, prioridades opostas: na triagem manda a revocação, no spam manda a precisão. É o que a frase do capítulo resume — a métrica certa é a que responde à pergunta cujo erro custa caro.
+> **volte para:** #worked-example-a-mesma-matriz-tres-leituras
+:::
+
+:::exercicio {"id":"avaliacao-e11","tipo":"aberta","objetivo":"O3","pontos":3,"dificuldade":"dificil"}
+Um município vai usar um modelo para priorizar visitas da vigilância sanitária a restaurantes. A equipe tem 40 fiscais e cerca de 9 000 estabelecimentos. Hoje as visitas são por sorteio.
+
+Escolha a métrica que deve orientar o limiar e defenda a escolha pelo custo do erro. Diga também qual restrição operacional entra na conta, e o que você exigiria ver antes de trocar o sorteio pelo modelo.
+
+> **rubrica:** nomeia os dois erros no contexto, ou seja, um restaurante com problema não visitado e uma visita gasta em estabelecimento sem problema;
+> escolhe uma métrica e justifica pela assimetria de custo, não por hábito nem por ser "a mais completa";
+> traz a capacidade dos fiscais para dentro da decisão, reconhecendo que só cabe um número fixo de visitas por período;
+> exige a comparação com a linha de base vigente, que aqui é o sorteio, e não com um modelo trivial abstrato;
+> considera ao menos um efeito de segunda ordem, como a base futura passar a conter só quem o modelo mandou visitar
+> **porque:** A resposta fraca escolhe revocação porque "problema de saúde é grave" e para aí. Não está errada no instinto e ignora o que torna este caso diferente: **a capacidade é fixa**. Com 40 fiscais, o número de visitas por mês é um teto, e revocação alta não é alcançável por decreto — só se alcança visitando mais, que é justamente o que não dá.
+>
+> A resposta forte reconhece que o problema não é de limiar, é de **ordenação sob orçamento**. O que interessa é a qualidade das N primeiras posições da fila, com N igual à capacidade, e é isso que precisão no topo da lista mede. Revocação continua sendo o objetivo social, e a métrica operável é quantos problemas reais entram nas visitas que cabem.
+>
+> A comparação exigida também é específica: a linha de base aqui não é um classificador trivial, é o **sorteio que já existe**. Se o modelo não encontra mais problemas por visita do que o sorteio, ele não paga o próprio custo, por melhor que a AUC pareça.
+>
+> E o efeito de segunda ordem é o que separa uma resposta excelente. Passando a visitar só quem o modelo aponta, o histórico futuro conterá desfechos apenas desses, e o sistema aprenderá sobre uma fatia que ele mesmo selecionou. Manter uma fração de visitas sorteadas custa fiscais e é o que mantém a base honesta, exatamente como no [capítulo I.3](i-3-dados.md).
 > **volte para:** #worked-example-a-mesma-matriz-tres-leituras
 :::
 
@@ -167,6 +267,40 @@ Um modelo tem AUC-ROC de 0,95 no teste. Quais conclusões são **legítimas** a 
 > **volte para:** #ranking-decisao-e-calibracao-tres-coisas-diferentes
 :::
 
+:::exercicio {"id":"avaliacao-e12","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Um modelo de risco de crédito serve para calcular a provisão esperada, multiplicando a probabilidade prevista pelo valor do contrato. Qual das três propriedades passa a ser requisito, e não refinamento?
+
+- [ ] A AUC, porque a ordenação é o que sustenta qualquer cálculo.
+- [x] A calibração, porque o número previsto é multiplicado por dinheiro e precisa significar o que diz.
+- [ ] A precisão no limiar escolhido, porque provisão é uma decisão binária.
+- [ ] Nenhuma: qualquer escore serve, desde que aplicado de forma consistente.
+
+> **gabarito:** a calibração
+> **porque:** É a distinção que a seção faz e que quase nunca é feita na prática. AUC diz que o modelo **ordena**; calibração diz que quando ele afirma 0,8 isso acontece 80% das vezes. Multiplicar por valor monetário usa o número como probabilidade, então a ordenação sozinha não basta.
+>
+> Um modelo pode ordenar perfeitamente, com AUC excelente, e ter todos os escores comprimidos entre 0,4 e 0,6. A provisão calculada com esses escores estará errada em todo contrato, sem que nenhuma métrica de ordenação acuse.
+>
+> A terceira alternativa troca o problema por um binário que ele não é: provisão não é decidir sim ou não, é atribuir um valor. Onde a decisão a jusante multiplica a probabilidade por algo, calibração deixa de ser refinamento e vira requisito.
+> **volte para:** #ranking-decisao-e-calibracao-tres-coisas-diferentes
+:::
+
+:::exercicio {"id":"avaliacao-e13","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Numa base com 0,3% de positivos, por que a AUC-PR é preferível à AUC-ROC?
+
+- [ ] Porque a AUC-PR é mais fácil de calcular quando a classe é rara.
+- [x] Porque o eixo de falsos positivos da ROC é normalizado por um total de negativos enorme, e mesmo muitos FP mal movem a curva.
+- [ ] Porque a AUC-ROC não pode ser calculada com classes desbalanceadas.
+- [ ] Porque a AUC-PR é insensível à prevalência, o que a torna comparável entre bases.
+
+> **gabarito:** a normalização pelo total de negativos torna a ROC otimista
+> **porque:** Com 99,7% de negativos, acrescentar centenas de falsos positivos muda pouquíssimo a taxa de falso positivo, porque o denominador é gigantesco. A curva ROC fica bonita enquanto a operação real está cheia de alarmes falsos.
+>
+> A AUC-PR usa precisão, cujo denominador é o que o modelo apontou, então cada FP pesa. E a linha de base dela é a própria prevalência, 0,003 aqui, o que deixa qualquer melhora visível em vez de diluída.
+>
+> A última alternativa inverte a propriedade e é o erro mais fino da lista. A AUC-PR é justamente **sensível** à prevalência, e é isso que a torna informativa neste caso — o preço é que ela não se compara entre bases de prevalências diferentes.
+> **volte para:** #ranking-decisao-e-calibracao-tres-coisas-diferentes
+:::
+
 ## Métrica é uma estimativa — reporte a incerteza
 
 Uma acurácia de 0,94 medida em 100 exemplos e uma medida em 100.000 exemplos são o mesmo número e informações muito diferentes. A primeira tem intervalo de confiança de 95% de aproximadamente ±0,047; a segunda, de ±0,0015. Reportar as duas como "0,94" apaga a diferença que mais importa para decidir.
@@ -188,6 +322,40 @@ Escreva a resposta que você daria: **o que falta saber** antes dessa decisão, 
 > observa que os dois modelos foram medidos no mesmo conjunto, o que permite comparação pareada e reduz a variância da comparação;
 > considera ao menos um fator além da métrica (custo de troca, latência, interpretabilidade, calibração, comportamento por subgrupo)
 > **porque:** A diferença é de 0,017 num conjunto de 800 exemplos — plausivelmente dentro do ruído amostral. O caminho correto não é rejeitar B, é **medir a incerteza antes de decidir**: bootstrap pareado sobre o mesmo teste (reamostre os índices, recalcule as duas métricas na mesma reamostra e observe a distribuição da **diferença**) responde diretamente à pergunta certa. O detalhe do pareamento é o que separa uma resposta boa de uma correta: como os dois modelos foram avaliados nos mesmos exemplos, a comparação pareada elimina a variância comum ao conjunto e é bem mais sensível que comparar dois intervalos independentes. E a decisão de produção nunca é só da métrica — trocar modelo tem custo, e um ganho dentro do ruído não paga esse custo.
+> **volte para:** #metrica-e-uma-estimativa-reporte-a-incerteza
+:::
+
+:::exercicio {"id":"avaliacao-e14","tipo":"multipla","objetivo":"O5","dificuldade":"facil"}
+Dois relatórios trazem acurácia de 0,94. O primeiro mediu em 100 exemplos, o segundo em 100 000. O que se pode dizer?
+
+- [ ] São a mesma informação, porque o número é o mesmo.
+- [x] São informações muito diferentes: o intervalo de 95% é de cerca de ±0,047 no primeiro e ±0,0015 no segundo.
+- [ ] O primeiro é mais confiável, porque uma amostra menor é mais controlada.
+- [ ] O segundo é inválido, porque testar em 100 000 exemplos indica vazamento.
+
+> **gabarito:** informações muito diferentes, pelo tamanho do intervalo
+> **porque:** Métrica é estimativa, e estimativa tem incerteza que encolhe com o tamanho da amostra. Reportar os dois como "0,94" apaga exatamente a diferença que decide se dá para agir sobre o número.
+>
+> Com ±0,047, o valor real está plausivelmente entre 0,89 e 0,99, e qualquer comparação com outro modelo dentro dessa faixa é conversa. Com ±0,0015, a mesma comparação passa a distinguir modelos.
+>
+> Daí a norma editorial deste livro: duas métricas sem intervalos não podem ser comparadas. "Melhorou de 0,912 para 0,918" não tem conteúdo até se saber se o ruído da medição é maior que 0,006.
+> **volte para:** #metrica-e-uma-estimativa-reporte-a-incerteza
+:::
+
+:::exercicio {"id":"avaliacao-e15","tipo":"multipla","objetivo":"O5","dificuldade":"media"}
+Duas validações cruzadas: o modelo A dá 0,84 ± 0,01 entre as dobras, e o B dá 0,86 ± 0,09. Qual leitura é correta?
+
+- [ ] B é melhor, porque a média é maior.
+- [x] Eles não estão nem empatados nem separados: B é instável entre as dobras, e essa instabilidade é informação sobre o modelo, não ruído a ignorar.
+- [ ] A é melhor, porque desvio menor sempre indica modelo superior.
+- [ ] Os dois são equivalentes, porque os intervalos se sobrepõem.
+
+> **gabarito:** não empatados nem separados; B é instável
+> **porque:** O desvio entre dobras não é um detalhe do relatório: é uma medida de quanto o desempenho depende de quais exemplos calharam de ficar em cada dobra. Um modelo com ±0,09 pode entregar 0,77 no mês em que a amostra de produção se parecer com a pior dobra.
+>
+> A quarta alternativa aplica corretamente uma regra e chega a uma conclusão errada. Sobreposição de intervalos impede afirmar que B é melhor, e não autoriza declarar equivalência: as duas situações são qualitativamente diferentes, e a diferença está na dispersão, não na média.
+>
+> A terceira exagera para o outro lado. Desvio menor é preferível quando as médias são comparáveis, e não é critério isolado de qualidade — um modelo consistentemente medíocre também tem desvio baixo.
 > **volte para:** #metrica-e-uma-estimativa-reporte-a-incerteza
 :::
 
