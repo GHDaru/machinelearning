@@ -11,13 +11,13 @@
 - **O3.** Interpretar os coeficientes de um modelo linear — e dizer o que eles **não** significam.
 - **O4.** Reconhecer as situações em que o modelo linear é a escolha certa, não a escolha simplória.
 
-> **Este capítulo trata só de regressão linear.** A **regressão logística** — que tem "regressão" no nome e classifica — ganhou capítulo próprio: [II.3 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
+> **Este capítulo trata só de regressão linear.** A **regressão logística**, que tem "regressão" no nome e classifica, ganhou capítulo próprio: [II.3 — Regressão Logística](ii-3-regressao-logistica.md). Compartilham a forma `w·x + b` e quase nada além disso: perdas diferentes, saídas em unidades diferentes, e uma tem solução fechada enquanto a outra não tem.
 
 ## O problema: o modelo que todo mundo aprende e quase ninguém respeita
 
 Um banco precisa negar um crédito e **explicar por quê**. A lei exige a explicação, o cliente exige a explicação, e o auditor vai pedir a conta.
 
-O modelo campeão do concurso interno — quinhentas árvores somadas — dá a melhor previsão da casa e não produz **uma única frase** que caiba na carta de recusa. Ele acerta mais e não serve.
+O modelo campeão do concurso interno, quinhentas árvores somadas, dá a melhor previsão da casa e não produz **uma única frase** que caiba na carta de recusa. Ele acerta mais e não serve.
 
 É aqui que o modelo linear volta ao jogo, e não por caridade: ele entrega **um número por atributo**, e um número por atributo é uma frase. Some-se a isso o que raramente se diz em voz alta:
 
@@ -37,13 +37,13 @@ E há a razão pedagógica: é no modelo linear que otimização, regularizaçã
 
 **A virada.** Trocar "a melhor curva" por **uma regra explícita do que significa melhor**: aquela que torna mínima a soma dos quadrados dos desvios. A regra não é mais verdadeira que as outras — ela é **pública**. Dados os mesmos números, devolve a mesma resposta para qualquer pessoa.
 
-**A ideia reaproveitável.** **Uma função de perda é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta — conveniência matemática mais uma hipótese sobre o ruído — e não a resposta "porque é o certo". Trocar a perda é trocar o critério de arbitragem: decisão de projeto, nunca detalhe técnico.
+**A ideia reaproveitável.** **Uma função de perda é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta (conveniência matemática mais uma hipótese sobre o ruído) e não a resposta "porque é o certo". Trocar a perda é trocar o critério de arbitragem: decisão de projeto, nunca detalhe técnico.
 
-**O nome.** *Mínimos quadrados* — *moindres carrés* — foi batizado por Legendre, e o nome é literalmente a definição do critério.
+**O nome.** *Mínimos quadrados*, em francês *moindres carrés*, foi batizado por Legendre, e o nome é literalmente a definição do critério.
 
 ### A disputa de prioridade mais famosa da estatística
 
-**Legendre publicou primeiro**, em **1805**, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando **usar o método desde 1795**.
+**Legendre publicou primeiro**, em 1805, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando usar o método desde 1795.
 
 Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes. A avaliação histórica moderna é que Gauss provavelmente **tinha** o método antes e **falhou em comunicá-lo**.
 
@@ -75,7 +75,7 @@ $$L(w, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{y}_i\right)^2$$
 
 > **Duas convenções que você vai encontrar por aí, e por que elas não mudam nada.** Muito texto escreve $\frac{1}{2n}$ em vez de $\frac{1}{n}$ — o meio existe só para cancelar o 2 que aparece ao derivar, e deixar a conta mais limpa. Outros omitem o $\frac{1}{n}$ e minimizam a **soma** (o SQE) em vez da média.
 >
-> **Multiplicar a perda por uma constante positiva não move o ponto de mínimo.** A reta ótima é a mesma nas três escalas; o que muda é o número que aparece no painel. Este livro usa o **EQM** — $\frac{1}{n}$, sem o meio — em todo lugar: no texto, na dedução e no laboratório.
+> **Multiplicar a perda por uma constante positiva não move o ponto de mínimo.** A reta ótima é a mesma nas três escalas; o que muda é o número que aparece no painel. Este livro usa o **EQM** ($\frac{1}{n}$, sem o meio) em todo lugar: no texto, na dedução e no laboratório.
 
 Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honestidade:
 
@@ -85,7 +85,7 @@ Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honest
 
 A solução fechada existe e está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar** — no experimento, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
 
-> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$ — inviável com muitos atributos — e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
+> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$, inviável com muitos atributos, e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
 
 :::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
@@ -150,7 +150,7 @@ $$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 
 > $S_{xy}$ e $S_{xx}$ são **somas de desvios**, não a perda — a letra é a mesma por tradição, e é por isso que a perda aqui se chama $L$.
 
-Duas contas — uma soma de produtos e uma soma de quadrados — e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
+Duas contas, uma soma de produtos e uma soma de quadrados, e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
 
 **Uma vez com número.** Três pontos: (1, 3), (2, 5) e (3, 4). As médias são $\bar{x} = 2$ e $\bar{y} = 4$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-1$, $+1$, $0$.
 
@@ -160,7 +160,7 @@ Logo $a = 1/2 = 0{,}5$, e $b = \bar{y} - a\bar{x} = 4 - 0{,}5 \times 2 = 3$. A r
 
 **Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que você vai encontrar adiante, no caso da limonada, onde o preço **não varia** dentro de nenhum mês.
 
-> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$ — as **equações normais** — resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
+> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
 
 :::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).
@@ -214,7 +214,7 @@ Comece pelo que todo mundo faz — a matriz de correlação com a variável resp
 
 Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.**
 
-A última linha é onde o relatório morre. Ela sugere uma recomendação de negócio — *aumente o preço* — que é o oposto do que a barraca deve fazer. Antes de ler adiante, olhe o dado:
+A última linha é onde o relatório morre. Ela sugere uma recomendação de negócio (*aumente o preço*) que é o oposto do que a barraca deve fazer. Antes de ler adiante, olhe o dado:
 
 | preço | dias | temperatura média | vendas médias | meses em que aparece |
 |---|---|---|---|---|
@@ -239,7 +239,7 @@ O coeficiente do preço continua **positivo**. Controlar pela temperatura não d
 
 **Controlar por uma variável só remove o confundimento que aquela variável mede.** Se o confundidor real é "estação", e você mediu "temperatura do dia", a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma métrica avisa: o R² é 0,982.
 
-Este é o item 1 da lista anterior — *não diz causalidade* — em números, e não em advertência.
+Este é o item 1 da lista anterior, *não diz causalidade*, em números e não em advertência.
 
 ### E o item 3, de brinde
 
@@ -293,7 +293,7 @@ Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesm
 - [ ] O problema seria resolvido padronizando os atributos antes de ajustar.
 
 > **gabarito:** `preco` funciona como indicador de julho e agosto
-> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" — férias, fluxo de rua, hábito — que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
+> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" (férias, fluxo de rua, hábito) que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
 >
 > A primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico: não é ruído, é **viés** — mais dados do mesmo tipo tornariam o coeficiente errado mais preciso, não mais correto. A quarta confunde escalas com confundimento: padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis entre si, e não mexe em qual variável está roubando o efeito da outra.
 >
@@ -325,7 +325,7 @@ A dona da barraca de limonada quer decidir **o preço do próximo verão** e ped
 Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.
 
 > **rubrica:** Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria — variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve: não há um único mês com dois preços; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico
-> **porque:** Esta é a pergunta que separa "treinei um modelo" de "respondi a alguém". As três leituras que o exercício cobra estão no capítulo: o coeficiente **não é causa**, o R² alto **não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.
+> **porque:** Esta é a pergunta que separa "treinei um modelo" de "respondi a alguém". As três leituras que o exercício cobra estão no capítulo: o coeficiente não é causa, o R² alto não valida a recomendação**, e o modelo linear continua sendo a escolha certa — para **previsão de demanda**, que é outra pergunta.
 >
 > A resposta forte não é "não dá para saber". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês — que é justamente o que nunca aconteceu nestes 365 dias.
 >
@@ -337,7 +337,7 @@ Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. D
 
 A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão:
 
-- `RegressaoLinear` com **os dois caminhos** — solução fechada por eliminação de Gauss e gradiente — para você conferir que chegam ao mesmo lugar;
+- `RegressaoLinear` com **os dois caminhos** (solução fechada por eliminação de Gauss e gradiente) para você conferir que chegam ao mesmo lugar;
 - `Padronizador` que aprende no treino e **aplica** ao teste — o vazamento do capítulo I.3 tornado difícil de cometer.
 
 A mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md), porque são o mesmo objeto por dois ângulos: o 05 pergunta *que função o modelo representa*; o 06, *como se chega aos coeficientes*. A `RegressaoLogistica`, que também mora ali, é do [capítulo II.3](ii-3-regressao-logistica.md).
@@ -355,7 +355,7 @@ O caso da limonada do começo ao fim: a correlação que sugere *aumente o preç
 - A dedução dá **duas condições**: a soma dos resíduos é zero (a reta passa pelo centro de massa) e os resíduos são ortogonais ao atributo (não sobrou nada de linear em $x$).
 - $a = S_{xy}/S_{xx}$, e o denominador avisa: **atributo que não varia não tem coeficiente**.
 - Gradiente e solução fechada chegam ao mesmo lugar. O gradiente é a ferramenta **geral**; a fechada é o caso de sorte.
-- Coeficiente **não** é causa, **não** é comparável sem padronização, **não** é estável sob colinearidade, e **não** vale fora da faixa observada.
+- Coeficiente **não é causa**, não é comparável sem padronização, não é estável sob colinearidade, e não vale fora da faixa observada.
 - Treine sempre um linear primeiro. Ele responde "quanto do sinal é simplesmente linear?" em minutos.
 
 ## Verificação
