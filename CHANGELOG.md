@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — o quarteto de Anscombe deixa de ser "praticamente idêntico" (cap. I.4)
+- **Os seis números entraram numa tabela**, recalculados sobre os onze pontos de
+  cada conjunto: médias de 9,00 e 7,50, variância de x igual a 11,00 nos quatro,
+  correlação 0,816 (0,817 no quarto) e a mesma reta 3,00 + 0,500x. O capítulo
+  dizia "praticamente idênticas" e agora mostra o quanto.
+- A descrição do quarto conjunto ficou verificável em vez de impressionista:
+  `x` vale **8 em dez dos onze pontos**, com um único ponto em 19.
+- **Uma distinção que o capítulo passa a fazer:** os valores estão ✓ porque foram
+  recalculados; a ficha do artigo de Anscombe está ✓ᵐ porque só o DOI foi
+  conferido, e o artigo segue fechado. A atribuição dos dados a ele passa pela
+  distribuição do R, não pela leitura da tabela original.
+- Tukey (1962) ganhou ficha com DOI, e o registro de que o texto **não abriu**.
+
 ### Corrigido — o mecanismo do *Patient ID*, no capítulo I.3
 - **A explicação estava plausível e errada.** O capítulo dizia que o identificador
   do paciente previa câncer porque refletia "a organização da fila do hospital",

@@ -48,7 +48,9 @@ Repare no intervalo: **quinze anos** entre o manifesto e o livro. É o mesmo for
 | ⏳ | Que, antes disso, "ou se testava uma hipótese, ou não se estava fazendo estatística" |
 | ⏳ | Que o par *exploratory* / *confirmatory* é dele |
 | ⏳ | A participação de Tukey na pré-história da validação cruzada (Mosteller & Tukey, 1968) |
-| ⏳ | O quarteto de Anscombe (1973) e os valores citados adiante — atribuição corrente; primária não consultada |
+| ✓ | **Os valores da tabela do quarteto**, todos recalculados neste ciclo sobre os onze pontos de cada conjunto, a partir do `anscombe` distribuído com o R: as médias, as variâncias, as correlações de 0,816 (0,817 no quarto) e a reta 3,00 + 0,500x nos quatro. Também a forma do quarto conjunto, em que `x` só assume 8 e 19 |
+| ✓ᵐ | A ficha do artigo de origem: **F. J. Anscombe**, *"Graphs in Statistical Analysis"*, *The American Statistician* 27(1):17–21, 1973, [10.1080/00031305.1973.10478966](https://doi.org/10.1080/00031305.1973.10478966). **Conferência por DOI; o artigo não foi aberto**, e por isso a atribuição dos dados a ele segue pela via do R, não pela leitura da tabela original |
+| ✓ᵐ | **John W. Tukey**, *"The Future of Data Analysis"*, *Annals of Mathematical Statistics* 33(1):1–67, 1962, [10.1214/aoms/1177704711](https://doi.org/10.1214/aoms/1177704711) — ficha conferida. O texto **não abriu** (o repositório recusou a transferência) |
 | 📖 | A ideia reaproveitável ("permissão para procurar a pergunta") e a leitura do intervalo de 15 anos como padrão recorrente deste livro |
 
 ## Fundamentos: a média mente, a mediana aguenta
@@ -153,7 +155,20 @@ Você acabou de ver a cerca acusar 62 pontos em `preco`. Olhe, no painel do labo
 
 A correlação de Pearson resume, num número entre −1 e 1, o quanto duas variáveis andam juntas **em linha reta**. As duas palavras finais são a armadilha inteira: uma relação forte e curva (um U perfeito, por exemplo) pode dar correlação próxima de zero. Correlação zero não significa "não há relação"; significa "não há relação *linear*".
 
-O argumento definitivo contra confiar no número sem ver o gráfico é o **quarteto de Anscombe** (1973): quatro conjuntos de onze pontos cada, com médias, variâncias, correlação (≈ 0,816) e reta de regressão **praticamente idênticas** — e formas completamente diferentes quando plotados. Um é uma nuvem linear honesta; outro é uma curva perfeita; outro é uma reta com um ponto fora; o último é uma coluna de pontos e um único ponto distante que sozinho cria a correlação. Mesmo resumo numérico, quatro histórias.
+O argumento definitivo contra confiar no número sem ver o gráfico é o **quarteto de Anscombe** (1973): quatro conjuntos de onze pontos cada, com resumo numérico igual e formas completamente diferentes quando plotados.
+
+Vale ver o quanto "igual" é literal. Calculando sobre os quatro conjuntos:
+
+| Estatística | Conjunto 1 | 2 | 3 | 4 |
+|---|---|---|---|---|
+| média de x | 9,00 | 9,00 | 9,00 | 9,00 |
+| média de y | 7,50 | 7,50 | 7,50 | 7,50 |
+| variância de x | 11,00 | 11,00 | 11,00 | 11,00 |
+| variância de y | 4,127 | 4,128 | 4,123 | 4,123 |
+| correlação | 0,816 | 0,816 | 0,816 | 0,817 |
+| reta ajustada | 3,00 + 0,500x | a mesma | a mesma | a mesma |
+
+E as formas: um é uma nuvem linear honesta; outro é uma curva perfeita; outro é uma reta com um único ponto fora dela; e no quarto o `x` vale 8 em dez dos onze pontos, com um único ponto em 19 que sozinho cria a correlação. Mesmo resumo numérico, quatro histórias.
 
 E depois há a frase que todo mundo sabe repetir e quase ninguém aplica na hora certa: **correlação não é causalidade**. Diante de uma correlação forte, há sempre quatro explicações concorrentes, e só uma delas é a que você quer:
 
