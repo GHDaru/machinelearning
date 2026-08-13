@@ -67,7 +67,11 @@ O capítulo diz que o problema da memória em sequências é "o mesmo problema, 
 
 **O nome.** *Long Short-Term Memory* é memória de **curto prazo que dura muito** — não uma terceira espécie de memória. O oximoro é o argumento inteiro: a rede continua tendo apenas memória de trabalho; o que mudou é quanto tempo ela sobrevive.
 
-**O segundo aperto: traduzir.** Em 2014, Sutskever, Vinyals e Le publicam o *sequence to sequence* (seq2seq): uma rede codificadora lê a frase de origem inteira e a comprime num vetor; uma rede decodificadora lê esse vetor e produz a frase de destino. Funciona, e os próprios autores apontam, como uma das contribuições técnicas principais do trabalho, um truque que hoje soa constrangedor: **inverter a ordem das palavras da frase de origem**. Invertida, a primeira palavra da entrada fica perto da primeira palavra da saída, e o gradiente tem menos passos a atravessar.
+**O segundo aperto: traduzir.** Em 2014, Sutskever, Vinyals e Le publicam o *sequence to sequence* (seq2seq): uma rede codificadora lê a frase de origem inteira e a comprime num vetor; uma rede decodificadora lê esse vetor e produz a frase de destino. Funciona, e o resultado que os autores destacam é o de tradução: *"Our main result is that on an English to French translation task from the WMT'14 dataset, the translations produced by the LSTM achieve a BLEU score of 34.8."*
+
+O que interessa a este capítulo vem no fim do resumo, apresentado como achado adicional e não como a tese: *"Finally, we found that reversing the order of the words in all source sentences (but not target sentences) improved the LSTM's performance markedly, because doing so introduced many short term dependencies between the source and the target sentence which made the optimization problem easier."*
+
+**Inverter a ordem das palavras da frase de origem.** É um truque que hoje soa constrangedor, e a explicação dos autores é exatamente o assunto do capítulo anterior: invertida, a primeira palavra da entrada fica perto da primeira palavra da saída, e o gradiente tem menos passos a atravessar.
 
 É restrição virando forma, como em tantos outros capítulos — só que desta vez a forma é **gambiarra confessa**. E gambiarra confessa é um sintoma valioso: quando o truque que mais ajuda é encurtar a distância, a distância é o problema.
 
@@ -86,7 +90,8 @@ O capítulo diz que o problema da memória em sequências é "o mesmo problema, 
 | ✓ᵃ | Bahdanau, Cho & Bengio, *Neural Machine Translation by Jointly Learning to Align and Translate*, [arXiv:1409.0473](https://arxiv.org/abs/1409.0473), 01/09/2014 — o resumo **não contém** a palavra "attention"; fala em *fixed-length vector* como gargalo, em *(soft-)search* e no modelo **RNNsearch** |
 | ✓ᵃ | Vaswani et al., *Attention Is All You Need*, [arXiv:1706.03762](https://arxiv.org/abs/1706.03762), 12/06/2017 — *"dispensing with recurrence and convolutions entirely"*, *"more parallelizable"*, 41,8 BLEU em *"3.5 days on eight GPUs"* |
 | ⏳ | A LSTM (1997) como resposta direta ao refluxo constante do erro; a janela fixa (n-gramas) e a RNN de memória curta como o que se fazia antes; o oximoro do nome |
-| ⏳ | Seq2seq (Sutskever, Vinyals & Le, NIPS 2014): a inversão da ordem das palavras da origem apontada pelos autores como contribuição técnica principal |
+| ✓ᵃ | Sutskever, Vinyals & Le, *Sequence to Sequence Learning with Neural Networks*, [arXiv:1409.3215](https://arxiv.org/abs/1409.3215), 10/09/2014 — os dois trechos citados entre aspas, do resumo lido no original |
+| ❌ | **Correção de 2026-08-13.** Este capítulo dizia que a inversão da ordem das palavras era apontada pelos autores "como uma das contribuições técnicas principais". O resumo diz o contrário sobre a hierarquia: *"Our main result is…"* introduz o resultado de tradução, e a inversão entra com *"Finally, we found that…"*, como achado adicional. O capítulo promovia a hierarquia que a fonte subordina |
 | ⏳ | A atribuição do nome "attention" a Bengio — relato de terceiros, não confirmado em primária |
 | 📖 | *A solução veio do formato da falha, não da tarefa* — e o corolário: um defeito bem nomeado é meio método |
 | 📖 | A leitura de que 2017 removeu a **recorrência**, não a atenção, e de que o ganho é de paralelismo, não de representação |

@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — o capítulo promovia o que a fonte subordina (cap. III.5)
+- **A inversão da ordem das palavras não é a contribuição principal do seq2seq**,
+  como o capítulo dizia. O resumo estabelece a hierarquia: *"Our main result is
+  that… the translations produced by the LSTM achieve a BLEU score of 34.8"*, e a
+  inversão entra depois, com *"Finally, we found that…"*.
+- **Os dois trechos entraram no capítulo entre aspas**, com a hierarquia preservada:
+  o resultado que os autores destacam, e depois o achado adicional que interessa a
+  este livro — inclusive a explicação deles, de que a inversão *"introduced many
+  short term dependencies… which made the optimization problem easier"*, que é o
+  diagnóstico do capítulo anterior aplicado à dimensão tempo.
+- Nada estava factualmente errado sobre a inversão; o que estava errado era **o
+  peso** dado a ela.
+
 ### Corrigido — o motivo pelo qual uma fonte não foi lida (cap. III.4)
 - **O artigo de LeCun de 1989 não está atrás de paywall**, como o capítulo dizia. O
   PDF é público na página do autor; o problema é que ele **não tem camada de
