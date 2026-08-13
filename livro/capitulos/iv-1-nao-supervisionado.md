@@ -19,7 +19,7 @@ A consequência é desconfortável. Quase sempre é possível encontrar grupos: 
 
 ## De onde isto veio
 
-**O aperto.** O detalhe que reorganiza tudo: os problemas originais **não eram "clustering"**. Eram quatro apertos em quatro campos que não conversavam entre si — **amostragem estratificada** (como dividir uma população em estratos para amostrar melhor), **momento de inércia de um sólido** (como partir um corpo heterogêneo), **compressão de voz** (como representar um sinal com poucos níveis) e **taxonomia biológica** (como classificar organismos). O mesmo procedimento foi inventado quatro vezes porque quatro pessoas tinham problemas diferentes com a mesma forma matemática.
+**O aperto.** O detalhe que reorganiza tudo: os problemas originais **não eram "clustering"**. Eram quatro apertos em quatro campos que não conversavam entre si: amostragem estratificada (como dividir uma população em estratos para amostrar melhor), momento de inércia de um sólido (como partir um corpo heterogêneo), compressão de voz (como representar um sinal com poucos níveis) e taxonomia biológica (como classificar organismos). O mesmo procedimento foi inventado quatro vezes porque quatro pessoas tinham problemas diferentes com a mesma forma matemática.
 
 **O que se fazia antes.** Classificar por julgamento do especialista. Na biologia, isso tinha nome: a classificação valia pela **autoridade do taxonomista** que a assinava.
 
@@ -40,9 +40,9 @@ A consequência é desconfortável. Quase sempre é possível encontrar grupos: 
 | 1965 | **Forgy** | Primeiro a propor o k-means discreto. Bock registra que **o resumo da palestra não menciona explicitamente o algoritmo**: o conteúdo é conhecido apenas por descrição de terceiros |
 | 1967 | **MacQueen** | Cunha o nome — para outro algoritmo |
 
-**A leitura deste livro.** Os capítulos [II.2](ii-2-modelos-lineares.md) (Gauss × Legendre) e [III.1](iii-1-neuronio-artificial.md) (Linnainmaa × Rumelhart) contam a mesma história com **dois** pretendentes. Aqui há **seis**, em quatro campos isolados, e o nome vencedor foi cunhado para um algoritmo diferente. Os três casos, juntos, fecham a tríade e dizem o que nenhum diz sozinho: **não vence quem descobre, nem quem publica primeiro, nem sequer quem descreve o método que virou padrão. Vence quem escreve a palavra que pega.**
+**A leitura deste livro.** Os capítulos [II.2](ii-2-modelos-lineares.md) (Gauss × Legendre) e [III.1](iii-1-neuronio-artificial.md) (Linnainmaa × Rumelhart) contam a mesma história com **dois** pretendentes. Aqui há seis, em quatro campos isolados, e o nome vencedor foi cunhado para um algoritmo diferente. Os três casos, juntos, fecham a tríade e dizem o que nenhum diz sozinho: **não vence quem descobre, nem quem publica primeiro, nem sequer quem descreve o método que virou padrão. Vence quem escreve a palavra que pega.**
 
-**Do lado hierárquico**, o aperto era político-científico. **Sokal & Sneath**, em *Principles of Numerical Taxonomy* (1963), motivaram a pesquisa mundial em clustering ao tirar a classificação das mãos da autoridade e torná-la **reproduzível a partir de caracteres medidos**. O objetivo não era achar grupos: era acabar com a discussão sobre quem tinha o direito de defini-los. **Do lado da redução de dimensionalidade**, dois problemas diferentes, 32 anos, a mesma decomposição: **Pearson (1901)** chegou por geometria — a reta ou o plano de melhor ajuste a uma nuvem de pontos; **Hotelling (1933)** chegou por álgebra, com motivação psicométrica, e é dele o nome "componentes principais".
+Do lado hierárquico, o aperto era político-científico. **Sokal & Sneath**, em *Principles of Numerical Taxonomy* (1963), motivaram a pesquisa mundial em clustering ao tirar a classificação das mãos da autoridade e torná-la **reproduzível a partir de caracteres medidos**. O objetivo não era achar grupos: era acabar com a discussão sobre quem tinha o direito de defini-los. Do lado da redução de dimensionalidade, dois problemas diferentes, 32 anos, a mesma decomposição: Pearson (1901) chegou por geometria, com a reta ou o plano de melhor ajuste a uma nuvem de pontos; Hotelling (1933) chegou por álgebra, com motivação psicométrica, e é dele o nome "componentes principais".
 
 **Procedência das afirmações desta seção:**
 
@@ -75,7 +75,7 @@ O preço: a fusão é irreversível (um erro no início se propaga até o fim) e
 
 A análise de componentes principais (PCA) resolve o problema de Pearson: achar as direções em que os dados mais variam e reescrevê-los nelas, em ordem. Ficar com as primeiras é reduzir a dimensionalidade — menos colunas, quase a mesma dispersão.
 
-O que se perde tem três nomes. **Variância**, e você sabe quanto: é o número que a biblioteca informa. **Interpretabilidade** — cada componente é uma mistura de todas as variáveis originais, e "0,4 × renda − 0,3 × idade + …" não é um conceito que se leve a uma reunião. E o mais traiçoeiro: **variância não é o mesmo que informação útil**. A direção que mais varia pode ser justamente a que menos separa o que importa; PCA não sabe qual é o seu problema, porque ninguém contou a ele. PCA é uma decisão de **representação**, e vale para ela tudo o que o [capítulo I.6](i-6-representacao.md) diz — inclusive a sensibilidade à escala.
+O que se perde tem três nomes. Variância, e você sabe quanto: é o número que a biblioteca informa. Interpretabilidade, porque cada componente é uma mistura de todas as variáveis originais, e "0,4 × renda − 0,3 × idade + …" não é um conceito que se leve a uma reunião. E o mais traiçoeiro: **variância não é o mesmo que informação útil**. A direção que mais varia pode ser justamente a que menos separa o que importa; PCA não sabe qual é o seu problema, porque ninguém contou a ele. PCA é uma decisão de **representação**, e vale para ela tudo o que o [capítulo I.6](i-6-representacao.md) diz — inclusive a sensibilidade à escala.
 
 :::exercicio {"id":"nao-supervisionado-e1","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 Seus dados têm dois grupos visíveis: um alongado, em forma de arco, com 800 pontos, e outro pequeno e denso, com 60 pontos. Você roda k-means com k=2 e o resultado corta o arco ao meio, juntando uma das metades ao grupo pequeno. Qual é o diagnóstico correto?
@@ -86,9 +86,9 @@ Seus dados têm dois grupos visíveis: um alongado, em forma de arco, com 800 po
 - [ ] Os dados precisam ser normalizados antes; a escala é a causa do corte.
 
 > **gabarito:** A limitação está no critério, não na execução
-> **porque:** A inércia — soma das distâncias quadradas ao centro — é minimizada por **bolas compactas**. Um arco tem pontos longe do próprio centro, então cortá-lo ao meio de fato **reduz** a inércia: o algoritmo não falhou, ele acertou o alvo errado.
+> **porque:** A inércia, que é a soma das distâncias quadradas ao centro, é minimizada por **bolas compactas**. Um arco tem pontos longe do próprio centro, então cortá-lo ao meio de fato **reduz** a inércia: o algoritmo não falhou, ele acertou o alvo errado.
 >
-> As três alternativas erradas confundem execução com critério. Mais inicializações encontram mínimos locais melhores **do mesmo critério** — e o critério é o problema. Mais grupos fatiam o arco em pedaços mais esféricos, o que pode "funcionar" visualmente, mas aí você deixou de recuperar a estrutura e passou a aproximá-la por pedaços. E normalizar corrige distorção de **unidades**; aqui as unidades podem estar perfeitas e o resultado ser o mesmo, porque o problema é a **forma**. A saída real é trocar de critério — densidade, ou hierárquico com a ligação adequada — e não afinar o k-means.
+> As três alternativas erradas confundem execução com critério. Mais inicializações encontram mínimos locais melhores **do mesmo critério**, e o critério é o problema. Mais grupos fatiam o arco em pedaços mais esféricos, o que pode "funcionar" visualmente, mas aí você deixou de recuperar a estrutura e passou a aproximá-la por pedaços. E normalizar corrige distorção de **unidades**; aqui as unidades podem estar perfeitas e o resultado ser o mesmo, porque o problema é a **forma**. A saída real é trocar de critério, indo para densidade, ou hierárquico com a ligação adequada — e não afinar o k-means.
 > **volte para:** #fundamentos-inventar-o-criterio-depois-alternar
 :::
 
@@ -104,9 +104,9 @@ A armadilha é confiança alta com lift 1. Se 60% de todas as cestas têm pão, 
 
 ### Cerveja e fraldas: verdadeira até a descoberta, inventada a partir da ação
 
-Todo curso conta esta história. Vale separar o que se sustenta do que não se sustenta — a fratura está num ponto exato. **O estudo existe.** Junho de 1992, **Thomas Blischok** (NCR/Teradata) para a **Osco Drug**: cerca de 1,2 milhão de cestas, cerca de 25 lojas (⏳). **A correlação foi achada**: cerveja e fraldas juntas entre 17h e 19h (⏳).
+Todo curso conta esta história. Vale separar o que se sustenta do que não se sustenta, e a fratura está num ponto exato. **O estudo existe.** Junho de 1992, Thomas Blischok (NCR/Teradata) para a Osco Drug: cerca de 1,2 milhão de cestas, cerca de 25 lojas (⏳). **A correlação foi achada**: cerveja e fraldas juntas entre 17h e 19h (⏳).
 
-**A parte que todo mundo ensina é falsa.** "Puseram a cerveja ao lado das fraldas e as vendas subiram" — isto não aconteceu. Power, que entrevistou o autor do estudo, afirma que a Osco **não** explorou a relação movendo produtos, e Blischok confirma que **nunca fizeram nada com ela** (❌). Um participante ainda registra que o líder da equipe, ao falar com prospects, **não distinguia entre as afinidades testadas e as hipóteses** (⏳). A lenda nasceu no discurso de vendas, e isso está documentado.
+**A parte que todo mundo ensina é falsa.** "Puseram a cerveja ao lado das fraldas e as vendas subiram": isto não aconteceu. Power, que entrevistou o autor do estudo, afirma que a Osco não explorou a relação movendo produtos, e Blischok confirma que **nunca fizeram nada com ela** (❌). Um participante ainda registra que o líder da equipe, ao falar com prospects, **não distinguia entre as afinidades testadas e as hipóteses** (⏳). A lenda nasceu no discurso de vendas, e isso está documentado.
 
 Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de três coisas que o mercado trata como uma só — **correlação achada ≠ decisão tomada ≠ efeito medido**. O estudo produziu a primeira; a segunda nunca ocorreu; a terceira, portanto, não existe — e é justamente ela que todo mundo repete como resultado. É o mesmo padrão do [capítulo II.6](ii-6-analise-multidimensional.md), onde a categoria "OLAP" também foi fabricada pelo marketing: a técnica era boa, a embalagem é que não se sustenta.
 
@@ -118,7 +118,7 @@ Não conserte a lenda: **olhe para a fratura**. Ela é o exemplo mais barato de 
 | ✓ᵐ | Agrawal, Imieliński & Swami (SIGMOD 1993) e Apriori (Agrawal & Srikant, VLDB 1994) |
 
 :::exercicio {"id":"nao-supervisionado-e2","tipo":"numerica","objetivo":"O1","dificuldade":"media"}
-De **1 000** cestas de um supermercado: **600** contêm pão, **500** contêm leite e **300** contêm os dois.
+De 1 000 cestas de um supermercado: 600 contêm pão, 500 contêm leite e 300 contêm os dois.
 
 Calcule o **lift** da regra `{leite} → {pão}`. Responda com duas casas decimais.
 
@@ -170,13 +170,13 @@ Escreva a crítica que você faria e o que proporia em seguida.
 :::exercicio {"id":"nao-supervisionado-e4","tipo":"aberta","objetivo":"O3","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
 **Desafio de fechamento.** Você reduziu 200 colunas a 10 componentes principais que retêm **95% da variância**, e o modelo seguinte **piorou**. Explique como isso é possível, se você "quase não perdeu informação".
 
-> **rubrica:** identifica o que os 95% medem — variância **das entradas**, calculada sem olhar o alvo uma única vez — e conclui que reter variância não é o mesmo que reter poder preditivo;
+> **rubrica:** identifica o que os 95% medem, ou seja, variância **das entradas**, calculada sem olhar o alvo uma única vez, e conclui que reter variância não é o mesmo que reter poder preditivo;
 > descreve o mecanismo concreto: o sinal que importava para o alvo podia estar numa direção de variância pequena, e foi justamente ela que os 5% descartados levaram embora;
 > aponta ao menos um agravante do procedimento — a dependência de escala, que faz colunas em unidades grandes dominarem os componentes, ou a perda de interpretabilidade, que impede diagnosticar qual atributo sumiu;
 > não atribui a piora ao número de componentes: subir de 10 para 20 pode devolver o sinal por acaso, e continuar sem responder por que uma direção de variância baixa carregava o que importava
 > **porque:** A frase "quase não perdi informação" é onde o erro mora, porque ela troca silenciosamente o significado de *informação*. O PCA maximiza variância das entradas; o modelo precisa de informação **sobre o alvo**. São grandezas diferentes, e nada garante que andem juntas.
 >
-> O caso limite deixa isso desconfortável: imagine uma coluna que varia pouquíssimo — um marcador raro que aparece em 2% dos casos — e que é o **único** preditor real do alvo. Ela contribui quase nada para a variância total, cai nos 5% descartados, e o relatório continua dizendo 95%. O número está certo; a conclusão que se tira dele é que estava errada.
+> O caso limite deixa isso desconfortável: imagine uma coluna que varia pouquíssimo, um marcador raro que aparece em 2% dos casos, e que é o **único** preditor real do alvo. Ela contribui quase nada para a variância total, cai nos 5% descartados, e o relatório continua dizendo 95%. O número está certo; a conclusão que se tira dele é que estava errada.
 >
 > É o mesmo aviso do capítulo I.6 aparecendo do outro lado: **a representação decide o teto**. Aqui o teto não foi baixado por descuido, mas por um critério explícito que ninguém percebeu ser o critério errado — e é essa a razão de o capítulo insistir que redução de dimensionalidade não é uma etapa neutra de limpeza.
 > **volte para:** #pca-variancia-como-criterio-e-o-que-se-perde
