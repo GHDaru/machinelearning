@@ -7532,7 +7532,7 @@
     }
    ],
    "gabarito": "overfitting, por regularização",
-   "porque": "O capítulo é explícito ao listá-lo: este remédio resolve **outro** problema. Desligar unidades ao acaso durante o treino combate a coadaptação entre neurônios, e o alvo é o vão entre treino e validação.\n\nIsso importa porque o capítulo inteiro é sobre reconhecer o mesmo diagnóstico sob remédios diferentes — e o dropout é justamente o que **não** pertence àquela família. Aplicá-lo contra uma perda que não se move é tratar a doença errada.\n\nVale reparar num ponto de método que o texto marca: a anedota do caixa de banco que roda de guichê, usada para explicar a coadaptação, circula muito e está marcada com ⏳ porque não foi conferida em fala primária.",
+   "porque": "O capítulo é explícito ao listá-lo: este remédio resolve **outro** problema. Desligar unidades ao acaso durante o treino combate a coadaptação entre neurônios, e o alvo é o vão entre treino e validação.\n\nIsso importa porque o capítulo inteiro é sobre reconhecer o mesmo diagnóstico sob remédios diferentes — e o dropout é justamente o que **não** pertence àquela família. Aplicá-lo contra uma perda que não se move é tratar a doença errada.\n\nVale reparar num ponto de método que o texto marca: a anedota do caixa de banco que roda de guichê, usada em toda parte para explicar a coadaptação, **não está no artigo do dropout**. Quem a repete está citando uma palestra, não a fonte — e as duas motivações que os autores de fato escreveram são mais úteis que ela.",
    "volte_para": "#o-resto-do-kit-normalizacao-dropout-e-otimizadores",
    "rubrica": null,
    "versoes": null,

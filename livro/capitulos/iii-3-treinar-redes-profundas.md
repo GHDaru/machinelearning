@@ -46,7 +46,9 @@ E há o desfecho que quebra o padrão dos capítulos [II.2](ii-2-modelos-lineare
 | ❌ | **Se o artigo de 1994 cita a tese de 1991** — procuramos e não conseguimos conferir. É por isso que o capítulo não afirma omissão de crédito |
 | ✓ᵐ | Glorot & Bengio (AISTATS 2010); Nair & Hinton (ICML 2010); Glorot, Bordes & Bengio (AISTATS 2011); Kingma & Ba (2014); Srivastava, Hinton *et al.* (JMLR 2014); Ioffe & Szegedy (2015); He, Zhang, Ren & Sun (ICCV 2015) — metadados conferidos, artigos não abertos |
 | ✓ᵐ | Santurkar *et al.*, *How Does Batch Normalization Help Optimization? (No, It Is Not About Internal Covariate Shift)* — [arXiv:1805.11604](https://arxiv.org/abs/1805.11604) |
-| ⏳ | "Adam" como *adaptive moment estimation*; e a anedota do caixa de banco que roda de guichê para impedir conluio, contada como origem do dropout — não conferida em fala primária |
+| ✓ | **"Adam" vem de *adaptive moment estimation***, dito no próprio artigo: *"the name Adam is derived from adaptive moment estimation"* ([arXiv:1412.6980](https://arxiv.org/abs/1412.6980), lido) |
+| ✓ | As **duas motivações do dropout** e o trecho citado entre aspas, na seção "Motivation" do [artigo do JMLR](https://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf), **lido**: a teoria sobre o papel do sexo na evolução e a das conspirações |
+| ❌ | **A anedota do caixa de banco não está no artigo.** Procurei "bank", "teller", "fraud" e "conspir" no texto inteiro: as únicas ocorrências de "bank" são *"log-filter bank frames"*, sobre processamento de áudio. A história circula em palestras e substituiu, na repetição, as duas motivações que os autores escreveram |
 | 📖 | A leitura de que o diagnóstico de 1991 sobreviveu a quatro gerações de remédio, e de que este é o caso **atenuado** do padrão de crédito dos capítulos II.2, 08 e 18 |
 
 ## Fundamentos: o gradiente é um produto, e produtos são traiçoeiros
@@ -170,7 +172,12 @@ A conexão residual fecha o argumento de forma quase literária: se o problema �
 
 **Normalização.** A *batch normalization* (Ioffe & Szegedy, 2015) padroniza as ativações de cada camada usando as estatísticas do lote; a *layer normalization* faz o mesmo usando as estatísticas de **cada exemplo**, dentro da camada — o que a torna a escolha quando o lote é pequeno ou o comprimento varia, como em sequências.
 
-**Dropout.** Srivastava, Hinton *et al.* (JMLR, 2014) desligam unidades ao acaso durante o treino. Repare que este remédio resolve **outro** problema: é regularização, combate *overfitting*, não o gradiente. A anedota do caixa de banco que roda de guichê para impedir conluio entre funcionários, usada para explicar por que impedir a coadaptação entre neurônios ajuda, circula muito e **não foi conferida em fala primária**: ⏳.
+**Dropout.** Srivastava, Hinton *et al.* (JMLR, 2014) desligam unidades ao acaso durante o treino. Repare que este remédio resolve **outro** problema: é regularização, combate *overfitting*, não o gradiente.
+
+A anedota que circula para explicá-lo é a do caixa de banco que roda de guichê para impedir conluio entre funcionários. Ela **não está no artigo**. A seção de motivação dele traz outras duas, e vale conhecê-las porque explicam melhor:
+
+- **A reprodução sexuada**, a partir de uma teoria sobre o papel do sexo na evolução: metade dos genes de cada um, com mutação pequena, em vez de uma cópia levemente mutada de um só.
+- **As conspirações**, e esta é a que mais ensina: *"Ten conspiracies each involving five people is probably a better way to create havoc than one big conspiracy that requires fifty people to all play their parts correctly."* Uma conspiração grande funciona se as condições não mudarem e houver tempo de ensaio, que é exatamente a descrição de um conjunto de treino. Fora dele, ganha quem depende de menos gente combinada.
 
 **Otimizadores.** Adam (Kingma & Ba, 2014) mantém estimativas de primeiro e segundo momentos do gradiente e adapta o passo por parâmetro. Na prática: converge rápido e **perdoa uma taxa de aprendizado mal escolhida** — o que é exatamente sua virtude e seu risco, porque esconde diagnósticos. SGD (*Stochastic Gradient Descent*) com momento, bem ajustado e com boa agenda de taxa, ainda entrega generalização igual ou melhor em visão, ao custo de exigir mais ajuste manual. Critério honesto: **Adam para começar e para iterar rápido; SGD com momento quando o último ponto percentual importa e há orçamento para ajustar.** E nenhum dos dois conserta uma exponencial.
 
@@ -206,7 +213,7 @@ Qual problema o dropout ataca?
 >
 > Isso importa porque o capítulo inteiro é sobre reconhecer o mesmo diagnóstico sob remédios diferentes — e o dropout é justamente o que **não** pertence àquela família. Aplicá-lo contra uma perda que não se move é tratar a doença errada.
 >
-> Vale reparar num ponto de método que o texto marca: a anedota do caixa de banco que roda de guichê, usada para explicar a coadaptação, circula muito e está marcada com ⏳ porque não foi conferida em fala primária.
+> Vale reparar num ponto de método que o texto marca: a anedota do caixa de banco que roda de guichê, usada em toda parte para explicar a coadaptação, **não está no artigo do dropout**. Quem a repete está citando uma palestra, não a fonte — e as duas motivações que os autores de fato escreveram são mais úteis que ela.
 > **volte para:** #o-resto-do-kit-normalizacao-dropout-e-otimizadores
 :::
 

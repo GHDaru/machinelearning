@@ -19,6 +19,19 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — a anedota mais repetida do dropout não está no artigo (cap. III.3)
+- **A história do caixa de banco que roda de guichê não aparece no texto do JMLR.**
+  Procurei "bank", "teller", "fraud" e "conspir" no artigo inteiro: as únicas
+  ocorrências de "bank" são *"log-filter bank frames"*, sobre áudio.
+- **As duas motivações que os autores escreveram entraram no lugar**, e são
+  melhores: a teoria sobre o papel do sexo na evolução, e a das conspirações —
+  *"Ten conspiracies each involving five people is probably a better way to create
+  havoc than one big conspiracy that requires fifty people to all play their parts
+  correctly."* Uma conspiração grande funciona se as condições não mudarem e houver
+  tempo de ensaio, que é a descrição de um conjunto de treino.
+- **"Adam" passou a ✓**: o próprio artigo diz *"the name Adam is derived from
+  adaptive moment estimation"*.
+
 ### Corrigido — uma verdade que enganava, sobre o nome do teorema (cap. III.2)
 - **A frase era literalmente correta e produzia conclusão errada.** O capítulo dizia
   que a expressão "aproximação universal" não consta do título de nenhum dos dois
