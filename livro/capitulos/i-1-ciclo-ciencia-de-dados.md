@@ -13,7 +13,7 @@
 
 ## O problema: um modelo excelente para a pergunta errada
 
-Um varejista pede um modelo de *churn* — de abandono: prever quem vai deixar de comprar. A equipe recebe acesso ao banco, encontra a tabela de compras, define o rótulo pelo que os dados permitem — "cliente que não compra há 90 dias" — treina, mede e entrega AUC de 0,93. O relatório é bonito. O modelo nunca foi usado.
+Um varejista pede um modelo de *churn* — de abandono: prever quem vai deixar de comprar. A equipe recebe acesso ao banco, encontra a tabela de compras, define o rótulo pelo que os dados permitem ("cliente que não compra há 90 dias"), treina, mede e entrega AUC de 0,93. O relatório é bonito. O modelo nunca foi usado.
 
 O motivo apareceu na primeira reunião com a área de retenção: eles só conseguem agir sobre um cliente **na renovação do plano**, e a renovação acontece antes dos 90 dias de silêncio. Quando o modelo acusa risco, o cliente já foi embora. A lista chega tarde para todo mundo que poderia fazer algo com ela.
 
@@ -25,15 +25,15 @@ O CRISP-DM (*CRoss-Industry Standard Process for Data Mining*) existe para torna
 
 **O aperto.** Meados dos anos 1990. Mineração de dados era um mercado novo, com dinheiro entrando e nenhum acordo sobre como se trabalha. Cada projeto reinventava seu próprio processo. Dois times na mesma empresa entregavam relatórios que não se comparavam; duas empresas não conseguiam repetir o que a outra tinha feito. Não havia como saber se um resultado ruim veio do problema, dos dados ou de alguém ter pulado uma etapa — porque não existia a lista de etapas.
 
-**O que se fazia antes.** Consultoria: cada casa trazia seu método interno, não publicado, casado com a ferramenta que vendia. E ferramenta se vendia sem método nenhum — comprava-se o *workbench* — o pacote que reunia as ferramentas de mineração numa tela só —, e o cliente que descobrisse sozinho o que fazer com ele.
+**O que se fazia antes.** Consultoria: cada casa trazia seu método interno, não publicado, casado com a ferramenta que vendia. E ferramenta se vendia sem método nenhum. Comprava-se o *workbench*, o pacote que reunia as ferramentas de mineração numa tela só, e o cliente que descobrisse sozinho o que fazer com ele.
 
 **A virada.** Escrever um processo **de indústria**, e não de fornecedor. Seis fases explicitamente **cíclicas**, com *entendimento do negócio* na primeira posição e *modelagem* apenas na quarta. O documento não pertence a ninguém, não exige software algum e descreve entregas, não cliques.
 
-**A ideia reaproveitável.** **O método é o produto, não a ferramenta.** Quando um campo novo ainda não tem processo comum, o processo comum vale mais do que qualquer algoritmo: é ele que torna o resultado **auditável** (dá para perguntar em que fase a coisa desandou) e **transferível** (outra equipe consegue continuar o trabalho). Vale para muito além de mineração de dados — é a mesma razão pela qual um repositório com README, testes e CI vale mais que um repositório com código mais esperto.
+**A ideia reaproveitável.** **O método é o produto, não a ferramenta.** Quando um campo novo ainda não tem processo comum, o processo comum vale mais do que qualquer algoritmo: é ele que torna o resultado auditável (dá para perguntar em que fase a coisa desandou) e transferível (outra equipe consegue continuar o trabalho). Vale para muito além de mineração de dados — é a mesma razão pela qual um repositório com README, testes e CI vale mais que um repositório com código mais esperto.
 
 **O nome.** *CRoss-Industry Standard Process for Data Mining*. O "cross-industry" não é enfeite, é a tese: o processo não pode pertencer a um setor nem a um vendedor, ou volta a ser método de consultoria.
 
-Concebido no fim de 1996, virou projeto europeu com financiamento do **ESPRIT**, o programa europeu de pesquisa em tecnologia da informação, em 1997, tocado por um consórcio de cinco organizações: a ISL — depois absorvida pela SPSS, autora do Clementine, o primeiro *workbench* comercial de mineração, de 1994 —, a Teradata, a NCR, a Daimler-Benz e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
+Concebido no fim de 1996, virou projeto europeu com financiamento do **ESPRIT**, o programa europeu de pesquisa em tecnologia da informação, em 1997, tocado por um consórcio de cinco organizações: a ISL (depois absorvida pela SPSS, autora do Clementine, o primeiro *workbench* comercial de mineração, de 1994), a Teradata, a NCR, a Daimler-Benz e a seguradora holandesa OHRA. Foi testado em projetos reais na Mercedes-Benz e na OHRA, e a versão 1.0 saiu em 1999 ([guia CRISP-DM 1.0](https://www.kde.cs.uni-kassel.de/lehre/ws2012-13/kdd/files/CRISPWP-0800.pdf)).
 
 Olhe outra vez para a lista do consórcio: uma **montadora** e uma **seguradora** sentadas na mesma mesa. A prova de conceito do "cross-industry" está na composição do grupo — se o mesmo processo servisse para fabricar carros e para precificar apólices, servia para o resto.
 
@@ -62,7 +62,7 @@ Uma fase não termina quando o tempo acaba — termina quando ela **entrega** o 
 | 5 | **Avaliação** | isto resolve o problema da fase 1? | decisão de seguir, iterar ou parar |
 | 6 | **Implantação** | como isto chega a quem decide, e continua funcionando? | sistema em produção, monitoramento, plano de manutenção |
 
-Três fases já têm capítulo próprio neste livro. A **preparação dos dados** é o assunto do [capítulo I.3](i-3-dados.md) e do [capítulo I.2](i-2-coleta-integracao.md). A **avaliação** técnica — matriz de confusão, métrica escolhida pelo custo do erro — é o [capítulo II.1](ii-1-avaliacao.md). A **implantação** é o [capítulo V.2](v-2-sistemas-de-ml.md) e o [capítulo V.3](v-3-mlops.md).
+Três fases já têm capítulo próprio neste livro. A **preparação dos dados** é o assunto do [capítulo I.3](i-3-dados.md) e do [capítulo I.2](i-2-coleta-integracao.md). A **avaliação** técnica, com matriz de confusão e métrica escolhida pelo custo do erro, é o [capítulo II.1](ii-1-avaliacao.md). A **implantação** é o [capítulo V.2](v-2-sistemas-de-ml.md) e o [capítulo V.3](v-3-mlops.md).
 
 E vale separar duas coisas que o vocabulário mistura. A métrica que você calcula dentro da fase 4 responde *"o modelo aprendeu?"*. A fase 5 responde *"e daí?"* — se o ganho de AUC vira dinheiro, se a lista chega a tempo de alguém agir, se o critério escrito na fase 1 foi atingido. Um modelo pode passar na primeira e reprovar na segunda. Foi exatamente o que aconteceu com o *churn* do início do capítulo.
 
@@ -116,12 +116,12 @@ O registro da barraca tem 365 linhas e sete colunas: `data`, `dia_semana`, `temp
 
 Entregue as **três** coisas que a fase 2 exige:
 
-1. o **inventário**: o que cada coluna é, e — a pergunta que separa a fase 2 da fase 3 — **quais delas você teria em mãos no momento de decidir**;
+1. o **inventário**: o que cada coluna é e, na pergunta que separa a fase 2 da fase 3, **quais delas você teria em mãos no momento de decidir**;
 2. as **primeiras estatísticas** que você pediria antes de qualquer modelo, e o que cada uma responderia;
 3. pelo menos **dois problemas de qualidade ou de confiança** que você iria procurar neste conjunto específico.
 
 > **rubrica:** separa as colunas conhecidas ANTES da decisão das que só existem depois do dia acontecer — vendas é o alvo, panfletos e preço são decisões da dona, e temperatura e precipitação dependem de previsão do tempo, não do valor observado;
-> pede estatísticas descritivas concretas — faixa, média, valores distintos, contagem por categoria — e diz o que cada uma responderia;
+> pede estatísticas descritivas concretas (faixa, média, valores distintos, contagem por categoria) e diz o que cada uma responderia;
 > aponta pelo menos dois riscos reais do conjunto, entre: unidade da temperatura não declarada, preço com pouquíssimos valores distintos, período curto de um ano só, ausência de registro de dias fechados, dado possivelmente sintético;
 > não trata "sem valores faltantes" como prova de qualidade;
 > a resposta é sobre ESTE conjunto, não uma lista genérica de boas práticas
@@ -158,7 +158,7 @@ Para qual fase, de 1 a 6, o CRISP-DM manda voltar? Responda com o número.
 > **gabarito:** 1
 > **porque:** Definir o que conta como evento é **entendimento do negócio**, fase 1. O que quebrou não foi a construção do rótulo: foi o acordo sobre o que se está prevendo.
 >
-> A resposta tentadora é **3** — preparação dos dados — porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *"cliente perdido é quem, para quem age?"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas **à toa** se o alvo continuar errado.
+> A resposta tentadora é a **3**, preparação dos dados, porque foi lá que o rótulo virou coluna, e é lá que o conserto vai ser digitado. Mas refazer o rótulo sem reabrir a conversa com a retenção só produz um segundo alvo escolhido pela equipe técnica, com a mesma chance de errar. A fase 1 é onde se pergunta *"cliente perdido é quem, para quem age?"*; a fase 3 é onde a resposta vira código. Voltar até a 1 parece o caminho mais caro e é o mais barato: a semana perdida na 1 já foi perdida, as fases 2 a 5 é que serão refeitas **à toa** se o alvo continuar errado.
 > **volte para:** #as-setas-voltam-por-que-isto-e-um-ciclo-nao-uma-cascata
 :::
 
@@ -173,12 +173,12 @@ Os cargos que o mercado usa não são especializações por técnica — são **
 | **Cientista de dados** | fases 3, 4 e 5 | atributos, modelo, e a leitura honesta do resultado |
 | **Engenheiro de ML** | fases 4 e 6 | o modelo servindo em produção, monitorado ([cap. V.2](v-2-sistemas-de-ml.md), [cap. V.3](v-3-mlops.md)) |
 
-Duas leituras saem da tabela. A primeira: **a fase 3 é onde os papéis se encontram** — o engenheiro entrega a fonte, o cientista constrói o atributo — e por isso é onde mais se perde trabalho quando ninguém combinou quem faz o quê.
+Duas leituras saem da tabela. A primeira: **a fase 3 é onde os papéis se encontram**, com o engenheiro entregando a fonte e o cientista construindo o atributo, e por isso é onde mais se perde trabalho quando ninguém combinou quem faz o quê.
 
 A segunda é mais séria. Num time só de gente técnica, **a fase 1 fica sem dono**. Ninguém foi contratado para descobrir qual decisão vai mudar, e o ciclo começa pela fase 2 — que é exatamente o erro da primeira seção deste capítulo. Em time pequeno, uma pessoa ocupa vários papéis, e isso funciona; o que não funciona é uma fase sem responsável declarado.
 
 :::exercicio {"id":"ciclo-ciencia-de-dados-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"media"}
-Um time de três pessoas — um engenheiro de dados, um cientista de dados e um engenheiro de ML — vai retomar o projeto de *churn* do começo do capítulo.
+Um time de três pessoas (um engenheiro de dados, um cientista de dados e um engenheiro de ML) vai retomar o projeto de *churn* do começo do capítulo.
 
 Distribua as seis fases entre os três, aponte a fase que corre risco de ficar **sem dono** e diga como você resolveria isso.
 
@@ -186,7 +186,7 @@ Distribua as seis fases entre os três, aponte a fase que corre risco de ficar *
 > atribui as fases 4 e 5 ao cientista de dados;
 > atribui a fase 6 ao engenheiro de ML, com monitoramento;
 > identifica a fase 1 (entendimento do negócio) como a que fica sem dono natural neste trio;
-> propõe uma solução concreta — trazer a área de retenção para a fase 1, ou o cientista de dados assumir formalmente a conversa — em vez de só apontar o problema;
+> propõe uma solução concreta, como trazer a área de retenção para a fase 1 ou o cientista de dados assumir formalmente a conversa, em vez de só apontar o problema;
 > justifica com a consequência: sem dono na fase 1, o time otimiza um alvo que ninguém pediu
 > **porque:** O recorte por fase é direto: dados chegam pelo engenheiro de dados (2 e 3), o modelo e sua leitura são do cientista de dados (4 e 5), produção e monitoramento são do engenheiro de ML (6). A fase 3 é compartilhada, e vale dizer isso na resposta.
 >
