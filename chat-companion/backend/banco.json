@@ -2138,7 +2138,7 @@
     }
    ],
    "gabarito": "Os casos que devem disparar estão em cantos opostos",
-   "porque": "É geometria, não aritmética. O XOR dispara em (0,1) e (1,0) — cantos opostos do quadrado — e não dispara em (0,0) e (1,1), também opostos entre si. Uma reta divide o plano em dois lados; não existe reta que deixe dois cantos opostos de um lado e os outros dois do outro.\n\nAs três alternativas erradas atribuem a limitação a restrições do **modelo** — sinal do peso, número de entradas, limiar fracionário — quando na verdade ela é uma propriedade do **problema**. Nenhuma delas ajudaria: mesmo com pesos reais, negativos e limiar contínuo, a impossibilidade permanece. É por isso que a solução, quando veio, não foi um neurônio melhor: foi **outra camada** de neurônios.",
+   "porque": "É geometria, não aritmética. O XOR dispara em (0,1) e (1,0), cantos opostos do quadrado, e não dispara em (0,0) e (1,1), também opostos entre si. Uma reta divide o plano em dois lados; não existe reta que deixe dois cantos opostos de um lado e os outros dois do outro.\n\nAs três alternativas erradas atribuem a limitação a restrições do **modelo** (sinal do peso, número de entradas, limiar fracionário) quando na verdade ela é uma propriedade do **problema**. Nenhuma delas ajudaria: mesmo com pesos reais, negativos e limiar contínuo, a impossibilidade permanece. É por isso que a solução, quando veio, não foi um neurônio melhor: foi **outra camada** de neurônios.",
    "volte_para": "#por-que-o-xor-e-impossivel",
    "rubrica": null,
    "versoes": null,
@@ -2193,7 +2193,7 @@
    "enunciado": "Você quer construir a função **OU (OR)** com pesos `w₁ = 1` e `w₂ = 1`.\n\nQual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar corretamente?",
    "opcoes": [],
    "gabarito": "1",
-   "porque": "Some as entradas em cada linha da tabela: (0,0) → 0; (0,1) → 1; (1,0) → 1; (1,1) → 2. O OR deve disparar em todas menos na primeira. Então θ precisa ser **maior que 0** e **menor ou igual a 1** — o maior inteiro que satisfaz isso é **θ = 1**.\n\nCom θ = 2 você teria construído o **AND**, não o OR: só (1,1) alcançaria o limiar. Esse é o achado que vale levar do exercício — a mesma dupla de pesos produz funções diferentes conforme o limiar. O limiar não é um detalhe de calibração: ele é parte da função que o neurônio computa. Volte ao laboratório e confirme deslizando só o θ.",
+   "porque": "Some as entradas em cada linha da tabela: (0,0) → 0; (0,1) → 1; (1,0) → 1; (1,1) → 2. O OR deve disparar em todas menos na primeira. Então θ precisa ser maior que 0 e menor ou igual a 1, e o maior inteiro que satisfaz isso é **θ = 1**.\n\nCom θ = 2 você teria construído o **AND**, não o OR: só (1,1) alcançaria o limiar. Esse é o achado que vale levar do exercício — a mesma dupla de pesos produz funções diferentes conforme o limiar. O limiar não é um detalhe de calibração: ele é parte da função que o neurônio computa. Volte ao laboratório e confirme deslizando só o θ.",
    "volte_para": "#mao-na-massa-encontre-os-pesos-voce-mesmo",
    "rubrica": null,
    "versoes": null,
@@ -3736,7 +3736,7 @@
     "titulo": "Neurônio de McCulloch–Pitts",
     "funcao": "AND"
    },
-   "intro": "Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.\n\nSua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.\n\nComece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.",
+   "intro": "Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.\n\nSua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.\n\nComece pelo **E (AND)**. Depois tente OU, NÃO-E e NÃO-OU, que têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.",
    "pagina": "iii-1-neuronio-artificial"
   },
   {

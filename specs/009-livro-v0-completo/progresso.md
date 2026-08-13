@@ -15,6 +15,12 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | **prova** | avaliação de fechamento (ADR 0014) | bloco presente e no banco |
 | **fontes** | selos de procedência conferidos | selo atualizado no capítulo |
 
+> **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
+> capítulo: 23 dos 29 animam, 6 não, e o critério é o do [ADR 0015](../../adr/0015-animacao-e-laboratorio-sem-manopla.md).
+> O mapa e o estado de cada uma vivem em [`animacoes.md`](animacoes.md), que é
+> a fonte única desse recorte. Feita até agora: **III.1** (o perceptron
+> aprendendo, com o botão do XOR).
+
 ## Estado
 
 | # | Capítulo | obj | exs hoje | exs alvo | voz | exs | prova | fontes |
@@ -35,7 +41,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 14 | II.6 — Análise Multidimensional | 4 | 4 | 12 | **ok** | — | — | — |
 | 15 | II.7 — Séries Temporais | 4 | 4 | 12 | **ok** | — | — | — |
 | 16 | II.8 — Do Modelo à Decisão | 4 | 4 | 12 | **ok** | — | — | — |
-| 17 | III.1 — O Neurônio Artificial | 4 | 4 | 12 | — | — | — | — |
+| 17 | III.1 — O Neurônio Artificial | 4 | 4 | 12 | **ok** | — | — | — |
 | 18 | III.2 — Redes Multicamadas | 4 | 4 | 12 | — | — | — | — |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 5 | 12 | — | — | — | — |
 | 20 | III.4 — Visão Computacional | 4 | 4 | 12 | — | — | — | — |

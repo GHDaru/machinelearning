@@ -13,9 +13,9 @@
 
 ## O problema: pode uma máquina pensar em lógica?
 
-Em 1943 não havia computador digital comercial, não havia "Machine Learning", e a pergunta que Warren McCulloch — neurofisiologista — e Walter Pitts — um lógico de vinte anos, autodidata, que vivia sem endereço fixo — se fizeram era outra: **a atividade do cérebro pode ser descrita como lógica?**
+Em 1943 não havia computador digital comercial nem "Machine Learning". A pergunta que Warren McCulloch, neurofisiologista, e Walter Pitts, um lógico de vinte anos, autodidata, que vivia sem endereço fixo, se fizeram era outra: **a atividade do cérebro pode ser descrita como lógica?**
 
-A resposta deles foi um modelo brutalmente simples de neurônio ([McCulloch & Pitts, 1943](https://doi.org/10.1007/BF02478259), ✓). O neurônio recebe entradas, multiplica cada uma por um **peso**, soma tudo, e dispara — devolve 1 — se a soma alcançar um **limiar**. Senão, devolve 0.
+A resposta deles foi um modelo brutalmente simples de neurônio ([McCulloch & Pitts, 1943](https://doi.org/10.1007/BF02478259), ✓). O neurônio recebe entradas, multiplica cada uma por um **peso**, soma tudo, e dispara (devolve 1) se a soma alcançar um **limiar**. Senão, devolve 0.
 
 $$y = \begin{cases} 1 & \text{se } w_1x_1 + w_2x_2 + \dots \geq \theta \\ 0 & \text{se } w_1x_1 + w_2x_2 + \dots < \theta \end{cases}$$
 
@@ -97,7 +97,7 @@ Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria dispa
 
 Sua tarefa: mover a reta até que **todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora**.
 
-Comece pelo **E (AND)**. Depois tente **OU**, **NÃO-E** e **NÃO-OU** — todos têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.
+Comece pelo **E (AND)**. Depois tente OU, NÃO-E e NÃO-OU, que têm solução, e cada um tem *infinitas* soluções. Deixe o **OU-EXCLUSIVO (XOR)** por último.
 :::
 
 ### O que você deveria ter notado
@@ -122,9 +122,9 @@ O XOR dispara em (0,1) e (1,0), e não dispara em (0,0) e (1,1). Coloque os quat
 
 Uma reta divide o plano em dois lados. Para resolver o XOR ela precisaria deixar dois cantos opostos de um lado e os outros dois do outro — e **nenhuma reta faz isso**. Não importa quanto você gire ou translade: qualquer reta que separe (0,1) de (0,0) e (1,1) vai deixar (1,0) do lado errado.
 
-O nome técnico é **separabilidade linear**. AND, OR, NAND e NOR são linearmente separáveis; XOR não é. E um neurônio de McCulloch–Pitts — ou um perceptron, ou uma regressão logística — traça **exatamente uma reta**.
+O nome técnico é **separabilidade linear**. AND, OR, NAND e NOR são linearmente separáveis; XOR não é. E um neurônio de McCulloch–Pitts, ou um perceptron, ou uma regressão logística, traça **exatamente uma reta**.
 
-> É a mesma limitação que o [capítulo II.5](ii-5-arvores-ensembles.md) mediu com outro vocabulário: naquele experimento, o modelo linear ficou em 0,4963 de AUC — acaso — porque a fronteira verdadeira era não-monotônica. Aqui você vê a razão em quatro pontos, em vez de em uma tabela de resultados.
+> É a mesma limitação que o [capítulo II.5](ii-5-arvores-ensembles.md) mediu com outro vocabulário: naquele experimento, o modelo linear ficou em 0,4963 de AUC, ou seja, acaso, porque a fronteira verdadeira era não-monotônica. Aqui você vê a razão em quatro pontos, em vez de em uma tabela de resultados.
 
 :::exercicio {"id":"neuronio-artificial-e1","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR?
@@ -135,9 +135,9 @@ Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR
 - [ ] Porque o limiar teria de ser fracionário, o que o modelo original não permitia.
 
 > **gabarito:** Os casos que devem disparar estão em cantos opostos
-> **porque:** É geometria, não aritmética. O XOR dispara em (0,1) e (1,0) — cantos opostos do quadrado — e não dispara em (0,0) e (1,1), também opostos entre si. Uma reta divide o plano em dois lados; não existe reta que deixe dois cantos opostos de um lado e os outros dois do outro.
+> **porque:** É geometria, não aritmética. O XOR dispara em (0,1) e (1,0), cantos opostos do quadrado, e não dispara em (0,0) e (1,1), também opostos entre si. Uma reta divide o plano em dois lados; não existe reta que deixe dois cantos opostos de um lado e os outros dois do outro.
 >
-> As três alternativas erradas atribuem a limitação a restrições do **modelo** — sinal do peso, número de entradas, limiar fracionário — quando na verdade ela é uma propriedade do **problema**. Nenhuma delas ajudaria: mesmo com pesos reais, negativos e limiar contínuo, a impossibilidade permanece. É por isso que a solução, quando veio, não foi um neurônio melhor: foi **outra camada** de neurônios.
+> As três alternativas erradas atribuem a limitação a restrições do **modelo** (sinal do peso, número de entradas, limiar fracionário) quando na verdade ela é uma propriedade do **problema**. Nenhuma delas ajudaria: mesmo com pesos reais, negativos e limiar contínuo, a impossibilidade permanece. É por isso que a solução, quando veio, não foi um neurônio melhor: foi **outra camada** de neurônios.
 > **volte para:** #por-que-o-xor-e-impossivel
 :::
 
@@ -162,7 +162,7 @@ Você quer construir a função **OU (OR)** com pesos `w₁ = 1` e `w₂ = 1`.
 Qual é o **maior** valor inteiro de limiar `θ` que faz o neurônio funcionar corretamente?
 
 > **gabarito:** 1
-> **porque:** Some as entradas em cada linha da tabela: (0,0) → 0; (0,1) → 1; (1,0) → 1; (1,1) → 2. O OR deve disparar em todas menos na primeira. Então θ precisa ser **maior que 0** e **menor ou igual a 1** — o maior inteiro que satisfaz isso é **θ = 1**.
+> **porque:** Some as entradas em cada linha da tabela: (0,0) → 0; (0,1) → 1; (1,0) → 1; (1,1) → 2. O OR deve disparar em todas menos na primeira. Então θ precisa ser maior que 0 e menor ou igual a 1, e o maior inteiro que satisfaz isso é **θ = 1**.
 >
 > Com θ = 2 você teria construído o **AND**, não o OR: só (1,1) alcançaria o limiar. Esse é o achado que vale levar do exercício — a mesma dupla de pesos produz funções diferentes conforme o limiar. O limiar não é um detalhe de calibração: ele é parte da função que o neurônio computa. Volte ao laboratório e confirme deslizando só o θ.
 > **volte para:** #mao-na-massa-encontre-os-pesos-voce-mesmo
