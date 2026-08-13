@@ -8931,6 +8931,80 @@
    ]
   },
   {
+   "id": "nao-supervisionado-e5",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é a pergunta honesta a fazer diante de um resultado de agrupamento?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Existem grupos nestes dados?"
+    },
+    {
+     "correta": true,
+     "texto": "Estes grupos significam alguma coisa fora deste conjunto de dados?"
+    },
+    {
+     "correta": false,
+     "texto": "Qual é o valor de k que minimiza a inércia?"
+    },
+    {
+     "correta": false,
+     "texto": "Os grupos encontrados são interpretáveis pela equipe?"
+    }
+   ],
+   "gabarito": "os grupos significam algo fora deste conjunto",
+   "porque": "\"Existem grupos?\" é uma pergunta que o algoritmo sempre responde que sim. Rode k-means com k=4 em ruído puro e ele devolve quatro grupos, com fronteiras nítidas e centros bem definidos. Ele nunca diz \"não há estrutura aqui\".\n\nA terceira alternativa tem resposta trivial e inútil: a inércia sempre cai com k maior, e é minimizada quando cada ponto é seu próprio grupo.\n\nA quarta é a mais perigosa porque parece rigor e é o erro que o capítulo previne. Você reconhece histórias em grupos aleatórios com uma facilidade constrangedora, e interpretabilidade é justamente a evidência que o ruído também produz.",
+   "volte_para": "#o-problema-nao-ha-erro-a-minimizar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
+  },
+  {
+   "id": "nao-supervisionado-e6",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que avaliar agrupamento é qualitativamente mais difícil que avaliar classificação?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque as métricas de agrupamento são matematicamente mais complexas."
+    },
+    {
+     "correta": true,
+     "texto": "Porque as métricas disponíveis são internas: calculadas sobre os mesmos dados, com a mesma noção de distância que produziu os grupos, então elas medem coerência com o critério e não verdade."
+    },
+    {
+     "correta": false,
+     "texto": "Porque agrupamento exige mais dados que classificação."
+    },
+    {
+     "correta": false,
+     "texto": "Porque não existe nenhuma forma de validar um agrupamento."
+    }
+   ],
+   "gabarito": "as métricas são internas e medem coerência com o próprio critério",
+   "porque": "Na classificação a validação é **externa**: existe uma resposta certa que você não usou para treinar, e ela pode desmentir você. No agrupamento, silhueta e inércia usam a mesma distância que gerou a partição — silhueta alta com grupos esféricos não é confirmação independente, é o critério se elogiando.\n\nA quarta alternativa desiste cedo demais e o capítulo mostra a saída: os grupos se mantêm numa amostra separada, e eles predizem alguma variável que **não** entrou no agrupamento. Um critério externo vale mais que cotovelo e silhueta somados, porque é o único que pode dar errado.\n\nA dificuldade, portanto, não é de complexidade matemática. É de **falseabilidade**: métrica que não pode discordar de você não está avaliando nada.",
+   "volte_para": "#validar-sem-gabarito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
+  },
+  {
    "id": "nao-supervisionado-e1",
    "capitulo": 23,
    "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
@@ -8968,6 +9042,80 @@
    "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
   },
   {
+   "id": "nao-supervisionado-e7",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Na animação acima, duas execuções sobre o **mesmo dado** estabilizam em inércias muito diferentes. O que mudou?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O valor de k."
+    },
+    {
+     "correta": true,
+     "texto": "Apenas os centros iniciais sorteados, e o algoritmo parou no primeiro mínimo local que encontrou."
+    },
+    {
+     "correta": false,
+     "texto": "A normalização dos atributos."
+    },
+    {
+     "correta": false,
+     "texto": "O critério que estava sendo minimizado."
+    }
+   ],
+   "gabarito": "apenas os centros iniciais",
+   "porque": "Dado, algoritmo, k e critério são idênticos nas duas execuções. A única variável é de onde a alternância partiu, e a inércia cai a cada passo até parar — num mínimo **local**, que depende do sorteio.\n\nÉ por isso que as bibliotecas rodam várias inicializações e ficam com a melhor. Duas partições diferentes do mesmo dado não são bug: são a natureza do método.\n\nRepare no que isso tem em comum com a animação do [capítulo III.2](../capitulos/iii-2-redes-neurais.md): método correto, execução correta, resposta errada, e só a semente mudou. São problemas diferentes com a mesma forma.",
+   "volte_para": "#fundamentos-inventar-o-criterio-depois-alternar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
+  },
+  {
+   "id": "nao-supervisionado-e8",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais premissas o k-means impõe **pelo critério**, e não pelo código? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Que os grupos são aproximadamente esféricos."
+    },
+    {
+     "correta": true,
+     "texto": "Que os grupos têm tamanhos parecidos."
+    },
+    {
+     "correta": true,
+     "texto": "Que as escalas dos atributos são comparáveis, porque a distância soma unidades."
+    },
+    {
+     "correta": false,
+     "texto": "Que o número de grupos é conhecido de antemão pelos dados."
+    }
+   ],
+   "gabarito": "esféricos · tamanhos parecidos · escalas comparáveis",
+   "porque": "As três estão embutidas em \"minimizar a soma das distâncias quadradas ao centro\". Bolas compactas minimizam essa soma; um grupo alongado será cortado, e um grupo grande será dividido para pagar a fusão de dois pequenos. E distância soma unidades, então a coluna de números maiores decide os grupos sozinha — normalizar não é higiene, é parte da definição do critério.\n\nA alternativa errada descreve uma exigência **do uso**, não do critério. Você precisa fornecer k, e nada nos dados o informa: é justamente por isso que a escolha de k é um objetivo separado deste capítulo.\n\nA distinção entre critério e código é o que torna essas premissas incontornáveis. Nenhuma inicialização melhor e nenhum valor de k conserta a forma que o critério premia.",
+   "volte_para": "#fundamentos-inventar-o-criterio-depois-alternar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
+  },
+  {
    "id": "nao-supervisionado-e2",
    "capitulo": 23,
    "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
@@ -8990,6 +9138,80 @@
     "valor": 1,
     "tolerancia": 0.01
    }
+  },
+  {
+   "id": "nao-supervisionado-e9",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual critério a PCA usa para escolher as direções?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A variância: ela acha as direções em que os dados mais variam e os reescreve nelas, em ordem."
+    },
+    {
+     "correta": false,
+     "texto": "A correlação com a variável alvo."
+    },
+    {
+     "correta": false,
+     "texto": "A interpretabilidade das variáveis originais."
+    },
+    {
+     "correta": false,
+     "texto": "A separação entre as classes conhecidas."
+    }
+   ],
+   "gabarito": "a variância",
+   "porque": "É a resposta ao problema de Pearson, e ela é puramente sobre a dispersão dos dados. Ficar com as primeiras componentes é reduzir a dimensionalidade com quase a mesma dispersão.\n\nAs duas alternativas que citam alvo e classes descrevem métodos supervisionados, e é exatamente o que a PCA **não** é. Ela não sabe qual é o seu problema, porque ninguém contou a ele.\n\nDaí a consequência mais traiçoeira: variância não é o mesmo que informação útil. A direção que mais varia pode ser justamente a que menos separa o que importa.",
+   "volte_para": "#pca-variancia-como-criterio-e-o-que-se-perde",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
+  },
+  {
+   "id": "nao-supervisionado-e10",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O que se perde ao reduzir dimensionalidade com PCA? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Variância, e você sabe exatamente quanto, porque a biblioteca informa."
+    },
+    {
+     "correta": true,
+     "texto": "Interpretabilidade, porque cada componente é uma mistura de todas as variáveis originais."
+    },
+    {
+     "correta": true,
+     "texto": "Possivelmente a direção que separava o que importa, porque variância não é informação útil."
+    },
+    {
+     "correta": false,
+     "texto": "A capacidade de voltar aos dados originais, que é irreversível por construção."
+    }
+   ],
+   "gabarito": "variância mensurável · interpretabilidade · possivelmente o que separava",
+   "porque": "As três perdas têm naturezas diferentes, e é isso que o item cobra. A primeira é **quantificada**: você sabe quanto ficou para trás. A segunda é qualitativa: \"0,4 × renda − 0,3 × idade + …\" não é um conceito que se leve a uma reunião. A terceira é a perigosa, porque é invisível na métrica que a própria PCA reporta.\n\nA alternativa errada afirma irreversibilidade absoluta. Descartar componentes de fato perde informação, e a transformação em si é linear e invertível — mantendo todas as componentes, você reconstrói os dados exatamente.\n\nVale reter que PCA é uma decisão de **representação**, e vale para ela tudo o que o [capítulo I.6](i-6-representacao.md) diz, inclusive a sensibilidade à escala.",
+   "volte_para": "#pca-variancia-como-criterio-e-o-que-se-perde",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
   },
   {
    "id": "nao-supervisionado-e3",
@@ -9017,6 +9239,84 @@
     "propõe ao menos um critério externo — uma variável que não entrou no agrupamento e que os grupos deveriam predizer",
     "não se limita a sugerir \"usar silhueta\" como se isso resolvesse"
    ]
+  },
+  {
+   "id": "nao-supervisionado-e11",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que a silhueta não serve como confirmação independente de uma partição do k-means?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque ela só funciona com mais de dez grupos."
+    },
+    {
+     "correta": true,
+     "texto": "Porque ela premia a mesma geometria compacta que o k-means persegue: é o critério se elogiando."
+    },
+    {
+     "correta": false,
+     "texto": "Porque ela exige rótulos verdadeiros para ser calculada."
+    },
+    {
+     "correta": false,
+     "texto": "Porque ela é sensível à ordem dos pontos no conjunto."
+    }
+   ],
+   "gabarito": "ela premia a mesma geometria que o k-means persegue",
+   "porque": "Silhueta compara a distância média dentro do grupo com a distância ao grupo mais próximo, usando a **mesma noção de distância** que gerou a partição. Ela pode confirmar uma partição de puro ruído.\n\nA terceira alternativa inverte a natureza dela: silhueta é métrica **interna**, calculada sem gabarito, e é justamente por isso que ela está disponível aqui, e por isso que ela não decide.\n\nIndependência exige informação que não participou da escolha. É o mesmo princípio do conjunto de teste do capítulo 0.2, aplicado onde não há rótulo: um critério externo é o único que pode dar errado.",
+   "volte_para": "#validar-sem-gabarito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
+  },
+  {
+   "id": "nao-supervisionado-e12",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe precisa declarar um critério para escolher k. Quais procedimentos podem **discordar** dela? (marque todos que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Dividir a base, agrupar as duas metades separadamente e comparar as partições."
+    },
+    {
+     "correta": true,
+     "texto": "Verificar se os segmentos predizem uma variável que não entrou no agrupamento."
+    },
+    {
+     "correta": true,
+     "texto": "Rodar o mesmo procedimento em dados embaralhados e ver se os grupos continuam nomeáveis."
+    },
+    {
+     "correta": false,
+     "texto": "Escolher o k em que os grupos ficaram mais interpretáveis."
+    },
+    {
+     "correta": false,
+     "texto": "Olhar o gráfico da inércia e apontar onde a curva dobra."
+    }
+   ],
+   "gabarito": "estabilidade entre metades · variável externa · teste em dados embaralhados",
+   "porque": "As três podem dar errado, e é isso que as torna evidência. Se as duas metades produzem partições incompatíveis, a estrutura não sobrevive fora daquele recorte. Se os grupos não predizem nada externo, eles não descreveram nada além de si mesmos.\n\nO terceiro é o mais barato e o mais humilhante: se os grupos continuam nomeáveis em ruído, o que a equipe descobriu foi a própria capacidade de contar histórias.\n\nAs duas erradas não podem discordar de ninguém. Interpretabilidade é critério posterior e subjetivo, escolhido depois de ver o resultado — o mesmo pecado do [capítulo II.8](ii-8-do-modelo-a-decisao.md), agravado aqui porque não há gabarito para desmentir. E o cotovelo vira leitura pessoal do gráfico quando a dobra não é óbvia, que é a maioria dos dados reais.",
+   "volte_para": "#validar-sem-gabarito",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-1-nao-supervisionado",
+   "titulo_capitulo": "IV.1 — Aprendizado Não Supervisionado"
   },
   {
    "id": "nao-supervisionado-e4",
@@ -11356,6 +11656,22 @@
    },
    "intro": "É o mesmo XOR em que o perceptron do [capítulo III.1](iii-1-neuronio-artificial.md) oscilava sem fim. Aqui a rede é 2 → 2 → 1, com `tanh` na camada escondida, e ninguém escolheu peso nenhum: ela parte de valores aleatórios e desce o gradiente.\n\nAs **duas retas** são as fronteiras que as duas unidades escondidas estão aprendendo, e são o conteúdo da animação, não enfeite. Repare que a solução nunca vira uma fronteira curva: são duas retas, e quem as combina é a camada de saída — exatamente o `(OU) E (NÃO-E)` da tabela, encontrado sozinho.\n\nPonto com contorno é ponto que a rede ainda erra. Assista até a contagem fechar, na época 142.\n\nDepois use os dois outros botões, nesta ordem.\n\n**\"E sem a camada escondida?\"** deixa tudo igual e tira só a camada do meio. Mesma descida, mesma perda, mesmo tempo, e ela empaca em 24 de 48, que é o acaso. O que resolveu o XOR não foi o gradiente: foi a camada.\n\n**\"E se a inicialização for infeliz?\"** mantém a camada e muda apenas de onde os pesos partem. A rede empaca em 24 de 48 com a perda parada em 0,348, e não sai mais dali. Não há erro nenhum: o método está correto, a implementação está correta, e a descida caiu num **mínimo local**. Varrendo 60 inicializações sobre este mesmo conjunto, 44 resolvem e 16 não.\n\nEsse botão existe porque o problema apareceu de verdade ao construir esta animação — a primeira semente escolhida era uma das 16. É o modo de falha \"inicialização ruim\" do objetivo **O4**, e vê-lo aqui torna o resto do capítulo menos abstrato.",
    "pagina": "iii-2-redes-neurais"
+  },
+  {
+   "id": "nao-supervisionado-l1",
+   "capitulo": 23,
+   "arquivo": "livro/capitulos/iv-1-nao-supervisionado.md",
+   "tipo": "anima-kmeans",
+   "titulo": "Atribuir e recentrar, e a semente que decide o resultado",
+   "config": {
+    "id": "nao-supervisionado-l1",
+    "tipo": "anima-kmeans",
+    "titulo": "Atribuir e recentrar, e a semente que decide o resultado",
+    "semente": 5,
+    "semente_ruim": 29
+   },
+   "intro": "O método são **dois movimentos alternando**, e a animação os separa de propósito: atribuir cada ponto ao centro mais próximo, depois recolocar cada centro na média dos seus pontos. As cruzes são os centros — elas não são pontos do dado, e confundir as duas coisas é o mal-entendido mais comum aqui.\n\nOs três grupos foram desenhados bem separados, então não há ambiguidade no dado. Assista a inércia cair em degraus até estabilizar em **2,243**, na quarta iteração.\n\nAgora clique em **\"E se a semente for outra?\"**. Mesmo dado, mesmo algoritmo, mesmo k, mesmo critério, e só os centros iniciais mudam. A execução estabiliza em **24,159**, dez vezes pior, e o desenho mostra o que aconteceu: dois grupos verdadeiros foram fundidos num só, e o terceiro foi partido ao meio para pagar a conta.\n\nNão há erro em lugar nenhum. O método está correto, a implementação está correta, a execução está correta, e a resposta está errada — porque a inércia cai a cada passo e o algoritmo para no primeiro mínimo **local** que encontrar.\n\nDuas leituras que valem mais que a animação. A primeira: é por isso que as bibliotecas rodam várias inicializações e ficam com a melhor, e é por isso que rodar uma vez só é uma decisão, não um padrão inofensivo. A segunda é mais desconfortável — aqui o estrago é escandaloso, dez vezes na inércia, e qualquer comparação o pegaria. O caso perigoso é o outro: quando a partição infeliz sai só um pouco pior, parece plausível, e ninguém tem com o que compará-la.",
+   "pagina": "iv-1-nao-supervisionado"
   }
  ],
  "gerado_de": "livro/"

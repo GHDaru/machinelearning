@@ -45,7 +45,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | III.4 | filtro deslizando com o mapa de ativação: nº de parâmetros (densa 3,2 M × conv 2 400) **e o botão que desloca a imagem 3 px** |
 | III.5 | pesos de atenção acendendo numa frase, contra o sinal de gradiente da RNN caindo a zero em 11 passos |
 | III.6 | **não animar** — nada treinável honestamente no navegador vira encenação |
-| IV.1 | atribuir e recentrar alternando: inércia caindo em degraus; outra semente parando 18% pior |
+| IV.1 | **feito** — atribuir e recentrar alternando, com o botão da semente infeliz |
 | IV.2 | grid-world com a Q-table pintando: recompensa por episódio e ε caindo; com ε=0 o agente trava num caminho pior |
 | IV.3 | algoritmo genético: melhor aptidão subindo enquanto a diversidade colapsa |
 | V.1 | limiar de um grupo movendo: paridade, igualdade de oportunidade e calibração, sempre dois verdes e um vermelho |
@@ -111,3 +111,30 @@ está versionado em `publicar/testes/anima-mlp-xor.mjs` e foi visto falhando.
 **Para as próximas 21:** nenhuma animação entra sem um teste que rode o método
 e confira o número que o texto promete ao leitor. Foi a segunda vez que uma
 animação passou no build e falhou com o leitor.
+
+
+## O que a terceira animação ensinou (2026-08)
+
+**O núcleo passou no teste de família.** As duas primeiras animações eram
+"laço de descida com placar" (módulo A); o k-means é "particionar e recalcular
+critério" (módulo C). `tela`, `placarDe`, `botoeiraDe` e `relogio` vieram
+inteiros, sem adaptação, e o que a nova precisou escrever foi só o que é dela.
+Isso é evidência de que a extração feita na segunda pegou o recorte certo — e
+não uma abstração do primeiro caso disfarçada de núcleo.
+
+**A previsão de "18% pior" estava errada, e o valor medido é 10×.** A linha
+desta tabela foi escrita antes de construir. Com três grupos bem separados, a
+semente infeliz funde dois grupos verdadeiros e parte o terceiro: a inércia vai
+de **2,243** para **24,159**. Corrigi a linha em vez de forçar o dado a caber na
+previsão.
+
+O número maior é melhor para ensinar e pior como alerta, e o texto do
+laboratório diz isso ao leitor: aqui o estrago é escandaloso e qualquer
+comparação o pegaria; o caso perigoso é quando a partição infeliz sai só um
+pouco pior e ninguém tem com o que compará-la.
+
+Uma decisão de ritmo que vale para as próximas: **um passo do relógio é meia
+iteração**, com atribuir e recentrar separados. Ver os dois movimentos alternando
+é o que mostra que o método são dois gestos, e não uma caixa que devolve grupos.
+
+Teste em `publicar/testes/anima-kmeans.mjs`, visto falhando.

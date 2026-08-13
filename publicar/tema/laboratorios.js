@@ -1175,9 +1175,162 @@
     rel.aoChegar(function () { rodar({}); });
   }
 
+  // Terceira animação, e a primeira de outra família: as duas anteriores são
+  // "laço de descida com placar", esta é "particionar e recalcular critério".
+  // Serviu de teste do núcleo — `tela`, `placarDe`, `botoeiraDe` e `relogio`
+  // vieram inteiros, e o que ela precisou acrescentar foi só o que é dela.
+  //
+  // O que ela ensina é o mais difícil do capítulo: método correto, execução
+  // correta, resposta errada, e só a semente mudou. É o mesmo fenômeno que a
+  // animação do III.2 produziu por acidente, aqui de propósito.
+  function animaKMeans(area, cfg) {
+    var W = 460, H = 300, PAD = 24, LIM = 1.15;
+    var t = tela(area, W, H, PAD, LIM);
+    var cv = t.cv, ctx = t.ctx, esc = t.esc;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bRuim;
+    var K = 3, TETO = 40;
+    var SEM_BOA = Number(cfg.semente) || 5;
+    var SEM_RUIM = Number(cfg.semente_ruim) || 29;
+    var est = { pts: [], cen: [], atrib: [], it: 0, inercia: 0, antes: -1,
+                ruim: false, parou: false, fase: "atribuir" };
+
+    var CORES_C = ["#35618e", "#b8761f", "#4a7c59"];
+    var CORES_E = ["#8fb8dd", "#e0a24a", "#87b89a"];
+
+    // Três grupos bem separados: com estrutura tão clara, uma partição ruim
+    // não pode ser desculpada por "o dado é ambíguo".
+    function dados() {
+      var r = rng(41), p = [], c = [[-.65, -.5], [.65, -.5], [0, .62]], k, g;
+      for (g = 0; g < 3; g++) {
+        for (k = 0; k < 26; k++) {
+          p.push({ x: c[g][0] + (r() - .5) * .42, y: c[g][1] + (r() - .5) * .42 });
+        }
+      }
+      return p;
+    }
+
+    /** Centros iniciais sorteados entre os próprios pontos (Forgy). */
+    function iniciarCentros() {
+      var r = rng(est.ruim ? SEM_RUIM : SEM_BOA), esc2 = [], k, i;
+      for (k = 0; k < K; k++) {
+        do { i = Math.floor(r() * est.pts.length); } while (esc2.indexOf(i) >= 0);
+        esc2.push(i);
+      }
+      return esc2.map(function (i) { return { x: est.pts[i].x, y: est.pts[i].y }; });
+    }
+
+    function d2(a, b) { var dx = a.x - b.x, dy = a.y - b.y; return dx * dx + dy * dy; }
+
+    function atribuir() {
+      var mudou = false;
+      est.pts.forEach(function (p, i) {
+        var melhor = 0, md = Infinity;
+        est.cen.forEach(function (c, j) { var d = d2(p, c); if (d < md) { md = d; melhor = j; } });
+        if (est.atrib[i] !== melhor) mudou = true;
+        est.atrib[i] = melhor;
+      });
+      return mudou;
+    }
+
+    function recentrar() {
+      var sx = [], sy = [], n = [], j;
+      for (j = 0; j < K; j++) { sx.push(0); sy.push(0); n.push(0); }
+      est.pts.forEach(function (p, i) {
+        var g = est.atrib[i]; sx[g] += p.x; sy[g] += p.y; n[g]++;
+      });
+      for (j = 0; j < K; j++) if (n[j]) est.cen[j] = { x: sx[j] / n[j], y: sy[j] / n[j] };
+    }
+
+    function inercia() {
+      var s = 0;
+      est.pts.forEach(function (p, i) { s += d2(p, est.cen[est.atrib[i]]); });
+      return s;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      t.fundo(escuro);
+      est.pts.forEach(function (p, i) {
+        var g = est.atrib[i];
+        ctx.fillStyle = g == null ? (escuro ? "#7a7b7f" : "#9a9a97")
+                                  : (escuro ? CORES_E[g] : CORES_C[g]);
+        ctx.beginPath();
+        ctx.arc(esc(p.x, W), H - esc(p.y, H), 3.4, 0, 6.2832);
+        ctx.fill();
+      });
+      // O centro é desenhado como cruz, e não como bola: ele não é um ponto do
+      // dado, e confundir os dois é o mal-entendido mais comum do método.
+      est.cen.forEach(function (c, j) {
+        ctx.strokeStyle = escuro ? CORES_E[j] : CORES_C[j];
+        ctx.lineWidth = 3;
+        var x = esc(c.x, W), y = H - esc(c.y, H);
+        ctx.beginPath();
+        ctx.moveTo(x - 7, y); ctx.lineTo(x + 7, y);
+        ctx.moveTo(x, y - 7); ctx.lineTo(x, y + 7);
+        ctx.stroke();
+      });
+    }
+
+    function texto() {
+      placar.textContent = (est.ruim ? "semente infeliz · " : "") +
+        "iteração " + est.it + " · " + (est.fase === "atribuir" ? "atribuir" : "recentrar") +
+        " · inércia " + est.inercia.toFixed(3) +
+        (est.parou ? " · estabilizou" : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    // Um passo do relógio é meia iteração, de propósito: ver "atribuir" e
+    // "recentrar" separados é o que mostra que o método são DOIS movimentos
+    // alternando, e não uma caixa que devolve grupos.
+    function passo() {
+      if (est.fase === "atribuir") {
+        var mudou = atribuir();
+        est.inercia = inercia();
+        est.fase = "recentrar";
+        if (!mudou && est.it > 0) est.parou = true;
+      } else {
+        recentrar();
+        est.inercia = inercia();
+        est.fase = "atribuir";
+        est.it++;
+        if (est.it >= TETO) est.parou = true;
+      }
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(opc) {
+      est.ruim = !!opc.ruim;
+      est.pts = dados();
+      est.atrib = est.pts.map(function () { return null; });
+      est.cen = iniciarCentros();
+      est.it = 0; est.inercia = 0; est.parou = false; est.fase = "atribuir";
+      rel.comecar(TETO * 2);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bRuim.textContent = est.ruim ? "Voltar à semente boa" : "E se a semente for outra?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar({ ruim: est.ruim }); });
+    bRuim = botao("E se a semente for outra?", function () { rodar({ ruim: !est.ruim }); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 320);
+    est.pts = dados();
+    est.atrib = est.pts.map(function () { return null; });
+    est.cen = iniciarCentros();
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar({}); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
-                "anima-mlp-xor": animaMLPXor };
+                "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
