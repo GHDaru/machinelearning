@@ -45,8 +45,9 @@ Nada quebrou. O experimento é que estava errado — e de um jeito invisível. A
 
 | Selo | Afirmação |
 |---|---|
-| ⏳ | O aperto de 1927 (o ruído no sistema e não na medição), a análise harmônica como prática anterior e a metáfora do pêndulo que leva pancadas |
-| ✓ᵐ | Yule, *On a Method of Investigating Periodicities in Disturbed Series, with Special Reference to Wolfer's Sunspot Numbers*, Phil. Trans. Royal Society A, **226**, 267–298 (1927) — primeira aplicação de autorregressão, com defasagem 2. **Localizado e identificado; não lido** |
+| ⏳ | O aperto de 1927 (o ruído no sistema e não na medição), a análise harmônica como prática anterior e a metáfora do pêndulo que leva pancadas. A metáfora é atribuída a Yule de forma consistente, com pêndulo e meninos atirando ervilhas, e **o texto do artigo não abriu** em nenhuma das tentativas desta passagem |
+| ✓ᵐ | **George Udny Yule**, Phil. Trans. Royal Society A **226** (636–646), 267–298, 1927, [10.1098/rsta.1927.0007](https://doi.org/10.1098/rsta.1927.0007) — primeira aplicação de autorregressão, com defasagem 2. **Ficha conferida; o texto não abriu**: o periódico e um espelho recusaram a transferência |
+| ✓ᵐ | **O título impresso não tem o "in".** O registro do próprio periódico traz *"VII. On a method of investigating periodicities disturbed series, with special reference to Wolfer's sunspot numbers"*. A forma corrente das citações, que este capítulo também usava, acrescenta *"in"* entre "periodicities" e "disturbed" |
 | ✓ᵐ | Box & Jenkins, *Time Series Analysis: Forecasting and Control* (Holden-Day, 1970), e o acrônimo ARIMA. **Localizado e identificado; não lido** |
 | 📖 | A ideia reaproveitável, e a leitura do relógio — os 43 anos, o paralelo com os capítulos I.4, 18 e 01, e o contraste com os sete anos do [II.5](ii-5-arvores-ensembles.md) |
 

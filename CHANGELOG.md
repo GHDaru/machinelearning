@@ -19,6 +19,17 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — o título do artigo de Yule, que as citações vinham "consertando" (cap. II.7)
+- **O impresso não tem o "in".** O registro do periódico traz *"VII. On a method of
+  investigating periodicities disturbed series, with special reference to Wolfer's
+  sunspot numbers"*. A forma corrente das citações, que este capítulo usava,
+  acrescenta *"in"* entre "periodicities" e "disturbed". É o mesmo mecanismo da
+  frase de Playfair no I.5 — variação que melhora a leitura e por isso ninguém
+  corrige de volta —, agora no título em vez de no corpo.
+- A ficha ganhou DOI, número de fascículo e autor por extenso.
+- **O texto do artigo não abriu:** periódico e espelho recusaram a transferência.
+  A metáfora do pêndulo levando pancadas continua ⏳, com a tentativa registrada.
+
 ### Adicionado — evidência de época para o episódio do OLAP, sem tocar na acusação (cap. II.6)
 - **Nada a corrigir:** o capítulo já dizia "a versão corrente é que" em vez de
   "aconteceu que", declarava o selo ⏳ no próprio corpo e explicava ao leitor por
