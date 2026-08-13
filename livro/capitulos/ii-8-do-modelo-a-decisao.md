@@ -27,6 +27,12 @@ O erro que este capítulo previne é esse: **o cientista de dados escolher o lim
 
 Na Inglaterra, **Patrick Blackett** monta em agosto de 1940, no Anti-Aircraft Command, um grupo de sete cientistas (físicos, um astrônomo, um fisiologista, um matemático) apelidado **"Blackett's Circus"**. Em março de 1941 repete a receita no Coastal Command, contra os submarinos alemães. Nos Estados Unidos, o **Statistical Research Group** reúne em Columbia, no verão de 1942, gente como Wald, Savage, Friedman e Hotelling para decidir blindagem de bombardeiro, mistura de munição e regras de inspeção por amostragem.
 
+> **O caso da blindagem, sem o verniz.** Ele é contado em toda parte com a mesma frase de efeito: reforce onde os aviões que voltaram **não** têm furos, porque quem foi atingido ali não voltou. A lição está certa, e vale conferir o que o documento original diz, porque ele é mais modesto e mais útil que a anedota.
+>
+> O que existe é uma **série de oito memorandos**, escritos por Wald em **1943** para o Statistical Research Group, sob o National Defense Research Committee, sobre *"methods of estimating the vulnerability of various parts of an aircraft based on damage to surviving planes"*. São contas: probabilidades de abate por tipo de acerto e por parte do avião, montadas numa tabela de vulnerabilidade.
+>
+> A palavra "blindagem" aparece **uma vez** no texto, e no fim, sem nenhum floreio: as conclusões *"can be used as guides for locating protective armor"*. Não há a frase de efeito. Ela é invenção de quem recontou, e é boa didática. O trabalho, esse, é uma tabela.
+
 **O que se fazia antes.** Decisão de comando por experiência e hierarquia. E, do lado da estatística, dois problemas tratados separadamente e **sem preço**: estimar um parâmetro e testar uma hipótese.
 
 **A virada.** Abraham Wald mostra, em 1939, que estimar e testar são casos particulares de um mesmo problema: decidir. E para isso ele precisa de algo que a estatística clássica não tinha, uma **função que diz quanto custa errar**. Erro deixa de ser categoria lógica (certo/errado) e vira **grandeza econômica**.
@@ -61,7 +67,8 @@ Um conjunto de dados usado em aula há décadas circula com uma matriz de custo 
 | ✓ᵐ | Blackett, o "Blackett's Circus" (agosto de 1940), o Coastal Command (março de 1941) e a participação no comitê Tizard/CSSAD desde 1934 — [perfil biográfico do INFORMS](https://www.informs.org/Explore/History-of-O.R.-Excellence/Biographical-Profiles/Blackett-Patrick-M.-S) |
 | ✓ᵐ | Wald (*Annals of Mathematical Statistics* 10(4):299–326, 1939) e *Statistical Decision Functions* (1950); Savage (1954); Raiffa & Schlaifer (1961, Harvard Business School); Howard cunhando "decision analysis" em 1966. **O artigo de Wald está digitalizado sem camada de texto e não foi lido** |
 | ✓ᵐ | O Statistical Research Group de Columbia (1942) e seus integrantes |
-| ⏳ | O estudo da blindagem dos bombardeiros (1943) como caso canônico de viés de sobrevivência |
+| ✓ | O estudo da blindagem: **oito memorandos** de Wald, de **1943**, para o Statistical Research Group sob o National Defense Research Committee, e os trechos citados entre aspas — no [reimpresso de 1980 do Center for Naval Analyses (CRC 432)](https://archive.org/details/DTIC_ADA091073), **lido**. Dele também a constatação de que "armor" aparece uma única vez no texto |
+| 📖 | Que a frase de efeito do caso ("reforce onde não há furos") **não está no documento** e é obra de quem o recontou. O que Wald escreve é que as conclusões *"can be used as guides for locating protective armor"* |
 | ❌ | A **origem da curva de lift**: procurei inventor, data e publicação, e **não achei atribuição primária**. O que se apura é ambiente, não autoria — RFM atribuído a George Cullinan por volta de 1961 no marketing direto (⏳), e a análise por decis consolidada no *database marketing* dos anos 1980–90 (⏳) |
 | 📖 | A leitura de que os capítulos II.1 e 25 são uma história só, e de que o limiar é a matriz de custo vista de perfil |
 

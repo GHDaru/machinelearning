@@ -19,6 +19,18 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Adicionado — o caso da blindagem sem o verniz, e a Parte II fecha (cap. II.8)
+- **A frase de efeito não está no documento.** O caso é contado em toda parte com
+  "reforce onde os aviões que voltaram não têm furos". Os **oito memorandos** de
+  Wald, de 1943, para o Statistical Research Group sob o NDRC, foram lidos no
+  reimpresso de 1980: a palavra "armor" aparece **uma única vez**, e o que Wald
+  escreve é que as conclusões *"can be used as guides for locating protective
+  armor"*. O trabalho é uma tabela de vulnerabilidade, não um aforismo.
+- A lição continua válida, e o capítulo passou a separar o que o documento diz do
+  que a recontagem acrescentou — com selo ✓ para o primeiro e 📖 para o segundo.
+- **A Parte II fecha inteira na coluna de fontes**, de II.1 a II.8, somada à
+  Abertura e à Parte I.
+
 ### Corrigido — o título do artigo de Yule, que as citações vinham "consertando" (cap. II.7)
 - **O impresso não tem o "in".** O registro do periódico traz *"VII. On a method of
   investigating periodicities disturbed series, with special reference to Wolfer's
