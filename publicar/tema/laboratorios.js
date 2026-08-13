@@ -805,7 +805,10 @@
     cv.setAttribute("role", "img");
     area.appendChild(cv);
     var ctx = cv.getContext("2d");
-    var placar = el("div", "lab-placar"); area.appendChild(placar);
+    var placar = el("div", "lab-placar");
+    placar.setAttribute("aria-live", "polite");   // o canvas é role=img: quem
+    placar.setAttribute("role", "status");        // não enxerga acompanha aqui
+    area.appendChild(placar);
     var botoes = el("div", "lab-botoes"); area.appendChild(botoes);
 
     var calmo = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -873,7 +876,9 @@
       if (est.i >= est.pts.length) {
         est.i = 0; est.epoca++;
         if (est.erros === 0) est.parou = true; else est.erros = 0;
-        if (est.epoca > 60) est.parou = true;      // trava: o XOR não roda para sempre
+        // 8 épocas bastam: um contador de erros que não desce já disse tudo.
+        // Com a trava anterior (60) o XOR rodava ~2 minutos, e ninguém espera.
+        if (est.epoca > 8) est.parou = true;
       }
       desenhar(); texto();
       if (est.parou && est.timer) { clearInterval(est.timer); est.timer = null; sincBotoes(); }
@@ -902,7 +907,30 @@
     }
     bRodar = botao("Rodar de novo", function () { rodar(est.xor); });
     bXor = botao("E se os dados forem XOR?", function () { rodar(!est.xor); });
-    rodar(false);
+
+    // Só começa quando o leitor CHEGA. Sem isto a animação rodava no load,
+    // terminava em 4 segundos, e quem descia até aqui minutos depois achava um
+    // quadro congelado dizendo "convergiu" — uma imagem estática se passando
+    // por animação. Foi assim que ela nasceu, e o teste não pegou porque o
+    // navegador automatizado rola até o bloco na hora.
+    est.pts = dados(false); desenhar(); texto();
+    if (window.IntersectionObserver) {
+      var visto = false;
+      var obs = new IntersectionObserver(function (ents) {
+        ents.forEach(function (e) {
+          if (e.isIntersecting && !visto) { visto = true; obs.disconnect(); rodar(false); }
+        });
+      }, { threshold: 0.4 });
+      obs.observe(cv);
+    } else {
+      rodar(false);
+    }
+
+    // Trocar o tema no meio da animação deixava as cores do tema anterior.
+    if (window.MutationObserver) {
+      new MutationObserver(function () { desenhar(); })
+        .observe(document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
+    }
   }
 
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
