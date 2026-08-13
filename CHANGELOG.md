@@ -6,6 +6,39 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o `III.1` e o `II.7` iam ao ar com um `<style>` aberto, e morriam no meio
+- Para o navegador, tudo o que vem depois de um `<style>` sem fecho **é CSS**. As duas
+  páginas respondiam 200 e tinham todos os bytes no lugar, mas o leitor via o capítulo
+  morrer no meio: dos **doze** exercícios apareciam **três**, o link do Colab sumia, os
+  laboratórios não montavam e o companion não carregava — e sem companion não há
+  histórico do aluno.
+- **A causa é um duplo passe de markdown.** O texto do exercício é renderizado uma vez
+  para virar HTML de opção (`build.mjs:442`) e outra quando a página inteira passa pelo
+  markdown (`build.mjs:444`). Fórmula dentro de opção de múltipla escolha nasce
+  embrulhada num `<style>` do MathJax que contém **linhas em branco**; no segundo passe
+  o markdown lê essas linhas como separador de parágrafo e parte o bloco em `<p>`, de
+  modo que o `</style>` deixa de existir inteiro. O dedup que já existia rodava só
+  depois, quando não casava mais. Agora ele roda no momento em que o embrulho nasce.
+- **Foi o ciclo 009 que introduziu**: os quatro exercícios com matemática dentro da
+  opção (`modelos-lineares-e9`, `regressao-logistica-e7`, `series-temporais-e11`,
+  `neuronio-artificial-e10`) entraram nas rodadas que levaram cada capítulo a doze.
+  Reverter tiraria exercícios bons e deixaria a causa de pé para a próxima fórmula em
+  opção; a correção vai para a frente.
+- Medido em navegador de verdade, antes e depois, na mesma página: **3 → 12 exercícios,
+  3 → 4 laboratórios (os quatro montando), companion ausente → presente, 0 → 1 link do
+  Colab.**
+
+### Adicionado — gate `html-integro.mjs`: o primeiro que lê o produto, não a fonte
+- Todos os gates até aqui liam a **fonte** — prosa, banco, links, intervalos, tema.
+  Nenhum olhava o HTML **gerado**, e foi por essa porta que a página quebrada passou
+  por CI verde e foi publicada.
+- Cobra três invariantes por página: `<style>` e `<script>` fecham na conta em que
+  abrem, e há exatamente um `</body>` e um `</html>`. Ligado ao `build.mjs`, rodando
+  por último, com as páginas já escritas.
+- **Visto falhar no defeito real**, não num caso inventado: com a correção de uma linha
+  desfeita, ele acusa `ii-7-series-temporais.html` e `iii-1-neuronio-artificial.html`
+  nominalmente e o build inteiro para (saída 1); com a correção de volta, saída 0.
+
 ### Corrigido — a chave do tema tinha dois nomes, e um deles não existia
 - O `app.js` escreve `data-tema` com valores `claro`/`escuro`. Três blocos de CSS
   estavam escritos em `data-theme` com valores `dark`/`light` — vocabulário que
