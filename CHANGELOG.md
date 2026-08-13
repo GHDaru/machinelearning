@@ -6,6 +6,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — os endereços antigos voltam a chegar ao capítulo
+- **29 redirecionamentos**, um para cada capítulo renumerado pelo ADR 0011.
+  `05-modelos-lineares.html` → `ii-2-modelos-lineares.html`, e assim por diante.
+  O ADR aceitou quebrar os endereços; a conta chegou no meio do semestre, em
+  link de slide, de PDF de aula, do Moodle e de favorito de aluno.
+- **A âncora e a query sobrevivem** — `05-modelos-lineares.html#o-caso-da-limonada`
+  chega em `ii-2-modelos-lineares.html#o-caso-da-limonada`. É o caso que mais
+  importa, porque link de aula aponta para a *seção*, e o `meta refresh`
+  sozinho descartaria o fragmento. Verificado num navegador de verdade.
+- **Stub em HTML, não configuração de provedor**: o livro é servido em dois
+  lugares até o passo 8 da migração, e um arquivo funciona nos dois.
+- O mapa (`publicar/redirecionamentos.json`) foi **derivado da detecção de
+  rename do git**, não escrito à mão. Dois gates novos: uma rota que colida com
+  uma página viva (o stub apagaria o capítulo) ou que aponte para página
+  inexistente quebra o build.
+
 ### Corrigido — o tutor citava numeração que não existe mais
 - **"Qual o capítulo do neurônio artificial?" → "Capítulo 18", citando o
   `HISTORICO.md`.** Depois do ADR 0011 o capítulo é **III.1**, e a posição de
