@@ -65,7 +65,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 20 | III.4 — Visão Computacional | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 21 | III.5 — Sequências e Linguagem | 4 | 4 | 12 | **ok** | — | — | — |
+| 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 22 | III.6 — Modelos de Fundação | 4 | 4 | 12 | **ok** | — | — | — |
 | 23 | IV.1 — Não Supervisionado | 4 | 4 | 12 | **ok** | — | — | — |
 | 24 | IV.2 — Aprendizado por Reforço | 4 | 4 | 12 | **ok** | — | — | — |
@@ -75,7 +75,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 299 exercícios hoje (271 de capítulo + 28 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 307 exercícios hoje (279 de capítulo + 28 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

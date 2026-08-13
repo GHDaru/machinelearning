@@ -8106,6 +8106,80 @@
    ]
   },
   {
+   "id": "sequencias-linguagem-e5",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "\"O cachorro mordeu o homem\" e \"o homem mordeu o cachorro\" produzem exatamente a mesma contagem de palavras. O que isso demonstra?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Que a ordem carrega informação que uma representação por contagem descarta."
+    },
+    {
+     "correta": false,
+     "texto": "Que a contagem de palavras é uma representação inválida para qualquer tarefa de texto."
+    },
+    {
+     "correta": false,
+     "texto": "Que as duas frases têm o mesmo significado, e o contexto é que decide."
+    },
+    {
+     "correta": false,
+     "texto": "Que é preciso um vocabulário maior para distinguir as duas."
+    }
+   ],
+   "gabarito": "a ordem carrega informação que a contagem descarta",
+   "porque": "As duas frases têm os mesmos atributos e significam coisas opostas. Isso quebra a premissa que sustentava tudo até aqui: cada exemplo é uma linha independente, e a ordem das colunas não informa.\n\nA segunda alternativa exagera para uma proibição. Contagem de palavras é representação perfeitamente útil onde a ordem não decide, como classificar um documento por assunto. O que ela não serve é para tarefas em que a ordem **é** o dado.\n\nA quarta trata como problema de vocabulário o que é de representação: as duas frases usam exatamente as mesmas palavras, e nenhum vocabulário maior as distingue.",
+   "volte_para": "#o-problema-a-ordem-e-informacao-e-a-memoria-se-dissolve",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
+   "id": "sequencias-linguagem-e6",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O capítulo diz que o problema da memória em sequências é \"o mesmo problema, na dimensão tempo\". Do que ele é o mesmo?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Do overfitting, que aparece quando a sequência é longa demais para os dados."
+    },
+    {
+     "correta": true,
+     "texto": "Do gradiente que morre ao atravessar muitas camadas: cada passo da sequência é uma camada a mais no caminho de volta do erro."
+    },
+    {
+     "correta": false,
+     "texto": "Do desbalanceamento de classes, que aparece quando certas palavras são raras."
+    },
+    {
+     "correta": false,
+     "texto": "Da colinearidade entre atributos, porque palavras vizinhas se correlacionam."
+    }
+   ],
+   "gabarito": "do gradiente que morre atravessando camadas",
+   "porque": "É o diagnóstico do [capítulo III.3](iii-3-treinar-redes-profundas.md) reaparecendo noutra dimensão. Numa rede profunda o erro atravessa camadas; numa recorrente, atravessa passos de tempo. Nos dois casos o gradiente é um **produto**, e produtos de fatores menores que 1 encolhem exponencialmente.\n\nA leitura útil é que os remédios também se transferem. A LSTM aparece na tabela do kit de conserto do III.3 pelo mesmo motivo das conexões residuais: ela cria um caminho por onde o erro passa somado em vez de multiplicado.\n\nAs três alternativas erradas nomeiam problemas reais de outra natureza, e nenhum deles produz o sintoma descrito, que é a rede aprender dependências curtas e nunca as longas.",
+   "volte_para": "#o-problema-a-ordem-e-informacao-e-a-memoria-se-dissolve",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
    "id": "sequencias-linguagem-e1",
    "capitulo": 21,
    "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
@@ -8143,6 +8217,154 @@
    "titulo_capitulo": "III.5 — Sequências e Linguagem"
   },
   {
+   "id": "sequencias-linguagem-e7",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Onde fica, numa RNN, tudo o que ela sabe do passado?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "No estado oculto, um vetor de tamanho fixo que cada passo novo sobrescreve um pouco."
+    },
+    {
+     "correta": false,
+     "texto": "Nos pesos, que são diferentes em cada passo de tempo."
+    },
+    {
+     "correta": false,
+     "texto": "Na sequência de entrada, que a rede reprocessa a cada passo."
+    },
+    {
+     "correta": false,
+     "texto": "Num buffer que cresce conforme a sequência fica mais longa."
+    }
+   ],
+   "gabarito": "no estado oculto, de tamanho fixo",
+   "porque": "A virtude e o defeito estão no mesmo lugar. Como o estado tem tamanho fixo, a rede aceita sequências de qualquer comprimento sem mudar de tamanho — e, pelo mesmo motivo, tudo o que ela sabe precisa caber ali, e cada passo sobrescreve um pouco do que havia.\n\nA segunda alternativa inverte um ponto que define a recorrência: os pesos são **os mesmos** em todos os passos. É uma função aplicada repetidamente, e não uma rede por posição.\n\nA quarta descreve algo próximo do que a atenção faz depois — guardar um vetor por posição, sem comprimir. É justamente o que a RNN **não** faz, e a diferença entre as duas coisas é o assunto das seções seguintes.",
+   "volte_para": "#fundamentos-a-recorrencia-o-estado-oculto-e-o-gradiente-que-some-no-tempo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
+   "id": "sequencias-linguagem-e8",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "As comportas da LSTM são descritas como \"torneiras, não chaves liga-desliga\". Por que a distinção importa?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque torneiras são mais rápidas de calcular que chaves binárias."
+    },
+    {
+     "correta": true,
+     "texto": "Porque valores contínuos são deriváveis, e é isso que permite aprender as comportas junto com o resto da rede."
+    },
+    {
+     "correta": false,
+     "texto": "Porque chaves binárias exigiriam mais parâmetros que valores contínuos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a distinção é apenas didática, e na implementação as comportas são binárias."
+    }
+   ],
+   "gabarito": "valores contínuos são deriváveis",
+   "porque": "Uma chave liga-desliga é uma função-degrau, e o [capítulo III.2](iii-2-redes-neurais.md) já estabeleceu o que isso significa: derivada zero onde existe, inexistente onde importa. Comportas binárias não teriam como ser treinadas por gradiente.\n\nSendo contínuas, elas são aprendidas junto com todo o resto, e a rede descobre **quanto** esquecer e **quanto** escrever em cada situação, em vez de receber uma regra fixa.\n\nÉ a mesma razão que torna a atenção treinável mais adiante: ela é uma busca **suave**, em que nada é escolhido e tudo é misturado em proporção à relevância. Escolha dura não deriva; mistura ponderada, sim.",
+   "volte_para": "#comportas-o-que-a-lstm-e-a-gru-acrescentam",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
+   "id": "sequencias-linguagem-e9",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais são as três peças do mecanismo de atenção?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Entrada, estado oculto e saída."
+    },
+    {
+     "correta": true,
+     "texto": "Consulta (o que procuro agora), chaves (o que cada posição oferece) e valores (o que cada posição entrega quando é escolhida)."
+    },
+    {
+     "correta": false,
+     "texto": "Codificador, decodificador e vetor de contexto."
+    },
+    {
+     "correta": false,
+     "texto": "Esquecer, escrever e ler."
+    }
+   ],
+   "gabarito": "consulta, chaves e valores",
+   "porque": "O procedimento é: compare a consulta com todas as chaves, transforme as semelhanças em pesos que somam 1, e some os valores ponderados por esses pesos.\n\nA quarta alternativa lista as comportas da LSTM, e o contraste vale: lá as três decisões governam **um resumo**; aqui as três peças governam **um acesso**. Uma esquece por construção, a outra não esqueceu nada e escolhe o que usar.\n\nA terceira nomeia as peças do seq2seq, que é o arranjo onde o gargalo aparece — e é exatamente o gargalo que a atenção remove.",
+   "volte_para": "#do-gargalo-a-atencao-seq2seq-e-o-vetor-de-tamanho-fixo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
+   "id": "sequencias-linguagem-e10",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que a atenção precisa ser uma busca **suave**, com pesos que somam 1, em vez de escolher a posição mais relevante?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque escolher uma posição só descartaria informação útil das demais."
+    },
+    {
+     "correta": true,
+     "texto": "Porque escolha dura não é derivável, e sem derivada o mecanismo não poderia ser treinado junto com o resto da rede."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a soma dos pesos precisa dar 1 para que a saída seja uma probabilidade."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o hardware calcula médias mais rápido que seleções."
+    }
+   ],
+   "gabarito": "escolha dura não é derivável",
+   "porque": "Selecionar a posição de maior semelhança é uma operação em degrau: uma variação pequena na consulta não muda nada até que, de repente, muda tudo. Sem gradiente, não há como aprender **o que** consultar.\n\nA primeira alternativa diz algo verdadeiro e não é a razão. Descartar informação seria uma desvantagem de qualidade; o impedimento aqui é anterior, e é de treinabilidade.\n\nRepare que na prática os pesos ficam concentrados: quase toda a massa em duas ou três posições e quase nada no resto. A busca é suave por construção e **quase** dura por comportamento — e é essa combinação que a torna útil e treinável ao mesmo tempo.",
+   "volte_para": "#do-gargalo-a-atencao-seq2seq-e-o-vetor-de-tamanho-fixo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
    "id": "sequencias-linguagem-e2",
    "capitulo": 21,
    "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
@@ -8165,6 +8387,84 @@
     "valor": 64,
     "tolerancia": 0
    }
+  },
+  {
+   "id": "sequencias-linguagem-e11",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual foi o motivo **declarado** no artigo de 2017 para remover a recorrência?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que a atenção representa dependências que a recorrência não conseguia representar."
+    },
+    {
+     "correta": true,
+     "texto": "Paralelismo e tempo de treino: a autoatenção calcula todas as comparações de uma vez, e a recorrência é sequencial por definição."
+    },
+    {
+     "correta": false,
+     "texto": "Que a recorrência exigia mais parâmetros para o mesmo desempenho."
+    },
+    {
+     "correta": false,
+     "texto": "Que a codificação posicional é mais precisa que a ordem implícita da recorrência."
+    }
+   ],
+   "gabarito": "paralelismo e tempo de treino",
+   "porque": "O argumento foi **operacional**, e não representacional. A recorrência espera o passo anterior; a autoatenção é uma multiplicação de matrizes, que é exatamente a operação em que a GPU é boa.\n\nA primeira alternativa é a leitura comum e errada. Não é que o Transformer aprenda o que a LSTM não aprendia: é que ele **cabe no hardware**, e por isso pôde ser treinado em dados e tamanhos que a recorrência nunca alcançaria.\n\nA quarta inverte um custo em virtude. A codificação posicional é a **conta a pagar** por remover a recorrência: sem ela, nada no modelo saberia a ordem, porque a autoatenção enxerga um conjunto. A recorrência codificava a ordem de graça, no próprio formato.\n\nÉ a mesma lição do [capítulo III.4](iii-4-visao.md), onde o diagrama mais reproduzido da visão é um limite de 3 GB desenhado: a restrição material escolhe a arquitetura vencedora.",
+   "volte_para": "#o-transformer-remover-o-hospedeiro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
+  },
+  {
+   "id": "sequencias-linguagem-e12",
+   "capitulo": 21,
+   "arquivo": "livro/capitulos/iii-5-sequencias-linguagem.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O que o Transformer **ganhou** e o que **pagou** ao trocar recorrência por autoatenção? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Ganhou caminho de um passo entre quaisquer duas posições."
+    },
+    {
+     "correta": true,
+     "texto": "Ganhou paralelismo, porque as comparações não dependem umas das outras."
+    },
+    {
+     "correta": true,
+     "texto": "Pagou custo quadrático no comprimento da sequência."
+    },
+    {
+     "correta": true,
+     "texto": "Pagou a necessidade de reinjetar a ordem por codificação posicional."
+    },
+    {
+     "correta": false,
+     "texto": "Ganhou custo linear no comprimento, que a recorrência não tinha."
+    }
+   ],
+   "gabarito": "caminho de um passo · paralelismo · custo quadrático · ordem reinjetada",
+   "porque": "As quatro corretas são o negócio inteiro, e vê-lo como negócio é o ponto. A recorrência tinha custo **linear** no comprimento e caminho longo demais para o gradiente sobreviver; a atenção inverte exatamente os dois termos.\n\nA alternativa errada atribui ao Transformer justamente a propriedade que ele abriu mão de ter. Custo linear era da recorrência.\n\nA consequência prática dessa troca organiza boa parte da pesquisa desde então, e explica por que \"janela de contexto\" é métrica comercial no [capítulo III.6](iii-6-modelos-de-fundacao.md): dobrar o texto quadruplica o custo da atenção.",
+   "volte_para": "#o-transformer-remover-o-hospedeiro",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-5-sequencias-linguagem",
+   "titulo_capitulo": "III.5 — Sequências e Linguagem"
   },
   {
    "id": "sequencias-linguagem-e3",

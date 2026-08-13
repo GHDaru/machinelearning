@@ -21,6 +21,40 @@ O segundo problema aparece assim que você tenta resolver o primeiro. Suponha um
 
 **É o mesmo problema, na dimensão tempo.** Cada passo da sequência é uma camada a mais no caminho de volta do erro.
 
+:::exercicio {"id":"sequencias-linguagem-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+"O cachorro mordeu o homem" e "o homem mordeu o cachorro" produzem exatamente a mesma contagem de palavras. O que isso demonstra?
+
+- [x] Que a ordem carrega informação que uma representação por contagem descarta.
+- [ ] Que a contagem de palavras é uma representação inválida para qualquer tarefa de texto.
+- [ ] Que as duas frases têm o mesmo significado, e o contexto é que decide.
+- [ ] Que é preciso um vocabulário maior para distinguir as duas.
+
+> **gabarito:** a ordem carrega informação que a contagem descarta
+> **porque:** As duas frases têm os mesmos atributos e significam coisas opostas. Isso quebra a premissa que sustentava tudo até aqui: cada exemplo é uma linha independente, e a ordem das colunas não informa.
+>
+> A segunda alternativa exagera para uma proibição. Contagem de palavras é representação perfeitamente útil onde a ordem não decide, como classificar um documento por assunto. O que ela não serve é para tarefas em que a ordem **é** o dado.
+>
+> A quarta trata como problema de vocabulário o que é de representação: as duas frases usam exatamente as mesmas palavras, e nenhum vocabulário maior as distingue.
+> **volte para:** #o-problema-a-ordem-e-informacao-e-a-memoria-se-dissolve
+:::
+
+:::exercicio {"id":"sequencias-linguagem-e6","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+O capítulo diz que o problema da memória em sequências é "o mesmo problema, na dimensão tempo". Do que ele é o mesmo?
+
+- [ ] Do overfitting, que aparece quando a sequência é longa demais para os dados.
+- [x] Do gradiente que morre ao atravessar muitas camadas: cada passo da sequência é uma camada a mais no caminho de volta do erro.
+- [ ] Do desbalanceamento de classes, que aparece quando certas palavras são raras.
+- [ ] Da colinearidade entre atributos, porque palavras vizinhas se correlacionam.
+
+> **gabarito:** do gradiente que morre atravessando camadas
+> **porque:** É o diagnóstico do [capítulo III.3](iii-3-treinar-redes-profundas.md) reaparecendo noutra dimensão. Numa rede profunda o erro atravessa camadas; numa recorrente, atravessa passos de tempo. Nos dois casos o gradiente é um **produto**, e produtos de fatores menores que 1 encolhem exponencialmente.
+>
+> A leitura útil é que os remédios também se transferem. A LSTM aparece na tabela do kit de conserto do III.3 pelo mesmo motivo das conexões residuais: ela cria um caminho por onde o erro passa somado em vez de multiplicado.
+>
+> As três alternativas erradas nomeiam problemas reais de outra natureza, e nenhum deles produz o sintoma descrito, que é a rede aprender dependências curtas e nunca as longas.
+> **volte para:** #o-problema-a-ordem-e-informacao-e-a-memoria-se-dissolve
+:::
+
 ## De onde isto veio
 
 **O aperto.** Uma rede recorrente precisa lembrar de algo visto muitos passos atrás, e o gradiente morre no caminho até lá. O erro é multiplicado por um fator a cada passo que retrocede; multiplicações repetidas produzem uma exponencial, e exponencial só faz duas coisas — explode ou some. Some, na maioria das vezes.
@@ -94,6 +128,40 @@ Uma RNN simples é treinada para classificar avaliações de produto e vai bem e
 > **volte para:** #fundamentos-a-recorrencia-o-estado-oculto-e-o-gradiente-que-some-no-tempo
 :::
 
+:::exercicio {"id":"sequencias-linguagem-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Onde fica, numa RNN, tudo o que ela sabe do passado?
+
+- [x] No estado oculto, um vetor de tamanho fixo que cada passo novo sobrescreve um pouco.
+- [ ] Nos pesos, que são diferentes em cada passo de tempo.
+- [ ] Na sequência de entrada, que a rede reprocessa a cada passo.
+- [ ] Num buffer que cresce conforme a sequência fica mais longa.
+
+> **gabarito:** no estado oculto, de tamanho fixo
+> **porque:** A virtude e o defeito estão no mesmo lugar. Como o estado tem tamanho fixo, a rede aceita sequências de qualquer comprimento sem mudar de tamanho — e, pelo mesmo motivo, tudo o que ela sabe precisa caber ali, e cada passo sobrescreve um pouco do que havia.
+>
+> A segunda alternativa inverte um ponto que define a recorrência: os pesos são **os mesmos** em todos os passos. É uma função aplicada repetidamente, e não uma rede por posição.
+>
+> A quarta descreve algo próximo do que a atenção faz depois — guardar um vetor por posição, sem comprimir. É justamente o que a RNN **não** faz, e a diferença entre as duas coisas é o assunto das seções seguintes.
+> **volte para:** #fundamentos-a-recorrencia-o-estado-oculto-e-o-gradiente-que-some-no-tempo
+:::
+
+:::exercicio {"id":"sequencias-linguagem-e8","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+As comportas da LSTM são descritas como "torneiras, não chaves liga-desliga". Por que a distinção importa?
+
+- [ ] Porque torneiras são mais rápidas de calcular que chaves binárias.
+- [x] Porque valores contínuos são deriváveis, e é isso que permite aprender as comportas junto com o resto da rede.
+- [ ] Porque chaves binárias exigiriam mais parâmetros que valores contínuos.
+- [ ] Porque a distinção é apenas didática, e na implementação as comportas são binárias.
+
+> **gabarito:** valores contínuos são deriváveis
+> **porque:** Uma chave liga-desliga é uma função-degrau, e o [capítulo III.2](iii-2-redes-neurais.md) já estabeleceu o que isso significa: derivada zero onde existe, inexistente onde importa. Comportas binárias não teriam como ser treinadas por gradiente.
+>
+> Sendo contínuas, elas são aprendidas junto com todo o resto, e a rede descobre **quanto** esquecer e **quanto** escrever em cada situação, em vez de receber uma regra fixa.
+>
+> É a mesma razão que torna a atenção treinável mais adiante: ela é uma busca **suave**, em que nada é escolhido e tudo é misturado em proporção à relevância. Escolha dura não deriva; mistura ponderada, sim.
+> **volte para:** #comportas-o-que-a-lstm-e-a-gru-acrescentam
+:::
+
 ## Do gargalo à atenção: seq2seq e o vetor de tamanho fixo
 
 O seq2seq colocou o problema num formato limpo: **codificador** lê a entrada e produz um vetor; **decodificador** lê o vetor e produz a saída. Isso permitiu, pela primeira vez, mapear uma sequência de tamanho *n* numa sequência de tamanho *m* sem alinhamento manual.
@@ -105,6 +173,40 @@ A **atenção** troca a compressão por acesso. Em vez de exigir um resumo únic
 Três palavras descrevem o mecanismo, e valem para tudo o que vem depois: a consulta (o que estou procurando agora), as chaves (o que cada posição oferece) e os valores (o que cada posição entrega quando é escolhida). Compare consulta com todas as chaves, transforme as semelhanças em pesos, some os valores ponderados. É uma busca **suave**: nada é escolhido, tudo é misturado em proporção à relevância — e é justamente por ser suave que ela é derivável, e portanto treinável junto com o resto.
 
 Repare no que foi ganho de graça: o caminho entre a posição 1 da entrada e a posição 50 da saída deixou de ter 50 passos. Tem **um**.
+
+:::exercicio {"id":"sequencias-linguagem-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Quais são as três peças do mecanismo de atenção?
+
+- [ ] Entrada, estado oculto e saída.
+- [x] Consulta (o que procuro agora), chaves (o que cada posição oferece) e valores (o que cada posição entrega quando é escolhida).
+- [ ] Codificador, decodificador e vetor de contexto.
+- [ ] Esquecer, escrever e ler.
+
+> **gabarito:** consulta, chaves e valores
+> **porque:** O procedimento é: compare a consulta com todas as chaves, transforme as semelhanças em pesos que somam 1, e some os valores ponderados por esses pesos.
+>
+> A quarta alternativa lista as comportas da LSTM, e o contraste vale: lá as três decisões governam **um resumo**; aqui as três peças governam **um acesso**. Uma esquece por construção, a outra não esqueceu nada e escolhe o que usar.
+>
+> A terceira nomeia as peças do seq2seq, que é o arranjo onde o gargalo aparece — e é exatamente o gargalo que a atenção remove.
+> **volte para:** #do-gargalo-a-atencao-seq2seq-e-o-vetor-de-tamanho-fixo
+:::
+
+:::exercicio {"id":"sequencias-linguagem-e10","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
+Por que a atenção precisa ser uma busca **suave**, com pesos que somam 1, em vez de escolher a posição mais relevante?
+
+- [ ] Porque escolher uma posição só descartaria informação útil das demais.
+- [x] Porque escolha dura não é derivável, e sem derivada o mecanismo não poderia ser treinado junto com o resto da rede.
+- [ ] Porque a soma dos pesos precisa dar 1 para que a saída seja uma probabilidade.
+- [ ] Porque o hardware calcula médias mais rápido que seleções.
+
+> **gabarito:** escolha dura não é derivável
+> **porque:** Selecionar a posição de maior semelhança é uma operação em degrau: uma variação pequena na consulta não muda nada até que, de repente, muda tudo. Sem gradiente, não há como aprender **o que** consultar.
+>
+> A primeira alternativa diz algo verdadeiro e não é a razão. Descartar informação seria uma desvantagem de qualidade; o impedimento aqui é anterior, e é de treinabilidade.
+>
+> Repare que na prática os pesos ficam concentrados: quase toda a massa em duas ou três posições e quase nada no resto. A busca é suave por construção e **quase** dura por comportamento — e é essa combinação que a torna útil e treinável ao mesmo tempo.
+> **volte para:** #do-gargalo-a-atencao-seq2seq-e-o-vetor-de-tamanho-fixo
+:::
 
 ## O Transformer: remover o hospedeiro
 
@@ -129,6 +231,43 @@ Responda com um número inteiro.
 > **porque:** O número de comparações é o comprimento ao quadrado. A sequência ficou 8 vezes maior (4096 ÷ 512 = 8), e 8² = **64**. Não é o custo que fica 8 vezes maior — é 64.
 >
 > É por isso que "aumentamos a janela de contexto de 8 mil para 128 mil" nunca é uma mudança barata: o fator de comprimento é 16, e o de comparações, 256. Também é por isso que o comprimento máximo aparece como característica de produto, com preço. A atenção comprou **caminho curto** (uma posição alcança qualquer outra em um passo) e pagou em **custo quadrático** — a recorrência fazia o negócio inverso: custo linear no comprimento, caminho longo demais para o gradiente sobreviver.
+> **volte para:** #o-transformer-remover-o-hospedeiro
+:::
+
+:::exercicio {"id":"sequencias-linguagem-e11","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+Qual foi o motivo **declarado** no artigo de 2017 para remover a recorrência?
+
+- [ ] Que a atenção representa dependências que a recorrência não conseguia representar.
+- [x] Paralelismo e tempo de treino: a autoatenção calcula todas as comparações de uma vez, e a recorrência é sequencial por definição.
+- [ ] Que a recorrência exigia mais parâmetros para o mesmo desempenho.
+- [ ] Que a codificação posicional é mais precisa que a ordem implícita da recorrência.
+
+> **gabarito:** paralelismo e tempo de treino
+> **porque:** O argumento foi **operacional**, e não representacional. A recorrência espera o passo anterior; a autoatenção é uma multiplicação de matrizes, que é exatamente a operação em que a GPU é boa.
+>
+> A primeira alternativa é a leitura comum e errada. Não é que o Transformer aprenda o que a LSTM não aprendia: é que ele **cabe no hardware**, e por isso pôde ser treinado em dados e tamanhos que a recorrência nunca alcançaria.
+>
+> A quarta inverte um custo em virtude. A codificação posicional é a **conta a pagar** por remover a recorrência: sem ela, nada no modelo saberia a ordem, porque a autoatenção enxerga um conjunto. A recorrência codificava a ordem de graça, no próprio formato.
+>
+> É a mesma lição do [capítulo III.4](iii-4-visao.md), onde o diagrama mais reproduzido da visão é um limite de 3 GB desenhado: a restrição material escolhe a arquitetura vencedora.
+> **volte para:** #o-transformer-remover-o-hospedeiro
+:::
+
+:::exercicio {"id":"sequencias-linguagem-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
+O que o Transformer **ganhou** e o que **pagou** ao trocar recorrência por autoatenção? (marque todas que valem)
+
+- [x] Ganhou caminho de um passo entre quaisquer duas posições.
+- [x] Ganhou paralelismo, porque as comparações não dependem umas das outras.
+- [x] Pagou custo quadrático no comprimento da sequência.
+- [x] Pagou a necessidade de reinjetar a ordem por codificação posicional.
+- [ ] Ganhou custo linear no comprimento, que a recorrência não tinha.
+
+> **gabarito:** caminho de um passo · paralelismo · custo quadrático · ordem reinjetada
+> **porque:** As quatro corretas são o negócio inteiro, e vê-lo como negócio é o ponto. A recorrência tinha custo **linear** no comprimento e caminho longo demais para o gradiente sobreviver; a atenção inverte exatamente os dois termos.
+>
+> A alternativa errada atribui ao Transformer justamente a propriedade que ele abriu mão de ter. Custo linear era da recorrência.
+>
+> A consequência prática dessa troca organiza boa parte da pesquisa desde então, e explica por que "janela de contexto" é métrica comercial no [capítulo III.6](iii-6-modelos-de-fundacao.md): dobrar o texto quadruplica o custo da atenção.
 > **volte para:** #o-transformer-remover-o-hospedeiro
 :::
 
