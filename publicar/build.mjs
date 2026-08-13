@@ -24,6 +24,7 @@ import { renderizar, extrair, semGabarito } from "./interativos.mjs";
 import { verificar as verificarProsa } from "./prosa.mjs";
 import { verificar as verificarIntervalos } from "./intervalos.mjs";
 import { verificar as verificarTema } from "./gates/tema-unico.mjs";
+import { verificar as verificarHtml } from "./gates/html-integro.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -439,7 +440,18 @@ for (let k = 0; k < itens.length; k++) {
   placar.laboratorios += laboratorios.length;
 
   // Blocos interativos ANTES do parse: viram HTML puro, sem gabarito.
-  const renderMd = (t) => md.render(t, { srcDir: dirname(item.arquivo) });
+  //
+  // O dedup roda AQUI, e não só na linha de baixo, porque o texto de um
+  // exercício é renderizado duas vezes: uma para virar HTML de opção, outra
+  // quando a página inteira passa pelo markdown. Fórmula dentro de opção de
+  // múltipla escolha nasce embrulhada num `<style>` do MathJax que contém
+  // LINHAS EM BRANCO; no segundo passe o markdown lê essas linhas como
+  // separador de parágrafo e parte o bloco em `<p>`, de modo que o `</style>`
+  // deixa de existir inteiro. O dedup lá de baixo então não casa mais e a
+  // página vai ao ar com um `<style>` aberto — do ponto do defeito em diante o
+  // navegador trata TUDO como CSS: some o resto dos exercícios, o link do
+  // Colab, o companion e o histórico do leitor. Aconteceu no III.1 e no II.7.
+  const renderMd = (t) => dedupCssMatematica(md.render(t, { srcDir: dirname(item.arquivo) }));
   const comInterativos = renderizar(bruto, renderMd, item.arquivo, cap);
   let corpo = dedupCssMatematica(marcarCallouts(md.render(comInterativos, { srcDir: dirname(item.arquivo) })));
 
@@ -945,6 +957,16 @@ const temaRuim = verificarTema();
 if (temaRuim.length) {
   console.error(`✗ ${temaRuim.length} problema(s) de tema:`);
   temaRuim.forEach((q) => console.error("   " + q));
+  process.exit(1);
+}
+
+// Integridade do HTML **gerado**. Todos os outros gates leem a fonte; este lê o
+// produto, que é o que chega ao leitor. Roda por último, com as páginas já
+// escritas em docs/.
+const htmlRompido = verificarHtml();
+if (htmlRompido.length) {
+  console.error(`✗ ${htmlRompido.length} página(s) com HTML rompido:`);
+  htmlRompido.forEach((q) => console.error("   " + q));
   process.exit(1);
 }
 
