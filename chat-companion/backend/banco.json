@@ -6934,6 +6934,80 @@
    "titulo_capitulo": "III.2 — Redes Multicamadas"
   },
   {
+   "id": "redes-neurais-e5",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O que a camada escondida faz para tornar o XOR resolvível?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Traça uma fronteira curva, que a reta de um neurônio não consegue."
+    },
+    {
+     "correta": true,
+     "texto": "Reescreve as entradas em coordenadas novas, e nelas o problema vira linearmente separável."
+    },
+    {
+     "correta": false,
+     "texto": "Aumenta o número de pesos, o que dá capacidade suficiente para decorar os quatro pontos."
+    },
+    {
+     "correta": false,
+     "texto": "Aplica o XOR diretamente, porque a função já está embutida na arquitetura."
+    }
+   ],
+   "gabarito": "reescreve as entradas em coordenadas novas",
+   "porque": "As unidades escondidas `h₁` e `h₂` computam OU e NÃO-E, e passam a ser as **coordenadas** que a camada de saída enxerga. Nesse novo plano os quatro casos ficam separáveis por uma reta, e a saída só precisa computar E.\n\nA primeira alternativa é a intuição mais comum e é falsa, e a animação acima existe para desmenti-la: nunca aparece uma curva. Aparecem duas retas, e a combinação delas é que recorta o quadrado.\n\nA terceira confunde capacidade com representação. Não é o número de pesos que resolve, é o fato de existir uma etapa intermediária que muda o sistema de coordenadas — uma camada linear a mais, sem não-linearidade, teria mais pesos e continuaria sem resolver.",
+   "volte_para": "#fundamentos-a-camada-escondida-e-o-xor-resolvido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e6",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Segundo o capítulo, qual modelo já conhecido é o caso extremo de um MLP?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A árvore de decisão, que também compõe fronteiras simples."
+    },
+    {
+     "correta": true,
+     "texto": "A regressão logística: uma camada, uma unidade, ativação sigmoide."
+    },
+    {
+     "correta": false,
+     "texto": "O k-NN, que também usa a vizinhança dos pontos."
+    },
+    {
+     "correta": false,
+     "texto": "O gradient boosting, que também soma correções em sequência."
+    }
+   ],
+   "gabarito": "a regressão logística",
+   "porque": "Uma camada, uma unidade, ativação sigmoide, e você tem exatamente o modelo do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.\n\nA leitura que isso permite é a que interessa: a rede não é uma família estranha e nova, é a generalização de algo que o livro já construiu. E ela explica de novo por que a logística não resolve o XOR — sendo um neurônio, ela traça uma reta.\n\nA alternativa do boosting é a mais interessante das erradas porque acerta uma semelhança real: ele também acumula correções. Só que ele soma **modelos** treinados em sequência sobre o resíduo, e a rede compõe **transformações** treinadas em conjunto. Somar e compor são operações diferentes.",
+   "volte_para": "#fundamentos-a-camada-escondida-e-o-xor-resolvido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
    "id": "redes-neurais-e2",
    "capitulo": 18,
    "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
@@ -6956,6 +7030,141 @@
     "valor": 43,
     "tolerancia": 0
    }
+  },
+  {
+   "id": "redes-neurais-e7",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que a função-degrau precisou sair para que a rede pudesse ser treinada?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Ela é plana em toda parte e salta num ponto: a derivada é zero onde existe e não existe onde importa."
+    },
+    {
+     "correta": false,
+     "texto": "Ela é lenta de calcular em comparação com a sigmoide."
+    },
+    {
+     "correta": false,
+     "texto": "Ela só aceita entradas binárias, e redes usam entradas contínuas."
+    },
+    {
+     "correta": false,
+     "texto": "Ela não permite mais de duas classes na saída."
+    }
+   ],
+   "gabarito": "derivada zero onde existe, inexistente onde importa",
+   "porque": "Sem derivada não há gradiente, e sem gradiente não há direção para onde mover o peso. É por isso que ativações de rede treinável são contínuas: sigmoide, tanh, ReLU.\n\nVale marcar que a troca **não** é preferência estética nem questão de desempenho. É a condição para que a otimização do [capítulo II.4](ii-4-otimizacao.md) tenha o que ler.\n\nE vale lembrar o limite disso, que o [capítulo III.1](iii-1-neuronio-artificial.md) já estabeleceu: trocar o degrau pela sigmoide é necessário para treinar e não resolve a geometria. Quem resolve o XOR é a camada, não a ativação.",
+   "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e8",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais afirmações sobre backpropagation são corretas? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Ele calcula o gradiente, e quem move os pesos é o gradiente descendente."
+    },
+    {
+     "correta": true,
+     "texto": "O que o torna viável é o reaproveitamento: propaga-se para trás uma vez, e cada camada reusa o que chegou."
+    },
+    {
+     "correta": true,
+     "texto": "O custo do passo para trás fica da mesma ordem do passo para frente."
+    },
+    {
+     "correta": false,
+     "texto": "Ele é um algoritmo de otimização alternativo ao gradiente descendente."
+    }
+   ],
+   "gabarito": "calcula o gradiente · reaproveitamento · custo da mesma ordem",
+   "porque": "As três corretas separam duas coisas que o vocabulário mistura. Backpropagation é **cálculo de derivada**; otimização é o que se faz com ela. Trocar o otimizador não muda o backpropagation, e vice-versa.\n\nO reaproveitamento é a descoberta prática, e não a regra da cadeia em si. Aplicá-la peso a peso seria recalcular o caminho inteiro milhões de vezes; propagar uma vez e reusar por camada é o que traz o custo para a mesma ordem da ida.\n\nA alternativa errada é a confusão mais comum, e ela tem consequência: quem acredita nela procura \"trocar o backpropagation\" quando o treino não anda, em vez de olhar taxa, inicialização e escala dos dados.",
+   "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e9",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma rede densa tem 10 entradas, duas camadas escondidas de 8 unidades cada, e 1 saída. Todas as camadas têm viés.\n\nQuantos parâmetros treináveis ela tem?",
+   "opcoes": [],
+   "gabarito": "161",
+   "porque": "Camada a camada, com a regra `e × s + s`. Primeira: $10 \\times 8 + 8 = 88$. Segunda: $8 \\times 8 + 8 = 72$. Saída: $8 \\times 1 + 1 = 9$. Total $88 + 72 + 9 = \\mathbf{161}$.\n\nRepare onde o custo se concentra: a primeira camada sozinha responde por mais da metade, porque é ela que encontra a maior largura de entrada. É a mesma conta que, com imagens, torna uma camada densa impraticável e motiva a convolução do [capítulo III.4](iii-4-visao.md).\n\nO erro clássico continua sendo o viés: um por unidade de **destino**, nunca por unidade de origem.",
+   "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
+   "gabarito_num": {
+    "valor": 161,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "redes-neurais-e10",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Ao implementar a rede em NumPy, a soma do viés \"funciona\" por *broadcasting* mesmo com o vetor de tamanho errado, e a rede treina mal sem lançar exceção. O que esse caso ilustra?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que NumPy tem um defeito de projeto no *broadcasting*."
+    },
+    {
+     "correta": true,
+     "texto": "Que ausência de exceção não é evidência de correção, e um bug de forma pode virar bug de aprendizado silencioso."
+    },
+    {
+     "correta": false,
+     "texto": "Que a rede precisa de mais épocas para compensar o viés errado."
+    },
+    {
+     "correta": false,
+     "texto": "Que vieses deveriam ser sempre inicializados com zero para evitar o problema."
+    }
+   ],
+   "gabarito": "ausência de exceção não é evidência de correção",
+   "porque": "O *broadcasting* faz exatamente o que promete: alinha dimensões compatíveis. O problema é que \"compatível\" e \"correto\" são coisas diferentes, e um vetor de tamanho errado pode ser compatível por acidente.\n\nO sintoma é o pior possível: nada quebra, a perda desce um pouco, e o modelo aprende menos do que deveria. É a mesma família do \"não deu NaN\" do [capítulo II.4](ii-4-otimizacao.md) — ausência de sintoma não é diagnóstico.\n\nO gesto que protege é conferir formas explicitamente, e o teste barato do capítulo: se a rede não consegue decorar 50 exemplos, há defeito no caminho do gradiente, e não falta de capacidade.",
+   "volte_para": "#backpropagation-a-regra-da-cadeia-com-reaproveitamento",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
   },
   {
    "id": "redes-neurais-e3",
@@ -6983,6 +7192,80 @@
     "reconhece que \"faltam unidades\" é uma hipótese testável — e diz como testá-la (tentar overfitar um subconjunto pequeno)",
     "não afirma que o teorema está errado, apenas que ele responde a outra pergunta"
    ]
+  },
+  {
+   "id": "redes-neurais-e11",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Na animação deste capítulo, a rede com camada escondida empaca em 24 de 48 quando a inicialização muda, e resolve com a inicialização padrão. O dado, a arquitetura e a taxa são os mesmos. Qual é o diagnóstico?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Falta de capacidade: duas unidades escondidas são poucas."
+    },
+    {
+     "correta": true,
+     "texto": "Inicialização ruim: a descida caiu num mínimo local, e o método está correto."
+    },
+    {
+     "correta": false,
+     "texto": "Bug no cálculo do gradiente, que só se manifesta em alguns casos."
+    },
+    {
+     "correta": false,
+     "texto": "Taxa de aprendizado alta demais, que fez a perda divergir."
+    }
+   ],
+   "gabarito": "inicialização ruim, com mínimo local",
+   "porque": "O enunciado já elimina três suspeitas: o dado, a arquitetura e a taxa são idênticos nos dois casos, e a mesma configuração resolve quando parte de outro lugar. A única variável que mudou foi de onde a descida começou.\n\nA quarta alternativa é descartável pelo número: a perda empaca em 0,348 e fica parada, e perda que diverge sobe sem limite. Empacar e divergir são sintomas diferentes.\n\nO que torna este caso desconfortável é que **nada está errado**. Método correto, implementação correta, execução correta, resposta errada — e a única diferença é a semente. Varrendo 60 inicializações sobre o mesmo conjunto, 44 resolvem e 16 não.",
+   "volte_para": "#quantas-camadas-e-quantas-unidades-a-decisao-e-empirica",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e12",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma rede não aprende. Quais verificações vêm **antes** de aumentar o número de unidades? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Tentar decorar 50 exemplos: se nem isso a rede consegue, há defeito no caminho do gradiente."
+    },
+    {
+     "correta": true,
+     "texto": "Conferir a inicialização, porque pesos todos iguais fazem todas as unidades aprenderem a mesma coisa."
+    },
+    {
+     "correta": true,
+     "texto": "Conferir a escala dos atributos e a taxa de aprendizado."
+    },
+    {
+     "correta": false,
+     "texto": "Aumentar as épocas até que a perda de treino chegue a zero, e só então avaliar."
+    }
+   ],
+   "gabarito": "overfitar 50 exemplos · inicialização · escala e taxa",
+   "porque": "As três corretas são baratas e decidem entre capacidade e defeito, que é a pergunta que precede qualquer mudança de arquitetura. O teste dos 50 exemplos é o mais informativo dos três: uma rede saudável **consegue** decorar um punhado de dados, e se não consegue, acrescentar unidades não resolve.\n\nA quebra de simetria merece destaque porque é silenciosa: com pesos idênticos, todas as unidades de uma camada recebem o mesmo gradiente e permanecem idênticas para sempre. A rede tem oito unidades e se comporta como uma.\n\nA alternativa errada troca diagnóstico por insistência. Treinar mais tempo não distingue nenhuma das hipóteses acima, e se houver mínimo local, a perda já parou de descer — o otimizador não está lento, ele chegou.",
+   "volte_para": "#quantas-camadas-e-quantas-unidades-a-decisao-e-empirica",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
   },
   {
    "id": "redes-neurais-e4",
@@ -9529,6 +9812,21 @@
    },
    "intro": "No laboratório acima **você** procurou os pesos. Aqui quem procura é o método: a cada passo ele olha um exemplo, e se errou, empurra a fronteira na direção daquele ponto. É a regra de 1958 inteira, e não há mais nada nela.\n\nAssista até a contagem de erros zerar. Depois clique em **\"E se os dados forem XOR?\"** e assista de novo, com o relógio na mão. O que você vai ver na segunda vez é o assunto da próxima seção.",
    "pagina": "iii-1-neuronio-artificial"
+  },
+  {
+   "id": "redes-neurais-l1",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "anima-mlp-xor",
+   "titulo": "O XOR resolvido, e as duas retas girando",
+   "config": {
+    "id": "redes-neurais-l1",
+    "tipo": "anima-mlp-xor",
+    "titulo": "O XOR resolvido, e as duas retas girando",
+    "semente": 11
+   },
+   "intro": "É o mesmo XOR em que o perceptron do [capítulo III.1](iii-1-neuronio-artificial.md) oscilava sem fim. Aqui a rede é 2 → 2 → 1, com `tanh` na camada escondida, e ninguém escolheu peso nenhum: ela parte de valores aleatórios e desce o gradiente.\n\nAs **duas retas** são as fronteiras que as duas unidades escondidas estão aprendendo, e são o conteúdo da animação, não enfeite. Repare que a solução nunca vira uma fronteira curva: são duas retas, e quem as combina é a camada de saída — exatamente o `(OU) E (NÃO-E)` da tabela, encontrado sozinho.\n\nPonto com contorno é ponto que a rede ainda erra. Assista até a contagem fechar, na época 142.\n\nDepois use os dois outros botões, nesta ordem.\n\n**\"E sem a camada escondida?\"** deixa tudo igual e tira só a camada do meio. Mesma descida, mesma perda, mesmo tempo, e ela empaca em 24 de 48, que é o acaso. O que resolveu o XOR não foi o gradiente: foi a camada.\n\n**\"E se a inicialização for infeliz?\"** mantém a camada e muda apenas de onde os pesos partem. A rede empaca em 24 de 48 com a perda parada em 0,348, e não sai mais dali. Não há erro nenhum: o método está correto, a implementação está correta, e a descida caiu num **mínimo local**. Varrendo 60 inicializações sobre este mesmo conjunto, 44 resolvem e 16 não.\n\nEsse botão existe porque o problema apareceu de verdade ao construir esta animação — a primeira semente escolhida era uma das 16. É o modo de falha \"inicialização ruim\" do objetivo **O4**, e vê-lo aqui torna o resto do capítulo menos abstrato.",
+   "pagina": "iii-2-redes-neurais"
   }
  ],
  "gerado_de": "livro/"

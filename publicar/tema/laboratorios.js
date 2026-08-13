@@ -788,6 +788,114 @@
       document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
   }
 
+  // ------------------------------------------------- núcleo das animações
+  //
+  // Extraído na SEGUNDA animação, não na oitava (ADR 0015). Duas
+  // implementações já bastam para mostrar o que é comum e o que não é; oito
+  // teriam consolidado a duplicação antes de alguém olhar para ela.
+  //
+  // O que entra aqui é o que as duas repetiam palavra por palavra: descobrir o
+  // tema, montar canvas com escala, o placar que fala por quem não enxerga o
+  // canvas, e o relógio — que é a peça com mais história. Ele carrega três
+  // decisões que custaram caro e que nenhuma animação nova deveria ter de
+  // redescobrir:
+  //
+  //   1. só começa quando o leitor CHEGA (IntersectionObserver). Sem isto a
+  //      animação rodava no load, terminava em 4 segundos, e quem descia até
+  //      ela minutos depois achava um quadro congelado — imagem estática se
+  //      passando por animação;
+  //   2. quem pediu `prefers-reduced-motion` recebe o RESULTADO, não a
+  //      ausência de resultado: roda tudo de uma vez e desenha o fim;
+  //   3. trocar o tema no meio redesenha, senão as cores do tema anterior ficam.
+
+  function temaEscuro() {
+    return document.documentElement.getAttribute("data-tema") === "escuro" ||
+      (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  }
+
+  /** Canvas + escala + moldura. `esc(v, px)` leva coordenada do plano a pixel. */
+  function tela(area, W, H, PAD, LIM) {
+    var cv = document.createElement("canvas");
+    cv.width = W; cv.height = H; cv.className = "lab-canvas";
+    cv.setAttribute("role", "img");
+    area.appendChild(cv);
+    var ctx = cv.getContext("2d");
+    return {
+      cv: cv, ctx: ctx, W: W, H: H, PAD: PAD, LIM: LIM,
+      esc: function (v, px) { return PAD + (v + LIM) / (2 * LIM) * (px - 2 * PAD); },
+      fundo: function (escuro) {
+        ctx.fillStyle = escuro ? "#1a1b1e" : "#faf9f7";
+        ctx.fillRect(0, 0, W, H);
+        ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(PAD, PAD, W - 2 * PAD, H - 2 * PAD);
+      }
+    };
+  }
+
+  /** Placar com `aria-live`: o canvas é role=img, então quem não enxerga lê aqui. */
+  function placarDe(area) {
+    var p = el("div", "lab-placar");
+    p.setAttribute("aria-live", "polite");
+    p.setAttribute("role", "status");
+    area.appendChild(p);
+    return p;
+  }
+
+  function botoeiraDe(area) {
+    var box = el("div", "lab-botoes");
+    area.appendChild(box);
+    return function (txt, fn) {
+      var b = el("button", "lab-botao", txt);
+      b.type = "button";
+      b.addEventListener("click", fn);
+      box.appendChild(b);
+      return b;
+    };
+  }
+
+  /** O relógio da animação, com as três decisões acima embutidas.
+   *  `passo()` avança um quadro e devolve `true` quando acabou. */
+  function relogio(cv, passo, aoDesenhar, ms) {
+    var calmo = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var timer = null;
+    function parar() { if (timer) { clearInterval(timer); timer = null; } }
+    var api = {
+      rodando: function () { return !!timer; },
+      parar: parar,
+      // `tetoCalmo` limita o adiantamento de quem não quer movimento — um laço
+      // que nunca termina (o XOR não termina) travaria a página sem ele.
+      comecar: function (tetoCalmo) {
+        parar();
+        if (calmo) {
+          for (var k = 0; k < (tetoCalmo || 2000); k++) if (passo()) break;
+          aoDesenhar();
+          return false;                       // não ficou rodando
+        }
+        timer = setInterval(function () {
+          if (passo()) parar();
+        }, ms || 55);
+        return true;
+      }
+    };
+    if (window.MutationObserver) {
+      new MutationObserver(aoDesenhar).observe(
+        document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
+    }
+    api.aoChegar = function (fn) {
+      if (!window.IntersectionObserver) { fn(); return; }
+      var visto = false;
+      var obs = new IntersectionObserver(function (ents) {
+        ents.forEach(function (e) {
+          if (e.isIntersecting && !visto) { visto = true; obs.disconnect(); fn(); }
+        });
+      }, { threshold: 0.4 });
+      obs.observe(cv);
+    };
+    return api;
+  }
+
   // ------------------------------------------------------------- registro
 
   // A animação é a quarta superfície, e a mais barata: o leitor não manipula,
@@ -800,19 +908,12 @@
   // oscilando sem fim ensina o limite melhor que o parágrafo sobre ele.
   function animaPerceptron(area, cfg) {
     var W = 460, H = 300, PAD = 28, LIM = 2.6;
-    var cv = document.createElement("canvas");
-    cv.width = W; cv.height = H; cv.className = "lab-canvas";
-    cv.setAttribute("role", "img");
-    area.appendChild(cv);
-    var ctx = cv.getContext("2d");
-    var placar = el("div", "lab-placar");
-    placar.setAttribute("aria-live", "polite");   // o canvas é role=img: quem
-    placar.setAttribute("role", "status");        // não enxerga acompanha aqui
-    area.appendChild(placar);
-    var botoes = el("div", "lab-botoes"); area.appendChild(botoes);
-
-    var calmo = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var est = { pts: [], w: [0, 0], b: 0, i: 0, epoca: 0, erros: 0, xor: false, timer: null, parou: false };
+    var t = tela(area, W, H, PAD, LIM);
+    var cv = t.cv, ctx = t.ctx, esc = t.esc;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel;
+    var est = { pts: [], w: [0, 0], b: 0, i: 0, epoca: 0, erros: 0, xor: false, parou: false };
 
     function dados(xor) {
       var r = rng(Number(cfg.semente) || 7), p = [], k;
@@ -828,16 +929,10 @@
       }
       return p;
     }
-    function esc(v, px) { return PAD + (v + LIM) / (2 * LIM) * (px - 2 * PAD); }
 
     function desenhar() {
-      var escuro = document.documentElement.getAttribute("data-tema") === "escuro" ||
-        (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
-      ctx.fillStyle = escuro ? "#1a1b1e" : "#faf9f7";
-      ctx.fillRect(0, 0, W, H);
-      ctx.strokeStyle = escuro ? "#3a3b3f" : "#dcdbd7";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(PAD, PAD, W - 2 * PAD, H - 2 * PAD);
+      var escuro = temaEscuro();
+      t.fundo(escuro);
 
       if (Math.abs(est.w[1]) > 1e-6) {   // w0*x + w1*y + b = 0
         var y1 = (-est.b - est.w[0] * -LIM) / est.w[1], y2 = (-est.b - est.w[0] * LIM) / est.w[1];
@@ -881,60 +976,208 @@
         if (est.epoca > 8) est.parou = true;
       }
       desenhar(); texto();
-      if (est.parou && est.timer) { clearInterval(est.timer); est.timer = null; sincBotoes(); }
+      if (est.parou) sincBotoes();
+      return est.parou;
     }
 
     function rodar(xor) {
-      if (est.timer) clearInterval(est.timer);
       est.xor = !!xor; est.pts = dados(est.xor);
       est.w = [0, 0]; est.b = 0; est.i = 0; est.epoca = 0; est.erros = 0; est.parou = false;
-      if (calmo) {                                  // quem pediu menos movimento recebe o resultado
-        for (var k = 0; k < est.pts.length * 61 && !est.parou; k++) passo();
-        est.parou = true; desenhar(); texto(); sincBotoes(); return;
-      }
-      est.timer = setInterval(passo, 55);
+      rel.comecar(est.pts.length * 61);
+      if (!rel.rodando()) { est.parou = true; texto(); }
       sincBotoes();
     }
 
     var bRodar, bXor;
     function sincBotoes() {
-      bRodar.textContent = est.timer ? "Recomeçar" : "Rodar de novo";
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
       bXor.textContent = est.xor ? "Voltar aos dados separáveis" : "E se os dados forem XOR?";
-    }
-    function botao(txt, fn) {
-      var b = el("button", "lab-botao", txt);
-      b.type = "button"; b.addEventListener("click", fn); botoes.appendChild(b); return b;
     }
     bRodar = botao("Rodar de novo", function () { rodar(est.xor); });
     bXor = botao("E se os dados forem XOR?", function () { rodar(!est.xor); });
 
-    // Só começa quando o leitor CHEGA. Sem isto a animação rodava no load,
-    // terminava em 4 segundos, e quem descia até aqui minutos depois achava um
-    // quadro congelado dizendo "convergiu" — uma imagem estática se passando
-    // por animação. Foi assim que ela nasceu, e o teste não pegou porque o
-    // navegador automatizado rola até o bloco na hora.
+    rel = relogio(cv, passo, function () { desenhar(); }, 55);
     est.pts = dados(false); desenhar(); texto();
-    if (window.IntersectionObserver) {
-      var visto = false;
-      var obs = new IntersectionObserver(function (ents) {
-        ents.forEach(function (e) {
-          if (e.isIntersecting && !visto) { visto = true; obs.disconnect(); rodar(false); }
-        });
-      }, { threshold: 0.4 });
-      obs.observe(cv);
-    } else {
-      rodar(false);
+    rel.aoChegar(function () { rodar(false); });
+  }
+
+  // Segunda animação (ADR 0015), e a que fecha o arco que a primeira abriu.
+  // Lá o perceptron oscila para sempre no XOR; aqui uma camada escondida com
+  // dois neurônios resolve o mesmo XOR, e o que se vê é POR QUE ela resolve:
+  // duas retas girando até que a combinação delas recorte o quadrado.
+  //
+  // A rede é 2-2-1 com tanh e gradiente completo, escrita à mão — a mesma que
+  // a etapa 09 do ml-zero constrói em NumPy.
+  //
+  // O terceiro botão nasceu de um achado ao TESTAR esta animação, não de um
+  // plano. A primeira semente escolhida a esmo caía num mínimo local e travava
+  // em ~25 de 48, com a perda parada em ln(2)/2 — a animação prometia "assista
+  // fechar" e não fechava. Varrendo 60 inicializações sobre o MESMO dado:
+  // 44 resolvem, 16 não. O gradiente está certo; o que muda é de onde ele
+  // parte. É exatamente o modo de falha "inicialização ruim" do objetivo O4
+  // deste capítulo, então em vez de trocar a semente e esconder o achado, a
+  // semente ruim virou botão.
+  //
+  // Detalhe que o teste também expôs: o mínimo local é do PAR (dado, início),
+  // não do início sozinho. Ao fixar o dado e variar só a inicialização, a
+  // semente que falhava passou a resolver. Por isso `dados()` usa sempre
+  // SEM_BOA: com o dado fixo, o botão isola a variável que ele diz isolar.
+  function animaMLPXor(area, cfg) {
+    var W = 460, H = 300, PAD = 28, LIM = 1.7;
+    var t = tela(area, W, H, PAD, LIM);
+    var cv = t.cv, ctx = t.ctx, esc = t.esc;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bCamada, bRuim;
+    var TETO = 250;                       // ~14 s; a semente boa fecha em 142
+    var SEM_BOA = Number(cfg.semente) || 6;
+    var SEM_RUIM = Number(cfg.semente_ruim) || 1;
+    var est = { pts: [], W1: null, b1: null, W2: null, b2: null,
+                epoca: 0, perda: 1, semCamada: false, ruim: false, parou: false };
+
+    function semente() { return est.ruim ? SEM_RUIM : SEM_BOA; }
+
+    function dados() {
+      var r = rng(SEM_BOA), p = [], k;    // o dado é o MESMO nas duas: o que
+      [[-1, -1, 0], [1, 1, 0], [-1, 1, 1], [1, -1, 1]].forEach(function (c) {
+        for (k = 0; k < 12; k++) {        // muda entre elas é só de onde a
+          p.push({ x: c[0] * .8 + (r() - .5) * .5,   // descida parte
+                   y: c[1] * .8 + (r() - .5) * .5, t: c[2] });
+        }
+      });
+      return p;
     }
 
-    // Trocar o tema no meio da animação deixava as cores do tema anterior.
-    if (window.MutationObserver) {
-      new MutationObserver(function () { desenhar(); })
-        .observe(document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
+    function iniciarPesos() {
+      var r = rng(semente() + 3);
+      est.W1 = [[r() * 2 - 1, r() * 2 - 1], [r() * 2 - 1, r() * 2 - 1]];
+      est.b1 = [0, 0];
+      est.W2 = [r() * 2 - 1, r() * 2 - 1];
+      est.b2 = 0;
     }
+
+    function sig(z) { return 1 / (1 + Math.exp(-z)); }
+
+    /** Passagem à frente. Sem camada escondida, h = x: vira um neurônio só. */
+    function frente(p) {
+      var z1 = [est.W1[0][0] * p.x + est.W1[0][1] * p.y + est.b1[0],
+                est.W1[1][0] * p.x + est.W1[1][1] * p.y + est.b1[1]];
+      var h = est.semCamada ? [p.x, p.y] : [Math.tanh(z1[0]), Math.tanh(z1[1])];
+      var z2 = est.W2[0] * h[0] + est.W2[1] * h[1] + est.b2;
+      return { z1: z1, h: h, y: sig(z2) };
+    }
+
+    function epoca() {
+      var n = est.pts.length, eta = 5, perda = 0;
+      var gW1 = [[0, 0], [0, 0]], gb1 = [0, 0], gW2 = [0, 0], gb2 = 0;
+      est.pts.forEach(function (p) {
+        var f = frente(p), d2 = f.y - p.t;   // derivada da entropia cruzada com sigmoide
+        perda += -(p.t * Math.log(f.y + 1e-9) + (1 - p.t) * Math.log(1 - f.y + 1e-9));
+        gW2[0] += d2 * f.h[0]; gW2[1] += d2 * f.h[1]; gb2 += d2;
+        if (!est.semCamada) {
+          for (var j = 0; j < 2; j++) {
+            var d1 = d2 * est.W2[j] * (1 - f.h[j] * f.h[j]);   // derivada da tanh
+            gW1[j][0] += d1 * p.x; gW1[j][1] += d1 * p.y; gb1[j] += d1;
+          }
+        }
+      });
+      est.W2[0] -= eta * gW2[0] / n; est.W2[1] -= eta * gW2[1] / n; est.b2 -= eta * gb2 / n;
+      if (!est.semCamada) {
+        for (var j = 0; j < 2; j++) {
+          est.W1[j][0] -= eta * gW1[j][0] / n; est.W1[j][1] -= eta * gW1[j][1] / n;
+          est.b1[j] -= eta * gb1[j] / n;
+        }
+      }
+      est.perda = perda / n;
+      est.epoca++;
+    }
+
+    function acertos() {
+      var c = 0;
+      est.pts.forEach(function (p) { if ((frente(p).y >= 0.5 ? 1 : 0) === p.t) c++; });
+      return c;
+    }
+
+    function reta(w0, w1, b, cor) {
+      if (Math.abs(w1) < 1e-6) return;
+      var y1 = (-b - w0 * -LIM) / w1, y2 = (-b - w0 * LIM) / w1;
+      ctx.strokeStyle = cor; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(esc(-LIM, W), H - esc(y1, H));
+      ctx.lineTo(esc(LIM, W), H - esc(y2, H));
+      ctx.stroke();
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro();
+      t.fundo(escuro);
+      // As duas retas da camada escondida são o conteúdo da animação: é vendo
+      // as DUAS girarem que se entende que a solução não é uma fronteira
+      // curva, e sim duas fronteiras retas combinadas.
+      if (!est.semCamada) {
+        reta(est.W1[0][0], est.W1[0][1], est.b1[0], escuro ? "#8fb8dd" : "#35618e");
+        reta(est.W1[1][0], est.W1[1][1], est.b1[1], escuro ? "#e0a24a" : "#b8761f");
+      }
+      est.pts.forEach(function (p) {
+        var certo = (frente(p).y >= 0.5 ? 1 : 0) === p.t;
+        ctx.fillStyle = p.t ? (escuro ? "#8fb8dd" : "#35618e") : (escuro ? "#e0a24a" : "#b8761f");
+        ctx.beginPath();
+        ctx.arc(esc(p.x, W), H - esc(p.y, H), certo ? 4 : 6, 0, 6.2832);
+        ctx.fill();
+        if (!certo) {                       // errado ganha contorno: dá para
+          ctx.strokeStyle = escuro ? "#e6e6e4" : "#1c1c1c";   // contar no olho
+          ctx.lineWidth = 1.5; ctx.stroke();
+        }
+      });
+    }
+
+    function texto() {
+      var a = acertos(), n = est.pts.length;
+      var cabeca = est.semCamada ? "sem camada escondida"
+                 : est.ruim ? "camada escondida, e uma inicialização infeliz"
+                 : "camada escondida com 2 neurônios";
+      placar.textContent = cabeca +
+        " · época " + est.epoca + " · perda " + est.perda.toFixed(3) +
+        " · " + a + " de " + n + " certos" +
+        (est.parou ? (a === n ? " · resolveu" : " · empacou, e não vai sair daqui") : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      epoca();
+      if (est.epoca >= TETO || (acertos() === est.pts.length && est.perda < 0.05)) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(opc) {
+      est.semCamada = !!opc.semCamada;
+      est.ruim = !!opc.ruim;
+      est.pts = dados(); iniciarPesos();
+      est.epoca = 0; est.perda = 1; est.parou = false;
+      rel.comecar(TETO);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bCamada.textContent = est.semCamada ? "Devolver a camada escondida" : "E sem a camada escondida?";
+      bRuim.textContent = est.ruim ? "Voltar à inicialização boa" : "E se a inicialização for infeliz?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar({ semCamada: est.semCamada, ruim: est.ruim }); });
+    bCamada = botao("E sem a camada escondida?", function () { rodar({ semCamada: !est.semCamada }); });
+    bRuim = botao("E se a inicialização for infeliz?", function () { rodar({ ruim: !est.ruim }); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 55);
+    est.pts = dados(); iniciarPesos(); desenhar(); texto();
+    rel.aoChegar(function () { rodar({}); });
   }
 
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
-                "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron };
+                "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
+                "anima-mlp-xor": animaMLPXor };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {

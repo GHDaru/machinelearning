@@ -31,8 +31,10 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > **Animação não tem coluna aqui de propósito.** Ela não é etapa de todo
 > capítulo: 23 dos 29 animam, 6 não, e o critério é o do [ADR 0015](../../adr/0015-animacao-e-laboratorio-sem-manopla.md).
 > O mapa e o estado de cada uma vivem em [`animacoes.md`](animacoes.md), que é
-> a fonte única desse recorte. Feita até agora: **III.1** (o perceptron
-> aprendendo, com o botão do XOR).
+> a fonte única desse recorte. Feitas até agora: **III.1** (o perceptron
+> aprendendo, com o botão do XOR) e **III.2** (o MLP resolvendo o mesmo XOR,
+> com os botões de tirar a camada e de estragar a inicialização). A dívida do
+> núcleo compartilhado foi paga na segunda, como a ADR 0015 exigia.
 
 ## Estado
 
@@ -55,7 +57,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 15 | II.7 — Séries Temporais | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 16 | II.8 — Do Modelo à Decisão | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 17 | III.1 — O Neurônio Artificial | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 18 | III.2 — Redes Multicamadas | 4 | 4 | 12 | **ok** | — | — | — |
+| 18 | III.2 — Redes Multicamadas | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 19 | III.3 — Treinar Redes Profundas | 4 | 5 | 12 | **ok** | — | — | — |
 | 20 | III.4 — Visão Computacional | 4 | 4 | 12 | **ok** | — | — | — |
 | 21 | III.5 — Sequências e Linguagem | 4 | 4 | 12 | **ok** | — | — | — |
@@ -68,7 +70,7 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 276 exercícios hoje (248 de capítulo + 28 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 284 exercícios hoje (256 de capítulo + 28 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 

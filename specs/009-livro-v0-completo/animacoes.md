@@ -40,7 +40,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | II.7 | janela *walk-forward* avançando: MAE por dobra, contra o MAE menor e mentiroso da divisão embaralhada |
 | II.8 | custo do falso negativo de 1 para 10: o limiar ótimo se deslocando e o lucro esperado em reais |
 | III.1 | **feito** — o perceptron aprendendo, e o XOR onde ele não para |
-| III.2 | MLP no mesmo XOR do III.1: as duas retas da camada escondida girando e a perda caindo até zerar |
+| III.2 | **feito** — MLP no mesmo XOR do III.1: as duas retas girando, mais o botão que tira a camada e o que estraga a inicialização |
 | III.3 | norma do gradiente por camada: 1e-7 na primeira com sigmoide, e as barras voltando com ReLU e He |
 | III.4 | filtro deslizando com o mapa de ativação: nº de parâmetros (densa 3,2 M × conv 2 400) **e o botão que desloca a imagem 3 px** |
 | III.5 | pesos de atenção acendendo numa frase, contra o sinal de gradiente da RNN caindo a zero em 11 passos |
@@ -63,7 +63,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 4. **IV.1** — k-means com ótimo local. Ensina o mais difícil: método correto, execução correta, resposta errada, e só a semente mudou.
 5. **III.2** — XOR resolvido. Fecha o arco que a oscilação do III.1 abriu.
 
-## Dívida a pagar ANTES da segunda animação
+## Dívida a pagar ANTES da segunda animação — **paga**
 
 `animaPerceptron` já duplica, em outra forma, o que `regressaoLinear` tem: a função de escala, o preâmbulo de tema escuro, o construtor de botão, e o par `setInterval` + `prefers-reduced-motion`.
 
@@ -76,3 +76,38 @@ Extrair um núcleo (`plano(cv)`, `placar()`, `relogio()`) **com duas animações
 | **C.** particionar e recalcular critério | IV.1, II.5, I.6 |
 | **D.** janela deslizante no tempo | II.7, V.3, I.3 |
 | **E.** melhor-até-agora por episódio | IV.2, IV.3 |
+
+
+## O que a segunda animação ensinou (2026-08)
+
+**A dívida foi paga como a ADR mandava**, com duas animações e não oito.
+`temaEscuro`, `tela` (canvas + escala + moldura), `placarDe`, `botoeiraDe` e
+`relogio` saíram para o núcleo; `animaPerceptron` foi reescrito sobre ele sem
+mudar de comportamento. O relógio concentra as três decisões que custaram caro
+e que nenhuma animação nova deveria redescobrir: só começa quando o leitor
+chega, entrega o resultado a quem pediu menos movimento, e redesenha na troca
+de tema.
+
+**E a animação nasceu errada, de novo pelo mesmo motivo do III.1.** A primeira
+semente escolhida a esmo caía num mínimo local: a rede empacava em ~25 de 48
+com a perda parada em ln(2)/2, enquanto o texto do capítulo prometia "assista
+até a contagem fechar". Build verde, canvas desenhando, página montando — e o
+comportamento errado. Só apareceu porque rodei o `laboratorios.js` real num DOM
+mínimo e li o placar.
+
+Dois achados do diagnóstico, ambos guardados:
+
+1. Varrendo 60 inicializações sobre o mesmo dado, **44 resolvem e 16 não**. O
+   gradiente estava certo o tempo todo.
+2. O mínimo local é do **par (dado, início)**, não do início sozinho. Quando
+   fixei o dado e variei só a semente dos pesos, a semente que falhava passou a
+   resolver. Por isso `dados()` usa sempre a semente boa: com o dado fixo, o
+   botão isola a variável que ele diz isolar.
+
+Em vez de trocar a semente e esconder o achado, a semente ruim virou **botão**,
+porque "inicialização ruim" é literalmente o objetivo O4 do capítulo. O teste
+está versionado em `publicar/testes/anima-mlp-xor.mjs` e foi visto falhando.
+
+**Para as próximas 21:** nenhuma animação entra sem um teste que rode o método
+e confira o número que o texto promete ao leitor. Foi a segunda vez que uma
+animação passou no build e falhou com o leitor.
