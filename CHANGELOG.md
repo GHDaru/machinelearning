@@ -6,6 +6,38 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — a chave do tema tinha dois nomes, e um deles não existia
+- O `app.js` escreve `data-tema` com valores `claro`/`escuro`. Três blocos de CSS
+  estavam escritos em `data-theme` com valores `dark`/`light` — vocabulário que
+  **ninguém escreve no DOM**. Seletor que não casa com nada não dá erro, não
+  aparece no build e não quebra teste: ele só não pinta.
+- O que o leitor via: num sistema claro, acender o modo escuro do livro deixava a
+  página escura com o **painel do chat branco** e os chips de nível na cor clara,
+  ilegíveis. No sistema escuro, pedir o modo claro dava a página clara com o painel
+  preto. A escolha explícita do leitor perdia para a preferência do sistema
+  operacional, que é a hierarquia ao contrário.
+- Arquivos: `publicar/tema/estilo.css` (chips de nível) e
+  `publicar/tema/companion.css` (o painel inteiro).
+
+### Adicionado — gate `tema-unico.mjs`
+- `publicar/gates/tema-unico.mjs`, ligado ao `build.mjs`: cobra uma chave só
+  (`data-tema`), recusa valor em inglês, e exige que toda
+  `@media (prefers-color-scheme: dark)` esteja guardada por
+  `:root:not([data-tema="claro"])` — sem a guarda, o sistema operacional passa por
+  cima do leitor.
+- **Visto falhando nos três casos** antes de merecer confiança, e visto *não* falhar
+  no caso legítimo: seletor com `data-theme` → 1; `data-tema="dark"` → 1; media query
+  sem guarda → 1; media query com guarda → 0; árvore limpa → 0. O build inteiro para
+  com o defeito reintroduzido.
+- O gate acusou os próprios comentários que explicam o bug. A correção foi ensiná-lo
+  a ignorar comentário CSS, não afrouxá-lo: comentário não cria seletor, então um
+  seletor morto não pode se esconder dentro de um. Isso o torna mais preciso, não
+  mais permissivo.
+- Fica **de fora** o `neuronio-mp.svg`, que tem o mesmo defeito por outra via: SVG
+  carregado por `<img>` é documento isolado e não enxerga o `data-tema` da página de
+  jeito nenhum. A correção depende de decidir o mecanismo das figuras, o que está em
+  comitê.
+
 ### Alterado — passada de humanização em III.1 e III.2 (só prosa)
 - 32 edições de forma nos dois capítulos, nenhuma linha de exercício, laboratório ou
   selo tocada: os três gates fecham com a **mesma** contagem de antes (424 exercícios,

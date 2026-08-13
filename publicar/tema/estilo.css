@@ -89,14 +89,19 @@ h2[data-callout="callout-apendice"] { border-color: var(--apend); }
 .cap-meta .nivel-esqueleto { color: #8a5a00; border-color: #d9a441; background: rgba(217,164,65,.14); }
 .cap-meta .nivel-essencial { color: #35618e; border-color: #6f9dc9; background: rgba(111,157,201,.13); }
 .cap-meta .nivel-completo  { color: #2c6e49; border-color: #58a97a; background: rgba(88,169,122,.14); }
+/* O atributo é `data-tema`, com valores `claro`/`escuro` — é o que o app.js
+   escreve (tema/app.js:7-14). Regra em `data-theme`/`dark`/`light` não casa com
+   nada e o chip fica na cor clara sobre fundo escuro. O gate tema-unico.mjs
+   existe por causa deste bug. A media query só vale como padrão de sistema
+   enquanto o leitor não tiver escolhido: se ele escolheu, o atributo manda. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .cap-meta .nivel-esqueleto { color: #e0b062; }
-  :root:not([data-theme="light"]) .cap-meta .nivel-essencial { color: #8fb8dd; }
-  :root:not([data-theme="light"]) .cap-meta .nivel-completo  { color: #7cc79b; }
+  :root:not([data-tema="claro"]) .cap-meta .nivel-esqueleto { color: #e0b062; }
+  :root:not([data-tema="claro"]) .cap-meta .nivel-essencial { color: #8fb8dd; }
+  :root:not([data-tema="claro"]) .cap-meta .nivel-completo  { color: #7cc79b; }
 }
-:root[data-theme="dark"] .cap-meta .nivel-esqueleto { color: #e0b062; }
-:root[data-theme="dark"] .cap-meta .nivel-essencial { color: #8fb8dd; }
-:root[data-theme="dark"] .cap-meta .nivel-completo  { color: #7cc79b; }
+:root[data-tema="escuro"] .cap-meta .nivel-esqueleto { color: #e0b062; }
+:root[data-tema="escuro"] .cap-meta .nivel-essencial { color: #8fb8dd; }
+:root[data-tema="escuro"] .cap-meta .nivel-completo  { color: #7cc79b; }
 .cap-meta .cap-dl { border: 1px solid var(--line); border-radius: 999px; padding: .15rem .6rem;
   text-decoration: none; color: var(--muted); font-weight: 600; }
 .cap-meta .cap-dl:hover { border-color: var(--prat); color: var(--prat); }

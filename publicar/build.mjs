@@ -23,6 +23,7 @@ import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair, semGabarito } from "./interativos.mjs";
 import { verificar as verificarProsa } from "./prosa.mjs";
 import { verificar as verificarIntervalos } from "./intervalos.mjs";
+import { verificar as verificarTema } from "./gates/tema-unico.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -935,6 +936,15 @@ const intervalosRuins = verificarIntervalos();
 if (intervalosRuins.length) {
   console.error(`✗ ${intervalosRuins.length} intervalo(s) citado(s) fora da conta:`);
   intervalosRuins.forEach((q) => console.error("   " + q));
+  process.exit(1);
+}
+
+// A chave do tema é uma só. Seletor escrito no vocabulário errado não pinta e
+// não reclama — quem descobre é o leitor, com o painel branco numa página escura.
+const temaRuim = verificarTema();
+if (temaRuim.length) {
+  console.error(`✗ ${temaRuim.length} problema(s) de tema:`);
+  temaRuim.forEach((q) => console.error("   " + q));
   process.exit(1);
 }
 
