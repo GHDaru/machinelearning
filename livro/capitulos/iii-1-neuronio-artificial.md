@@ -13,33 +13,33 @@
 
 ## O problema: pode uma máquina pensar em lógica?
 
-Em 1943 não havia computador digital comercial nem "Machine Learning". A pergunta que Warren McCulloch, neurofisiologista, e Walter Pitts, um lógico de vinte anos, autodidata, que vivia sem endereço fixo, se fizeram era outra: **a atividade do cérebro pode ser descrita como lógica?**
+Em 1943 não havia computador digital comercial nem "Machine Learning". A pergunta que Warren McCulloch e Walter Pitts se fizeram era outra: **a atividade do cérebro pode ser descrita como lógica?**
 
 A resposta deles foi um modelo brutalmente simples de neurônio ([McCulloch & Pitts, 1943](https://doi.org/10.1007/BF02478259), ✓). O neurônio recebe entradas, multiplica cada uma por um **peso**, soma tudo, e dispara (devolve 1) se a soma alcançar um **limiar**. Senão, devolve 0.
 
 $$y = \begin{cases} 1 & \text{se } w_1x_1 + w_2x_2 + \dots \geq \theta \\ 0 & \text{se } w_1x_1 + w_2x_2 + \dots < \theta \end{cases}$$
 
-Aqui `y` é a saída, `x` são as entradas, `w` são os pesos e `θ` (teta) é o limiar — a mesma notação do diagrama acima.
+Aqui `y` é a saída, `x` são as entradas, `w` são os pesos e `θ` (teta) é o limiar — a mesma notação do diagrama.
 
 É só isso. Uma soma ponderada e uma comparação.
 
 <img src="assets/neuronio-mp.svg" alt="Diagrama do neurônio de McCulloch–Pitts: as entradas x₁ e x₂ são multiplicadas pelos pesos w₁ e w₂, somadas no corpo do neurônio, comparadas com o limiar θ, e a saída é 1 se a soma alcançar o limiar e 0 caso contrário." width="720">
 
-O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem computar qualquer função lógica proposicional**. O argumento era filosófico antes de ser tecnológico: se o pensamento é lógica, e a lógica é computável por neurônios, então o pensamento é computável. Foi uma das ideias fundadoras da inteligência artificial, da teoria de autômatos e da cibernética — quinze anos antes de existir uma máquina que aprendesse alguma coisa.
+O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem computar qualquer função lógica proposicional**. O argumento era filosófico antes de ser tecnológico: se o pensamento é lógica, e a lógica é computável por neurônios, então o pensamento é computável. A ideia está na fundação da inteligência artificial, da teoria de autômatos e da cibernética, quinze anos antes de existir uma máquina que aprendesse alguma coisa.
 
 > **Repare no que ainda não existe aqui: aprendizado.** No modelo de 1943 os pesos são **postos à mão** por quem projeta a rede. Descobrir os pesos automaticamente é o passo seguinte da história, e é o que o perceptron de Rosenblatt traz em 1958.
 
 ## De onde isto veio
 
-**O aperto.** McCulloch era neurofisiologista e passara anos atrás de uma pergunta que a fisiologia da época não sabia formular: *que tipo de coisa o cérebro faz, do ponto de vista lógico?* Pitts tinha vinte anos, nenhum diploma, e lia lógica formal desde os doze. Nenhum dos dois queria construir uma máquina — queriam **decidir uma questão filosófica** com ferramenta matemática. O aperto era esse: havia um órgão que evidentemente processava informação, e nenhuma linguagem para descrever o que ele processava.
+**O aperto.** McCulloch era neurofisiologista e passara anos atrás de uma pergunta que a fisiologia da época não sabia formular: *que tipo de coisa o cérebro faz, do ponto de vista lógico?* Pitts tinha vinte anos, nenhum diploma, nenhum endereço fixo, e lia lógica formal desde os doze. Nenhum dos dois queria construir uma máquina — queriam **decidir uma questão filosófica** com ferramenta matemática. Havia um órgão que evidentemente processava informação, e nenhuma linguagem para descrever o que ele processava.
 
 **O que se fazia antes.** Descrevia-se o neurônio em termos **químicos e elétricos** — potenciais, limiares de disparo, sinapses. Descrição correta e inútil para a pergunta: nenhuma quantidade de eletroquímica dizia se aquilo computava alguma coisa.
 
-**A virada.** Jogar fora quase tudo. Nada de tempo contínuo, nada de química, nada de geometria do axônio — só *"soma o que chega, e dispara se passar de um limite"*. Com essa abstração violenta eles provaram que **redes desses elementos computam qualquer função lógica proposicional**. Se o pensamento é lógica, e a lógica cabe em neurônios, então o pensamento é computável — quinze anos antes de existir máquina que aprendesse coisa alguma.
+**A virada.** Jogar fora quase tudo. Nada de tempo contínuo, nada de química, nada de geometria do axônio — só *"soma o que chega, e dispara se passar de um limite"*. Com essa abstração violenta veio a prova: redes desses elementos computam qualquer função lógica proposicional.
 
-**A ideia reaproveitável.** **Uma abstração vale pelo que ela permite provar, não pela fidelidade ao original.** O neurônio de 1943 é biologicamente errado de propósito — e é justamente por ter descartado a biologia que rendeu um teorema. Todo modelo que você vai construir neste livro faz a mesma aposta: joga fora o que não serve à pergunta. Saber **o que** foi jogado fora é o que separa usar um modelo de acreditar nele — e é a origem de boa parte do exagero sobre o que redes neurais "entendem".
+**A ideia reaproveitável.** **Uma abstração vale pelo que ela permite provar, não pela fidelidade ao original.** O neurônio de 1943 é biologicamente errado de propósito, e foi por ter descartado a biologia que rendeu um teorema. Todo modelo que você vai construir neste livro faz a mesma aposta: joga fora o que não serve à pergunta. Quem perde de vista o que foi jogado fora acaba acreditando no modelo em vez de usá-lo, e daí vem boa parte do exagero sobre o que redes neurais "entendem".
 
-**O nome.** "Neurônio artificial" é herança da motivação, não descrição do mecanismo. E é mais velho que o campo: a expressão *inteligência artificial* só apareceria doze anos depois.
+**O nome.** "Neurônio artificial" veio da motivação do modelo, e descreve mal o que ele faz. E é mais velho que o campo: a expressão *inteligência artificial* só apareceria doze anos depois.
 
 | Quando | O quê |
 |---|---|
@@ -65,15 +65,15 @@ Duas coisas valem ficar: **o neurônio artificial é doze anos mais velho que o 
 | **1979/80** | Fukushima | O **neocognitron**, primeira arquitetura hierárquica convolucional — treinada **sem** backpropagation. Em japonês em 1979; em inglês em 1980 | [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) |
 | **1986** | Rumelhart, Hinton & Williams | Popularizam o backpropagation e mostram as representações aprendidas nas camadas escondidas | [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) |
 
-Rosenblatt provou que, **se o problema for linearmente separável**, o perceptron converge em número finito de passos. A prova é sólida e a condição é a chave — mas o entusiasmo de 1958 leu só a primeira parte, e a imprensa prometeu máquinas conscientes. Onze anos depois, *Perceptrons* demonstrou com rigor o que você vai descobrir no laboratório abaixo: uma camada não computa o XOR. **O argumento estava correto**; a leitura que se fez dele foi mais ampla do que os autores demonstraram, o financiamento migrou para a IA simbólica, e veio o **inverno da IA**.
+Rosenblatt provou que, **se o problema for linearmente separável**, o perceptron converge em número finito de passos. A prova é sólida, e tudo depende da condição no meio dela. O entusiasmo de 1958 leu só a primeira parte, e a imprensa prometeu máquinas conscientes. Onze anos depois, *Perceptrons* demonstrou com rigor o que você vai descobrir no laboratório abaixo: uma camada não computa o XOR. **O argumento estava correto**; a leitura que se fez dele foi mais ampla do que os autores demonstraram, o financiamento migrou para a IA simbólica, e veio o **inverno da IA**.
 
-A saída, em 1986, tem uma moral que vale além da história: **a limitação nunca foi do neurônio, era da arquitetura de uma camada só.** O [capítulo III.2](iii-2-redes-neurais.md) constrói a rede multicamada que resolve isso.
+A saída veio em 1986, e a moral vale além da história: **a limitação nunca foi do neurônio, era da arquitetura de uma camada só.** O [capítulo III.2](iii-2-redes-neurais.md) constrói a rede multicamada que resolve isso.
 
-E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram** o backpropagation; a descrição é de Linnainmaa, dezesseis anos antes, numa tese de mestrado em finlandês que, nas palavras do levantamento histórico mais citado sobre o assunto, traz o método *"albeit without reference to NNs"*.
+E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram** o backpropagation; a descrição é de Linnainmaa, dezesseis anos antes, numa tese de mestrado em finlandês que, nas palavras de um levantamento histórico do campo, traz o método *"albeit without reference to NNs"*.
 
 Esse levantamento é de **Jürgen Schmidhuber**, e ele declara o próprio propósito no prefácio: *"One of its goals is to assign credit to those who contributed to the present state of the art."* Um artigo de revisão escrito para acertar atribuição é, ele mesmo, sintoma de que a atribuição estava errada. **A formulação a seguir é deste livro, e não de Schmidhuber:** o crédito não fica com quem inventa primeiro, e sim com quem reinventa por último, num momento em que a comunidade está pronta para ouvir.
 
-> **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss **provavelmente** tinha os mínimos quadrados antes e perdeu a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. O "provavelmente" é do estudo de referência sobre a disputa, que argumenta sem concluir. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar faz parte do método, não da burocracia.
+> **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss **provavelmente** tinha os mínimos quadrados antes e perdeu a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. O "provavelmente" é do estudo de referência sobre a disputa, que argumenta sem concluir. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar contam como trabalho científico.
 
 > **Sobre "um italiano em 1979".** Essa memória circula, e não encontrei quem a sustente. O que existe em 1979 são as publicações de Werbos (americano) e o neocognitron de Fukushima (japonês, em inglês no ano seguinte); a prioridade de 1970 é de Linnainmaa, finlandês. Se você tiver a referência, ela entra aqui — até lá o livro registra a dúvida em vez de escolher uma versão.
 
@@ -108,7 +108,7 @@ Comece pelo **E (AND)**. Depois tente OU, NÃO-E e NÃO-OU, que têm solução, 
 
 ### O que você deveria ter notado
 
-**Primeiro:** não existe *a* resposta certa. Para o AND, `w₁=1, w₂=1, θ=2` funciona; `w₁=0,6, w₂=0,6, θ=1` também; `w₁=3, w₂=2, θ=4,5` também. Infinitas retas separam aqueles quatro pontos — e essa multiplicidade não é defeito, é a natureza do problema. É a mesma razão pela qual dois modelos treinados com sementes diferentes chegam a coeficientes diferentes e à mesma qualidade.
+**Primeiro:** não existe *a* resposta certa. Para o AND, `w₁=1, w₂=1, θ=2` funciona; `w₁=0,6, w₂=0,6, θ=1` também; `w₁=3, w₂=2, θ=4,5` também. Infinitas retas separam aqueles quatro pontos. A multiplicidade é a natureza do problema, e não um defeito do laboratório. É a mesma razão pela qual dois modelos treinados com sementes diferentes chegam a coeficientes diferentes e à mesma qualidade.
 
 **Segundo:** você estava fazendo, à mão, exatamente o que o gradiente descendente do [capítulo II.4](ii-4-otimizacao.md) faz sozinho — mover a fronteira até que os erros acabem. A diferença é que você olhava a tabela inteira e ajustava por intuição; o algoritmo olha um erro por vez e ajusta por regra fixa.
 
@@ -146,7 +146,7 @@ Uma reta divide o plano em dois lados. Para resolver o XOR ela precisaria deixar
 
 O nome técnico é **separabilidade linear**. AND, OR, NAND e NOR são linearmente separáveis; XOR não é. E um neurônio de McCulloch–Pitts, ou um perceptron, ou uma regressão logística, traça **exatamente uma reta**.
 
-> É a mesma limitação que o [capítulo II.5](ii-5-arvores-ensembles.md) mediu com outro vocabulário: naquele experimento, o modelo linear ficou em 0,4963 de AUC, ou seja, acaso, porque a fronteira verdadeira era não-monotônica. Aqui você vê a razão em quatro pontos, em vez de em uma tabela de resultados.
+> É a mesma limitação que o [capítulo II.5](ii-5-arvores-ensembles.md) mediu com outro vocabulário: naquele experimento, o modelo linear ficou em 0,4963 de AUC, ou seja, acaso, porque a fronteira verdadeira era não-monotônica. Aqui você vê a razão em quatro pontos, em vez de numa tabela de resultados.
 
 :::exercicio {"id":"neuronio-artificial-e1","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 Por que um único neurônio de McCulloch–Pitts não consegue implementar o XOR?
@@ -343,7 +343,7 @@ O neurônio de 1943 não tinha aprendizado: os pesos eram escolhidos à mão. Co
 
 ## A saída, montada à mão: dois neurônios
 
-O XOR é impossível **para um neurônio**. A frase inteira importa, porque a palavra que ninguém repete é a última.
+O XOR é impossível **para um neurônio**. As três últimas palavras são a parte que todo mundo esquece de repetir.
 
 Um neurônio traça uma reta. O XOR precisa de duas. Então use dois neurônios.
 
@@ -378,7 +378,7 @@ O notebook tem três partes, e a terceira é a que fecha o capítulo:
 2. **O perceptron acha os pesos sozinho** — a regra de Rosenblatt em oito linhas, convergindo em poucas épocas para AND, OR, NAND e NOR.
 3. **O XOR por força bruta.** Em vez de argumentar, o notebook **testa 15.625 combinações** de pesos e limiar numa grade fina. O melhor resultado que aparece é **3 de 4**. Nunca 4.
 
-Esse último ponto é o que transforma "é impossível" de afirmação em resultado. E há um detalhe no meio do caminho que vale reparar: treinando o perceptron no XOR, o número de erros por época **nem diminui** — ele oscila. O perceptron não se aproxima da solução, porque não há solução de que se aproximar. É o sintoma do impossível, não do difícil.
+Esse último ponto é o que transforma "é impossível" de afirmação em resultado. E há um detalhe no caminho que vale reparar: treinando o perceptron no XOR, o número de erros por época **nem diminui**, ele oscila. O perceptron não se aproxima da solução, porque não há solução de que se aproximar. É o sintoma do impossível, não do difícil.
 
 ## Síntese — o que levar
 

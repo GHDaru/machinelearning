@@ -6,6 +6,24 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado — passada de humanização em III.1 e III.2 (só prosa)
+- 32 edições de forma nos dois capítulos, nenhuma linha de exercício, laboratório ou
+  selo tocada: os três gates fecham com a **mesma** contagem de antes (424 exercícios,
+  7 vídeos, 28 laboratórios, 49 páginas).
+- Três achados que não eram de estilo e sim de conteúdo: um "diagrama acima" que
+  apontava para um diagrama **abaixo**; um "daqui a três parágrafos" que na verdade
+  eram cerca de vinte; e uma frase do III.1 cujo referente estava invertido — dizia que
+  *saber* o que foi jogado fora é a origem do exagero, quando a origem é **perder de
+  vista**. Uma sentença do III.2 repetia quase palavra por palavra o feedback do
+  exercício `e7`, entregando a resposta antes da pergunta.
+- **Onde a skill foi recusada, e por quê:** a regra que baniria travessões contraria o
+  [ADR 0013](adr/0013-a-voz-do-livro.md), que já fixa o limite em duas ocorrências por
+  frase — a regra do livro prevalece. O paralelismo negativo só valeu onde o "não Y"
+  não é o distrator que o exercício testa. A regra de três foi recusada duas vezes em
+  enumerações factuais, e a proscrição da voz passiva porque em português a partícula
+  passiva é a forma neutra para descrever procedimento. Recusa registrada é recusa
+  auditável; skill aplicada sem exame vira ruído.
+
 ### Adicionado — prova do capítulo III.1, para aplicar em sala (12 itens)
 - `livro/provas/prova-iii-1.md`: **12 itens 100% determinísticos** (nenhum aberto),
   três por objetivo, progressão fácil → difícil, com **quatro itens de conta à mão**.

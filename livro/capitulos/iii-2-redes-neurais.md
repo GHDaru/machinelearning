@@ -17,11 +17,11 @@ No [capítulo III.1](iii-1-neuronio-artificial.md) você travou em 3 de 4. O XOR
 
 Este capítulo resolve isso — e vale dizer com prazer, porque a solução é curta: **duas retas**. Uma camada intermediária traça duas fronteiras, e a camada de saída combina as duas. O XOR fecha em 4 de 4.
 
-Só que essa não era a parte difícil. **Depois de 1969 já se sabia que uma camada intermediária resolvia o XOR.** Qualquer um conseguia escrever à mão os pesos que fazem aquilo funcionar — você vai escrever daqui a três parágrafos. O que não existia era um jeito de **descobrir** esses pesos a partir de dados, quando eles são milhares e ninguém sabe o que cada unidade escondida deveria significar.
+Só que essa não era a parte difícil. **Depois de 1969 já se sabia que uma camada intermediária resolvia o XOR.** Qualquer um conseguia escrever à mão os pesos que fazem aquilo funcionar — você vai escrever mais adiante neste capítulo. O que não existia era um jeito de **descobrir** esses pesos a partir de dados, quando eles são milhares e ninguém sabe o que cada unidade escondida deveria significar.
 
 A regra do perceptron não servia: ela corrige pesos comparando a saída com o rótulo, e a camada escondida **não tem rótulo**. Ninguém sabe o que a terceira unidade da camada do meio deveria ter respondido. Esse é o aperto, e ele durou quase vinte anos.
 
-**1986 não entrega a arquitetura. Entrega o procedimento.**
+Foi isso que 1986 entregou: não a arquitetura, que já se conhecia, mas o procedimento para treiná-la.
 
 ## De onde isto veio
 
@@ -33,13 +33,13 @@ A regra do perceptron não servia: ela corrige pesos comparando a saída com o r
 
 Repare na ordem. A engenharia funcionou por três anos antes de a matemática dizer que ela podia funcionar. Isso é mais comum do que os livros contam, e é um bom antídoto contra a ideia de que teoria precede prática.
 
-**A ideia reaproveitável — e é a tese deste capítulo: existência não é treinabilidade.** O teorema diz que a rede certa **está** no espaço de hipóteses. Não diz quantas unidades ela precisa. Não diz como achá-la. E não diz se o gradiente descendente chega até ela partindo de onde você inicializou. É um resultado **não construtivo**: garante que o objeto existe sem dar receita para construí-lo.
+**A ideia reaproveitável — e é a tese deste capítulo: existência não é treinabilidade.** O teorema diz que a rede certa **está** no espaço de hipóteses. Não diz de quantas unidades ela precisa. Não diz como achá-la. E não diz se o gradiente descendente chega até ela partindo de onde você inicializou. É um resultado **não construtivo**: garante que o objeto existe sem dar receita para construí-lo.
 
-Guarde isso, porque a confusão é cara e frequente. "A rede pode representar qualquer função" é uma afirmação sobre o **conjunto de funções representáveis**. "A rede vai aprender essa função" é uma afirmação sobre o **procedimento de busca**, sobre os dados e sobre a inicialização. Os vinte anos de dificuldade que o [capítulo III.3](iii-3-treinar-redes-profundas.md) narra, com gradientes que somem e gradientes que explodem, redes profundas que não treinavam — são exatamente o preço dessa distinção.
+Guarde isso, porque a confusão é cara e frequente. "A rede pode representar qualquer função" é uma afirmação sobre o **conjunto de funções representáveis**. "A rede vai aprender essa função" é uma afirmação sobre o **procedimento de busca**, sobre os dados e sobre a inicialização. Os vinte anos de dificuldade que o [capítulo III.3](iii-3-treinar-redes-profundas.md) narra, com gradientes que somem, gradientes que explodem e redes profundas que não treinavam, são o preço dessa distinção.
 
-**O nome.** "Teorema da aproximação universal" é rótulo posterior, e convém ser exato sobre em que sentido. A palavra "universal" está num título da época: *"Multilayer feedforward networks are universal approximators"*, de Hornik, Stinchcombe e White (*Neural Networks* 2:359–366, 1989). O que veio depois foi a promoção a **teorema com nome próprio**, etiqueta que hoje se usa para um resultado que os artigos enunciam com hipóteses explícitas, e que quase ninguém recita junto com elas.
+**O nome.** "Teorema da aproximação universal" é rótulo posterior, e convém ser exato sobre em que sentido. A palavra "universal" está num título da época: *"Multilayer feedforward networks are universal approximators"*, de Hornik, Stinchcombe e White (*Neural Networks* 2:359–366, 1989). O que veio depois foi a promoção a **teorema com nome próprio**. Os artigos enunciam o resultado com hipóteses explícitas, e quase ninguém as recita junto com o nome.
 
-E há um detalhe atribuído a Hornik que o rótulo popular apaga: o poder de aproximação não viria da função de ativação escolhida, e sim da **estrutura em camadas**. Trocar sigmoide por outra não-linearidade razoável não mudaria o que a rede pode representar. Mudaria o quanto ela treina bem, que é outra conversa — a conversa deste livro inteiro.
+E há um detalhe atribuído a Hornik que o rótulo popular apaga: o poder de aproximação não viria da função de ativação escolhida, e sim da **estrutura em camadas**. Trocar sigmoide por outra não-linearidade razoável não mudaria o que a rede pode representar. Mudaria o quanto ela treina bem, que é assunto do livro inteiro.
 
 **Procedência das afirmações desta seção:**
 
@@ -88,13 +88,13 @@ Depois use os dois outros botões, nesta ordem.
 Esse botão existe porque o problema apareceu de verdade ao construir esta animação — a primeira semente escolhida era uma das 16. É o modo de falha "inicialização ruim" do objetivo **O4**, e vê-lo aqui torna o resto do capítulo menos abstrato.
 :::
 
-**A arquitetura.** Um **perceptron multicamadas** (*multilayer perceptron*, MLP) é isso, generalizado: uma camada de entrada (os atributos), uma ou mais camadas **escondidas** e uma camada de saída. Cada camada faz duas coisas, sempre nesta ordem: uma transformação linear (`Wx + b`) e uma não-linearidade aplicada elemento a elemento. A rede inteira é a composição dessas duas peças, repetida.
+**A arquitetura.** Um **perceptron multicamadas** (*multilayer perceptron*, MLP) é isso, generalizado: uma camada de entrada (os atributos), uma ou mais camadas escondidas e uma camada de saída. Cada camada faz duas coisas, sempre nesta ordem: uma transformação linear (`Wx + b`) e uma não-linearidade aplicada elemento a elemento. A rede inteira é a composição dessas duas peças, repetida.
 
-**Contar os parâmetros, uma vez, com número.** Uma camada que recebe $e$ entradas e produz $s$ saídas tem uma matriz $W$ de $e \times s$ pesos, mais **um viés por unidade de destino** — $s$ deles. Total: $e \times s + s$.
+**Contar os parâmetros.** Uma camada que recebe $e$ entradas e produz $s$ saídas tem uma matriz $W$ de $e \times s$ pesos, mais **um viés por unidade de destino** — $s$ deles. Total: $e \times s + s$.
 
 Numa rede 3 → 4 → 2, portanto: a primeira camada tem $3 \times 4 + 4 = 16$; a segunda, $4 \times 2 + 2 = 10$; a rede tem **26** parâmetros treináveis. Guarde a regra, porque o próximo exercício pede outra arquitetura — e porque é a conta que decide se você tem dado suficiente para treinar.
 
-A não-linearidade não é enfeite. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear** — o produto de duas matrizes é uma matriz. Sem a não-linearidade, você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.
+Tire a não-linearidade e a profundidade some junto. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear**: o produto de duas matrizes é uma matriz. Você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.
 
 :::exercicio {"id":"redes-neurais-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma rede tem duas camadas densas empilhadas, **sem nenhuma função de ativação entre elas**. O que essa rede consegue computar?
@@ -151,17 +151,17 @@ Segundo o capítulo, qual modelo já conhecido é o caso extremo de um MLP?
 
 Agora o problema de 1969. Os pesos da tabela acima foram postos à mão. Como descobri-los a partir de dados?
 
-**Primeiro, o degrau tem de sair.** A função-degrau do neurônio de McCulloch–Pitts é plana em toda parte e salta num ponto: sua derivada é zero onde existe e não existe onde importa. **Sem derivada não há gradiente, e sem gradiente não há direção para onde mover o peso.** Por isso as ativações usadas em rede treinável são contínuas: sigmoide, tangente hiperbólica, ReLU. Não é preferência estética — é a condição para que a otimização do [capítulo II.4](ii-4-otimizacao.md) tenha o que ler.
+**Primeiro, o degrau tem de sair.** A função-degrau do neurônio de McCulloch–Pitts é plana em toda parte e salta num ponto: sua derivada é zero onde existe e não existe onde importa. **Sem derivada não há gradiente, e sem gradiente não há direção para onde mover o peso.** Por isso as ativações usadas em rede treinável são contínuas: sigmoide, tangente hiperbólica, ReLU. Sem elas, a otimização do [capítulo II.4](ii-4-otimizacao.md) não tem o que ler.
 
 **O passo para frente.** A entrada atravessa a rede camada a camada, e cada camada guarda o que calculou. No fim sai uma previsão, e a função de perda transforma previsão e rótulo num único número: o erro.
 
-**O passo para trás.** Aqui está a ideia inteira. O erro da saída depende dos pesos da última camada — isso é fácil de derivar. Mas ele também depende dos pesos da camada anterior, *através* da última camada. É a **regra da cadeia**: a influência de um peso lá atrás sobre o erro lá na frente é o produto das influências ao longo do caminho.
+**O passo para trás.** O erro da saída depende dos pesos da última camada, o que é fácil de derivar. Mas ele também depende dos pesos da camada anterior, *através* da última camada. É a **regra da cadeia**: a influência de um peso lá atrás sobre o erro lá na frente é o produto das influências ao longo do caminho.
 
-Fazer isso ingenuamente seria absurdo: recalcular o caminho inteiro para cada peso, com milhões de pesos, é trabalho repetido em escala industrial. **O que torna o backpropagation viável é o reaproveitamento.** Calcula-se o erro na saída, propaga-se para trás **uma vez**, e a quantidade que chega a cada camada é reusada por todos os pesos daquela camada. O custo do passo para trás fica da mesma ordem do passo para frente — e é isso, e não a regra da cadeia em si, que é a descoberta prática.
+Fazer isso ingenuamente seria absurdo: recalcular o caminho inteiro para cada peso, com milhões de pesos, é trabalho repetido em escala industrial. **O que torna o backpropagation viável é o reaproveitamento.** Calcula-se o erro na saída, propaga-se para trás **uma vez**, e a quantidade que chega a cada camada é reusada por todos os pesos daquela camada. O custo do passo para trás fica da mesma ordem do passo para frente, e é aí que está a descoberta prática.
 
-Repare no que backpropagation **não** é: não é um algoritmo de otimização. Ele calcula o gradiente. Quem move os pesos é o gradiente descendente do [capítulo II.4](ii-4-otimizacao.md) — a mesma otimização, os mesmos passos, a mesma regularização, só que numa superfície muito maior e cheia de vales.
+Backpropagation não é um algoritmo de otimização. Ele calcula o gradiente. Quem move os pesos é o gradiente descendente do [capítulo II.4](ii-4-otimizacao.md): a mesma otimização, os mesmos passos, a mesma regularização, só que numa superfície muito maior e cheia de vales.
 
-**A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada não é acaso: combinadas, o gradiente na saída se reduz a `previsão − rótulo`. Simples de derivar, estável de calcular, barato de implementar.
+**A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada tem uma razão de ser: combinadas, o gradiente na saída se reduz a `previsão − rótulo`, que é simples de derivar e estável de calcular.
 
 :::exercicio {"id":"redes-neurais-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
 Um MLP densa tem 4 entradas, uma camada escondida de 5 unidades e 3 saídas. Todas as camadas têm **viés**.
@@ -244,9 +244,9 @@ Ao implementar a rede em NumPy, a soma do viés "funciona" por *broadcasting* me
 
 ## Quantas camadas e quantas unidades — a decisão é empírica
 
-O teorema diz que uma camada escondida basta. Não diz **quantas unidades** — e "unidades suficientes" pode significar um número absurdo. Na prática, redes mais profundas costumam resolver com menos unidades por camada o que uma camada rasa só resolveria com muitas. Isso é observação da prática, não consequência do teorema.
+O teorema diz que uma camada escondida basta. Não diz **quantas unidades** — e "unidades suficientes" pode significar um número absurdo. Redes mais profundas costumam resolver com menos unidades por camada o que uma camada rasa só resolveria com muitas. Isso é observação empírica, não consequência do teorema.
 
-Então como se escolhe? **Empiricamente, e sob validação.** Comece pequeno, aumente até a rede conseguir *overfitar* um subconjunto pequeno dos dados — se ela não consegue decorar 50 exemplos, o problema é capacidade ou bug, não regularização. Depois regularize para trazer a generalização de volta, com as ferramentas do [capítulo II.4](ii-4-otimizacao.md). O número de camadas e de unidades é hiperparâmetro, e hiperparâmetro se escolhe com dados de validação, nunca com opinião.
+Comece pequeno, aumente até a rede conseguir *overfitar* um subconjunto pequeno dos dados — se ela não consegue decorar 50 exemplos, o problema é capacidade ou bug, não regularização. Depois regularize para trazer a generalização de volta, com as ferramentas do [capítulo II.4](ii-4-otimizacao.md). O número de camadas e de unidades é hiperparâmetro, e hiperparâmetro se escolhe com dados de validação.
 
 :::lab {"id":"redes-neurais-l2","tipo":"iframe","titulo":"O Playground: uma manopla por pergunta","src":"assets/playground/playground.html","altura":800}
 Este é o **TensorFlow Playground**, servido daqui mesmo — ele funciona com a sua rede fora do ar, e não manda nada para lugar nenhum. É código de terceiro sob Apache 2.0, e não um produto oficial do Google; a procedência está em [`publicar/tema/playground/LEIA-ME.md`](https://github.com/GHDaru/machinelearning/blob/main/publicar/tema/playground/LEIA-ME.md).
@@ -276,7 +276,7 @@ A interface está em inglês. A tradução dos rótulos:
 :::
 
 
-E aqui a tese do capítulo cobra o preço. O teorema garante que **existe** uma configuração de pesos que resolve seu problema. Ele não garante que o seu treino vá encontrá-la — a inicialização pode ser ruim, o gradiente pode sumir antes de chegar às primeiras camadas, os dados podem ser insuficientes para distinguir aquela solução de mil outras. É exatamente por isso que empilhar mais camadas **não funcionou por quase vinte anos** depois de 1986, apesar de o teorema já estar publicado desde 1989. O [capítulo III.3](iii-3-treinar-redes-profundas.md) conta o que foi preciso para destravar.
+E aqui a tese do capítulo cobra o preço. O teorema garante que **existe** uma configuração de pesos que resolve seu problema. Ele não garante que o seu treino vá encontrá-la — a inicialização pode ser ruim, o gradiente pode sumir antes de chegar às primeiras camadas, os dados podem ser insuficientes para distinguir aquela solução de mil outras. É por isso que empilhar mais camadas **não funcionou por quase vinte anos** depois de 1986, apesar de o teorema já estar publicado desde 1989. O [capítulo III.3](iii-3-treinar-redes-profundas.md) conta o que foi preciso para destravar.
 
 :::exercicio {"id":"redes-neurais-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Um colega justifica a escolha da arquitetura assim: *"pelo teorema da aproximação universal, uma camada escondida basta — então se o modelo não está aprendendo, é porque faltam unidades."*
