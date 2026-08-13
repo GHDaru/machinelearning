@@ -9369,6 +9369,67 @@
    }
   },
   {
+   "id": "reforco-e5",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O que caracteriza um processo de decisão de Markov?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que as recompensas são sempre positivas e somam 1."
+    },
+    {
+     "correta": true,
+     "texto": "Que o estado atual carrega tudo o que importa do passado: o futuro depende de onde você está, e não de como chegou lá."
+    },
+    {
+     "correta": false,
+     "texto": "Que o número de estados é finito e conhecido de antemão."
+    },
+    {
+     "correta": false,
+     "texto": "Que o agente conhece o modelo do ambiente antes de começar."
+    }
+   ],
+   "gabarito": "o estado carrega tudo o que importa do passado",
+   "porque": "É a propriedade que dá nome ao formalismo, e ela é uma afirmação sobre a **definição do estado**, não sobre o mundo. O mesmo problema pode ser markoviano ou não conforme o que você decide colocar no estado.\n\nDaí a frase que o capítulo põe como primeiro trabalho real: estado mal definido não se conserta com mais treino. Se a informação que decide o futuro ficou de fora, nenhum algoritmo a recupera.\n\nA quarta alternativa descreve outra coisa: conhecer o modelo do ambiente é a diferença entre planejamento e aprendizado por reforço, e não faz parte da definição de MDP.",
+   "volte_para": "#fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
+  },
+  {
+   "id": "reforco-e6",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "As mesmas recompensas do exercício anterior, 3, 0 e 10, mas agora com **γ = 0,5**. Qual é o retorno descontado visto do instante inicial?",
+   "opcoes": [],
+   "gabarito": "5,5 ± 0,05",
+   "porque": "$3 + 0{,}5 \\times 0 + 0{,}25 \\times 10 = 3 + 0 + 2{,}5 = \\mathbf{5{,}5}$.\n\nCompare com os 11,1 obtidos com γ = 0,9. A recompensa de 10 valia 8,1 lá e vale **2,5** aqui: o mesmo prêmio do mesmo mundo, pesado por outra paciência.\n\nA consequência não é de escala, é de **comportamento ótimo**. Com γ = 0,5, uma recompensa imediata de 4 passa a ser preferível ao prêmio de 10 dois passos à frente, e o agente que antes esperava deixa de esperar. Trocar γ muda qual política é a melhor, e não só a velocidade do treino.",
+   "volte_para": "#fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço",
+   "gabarito_num": {
+    "valor": 5.5,
+    "tolerancia": 0
+   }
+  },
+  {
    "id": "reforco-e2",
    "capitulo": 24,
    "arquivo": "livro/capitulos/iv-2-reforco.md",
@@ -9406,6 +9467,154 @@
    "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
   },
   {
+   "id": "reforco-e7",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que o dilema exploração–explotação não existe no aprendizado supervisionado?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Porque lá os dados chegam prontos e o modelo não influencia o que verá em seguida."
+    },
+    {
+     "correta": false,
+     "texto": "Porque lá o modelo já conhece todas as classes possíveis desde o começo."
+    },
+    {
+     "correta": false,
+     "texto": "Porque supervisionado usa validação cruzada, que cobre todos os casos."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o dilema é um detalhe de implementação do reforço, e não uma diferença real."
+    }
+   ],
+   "gabarito": "os dados chegam prontos e o modelo não os influencia",
+   "porque": "É a diferença estrutural entre os dois regimes. No supervisionado, o conjunto existe antes do modelo; aqui, **o comportamento do agente determina os dados do agente**.\n\nÉ também a razão de o alvo se mover. A distribuição de treino passa a ser função do que se aprendeu até agora, condição bem diferente da otimização sobre superfície estável do [capítulo II.4](ii-4-otimizacao.md).\n\nA quarta alternativa trata como detalhe o que o título da seção chama de cerne. Ele não é um parâmetro a ajustar depois: é o que define a natureza do problema.",
+   "volte_para": "#explorar-ou-explotar-o-dilema-e-o-cerne-nao-um-detalhe",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
+  },
+  {
+   "id": "reforco-e8",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe reduz ε a zero ao longo do treino, como manda a receita, e o sistema fica preso a um conjunto pequeno de ações. Qual é a correção que o capítulo propõe, e por que ela é desconfortável?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Aumentar γ, para o agente valorizar recompensas distantes."
+    },
+    {
+     "correta": true,
+     "texto": "Garantir um piso de exploração que não vai a zero, e aceitar pagar por ele — o custo de explorar aparece no painel, e o de não explorar não aparece."
+    },
+    {
+     "correta": false,
+     "texto": "Trocar Q-learning por um método on-policy, que explora por construção."
+    },
+    {
+     "correta": false,
+     "texto": "Reiniciar o treino com outra semente até obter um resultado melhor."
+    }
+   ],
+   "gabarito": "um piso de exploração, com custo visível",
+   "porque": "A assimetria é o ponto. O custo de explorar é mensurável e imediato: aparece como cliques perdidos, receita menor naquele lote. O custo de **não** explorar é invisível — são as ações boas que nunca foram medidas, e que por isso nunca entram em relatório nenhum.\n\nA primeira alternativa mexe na paciência, e o problema não é horizonte: é cobertura. Um agente mais paciente continua sem estimativa para o que nunca experimentou.\n\nA terceira confunde as famílias. On-policy aprende sobre a política que executa, inclusive as explorações atrapalhadas, e isso não garante exploração nenhuma se a política executada for gulosa.",
+   "volte_para": "#explorar-ou-explotar-o-dilema-e-o-cerne-nao-um-detalhe",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
+  },
+  {
+   "id": "reforco-e9",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é a diferença entre aprender valor e aprender política?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "A política responde \"o que fazer aqui?\", mapeando estado em ação; a função de valor responde \"quanto vale estar aqui?\", prevendo recompensa futura acumulada."
+    },
+    {
+     "correta": false,
+     "texto": "A política serve para ambientes discretos e o valor para contínuos."
+    },
+    {
+     "correta": false,
+     "texto": "O valor é aprendido offline e a política, online."
+    },
+    {
+     "correta": false,
+     "texto": "São nomes diferentes para a mesma coisa, e a distinção é histórica."
+    }
+   ],
+   "gabarito": "o que fazer contra quanto vale estar aqui",
+   "porque": "São duas perguntas diferentes, e as duas famílias resolvem o mesmo problema por portas opostas. Métodos de valor aprendem a previsão e agem sendo gulosos sobre ela; métodos de política ajustam o comportamento diretamente, sem passar pela previsão.\n\nA quarta alternativa colapsa a distinção que organiza o campo. Ela importa na prática: um método de valor precisa de um passo a mais para virar comportamento, e é nesse passo que a exploração entra.\n\nAs duas alternativas do meio inventam critérios que não correspondem à divisão real — há métodos de política em ambientes discretos e métodos de valor treinados offline.",
+   "volte_para": "#fundamentos-o-mdp-o-desconto-e-o-alvo-que-se-move",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
+  },
+  {
+   "id": "reforco-e10",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O que o DQN acrescenta ao Q-learning tabular, e a que preço?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Mais memória para guardar a tabela, ao custo de treino mais lento."
+    },
+    {
+     "correta": true,
+     "texto": "Generalização entre estados parecidos, ao custo de instabilidade, porque o alvo do aprendizado é produzido pela própria rede que está sendo treinada."
+    },
+    {
+     "correta": false,
+     "texto": "A capacidade de aprender off-policy, que a tabela não tinha."
+    },
+    {
+     "correta": false,
+     "texto": "Exploração automática, dispensando o ε."
+    }
+   ],
+   "gabarito": "generalização, ao custo de instabilidade",
+   "porque": "O defeito da tabela é mais profundo que o tamanho: ela **não generaliza**. Duas telas quase idênticas ocupam células sem relação nenhuma, e o que se aprende numa não ajuda na outra. A rede resolve isso pela mesma virtude que ela tem no [capítulo III.2](iii-2-redes-neurais.md), aplicada a uma previsão de valor.\n\nO preço é estrutural. Quando o alvo vem da própria rede em treino, o treino pode divergir com facilidade, e boa parte da engenharia do DQN existe só para segurar isso.\n\nA terceira alternativa atribui à rede algo que já era do Q-learning: ele é off-policy por construção, tabular ou não.",
+   "volte_para": "#quando-a-tabela-nao-cabe-o-que-a-rede-acrescenta",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
+  },
+  {
    "id": "reforco-e3",
    "capitulo": 24,
    "arquivo": "livro/capitulos/iv-2-reforco.md",
@@ -9431,6 +9640,80 @@
     "separa as duas metades — prever tempos (supervisionado) e escolher a rota (otimização combinatória sobre as previsões)",
     "NÃO recomenda reforço como primeira escolha, e diz sob que condição ele voltaria à mesa (existência de simulador validado, ou interação barata)"
    ]
+  },
+  {
+   "id": "reforco-e11",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Qual é o teste direto para saber se um problema de empresa é sequencial de verdade?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O volume de dados históricos disponíveis passa de um milhão de registros."
+    },
+    {
+     "correta": true,
+     "texto": "As minhas decisões mudam o que eu vou observar depois?"
+    },
+    {
+     "correta": false,
+     "texto": "Existe uma recompensa numérica bem definida no domínio."
+    },
+    {
+     "correta": false,
+     "texto": "O problema envolve uma sequência de passos no tempo."
+    }
+   ],
+   "gabarito": "as decisões mudam o que será observado depois",
+   "porque": "É a pergunta da influência, e ela separa problema sequencial de previsão mais decisão. Se as decisões não mudam a distribuição futura, não há nada de sequencial a resolver, e o [capítulo II.8](ii-8-do-modelo-a-decisao.md) trata do caso melhor, mais barato e com muito mais controle.\n\nA quarta alternativa é a confusão mais comum. Muita coisa acontece em sequência sem ser um problema sequencial: prever a demanda de cada dia do mês é uma sequência de previsões independentes se o que você faz hoje não muda a demanda de amanhã.\n\nA terceira inverte a ordem do trabalho. Ter recompensa bem definida é raro e é a parte difícil — e onde reforço funciona fora dos jogos é justamente onde ela recebeu tratamento sério.",
+   "volte_para": "#por-que-reforco-e-a-ultima-ferramenta-a-considerar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
+  },
+  {
+   "id": "reforco-e12",
+   "capitulo": 24,
+   "arquivo": "livro/capitulos/iv-2-reforco.md",
+   "tipo": "multipla-multi",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quais condições, segundo o capítulo, tornam reforço impraticável num projeto de empresa? (marque todas que valem)",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Não existe simulador, e cada tentativa custa cliente irritado ou máquina parada."
+    },
+    {
+     "correta": true,
+     "texto": "O custo em amostras é ordens de grandeza maior que o do supervisionado para a mesma tarefa."
+    },
+    {
+     "correta": true,
+     "texto": "Duas execuções com a mesma configuração e sementes diferentes terminam em lugares diferentes."
+    },
+    {
+     "correta": false,
+     "texto": "O problema tem mais de mil estados possíveis."
+    }
+   ],
+   "gabarito": "sem simulador · caro em amostras · instável entre execuções",
+   "porque": "As três são as objeções práticas da seção, e nenhuma é sobre o tamanho do problema. A primeira costuma encerrar a conversa antes das outras: sem simulador, explorar significa tomar decisões ruins de propósito na operação real, e alguém paga essa conta.\n\nA instabilidade merece destaque porque é a que mais surpreende. Ela transforma depuração em trabalho de paciência: quando duas execuções idênticas divergem, você não sabe se mudou algo ou se tirou outra semente. É o mesmo desconforto do ótimo local do [capítulo IV.1](iv-1-nao-supervisionado.md), agora como condição permanente de trabalho.\n\nA alternativa errada propõe um limiar de tamanho. Mil estados é pequeno para reforço e não diz nada: o que decide é influência, orçamento de interação e estabilidade.",
+   "volte_para": "#por-que-reforco-e-a-ultima-ferramenta-a-considerar",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iv-2-reforco",
+   "titulo_capitulo": "IV.2 — Aprendizado por Reforço"
   },
   {
    "id": "reforco-e4",

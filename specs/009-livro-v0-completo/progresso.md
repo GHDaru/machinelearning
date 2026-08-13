@@ -70,14 +70,14 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 | 21 | III.5 — Sequências e Linguagem | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 22 | III.6 — Modelos de Fundação | 4 | 12 | 12 | **ok** | **ok** | **ok** | — |
 | 23 | IV.1 — Não Supervisionado | 4 | 12 | 12 | **ok** | **ok** | — | — |
-| 24 | IV.2 — Aprendizado por Reforço | 4 | 4 | 12 | **ok** | — | — | — |
+| 24 | IV.2 — Aprendizado por Reforço | 4 | 12 | 12 | **ok** | **ok** | — | — |
 | 25 | IV.3 — Simbólica, Fuzzy e Evolutiva | 4 | 4 | 12 | **ok** | — | — | — |
 | 26 | V.1 — Interpretabilidade e Justiça | 4 | 4 | 12 | **ok** | — | — | — |
 | 27 | V.2 — Sistemas de ML | 4 | 3 | 12 | **ok** | — | — | — |
 | 28 | V.3 — MLOps | 4 | 3 | 12 | **ok** | — | — | — |
 | 29 | V.4 — Fronteira e Expiração | 3 | 4 | 9 | **ok** | — | — | — |
 
-**Totais:** 114 objetivos · 333 exercícios hoje (295 de capítulo + 38 de prova) · **342 no alvo**.
+**Totais:** 114 objetivos · 341 exercícios hoje (303 de capítulo + 38 de prova) · **342 no alvo**.
 
 ## Dívidas de conteúdo achadas ao escrever os exercícios
 
