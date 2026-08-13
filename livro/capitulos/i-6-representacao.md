@@ -42,11 +42,11 @@ A mesma data aparece de duas formas: como inteiro `1721692800` e decomposta em d
 
 **O que se fazia antes.** Significado descrito por definição, introspecção ou autoridade lexicográfica. Nada disso é observável, e nada disso é computável.
 
-**A virada.** Em 1954, no artigo *"Distributional Structure"*, Harris mostra como induzir o sentido de palavras como *oculist*, *eye-doctor* e *lawyer* a partir da sobreposição dos ambientes em que ocorrem: as duas primeiras aparecem quase nos mesmos contextos, a terceira só em parte deles. Diferença de sentido vira **diferença de distribuição observável**. É a **hipótese distribucional**, e é a fundação conceitual de tudo o que hoje se chama *embedding*.
+**A virada.** Em 1954, nas páginas 156 e 157 do artigo *"Distributional Structure"*, Harris mostra como induzir o sentido de palavras como *oculist*, *eye-doctor* e *lawyer* a partir da sobreposição dos ambientes em que ocorrem. Entre *oculist* e *eye-doctor* a sobreposição é quase completa; entre *oculist* e *lawyer*, apenas parcial. Diferença de sentido vira **diferença de distribuição observável**. É a **hipótese distribucional**, e é a fundação conceitual de tudo o que hoje se chama *embedding*.
 
 **A ideia reaproveitável, e ela vale muito além de texto.** Representar não é descrever a coisa: é registrar a companhia que a coisa mantém. Não existe "o vetor do cliente"; existe o vetor do cliente **em relação ao conjunto**. É isso que faz *one-hot*, TF-IDF e *embedding* pertencerem a um capítulo só: todos trocam a essência do item pela posição dele numa coleção. Mude a coleção e a representação muda, sem que o item tenha mudado nada.
 
-**O nome.** A frase que carrega a ideia é de **J. R. Firth (1957)**: *"You shall know a word by the company it keeps"* — e ele a usa para um modo específico de significado, o *"meaning by collocation"*, buscando as colocações habituais em que a palavra está mais caracteristicamente incrustada.
+**O nome.** A frase que carrega a ideia é de **J. R. Firth (1957)**: *"You shall know a word by the company it keeps"*. Ele a usa para um modo específico de significado, o *"meaning by collocation"* (Firth, 1957b, p. 194), buscando as colocações habituais em que a palavra está mais caracteristicamente incrustada.
 
 > ### O terceiro caso, e o mais desconfortável
 >
@@ -69,10 +69,11 @@ Repare no detalhe do TF-IDF: **ela inventou, eles nomearam.** O padrão de novo.
 | Selo | Afirmação |
 |---|---|
 | ✓ | Que Harris parte do corpus sob influência declarada de Shannon, e a frase de Firth com o sentido de *meaning by collocation* — via [Brunila & LaViolette (2022), arXiv:2205.07750](https://arxiv.org/pdf/2205.07750), **lido**, que faz leitura cerrada dos dois originais |
-| ✓ᵐ | Harris, *"Distributional Structure"*, *Word* 10(2–3), 1954, e o exemplo *oculist* / *eye-doctor* / *lawyer*. **O artigo original não foi aberto** (paywall) |
+| ✓ | O exemplo *oculist* / *eye-doctor* / *lawyer* **e a direção de cada sobreposição** (quase completa entre as duas primeiras, parcial com a terceira), além da localização nas páginas 156–157 e da atribuição do *meaning by collocation* à p. 194 de Firth — tudo em [Brunila & LaViolette (NAACL 2022)](https://aclanthology.org/2022.naacl-main.327.pdf), lido, que cita os originais com página |
+| ✓ᵐ | Harris, *"Distributional Structure"*, *Word* 10(2–3):146–162, 1954. **O artigo original não foi aberto** (paywall): o que se leu foi a leitura cerrada que Brunila & LaViolette fazem dele |
 | ✓ᵐ | Spärck Jones (*Journal of Documentation* 28:11–21, 1972); Salton, Wong & Yang (*CACM* 18:613–620, 1975); Mikolov *et al.* ([arXiv:1301.3781](https://arxiv.org/abs/1301.3781), 16/01/2013) |
 | ✓ᵐ | Suits, *"Use of Dummy Variables in Regression Equations"*, *JASA* 52:548–551, 1957 — e que o próprio Suits diz que a técnica **não era nova**; o que faltava era expor o procedimento, inclusive a restrição obrigatória |
-| ⏳ | Que Salton & Yang (1973) batizaram o "idf" a partir da fórmula de Spärck Jones |
+| ⏳ | Que Salton & Yang **batizaram** o "idf" a partir da fórmula de Spärck Jones. A ficha do artigo está conferida (*"On the specification of term values in automatic indexing"*, *Journal of Documentation* 29(4):351–372, 1973, [10.1108/eb026562](https://doi.org/10.1108/eb026562)); quem cunhou o termo, não |
 | ⏳ | Que "one-hot" vem de circuito digital, onde a única combinação legal é um bit alto — não localizei o primeiro uso datado |
 | 📖 | A ideia reaproveitável, a leitura sobre a "forma citável" e a contagem dos 59 anos |
 

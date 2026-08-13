@@ -19,6 +19,18 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Alterado — o capítulo I.6 passou na conferência, e ganhou páginas
+- **Primeiro capítulo da coluna sem achado.** As quatro afirmações centrais bateram
+  com a fonte, inclusive a direção de cada sobreposição no exemplo de Harris: quase
+  completa entre *oculist* e *eye-doctor*, parcial entre *oculist* e *lawyer*.
+- **O ganho foi de precisão.** Entraram as páginas — 156–157 no artigo de Harris,
+  194 no de Firth para o *meaning by collocation* — e o intervalo completo do
+  artigo de 1954 (*Word* 10(2–3):146–162).
+- A fonte que sustenta essas leituras passou a ser citada pela **versão publicada**
+  (NAACL 2022), e não apenas pelo pré-print do arXiv.
+- Spärck Jones (1972) e Salton & Yang (1973) ganharam ficha com DOI; **quem cunhou
+  o termo "idf" continua ⏳**, porque ficha de artigo não prova autoria de nome.
+
 ### Corrigido — a citação de Playfair, no capítulo I.5, estava na forma que circula
 - **O livro se pegou errando uma citação.** O capítulo trazia *"As **the knowledge
   of mankind increases**, and transactions multiply…"*, que é a forma repetida em
