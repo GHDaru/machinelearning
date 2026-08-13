@@ -13,7 +13,7 @@
 
 ## O problema: o modelo só vê o que você mostrou
 
-Um modelo não vê o mundo: vê os números que você escolheu mostrar a ele. Essa escolha — a **representação** — determina o teto de qualquer algoritmo que venha depois. Nenhuma quantidade de otimização recupera informação que não foi codificada.
+Um modelo não vê o mundo: vê os números que você escolheu mostrar a ele. Essa escolha, a **representação**, determina o teto de qualquer algoritmo que venha depois. Nenhuma quantidade de otimização recupera informação que não foi codificada.
 
 O exemplo canônico é a data. Como inteiro (`1721692800`), ela é quase inútil: o modelo teria de descobrir sozinho que o mundo se repete a cada 604 800 segundos. Decomposta em dia da semana, hora do dia e proximidade de feriado, ela frequentemente carrega a maior parte do sinal. **O dado é o mesmo.** O que mudou foi o que o modelo consegue enxergar.
 
@@ -21,13 +21,13 @@ O exemplo canônico é a data. Como inteiro (`1721692800`), ela é quase inútil
 
 ## De onde isto veio
 
-**O aperto.** Anos 1950, Universidade da Pensilvânia. **Zellig Harris** queria uma linguística que partisse **só do corpus** — dos textos observáveis —, sem apelar para intuição de significado nem para dicionário. A influência declarada era a teoria da informação de Shannon. O aperto: *significado* parecia ser exatamente aquilo que não se pode medir.
+**O aperto.** Anos 1950, Universidade da Pensilvânia. **Zellig Harris** queria uma linguística que partisse só do corpus, isto é, dos textos observáveis, sem apelar para intuição de significado nem para dicionário. A influência declarada era a teoria da informação de Shannon. O aperto: *significado* parecia ser exatamente aquilo que não se pode medir.
 
 **O que se fazia antes.** Significado descrito por definição, introspecção ou autoridade lexicográfica. Nada disso é observável, e nada disso é computável.
 
-**A virada.** Em **1954**, no artigo *"Distributional Structure"*, Harris mostra como induzir o sentido de palavras como *oculist*, *eye-doctor* e *lawyer* a partir da **sobreposição dos ambientes** em que ocorrem: as duas primeiras aparecem quase nos mesmos contextos, a terceira só em parte deles. Diferença de sentido vira **diferença de distribuição observável**. É a **hipótese distribucional**, e é a fundação conceitual de tudo o que hoje se chama *embedding*.
+**A virada.** Em 1954, no artigo *"Distributional Structure"*, Harris mostra como induzir o sentido de palavras como *oculist*, *eye-doctor* e *lawyer* a partir da sobreposição dos ambientes em que ocorrem: as duas primeiras aparecem quase nos mesmos contextos, a terceira só em parte deles. Diferença de sentido vira **diferença de distribuição observável**. É a **hipótese distribucional**, e é a fundação conceitual de tudo o que hoje se chama *embedding*.
 
-**A ideia reaproveitável — e ela vale muito além de texto.** **Representar não é descrever a coisa: é registrar a companhia que a coisa mantém.** Não existe "o vetor do cliente"; existe o vetor do cliente **em relação ao conjunto**. É isso que faz *one-hot*, TF-IDF e *embedding* pertencerem a um capítulo só: todos trocam a essência do item pela **posição dele numa coleção**. Mude a coleção e a representação muda, sem que o item tenha mudado nada.
+**A ideia reaproveitável, e ela vale muito além de texto.** Representar não é descrever a coisa: é registrar a companhia que a coisa mantém. Não existe "o vetor do cliente"; existe o vetor do cliente **em relação ao conjunto**. É isso que faz *one-hot*, TF-IDF e *embedding* pertencerem a um capítulo só: todos trocam a essência do item pela posição dele numa coleção. Mude a coleção e a representação muda, sem que o item tenha mudado nada.
 
 **O nome.** A frase que carrega a ideia é de **J. R. Firth (1957)**: *"You shall know a word by the company it keeps"* — e ele a usa para um modo específico de significado, o *"meaning by collocation"*, buscando as colocações habituais em que a palavra está mais caracteristicamente incrustada.
 
@@ -41,9 +41,9 @@ O exemplo canônico é a data. Como inteiro (`1721692800`), ela é quase inútil
 
 ### Cinquenta e nove anos entre a ideia e o procedimento
 
-A hipótese distribucional é de **1954**. O **word2vec** — Mikolov, Chen, Corrado e Dean — é de **janeiro de 2013**, com a regularidade que ficou famosa: *rei − homem + mulher ≈ rainha*.
+A hipótese distribucional é de **1954**. O **word2vec**, de Mikolov, Chen, Corrado e Dean, é de **janeiro de 2013**, com a regularidade que ficou famosa: *rei − homem + mulher ≈ rainha*.
 
-São **cinquenta e nove anos**, um dos maiores intervalos registrados neste livro — maior que os 43 de Yule → Box–Jenkins ([capítulo II.7](ii-7-series-temporais.md)) e que os 43 de Larson → Stone ([capítulo 0.2](../0-2-fundamentos.md)). No meio do caminho, a linha vetorial foi sendo construída: **1972**, Karen Spärck Jones mostra que **especificidade é estatística, não semântica** — pesa-se o termo pela raridade na coleção; **1973**, Salton e Yang multiplicam a frequência do termo por aquela fórmula e batizam o resultado de *idf*; **1975**, o modelo de espaço vetorial é formalizado no sistema SMART, em Cornell.
+São **cinquenta e nove anos**, um dos maiores intervalos registrados neste livro, maior que os 43 de Yule → Box–Jenkins ([capítulo II.7](ii-7-series-temporais.md)) e que os 43 de Larson → Stone ([capítulo 0.2](../0-2-fundamentos.md)). No meio do caminho, a linha vetorial foi sendo construída. Em 1972, Karen Spärck Jones mostra que especificidade é estatística, não semântica: pesa-se o termo pela raridade na coleção. Em 1973, Salton e Yang multiplicam a frequência do termo por aquela fórmula e batizam o resultado de *idf*. Em 1975, o modelo de espaço vetorial é formalizado no sistema SMART, em Cornell.
 
 Repare no detalhe do TF-IDF: **ela inventou, eles nomearam.** O padrão de novo.
 
@@ -69,9 +69,9 @@ Para **baixa cardinalidade** (cor, estado civil, região — dezenas de valores)
 
 O nome vem do circuito digital, onde a única combinação válida é ter exatamente um bit alto. Em estatística a mesma técnica é a **variável dummy**, e ela é bem mais velha: Daniel Suits a expôs em 1957 — dizendo, aliás, que já não era nova.
 
-> **A armadilha das dummies tem 69 anos e continua sendo a primeira em que o aluno pisa.** Se você criar uma coluna para **cada** valor **e** mantiver o intercepto, as colunas somam exatamente 1 em toda linha — informação perfeitamente redundante. Numa regressão isso torna a solução indeterminada. A regra é: **omita uma categoria, ou tire o intercepto.** Nunca os dois, nunca nenhum.
+> **A armadilha das dummies tem 69 anos e continua sendo a primeira em que o aluno pisa.** Se você criar uma coluna para cada valor **e** mantiver o intercepto, as colunas somam exatamente 1 em toda linha, que é informação perfeitamente redundante. Numa regressão isso torna a solução indeterminada. A regra é: **omita uma categoria, ou tire o intercepto.** Nunca os dois, nunca nenhum.
 
-Para **alta cardinalidade** (CEP, código de produto, ID de usuário — milhares de valores), one-hot explode: você ganha dez mil colunas quase vazias e um modelo que decora. As saídas são agrupar por frequência (tudo que aparece pouco vira "outros"), codificar pelo alvo — com um cuidado que o [capítulo I.3](i-3-dados.md) já explicou —, ou aprender um **embedding**.
+Para **alta cardinalidade** (CEP, código de produto, ID de usuário — milhares de valores), one-hot explode: você ganha dez mil colunas quase vazias e um modelo que decora. As saídas são agrupar por frequência (tudo que aparece pouco vira "outros"), codificar pelo alvo, com o cuidado que o [capítulo I.3](i-3-dados.md) já explicou, ou aprender um **embedding**.
 
 > **Codificação pelo alvo é vazamento esperando acontecer.** Substituir a categoria pela média do alvo naquela categoria usa a resposta como entrada. Se a média for calculada com o dado inteiro, você vazou. Calcule **só no treino**, e por dobra.
 
@@ -117,7 +117,7 @@ Uma variável categórica `regiao` tem 5 valores possíveis. Você vai usá-la n
 Quantas colunas *dummy* você deve criar para evitar a indeterminação?
 
 > **gabarito:** 4
-> **porque:** Com 5 colunas — uma por região — a soma delas dá exatamente 1 em toda linha, que é precisamente o que a coluna do intercepto já vale. Uma das colunas é combinação linear perfeita das outras mais o intercepto, e o sistema deixa de ter solução única: infinitos conjuntos de coeficientes produzem exatamente as mesmas previsões.
+> **porque:** Com 5 colunas, uma por região, a soma delas dá exatamente 1 em toda linha, que é precisamente o que a coluna do intercepto já vale. Uma das colunas é combinação linear perfeita das outras mais o intercepto, e o sistema deixa de ter solução única: infinitos conjuntos de coeficientes produzem exatamente as mesmas previsões.
 >
 > Omitindo uma categoria, ela vira a **referência**, e cada coeficiente passa a significar "o efeito desta região **em relação à** referência". Isso não é uma perda: é o que torna o coeficiente interpretável.
 >
@@ -127,9 +127,9 @@ Quantas colunas *dummy* você deve criar para evitar a indeterminação?
 
 ## O artesanato mudou de lugar, não desapareceu
 
-A promessa do aprendizado de representações — o contraponto moderno, formulado por Bengio, Courville e Vincent em 2013 — é **aprender** a representação em vez de fabricá-la à mão. Em texto e imagem, a promessa se cumpriu de forma espetacular: ninguém mais escreve detector de borda à mão ([cap. III.4](iii-4-visao.md)).
+A promessa do aprendizado de representações, o contraponto moderno formulado por Bengio, Courville e Vincent em 2013, é **aprender** a representação em vez de fabricá-la à mão. Em texto e imagem, a promessa se cumpriu de forma espetacular: ninguém mais escreve detector de borda à mão ([cap. III.4](iii-4-visao.md)).
 
-Mas em **dado tabular** — a maior parte do trabalho real de empresa — o artesanato continua, e continua decidindo o resultado.
+Mas em **dado tabular**, que é a maior parte do trabalho real de empresa, o artesanato continua, e continua decidindo o resultado.
 
 **E mesmo onde a promessa se cumpriu, ela mudou o artesanato de lugar em vez de eliminá-lo.** Quem monta o corpus decide o que conta como *contexto*; quem define a janela de um *embedding* decide o que é "companhia"; quem escolhe o que entra na tabela decide o que existe. É exatamente o trabalho que Harris fazia à mão em 1954, com outra ferramenta.
 
@@ -165,7 +165,7 @@ Proponha **três atributos novos** construídos a partir dessas colunas ou de da
 - O *deep learning* **mudou o artesanato de lugar**, não o eliminou: alguém ainda decide o que conta como contexto.
 
 :::exercicio {"id":"representacao-e4","tipo":"aberta","objetivo":"O1","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
-**Desafio de fechamento.** Um colega guarda a data e hora de cada pedido como um único inteiro — segundos desde 1970 — e argumenta que "a informação está toda lá, o modelo que se vire". Explique por que essa representação é quase inútil para a maioria dos modelos, o que exatamente a decomposição em dia da semana e hora do dia acrescenta, e por que "a informação está toda lá" não é o mesmo que "o modelo consegue usá-la".
+**Desafio de fechamento.** Um colega guarda a data e hora de cada pedido como um único inteiro (segundos desde 1970) e argumenta que "a informação está toda lá, o modelo que se vire". Explique por que essa representação é quase inútil para a maioria dos modelos, o que exatamente a decomposição em dia da semana e hora do dia acrescenta, e por que "a informação está toda lá" não é o mesmo que "o modelo consegue usá-la".
 
 > **rubrica:** explica que o inteiro só oferece ordem e distância, e que os padrões que interessam (semanal, diário) **não são função simples** dele — sábado aparece a cada 604 800 segundos, e nenhum corte no eixo do inteiro isola sábados;
 > diz o que a decomposição acrescenta: torna explícita uma regularidade cíclica que o modelo teria de reconstruir sozinho, e passa a permitir que ele a use com os cortes de que dispõe;
@@ -173,7 +173,7 @@ Proponha **três atributos novos** construídos a partir dessas colunas ou de da
 > não responde que "o modelo não entende datas": o problema não é o tipo do campo nem falta de inteligência do modelo, é qual informação a codificação torna **acessível** à família de funções que ele consegue formar
 > **porque:** O argumento do colega é literalmente verdadeiro e praticamente errado, e essa distância é o capítulo inteiro. A informação **está** no inteiro — é reversível, nada foi perdido. Mas "estar presente" e "estar acessível" são coisas diferentes: uma árvore corta em limiares, um modelo linear soma termos ponderados, e nenhum dos dois expressa "é sábado" a partir de um número que cresce sem parar.
 >
-> Repare no que a decomposição faz de fato: ela não acrescenta informação nenhuma, **ela reorganiza a mesma informação numa forma que o modelo consegue usar**. É o exemplo mais limpo do princípio de abertura — o modelo só vê o que você mostrou — e é por isso que este exercício vem no fim: a representação é a decisão que estabelece o **teto** do que qualquer modelo pode aprender, e ela é tomada antes de existir modelo.
+> Repare no que a decomposição faz de fato: ela não acrescenta informação nenhuma, **ela reorganiza a mesma informação numa forma que o modelo consegue usar**. É o exemplo mais limpo do princípio de abertura, o de que o modelo só vê o que você mostrou, e é por isso que este exercício vem no fim: a representação é a decisão que estabelece o **teto** do que qualquer modelo pode aprender, e ela é tomada antes de existir modelo.
 >
 > Um detalhe que a boa resposta costuma alcançar: a hora do dia também é cíclica, e 23h e 0h estão próximas no relógio e distantes no número. Quem percebe isso já está a um passo de codificar o ciclo com seno e cosseno — que é a mesma ideia, aplicada mais uma vez.
 > **volte para:** #o-problema-o-modelo-so-ve-o-que-voce-mostrou
