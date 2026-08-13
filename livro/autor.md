@@ -15,9 +15,9 @@ A divisão é explícita:
 | **Humano** | Define o escopo, decide, verifica as fontes, responde pelo conteúdo |
 | **Agente de IA** | Executa pesquisa, redação e o ciclo spec-kit, sob a constituição do projeto |
 
-Seguindo o consenso das políticas editoriais e científicas (ICMJE, COPE, *Nature*, *Science*), **a IA não é listada como autora** — não pode ser responsabilizada pelo conteúdo — e seu uso é divulgado aqui e, edição por edição, no [Histórico](HISTORICO.md), **com a versão do modelo usada**.
+Seguindo o consenso das políticas editoriais e científicas (ICMJE, COPE, *Nature*, *Science*), **a IA não é listada como autora** (não pode ser responsabilizada pelo conteúdo) e seu uso é divulgado aqui e, edição por edição, no [Histórico](HISTORICO.md), **com a versão do modelo usada**.
 
-O motivo do registro por versão é técnico, não cerimonial: saídas de modelo de linguagem são não-determinísticas. Sem saber qual modelo produziu qual edição, ninguém — inclusive o autor — consegue auditar depois de onde veio uma afirmação.
+O motivo do registro por versão é técnico, não cerimonial: saídas de modelo de linguagem são não-determinísticas. Sem saber qual modelo produziu qual edição, ninguém, inclusive o autor, consegue auditar depois de onde veio uma afirmação.
 
 ## As salvaguardas
 

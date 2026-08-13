@@ -60,4 +60,4 @@ A ementa da disciplina tem três unidades; a trilha as segue.
 
 ## Prática
 
-A construção [`ml-zero`](../trilha-ml-zero.md) acompanha esta trilha nas etapas **00** (linha de base), **02** (vazamento e divisões), **05–06** (lineares) e **07** (ensembles) — todas em Python puro, sem download e sem GPU.
+A construção [`ml-zero`](../trilha-ml-zero.md) acompanha esta trilha nas etapas 00 (linha de base), 02 (vazamento e divisões), 05–06 (lineares) e 07 (ensembles) — todas em Python puro, sem download e sem GPU.

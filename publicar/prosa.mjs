@@ -28,15 +28,11 @@ const RAIZ = resolve(AQUI, "..");
 // desta lista no mesmo commit. Falha nas duas direções: entrada nova quebra o
 // build, e entrada que deixou de ser necessária também — dívida paga que
 // continua na lista esconde a próxima.
-export const PROSA_PENDENTE = new Set([
-  "livro/trilhas/analise-preditiva.md",
-  "livro/trilhas/aprendizagem-de-maquina.md",
-  "livro/bibliografia.md",
-  "livro/GUIA-EDITORIAL.md",
-  "livro/HISTORICO.md",
-  "livro/apendice-uso.md",
-  "livro/autor.md",
-]);
+//
+// Vazia desde o fim do ciclo 009: os 29 capítulos e os 7 arquivos fora deles
+// passaram. A lista vazia é o estado normal — o gate agora vale para o livro
+// inteiro, e qualquer texto novo que amontoe quebra o build na hora.
+export const PROSA_PENDENTE = new Set([]);
 
 /** Linhas que são prosa: fora de código, de tabela, de título e de matemática. */
 function linhasDeProsa(fonte) {
@@ -49,9 +45,18 @@ function linhasDeProsa(fonte) {
     if (t === "$$") { emMate = !emMate; return; }
     if (emCodigo || emMate) return;
     if (!t || t.startsWith("#") || t.startsWith("|") || t.startsWith(":::")) return;
-    // matemática inline sai da linha antes de qualquer contagem: é lá que
-    // moram os 45 sinais de menos, e um deles vale mais que todo este gate.
-    saida.push([i + 1, linha.replace(/\$[^$]*\$/g, " ")]);
+    // Três coisas saem da linha ANTES de qualquer contagem, porque em todas
+    // elas o travessão pertence a um nome, não à pontuação da frase — e
+    // "reescrever" um nome é corromper a referência, não desamontoar a prosa:
+    //   $…$  matemática inline (é lá que moram os 45 sinais de menos)
+    //   `…`  código inline (`II.2 — Modelos Lineares` é um identificador)
+    //   [ ]  rótulo de link (o título do capítulo carrega o travessão)
+    // A ADR 0013 já dizia "nunca toca em título, tabela, código e matemática";
+    // isto é a implementação alcançando o que a decisão declarava.
+    saida.push([i + 1, linha
+      .replace(/\$[^$]*\$/g, " ")
+      .replace(/`[^`]*`/g, " ")
+      .replace(/\[([^\]]*)\]\(/g, "[](")]);
   });
   return saida;
 }

@@ -78,4 +78,4 @@ A ementa tem seis unidades; a trilha as segue, redistribuindo a carga para o que
 
 ## Prática
 
-A construção [`ml-zero`](../trilha-ml-zero.md) atende esta trilha nas etapas **05–06** (o otimizador que treina redes), **07** (ensembles) e, quando prontas, **09** (rede em NumPy), **10** (convolução) e **11** (atenção).
+A construção [`ml-zero`](../trilha-ml-zero.md) atende esta trilha nas etapas 05–06 (o otimizador que treina redes), 07 (ensembles) e, quando prontas, 09 (rede em NumPy), 10 (convolução) e 11 (atenção).

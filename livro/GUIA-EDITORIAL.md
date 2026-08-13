@@ -17,7 +17,7 @@ O v5 é o v4 **mais a seção histórica** que o Princípio X tornou obrigatóri
 
 1. **Objetivos de aprendizagem** — 3–5, com **verbo da tabela do §2.5**, numerados `**O1.**`, `**O2.**`… Os identificadores são reais: cada exercício aponta para um deles, e o build falha se apontar para um que não existe.
 2. **O problema** — por que este assunto existe. Comece pelo erro que alguém comete sem ele.
-3. **De onde isto veio** — a história do método, em cinco elementos: **o aperto** (quem estava preso, em quê, quando) · **o que se fazia antes** · **a virada** (a ideia que destravou, sem notação) · **a ideia reaproveitável** (o padrão que serve fora deste método) · **o nome**. Fecha com a **tabela de selos** (✓ / ✓ᵐ / ⏳ / ❌ / 📖). Ver §2.4 e o Princípio X.
+3. **De onde isto veio** — a história do método, em cinco elementos: o aperto (quem estava preso, em quê, quando) · o que se fazia antes · a virada (a ideia que destravou, sem notação) · a ideia reaproveitável (o padrão que serve fora deste método) · o nome. Fecha com a **tabela de selos** (✓ / ✓ᵐ / ⏳ / ❌ / 📖). Ver §2.4 e o Princípio X.
 4. **Fundamentos** — a intuição, depois a matemática, depois o código. Nunca a fórmula sozinha.
 5. **Fundamentos científicos** — 2–4 papers *traduzidos para decisões* ("o resultado X significa que, na prática, você deve Y"); ponteiro para `bibliografia.md`.
 6. **O estado da arte** — o que é consenso hoje, o que está em disputa, e a **cláusula de expiração** do capítulo.
@@ -137,7 +137,7 @@ A segunda dimensão é a que a pirâmide esconde. Dá para "aplicar" a vida inte
 2. **Nunca "entender", "conhecer", "saber", "dominar".** Não se verificam, e o build **falha** se encontrá-los abrindo um objetivo.
 3. **O exercício define o verbo, não o contrário.** Escreva primeiro a evidência que você aceitaria; o verbo é o nome do que ela cobra. Se você declarou *"projetar"* e a evidência é uma múltipla escolha, o objetivo não era projetar — era reconhecer. **Rebaixar o verbo é honesto; inflar o verbo é promessa que o leitor descobre sozinho, tarde.**
 
-> **Cuidado com "reconhecer" e "identificar".** Em Anderson & Krathwohl são subprocessos de **Lembrar**. No livro foram usados com sentido de julgamento — e a mesma palavra gerou um exercício de nível 1 e outro de nível 5, quatro degraus de distância. Se o que você quer é julgamento, escreva **avaliar** ou **decidir**.
+> **Cuidado com "reconhecer" e "identificar".** Em Anderson & Krathwohl são subprocessos de **Lembrar**. No livro foram usados com sentido de julgamento — e a mesma palavra gerou um exercício de nível 1 e outro de nível 5, quatro degraus de distância. Se o que você quer é julgamento, escreva avaliar ou decidir.
 
 ## 3. Regras de escrita permanentes
 
@@ -185,7 +185,7 @@ Antes do copyedit de superfície, um passo de **revisão *developmental***: re-v
 
 ## 8. Siglas e glossário (política)
 
-- **Toda sigla é apresentada por extenso na 1ª ocorrência** de um capítulo — "Support Vector Machine (SVM)" — e dali em diante o texto pode usar só a sigla.
+- **Toda sigla é apresentada por extenso na 1ª ocorrência** de um capítulo ("Support Vector Machine (SVM)") e dali em diante o texto pode usar só a sigla.
 - O motor reforça isso: envolve automaticamente cada sigla conhecida em `<abbr>`, de modo que passar o mouse revela o significado em qualquer ocorrência, sem poluir o texto-fonte. O mapa vive em `publicar/build.mjs` e é espelhado em [`glossario.md`](glossario.md).
 - Ao introduzir uma sigla nova, adicione-a **nos dois lugares** e confira a expansão na fonte (Princípio I).
 
