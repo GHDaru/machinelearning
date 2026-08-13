@@ -6,6 +6,24 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação da convolução, e a densa que fica cega com 3 pixels (cap. III.4)
+- **Décima sexta animação** (`anima-convolucao`): o filtro varre as 144 posições
+  com o mapa de ativação se pintando. Os dois modelos são **treinados dentro da
+  animação**, por descida de gradiente, num conjunto em que a forma aparece sempre
+  na mesma posição — que é a situação descrita no "problema" do capítulo.
+- **Os dois resolvem o treino** (densa 1,000, convolucional 0,997). É o empate que
+  dá sentido ao desempate: com a imagem andada **3 pixels**, a densa cai para
+  **0,009** e a convolucional segue em **0,996**.
+- **A densa tinha dez vezes mais pesos e ficou cega**, não pior: 257 contra 26,
+  contados da geometria dos modelos. A seção de parâmetros do capítulo já mostrava
+  a economia como memória (1 728 contra 9,6 milhões); a animação mostra o mesmo
+  fato como **generalização**, que a conta de memória não revela.
+- A spec pedia "densa 3,2 M × conv 2 400", números que não batem com os do próprio
+  capítulo nem com modelo nenhum. As contagens agora saem da geometria do que a
+  animação de fato roda.
+- Teste **visto falhando**: variada a posição da forma no treino, a linha do "os
+  dois resolvem o treino" acusou (densa em 0,624).
+
 ### Adicionado — a animação das equações normais, e duas fraudes de comparação desfeitas (cap. II.2)
 - **Décima quinta animação** (`anima-normais`): 4 000 passos de gradiente
   perseguindo o ótimo que as equações normais entregam numa conta, com dois

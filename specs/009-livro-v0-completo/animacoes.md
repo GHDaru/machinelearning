@@ -42,7 +42,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | III.1 | **feito** — o perceptron aprendendo, e o XOR onde ele não para |
 | III.2 | **feito** — MLP no mesmo XOR do III.1: as duas retas girando, mais o botão que tira a camada e o que estraga a inicialização |
 | III.3 | **feita** — a retropropagação descendo 20 camadas: 1,4e-12 na primeira com sigmoide + Xavier, 1,2e-3 com ReLU + Xavier (a ReLU sozinha não basta) e 0,86 com ReLU + He |
-| III.4 | filtro deslizando com o mapa de ativação: nº de parâmetros (densa 3,2 M × conv 2 400) **e o botão que desloca a imagem 3 px** |
+| III.4 | **feita** — filtro varrendo 144 posições com o mapa se pintando; com 3 px de deslocamento a densa cai de 1,000 a 0,009 e a convolucional segue em 0,996, com 26 pesos contra 257 |
 | III.5 | pesos de atenção acendendo numa frase, contra o sinal de gradiente da RNN caindo a zero em 11 passos |
 | III.6 | **não animar** — nada treinável honestamente no navegador vira encenação |
 | IV.1 | **feito** — atribuir e recentrar alternando, com o botão da semente infeliz |
@@ -573,3 +573,28 @@ exata numa conta, nos dois casos.
 muda entre eles além da variável que você quer isolar. Aqui mudavam duas coisas
 (a escala do passo e a parametrização), e as duas empurravam o resultado para
 lados opostos.
+
+
+## O que a décima sexta animação ensinou (III.4, 2026-08)
+
+**Os dois modelos são treinados dentro da animação, e isso não era opcional.**
+A alternativa preguiçosa era montar a densa como um "filtro casado" na posição do
+treino, o que daria o mesmo desenho sem treinar nada. Seria afirmar "a densa
+aprende um detector de gato-no-canto-esquerdo" sem mostrar a densa aprendendo. Com
+300 épocas de descida sobre 60 exemplos, os dois **chegam a acertar o treino**
+(1,000 e 0,997), e é esse empate que dá sentido ao desempate do botão.
+
+**O número que o capítulo não mostrava.** A seção de parâmetros compara memória:
+1 728 pesos contra 9,6 milhões. A animação mostra o mesmo fato como
+**generalização**: 3 pixels de deslocamento levam a densa de 1,000 a **0,009** e
+deixam a convolucional em **0,996**. A densa tinha dez vezes mais pesos e ficou
+cega, não pior.
+
+**A spec pedia "densa 3,2 M × conv 2 400", e esses números não são de lugar
+nenhum.** Nem batem com os do próprio capítulo (que fala em 9 633 792 contra
+1 728, com 64 filtros sobre 224×224×3). As contagens da animação saem da geometria
+dos modelos que ela de fato roda: 16×16 + 1 = 257 e 5×5 + 1 = 26. Número em spec
+não é medição, e a diferença entre os dois é o assunto deste ciclo inteiro.
+
+Teste **visto falhando**: variei a posição da forma no treino, e a linha do
+"os dois resolvem o treino" acusou na hora (densa em 0,624).

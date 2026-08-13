@@ -47,10 +47,11 @@ Cada capítulo passa por quatro etapas. `—` não começou · `~` em curso · `
 > embaralhada, que erra MENOS), **II.8** (o custo do falso negativo subindo e o
 > limiar ótimo DESCENDO), **V.3** (o PSI e a AUC na mesma linha do tempo, com a
 > deriva que não dói), **I.5** (a base do eixo subindo, com os valores parados),
-> **II.3** (a perda caindo depois que a acurácia congelou) e **II.2** (o gradiente
-> correndo atrás do ótimo fechado). A dívida do núcleo compartilhado foi paga na
-> segunda, como a ADR 0015 exigia.
-> **15 feitas, 7 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
+> **II.3** (a perda caindo depois que a acurácia congelou), **II.2** (o gradiente
+> correndo atrás do ótimo fechado) e **III.4** (a densa ficando cega com 3 px de
+> deslocamento, com dez vezes mais pesos que a convolucional). A dívida do núcleo
+> compartilhado foi paga na segunda, como a ADR 0015 exigia.
+> **16 feitas, 6 pendentes** (a linha dizia "7 feitas, 16 pendentes", herdando um
 > erro de conta de `animacoes.md`, corrigido em 2026-08-13).
 >
 > **As animações seguem a ordem de prioridade de `animacoes.md`**, e não a

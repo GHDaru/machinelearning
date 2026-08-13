@@ -84,6 +84,22 @@ Quantos **pesos** (ignorando os vieses) essa camada tem?
 > **volte para:** #fundamentos-o-filtro-que-desliza-e-o-peso-que-se-repete
 :::
 
+
+:::lab {"id":"visao-l1","tipo":"anima-convolucao","titulo":"Ande 3 pixels com a imagem e veja qual dos dois sobrevive"}
+Duas redinhas treinadas aqui dentro, por descida de gradiente, no **mesmo** conjunto: uma camada densa sobre a imagem de 16×16 (257 pesos) e um filtro 5×5 com máximo sobre o mapa (26 pesos). A forma a detectar é uma cruz, e no treino ela aparece **sempre na mesma posição** — que é exatamente a situação descrita lá em cima, no problema deste capítulo.
+
+Assista o filtro percorrer as 144 posições e o mapa de ativação se pintar. Ao fim, as duas resolvem: a densa dá 1,000 e a convolucional dá 0,997. Empate.
+
+**Agora, antes de clicar:** a mesma cruz, andada **3 pixels** na diagonal. Nada mais muda. O que acontece com cada uma?
+
+- a convolucional: **0,996**. Praticamente nada. O pico só andou de lugar no mapa.
+- a densa: **0,009**. Ela não ficou pior, ela ficou **cega**.
+
+> **Repare que a densa tinha dez vezes mais pesos e perdeu.** Não perdeu por falta de capacidade: perdeu porque cada peso dela é casado com uma posição, e três pixels bastam para que nenhum dos pesos treinados esteja mais debaixo da forma. A convolucional não é mais esperta, é mais **restrita** — e a restrição é justamente a informação que a densa não tinha: a de que um padrão vale igual em qualquer lugar da imagem.
+>
+> É a mesma economia da seção acima, vista pelo outro lado. Lá ela aparece como memória: 1 728 pesos contra 9,6 milhões. Aqui aparece como **generalização**, que é a parte que a conta de memória não mostra.
+:::
+
 :::exercicio {"id":"visao-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 O que acontece com o mapa de ativação quando o objeto se desloca alguns pixels na imagem?
 

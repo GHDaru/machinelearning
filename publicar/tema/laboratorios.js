@@ -3432,6 +3432,213 @@
     rel.aoChegar(function () { rodar(false); });
   }
 
+
+  // A animação do capítulo III.4: o filtro deslizando sobre a imagem, com o mapa
+  // de ativação se pintando posição a posição, e o botão que desloca a imagem em
+  // 3 pixels.
+  //
+  // Os dois modelos são TREINADOS aqui, com descida de gradiente, sobre um
+  // conjunto em que a forma aparece SEMPRE NA MESMA POSIÇÃO. É a condição que o
+  // capítulo descreve no "problema": ou você mostra o gato em todas as posições,
+  // ou aprende um detector de gato-no-canto-esquerdo. Os dois chegam a acertar o
+  // treino; o botão do deslocamento é que separa os dois.
+  //
+  // As contagens de parâmetros são calculadas dos próprios modelos, e não
+  // escritas à mão: 16x16 ligado a uma unidade densa dá 256 + 1, e um filtro 5x5
+  // dá 25 + 1. A razão entre elas é o assunto da seção, e ela não depende do
+  // tamanho da imagem só do lado da convolução — o rodapé mostra a mesma conta
+  // na escala do capítulo (224x224x3 contra o mesmo filtro).
+  function animaConvolucao(area, cfg) {
+    var W = 460, H = 300, PAD = 24;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bDesloc;
+    var L = 16, K = 5, S = L - K + 1;          // imagem, filtro, mapa de ativação
+    var P_DENSA = L * L + 1, P_CONV = K * K + 1;
+    var POS_TREINO = [4, 4], DESLOC = 3;
+    var est = { deslocado: false, i: 0, mapa: [], img: null, parou: false,
+                densa: null, filtro: null, sDensa: 0, sConv: 0 };
+
+    function vazia() {
+      var v = [], i;
+      for (i = 0; i < L * L; i++) v.push(0);
+      return v;
+    }
+
+    /** Uma cruz 5x5 desenhada na posição (r, c) do canto superior esquerdo. */
+    function forma(r, c, ruidoR) {
+      var v = vazia(), i, j;
+      for (i = 0; i < K; i++) {
+        v[(r + 2) * L + (c + i)] = 1;
+        v[(r + i) * L + (c + 2)] = 1;
+      }
+      if (ruidoR) for (i = 0; i < L * L; i++) v[i] += (ruidoR() - 0.5) * 0.3;
+      return v;
+    }
+
+    function ruidoSo(r) {
+      var v = vazia(), i;
+      for (i = 0; i < L * L; i++) v[i] = (r() - 0.5) * 0.3 + (r() < 0.04 ? 1 : 0);
+      return v;
+    }
+
+    function sig(z) { return 1 / (1 + Math.exp(-z)); }
+
+    /** Treina a densa e o filtro no MESMO conjunto, com a forma sempre em (4,4). */
+    function treinar() {
+      var r = rng(77), lote = [], i, e;
+      for (i = 0; i < 60; i++) {
+        lote.push(i % 2
+          ? { x: forma(POS_TREINO[0], POS_TREINO[1], r), y: 1 }
+          : { x: ruidoSo(r), y: 0 });
+      }
+      var wD = [], bD = 0, wC = [], bC = 0;
+      for (i = 0; i < L * L; i++) wD.push(0);
+      for (i = 0; i < K * K; i++) wC.push(0);
+
+      function maxConv(x, w, b) {
+        var melhor = -1e9, rr, cc, a, ki, kj, arg = null;
+        for (rr = 0; rr < S; rr++) for (cc = 0; cc < S; cc++) {
+          a = b;
+          for (ki = 0; ki < K; ki++) for (kj = 0; kj < K; kj++) {
+            a += w[ki * K + kj] * x[(rr + ki) * L + (cc + kj)];
+          }
+          if (a > melhor) { melhor = a; arg = [rr, cc]; }
+        }
+        return { z: melhor, arg: arg };
+      }
+
+      var it, k, m, p, g;
+      for (it = 0; it < 300; it++) {
+        for (k = 0; k < lote.length; k++) {
+          // densa
+          var z = bD;
+          for (i = 0; i < L * L; i++) z += wD[i] * lote[k].x[i];
+          g = sig(z) - lote[k].y;
+          for (i = 0; i < L * L; i++) wD[i] -= 0.05 * g * lote[k].x[i];
+          bD -= 0.05 * g;
+          // conv, com gradiente só pela janela vencedora do max
+          m = maxConv(lote[k].x, wC, bC);
+          g = sig(m.z) - lote[k].y;
+          for (var ki2 = 0; ki2 < K; ki2++) for (var kj2 = 0; kj2 < K; kj2++) {
+            wC[ki2 * K + kj2] -= 0.05 * g *
+              lote[k].x[(m.arg[0] + ki2) * L + (m.arg[1] + kj2)];
+          }
+          bC -= 0.05 * g;
+        }
+      }
+      return { densa: { w: wD, b: bD }, conv: { w: wC, b: bC }, maxConv: maxConv };
+    }
+
+    var MOD = treinar();
+
+    function pontuarDensa(x) {
+      var z = MOD.densa.b, i;
+      for (i = 0; i < L * L; i++) z += MOD.densa.w[i] * x[i];
+      return sig(z);
+    }
+
+    function ativacao(x, rr, cc) {
+      var a = MOD.conv.b, ki, kj;
+      for (ki = 0; ki < K; ki++) for (kj = 0; kj < K; kj++) {
+        a += MOD.conv.w[ki * K + kj] * x[(rr + ki) * L + (cc + kj)];
+      }
+      return a;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, j, v;
+      var cel = 7, x0 = PAD + 4, y0 = PAD + 26;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText((est.deslocado ? "imagem deslocada em " + DESLOC + " px" : "imagem na posição do treino") +
+                   " · o mesmo filtro em toda posição", x0, PAD + 14);
+      // a imagem
+      for (i = 0; i < L; i++) for (j = 0; j < L; j++) {
+        v = Math.max(0, Math.min(1, est.img[i * L + j]));
+        ctx.fillStyle = escuro ? "rgba(143,184,221," + v + ")" : "rgba(53,97,142," + v + ")";
+        ctx.fillRect(x0 + j * cel, y0 + i * cel, cel - 1, cel - 1);
+      }
+      // a janela do filtro na posição da vez
+      if (!est.parou && est.i < S * S) {
+        var rr = (est.i / S) | 0, cc = est.i % S;
+        ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x0 + cc * cel - 1, y0 + rr * cel - 1, K * cel, K * cel);
+      }
+      // o mapa de ativação
+      var mx0 = x0 + L * cel + 26, mcel = 9;
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("mapa de ativação", mx0, y0 - 6);
+      var pico = 1e-6;
+      est.mapa.forEach(function (a) { if (Math.abs(a) > pico) pico = Math.abs(a); });
+      for (i = 0; i < est.mapa.length; i++) {
+        v = Math.max(0, est.mapa[i]) / pico;
+        ctx.fillStyle = escuro ? "rgba(224,162,74," + v + ")" : "rgba(184,118,31," + v + ")";
+        ctx.fillRect(mx0 + (i % S) * mcel, y0 + ((i / S) | 0) * mcel, mcel - 1, mcel - 1);
+      }
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("densa: " + P_DENSA + " pesos", x0, H - PAD - 16);
+      ctx.fillText("convolucional: " + P_CONV + " pesos", x0, H - PAD - 2);
+    }
+
+    function texto() {
+      placar.textContent =
+        (est.deslocado ? "imagem deslocada em " + DESLOC + " px" : "imagem na posição do treino") +
+        " · parâmetros: densa " + P_DENSA + ", convolucional " + P_CONV +
+        " · posições varridas " + Math.min(est.i, S * S) + " de " + S * S +
+        (est.parou
+          ? " · a densa dá " + est.sDensa.toFixed(3) +
+            " e a convolucional dá " + est.sConv.toFixed(3)
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      var rr = (est.i / S) | 0, cc = est.i % S;
+      est.mapa.push(ativacao(est.img, rr, cc));
+      est.i++;
+      if (est.i >= S * S) {
+        est.parou = true;
+        est.sDensa = pontuarDensa(est.img);
+        est.sConv = sig(Math.max.apply(null, est.mapa));
+      }
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(deslocado) {
+      var r = rng(5);
+      est.deslocado = deslocado;
+      est.img = deslocado
+        ? forma(POS_TREINO[0] + DESLOC, POS_TREINO[1] + DESLOC, r)
+        : forma(POS_TREINO[0], POS_TREINO[1], r);
+      est.i = 0; est.mapa = []; est.parou = false;
+      rel.comecar(S * S + 4);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bDesloc.textContent = est.deslocado ? "Voltar à posição do treino"
+                                          : "E se a imagem andasse " + DESLOC + " px?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.deslocado); });
+    bDesloc = botao("E se a imagem andasse " + DESLOC + " px?", function () {
+      rodar(!est.deslocado);
+    });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 18);
+    est.img = forma(POS_TREINO[0], POS_TREINO[1], rng(5));
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -3442,7 +3649,8 @@
                 "anima-deriva": animaDeriva,
                 "anima-eixo": animaEixo,
                 "anima-separavel": animaSeparavel,
-                "anima-normais": animaNormais };
+                "anima-normais": animaNormais,
+                "anima-convolucao": animaConvolucao };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
