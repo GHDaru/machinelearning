@@ -81,6 +81,37 @@ Numa regressão logística, o que é linear nos atributos?
 > **volte para:** #fundamentos-a-sigmoide-e-o-logito
 :::
 
+:::exercicio {"id":"regressao-logistica-e4","tipo":"numerica","objetivo":"O1","dificuldade":"media"}
+Um modelo de regressão logística calcula $z = w \cdot x + b = 0$ para um determinado cliente.
+
+Qual probabilidade a sigmoide devolve? Responda com duas casas decimais.
+
+> **gabarito:** 0.50 ± 0.01
+> **porque:** $\sigma(0) = 1/(1 + e^{0}) = 1/2 = \mathbf{0{,}50}$. É o ponto médio da sigmoide, e o que ele significa vale mais que a conta: $z = 0$ é a fronteira de decisão do modelo com limiar em 0,5.
+>
+> Daí sai a leitura geométrica do modelo. A equação $w \cdot x + b = 0$ descreve uma reta, um plano ou um hiperplano no espaço dos atributos, e é ela que separa as duas classes. Tudo o que a sigmoide faz é converter a distância até essa fronteira numa probabilidade.
+>
+> Isso também explica por que a regressão logística é um classificador **linear**: a fronteira é linear, mesmo com a saída sendo curva. O que a sigmoide curva é a leitura, não a separação.
+> **volte para:** #fundamentos-a-sigmoide-e-o-logito
+:::
+
+:::exercicio {"id":"regressao-logistica-e5","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Um analista escreve no relatório: "cada ano a mais de relacionamento aumenta a probabilidade de renovação em 4 pontos percentuais, segundo o coeficiente do modelo". Qual é o problema da frase?
+
+- [ ] Nenhum, desde que o coeficiente tenha sido convertido corretamente.
+- [x] O efeito constante é sobre o logito, e o efeito em pontos percentuais depende de onde o cliente estava: perto de 0,5 o deslocamento é grande, perto de 0 ou de 1 é quase nulo.
+- [ ] O erro é usar pontos percentuais em vez de porcentagem relativa.
+- [ ] O erro é que o coeficiente mede correlação, e correlação não se reporta a clientes.
+
+> **gabarito:** o efeito em pontos percentuais depende de onde o cliente estava
+> **porque:** O que é linear nos atributos é o logito, então o incremento constante acontece lá. A sigmoide é íngreme no meio e achatada nas pontas, e é isso que faz o mesmo deslocamento de logito valer muitos pontos percentuais perto de 0,5 e quase nada perto dos extremos.
+>
+> A frase do analista só pode ser verdadeira **num ponto específico**, e ele não disse qual. Um cliente com probabilidade de renovação de 0,95 não ganha 4 pontos com mais um ano; ele ganha uma fração disso.
+>
+> A terceira alternativa parece corrigir a unidade e não toca no problema: nem porcentagem relativa nem pontos percentuais são constantes ao longo da curva. O erro não é de unidade, é de supor constante o que só é constante na escala do logito.
+> **volte para:** #fundamentos-a-sigmoide-e-o-logito
+:::
+
 ## Por que a perda muda, e por que a solução fechada some
 
 O [capítulo II.2](ii-2-modelos-lineares.md#a-deducao-em-cinco-passos) deduziu a reta ótima em cinco passos, e o quarto entregou uma fórmula. Aqui o mesmo caminho **não chega ao fim** — e vale entender onde ele para.
@@ -111,6 +142,40 @@ Por que a regressão logística não tem solução fechada, como a linear tem?
 > **porque:** A condição de otimalidade tem a mesma forma da linear — soma de (previsto − observado) vezes o atributo, igual a zero. A diferença é que "previsto" aqui é σ(w·x + b): o peso está **dentro** de uma função não linear, e não há álgebra que o isole. O sistema é transcendental, e se resolve por iteração.
 >
 > As duas primeiras alternativas invertem os fatos: a entropia cruzada **é** diferenciável, e o problema **é** convexo — há mínimo único, e é justamente por isso que o gradiente funciona bem aqui. A quarta confunde com um problema numérico da regressão linear (colinearidade perfeita torna a matriz singular), que é outra história.
+> **volte para:** #por-que-a-perda-muda-e-por-que-a-solucao-fechada-some
+:::
+
+:::exercicio {"id":"regressao-logistica-e6","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Por que a regressão logística usa entropia cruzada em vez de erro quadrático?
+
+- [ ] Porque o erro quadrático não pode ser calculado sobre probabilidades.
+- [x] Porque o erro quadrático sobre a saída da sigmoide dá uma superfície não convexa, com mínimos locais em que o otimizador pode parar.
+- [ ] Porque a entropia cruzada tem solução fechada e o erro quadrático não.
+- [ ] Porque a entropia cruzada é mais rápida de calcular.
+
+> **gabarito:** o erro quadrático sobre a sigmoide não é convexo
+> **porque:** A escolha é sobre a **forma da superfície de otimização**, não sobre a fórmula ser calculável. Erro quadrático sobre a saída da sigmoide produz mínimos locais, e um otimizador que cai num deles para longe da melhor solução, sem avisar.
+>
+> A entropia cruzada é convexa em $w$, o que dá mínimo único e faz o gradiente funcionar de forma previsível. A terceira alternativa inverte um fato importante do capítulo: **nenhuma** das duas tem solução fechada aqui.
+>
+> E ela tem uma segunda virtude, que é comportamental: pune muito a previsão confiante e errada. O modelo aprende a ter medo de errar com convicção, que é o que se quer de uma probabilidade destinada a virar decisão.
+> **volte para:** #por-que-a-perda-muda-e-por-que-a-solucao-fechada-some
+:::
+
+:::exercicio {"id":"regressao-logistica-e7","tipo":"multipla-multi","objetivo":"O3","dificuldade":"dificil"}
+Sobre a entropia cruzada e a condição de otimalidade da logística, quais afirmações são corretas? (marque todas que valem)
+
+- [x] A condição tem a mesma forma da linear: o resíduo fica ortogonal ao atributo.
+- [x] O que impede isolar $w$ é ele estar dentro da sigmoide, o que torna o sistema transcendental.
+- [x] Prever 0,99 para um exemplo de classe 0 custa muito mais que prever 0,5.
+- [ ] Como não há solução fechada, o problema pode ter vários mínimos e o resultado depende da inicialização.
+
+> **gabarito:** mesma forma da condição linear · $w$ preso na sigmoide · previsão confiante e errada é cara
+> **porque:** As três corretas contam a mesma história em três níveis: a álgebra chega ao mesmo tipo de condição do capítulo II.2, para no mesmo lugar por um motivo estrutural, e a perda escolhida tem uma consequência de comportamento.
+>
+> A alternativa errada é a mais instrutiva, porque junta dois fatos verdadeiros numa conclusão falsa. É verdade que não há solução fechada, e é verdade que problemas não convexos dependem da inicialização — só que a entropia cruzada **é** convexa. Ausência de fórmula fechada e presença de mínimos locais são coisas independentes, e confundi-las é o que faz alguém desconfiar do resultado de uma logística sem motivo.
+>
+> A frase do capítulo II.2 recebe aqui a demonstração: o gradiente é a ferramenta geral, e a solução fechada era o caso de sorte.
 > **volte para:** #por-que-a-perda-muda-e-por-que-a-solucao-fechada-some
 :::
 
@@ -147,6 +212,35 @@ Um modelo de risco de crédito, com atributos padronizados, tem coeficiente 0,7 
 > **porque:** A primeira correta é a leitura literal: e^0,7 ≈ 2,01, e o efeito é sobre a **razão de chances**, não sobre a probabilidade. A segunda correta é o alerta de colinearidade — dois atributos que medem quase a mesma coisa dividem o crédito de forma arbitrária, e a divisão muda com pequenas variações nos dados sem que a métrica piore.
 >
 > As três erradas são os três erros clássicos, nesta ordem de frequência: confundir logito com probabilidade (70 pontos percentuais é impossível — sequer respeita o intervalo [0,1]); ler correlação como intervenção ("reduzir a dívida reduziria o risco" é uma afirmação causal que o modelo não sustenta); e tratar magnitude de coeficiente como importância causal. As três aparecem em relatórios reais, e a terceira costuma aparecer no slide de recomendação.
+> **volte para:** #interpretar-o-coeficiente-chance-nao-probabilidade
+:::
+
+:::exercicio {"id":"regressao-logistica-e8","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+A probabilidade de um evento é 0,80. Qual é a **chance** (*odds*) dele?
+
+> **gabarito:** 4
+> **porque:** Chance é $p/(1-p) = 0{,}80/0{,}20 = \mathbf{4}$, lida como "quatro para um".
+>
+> A conta é trivial e a palavra não é. No português do dia a dia "chance" é sinônimo de probabilidade, e aqui não é — é essa confusão que o capítulo existe para desfazer. Probabilidade vive entre 0 e 1; chance vai de 0 a infinito, e passa por 1 exatamente quando a probabilidade é 0,5.
+>
+> Guardar a conversão nos dois sentidos evita o erro dos relatórios. De chance para probabilidade: $p = \text{chance}/(1 + \text{chance})$, que aqui devolve $4/5 = 0{,}80$.
+> **volte para:** #interpretar-o-coeficiente-chance-nao-probabilidade
+:::
+
+:::exercicio {"id":"regressao-logistica-e9","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Um coeficiente vale 0,7, e portanto multiplica a chance por aproximadamente 2. Dois clientes recebem o mesmo aumento de um desvio-padrão nesse atributo: um estava com probabilidade 0,10 e o outro com 0,90. O que acontece com cada um?
+
+- [ ] Os dois sobem 20 pontos percentuais, porque o efeito do coeficiente é o mesmo.
+- [x] O primeiro vai a 0,18 e o segundo a 0,95: mesmo efeito sobre a chance, efeitos muito diferentes sobre a probabilidade.
+- [ ] O primeiro vai a 0,20 e o segundo a 1,80, que é impossível e mostra que o modelo falhou.
+- [ ] Nada muda para o segundo, porque a probabilidade já está saturada.
+
+> **gabarito:** 0,18 e 0,95
+> **porque:** A conta se faz na escala da chance. O primeiro tem chance $0{,}10/0{,}90 \approx 0{,}11$, que dobrada vira $0{,}22$, e de volta para probabilidade dá $0{,}22/1{,}22 \approx \mathbf{0{,}18}$. O segundo tem chance 9, que dobrada vira 18, e volta como $18/19 \approx \mathbf{0{,}95}$.
+>
+> Oito pontos percentuais para um, cinco para o outro, com o mesmo coeficiente. É por isso que "este atributo aumenta o risco em X pontos" é uma frase sem sentido fora de um ponto específico.
+>
+> A terceira alternativa mostra o que acontece quando alguém aplica o multiplicador direto na probabilidade: 1,80 não é um número que a probabilidade possa assumir. O absurdo é útil — ele denuncia o erro na hora, e é justamente por isso que ele é menos perigoso que o da primeira alternativa, que produz números plausíveis e errados.
 > **volte para:** #interpretar-o-coeficiente-chance-nao-probabilidade
 :::
 
