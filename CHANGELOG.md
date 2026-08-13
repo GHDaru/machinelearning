@@ -6,6 +6,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a animação da origem móvel, e o erro que aparece MENOR (cap. II.7)
+- **Décima animação** (`anima-origem-movel`): a mesma série, o mesmo modelo, os
+  mesmos atributos, avaliados de dois jeitos. As oito dobras de origem móvel
+  avançam em barras; a linha vermelha é o MAE da divisão embaralhada.
+- **O que o leitor erra é o sinal, antes do tamanho.** O método errado produz um
+  número **menor**: 0,76 contra 1,47. É isso que o torna perigoso, porque erro que
+  aparece grande ninguém publica e erro que aparece pequeno vira slide.
+- **Com quebra de regime, o embaralhado quase não a enxerga:** a origem móvel vai
+  a 3,07 e ele passa de 0,76 para 0,82, porque as linhas de depois da quebra
+  estão no treino dele.
+- **O número foi medido, e a lição mudou de forma por causa disso.** A primeira
+  medição, numa série quase plana, deu 1,1× — engano quase invisível. Em vez de
+  mexer na simulação até o número ficar dramático, varri a tendência (0,035 →
+  1,1× · 0,09 → 1,9× · 0,18 → 3,5×) e fixei 0,09 por realismo, deixando a
+  varredura registrada. A lição resultante é melhor que a da spec: **o método
+  errado parece inofensivo justamente quando o mundo está parado**, e passa a
+  mentir quando o mundo se mexe, que é quando a previsão importa.
+- Teste **visto falhando**: retirado o embaralhamento, o "embaralhado" passou a
+  errar mais que a origem móvel (1,89 contra 1,47) e a linha do sinal acusou.
+
 ### Adicionado — a animação do gradiente, e a ReLU que não basta (cap. III.3)
 - **Nona animação** (`anima-gradiente`): a retropropagação descendo 20 camadas de
   48 unidades, com a norma do gradiente de cada camada em escala logarítmica e a

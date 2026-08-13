@@ -141,6 +141,18 @@ Cada rodada treina com tudo até a origem e avalia no bloco seguinte. Você ganh
 
 Um detalhe que engana gente experiente: **atributos defasados têm de respeitar o corte**. Se você calcula uma média móvel de 30 dias sobre a série inteira **antes** de dividir, cada linha do treino já contém informação do teste. Calcule as features dentro de cada dobra, nunca antes.
 
+:::lab {"id":"series-temporais-l1","tipo":"anima-origem-movel","titulo":"O mesmo modelo, medido dos dois jeitos"}
+Uma série, um modelo, os mesmos atributos. Muda só o **protocolo de avaliação**. A janela de origem móvel avança, e o MAE de cada uma das oito dobras aparece em barra; a linha vermelha é o MAE da divisão embaralhada, calculado uma vez sobre as mesmas linhas.
+
+**Antes de assistir, preveja o sinal.** A divisão embaralhada é o método errado, então o número que ela produz vai sair maior ou menor que o certo?
+
+Sai **menor**: 0,76 contra 1,47. E é exatamente isso que a torna perigosa. Erro que aparece grande ninguém publica; erro que aparece pequeno vira slide, e a diferença entre os dois é invisível para quem só vê o slide.
+
+Agora clique em "E se houvesse uma quebra de regime?". A origem móvel sente o degrau e o MAE médio salta para 3,07, enquanto o embaralhado mal se mexe, de 0,76 para 0,82. Ele quase não enxerga a quebra, porque as linhas de depois dela estão no treino dele.
+
+> **O tamanho da mentira não é fixo, e essa é a lição de verdade.** Sem quebra, o embaralhado mente por um fator de 1,9; com quebra, 3,7. A mesma dependência aparece se você mexer na tendência da série: com uma tendência três vezes menor, a mentira cai para 1,1, quase indistinguível. Ou seja, **o método errado parece inofensivo justamente quando o mundo está parado**, e passa a mentir quando o mundo se mexe. Só que é quando o mundo se mexe que você precisa da previsão.
+:::
+
 ### A linha de base ingênua
 
 Antes de qualquer modelo, meça o que a **previsão ingênua** entrega: *amanhã é igual a hoje*. Se houver sazonalidade, a versão honesta é a ingênua sazonal: *este dezembro é igual ao dezembro passado*. Ela é surpreendentemente difícil de bater — em séries com muita inércia o último valor já carrega quase tudo o que se sabe. E o incômodo desta seção é este: **muito modelo publicado não bate essa linha**, porque ninguém a calculou. Compare-se sempre à ingênua **do tipo certo**: pôr um modelo sazonal contra a ingênua simples é escolher o adversário fraco.

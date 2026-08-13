@@ -37,7 +37,7 @@ Só o primeiro é ilustração. Só o terceiro é figura estática que se mexe. 
 | II.4 | **feita** — três taxas (0,001 / 0,1 / 1,5) na mesma paisagem, a terceira saindo da escala, mais o botão que troca só a perda e faz a mesma 1,5 virar a melhor das três |
 | II.5 | árvore crescendo corte a corte com o ganho de Gini; depois o boosting, com o resíduo médio encolhendo por árvore |
 | II.6 | **não animar** — drill-down é navegação; cubo girando é decoração |
-| II.7 | janela *walk-forward* avançando: MAE por dobra, contra o MAE menor e mentiroso da divisão embaralhada |
+| II.7 | **feita** — as 8 dobras de origem móvel avançando, contra a linha do embaralhado: 1,47 contra 0,76 sem quebra, e 3,07 contra 0,82 com quebra de regime |
 | II.8 | custo do falso negativo de 1 para 10: o limiar ótimo se deslocando e o lucro esperado em reais |
 | III.1 | **feito** — o perceptron aprendendo, e o XOR onde ele não para |
 | III.2 | **feito** — MLP no mesmo XOR do III.1: as duas retas girando, mais o botão que tira a camada e o que estraga a inicialização |
@@ -394,3 +394,38 @@ trocada pela razão exata (√2)¹⁹, que com a semente quebrada cai para ~275.
 **A regra que isto deixa: uma asserção que passa nos dois mundos não é
 asserção.** Ver o teste falhar não serve só para provar que ele pega o defeito
 que você imaginou; serve para descobrir quais das suas linhas não pegam nada.
+
+
+## O que a décima animação ensinou (II.7, 2026-08)
+
+**O número não foi escolhido: foi medido, e depois a lição mudou de forma.** A
+spec prometia "o MAE menor e mentiroso da divisão embaralhada", como se a mentira
+tivesse um tamanho. A primeira medição, numa série quase plana, deu **1,1×** — um
+engano praticamente invisível. A tentação foi óbvia: mexer na simulação até o
+número ficar dramático. Em vez disso, varri a tendência e escrevi a dependência:
+
+| tendência por passo | mentira sem quebra |
+|---|---|
+| 0,035 | 1,1× |
+| 0,09 | 1,9× |
+| 0,18 | 3,5× |
+
+Fixei **0,09** por realismo (em 320 passos a série mais que dobra, que é o que uma
+base de negócio em crescimento faz), e a varredura inteira ficou registrada aqui e
+no cabeçalho do teste, para que ninguém precise confiar na minha palavra de que o
+valor não foi escolhido pelo tamanho.
+
+**E a lição ficou melhor do que a da spec.** Não é "embaralhar mente por tanto";
+é **"o método errado parece inofensivo justamente quando o mundo está parado"**.
+Com quebra de regime a mentira vai a 3,7×, e o embaralhado mal registra a quebra
+(0,76 → 0,82) porque as linhas de depois dela estão no treino dele. Quem valida
+embaralhando num período calmo não recebe aviso nenhum, e recebe o prejuízo no
+período em que a previsão importava.
+
+**O modelo é k-vizinhos, pelo mesmo motivo do I.3:** é o mais simples que
+memoriza. Com um linear, o vazamento existiria e seria pequeno, e a animação
+ensinaria que erro de método é detalhe.
+
+O teste foi **visto falhando**: tirei o embaralhamento (mantendo o corte 80/20 em
+ordem cronológica) e a linha do sinal acusou na hora — o "embaralhado" passou a
+errar **mais** que a origem móvel, 1,89 contra 1,47.

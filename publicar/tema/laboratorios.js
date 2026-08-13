@@ -2458,13 +2458,192 @@
     rel.aoChegar(function () { rodar(); });
   }
 
+  // A animação do capítulo II.7: a mesma série, o mesmo modelo, os mesmos
+  // atributos, avaliados de dois jeitos. A janela de origem móvel avança dobra a
+  // dobra e o MAE de cada uma aparece; a linha reta lá embaixo é o MAE da
+  // divisão embaralhada, calculado uma vez sobre as mesmas linhas.
+  //
+  // O que o leitor erra ao prever é o SINAL da diferença, antes do tamanho.
+  // Quase todo mundo aceita que embaralhar "não é ideal"; poucos esperam que o
+  // número resultante seja MENOR, que é justamente o que o torna perigoso. Erro
+  // que aparece grande ninguém publica; erro que aparece pequeno vira slide.
+  //
+  // O modelo é k-vizinhos sobre (defasagem 2, defasagem 1), e a escolha não é
+  // neutra: é o mais simples que MEMORIZA. Com as linhas embaralhadas, o vizinho
+  // mais próximo de um ponto de teste costuma ser o instante ao lado, que ficou
+  // no treino. Com um linear, o vazamento existiria e seria pequeno, e a
+  // animação ensinaria que o erro de método é um detalhe.
+  function animaOrigemMovel(area, cfg) {
+    var W = 460, H = 300, PAD = 26;
+    var t = tela(area, W, H, PAD, 1);
+    var cv = t.cv, ctx = t.ctx;
+    var placar = placarDe(area);
+    var botao = botoeiraDe(area);
+    var rel, bRodar, bQuebra;
+    var N = 320, DOBRAS = 8, BLOCO = 20, K = 3;
+    var est = { quebra: false, serie: [], dobra: 0, maes: [], embaralhado: 0, parou: false };
+
+    function gerar(quebra) {
+      var r = rng(31), y = [], i, e = 0, nivel;
+      for (i = 0; i < N; i++) {
+        e = 0.7 * e + (r() - 0.5) * 2.0;                 // ruído autocorrelacionado
+        nivel = (quebra && i > N * 0.62) ? 14 : 0;       // degrau de regime
+        // A tendência (0,09 por passo) é escolha de REALISMO, não de efeito: em
+        // 320 passos a série mais que dobra, que é o que uma base de negócio em
+        // crescimento faz. Varri 0,035 / 0,09 / 0,18 e a mentira do embaralhado
+        // vale 1,1× / 1,9× / 3,5× sem quebra. O tamanho do engano é proporcional
+        // a quanto o futuro difere do passado, e essa dependência é a lição:
+        // não se escolhe o número, mede-se.
+        y.push(20 + 0.09 * i + 4 * Math.sin(i / 7.0) + e + nivel);
+      }
+      return y;
+    }
+
+    /** Linhas (defasagem 2, defasagem 1) -> alvo, para todo t >= 2. */
+    function linhas(y) {
+      var L = [], i;
+      for (i = 2; i < y.length; i++) L.push({ x: [y[i - 2], y[i - 1]], y: y[i], t: i });
+      return L;
+    }
+
+    /** k-vizinhos sobre as duas defasagens, com média simples dos vizinhos. */
+    function prever(treino, x) {
+      var d = treino.map(function (p) {
+        var a = p.x[0] - x[0], b = p.x[1] - x[1];
+        return { d: a * a + b * b, y: p.y };
+      });
+      d.sort(function (p, q) { return p.d - q.d; });
+      var s = 0, k = Math.min(K, d.length), i;
+      for (i = 0; i < k; i++) s += d[i].y;
+      return s / k;
+    }
+
+    function mae(treino, teste) {
+      var s = 0, i;
+      for (i = 0; i < teste.length; i++) s += Math.abs(prever(treino, teste[i].x) - teste[i].y);
+      return s / teste.length;
+    }
+
+    /** Origem móvel: treina com tudo até a origem, avalia o bloco seguinte. */
+    function dobraMovel(L, j) {
+      var fim = L.length - (DOBRAS - j) * BLOCO;
+      return mae(L.slice(0, fim), L.slice(fim, fim + BLOCO));
+    }
+
+    /** A divisão inválida: embaralha as linhas e corta 20% para teste. */
+    function embaralhada(L) {
+      var r = rng(5), c = L.slice(), i, j, tmp;
+      for (i = c.length - 1; i > 0; i--) {
+        j = Math.floor(r() * (i + 1)); tmp = c[i]; c[i] = c[j]; c[j] = tmp;
+      }
+      var corte = Math.floor(c.length * 0.8);
+      return mae(c.slice(0, corte), c.slice(corte));
+    }
+
+    function media(v) {
+      var s = 0, i; for (i = 0; i < v.length; i++) s += v[i];
+      return v.length ? s / v.length : 0;
+    }
+
+    function desenhar() {
+      var escuro = temaEscuro(), i, h;
+      var x0 = PAD + 6, larg = W - 2 * PAD - 12;
+      var ySer = PAD + 12, altSer = 76;
+      var base = H - PAD - 18, altMax = base - (ySer + altSer) - 28;
+      t.fundo(escuro);
+      ctx.font = "11px system-ui, sans-serif";
+
+      var mn = Math.min.apply(null, est.serie), mx = Math.max.apply(null, est.serie);
+      ctx.strokeStyle = escuro ? "#8fb8dd" : "#35618e";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      est.serie.forEach(function (v, i2) {
+        var px = x0 + (i2 / (N - 1)) * larg;
+        var py = ySer + altSer - ((v - mn) / (mx - mn || 1)) * altSer;
+        if (i2 === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      var origem = (N - DOBRAS * BLOCO) / N;
+      ctx.strokeStyle = escuro ? "#e0a24a" : "#b8761f";
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(x0 + origem * larg, ySer); ctx.lineTo(x0 + origem * larg, ySer + altSer);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = escuro ? "#8f8f8c" : "#6a6a68";
+      ctx.fillText("a série · do tracejado em diante, as " + DOBRAS + " dobras", x0, ySer - 2);
+
+      var topo = Math.max(media(est.maes) * 1.6, est.embaralhado * 3, 1);
+      ctx.fillStyle = escuro ? "#c9c9c6" : "#4a4a48";
+      ctx.fillText("MAE por dobra (origem móvel)", x0, ySer + altSer + 18);
+      for (i = 0; i < est.maes.length; i++) {
+        h = Math.max(1, (est.maes[i] / topo) * altMax);
+        ctx.fillStyle = escuro ? "#8fb8dd" : "#35618e";
+        ctx.fillRect(x0 + i * (larg / DOBRAS) + 4, base - h, larg / DOBRAS - 8, h);
+      }
+      var yEmb = base - Math.max(1, (est.embaralhado / topo) * altMax);
+      ctx.strokeStyle = escuro ? "#d98a8a" : "#a83232";
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x0, yEmb); ctx.lineTo(x0 + larg, yEmb); ctx.stroke();
+      ctx.fillStyle = escuro ? "#d98a8a" : "#a83232";
+      ctx.fillText("embaralhado: " + est.embaralhado.toFixed(2), x0 + larg - 118, yEmb - 4);
+    }
+
+    function texto() {
+      var m = media(est.maes);
+      placar.textContent =
+        (est.quebra ? "série com quebra de regime" : "série sem quebra") +
+        " · dobras concluídas " + est.maes.length + " de " + DOBRAS +
+        (est.maes.length ? " · MAE da última dobra " + est.maes[est.maes.length - 1].toFixed(2) : "") +
+        " · MAE médio da origem móvel " + m.toFixed(2) +
+        " · MAE da divisão embaralhada " + est.embaralhado.toFixed(2) +
+        (est.parou
+          ? " · o embaralhado é " + (m / est.embaralhado).toFixed(1) + " vezes menor que a verdade"
+          : "");
+      cv.setAttribute("aria-label", placar.textContent);
+    }
+
+    function passo() {
+      est.maes.push(dobraMovel(linhas(est.serie), est.dobra));
+      est.dobra++;
+      if (est.dobra >= DOBRAS) est.parou = true;
+      desenhar(); texto();
+      if (est.parou) sincBotoes();
+      return est.parou;
+    }
+
+    function rodar(quebra) {
+      est.quebra = quebra;
+      est.serie = gerar(quebra);
+      est.embaralhado = embaralhada(linhas(est.serie));
+      est.dobra = 0; est.maes = []; est.parou = false;
+      rel.comecar(DOBRAS + 2);
+      if (!rel.rodando()) { est.parou = true; texto(); }
+      sincBotoes();
+    }
+
+    function sincBotoes() {
+      bRodar.textContent = rel && rel.rodando() ? "Recomeçar" : "Rodar de novo";
+      bQuebra.textContent = est.quebra ? "Voltar à série sem quebra"
+                                       : "E se houvesse uma quebra de regime?";
+    }
+    bRodar = botao("Rodar de novo", function () { rodar(est.quebra); });
+    bQuebra = botao("E se houvesse uma quebra de regime?", function () { rodar(!est.quebra); });
+
+    rel = relogio(cv, passo, function () { desenhar(); }, 180);
+    est.serie = gerar(false);
+    est.embaralhado = embaralhada(linhas(est.serie));
+    desenhar(); texto();
+    rel.aoChegar(function () { rodar(false); });
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,
                 "anima-taxas": animaTaxas, "anima-vazamento": animaVazamento,
-                "anima-limiar": animaLimiar,
-                "anima-gradiente": animaGradiente };
+                "anima-limiar": animaLimiar, "anima-gradiente": animaGradiente,
+                "anima-origem-movel": animaOrigemMovel };
 
   function iniciar() {
     [].forEach.call(document.querySelectorAll(".laboratorio"), function (raiz) {
