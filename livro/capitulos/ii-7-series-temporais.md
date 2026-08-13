@@ -86,6 +86,40 @@ Você plota a série mensal de vendas de uma loja e observa: as vendas sobem de 
 > **volte para:** #fundamentos-o-que-muda-quando-existe-tempo
 :::
 
+:::exercicio {"id":"series-temporais-e5","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+A série 100, 110, 121, 133 é diferenciada uma vez, virando 10, 11, 12. O modelo é ajustado sobre as diferenças e prevê 13 para o próximo passo. O que deve ser reportado como previsão de vendas?
+
+- [ ] 13, que é a saída do modelo.
+- [x] 146, porque a previsão precisa ser desdiferenciada de volta à escala original: 133 + 13.
+- [ ] 13% de crescimento sobre o último valor.
+- [ ] Não dá para reportar, porque a diferenciação é irreversível.
+
+> **gabarito:** 146
+> **porque:** Diferenciar troca a pergunta: o modelo passou a prever a **variação**, não o nível. Reportar 13 como vendas é a segunda armadilha que a seção nomeia, e ela é traiçoeira porque produz um número plausível na unidade errada.
+>
+> A volta é somar a variação prevista ao último valor observado, $133 + 13 = 146$. Com duas diferenciações, a volta é feita duas vezes, na ordem inversa.
+>
+> A quarta alternativa inverte a propriedade. A diferenciação é perfeitamente reversível desde que se guarde o valor de partida, e é esquecer de guardá-lo que transforma um passo reversível num relatório errado.
+> **volte para:** #estacionariedade-e-a-diferenciacao
+:::
+
+:::exercicio {"id":"series-temporais-e6","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
+Numa série mensal, a ACF cai devagar e nunca chega perto de zero, e há um pico isolado na defasagem 12. O que os dois sinais dizem?
+
+- [x] A queda lenta denuncia tendência, ou seja, falta diferenciar; o pico em 12 é sazonalidade anual.
+- [ ] Os dois sinais indicam a mesma coisa: sazonalidade de período 12.
+- [ ] A queda lenta indica ruído branco, e o pico em 12 é coincidência amostral.
+- [ ] Os dois indicam que a série já é estacionária e pode ser modelada direto.
+
+> **gabarito:** queda lenta é tendência, pico em 12 é sazonalidade anual
+> **porque:** São dois diagnósticos independentes lidos no mesmo gráfico. Uma ACF que não zera significa que o valor de hoje continua correlacionado com um passado distante, que é a assinatura de nível mudando ao longo do tempo. O pico isolado em 12, em dado mensal, é o mesmo mês do ano anterior gritando.
+>
+> Cada um pede uma ação diferente: a tendência pede diferenciação simples, e a sazonalidade pede diferenciação contra o mesmo período do ano anterior. Tratar os dois como um só leva a diferenciar de menos ou de mais, e diferenciar demais injeta ruído que não existia.
+>
+> É a leitura de graça que a seção promete: um gráfico responde quanto do passado ainda importa, antes de qualquer modelo ser ajustado.
+> **volte para:** #o-diagnostico-da-memoria-acf-e-pacf
+:::
+
 ## A validação não pode ser aleatória
 
 Esta é a seção mais importante do capítulo. **Embaralhar e sortear treino/teste vaza o futuro para o passado.** Não é um vazamento sutil de atributo mal construído — é o modelo lendo a resposta. E ele não se manifesta como erro: manifesta-se como uma métrica excelente que produção jamais reproduz.
@@ -128,6 +162,35 @@ Calcule o **MAE** (erro absoluto médio) da previsão ingênua sazonal, em que c
 > **volte para:** #a-linha-de-base-ingenua
 :::
 
+:::exercicio {"id":"series-temporais-e9","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Qual é a previsão ingênua correta para uma série com sazonalidade anual forte?
+
+- [ ] Amanhã é igual a hoje.
+- [x] Este dezembro é igual ao dezembro passado.
+- [ ] Amanhã é igual à média de toda a série.
+- [ ] Amanhã é igual à média dos últimos 30 dias.
+
+> **gabarito:** este dezembro é igual ao dezembro passado
+> **porque:** A ingênua sazonal usa o mesmo período do ciclo anterior, e é ela que serve de régua quando existe sazonalidade forte. A ingênua simples ignora o calendário e erra sistematicamente em todo mês atípico.
+>
+> A escolha da régua decide o veredito. Pôr um modelo sazonal contra a ingênua simples é escolher o adversário fraco, e é assim que relatórios ficam desonestos sem má-fé: o modelo vence com folga uma comparação que não era a correta.
+>
+> A regra que fica: a linha de base tem de ser a **melhor coisa trivial disponível**, e não a mais fácil de vencer.
+> **volte para:** #a-linha-de-base-ingenua
+:::
+
+:::exercicio {"id":"series-temporais-e10","tipo":"numerica","objetivo":"O3","dificuldade":"dificil"}
+Usando a mesma tabela do exercício anterior (jan 100/110, fev 120/126, mar 90/99), calcule o **MAE da previsão ingênua simples** nos meses de fevereiro e março de 2025, em que cada mês é previsto pelo mês imediatamente anterior. Responda com duas casas decimais.
+
+> **gabarito:** 21.50 ± 0.01
+> **porque:** Fevereiro de 2025 é previsto por janeiro de 2025: $|126 - 110| = 16$. Março é previsto por fevereiro: $|99 - 126| = 27$. O MAE é $(16 + 27)/2 = \mathbf{21{,}50}$.
+>
+> Compare com os 8,33 da ingênua sazonal sobre os mesmos dados: a régua errada é quase três vezes pior. Um modelo qualquer que chegasse a 15 de MAE pareceria excelente contra a ingênua simples e seria pior que não fazer nada, se a comparação fosse com a sazonal.
+>
+> É por isso que o capítulo insiste que a linha de base é uma escolha metodológica, não um detalhe de relatório. Ela decide se o número final significa competência ou apenas adversário mal escolhido.
+> **volte para:** #a-linha-de-base-ingenua
+:::
+
 :::exercicio {"id":"series-temporais-e3","tipo":"aberta","objetivo":"O2","pontos":3,"dificuldade":"dificil"}
 Uma colega apresenta este protocolo para prever a demanda diária de um e-commerce:
 
@@ -146,11 +209,79 @@ Identifique os problemas do protocolo e descreva o que você faria no lugar.
 > **volte para:** #a-validacao-nao-pode-ser-aleatoria
 :::
 
+:::exercicio {"id":"series-temporais-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Por que a validação com origem móvel é preferível a um único corte cronológico?
+
+- [ ] Porque ela usa mais dados de treino no total.
+- [x] Porque um corte só pode ter calhado num período fácil, e várias origens dão várias medidas, e com elas a incerteza.
+- [ ] Porque ela permite embaralhar dentro de cada bloco com segurança.
+- [ ] Porque ela elimina a necessidade de comparar com a linha de base ingênua.
+
+> **gabarito:** um corte só pode ter calhado num período fácil
+> **porque:** Um corte cronológico já resolve o vazamento, e ainda entrega **um** número. Se o trimestre sorteado for atípico, esse número descreve o trimestre e não o modelo.
+>
+> Repetindo o corte com a origem avançando, você ganha várias medidas do mesmo modelo em períodos diferentes, e a dispersão entre elas é a incerteza que o [capítulo II.1](ii-1-avaliacao.md) exige antes de comparar duas métricas.
+>
+> A terceira alternativa reintroduz o problema que a seção acabou de fechar: embaralhar dentro de um bloco continua colocando dias posteriores no treino de dias anteriores. E a quarta troca duas coisas independentes — nenhum protocolo de validação dispensa a comparação com a ingênua.
+> **volte para:** #a-validacao-nao-pode-ser-aleatoria
+:::
+
+:::exercicio {"id":"series-temporais-e8","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Uma empresa mudou de política de preços há oito meses e tem cinco anos de histórico. Janela expansiva ou deslizante?
+
+- [ ] Expansiva, porque cinco anos de histórico são um ativo e descartá-los é desperdício.
+- [x] Deslizante, porque o regime mudou e dado antigo de um regime morto não é dado a mais, é viés.
+- [ ] Expansiva, porque a janela deslizante só se justifica com séries muito longas.
+- [ ] Tanto faz: a escolha entre as duas afeta só o custo computacional.
+
+> **gabarito:** deslizante
+> **porque:** O critério não é o tamanho do histórico, é a **estabilidade do processo**. Expansiva quando o processo é estável e dado é escasso; deslizante quando houve quebra de regime, como uma troca de precificação, um concorrente novo ou uma pandemia.
+>
+> A primeira alternativa trata todo histórico como ativo, e é a intuição que a seção corrige com uma frase direta: dado antigo de um regime morto não é dado a mais, é viés. Ele empurra o modelo a aprender uma relação que deixou de existir.
+>
+> Vale notar o que a escolha não resolve. Oito meses sob o regime novo podem ser pouco para treinar bem, e aí a decisão honesta é declarar a limitação, não recuperar os quatro anos anteriores como se contassem.
+> **volte para:** #a-validacao-nao-pode-ser-aleatoria
+:::
+
 ## Quando o problema temporal vira tabular
 
 Boa parte do trabalho prático não usa ARIMA. Usa-se **janelamento**: cada linha vira "os *k* valores anteriores + atributos de calendário", e o alvo é o valor seguinte. A partir daí, qualquer regressor do [capítulo II.5](ii-5-arvores-ensembles.md) serve.
 
 A transformação é legítima e frequentemente vence os métodos clássicos — desde que **o protocolo de validação continue temporal**. É aí que mora o perigo: assim que o problema *parece* tabular, o reflexo de embaralhar volta. A tabela esconde a ordem; a ordem continua lá. E declare o **horizonte**: prever 1 passo à frente e prever 30 são problemas diferentes, com erros diferentes — um modelo excelente em 1 passo pode ser inútil em 30, e reportar só o primeiro número é omissão.
+
+:::exercicio {"id":"series-temporais-e11","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+O que o janelamento faz com um problema temporal?
+
+- [x] Cada linha vira "os $k$ valores anteriores mais atributos de calendário", e o alvo é o valor seguinte, o que permite usar qualquer regressor tabular.
+- [ ] Agrega a série em janelas fixas, reduzindo o número de observações para acelerar o treino.
+- [ ] Remove a sazonalidade, deixando só tendência e ruído.
+- [ ] Converte a série em estacionária, dispensando a diferenciação.
+
+> **gabarito:** cada linha vira os $k$ valores anteriores mais calendário
+> **porque:** É uma mudança de **formato**, não de conteúdo: a informação temporal passa a estar nas colunas, e a partir daí qualquer regressor do [capítulo II.5](ii-5-arvores-ensembles.md) serve. A transformação é legítima e frequentemente vence os métodos clássicos.
+>
+> As três alternativas erradas atribuem ao janelamento efeitos que ele não tem. Ele não agrega, não remove sazonalidade e não torna a série estacionária — atributos de calendário até ajudam o modelo a **capturar** sazonalidade, o que é diferente de removê-la.
+>
+> O que a mudança de formato não altera é a natureza do problema, e é justamente aí que mora o perigo da próxima questão.
+> **volte para:** #quando-o-problema-temporal-vira-tabular
+:::
+
+:::exercicio {"id":"series-temporais-e12","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
+Uma equipe janelou a série e passou a tratá-la como tabela. Quais cuidados desta seção continuam obrigatórios? (marque todos que valem)
+
+- [x] O protocolo de validação continua temporal: a tabela esconde a ordem, e a ordem continua lá.
+- [x] O horizonte precisa ser declarado, porque prever 1 passo e prever 30 são problemas diferentes.
+- [x] Os atributos defasados precisam ser calculados dentro de cada dobra, não sobre a base inteira.
+- [ ] O janelamento dispensa a comparação com a previsão ingênua, porque agora o modelo é tabular.
+
+> **gabarito:** validação temporal · horizonte declarado · atributos dentro da dobra
+> **porque:** As três corretas são os cuidados que sobrevivem à mudança de formato, e a seção explica por que é fácil perdê-los: assim que o problema **parece** tabular, o reflexo de embaralhar volta.
+>
+> O horizonte é o que mais escapa em relatório. Um modelo excelente a 1 passo pode ser inútil a 30, e reportar só o primeiro número é omissão — não erro de cálculo, omissão.
+>
+> A alternativa errada troca a régua pelo formato. A ingênua continua sendo a coisa trivial a bater, e o janelamento não muda isso; se algo, torna a comparação mais necessária, porque um regressor tabular sobre defasagens pode simplesmente reaprender a copiar o último valor.
+> **volte para:** #quando-o-problema-temporal-vira-tabular
+:::
 
 ## Síntese — o que levar
 
