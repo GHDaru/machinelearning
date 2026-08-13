@@ -114,6 +114,23 @@ Acontece mais do que se imagina:
 
 O terceiro caso é o que mais engana, porque não parece duplicata — são linhas genuinamente diferentes. Mas se o modelo aprende a reconhecer *o cliente* em vez de *o comportamento*, ele vai bem no teste e mal com clientes novos, que é a única coisa que importa.
 
+:::exercicio {"id":"dados-e12","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
+Qual das três fontes de vazamento deste capítulo descreve um `StandardScaler` ajustado sobre a base inteira antes do `train_test_split`?
+
+- [ ] Alvo disfarçado: uma coluna que só existe depois do evento.
+- [x] Pré-processamento antes da divisão: a estatística usada na transformação foi calculada com o teste dentro.
+- [ ] Duplicata entre conjuntos: o mesmo exemplo dos dois lados da divisão.
+- [ ] Nenhuma: padronizar não usa o alvo, então não há vazamento.
+
+> **gabarito:** pré-processamento antes da divisão
+> **porque:** A média e o desvio que o escalonador aprendeu foram calculados com as linhas do teste incluídas. Cada exemplo de teste, ao ser transformado, é comparado a uma estatística da qual ele mesmo participou — e o conjunto que deveria ser desconhecido já influenciou o treino, por essa via estreita.
+>
+> A última alternativa é a defesa que quase todo mundo tenta, e ela troca a pergunta. É verdade que padronizar não usa o alvo; o vazamento aqui não é do alvo, é do **conjunto de teste**. Por isso o capítulo chama esta fonte de silenciosa: ela não deixa rastro numa lista de colunas suspeitas, e o único jeito de vê-la é olhar a ordem das operações.
+>
+> A regra que resolve as três é a mesma: toda estatística aprendida dos dados entra **dentro** do laço, depois da divisão. Vale para padronização, imputação, seleção de atributos e codificação pelo alvo.
+> **volte para:** #2-pre-processamento-antes-da-divisao-o-vazamento-silencioso
+:::
+
 :::exercicio {"id":"dados-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Uma equipe prevê inadimplência em 30 dias. O modelo atinge 0,96 de AUC — três vezes melhor que qualquer tentativa anterior. Entre os atributos está `dias_de_atraso_atual`. Qual é a leitura mais provável?
 
@@ -191,6 +208,40 @@ Um hospital quer prever readmissão em 30 dias. A base tem 50.000 internações 
 > **volte para:** #a-divisao-que-respeita-a-estrutura-dos-dados
 :::
 
+:::exercicio {"id":"dados-e6","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Um modelo prevê a demanda com 30 dias de antecedência. A divisão é temporal: treino até 31 de março, teste a partir de 1º de abril. O que ainda falta?
+
+- [ ] Estratificar o teste pela distribuição da demanda, para que os dois períodos sejam comparáveis.
+- [x] Descartar os últimos 30 dias do treino, porque a informação deles se sobrepõe ao início do teste.
+- [ ] Embaralhar dentro de cada período, para reduzir a variância da estimativa.
+- [ ] Nada: uma divisão temporal já é suficiente para uma série.
+
+> **gabarito:** descartar os últimos 30 dias do treino
+> **porque:** É o **intervalo de guarda**, e ele é o detalhe que quase todo mundo esquece depois de acertar a parte difícil. Se o modelo prevê 30 dias à frente, o exemplo de 20 de março carrega como alvo algo que acontece em abril, ou seja, dentro do período de teste. Treinar com ele é contar ao modelo parte da resposta.
+>
+> A primeira alternativa é proibida aqui: não se estratifica uma série temporal, porque forçar a distribuição do futuro é assumir que você já sabe qual ela será, e é isso que se está tentando descobrir. Embaralhar dentro do período desfaz a proteção que a divisão temporal acabou de construir.
+>
+> A conta que justifica o gesto é curta: perder um mês de treino é barato, e descobrir em produção que a métrica era otimista não é.
+> **volte para:** #tempo-nunca-embaralhe-uma-serie
+:::
+
+:::exercicio {"id":"dados-e7","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Uma base tem tempo, grupo (o mesmo sujeito repetido) e classe positiva rara. Qual é a ordem de precedência ao montar a divisão?
+
+- [x] Tempo manda, e não se estratifica uma série; grupo e desbalanceamento se resolvem dentro do que a divisão temporal permitir.
+- [ ] Desbalanceamento manda: sem estratificar, a métrica vira loteria.
+- [ ] Grupo manda, porque vazamento por sujeito é o mais grave dos três.
+- [ ] Não há precedência: as três restrições são independentes e podem ser aplicadas em qualquer ordem.
+
+> **gabarito:** tempo manda
+> **porque:** As três restrições não são independentes, e é por isso que existe ordem. Estratificar exige fixar a proporção de classes nos conjuntos, e fixá-la no futuro significa usar informação que só se conhece depois — a divisão temporal e a estratificação se contradizem, e quem cede é a estratificação.
+>
+> A segunda alternativa descreve um risco real, e a saída não é estratificar: é medir a incerteza da métrica com intervalo de confiança, que é o tratamento do [capítulo II.1](ii-1-avaliacao.md).
+>
+> A terceira erra por comparar gravidades quando a pergunta é de compatibilidade. Grupo e tempo não se contradizem: dá para respeitar os dois ao mesmo tempo, e o exercício do hospital mostra como. O que não dá é respeitar tempo e estratificar.
+> **volte para:** #e-a-estratificacao
+:::
+
 ## A ficha de dataset
 
 Antes de treinar, escreva uma página sobre os dados. Não é burocracia: é o único momento em que alguém olha para a origem em vez de olhar para as colunas.
@@ -238,6 +289,40 @@ Escreva as **três perguntas mais importantes** que você faria antes de treinar
 > **volte para:** #a-ficha-de-dataset
 :::
 
+:::exercicio {"id":"dados-e8","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
+Na ficha de dataset deste livro, qual pergunta existe para pegar o viés de seleção?
+
+- [ ] "Quem coletou, quando e para quê?"
+- [x] "Como um exemplo entrou na base?"
+- [ ] "O que se sabe que está errado?"
+- [ ] "Quando expira?"
+
+> **gabarito:** "Como um exemplo entrou na base?"
+> **porque:** É a pergunta 2, e a coluna "por que importa" diz literalmente que é aqui que mora o viés de seleção. Ela pergunta pelo **mecanismo de entrada**: que filtro cada exemplo teve de passar para virar uma linha.
+>
+> A pergunta 1 é vizinha e responde a outra coisa. Saber que os dados foram coletados para outro fim alerta para o viés **daquele fim**, que é um problema de propósito, não de porta de entrada. As duas juntas cobrem quase todo diagnóstico de origem, e é por isso que aparecem nas duas primeiras linhas.
+>
+> As outras duas tratam de defeitos conhecidos e de validade no tempo, que são reais e chegam depois: uma base pode ter todos os defeitos catalogados e ainda assim conter só quem passou por um filtro que ninguém registrou.
+> **volte para:** #a-ficha-de-dataset
+:::
+
+:::exercicio {"id":"dados-e9","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Uma ficha informa: "o alvo `fraude` foi definido como as transações que o sistema de regras antigo bloqueou". Qual é a consequência mais séria dessa resposta à pergunta 5?
+
+- [ ] O rótulo tem ruído, e o modelo precisará de mais dados para compensar.
+- [x] O teto de desempenho do modelo é a qualidade do sistema antigo, porque ele vai aprender a regra e não o fenômeno.
+- [ ] A base viola a pergunta 4, porque transações contêm dado pessoal.
+- [ ] O rótulo é objetivo e verificável, o que torna esta a melhor situação possível.
+
+> **gabarito:** o teto é a qualidade do sistema antigo
+> **porque:** O modelo novo não está aprendendo o que é fraude: está aprendendo o que o sistema velho chamava de fraude. Toda fraude que o sistema antigo deixava passar está rotulada como legítima na base, e o modelo será treinado para deixá-la passar também — com mais elegância.
+>
+> A primeira alternativa trata o problema como ruído, e ruído é aleatório. Este erro é **sistemático**, e mais dados o reforçam em vez de diluí-lo, porque cada nova linha vem rotulada pela mesma regra.
+>
+> A última é a leitura que a palavra "objetivo" produz, e é a mais perigosa. O rótulo de fato é objetivo, no sentido de que qualquer pessoa consegue reproduzi-lo sem julgamento. Ele é objetivo sobre a coisa errada — e a ficha só revela isso porque a pergunta 5 obriga a escrever **como** o alvo foi rotulado, e não apenas qual ele é.
+> **volte para:** #a-ficha-de-dataset
+:::
+
 :::exercicio {"id":"dados-e5","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Um banco treina um modelo de inadimplência com o histórico dos últimos cinco anos: 800 mil contratos, rótulo confiável (pagou ou não pagou), sem faltantes. A taxa de inadimplência na base é de 4%. O modelo vai decidir quem recebe crédito a partir do mês que vem.
 
@@ -252,6 +337,41 @@ A equipe está satisfeita: a base é grande, o rótulo é objetivo e a métrica 
 > A parte que separa a boa resposta da razoável é o terceiro critério. Desbalanceamento se conserta medindo direito, e mais dados ajudam. **Viés de seleção não se conserta com mais dados** — cada novo contrato entra pela mesma porta filtrada, e o sistema fica cada vez mais confiante sobre uma fatia cada vez mais estreita do mundo. O erro cresce junto com a base, o que é exatamente o oposto da intuição.
 >
 > Repare que o diagnóstico é barato e a correção é cara: manter a base honesta exige conceder crédito, de vez em quando, a quem o modelo recusaria — e perder parte desse dinheiro de propósito. É o preço de continuar aprendendo, e a decisão é de negócio, não de modelagem. O nome do fenômeno e as consequências de arquitetura estão no [capítulo V.2](v-2-sistemas-de-ml.md).
+> **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
+:::
+
+:::exercicio {"id":"dados-e10","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Qual das duas situações abaixo **não** se resolve coletando mais dados do mesmo jeito?
+
+- [ ] Desbalanceamento: a classe positiva representa 2% da base.
+- [x] Viés de seleção: a base só contém quem passou por um filtro anterior.
+- [ ] Nenhuma das duas: mais dados sempre ajudam.
+- [ ] As duas: em ambos os casos o problema é de quantidade.
+
+> **gabarito:** viés de seleção
+> **porque:** A distinção é a lição desta seção, e ela é contraintuitiva. Desbalanceamento é um problema de **proporção**, e mais dados coletados do mesmo jeito trazem mais positivos em números absolutos, o que melhora a estimativa.
+>
+> Viés de seleção é um problema de **quais exemplos podem existir** na base. Cada linha nova entra pela mesma porta filtrada, então mais dados tornam o sistema mais confiante sobre uma fatia cada vez mais estreita do mundo. O erro cresce junto com a base.
+>
+> É por isso que os dois pedem gestos diferentes. O desbalanceamento se trata na medição, com a métrica certa e intervalo de confiança. O viés de seleção só se trata mudando a porta: reservar uma fração pequena de decisões fora da recomendação do modelo, o que custa dinheiro.
+> **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
+:::
+
+:::exercicio {"id":"dados-e11","tipo":"multipla-multi","objetivo":"O4","dificuldade":"media"}
+Quais destes fatos, sozinhos, **não** servem como evidência de que uma base está livre de viés de seleção? (marque todos que valem)
+
+- [x] A base tem 800 mil linhas.
+- [x] O rótulo é objetivo e verificável.
+- [x] Não há valores faltantes em nenhuma coluna.
+- [x] A métrica de teste ficou excelente.
+- [ ] Uma fração das decisões foi tomada aleatoriamente, fora da recomendação do modelo.
+
+> **gabarito:** volume · rótulo objetivo · sem faltantes · métrica excelente
+> **porque:** As quatro primeiras são exatamente os elogios que a equipe do banco faz à própria base, e nenhum deles toca a pergunta "quem pôde entrar aqui?". Volume, objetividade do rótulo e completude descrevem as linhas que existem, e o viés de seleção é uma afirmação sobre as que **não** existem.
+>
+> A métrica excelente é a pior evidência das quatro, porque parece a mais forte. Ela foi medida sobre um teste retirado da mesma base filtrada, então mede o desempenho na população estreita, não na população onde o modelo vai operar.
+>
+> A quinta é a única que sustenta a conclusão, e ela é um fato sobre o **processo de coleta**, não sobre a tabela. É o gesto que a seção chama de manter a base honesta, e a razão de ele custar dinheiro é que só se compra evidência assim decidindo, de vez em quando, contra o próprio modelo.
 > **volte para:** #o-vies-de-selecao-aprender-com-quem-ja-esta-la
 :::
 
