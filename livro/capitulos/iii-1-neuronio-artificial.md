@@ -59,8 +59,9 @@ Duas coisas valem ficar: **o neurônio artificial é treze anos mais velho que o
 | **1949** | Hebb | *The Organization of Behavior*: "neurônios que disparam juntos conectam-se juntos" — a primeira ideia de como um peso poderia **mudar** com a experiência | [registro](https://psycnet.apa.org/record/1950-02200-000) |
 | **1958** | Rosenblatt | O **perceptron**: a regra de aprendizado que faltava, com prova de convergência para problemas separáveis | [doi:10.1037/h0042519](https://doi.org/10.1037/h0042519) |
 | **1969** | Minsky & Papert | *Perceptrons*: a demonstração de que uma camada não computa o XOR | [MIT Press](https://mitpress.mit.edu/9780262534772/perceptrons/) |
-| **1970** | Linnainmaa | A **retropropagação** descrita pela primeira vez, em tese de mestrado, em finlandês, sem falar em redes neurais | — |
-| **1974** | Werbos | Tese de doutorado: aplicar aquilo a redes neurais; publicações entre 1979 e 1981 | — |
+| **1970** | Linnainmaa | A **retropropagação** descrita pela primeira vez, em tese de mestrado, *"albeit without reference to NNs"* | — |
+| **1974** | Werbos | Tese de doutorado, com discussão preliminar já voltada a redes | — |
+| **1981** | Werbos | A primeira **aplicação** da retropropagação eficiente a redes neurais | — |
 | **1979/80** | Fukushima | O **neocognitron**, primeira arquitetura hierárquica convolucional — treinada **sem** backpropagation. Em japonês em 1979; em inglês em 1980 | [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) |
 | **1986** | Rumelhart, Hinton & Williams | Popularizam o backpropagation e mostram as representações aprendidas nas camadas escondidas | [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) |
 
@@ -68,7 +69,9 @@ Rosenblatt provou que, **se o problema for linearmente separável**, o perceptro
 
 A saída, em 1986, tem uma moral que vale além da história: **a limitação nunca foi do neurônio, era da arquitetura de uma camada só.** O [capítulo III.2](iii-2-redes-neurais.md) constrói a rede multicamada que resolve isso.
 
-E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram** o backpropagation; a descrição é de Linnainmaa, dezesseis anos antes, em finlandês, sem mencionar redes neurais. Jürgen Schmidhuber, que passou anos reivindicando a atribuição correta, resume assim: **não é o primeiro inventor que leva o crédito, é o último reinventor.**
+E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram** o backpropagation; a descrição é de Linnainmaa, dezesseis anos antes, numa tese de mestrado em finlandês que, nas palavras do levantamento histórico mais citado sobre o assunto, traz o método *"albeit without reference to NNs"*.
+
+Esse levantamento é de **Jürgen Schmidhuber**, e ele declara o próprio propósito no prefácio: *"One of its goals is to assign credit to those who contributed to the present state of the art."* Um artigo de revisão escrito para acertar atribuição é, ele mesmo, sintoma de que a atribuição estava errada. **A formulação a seguir é deste livro, e não de Schmidhuber:** o crédito não fica com quem inventa primeiro, e sim com quem reinventa por último, num momento em que a comunidade está pronta para ouvir.
 
 > **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss **provavelmente** tinha os mínimos quadrados antes e perdeu a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. O "provavelmente" é do estudo de referência sobre a disputa, que argumenta sem concluir. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar faz parte do método, não da burocracia.
 
@@ -82,7 +85,10 @@ E repare em quem leva o crédito. Rumelhart, Hinton e Williams **popularizaram**
 | ✓ᵐ | A proposta de Dartmouth (31/08/1955) e o artigo da *Mind* (1950), pelos documentos ligados acima |
 | ⏳ | Que o relatório *Intelligent Machinery* (1948) só veio a público em 1968 |
 | ⏳ | A biografia de Pitts (vinte anos, autodidata, sem endereço fixo) — repetida de forma consistente na literatura; não conferida em fonte primária |
-| ⏳ | A cronologia de prioridade do backpropagation (Linnainmaa 1970, Werbos 1974) e a frase de Schmidhuber |
+| ✓ | A cronologia de prioridade do backpropagation e os trechos citados entre aspas, em [Schmidhuber, *"Deep Learning in Neural Networks: An Overview"*](https://arxiv.org/abs/1404.7828), **lido**: a descrição de 1970 em tese de mestrado *"albeit without reference to NNs"*, a discussão preliminar de Werbos em 1974, e a primeira aplicação a redes em **1981** |
+| ❌ | **Correção de 2026-08-13.** A tabela dava 1974 como o ano de "aplicar aquilo a redes neurais". A fonte separa as duas coisas: 1974 traz discussão preliminar, e a aplicação a redes é de **1981**. A tabela ganhou a linha que faltava |
+| ✓ᵐ | Que a tese de Linnainmaa fosse **em finlandês**. O levantamento lido não diz a língua, só que a tese não menciona redes; quem sustenta esse ponto é a ficha da própria dissertação, cujo título está em finlandês (ver a [bibliografia](../bibliografia.md)) |
+| 📖 | A formulação "o crédito fica com quem reinventa por último" é **deste livro**, e estava atribuída a Schmidhuber como se fosse frase dele. Não a localizei no levantamento; o que ele declara é o propósito de *"assign credit"* |
 | ❌ | "Um italiano desenvolveu o backpropagation em 1979" — procurei e não achei fonte |
 | 📖 | A ideia reaproveitável ("uma abstração vale pelo que permite provar") e a leitura de que o inverno veio de uma leitura ampliada de *Perceptrons* |
 
@@ -343,7 +349,7 @@ Esse último ponto é o que transforma "é impossível" de afirmação em result
 - Há **infinitas** soluções para cada função separável — e **nenhuma** para o XOR, por geometria.
 - A limitação era da **arquitetura de uma camada**, não do neurônio. A saída foi empilhar camadas e treiná-las com backpropagation.
 - O neurônio artificial (1943) é **treze anos mais velho que o termo "inteligência artificial"** (1955) — e a ideia de Turing sobre máquinas pensantes está no relatório de **1948**, não no artigo famoso de 1950.
-- O backpropagation foi descrito em **1970** (Linnainmaa), aplicado a redes em **1974** (Werbos) e popularizado em **1986**. Em ciência, o crédito vai ao último reinventor.
+- O backpropagation foi descrito em **1970** (Linnainmaa), aplicado a redes em **1981** (Werbos) e popularizado em **1986**. A leitura deste livro: o crédito vai ao último reinventor.
 
 ## Verificação
 

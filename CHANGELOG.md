@@ -19,6 +19,20 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   `do-modelo-a-decisao-e2` e `ia-simbolica-fuzzy-evolutiva-e2`. Inteiro segue
   dispensado, e `± 0` continua valendo quando for escolha escrita.
 
+### Corrigido — uma frase atribuída a quem não a disse (caps. III.1 e II.2)
+- **"Não é o primeiro inventor que leva o crédito, é o último reinventor"** estava
+  atribuída a Schmidhuber, em **dois capítulos**, um deles como citação em itálico.
+  Não a localizei no levantamento histórico dele. O que ele declara é o propósito
+  do trabalho: *"One of its goals is to assign credit to those who contributed to
+  the present state of the art."* A formulação é **deste livro**, e os dois
+  capítulos passaram a dizer isso.
+- **Correção de data na linha do backpropagation:** a aplicação a redes neurais é
+  de **1981**, não de 1974. A fonte separa as duas coisas — 1974 traz discussão
+  preliminar, e a primeira aplicação vem sete anos depois. A tabela ganhou a linha
+  que faltava, e a síntese foi corrigida junto.
+- A cronologia (1970 em tese de mestrado, *"albeit without reference to NNs"*)
+  passou a ✓, citada do levantamento lido.
+
 ### Adicionado — o caso da blindagem sem o verniz, e a Parte II fecha (cap. II.8)
 - **A frase de efeito não está no documento.** O caso é contado em toda parte com
   "reforce onde os aviões que voltaram não têm furos". Os **oito memorandos** de
