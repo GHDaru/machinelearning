@@ -6,6 +6,26 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o tutor citava numeração que não existe mais
+- **"Qual o capítulo do neurônio artificial?" → "Capítulo 18", citando o
+  `HISTORICO.md`.** Depois do ADR 0011 o capítulo é **III.1**, e a posição de
+  leitura é 17 — o 18 não existe em lugar nenhum do livro atual. Três causas
+  somadas, todas medidas antes de qualquer conserto:
+  1. **O `HISTORICO.md` entrava no corpus** com o mesmo peso de um capítulo — e
+     ele guarda numeração de edições antigas *por construção*. Editar o arquivo
+     não resolveria: cada edição nova acrescenta numeração que envelhece. Saiu
+     do índice, junto com o guia editorial e a documentação do banco.
+  2. **Os blocos não sabiam de que capítulo eram.** Só o bloco do H1 continha o
+     nome, então perguntar por um capítulo não recuperava esse capítulo — na
+     medição, o capítulo do neurônio não aparecia entre os três primeiros.
+     Agora todo bloco herda "Parte III … · III.1 — O Neurônio Artificial",
+     vindo do `sumario.json`, que é a fonte da numeração vigente.
+  3. **`buscar()` nunca entregava o nome canônico ao modelo** — só caminho de
+     arquivo e título de seção. O modelo *tinha* de deduzir o número do texto,
+     e deduziu do texto histórico. Agora recebe o capítulo e a instrução
+     explícita de não inferir numeração do conteúdo.
+- Sete testes novos cobram as três causas, vistos falhando antes de valerem.
+
 ### Corrigido — onda 3: o download que entregava o gabarito
 - **O botão "⬇ md" servia o arquivo-fonte cru.** `docs/md/machine-learning.md`
   trazia **79 gabaritos e 30 rubricas**, e o botão fica na página do capítulo,
