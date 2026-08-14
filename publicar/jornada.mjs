@@ -1,0 +1,187 @@
+// AUDITORIA DA JORNADA — o único verificador que lê a página como o leitor lê.
+//
+// POR QUE ELE EXISTE
+//
+// Todos os outros gates deste repositório leem a **fonte**: a prosa, o banco de
+// exercícios, os links, os intervalos, o tema, o HTML como texto. Nenhum abria a
+// página. Dois defeitos passaram por essa porta no mesmo dia, os dois com CI
+// verde e os dois achados pelo autor no celular, não pelo build:
+//
+//   1. um `<style>` sem fecho no III.1 e no II.7. Os bytes estavam todos lá — um
+//      `grep` contava doze exercícios — e o navegador montava **três**, porque
+//      tratava o resto da página como CSS. Sumiam o Colab, os laboratórios e o
+//      companion;
+//   2. o painel do laboratório novo empurrando o documento para 592px num visor
+//      de 360, o que cortava **todo** o texto do capítulo na margem direita.
+//
+// Nos dois casos a lição é a mesma: contar caractere não é ler página. Este
+// script abre cada página num Chromium de verdade, deixa o JavaScript rodar, e
+// afirma o que o leitor vê.
+//
+// O QUE ELE COBRA, por página
+//
+//   A. **Não rola de lado a 360px.** Elemento pode passar da borda desde que
+//      esteja dentro de um contêiner que role sozinho; o que não se admite é a
+//      PÁGINA rolar, porque aí o texto inteiro é diagramado fora da tela.
+//   B. **Os exercícios do fonte chegam ao DOM.** Conta os blocos `:::exercicio`
+//      do Markdown e exige o mesmo número de `.exercicio` montados. É a asserção
+//      que teria pego o defeito 1 no dia em que ele nasceu.
+//   C. **Todo laboratório monta alguma coisa** — canvas, svg, tabela ou botão.
+//      Laboratório que não monta é uma caixa vazia com um título.
+//   D. **O companion está no DOM.**
+//   E. **Nenhum erro de JavaScript no console.**
+//
+// COMO RODAR
+//
+//   npm i -D playwright && npx playwright install chromium   (uma vez)
+//   node publicar/build.mjs && node publicar/jornada.mjs
+//
+// O Playwright NÃO é dependência do repositório: baixar um navegador custa uns
+// 150 MB, e a constituição pede trilha de custo zero. Por isso este script falha
+// com uma mensagem explicando o que instalar, em vez de se pular em silêncio —
+// gate que se pula sozinho é gate que não existe.
+//
+// Variáveis: PORTA (padrão 8123), LARGURA (padrão 360), SO_ESTAS=a,b (limita a
+// varredura a algumas páginas, por nome de arquivo).
+
+import { readdirSync, readFileSync } from "node:fs";
+import { createServer } from "node:http";
+import { dirname, resolve, join, extname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const DOCS = resolve(RAIZ, "docs");
+const CAPS = resolve(RAIZ, "livro");
+const PORTA = Number(process.env.PORTA || 8123);
+const LARGURA = Number(process.env.LARGURA || 360);
+
+// `NODE_PATH` não vale para `import()` em ESM, então quem tem o Playwright
+// instalado fora do projeto aponta o caminho em PLAYWRIGHT=/.../playwright.
+let chromium;
+try {
+  ({ chromium } = await import(process.env.PLAYWRIGHT || "playwright"));
+} catch {
+  console.error("✗ A auditoria da jornada precisa do Playwright, que não é dependência deste repositório.");
+  console.error("   npm i -D playwright && npx playwright install chromium");
+  console.error("   (o navegador pesa ~150 MB; por isso ele não entra no clone de quem só quer ler o livro)");
+  process.exit(2);
+}
+
+const TIPOS = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
+                ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json",
+                ".woff2": "font/woff2", ".ico": "image/x-icon" };
+
+const servidor = createServer((req, res) => {
+  const caminho = decodeURIComponent(req.url.split("?")[0]);
+  const alvo = join(DOCS, caminho === "/" ? "index.html" : caminho);
+  if (!alvo.startsWith(DOCS)) { res.writeHead(403).end(); return; }
+  try {
+    const corpo = readFileSync(alvo);
+    res.writeHead(200, { "Content-Type": TIPOS[extname(alvo)] || "application/octet-stream" });
+    res.end(corpo);
+  } catch { res.writeHead(404).end(); }
+});
+await new Promise((ok) => servidor.listen(PORTA, "127.0.0.1", ok));
+
+/** Quantos blocos `:::exercicio` o Markdown desta página declara.
+ *  A ligação página → fonte é pelo nome do arquivo, que o motor preserva: um
+ *  `.md` em qualquer subpasta de `livro/` vira `docs/<mesmo-nome>.html`. Página
+ *  sem fonte correspondente, como a capa e o índice, dispensa a checagem B em
+ *  vez de inventá-la. */
+const FONTES = new Map();
+(function indexar(dir) {
+  for (const nome of readdirSync(dir, { withFileTypes: true })) {
+    const alvo = join(dir, nome.name);
+    if (nome.isDirectory()) indexar(alvo);
+    else if (nome.name.endsWith(".md")) FONTES.set(nome.name.replace(/\.md$/, "").toLowerCase(), alvo);
+  }
+})(CAPS);
+
+function exerciciosNoFonte(nomeHtml) {
+  const arq = FONTES.get(nomeHtml.replace(/\.html$/, "").toLowerCase());
+  if (!arq) return null;
+  // Fora as cercas de código, senão o BANCO-DE-EXERCICIOS.md — que ENSINA a
+  // sintaxe mostrando blocos de exemplo — é acusado de perder três exercícios
+  // que nunca foram exercícios. Foi a primeira coisa que esta auditoria
+  // encontrou, e o defeito era do medidor.
+  const fonte = readFileSync(arq, "utf8")
+    .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
+  return (fonte.match(/^:::exercicio/gm) || []).length;
+}
+
+const paginas = (process.env.SO_ESTAS
+  ? process.env.SO_ESTAS.split(",").map((s) => (s.endsWith(".html") ? s : s + ".html"))
+  : readdirSync(DOCS).filter((n) => n.endsWith(".html"))).sort();
+
+const navegador = await chromium.launch({
+  executablePath: process.env.CHROMIUM || undefined,
+  args: ["--no-proxy-server"],
+});
+const aba = await navegador.newPage({ viewport: { width: LARGURA, height: 800 } });
+
+const falhas = [];
+let comExercicios = 0;
+const errosJs = [];
+aba.on("pageerror", (e) => errosJs.push(String(e).slice(0, 140)));
+aba.on("console", (m) => { if (m.type() === "error" && !/ERR_CERT|ERR_NAME|ERR_CONNECTION/.test(m.text())) errosJs.push(m.text().slice(0, 140)); });
+
+for (const nome of paginas) {
+  errosJs.length = 0;
+  await aba.goto(`http://127.0.0.1:${PORTA}/${nome}`, { waitUntil: "load" });
+  await aba.waitForTimeout(250);
+
+  const visto = await aba.evaluate(() => {
+    const W = window.innerWidth;
+    const dentroDeRolagem = (e) => {
+      for (let a = e.parentElement; a; a = a.parentElement) {
+        const o = getComputedStyle(a).overflowX;
+        if (o === "auto" || o === "scroll" || o === "hidden") return true;
+      }
+      return false;
+    };
+    return {
+      scrollWidth: document.documentElement.scrollWidth,
+      viewport: W,
+      estouram: [...document.querySelectorAll("body *")]
+        .filter((e) => e.getBoundingClientRect().right > W + 1 && !dentroDeRolagem(e))
+        .slice(0, 3)
+        .map((e) => e.tagName + (e.className ? "." + String(e.className).split(" ")[0] : "")),
+      exercicios: document.querySelectorAll(".exercicio").length,
+      labsVazios: [...document.querySelectorAll("[data-lab]")]
+        .filter((e) => !e.querySelector("canvas, svg, table, button"))
+        .map((e) => e.getAttribute("data-lab")),
+      companion: !!document.querySelector(".cmp"),
+    };
+  });
+
+  const noFonte = exerciciosNoFonte(nome);
+
+  if (visto.scrollWidth > visto.viewport + 1) {
+    falhas.push(`${nome} · A · rola de lado: ${visto.scrollWidth}px num visor de ${visto.viewport}px` +
+                (visto.estouram.length ? ` — quem estoura: ${visto.estouram.join(", ")}` : ""));
+  }
+  if (noFonte !== null) {
+    comExercicios++;
+    if (noFonte !== visto.exercicios) {
+      falhas.push(`${nome} · B · o fonte declara ${noFonte} exercício(s) e o navegador montou ${visto.exercicios}`);
+    }
+  }
+  if (visto.labsVazios.length) {
+    falhas.push(`${nome} · C · laboratório(s) sem nada montado: ${visto.labsVazios.join(", ")}`);
+  }
+  if (!visto.companion) falhas.push(`${nome} · D · companion ausente do DOM`);
+  if (errosJs.length) falhas.push(`${nome} · E · erro de JavaScript: ${errosJs[0]}`);
+}
+
+await navegador.close();
+servidor.close();
+
+console.log(`Jornada: ${paginas.length} página(s) abertas em Chromium a ${LARGURA}px · ` +
+            `${comExercicios} com fonte rastreável para conferir a contagem de exercícios.`);
+if (falhas.length) {
+  console.error(`✗ ${falhas.length} problema(s) que o leitor veria:`);
+  falhas.forEach((f) => console.error("   " + f));
+  process.exit(1);
+}
+console.log("✓ nenhuma página rola de lado, os exercícios do fonte chegam ao DOM, " +
+            "os laboratórios montam, o companion carrega e o console fica limpo.");

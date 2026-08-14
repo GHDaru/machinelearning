@@ -234,3 +234,15 @@
 .lab-metrica-alvo td { font-weight: 700; }
 .lab-veredito { font-size: .84rem; margin: .5rem 0 0; opacity: .9; }
 .lab-dica { font-size: .8rem; opacity: .75; margin: .4rem 0 0; }
+
+/* Laboratório da tabela do perceptron (III.1).
+   A tabela tem doze colunas e não cabe em tela de celular. Ela rola dentro da
+   própria caixa; sem isto, ela se estica, alarga a coluna do laboratório e
+   empurra o PAINEL DE CONTROLES para fora do visor — o leitor perde a taxa de
+   aprendizado e os pesos iniciais, que são justamente o que ele veio mexer.
+   `min-width: 0` é o que autoriza o item de grid a encolher abaixo do conteúdo. */
+.lab-visual { min-width: 0; }
+.lab-tabela-rolagem { overflow-x: auto; max-width: 100%; }
+.lab-tabela-rolagem > .lab-tabela { margin: 0; }
+.lab-linha-erro td { background: rgba(200, 80, 80, .13); }
+.lab-nota { font-size: .78rem; color: var(--muted); margin: .35rem 0 0; }

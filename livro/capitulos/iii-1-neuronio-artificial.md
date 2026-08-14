@@ -23,7 +23,7 @@ Aqui `y` é a saída, `x` são as entradas, `w` são os pesos e `θ` (teta) é o
 
 É só isso. Uma soma ponderada e uma comparação.
 
-<img src="assets/neuronio-mp.svg" alt="Diagrama do neurônio de McCulloch–Pitts: as entradas x₁ e x₂ são multiplicadas pelos pesos w₁ e w₂, somadas no corpo do neurônio, comparadas com o limiar θ, e a saída é 1 se a soma alcançar o limiar e 0 caso contrário." width="720">
+<img src="assets/neuronio-mp.svg" alt="Diagrama do neurônio de McCulloch–Pitts: as entradas x₁ e x₂ são multiplicadas pelos pesos w₁ e w₂, somadas no corpo do neurônio, e comparadas com o limiar θ. A saída, escrita como condicional de dois ramos, é 1 se a soma alcançar o limiar e 0 se não alcançar." width="720">
 
 O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem computar qualquer função lógica proposicional**. O argumento era filosófico antes de ser tecnológico: se o pensamento é lógica, e a lógica é computável por neurônios, então o pensamento é computável. A ideia está na fundação da inteligência artificial, da teoria de autômatos e da cibernética, quinze anos antes de existir uma máquina que aprendesse alguma coisa.
 

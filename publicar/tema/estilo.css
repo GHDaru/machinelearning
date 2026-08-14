@@ -397,3 +397,4 @@ abbr[title] { text-decoration: underline dotted; text-decoration-thickness: 1px;
 .ent-news-mais:hover { text-decoration: underline; }
 .ent-vedicao { margin: .5rem 0 0; font-size: .8rem; color: var(--muted); }
 .ent-vedicao b { font-variant-numeric: tabular-nums; }
+

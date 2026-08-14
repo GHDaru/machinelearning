@@ -6,6 +6,54 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o `III.1` cortava todo o texto no celular, por culpa do laboratório novo
+- Achado pelo autor **no celular**, não pelo build: os parágrafos apareciam cortados na
+  margem direita, de cima a baixo, num capítulo que nem tinha chegado na tabela.
+- A causa é minha e é de ontem. Ao escrever o laboratório `perceptron-tabela`, inventei
+  as classes `lab-tabela-rolagem`, `lab-nota` e `lab-linha-erro` no JavaScript e **nunca
+  escrevi o CSS delas**. Sem `overflow-x`, a tabela de doze colunas se esticava, alargava
+  a caixa do laboratório e empurrava o documento para **592px num visor de 360**. Aí o
+  navegador diagrama o capítulo inteiro nessa largura, e todo o texto sai da tela.
+- O painel de controles ia junto para fora do visor, ou seja, o leitor de celular perdia
+  exatamente a taxa de aprendizado e os pesos iniciais que o laboratório existe para ele
+  mexer.
+- Corrigido em `publicar/tema/interativos.css`. Medido antes e depois na mesma página:
+  `scrollWidth` de **592 → 360**, igual ao visor, e zero elementos estourando fora de um
+  contêiner rolável.
+- **Uma correção foi desfeita por ser inútil.** Eu havia envolvido toda tabela num
+  contêiner rolável no `build.mjs`. A auditoria mostrou que as 80 páginas passam sem
+  isso, porque `estilo.css` já dava `overflow-x` às tabelas de Markdown desde antes.
+  Maquinaria que não faz nada sai; ficou só a correção que resolve.
+
+### Alterado — a fórmula do diagrama de McCulloch–Pitts virou condicional de dois ramos
+- A legenda dizia `y = 1 se w₁x₁ + w₂x₂ ≥ θ · y = 0 caso contrário`, tudo numa linha e
+  com os dois ramos ligados por um ponto — que se lê como **multiplicação**, exatamente o
+  que a figura não quer dizer. Agora são duas linhas com chave, como a condicional que a
+  fórmula é, e igual ao `\begin{cases}` que o texto do capítulo usa três parágrafos acima.
+- O `viewBox` do SVG cresceu de 340 para 380 para caber, e o texto alternativo passou a
+  descrever a condicional em vez da frase corrida.
+
+### Adicionado — `publicar/jornada.mjs`, a auditoria da jornada do leitor
+- **O primeiro verificador que abre a página.** Todos os outros leem a fonte: prosa,
+  banco, links, intervalos, tema, HTML como texto. Dois defeitos passaram por essa porta
+  em vinte e quatro horas, ambos com CI verde e ambos achados pelo autor no celular.
+- Abre as 80 páginas num Chromium a 360px e cobra cinco coisas por página: a página **não
+  rola de lado** (elemento pode passar da borda, desde que dentro de um contêiner que role
+  sozinho); os `:::exercicio` do Markdown **chegam ao DOM** na mesma quantidade; todo
+  laboratório **monta** canvas, svg, tabela ou botão; o companion está presente; e o
+  console fica limpo.
+- **Visto falhando nos dois defeitos reais**, e não em caso inventado. Com o `<style>`
+  quebrado de volta: 19 problemas, entre eles laboratórios que não montam. Com o CSS da
+  tabela removido: `rola de lado: 590px num visor de 360px — quem estoura: TABLE.lab-tabela`.
+  Com a árvore restaurada: saída 0.
+- **Encontrou um erro na primeira execução, e o erro era meu medidor.** Ele acusou
+  `BANCO-DE-EXERCICIOS.md` de perder três exercícios; eram blocos de exemplo dentro de
+  cerca de código, no documento que **ensina** a sintaxe. Passou a ignorar cercas, como os
+  outros gates já faziam.
+- O Playwright **não** entra como dependência do repositório: baixar um navegador custa uns
+  150 MB e a constituição pede trilha de custo zero. O script falha com instrução de
+  instalação em vez de se pular em silêncio, porque gate que se pula sozinho não é gate.
+
 ### Adicionado — a conta do treino, que o livro prometia e nunca mostrava
 - O `III.1` explicava a regra de 1958 em prosa e em dois laboratórios, e **nunca fazia a
   conta**. O `III.2` derivava a retropropagação como regra da cadeia e **nenhum peso se
