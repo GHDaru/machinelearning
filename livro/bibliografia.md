@@ -59,7 +59,7 @@ Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência d
 - ⏳ **Hebb, D. O. (1949).** *The Organization of Behavior*. Wiley. — "Neurônios que disparam juntos, conectam-se juntos."
 - ✓ **Fukushima, K. (1980).** Neocognitron: A self-organizing neural network model for a mechanism of pattern recognition unaffected by shift in position. *Biological Cybernetics*, 36, 193–202. [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) — *verificado em 2026-08-08 (Crossref).* **Atenção à data:** o DOI registra **1980** (versão em inglês); a publicação japonesa original é de 1979. O capítulo III.1 traz as duas datas por isso.
 - ⏳ **Linnainmaa, S. (1970).** *Alqoritmin kumulatiivinen pyöristysvirhe…* Dissertação de mestrado, Univ. de Helsinque. — A prioridade do modo reverso da diferenciação automática. Sem DOI e em finlandês; o capítulo III.1 a cita **como nota de cronologia**, não como evidência de afirmação técnica.
-- ⏳ **Werbos, P. (1974).** *Beyond Regression*. Tese de doutorado, Harvard. — A primeira aplicação do método a redes neurais.
+- ⏳ **Werbos, P. (1974).** *Beyond Regression*. Tese de doutorado, Harvard. — Discussão preliminar já voltada a redes. A primeira aplicação do método a redes neurais é de **1981**, e não desta tese; a distinção está no levantamento de Schmidhuber (✓, lido) e na errata do [capítulo III.1](capitulos/iii-1-neuronio-artificial.md#errata). Esta linha dizia "a primeira aplicação" e contradizia a correção que o próprio capítulo já tinha feito.
 
 ## Capítulos III.2–11 — Redes, visão e sequências
 

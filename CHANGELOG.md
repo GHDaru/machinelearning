@@ -6,6 +6,35 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — `Referências deste capítulo` e `Errata` no fim do `III.1`
+- **Referências**: as treze fontes do capítulo reunidas num lugar só, cada uma com o
+  selo que diz **até onde ela foi conferida** e uma linha dizendo o que ela sustenta.
+  Antes o leitor tinha de garimpar links espalhados por dez seções para saber a origem
+  de um fato.
+- **Errata no fim, não no meio.** As correções que o capítulo já sofreu saíram da tabela
+  de procedência, onde competiam com o texto, e viraram seção própria no fecho. Registro
+  de manutenção não é conteúdo de aula — mas fica, porque livro que corrige em silêncio
+  pede confiança em vez de merecê-la. Cinco entradas, cada uma com o que estava escrito
+  e o que está agora.
+
+### Corrigido — três linhas da linha do tempo do `III.1` pareciam não ter fonte
+- As entradas de **1970 (Linnainmaa)**, **1974** e **1981 (Werbos)** traziam um travessão
+  na coluna *Fonte*, que se lê como "isto não tem origem conhecida".
+- **Elas sempre tiveram fonte.** É o levantamento de Schmidhuber (2014), que a tabela de
+  procedência do próprio capítulo registra com ✓ e a nota "**lido**". A tabela escondia a
+  origem que o capítulo já tinha conferido. A coluna passou a mostrá-la.
+- Não era caso de apagar as linhas: apagar teria custado a prioridade de 1970, que é um
+  dos pontos históricos do capítulo, para consertar um problema que era de apresentação.
+
+### Corrigido — duas inconsistências de selo achadas ao montar as referências
+- A citação de **McCulloch & Pitts** no corpo trazia **✓** (fonte aberta e lida) enquanto
+  a tabela de procedência dizia **✓ᵐ** e explicitava que o artigo **não** foi lido por
+  inteiro. Os dois não podem valer ao mesmo tempo; vale o ✓ᵐ.
+- A **bibliografia** descrevia a tese de Werbos (1974) como "a primeira aplicação do
+  método a redes neurais" — exatamente a afirmação que a errata do `III.1` já tinha
+  corrigido para **1981**. O livro contradizia a própria correção, em outro arquivo.
+  Alinhada, com o link para a errata.
+
 ### Corrigido — o `III.1` cortava todo o texto no celular, por culpa do laboratório novo
 - Achado pelo autor **no celular**, não pelo build: os parágrafos apareciam cortados na
   margem direita, de cima a baixo, num capítulo que nem tinha chegado na tabela.
