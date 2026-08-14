@@ -15,7 +15,7 @@
 
 Em 1943 não havia computador digital comercial nem "Machine Learning". A pergunta que Warren McCulloch e Walter Pitts se fizeram era outra: **a atividade do cérebro pode ser descrita como lógica?**
 
-A resposta deles foi um modelo brutalmente simples de neurônio ([McCulloch & Pitts, 1943](https://doi.org/10.1007/BF02478259), ✓). O neurônio recebe entradas, multiplica cada uma por um **peso**, soma tudo, e dispara (devolve 1) se a soma alcançar um **limiar**. Senão, devolve 0.
+A resposta deles foi um modelo brutalmente simples de neurônio ([McCulloch & Pitts, 1943](https://doi.org/10.1007/BF02478259), ✓ᵐ). O neurônio recebe entradas, multiplica cada uma por um **peso**, soma tudo, e dispara (devolve 1) se a soma alcançar um **limiar**. Senão, devolve 0.
 
 $$y = \begin{cases} 1 & \text{se } w_1x_1 + w_2x_2 + \dots \geq \theta \\ 0 & \text{se } w_1x_1 + w_2x_2 + \dots < \theta \end{cases}$$
 
@@ -59,9 +59,9 @@ Duas coisas valem ficar: **o neurônio artificial é doze anos mais velho que o 
 | **1949** | Hebb | *The Organization of Behavior*: "neurônios que disparam juntos conectam-se juntos" — a primeira ideia de como um peso poderia **mudar** com a experiência | [registro](https://psycnet.apa.org/record/1950-02200-000) |
 | **1958** | Rosenblatt | O **perceptron**: a regra de aprendizado que faltava, com prova de convergência para problemas separáveis | [doi:10.1037/h0042519](https://doi.org/10.1037/h0042519) |
 | **1969** | Minsky & Papert | *Perceptrons*: a demonstração de que uma camada não computa o XOR | [MIT Press](https://mitpress.mit.edu/9780262534772/perceptrons/) |
-| **1970** | Linnainmaa | A **retropropagação** descrita pela primeira vez, em tese de mestrado, *"albeit without reference to NNs"* | — |
-| **1974** | Werbos | Tese de doutorado, com discussão preliminar já voltada a redes | — |
-| **1981** | Werbos | A primeira **aplicação** da retropropagação eficiente a redes neurais | — |
+| **1970** | Linnainmaa | A **retropropagação** descrita pela primeira vez, em tese de mestrado, *"albeit without reference to NNs"* | [Schmidhuber (2014), §5.5](https://arxiv.org/abs/1404.7828), ✓ |
+| **1974** | Werbos | Tese de doutorado, com discussão preliminar já voltada a redes | [Schmidhuber (2014), §5.5](https://arxiv.org/abs/1404.7828), ✓ |
+| **1981** | Werbos | A primeira **aplicação** da retropropagação eficiente a redes neurais | [Schmidhuber (2014), §5.5](https://arxiv.org/abs/1404.7828), ✓ |
 | **1979/80** | Fukushima | O **neocognitron**, primeira arquitetura hierárquica convolucional — treinada **sem** backpropagation. Em japonês em 1979; em inglês em 1980 | [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) |
 | **1986** | Rumelhart, Hinton & Williams | Popularizam o backpropagation e mostram as representações aprendidas nas camadas escondidas | [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) |
 
@@ -86,9 +86,8 @@ Esse levantamento é de **Jürgen Schmidhuber**, e ele declara o próprio propó
 | ⏳ | Que o relatório *Intelligent Machinery* (1948) só veio a público em 1968 |
 | ⏳ | A biografia de Pitts (vinte anos, autodidata, sem endereço fixo) — repetida de forma consistente na literatura; não conferida em fonte primária |
 | ✓ | A cronologia de prioridade do backpropagation e os trechos citados entre aspas, em [Schmidhuber, *"Deep Learning in Neural Networks: An Overview"*](https://arxiv.org/abs/1404.7828), **lido**: a descrição de 1970 em tese de mestrado *"albeit without reference to NNs"*, a discussão preliminar de Werbos em 1974, e a primeira aplicação a redes em **1981** |
-| ❌ | **Correção de 2026-08-13.** A tabela dava 1974 como o ano de "aplicar aquilo a redes neurais". A fonte separa as duas coisas: 1974 traz discussão preliminar, e a aplicação a redes é de **1981**. A tabela ganhou a linha que faltava |
 | ✓ᵐ | Que a tese de Linnainmaa fosse **em finlandês**. O levantamento lido não diz a língua, só que a tese não menciona redes; quem sustenta esse ponto é a ficha da própria dissertação, cujo título está em finlandês (ver a [bibliografia](../bibliografia.md)) |
-| 📖 | A formulação "o crédito fica com quem reinventa por último" é **deste livro**, e estava atribuída a Schmidhuber como se fosse frase dele. Não a localizei no levantamento; o que ele declara é o propósito de *"assign credit"* |
+| 📖 | A formulação "o crédito fica com quem reinventa por último" é **deste livro**, e não do levantamento. O que Schmidhuber declara é o propósito de *"assign credit"* |
 | ❌ | "Um italiano desenvolveu o backpropagation em 1979" — procurei e não achei fonte |
 | 📖 | A ideia reaproveitável ("uma abstração vale pelo que permite provar") e a leitura de que o inverno veio de uma leitura ampliada de *Perceptrons* |
 
@@ -503,3 +502,35 @@ Esse último ponto é o que transforma "é impossível" de afirmação em result
 2. Explique a alguém, em duas frases, por que o XOR é impossível para um neurônio só.
 3. Se uma segunda camada resolve o XOR, por que a área levou quase vinte anos para usá-la?
 4. O termo "inteligência artificial" é de 1955 e o neurônio artificial é de 1943. O que isso diz sobre como campos científicos se formam?
+
+## Referências deste capítulo
+
+Toda fonte citada acima, reunida num lugar só, com o selo que diz **até onde ela foi conferida**. A legenda completa está no [Guia Editorial](../GUIA-EDITORIAL.md); em resumo: ✓ a fonte foi aberta e lida · ✓ᵐ só os metadados foram conferidos, e o texto não foi lido por inteiro · ⏳ atribuição corrente, ainda sem conferência em primária · ❌ procurei e não achei.
+
+| Selo | Referência | O que ela sustenta aqui |
+|---|---|---|
+| ✓ᵐ | **McCulloch, W. S., & Pitts, W. (1943).** A logical calculus of the ideas immanent in nervous activity. *Bulletin of Mathematical Biophysics*, 5, 115–133. [doi:10.1007/BF02478259](https://doi.org/10.1007/BF02478259) | O modelo de neurônio que abre o capítulo e que o laboratório implementa |
+| ⏳ | **Hebb, D. O. (1949).** *The Organization of Behavior*. [registro](https://psycnet.apa.org/record/1950-02200-000) | A primeira ideia de que um peso poderia mudar com a experiência |
+| ✓ᵐ | **Rosenblatt, F. (1958).** The perceptron: a probabilistic model for information storage and organization in the brain. *Psychological Review*, 65(6), 386–408. [doi:10.1037/h0042519](https://doi.org/10.1037/h0042519) | A regra de aprendizado da seção "A regra escrita", e a prova de convergência para problemas separáveis |
+| ✓ᵐ | **Minsky, M., & Papert, S. (1969).** *Perceptrons*. [MIT Press](https://mitpress.mit.edu/9780262534772/perceptrons/) | A demonstração de que uma camada não computa o XOR |
+| ✓ | **Schmidhuber, J. (2014).** *Deep Learning in Neural Networks: An Overview*. [arXiv:1404.7828](https://arxiv.org/abs/1404.7828) — **lido** | Toda a cronologia de prioridade do backpropagation: 1970, 1974 e 1981. É a fonte das três linhas da tabela que antes apareciam sem fonte nenhuma |
+| ✓ᵐ | **Linnainmaa, S. (1970).** *Algoritmin kumulatiivinen pyöristysvirhe…* Dissertação de mestrado, Universidade de Helsinque | A prioridade de 1970. O selo é ✓ᵐ porque quem sustenta a língua finlandesa é a ficha da dissertação, não o levantamento |
+| ⏳ | **Werbos, P. (1974).** *Beyond Regression*. Tese de doutorado, Harvard | A discussão preliminar de 1974 — **não** a primeira aplicação a redes, que é de 1981 |
+| ✓ᵐ | **Fukushima, K. (1980).** Neocognitron. *Biological Cybernetics*, 36, 193–202. [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) | A arquitetura hierárquica de 1979/80, treinada **sem** backpropagation |
+| ✓ᵐ | **Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986).** Learning representations by back-propagating errors. *Nature*, 323, 533–536. [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) | A popularização do backpropagation, que fecha a linha do tempo |
+| ⏳ | **Turing, A. (1948).** [*Intelligent Machinery*](https://weightagnostic.github.io/papers/turing1948.pdf), National Physical Laboratory | O jogo da imitação em forma restrita. O que está com ⏳ é a data de publicação (1968), não o documento |
+| ✓ᵐ | **Turing, A. (1950).** Computing Machinery and Intelligence. *Mind*, LIX(236). [doi:10.1093/mind/LIX.236.433](https://doi.org/10.1093/mind/LIX.236.433) | A exposição completa do teste de Turing |
+| ✓ᵐ | **McCarthy, Minsky, Rochester & Shannon (31/08/1955).** [Proposta do projeto de Dartmouth](https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html) | A data em que "artificial intelligence" aparece pela primeira vez |
+| ❌ | *"Um italiano desenvolveu o backpropagation em 1979"* | **Nada.** Procurei e não achei fonte. A linha fica registrada para que a busca não seja refeita do zero, e para que a ausência apareça no mesmo lugar que as presenças |
+
+## Errata
+
+O que este capítulo **já afirmou e teve de corrigir**. Fica no fim, e não no meio do texto, porque é registro de manutenção e não conteúdo de aula — mas fica, porque um livro que corrige em silêncio pede confiança em vez de merecê-la.
+
+| Quando | O que estava escrito | O que está agora |
+|---|---|---|
+| 2026-08-13 | A tabela dava **1974** como o ano de "aplicar aquilo a redes neurais" | A fonte separa as duas coisas: 1974 traz **discussão preliminar**, e a primeira aplicação a redes é de **1981**. A tabela ganhou a linha que faltava |
+| 2026-08-13 | A formulação *"o crédito fica com quem reinventa por último"* aparecia **atribuída a Schmidhuber**, como se fosse frase dele | A formulação é **deste livro**. Não a localizei no levantamento; o que ele declara é o propósito de *"assign credit"*. O selo virou 📖 |
+| 2026-08-13 | O capítulo dizia **três vezes** que o neurônio artificial é "treze anos mais velho" que o termo *inteligência artificial* | A tabela do próprio capítulo data o termo em **31/08/1955** e o neurônio em **1943**: são **doze**. O treze só fecharia com o workshop de 1956, que não é o que a tabela diz |
+| 2026-08-14 | As linhas de **1970, 1974 e 1981** apareciam com a coluna *Fonte* preenchida com um travessão, o que se lê como "sem fonte" | Elas sempre tiveram fonte — o levantamento de Schmidhuber, lido e registrado com ✓ na procedência. A coluna passou a mostrá-la |
+| 2026-08-14 | A citação de McCulloch & Pitts no corpo trazia o selo **✓** (fonte lida), enquanto a tabela de procedência dizia **✓ᵐ** (só metadados) | Vale o ✓ᵐ. O artigo não foi lido por inteiro, e o selo do corpo passou a dizer isso |
