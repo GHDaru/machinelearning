@@ -6485,6 +6485,104 @@
    ]
   },
   {
+   "id": "neuronio-artificial-e13",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "No laboratório acima, mantenha $w_1 = -0{,}2$, $w_2 = 0{,}4$, $\\theta = 0{,}5$ e o alvo **OU**, e troque apenas a taxa para $\\eta = 0{,}1$.\n\nEm quantas épocas o perceptron converge?",
+   "opcoes": [],
+   "gabarito": "7",
+   "porque": "Com $\\eta = 0{,}5$ essa partida fecha em 3 épocas; com $\\eta = 0{,}1$ cada correção anda um quinto do caminho, e são precisas **7**.\n\nO que vale levar não é o 7, é o formato da relação. Medindo a mesma partida em várias taxas: 0,05 leva 14 épocas, 0,1 leva 7, 0,2 leva 5, 0,3 leva 4, 0,5 leva 3, e de 1 para cima trava em 2 e não melhora mais. **Taxa maior não é taxa melhor.** O que ela compra são épocas, e o que ela cobra é o tamanho dos pesos finais: com taxa 3 a rede aprende o mesmo OU com pesos 2,8 e 3,4, quatro vezes maiores para exatamente a mesma fronteira.\n",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial",
+   "gabarito_num": {
+    "valor": 7,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "neuronio-artificial-e14",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Na terceira linha da primeira época da tabela, o erro vale $+1$ e mesmo assim $\\Delta w_2 = 0$. Por quê?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque $w_2$ já estava no valor correto, e a regra detecta isso."
+    },
+    {
+     "correta": true,
+     "texto": "Porque naquele caso a entrada $x_2$ vale 0, e o ajuste é a taxa vezes o erro vezes essa entrada."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a regra só corrige um peso por vez, alternando entre eles."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o ajuste ficou pequeno demais e foi arredondado para zero."
+    }
+   ],
+   "gabarito": null,
+   "porque": "O ajuste é $\\Delta w_i = \\eta \\cdot e \\cdot x_i$. Com $x_2 = 0$ o produto é zero qualquer que seja o erro. É a atribuição de culpa embutida na regra: o peso só é corrigido na medida em que a entrada dele participou da soma que errou.\n\nA primeira alternativa inverte a direção da inferência. A regra não sabe nada sobre o valor \"correto\" de $w_2$; se soubesse, não haveria o que treinar. Ela sabe o erro da saída e quem contribuiu para ele.\n\nA terceira descreve um algoritmo que não é este. A regra corrige **todos** os pesos na mesma passada, e o que varia é quanto.\n\nA quarta é a mais tentadora, porque arredondamento é um problema real em ponto flutuante. Aqui não: $0{,}5 \\times 1 \\times 0$ é exatamente zero, e não um número pequeno.\n",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial"
+  },
+  {
+   "id": "neuronio-artificial-e15",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "No laboratório, ponha $w_1 = 0{,}9$ e $w_2 = 0{,}9$, com $\\eta = 0{,}5$, $\\theta = 0{,}5$ e alvo **OU**. Ele converge em **1 época**. O que esse número mede?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Que o OU é um problema mais fácil do que aparentava nas outras partidas."
+    },
+    {
+     "correta": false,
+     "texto": "Que 0,5 é a taxa ótima para este problema."
+    },
+    {
+     "correta": true,
+     "texto": "Que a partida já resolvia o OU, então a primeira varredura não achou erro e não corrigiu nada."
+    },
+    {
+     "correta": false,
+     "texto": "Que pesos iguais entre si aceleram a convergência do perceptron."
+    }
+   ],
+   "gabarito": null,
+   "porque": "Com os dois pesos em 0,9 e o limiar em 0,5, as quatro linhas já saem certas antes de qualquer correção: $(0,0)$ dá soma 0, e as outras três dão 0,9 ou 1,8, todas acima do limiar. A primeira época varre, não acha erro e para. **\"Épocas até convergir\" mede a distância entre a partida e alguma solução, não a dificuldade do problema.**\n\nÉ por isso que o laboratório sorteia pesos: com a mesma taxa e a mesma função, partidas diferentes dão 1, 2, 3 ou 4 épocas. Comparar dois algoritmos por esse número, sem fixar a partida, é comparar o sorteio.\n\nA primeira alternativa confunde a medida com o medido, já que o problema é o mesmo em todas as partidas. A segunda credita à taxa um mérito que é da inicialização, e a prova é que a mesma taxa 0,5 leva 4 épocas partindo de $(0{,}4,\\, -0{,}6)$. A quarta generaliza de um caso só: $-1$ e $-1$ também são iguais entre si, e levam 3 épocas.\n",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-1-neuronio-artificial",
+   "titulo_capitulo": "III.1 — O Neurônio Artificial"
+  },
+  {
    "id": "neuronio-artificial-e1",
    "capitulo": 17,
    "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
@@ -7002,6 +7100,104 @@
    "gabarito": "a regressão logística",
    "porque": "Uma camada, uma unidade, ativação sigmoide, e você tem exatamente o modelo do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.\n\nA leitura que isso permite é a que interessa: a rede não é uma família estranha e nova, é a generalização de algo que o livro já construiu. E ela explica de novo por que a logística não resolve o XOR — sendo um neurônio, ela traça uma reta.\n\nA alternativa do boosting é a mais interessante das erradas porque acerta uma semelhança real: ele também acumula correções. Só que ele soma **modelos** treinados em sequência sobre o resíduo, e a rede compõe **transformações** treinadas em conjunto. Somar e compor são operações diferentes.",
    "volte_para": "#fundamentos-a-camada-escondida-e-o-xor-resolvido",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e13",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Na rede do exemplo acima, a saída deu $\\hat{y} = 0{,}5548$ para um alvo $y = 1$, com a perda $E = (\\hat{y}-y)^2$.\n\nCalcule $\\delta_y = \\frac{\\partial E}{\\partial \\hat{y}} \\cdot \\sigma'(u)$, lembrando que $\\sigma'(u) = \\hat{y}(1-\\hat{y})$.",
+   "opcoes": [],
+   "gabarito": "-0.22 ± 0.005",
+   "porque": "São duas contas. A derivada da perda: $\\frac{\\partial E}{\\partial \\hat{y}} = 2(\\hat{y}-y) = 2(0{,}5548 - 1) = -0{,}8905$. A derivada da sigmoide, escrita na própria ativação: $\\hat{y}(1-\\hat{y}) = 0{,}5548 \\times 0{,}4452 = 0{,}2470$. O produto dá $-0{,}2200$.\n\nO sinal negativo diz a direção: a saída está **abaixo** do alvo, e o gradiente descendente vai somar aos pesos que a empurram para cima. Se você chegou a $+0{,}22$, provavelmente calculou $\\hat{y} - y$ ao contrário, o que inverteria o treino inteiro e faria a perda subir.\n\nSe você chegou a $-0{,}11$, usou a convenção $E = \\frac{1}{2}(\\hat{y}-y)^2$, que cancela o 2 e é comum na literatura. Não está errada, mas **não é a deste livro**: o capítulo II.2 fixou o EQM sem a constante, e misturar as duas é como o aluno anota um número que o capítulo não define.\n",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
+   "gabarito_num": {
+    "valor": -0.22,
+    "tolerancia": 0.005
+   }
+  },
+  {
+   "id": "redes-neurais-e14",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Na tabela de atualização, os pesos $w_{21}$ e $w_{22}$ ficaram exatamente onde estavam, com gradiente zero. Por quê?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque já estavam nos valores ótimos, e o gradiente detecta isso."
+    },
+    {
+     "correta": true,
+     "texto": "Porque a entrada $x_2$ vale 0 neste exemplo, e o gradiente de um peso é proporcional à entrada que ele multiplica."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a taxa de aprendizado 0,5 é pequena demais para movê-los."
+    },
+    {
+     "correta": false,
+     "texto": "Porque eles pertencem à camada escondida, que só é atualizada na segunda época."
+    }
+   ],
+   "gabarito": null,
+   "porque": "O gradiente de um peso da primeira camada é $\\delta_j \\cdot x_i$. Com $x_2 = 0$, o produto é zero para qualquer $\\delta$. A regra da cadeia está dizendo que aquele peso não participou da soma que gerou o erro, e portanto não tem culpa a pagar.\n\nÉ a mesma coisa que o perceptron faz no [capítulo III.1](iii-1-neuronio-artificial.md) com $\\Delta w_i = \\eta \\cdot e \\cdot x_i$, e é reconfortante que apareça igual: a atribuição de culpa não mudou ao ganhar uma camada, só ficou mais longa.\n\nA primeira alternativa inverte a inferência. Gradiente zero por entrada nula não diz nada sobre o valor do peso; com outro exemplo, em que $x_2 = 1$, o mesmo peso recebe gradiente e se move.\n\nA quarta descreve um algoritmo que não existe. Todas as camadas são atualizadas no mesmo passo, e é justamente esse o ponto do backpropagation: uma passada para trás basta.\n",
+   "volte_para": null,
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e15",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Você treina a rede do exemplo no XOR e vê a perda parada em 0,2500 da época 100 à 2 000, com as quatro saídas em torno de 0,5. Qual leitura o próprio capítulo sustenta?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O treino divergiu, e é preciso baixar a taxa de aprendizado."
+    },
+    {
+     "correta": false,
+     "texto": "A rede caiu num mínimo local, e é preciso reinicializar os pesos."
+    },
+    {
+     "correta": true,
+     "texto": "Pode ser planalto, e não mínimo: nesta configuração a perda só quebra depois da época 2 000 e chega a 0,0017 na 8 000."
+    },
+    {
+     "correta": false,
+     "texto": "A camada escondida é pequena demais, e é preciso mais unidades."
+    }
+   ],
+   "gabarito": null,
+   "porque": "A medição do capítulo é explícita: da época 0 à 2 000 a perda fica em 0,25 e o acerto em 2 de 4, e entre 2 000 e 4 000 ela quebra, chegando a 0,0017 na época 8 000 com 4 de 4. Quem para na época 1 000 conclui que não funciona, e conclui isso com uma tabela verdadeira na mão.\n\nA primeira alternativa confunde os sintomas. Perda que diverge **sobe** sem limite; esta ficou parada, que é coisa diferente.\n\nA segunda é a alternativa boa, e é por isso que ela é a armadilha. Mínimo local existe de verdade nesta rede: o capítulo mede que, variando só a inicialização, a perda empaca em **0,348** e não sai mais. Só que 0,348 não é 0,2500, e a diferença entre os dois números é exatamente o que separa um diagnóstico do outro. Reinicializar aqui jogaria fora um treino que ia dar certo.\n\nA quarta prescreve capacidade sem evidência de que falta capacidade. Duas unidades escondidas bastam para o XOR, e esta mesma rede prova isso ao chegar a 4 de 4 sem ganhar nenhuma unidade nova.\n",
+   "volte_para": null,
    "rubrica": null,
    "versoes": null,
    "pagina": "iii-2-redes-neurais",
@@ -15173,6 +15369,24 @@
     "titulo": "Agora o aprendizado é seu: um passo por vez"
    },
    "intro": "No laboratório de cima o método rodava sozinho. Aqui você é o relógio. **\"Um passo\"** mostra a regra de 1958 acontecendo uma vez: ele pega um exemplo, compara o que saiu com o que devia sair, e corrige os pesos **só se errou**. O placar diz qual exemplo foi, o que esperava, o que saiu, e se mexeu em alguma coisa.\n\nFaça assim: escolha o **E (AND)**, aperte \"Um passo\" umas dez vezes lendo o placar a cada vez, e só depois use \"Uma época\" e \"Rodar até parar\". Com o AND ele fecha em cinco épocas.\n\nDepois troque para **XOR** e rode até parar. Ele para porque bateu no teto de 60 épocas, não porque acertou: ficam 2 erros de 4, e os pesos continuam se mexendo para sempre.\n\n> ### E agora a parte que o autor deste livro queria que você visse\n>\n> Troque **\"Quantas entradas o neurônio tem\"** para **4 entradas**. O plano some, e some por um motivo honesto: quatro entradas não cabem numa folha de papel. O que aparece no lugar são as barras dos pesos.\n>\n> Rode até parar. Ele **converge em 10 épocas, com zero erros de 16 casos**.\n>\n> Guarde esta assimetria, porque ela vale para o livro inteiro: **perdemos a figura, não o método**. A regra é a mesma, os pesos são os mesmos, o erro continua sendo um número que se calcula. O que acabou foi a nossa capacidade de olhar — e confundir \"não consigo desenhar\" com \"não consigo verificar\" é um dos erros mais caros que existem em aprendizado de máquina. Daqui em diante, quase tudo neste livro acontece em dimensões que você nunca vai ver.",
+   "pagina": "iii-1-neuronio-artificial"
+  },
+  {
+   "id": "neuronio-artificial-l5",
+   "capitulo": 17,
+   "arquivo": "livro/capitulos/iii-1-neuronio-artificial.md",
+   "tipo": "perceptron-tabela",
+   "titulo": "A mesma tabela, com a sua partida",
+   "config": {
+    "id": "neuronio-artificial-l5",
+    "tipo": "perceptron-tabela",
+    "titulo": "A mesma tabela, com a sua partida",
+    "taxa": 0.5,
+    "w1": -0.2,
+    "w2": 0.4,
+    "theta": 0.5
+   },
+   "intro": "A tabela acima é uma partida entre infinitas. Aqui você escolhe a sua: mude a taxa, os pesos iniciais e o limiar, ou aperte **\"Sortear pesos\"** e aceite o que vier. A tabela é recalculada inteira, e o placar responde a única pergunta que importa: **em quantas épocas convergiu.**\n\nFaça três medições antes de seguir. Primeiro, baixe a taxa para **0,1** sem mexer no resto e conte as épocas. Depois suba para **1** e conte de novo. Por último, ponha os dois pesos iniciais em **0,9** com a taxa em 0,5, e repare no número que aparece.\n\nDepois troque o alvo para **XOR** e veja o placar dizer que parou pelo teto, e não por acerto.",
    "pagina": "iii-1-neuronio-artificial"
   },
   {

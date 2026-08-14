@@ -6,6 +6,49 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a conta do treino, que o livro prometia e nunca mostrava
+- O `III.1` explicava a regra de 1958 em prosa e em dois laboratórios, e **nunca fazia a
+  conta**. O `III.2` derivava a retropropagação como regra da cadeia e **nenhum peso se
+  mexia**. O aluno lia o método e não via um número. Os dois buracos estão pagos.
+- **`III.1`, seção nova "A regra escrita, e de quem é a culpa"**: as quatro equações
+  ($S$, o degrau, o erro, $\Delta w_i = \eta \cdot e \cdot x_i$) e a **tabela do OU
+  preenchida à mão**, doze linhas, com as colunas que o professor pediu — `x₁ w₁ x₂ w₂
+  soma θ esperado saída erro Δw₁ Δw₂`. Partida $(-0{,}2;\ 0{,}4)$, $\theta = 0{,}5$,
+  $\eta = 0{,}5$: converge em **3 épocas**, pesos finais 0,8 e 0,9.
+- O ponto pedagógico central é a **atribuição de culpa**: o $x_i$ na regra decide qual
+  peso paga pelo erro. Entrada zerada, ajuste zerado, mesmo errando. A seção liga isso
+  ao nome do problema (*credit assignment*) e ao `III.2`, onde ele reaparece atravessando
+  uma camada escondida.
+- **`III.2`, seção nova "A conta, com números"**: rede 2-2-1 com sigmoide, um passo
+  inteiro aberto — passo para frente, $\delta_y = -0{,}2200$ calculado **uma vez**, os
+  três gradientes da saída saindo dele, os deltas atravessando para a camada de baixo, e
+  a tabela dos nove pesos antes e depois. Perda de 0,1982 para 0,1578.
+- E a tabela que um passo não mostra: o XOR em lote cheio, com o **planalto**. Da época
+  0 à 2 000 a perda fica em 0,25 e as quatro saídas em torno de 0,5; a quebra vem entre
+  2 000 e 4 000, e na 8 000 a perda é 0,0017 com 4 de 4. **Quem desiste na época 1 000
+  conclui que não funciona, com uma tabela verdadeira na mão.**
+
+### Adicionado — laboratório `perceptron-tabela` e 6 exercícios novos
+- `publicar/tema/laboratorios.js`: laboratório que mostra a **aritmética** em vez da
+  fronteira. O leitor escolhe a taxa, os pesos iniciais e o limiar, ou aperta "Sortear
+  pesos", e o placar responde **em quantas épocas convergiu**.
+- Seis exercícios: três no `III.1` (O2) e três no `III.2` (O2 e O4). Livro em **430
+  exercícios** e **29 laboratórios**.
+- Números medidos, não afirmados. Varrendo a taxa na mesma partida: 0,05 → 14 épocas,
+  0,1 → 7, 0,2 → 5, 0,3 → 4, 0,5 → 3, e de 1 para cima trava em 2. **Taxa maior não é
+  taxa melhor**: com 3 a rede aprende o mesmo OU com pesos quatro vezes maiores.
+- E variando só a partida com a taxa fixa: 1, 2, 3 ou 4 épocas. Daí o exercício difícil
+  do `III.1` — "épocas até convergir" mede a distância entre a partida e alguma solução,
+  não a dificuldade do problema. Comparar algoritmos por esse número sem fixar a partida
+  é comparar o sorteio.
+- `publicar/testes/lab-perceptron-tabela.mjs` roda o `laboratorios.js` real e afirma os
+  números medidos, inclusive a regra da culpa nas duas direções: erro com $x_i = 0$
+  **nunca** mexe em $w_i$, e erro com $x_i = 1$ **sempre** mexe.
+- **Dois gates morderam durante a escrita**, e os dois estavam certos: gabarito decimal
+  sem tolerância declarada (`-0.22` exigiria igualdade exata e puniria arredondamento), e
+  palavra acentuada dentro de fórmula — `\text{saída}` sai como "saí da" porque as fontes
+  TeX não têm o glifo. Virou $\delta_y$.
+
 ### Corrigido — o `III.1` e o `II.7` iam ao ar com um `<style>` aberto, e morriam no meio
 - Para o navegador, tudo o que vem depois de um `<style>` sem fecho **é CSS**. As duas
   páginas respondiam 200 e tinham todos os bytes no lugar, mas o leitor via o capítulo

@@ -5088,6 +5088,162 @@
     raiz.appendChild(quadro);
   }
 
+  /** A regra de 1958 escrita como TABELA, e não como desenho.
+   *
+   *  Os outros laboratórios do capítulo mostram a fronteira se mexendo. Este
+   *  mostra a ARITMÉTICA que move a fronteira, linha a linha, com as colunas
+   *  que o leitor preencheria à mão: x1 w1 x2 w2 soma θ esperado saída erro
+   *  Δw1 Δw2. É o mesmo método; muda o que fica visível.
+   *
+   *  O leitor escolhe η, os pesos iniciais e o limiar — inclusive sorteando —
+   *  e a pergunta que o exercício cobra é **em quantas épocas convergiu**.
+   *  Essa resposta muda com a inicialização, e é esse o ponto: o número de
+   *  épocas não é propriedade do problema, é da partida.
+   */
+  function perceptronTabela(raiz, cfg) {
+    var TETO = 30;                       // teto de épocas: o XOR nunca converge
+    var ALVOS = {
+      OR:   function (a, b) { return a || b ? 1 : 0; },
+      AND:  function (a, b) { return a && b ? 1 : 0; },
+      NAND: function (a, b) { return a && b ? 0 : 1; },
+      XOR:  function (a, b) { return a !== b ? 1 : 0; },
+    };
+    var est = {
+      taxa: cfg && cfg.taxa != null ? cfg.taxa : 0.5,
+      w1: cfg && cfg.w1 != null ? cfg.w1 : -0.2,
+      w2: cfg && cfg.w2 != null ? cfg.w2 : 0.4,
+      theta: cfg && cfg.theta != null ? cfg.theta : 0.5,
+      alvo: (cfg && cfg.alvo) || "OR",
+    };
+    var semente = (cfg && cfg.semente) || 7;
+    var sorteia = rng(semente);
+
+    var corpo = el("div", "lab-corpo");
+    var painel = el("div", "lab-painel");
+    var visual = el("div", "lab-visual");
+    corpo.appendChild(painel); corpo.appendChild(visual);
+    raiz.appendChild(corpo);
+
+    var caixaTabela = el("div", "lab-tabela-rolagem");
+    visual.appendChild(caixaTabela);
+    var placar = placarDe(visual);
+
+    /** Roda o treino inteiro e devolve as linhas + em quantas épocas fechou.
+     *  Sem efeito colateral: dá para testar sem DOM. */
+    function treinar(p) {
+      var w1 = p.w1, w2 = p.w2, f = ALVOS[p.alvo];
+      var casos = [[0, 0], [0, 1], [1, 0], [1, 1]];
+      var linhas = [], epoca, i, x1, x2, y, soma, saida, erro, d1, d2, errosEpoca;
+      for (epoca = 1; epoca <= TETO; epoca++) {
+        errosEpoca = 0;
+        for (i = 0; i < casos.length; i++) {
+          x1 = casos[i][0]; x2 = casos[i][1];
+          y = f(x1, x2);
+          soma = w1 * x1 + w2 * x2;
+          saida = soma >= p.theta ? 1 : 0;
+          erro = y - saida;
+          d1 = p.taxa * erro * x1;
+          d2 = p.taxa * erro * x2;
+          linhas.push({ epoca: epoca, x1: x1, w1: w1, x2: x2, w2: w2, soma: soma,
+                        theta: p.theta, esperado: y, saida: saida, erro: erro,
+                        d1: d1, d2: d2 });
+          w1 += d1; w2 += d2;
+          if (erro !== 0) errosEpoca++;
+        }
+        if (errosEpoca === 0) return { linhas: linhas, epocas: epoca, w1: w1, w2: w2 };
+      }
+      return { linhas: linhas, epocas: null, w1: w1, w2: w2 };
+    }
+
+    var num = function (v) {
+      var s = (Math.round(v * 1000) / 1000).toFixed(2).replace(/\.?0+$/, "");
+      if (s === "" || s === "-") s = "0";
+      return s.replace(".", ",");
+    };
+
+    function desenhar() {
+      var r = treinar(est);
+      caixaTabela.innerHTML = "";
+      var t = document.createElement("table");
+      t.className = "lab-tabela";
+      var cab = "<thead><tr><th>ép</th><th>x₁</th><th>w₁</th><th>x₂</th><th>w₂</th>" +
+                "<th>soma</th><th>θ</th><th>esperado</th><th>saída</th><th>erro</th>" +
+                "<th>Δw₁</th><th>Δw₂</th></tr></thead>";
+      var corpoT = "<tbody>";
+      // Mostrar 30 épocas × 4 linhas seria ilegível; quando não converge, a
+      // tabela é cortada e o corte é DITO, nunca silencioso.
+      var mostrar = r.linhas.length > 40 ? r.linhas.slice(0, 40) : r.linhas;
+      for (var i = 0; i < mostrar.length; i++) {
+        var L = mostrar[i];
+        corpoT += "<tr" + (L.erro !== 0 ? ' class="lab-linha-erro"' : "") + ">" +
+          "<td>" + L.epoca + "</td><td>" + L.x1 + "</td><td>" + num(L.w1) + "</td>" +
+          "<td>" + L.x2 + "</td><td>" + num(L.w2) + "</td><td>" + num(L.soma) + "</td>" +
+          "<td>" + num(L.theta) + "</td><td>" + L.esperado + "</td><td>" + L.saida + "</td>" +
+          "<td>" + (L.erro > 0 ? "+1" : L.erro < 0 ? "−1" : "0") + "</td>" +
+          "<td>" + num(L.d1) + "</td><td>" + num(L.d2) + "</td></tr>";
+      }
+      corpoT += "</tbody>";
+      t.innerHTML = cab + corpoT;
+      caixaTabela.appendChild(t);
+
+      if (mostrar.length < r.linhas.length) {
+        caixaTabela.appendChild(el("p", "lab-nota",
+          "Mostrando as 40 primeiras linhas de " + r.linhas.length + "."));
+      }
+      placar.textContent = r.epocas
+        ? "Convergiu em " + r.epocas + (r.epocas === 1 ? " época" : " épocas") +
+          ". Pesos finais: w₁ = " + num(r.w1) + ", w₂ = " + num(r.w2) + "."
+        : "Não convergiu em " + TETO + " épocas — parou pelo teto, não por acerto.";
+      return r;
+    }
+
+    painel.appendChild(el("p", "lab-dica",
+      "A regra é Δwᵢ = η · erro · xᵢ. Mude a partida e veja o número de épocas mudar."));
+
+    var selAlvo = el("label", "lab-campo");
+    selAlvo.appendChild(el("span", "lab-campo-rot", "Função a aprender"));
+    var sel = document.createElement("select");
+    sel.className = "lab-select";
+    ["OR", "AND", "NAND", "XOR"].forEach(function (k) {
+      var o = document.createElement("option");
+      o.value = k; o.textContent = k === "OR" ? "OU" : k === "AND" ? "E" : k === "NAND" ? "NÃO-E" : "XOR";
+      if (k === est.alvo) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", function () { est.alvo = sel.value; desenhar(); });
+    selAlvo.appendChild(sel);
+    painel.appendChild(selAlvo);
+
+    painel.appendChild(campo("Taxa de aprendizado η", est.taxa, 0.1, function (v) {
+      if (!isNaN(v) && v > 0) { est.taxa = v; desenhar(); }
+    }));
+    painel.appendChild(campo("w₁ inicial", est.w1, 0.1, function (v) {
+      if (!isNaN(v)) { est.w1 = v; desenhar(); }
+    }));
+    painel.appendChild(campo("w₂ inicial", est.w2, 0.1, function (v) {
+      if (!isNaN(v)) { est.w2 = v; desenhar(); }
+    }));
+    painel.appendChild(campo("Limiar θ", est.theta, 0.1, function (v) {
+      if (!isNaN(v)) { est.theta = v; desenhar(); }
+    }));
+
+    var botao = botoeiraDe(painel);
+    botao("Sortear pesos", function () {
+      est.w1 = Math.round((sorteia() * 2 - 1) * 10) / 10;
+      est.w2 = Math.round((sorteia() * 2 - 1) * 10) / 10;
+      // Os campos são reconstruídos para refletir o sorteio.
+      var nums = painel.querySelectorAll(".lab-num");
+      var faixas = painel.querySelectorAll(".lab-faixa");
+      if (nums[1]) { nums[1].value = String(est.w1); faixas[1].value = String(est.w1); }
+      if (nums[2]) { nums[2].value = String(est.w2); faixas[2].value = String(est.w2); }
+      desenhar();
+    });
+
+    var r0 = desenhar();
+    // Gancho de teste: os números desta tabela são verificados sem navegador.
+    raiz.__api = { treinar: treinar, est: est, inicial: r0 };
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -5108,6 +5264,7 @@
                 "anima-horizonte": animaHorizonte,
                 "perceptron-treino": perceptronTreino,
                 "circuito-neuronios": circuitoNeuronios,
+                "perceptron-tabela": perceptronTabela,
                 "iframe": labIframe };
 
   function iniciar() {

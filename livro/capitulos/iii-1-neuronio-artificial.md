@@ -136,6 +136,113 @@ Depois troque para **XOR** e rode até parar. Ele para porque bateu no teto de 6
 > Guarde esta assimetria, porque ela vale para o livro inteiro: **perdemos a figura, não o método**. A regra é a mesma, os pesos são os mesmos, o erro continua sendo um número que se calcula. O que acabou foi a nossa capacidade de olhar — e confundir "não consigo desenhar" com "não consigo verificar" é um dos erros mais caros que existem em aprendizado de máquina. Daqui em diante, quase tudo neste livro acontece em dimensões que você nunca vai ver.
 :::
 
+## A regra escrita, e de quem é a culpa
+
+Os dois laboratórios acima mostram a fronteira se mexendo. Falta ver a conta que a move. São quatro linhas, e a quarta é a única que tem alguma ideia dentro.
+
+**A soma ponderada.** Cada entrada entra pesada pelo seu peso:
+
+$$S = w_1x_1 + w_2x_2$$
+
+**A saída.** O degrau compara a soma com o limiar:
+
+$$\hat{y} = \begin{cases} 1 & \text{se } S \ge \theta \\ 0 & \text{se } S < \theta \end{cases}$$
+
+**O erro.** O que faltou, com sinal. Só pode dar três valores:
+
+$$e = y - \hat{y} \in \{-1,\; 0,\; +1\}$$
+
+**O ajuste.** A regra de Rosenblatt inteira:
+
+$$\Delta w_i = \eta \cdot e \cdot x_i \qquad\qquad w_i \leftarrow w_i + \Delta w_i$$
+
+Leia a quarta devagar, porque ela responde uma pergunta que parece difícil: *errou, mas de quem é a culpa?* Quem responde é o $x_i$. **A entrada pondera o erro:** cada peso é corrigido na medida em que a entrada dele participou da soma. Se $x_i = 0$, aquele peso não contribuiu para o resultado e não é tocado, mesmo com o erro valendo 1. Se $e = 0$, ninguém é tocado, porque acertar não é motivo para mexer em nada.
+
+É a atribuição de culpa mais barata que se pode imaginar, e ela converge. A frase vale ser guardada: o problema de decidir **qual peso corrigir** tem nome, *credit assignment*, e é o obstáculo que reaparece no [capítulo III.2](iii-2-redes-neurais.md) numa versão muito mais difícil, quando houver uma camada escondida e ninguém souber o que cada unidade deveria ter feito.
+
+### A tabela, à mão
+
+Partida **aleatória**: $w_1 = -0{,}2$ e $w_2 = 0{,}4$. Limiar $\theta = 0{,}5$ fixo, taxa $\eta = 0{,}5$, alvo **OU**. Os pesos de cada linha são os de **antes** do ajuste daquela linha.
+
+| ép | x₁ | w₁ | x₂ | w₂ | soma | θ | esperado | saída | erro | Δw₁ | Δw₂ |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 0 | −0,2 | 0 | 0,4 | 0,0 | 0,5 | 0 | 0 | 0 | 0 | 0 |
+| 1 | 0 | −0,2 | 1 | 0,4 | 0,4 | 0,5 | 1 | 0 | +1 | 0 | +0,5 |
+| 1 | 1 | −0,2 | 0 | 0,9 | −0,2 | 0,5 | 1 | 0 | +1 | +0,5 | 0 |
+| 1 | 1 | 0,3 | 1 | 0,9 | 1,2 | 0,5 | 1 | 1 | 0 | 0 | 0 |
+| 2 | 0 | 0,3 | 0 | 0,9 | 0,0 | 0,5 | 0 | 0 | 0 | 0 | 0 |
+| 2 | 0 | 0,3 | 1 | 0,9 | 0,9 | 0,5 | 1 | 1 | 0 | 0 | 0 |
+| 2 | 1 | 0,3 | 0 | 0,9 | 0,3 | 0,5 | 1 | 0 | +1 | +0,5 | 0 |
+| 2 | 1 | 0,8 | 1 | 0,9 | 1,7 | 0,5 | 1 | 1 | 0 | 0 | 0 |
+| 3 | 0 | 0,8 | 0 | 0,9 | 0,0 | 0,5 | 0 | 0 | 0 | 0 | 0 |
+| 3 | 0 | 0,8 | 1 | 0,9 | 0,9 | 0,5 | 1 | 1 | 0 | 0 | 0 |
+| 3 | 1 | 0,8 | 0 | 0,9 | 0,8 | 0,5 | 1 | 1 | 0 | 0 | 0 |
+| 3 | 1 | 0,8 | 1 | 0,9 | 1,7 | 0,5 | 1 | 1 | 0 | 0 | 0 |
+
+A terceira época inteira passa sem um único erro, e é isso que significa convergir: não é "acertou uma vez", é **uma varredura completa sem correção**. Pesos finais $w_1 = 0{,}8$ e $w_2 = 0{,}9$, com $\theta = 0{,}5$.
+
+Três coisas para reparar, e a primeira é a que ensina.
+
+**A terceira linha da primeira época.** Erro de $+1$, e mesmo assim $\Delta w_2 = 0$, porque naquele caso $x_2 = 0$. A rede errou, e $w_2$ não teve parte nisso. Corrigir os dois pesos igualmente, que é o gesto intuitivo, estragaria o caso $(0,1)$ que já estava certo.
+
+**O caso $(0,0)$ não move nada, e nunca poderá.** Com as duas entradas em zero, $\Delta w_1 = \Delta w_2 = 0$ qualquer que seja o erro. Para o OU isso não incomoda, porque a soma dá 0 e $0 < 0{,}5$ já entrega a resposta certa. Mas se a função pedisse **1** em $(0,0)$, este neurônio nunca aprenderia, e não por falta de épocas: não existe peso capaz de mexer naquela linha. Quem resolve é o **viés**, uma entrada fixa em 1 que participa de todas as linhas.
+
+**O erro só assume três valores.** É o degrau: o perceptron sabe *se* errou e para que lado, nunca *quanto*. Isso o torna barato e é o que garante a convergência, mas é também exatamente o que impede de treinar uma rede com camada escondida. Sem "quanto" não há gradiente para propagar, e é por isso que a sigmoide toma o lugar do degrau no próximo capítulo.
+
+:::lab {"id":"neuronio-artificial-l5","tipo":"perceptron-tabela","titulo":"A mesma tabela, com a sua partida","taxa":0.5,"w1":-0.2,"w2":0.4,"theta":0.5}
+A tabela acima é uma partida entre infinitas. Aqui você escolhe a sua: mude a taxa, os pesos iniciais e o limiar, ou aperte **"Sortear pesos"** e aceite o que vier. A tabela é recalculada inteira, e o placar responde a única pergunta que importa: **em quantas épocas convergiu.**
+
+Faça três medições antes de seguir. Primeiro, baixe a taxa para **0,1** sem mexer no resto e conte as épocas. Depois suba para **1** e conte de novo. Por último, ponha os dois pesos iniciais em **0,9** com a taxa em 0,5, e repare no número que aparece.
+
+Depois troque o alvo para **XOR** e veja o placar dizer que parou pelo teto, e não por acerto.
+:::
+
+:::exercicio {"id":"neuronio-artificial-e13","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+No laboratório acima, mantenha $w_1 = -0{,}2$, $w_2 = 0{,}4$, $\theta = 0{,}5$ e o alvo **OU**, e troque apenas a taxa para $\eta = 0{,}1$.
+
+Em quantas épocas o perceptron converge?
+
+> **gabarito:** 7
+> **porque:** Com $\eta = 0{,}5$ essa partida fecha em 3 épocas; com $\eta = 0{,}1$ cada correção anda um quinto do caminho, e são precisas **7**.
+>
+> O que vale levar não é o 7, é o formato da relação. Medindo a mesma partida em várias taxas: 0,05 leva 14 épocas, 0,1 leva 7, 0,2 leva 5, 0,3 leva 4, 0,5 leva 3, e de 1 para cima trava em 2 e não melhora mais. **Taxa maior não é taxa melhor.** O que ela compra são épocas, e o que ela cobra é o tamanho dos pesos finais: com taxa 3 a rede aprende o mesmo OU com pesos 2,8 e 3,4, quatro vezes maiores para exatamente a mesma fronteira.
+>
+:::
+
+:::exercicio {"id":"neuronio-artificial-e14","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Na terceira linha da primeira época da tabela, o erro vale $+1$ e mesmo assim $\Delta w_2 = 0$. Por quê?
+
+- [ ] Porque $w_2$ já estava no valor correto, e a regra detecta isso.
+- [x] Porque naquele caso a entrada $x_2$ vale 0, e o ajuste é a taxa vezes o erro vezes essa entrada.
+- [ ] Porque a regra só corrige um peso por vez, alternando entre eles.
+- [ ] Porque o ajuste ficou pequeno demais e foi arredondado para zero.
+
+> **porque:** O ajuste é $\Delta w_i = \eta \cdot e \cdot x_i$. Com $x_2 = 0$ o produto é zero qualquer que seja o erro. É a atribuição de culpa embutida na regra: o peso só é corrigido na medida em que a entrada dele participou da soma que errou.
+>
+> A primeira alternativa inverte a direção da inferência. A regra não sabe nada sobre o valor "correto" de $w_2$; se soubesse, não haveria o que treinar. Ela sabe o erro da saída e quem contribuiu para ele.
+>
+> A terceira descreve um algoritmo que não é este. A regra corrige **todos** os pesos na mesma passada, e o que varia é quanto.
+>
+> A quarta é a mais tentadora, porque arredondamento é um problema real em ponto flutuante. Aqui não: $0{,}5 \times 1 \times 0$ é exatamente zero, e não um número pequeno.
+>
+:::
+
+:::exercicio {"id":"neuronio-artificial-e15","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
+No laboratório, ponha $w_1 = 0{,}9$ e $w_2 = 0{,}9$, com $\eta = 0{,}5$, $\theta = 0{,}5$ e alvo **OU**. Ele converge em **1 época**. O que esse número mede?
+
+- [ ] Que o OU é um problema mais fácil do que aparentava nas outras partidas.
+- [ ] Que 0,5 é a taxa ótima para este problema.
+- [x] Que a partida já resolvia o OU, então a primeira varredura não achou erro e não corrigiu nada.
+- [ ] Que pesos iguais entre si aceleram a convergência do perceptron.
+
+> **porque:** Com os dois pesos em 0,9 e o limiar em 0,5, as quatro linhas já saem certas antes de qualquer correção: $(0,0)$ dá soma 0, e as outras três dão 0,9 ou 1,8, todas acima do limiar. A primeira época varre, não acha erro e para. **"Épocas até convergir" mede a distância entre a partida e alguma solução, não a dificuldade do problema.**
+>
+> É por isso que o laboratório sorteia pesos: com a mesma taxa e a mesma função, partidas diferentes dão 1, 2, 3 ou 4 épocas. Comparar dois algoritmos por esse número, sem fixar a partida, é comparar o sorteio.
+>
+> A primeira alternativa confunde a medida com o medido, já que o problema é o mesmo em todas as partidas. A segunda credita à taxa um mérito que é da inicialização, e a prova é que a mesma taxa 0,5 leva 4 épocas partindo de $(0{,}4,\, -0{,}6)$. A quarta generaliza de um caso só: $-1$ e $-1$ também são iguais entre si, e levam 3 épocas.
+>
+:::
+
 ## Por que o XOR é impossível
 
 Não é falta de habilidade nem de paciência. É geometria.

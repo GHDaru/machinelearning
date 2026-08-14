@@ -161,6 +161,130 @@ Fazer isso ingenuamente seria absurdo: recalcular o caminho inteiro para cada pe
 
 Backpropagation não é um algoritmo de otimização. Ele calcula o gradiente. Quem move os pesos é o gradiente descendente do [capítulo II.4](ii-4-otimizacao.md): a mesma otimização, os mesmos passos, a mesma regularização, só que numa superfície muito maior e cheia de vales.
 
+### A conta, com números
+
+Tudo acima é verdade e nenhum peso se mexeu ainda. Aqui um passo inteiro, com a menor rede que ainda precisa da regra da cadeia: duas entradas, **duas** unidades escondidas, uma saída, sigmoide nas duas camadas. Com uma unidade só não haveria o que retropropagar.
+
+Os pesos iniciais são postos à mão, como no [capítulo III.1](iii-1-neuronio-artificial.md). A diferença é que agora eles vão mudar sozinhos.
+
+| para | peso de $x_1$ | peso de $x_2$ | viés |
+|---|---|---|---|
+| $h_1$ | 0,5 | −0,4 | 0,1 |
+| $h_2$ | 0,3 | 0,8 | −0,2 |
+| saída | $v_1 = 0{,}6$ | $v_2 = -0{,}7$ | $c = 0{,}2$ |
+
+Um caso do XOR: $x = (1,\, 0)$, alvo $y = 1$, taxa $\eta = 0{,}5$. A perda é o EQM com $n = 1$, ou seja $E = (\hat{y} - y)^2$, que é a convenção fixada no [capítulo II.2](ii-2-modelos-lineares.md) para o livro inteiro.
+
+**O passo para frente.**
+
+$$z_1 = 0{,}5 \cdot 1 - 0{,}4 \cdot 0 + 0{,}1 = 0{,}6 \quad\Rightarrow\quad h_1 = \sigma(0{,}6) = 0{,}6457$$
+$$z_2 = 0{,}3 \cdot 1 + 0{,}8 \cdot 0 - 0{,}2 = 0{,}1 \quad\Rightarrow\quad h_2 = \sigma(0{,}1) = 0{,}5250$$
+$$u = 0{,}6 \cdot 0{,}6457 - 0{,}7 \cdot 0{,}5250 + 0{,}2 = 0{,}2199 \quad\Rightarrow\quad \hat{y} = \sigma(u) = 0{,}5548$$
+$$E = (0{,}5548 - 1)^2 = 0{,}1982$$
+
+**O passo para trás.** A derivada da sigmoide se escreve na própria ativação, $\sigma' = a(1-a)$, e é isso que torna a conta viável à mão. Chamo de $\delta_y$ a quantidade que chega à saída, e de $\delta_1$ e $\delta_2$ as que chegam a cada unidade escondida. É a notação usual, e o índice diz a quem o delta pertence.
+
+$$\frac{\partial E}{\partial \hat{y}} = 2(\hat{y} - y) = -0{,}8905$$
+$$\delta_y = \frac{\partial E}{\partial \hat{y}} \cdot \hat{y}(1-\hat{y}) = -0{,}8905 \cdot 0{,}2470 = -0{,}2200$$
+
+Esse $-0{,}2200$ é o reaproveitamento de que a seção anterior fala, e ele é calculado **uma vez**. Os três gradientes da última camada saem dele por uma multiplicação cada:
+
+$$\frac{\partial E}{\partial v_1} = \delta_y \cdot h_1 = -0{,}1420 \qquad \frac{\partial E}{\partial v_2} = \delta_y \cdot h_2 = -0{,}1155 \qquad \frac{\partial E}{\partial c} = \delta_y = -0{,}2200$$
+
+E o mesmo número atravessa para a camada de baixo, cada unidade pesada pelo caminho que a liga à saída:
+
+$$\delta_1 = \delta_y \cdot v_1 \cdot h_1(1-h_1) = -0{,}2200 \cdot 0{,}6 \cdot 0{,}2288 = -0{,}0302$$
+$$\delta_2 = \delta_y \cdot v_2 \cdot h_2(1-h_2) = -0{,}2200 \cdot (-0{,}7) \cdot 0{,}2494 = +0{,}0384$$
+
+Repare no sinal trocado de $\delta_2$. A segunda unidade entra na saída com peso negativo, então empurrá-la para cima piora o resultado. Ninguém programou isso: a rede descobre pelo sinal, e o sinal é a única coisa que a informa.
+
+**A atualização**, com $\eta = 0{,}5$:
+
+| peso | antes | gradiente | depois |
+|---|---|---|---|
+| $w_{11}$ | 0,5 | −0,0302 | **0,5151** |
+| $w_{21}$ | −0,4 | **0** | −0,4 |
+| $b_1$ | 0,1 | −0,0302 | **0,1151** |
+| $w_{12}$ | 0,3 | +0,0384 | **0,2808** |
+| $w_{22}$ | 0,8 | **0** | 0,8 |
+| $b_2$ | −0,2 | +0,0384 | **−0,2192** |
+| $v_1$ | 0,6 | −0,1420 | **0,6710** |
+| $v_2$ | −0,7 | −0,1155 | **−0,6423** |
+| $c$ | 0,2 | −0,2200 | **0,3100** |
+
+Perda de 0,1982 para 0,1578, previsão de 0,5548 para 0,6027. Um passo, e a rede andou na direção certa.
+
+Há uma lição escondida nas duas linhas cujo gradiente deu zero. Os pesos $w_{21}$ e $w_{22}$ **não se mexeram**, porque $x_2 = 0$ neste exemplo. Peso multiplicado por entrada nula não recebe gradiente, e isso não é defeito: é a regra da cadeia informando que aquele peso não participou do erro. É a mesma atribuição de culpa do perceptron, no [capítulo III.1](iii-1-neuronio-artificial.md), agora atravessando duas camadas. E é a raiz do problema da ReLU morta, que o [capítulo III.3](iii-3-treinar-redes-profundas.md) trata: unidade que nunca ativa nunca aprende, porque nunca recebe gradiente.
+
+### E o que um passo não mostra
+
+Um caso não é treinar. A mesma rede, agora sobre os quatro pontos do XOR, em lote cheio:
+
+| época | EQM | `00` | `01` | `10` | `11` | acertos |
+|---|---|---|---|---|---|---|
+| 0 | 0,2520 | 0,55 | 0,50 | 0,55 | 0,51 | 2/4 |
+| 100 | 0,2507 | 0,52 | 0,48 | 0,52 | 0,48 | 2/4 |
+| 500 | 0,2502 | 0,51 | 0,48 | 0,52 | 0,49 | 2/4 |
+| 1 000 | 0,2500 | 0,51 | 0,49 | 0,51 | 0,49 | 2/4 |
+| 2 000 | 0,2499 | 0,51 | 0,49 | 0,51 | 0,49 | 2/4 |
+| 4 000 | 0,1865 | 0,42 | 0,39 | 0,75 | 0,36 | 3/4 |
+| 8 000 | **0,0017** | 0,04 | 0,95 | 0,96 | 0,04 | **4/4** |
+| 15 000 | 0,0005 | 0,02 | 0,97 | 0,98 | 0,02 | 4/4 |
+
+O que essa tabela ensina não é que a rede aprende, e sim o **planalto**. Por duas mil épocas o erro fica parado em 0,25 e as quatro saídas ficam em torno de 0,5, o que é a rede respondendo "sei lá" para tudo. Ela parece morta e não está. A quebra vem entre 2 000 e 4 000, e depois a perda cai três ordens de grandeza em poucos milhares de épocas.
+
+Quem desiste na época 1 000 conclui que o método não funciona, e conclui isso com uma tabela na mão. Distinguir **empacar por planalto** de **empacar por mínimo local** exige rodar mais, e é a diferença entre os dois que a seção de diagnóstico deste capítulo trata.
+
+:::exercicio {"id":"redes-neurais-e13","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
+Na rede do exemplo acima, a saída deu $\hat{y} = 0{,}5548$ para um alvo $y = 1$, com a perda $E = (\hat{y}-y)^2$.
+
+Calcule $\delta_y = \frac{\partial E}{\partial \hat{y}} \cdot \sigma'(u)$, lembrando que $\sigma'(u) = \hat{y}(1-\hat{y})$.
+
+> **gabarito:** -0.22 ± 0.005
+> **porque:** São duas contas. A derivada da perda: $\frac{\partial E}{\partial \hat{y}} = 2(\hat{y}-y) = 2(0{,}5548 - 1) = -0{,}8905$. A derivada da sigmoide, escrita na própria ativação: $\hat{y}(1-\hat{y}) = 0{,}5548 \times 0{,}4452 = 0{,}2470$. O produto dá $-0{,}2200$.
+>
+> O sinal negativo diz a direção: a saída está **abaixo** do alvo, e o gradiente descendente vai somar aos pesos que a empurram para cima. Se você chegou a $+0{,}22$, provavelmente calculou $\hat{y} - y$ ao contrário, o que inverteria o treino inteiro e faria a perda subir.
+>
+> Se você chegou a $-0{,}11$, usou a convenção $E = \frac{1}{2}(\hat{y}-y)^2$, que cancela o 2 e é comum na literatura. Não está errada, mas **não é a deste livro**: o capítulo II.2 fixou o EQM sem a constante, e misturar as duas é como o aluno anota um número que o capítulo não define.
+>
+:::
+
+:::exercicio {"id":"redes-neurais-e14","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
+Na tabela de atualização, os pesos $w_{21}$ e $w_{22}$ ficaram exatamente onde estavam, com gradiente zero. Por quê?
+
+- [ ] Porque já estavam nos valores ótimos, e o gradiente detecta isso.
+- [x] Porque a entrada $x_2$ vale 0 neste exemplo, e o gradiente de um peso é proporcional à entrada que ele multiplica.
+- [ ] Porque a taxa de aprendizado 0,5 é pequena demais para movê-los.
+- [ ] Porque eles pertencem à camada escondida, que só é atualizada na segunda época.
+
+> **porque:** O gradiente de um peso da primeira camada é $\delta_j \cdot x_i$. Com $x_2 = 0$, o produto é zero para qualquer $\delta$. A regra da cadeia está dizendo que aquele peso não participou da soma que gerou o erro, e portanto não tem culpa a pagar.
+>
+> É a mesma coisa que o perceptron faz no [capítulo III.1](iii-1-neuronio-artificial.md) com $\Delta w_i = \eta \cdot e \cdot x_i$, e é reconfortante que apareça igual: a atribuição de culpa não mudou ao ganhar uma camada, só ficou mais longa.
+>
+> A primeira alternativa inverte a inferência. Gradiente zero por entrada nula não diz nada sobre o valor do peso; com outro exemplo, em que $x_2 = 1$, o mesmo peso recebe gradiente e se move.
+>
+> A quarta descreve um algoritmo que não existe. Todas as camadas são atualizadas no mesmo passo, e é justamente esse o ponto do backpropagation: uma passada para trás basta.
+>
+:::
+
+:::exercicio {"id":"redes-neurais-e15","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
+Você treina a rede do exemplo no XOR e vê a perda parada em 0,2500 da época 100 à 2 000, com as quatro saídas em torno de 0,5. Qual leitura o próprio capítulo sustenta?
+
+- [ ] O treino divergiu, e é preciso baixar a taxa de aprendizado.
+- [ ] A rede caiu num mínimo local, e é preciso reinicializar os pesos.
+- [x] Pode ser planalto, e não mínimo: nesta configuração a perda só quebra depois da época 2 000 e chega a 0,0017 na 8 000.
+- [ ] A camada escondida é pequena demais, e é preciso mais unidades.
+
+> **porque:** A medição do capítulo é explícita: da época 0 à 2 000 a perda fica em 0,25 e o acerto em 2 de 4, e entre 2 000 e 4 000 ela quebra, chegando a 0,0017 na época 8 000 com 4 de 4. Quem para na época 1 000 conclui que não funciona, e conclui isso com uma tabela verdadeira na mão.
+>
+> A primeira alternativa confunde os sintomas. Perda que diverge **sobe** sem limite; esta ficou parada, que é coisa diferente.
+>
+> A segunda é a alternativa boa, e é por isso que ela é a armadilha. Mínimo local existe de verdade nesta rede: o capítulo mede que, variando só a inicialização, a perda empaca em **0,348** e não sai mais. Só que 0,348 não é 0,2500, e a diferença entre os dois números é exatamente o que separa um diagnóstico do outro. Reinicializar aqui jogaria fora um treino que ia dar certo.
+>
+> A quarta prescreve capacidade sem evidência de que falta capacidade. Duas unidades escondidas bastam para o XOR, e esta mesma rede prova isso ao chegar a 4 de 4 sem ganhar nenhuma unidade nova.
+>
+:::
+
 **A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada tem uma razão de ser: combinadas, o gradiente na saída se reduz a `previsão − rótulo`, que é simples de derivar e estável de calcular.
 
 :::exercicio {"id":"redes-neurais-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
