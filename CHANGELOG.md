@@ -6,6 +6,43 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — folha de impressão: Ctrl+P vira prova de papel ou PDF
+- `publicar/tema/estilo.css`, bloco `@media print`. Some a barra lateral de 19rem, o
+  rodapé, o cartucho do número do capítulo e o selo de data; o texto ocupa a folha
+  inteira; título não fica órfão no pé da página; tabela, figura e citação não se partem.
+- O `interativos.css` já escondia botão de responder, feedback e barra de progresso desde
+  antes, e já impedia exercício de quebrar entre folhas. **Faltava o resto da página** —
+  sem isso, imprimir levava junto a navegação e espremia o texto numa coluna estreita.
+- Laboratório não imprime. Ele é interação; no papel viraria uma caixa vazia com título.
+- Link externo passa a mostrar o endereço entre parênteses; link interno e âncora, não,
+  senão vira ruído em toda linha.
+- **Conferido em navegador**, não no CSS: com `emulateMedia({media:"print"})`, a barra
+  lateral, o rodapé, os botões e os laboratórios saem, e os **12 exercícios** da prova do
+  `III.1` continuam lá. PDFs gerados para as duas páginas.
+- É o caminho de **custo zero** que o princípio VI pede: prova em papel sem servidor, sem
+  exportador e sem dependência nova.
+
+### Adicionado — [ADR 0020](adr/0020-avaliacao-com-nota-no-livro-aberto.md): avaliação com nota num livro aberto
+- Comitê de três especialistas (avaliação, backend/privacidade, experiência do aluno) sobre
+  o pedido de aplicar prova online com registro automático. Oito decisões, e duas delas
+  divergem do pedido literal.
+- **Um defeito verificado em produção bloqueava tudo:** duas requisições anônimas com
+  respostas erradas fazem o backend devolver o gabarito (`TENTATIVAS_ATE_REVELAR = 2`), e o
+  `session_id` é inventado pelo cliente, então o limite de taxa não protege. Não vaza nada
+  que já não seja público — os gabaritos estão no Markdown, e o ADR 0019 aceitou isso — mas
+  aceitou para instrumento **sem nota**.
+- **O modo é da aplicação, não do item.** Desligar feedback nos itens de prova quebraria o
+  princípio VIII.2 para quem pratica com eles.
+- **A nota nunca vem do arquivo**; o servidor recalcula. Assinatura no caderno de ida foi
+  recusada: exigiria distribuir uma chave para a turma, e chave distribuída não é chave.
+- **"Quanto tempo levou" é registrado e rotulado pelo que não é.** Só se mede a diferença
+  entre a primeira e a última submissão, pelo relógio do servidor. Duração calculada no
+  cliente foi recusada, e telemetria de foco de aba também.
+- **A entrega sobrevive ao botão de apagar a sessão** — hoje `tentativas` pende de
+  `sessions` com `ON DELETE CASCADE`, e nota apagável pelo avaliado não é nota.
+- **`GET /turma` não muda.** A promessa de não mostrar o texto das respostas fica de pé; a
+  leitura entra escopada por avaliação, sob consentimento versionado.
+
 ### Adicionado — `Referências deste capítulo` e `Errata` no fim do `III.1`
 - **Referências**: as treze fontes do capítulo reunidas num lugar só, cada uma com o
   selo que diz **até onde ela foi conferida** e uma linha dizendo o que ela sustenta.
