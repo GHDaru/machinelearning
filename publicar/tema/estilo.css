@@ -398,3 +398,32 @@ abbr[title] { text-decoration: underline dotted; text-decoration-thickness: 1px;
 .ent-vedicao { margin: .5rem 0 0; font-size: .8rem; color: var(--muted); }
 .ent-vedicao b { font-variant-numeric: tabular-nums; }
 
+
+/* ===== Impressão: a página vira papel, e papel vira prova =====
+   O `interativos.css` já cuidava da metade difícil — esconde os botões de
+   responder, o feedback e a barra de progresso, e impede que um exercício se
+   parta entre duas folhas. Faltava o resto da página: sem isto, imprimir levava
+   junto a barra lateral de 19rem, o rodapé e o cartucho do número do capítulo,
+   e o texto saía espremido numa coluna estreita.
+   Com esta folha, Ctrl+P em qualquer capítulo ou prova produz uma versão de
+   papel ou PDF, sem servidor e sem exportador — que é o caminho de custo zero
+   que o princípio VI pede. */
+@media print {
+  .layout { display: block; }
+  .sidebar, .rodape, .cap-num, .cap-dl, .selo-data { display: none !important; }
+  .conteudo { max-width: none; padding: 0; margin: 0; width: auto; }
+  .markdown { max-width: none; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  a { color: #000; text-decoration: none; }
+  /* Link só vale em papel se o endereço aparecer — mas não para âncora interna
+     nem para link do próprio site, que viraria ruído em toda linha. */
+  .markdown a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .82em; color: #444; word-break: break-all; }
+  h1, h2, h3 { break-after: avoid; }
+  h2 { border-left: none; padding-left: 0; }
+  table, figure, pre, blockquote { break-inside: avoid; }
+  .tabela-rolagem, .lab-tabela-rolagem { overflow: visible; }
+  /* O laboratório não imprime: ele é interação, e no papel viraria uma caixa
+     vazia com um título. O `interativos.css` já esconde o corpo dele; aqui some
+     a moldura junto, para não deixar um retângulo órfão no meio da prova. */
+  .laboratorio { display: none; }
+}
