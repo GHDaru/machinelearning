@@ -6,6 +6,33 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o export da turma passa a dar as cinco coisas que o professor pediu
+- `GET /turma/{turma}` ganha **quando**, **quanto tempo**, **pontos** e **nota**, além do
+  que já tinha. As cinco coisas do pedido — o que fez, quando fez, quanto tempo levou, a
+  nota, e o código do aluno — saem agora numa linha só, em JSON ou CSV.
+- **Nenhuma tabela nova, nenhuma migração.** O `created_at` de cada tentativa já era
+  gravado desde sempre (`store.py`), e ninguém o expunha. O peso de cada exercício já
+  existia no banco. Faltava juntar.
+- **`?capitulo=N` resolve a dívida que o ADR 0014 registrou por escrito:** o total do livro
+  cresce no meio do semestre (já foi de 91 a 430 itens), e nota sobre ele muda sozinha em
+  outubro. Com o recorte, o denominador é o capítulo, que é estável e é o que se aplica em
+  aula. Sem recorte, a nota sai sobre o que o aluno **tentou**, e a coluna diz isso.
+- A coluna do relógio se chama **`minutos_entre_primeira_e_ultima`**, e o nome é a
+  ressalva: não é tempo de trabalho. Quem responde a primeira questão, almoça e responde a
+  última marca noventa minutos. Preferimos o nome feio ao número que mente.
+- `aluno` e as datas saem **citadas** no CSV: matrícula com zero à esquerda o Excel abre
+  como número e a chave deixa de casar com o diário.
+
+### Alterado — o teste que guarda a privacidade do aluno ficou mais forte
+- O `test_o_professor_nao_ve_resposta_nem_conversa` **falhou** ao acrescentarmos colunas,
+  e falhou pelo motivo certo: ele fixa o cabeçalho do CSV de propósito, porque coluna nova
+  no export é decisão de política, não detalhe de implementação. As duas asserções de
+  sigilo passaram sem tocar — o texto da resposta continua fora.
+- Além de atualizar o cabeçalho, o teste passou a cobrar que os **ids de exercício**
+  usados internamente para somar pontos não vazem para a saída.
+- Dois testes novos, e os três casos **vistos falhando** antes de merecerem confiança:
+  nota anulada → falha; relógio removido → falha; denominador ignorando o recorte → falha.
+
 ### Adicionado — folha de impressão: Ctrl+P vira prova de papel ou PDF
 - `publicar/tema/estilo.css`, bloco `@media print`. Some a barra lateral de 19rem, o
   rodapé, o cartucho do número do capítulo e o selo de data; o texto ocupa a folha

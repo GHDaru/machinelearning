@@ -47,7 +47,7 @@ class StorePort(Protocol):
     def identificar(self, session_id: str, turma: str, aluno: str) -> None: ...
     def identificacao(self, session_id: str) -> Optional[dict]: ...
     def esquecer_identificacao(self, session_id: str) -> None: ...
-    def progresso_turma(self, turma: str) -> list[dict]: ...
+    def progresso_turma(self, turma: str, capitulo: int | None = None) -> list[dict]: ...
 
 
 # ----------------------------------------------------------- memória
@@ -169,7 +169,7 @@ class MemoryStore:
     def esquecer_identificacao(self, session_id: str) -> None:
         self._ident.pop(session_id, None)
 
-    def progresso_turma(self, turma: str) -> list[dict]:
+    def progresso_turma(self, turma: str, capitulo: int | None = None) -> list[dict]:
         # Agrupa por ALUNO, não por sessão: a mesma pessoa pode abrir o livro no
         # laboratório e no celular, e são duas sessões anônimas distintas. Contar
         # por sessão faria a aluna aparecer duas vezes, cada uma pela metade.
@@ -181,13 +181,18 @@ class MemoryStore:
         linhas = []
         for aluno, sids in por_aluno.items():
             exs: dict[str, dict] = {}
+            quando: list[float] = []
             for t in self._tentativas:
                 if t["session_id"] not in sids:
+                    continue
+                if capitulo is not None and t["capitulo"] != capitulo:
                     continue
                 cur = exs.setdefault(t["exercicio_id"], {"tentativas": 0, "correto": False,
                                                          "capitulo": t["capitulo"]})
                 cur["tentativas"] += 1
                 cur["correto"] = cur["correto"] or t["correto"]
+                if t.get("ts") is not None:
+                    quando.append(t["ts"])
             vids = {v["video_id"] for v in self._videos if v["session_id"] in sids}
             linhas.append({
                 "aluno": aluno,
@@ -197,6 +202,13 @@ class MemoryStore:
                 "de_primeira": sum(1 for e in exs.values() if e["correto"] and e["tentativas"] == 1),
                 "capitulos": len({e["capitulo"] for e in exs.values() if e["correto"]}),
                 "videos": len(vids),
+                # As duas pontas do relógio, e os ids que o app usa para somar
+                # pontos — o peso de cada exercício mora no banco de exercícios,
+                # não aqui, então quem soma é quem tem o banco na mão.
+                "primeira_em": min(quando) if quando else None,
+                "ultima_em": max(quando) if quando else None,
+                "ids_corretos": sorted(k for k, e in exs.items() if e["correto"]),
+                "ids_tentados": sorted(exs.keys()),
             })
         return sorted(linhas, key=lambda l: (-l["resolvidos"], l["aluno"]))
 
@@ -447,7 +459,7 @@ class PostgresStore:
             cur.execute("DELETE FROM identificacoes WHERE session_id = %s", (session_id,))
             conn.commit()
 
-    def progresso_turma(self, turma: str) -> list[dict]:
+    def progresso_turma(self, turma: str, capitulo: int | None = None) -> list[dict]:
         # Agregar no banco em vez de trazer tentativa por tentativa. Agrupado por
         # ALUNO (a mesma pessoa pode ter duas sessões: laboratório e celular).
         # Os LEFT JOIN existem para que aluno identificado que ainda não tentou
@@ -456,10 +468,11 @@ class PostgresStore:
             cur.execute("""
                 WITH ex AS (
                     SELECT i.aluno AS aluno, t.exercicio_id AS ex, min(t.capitulo) AS cap,
-                           count(*) AS tent, bool_or(t.correto) AS acertou
+                           count(*) AS tent, bool_or(t.correto) AS acertou,
+                           min(t.created_at) AS prim, max(t.created_at) AS ult
                       FROM identificacoes i
                       JOIN tentativas t ON t.session_id = i.session_id
-                     WHERE i.turma = %s
+                     WHERE i.turma = %s AND (%s::int IS NULL OR t.capitulo = %s::int)
                      GROUP BY 1, 2
                 ), agg AS (
                     SELECT aluno,
@@ -467,7 +480,11 @@ class PostgresStore:
                            count(*)                                       AS tentados,
                            sum(tent)                                      AS tentativas,
                            count(*) FILTER (WHERE acertou AND tent = 1)   AS de_primeira,
-                           count(DISTINCT cap) FILTER (WHERE acertou)     AS capitulos
+                           count(DISTINCT cap) FILTER (WHERE acertou)     AS capitulos,
+                           min(prim)                                      AS primeira_em,
+                           max(ult)                                       AS ultima_em,
+                           array_agg(ex) FILTER (WHERE acertou)           AS ids_corretos,
+                           array_agg(ex)                                  AS ids_tentados
                       FROM ex GROUP BY aluno
                 ), vid AS (
                     SELECT i.aluno AS aluno, count(DISTINCT v.video_id) AS videos
@@ -477,15 +494,22 @@ class PostgresStore:
                 )
                 SELECT a.aluno, coalesce(g.resolvidos,0), coalesce(g.tentados,0),
                        coalesce(g.tentativas,0), coalesce(g.de_primeira,0),
-                       coalesce(g.capitulos,0), coalesce(v.videos,0)
+                       coalesce(g.capitulos,0), coalesce(v.videos,0),
+                       g.primeira_em, g.ultima_em,
+                       coalesce(g.ids_corretos, ARRAY[]::text[]),
+                       coalesce(g.ids_tentados, ARRAY[]::text[])
                   FROM (SELECT DISTINCT aluno FROM identificacoes WHERE turma = %s) a
                   LEFT JOIN agg g ON g.aluno = a.aluno
                   LEFT JOIN vid v ON v.aluno = a.aluno
                  ORDER BY 2 DESC, 1
-            """, (turma, turma, turma))
+            """, (turma, capitulo, capitulo, turma, turma))
             return [{"aluno": r[0], "resolvidos": int(r[1]), "exercicios_tentados": int(r[2]),
                      "tentativas": int(r[3]), "de_primeira": int(r[4]),
-                     "capitulos": int(r[5]), "videos": int(r[6])} for r in cur.fetchall()]
+                     "capitulos": int(r[5]), "videos": int(r[6]),
+                     "primeira_em": r[7].timestamp() if r[7] else None,
+                     "ultima_em": r[8].timestamp() if r[8] else None,
+                     "ids_corretos": list(r[9]), "ids_tentados": list(r[10])}
+                    for r in cur.fetchall()]
 
 
 def make_store(database_url: str) -> StorePort:
