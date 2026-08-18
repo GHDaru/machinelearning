@@ -102,3 +102,15 @@ SMTP_PORT = _int("SMTP_PORT", 587)
 SMTP_USER = os.environ.get("SMTP_USER", "")
 SMTP_PASS = os.environ.get("SMTP_PASS", "")
 ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "")       # vazio -> rotas de admin desabilitadas
+
+# --- Painel do professor (ADR 0021) ---
+# O pedido foi "email/usuário admin em variável de ambiente". Vale registrar por
+# que não basta guardar o e-mail: e-mail não é segredo — qualquer um digita o
+# seu. O que autentica é a SENHA, e ela mora aqui, nunca em arquivo do repo
+# (princípio V). Sem as duas variáveis, a rota de login responde 503 e o painel
+# não abre para ninguém — falha fechada, igual ao ADMIN_TOKEN.
+ADMIN_USER = os.environ.get("ADMIN_USER", "").strip()
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "").strip()
+# Validade do token de sessão: cobre uma jornada de aula inteira sem redigitar,
+# e não vira credencial permanente.
+ADMIN_SESSAO_HORAS = int(os.environ.get("ADMIN_SESSAO_HORAS", "12"))

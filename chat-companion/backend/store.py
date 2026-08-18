@@ -173,10 +173,20 @@ class MemoryStore:
         # Agrupa por ALUNO, não por sessão: a mesma pessoa pode abrir o livro no
         # laboratório e no celular, e são duas sessões anônimas distintas. Contar
         # por sessão faria a aluna aparecer duas vezes, cada uma pela metade.
+        # Casar turma e aluno pela forma CANÔNICA (sem caixa, sem espaço nas
+        # pontas). Sem isto, quem digitou `ap2026` some do relatório de `AP2026`,
+        # e "Maria Silva" e "maria silva" viram duas pessoas — o professor não
+        # distingue "não fez" de "digitou diferente". O nome exibido continua
+        # sendo a forma que a pessoa escreveu; só a comparação é canônica.
+        chave = lambda s: " ".join((s or "").split()).casefold()
+        alvo = chave(turma)
         por_aluno: dict[str, list[str]] = {}
+        rotulo: dict[str, str] = {}
         for sid, d in self._ident.items():
-            if d["turma"] == turma:
-                por_aluno.setdefault(d["aluno"], []).append(sid)
+            if chave(d["turma"]) == alvo:
+                k = chave(d["aluno"])
+                por_aluno.setdefault(k, []).append(sid)
+                rotulo.setdefault(k, d["aluno"])
 
         linhas = []
         for aluno, sids in por_aluno.items():
@@ -195,7 +205,7 @@ class MemoryStore:
                     quando.append(t["ts"])
             vids = {v["video_id"] for v in self._videos if v["session_id"] in sids}
             linhas.append({
-                "aluno": aluno,
+                "aluno": rotulo.get(aluno, aluno),
                 "resolvidos": sum(1 for e in exs.values() if e["correto"]),
                 "exercicios_tentados": len(exs),
                 "tentativas": sum(e["tentativas"] for e in exs.values()),
@@ -472,7 +482,7 @@ class PostgresStore:
                            min(t.created_at) AS prim, max(t.created_at) AS ult
                       FROM identificacoes i
                       JOIN tentativas t ON t.session_id = i.session_id
-                     WHERE i.turma = %s AND (%s::int IS NULL OR t.capitulo = %s::int)
+                     WHERE lower(btrim(i.turma)) = lower(btrim(%s)) AND (%s::int IS NULL OR t.capitulo = %s::int)
                      GROUP BY 1, 2
                 ), agg AS (
                     SELECT aluno,
@@ -490,7 +500,7 @@ class PostgresStore:
                     SELECT i.aluno AS aluno, count(DISTINCT v.video_id) AS videos
                       FROM identificacoes i
                       JOIN videos_vistos v ON v.session_id = i.session_id
-                     WHERE i.turma = %s GROUP BY 1
+                     WHERE lower(btrim(i.turma)) = lower(btrim(%s)) GROUP BY 1
                 )
                 SELECT a.aluno, coalesce(g.resolvidos,0), coalesce(g.tentados,0),
                        coalesce(g.tentativas,0), coalesce(g.de_primeira,0),
@@ -498,7 +508,7 @@ class PostgresStore:
                        g.primeira_em, g.ultima_em,
                        coalesce(g.ids_corretos, ARRAY[]::text[]),
                        coalesce(g.ids_tentados, ARRAY[]::text[])
-                  FROM (SELECT DISTINCT aluno FROM identificacoes WHERE turma = %s) a
+                  FROM (SELECT DISTINCT aluno FROM identificacoes WHERE lower(btrim(turma)) = lower(btrim(%s))) a
                   LEFT JOIN agg g ON g.aluno = a.aluno
                   LEFT JOIN vid v ON v.aluno = a.aluno
                  ORDER BY 2 DESC, 1

@@ -399,7 +399,7 @@ mkdirSync(resolve(SAIDA, "assets"), { recursive: true });
 for (const arq of [
   "estilo.css", "app.js", "capa.png", "capa-social.png", "autor.png",
   "companion.css", "companion.js", "interativos.css", "interativos.js",
-  "uso.js", "grafo.js", "laboratorios.js", "neuronio-mp.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
+  "uso.js", "grafo.js", "professor.js", "laboratorios.js", "neuronio-mp.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
 }
@@ -668,6 +668,31 @@ const stubRedirecionamento = (de, para) => `<!doctype html>
 `;
 
 // Portão de qualidade: todo link interno .html aponta para página existente.
+// ---------------------------------------------------------------- turma.html
+//
+// A bancada do professor (ADR 0021). Fica FORA do `sumario.json` de propósito:
+// todo item do sumário entra na barra lateral das 80 páginas, e uma linha
+// "Quadro da turma" ali convidaria aluno a cutucar a porta e confundiria quem
+// não é da disciplina. Isso é higiene, não segurança — a URL é pública e
+// adivinhável, e quem protege é o token conferido no servidor.
+//
+// A página vai ao ar SEM NENHUM DADO dentro: nome, matrícula e nota vêm por
+// requisição autenticada. É o que torna verdadeira a frase "a página é pública
+// e mesmo assim não vaza nada".
+writeFileSync(
+  resolve(SAIDA, "turma.html"),
+  pagina({
+    tituloPagina: "Quadro da turma",
+    corpo: '<div data-viz="turma"></div>',
+    navLateral: "",
+    prev: null,
+    next: null,
+    data: null,
+    slug: "turma",
+  }).replace("</head>", '  <meta name="robots" content="noindex">\n</head>')
+     .replace("</body>", '<script src="' + A + 'professor.js" defer></script>\n</body>'),
+);
+
 const paginas = new Set(itens.map((i) => `${i.slug}.html`).concat("index.html", "sumario.html"));
 // Escreve os stubs, com dois gates. O primeiro impede o pior caso possível:
 // um "antigo" que hoje é o slug de um capítulo de verdade — o stub sobrescreveria
