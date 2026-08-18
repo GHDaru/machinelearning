@@ -116,7 +116,8 @@ def test_o_professor_nao_ve_resposta_nem_conversa(cli):
     # decisão de política, não detalhe de implementação, e tem de passar por aqui.
     assert csv.splitlines()[0] == (
         "aluno,resolvidos,exercicios_tentados,tentativas,de_primeira,capitulos,videos,"
-        "primeira_em,ultima_em,minutos_entre_primeira_e_ultima,pontos,pontos_possiveis,nota")
+        "primeira_em,ultima_em,minutos_entre_primeira_e_ultima,pontos,pontos_tentados,"
+        "pontos_possiveis,acerto_do_que_tentou,nota")
     # E as colunas novas não podem ter aberto uma porta lateral para o texto:
     # os ids de exercício resolvidos são usados para somar pontos e NÃO saem.
     assert "ids_corretos" not in csv and "ids_tentados" not in csv
@@ -179,12 +180,12 @@ def test_nota_pontos_e_relogio_chegam_ao_professor(cli):
     # dois itens do mesmo capítulo: um certo, um errado.
     cli.post("/exercicio/tentativa",
              json={"session_id": "s9", "exercicio_id": "modelos-lineares-e1",
-                   "resposta": "0", "capitulo": 5})
+                   "resposta": "0", "capitulo": 10})
     cli.post("/exercicio/tentativa",
              json={"session_id": "s9", "exercicio_id": "modelos-lineares-e2",
-                   "resposta": "resposta-qualquer-errada", "capitulo": 5})
+                   "resposta": "resposta-qualquer-errada", "capitulo": 10})
 
-    d = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
+    d = cli.get("/turma/AP2026", params={"token": TOKEN, "capitulo": 10}).json()
     linha = next(l for l in d["progresso"] if l["aluno"] == "987654")
 
     # o código do aluno é a chave, e sobrevive à viagem
@@ -205,13 +206,38 @@ def test_denominador_muda_com_o_recorte_por_capitulo(cli):
     chat(cli, "s10", "/turma AP2026 555")
     cli.post("/exercicio/tentativa",
              json={"session_id": "s10", "exercicio_id": "modelos-lineares-e1",
-                   "resposta": "0", "capitulo": 5})
+                   "resposta": "0", "capitulo": 10})
 
     sem = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
-    com = cli.get("/turma/AP2026", params={"token": TOKEN, "capitulo": 5}).json()
+    com = cli.get("/turma/AP2026", params={"token": TOKEN, "capitulo": 10}).json()
 
     # sem recorte o denominador é declaradamente o que o aluno TENTOU
     assert sem["pontos_possiveis"] is None
     # com recorte, é o capítulo inteiro — inclusive o que ele não abriu
     assert com["pontos_possiveis"] > 0
     assert com["total_exercicios"] < sem["total_exercicios"]
+
+
+def test_sem_recorte_nao_existe_nota(cli):
+    """A armadilha do ranking invertido, fechada por teste.
+
+    Sem `?capitulo=`, o único denominador possível é "o que o aluno tentou" — e
+    aí quem tentou um exercício e acertou recebe 10,0, enquanto quem fez
+    quatrocentos e acertou 350 recebe 8,1. Ordenar por isso inverte o ranking.
+    Então, sem recorte, `nota` não existe.
+    """
+    chat(cli, "s11", "/turma AP2026 111")
+    cli.post("/exercicio/tentativa",
+             json={"session_id": "s11", "exercicio_id": "modelos-lineares-e1",
+                   "resposta": "0", "capitulo": 10})
+
+    sem = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
+    linha = next(l for l in sem["progresso"] if l["aluno"] == "111")
+    assert linha["nota"] is None, "nota sem denominador fixo é armadilha, não nota"
+    assert linha["pontos_possiveis"] is None
+    # o dado não se perde: ele só passa a ter um nome que diz o que mede
+    assert "acerto_do_que_tentou" in linha
+
+    com = cli.get("/turma/AP2026", params={"token": TOKEN, "capitulo": 10}).json()
+    linha2 = next(l for l in com["progresso"] if l["aluno"] == "111")
+    assert linha2["pontos_possiveis"] > 0

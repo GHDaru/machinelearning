@@ -6,6 +6,51 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — `turma.html`, o quadro do professor ([ADR 0021](adr/0021-o-quadro-da-turma.md))
+- Página no próprio livro que consome `GET /turma/{turma}`: tabela ordenável por clique no
+  cabeçalho, busca por aluno, filtro por capítulo e download de CSV montado no cliente
+  (`;`, vírgula decimal e BOM — é o que o Excel em português abre certo).
+- **A página vai ao ar com 2.896 bytes**: um título e uma `<div>` vazia. Uma página de
+  capítulo tem oitenta mil. Nome, matrícula e nota não estão no arquivo; vêm por requisição
+  autenticada.
+- Fica **fora do sumário**, sem link a partir do livro e com `noindex`. Isso é higiene, não
+  segurança: a URL é pública e adivinhável, e quem protege é o token conferido no servidor.
+- Ela **não faz requisição nenhuma antes do clique** — além de ser o desenho certo, é
+  requisito técnico: um 403 automático quebraria a auditoria de jornada.
+
+### Adicionado — autenticação de verdade para o professor
+- `ADMIN_USER` e `ADMIN_PASSWORD` no ambiente do servidor, e `POST /admin/login` devolvendo
+  **token de sessão assinado com HMAC-SHA256, sem estado no servidor**, válido por 12 horas.
+  Sem estado porque uma tabela de sessões em memória deslogaria o professor toda vez que a
+  `main` recebesse um push — no meio da aula. Nenhuma dependência nova.
+- **`Authorization: Bearer` e `sessionStorage`, não cookie.** Cookie exigiria
+  `allow_credentials=True`, e o `ALLOWED_ORIGIN_REGEX` deste backend casa qualquer
+  `machinelearning-*.vercel.app`, domínio que um terceiro pode registrar hoje. O ADR 0006
+  escreveu que isso é seguro "porque não há sessão a roubar" — é uma **precondição**, e
+  ligar credenciais a revogaria em silêncio.
+- Uma porta só (`_exigir_admin`) no lugar de **três cópias divergentes** da mesma linha em
+  `/turma`, `/telemetry` e `/suggestions`.
+- Nove testes novos: senha errada e usuário errado dão a **mesma** resposta; a senha nunca
+  volta no corpo; token adulterado não passa; sessão expirada não passa; força bruta esbarra
+  no teto; e sem as variáveis no ambiente a rota responde 503.
+
+### Corrigido — a nota sem recorte de capítulo invertia o ranking
+- Defeito introduzido no ciclo anterior, por mim. O denominador era "o que o aluno tentou",
+  então **quem tentou um exercício e acertou recebia 10,0** enquanto quem fez quatrocentos e
+  acertou 350 recebia 8,1. Ordenar por essa coluna punha o aluno que menos fez no topo — e a
+  coluna se chamava "nota".
+- Agora, sem `?capitulo=N`, `nota` é nula e o número passa a se chamar
+  `acerto_do_que_tentou`. O dado não se perdeu; ganhou um nome que diz o que mede. O painel
+  mostra o aviso e não oferece a palavra "nota" nesse estado.
+
+### Corrigido — turma e aluno eram comparados letra a letra, e isso criava alunos fantasma
+- `AP2026` e `ap2026` eram **duas turmas**; `Maria Silva` e `maria silva`, **duas pessoas**.
+  Medido: sete formas de digitar geravam **cinco identidades**. Na prática, o aluno que
+  digitou em minúscula simplesmente não aparecia no relatório, e o professor não distinguia
+  "não fez" de "digitou diferente".
+- A comparação passou a ser canônica nos dois stores; o nome exibido continua sendo a forma
+  que a pessoa escreveu.
+
 ### Adicionado — o export da turma passa a dar as cinco coisas que o professor pediu
 - `GET /turma/{turma}` ganha **quando**, **quanto tempo**, **pontos** e **nota**, além do
   que já tinha. As cinco coisas do pedido — o que fez, quando fez, quanto tempo levou, a

@@ -14,6 +14,8 @@ Três superfícies:
 from __future__ import annotations
 
 import smtplib
+import hashlib
+import hmac
 import time
 from datetime import datetime, timezone
 from collections import defaultdict, deque
@@ -316,9 +318,8 @@ def get_telemetry_publico() -> dict:
 
 
 @app.get("/telemetry")
-def get_telemetry(token: str = "") -> dict:
-    if not config.ADMIN_TOKEN or token != config.ADMIN_TOKEN:
-        raise HTTPException(status_code=403, detail="token inválido")
+def get_telemetry(request: Request, token: str = "") -> dict:
+    _exigir_admin(request, token)
     return {"navegacao": _store.nav_stats(), "exercicios": _store.stats_exercicios()}
 
 
@@ -378,9 +379,8 @@ def post_suggestion(inp: SuggestionIn, request: Request) -> dict:
 
 
 @app.get("/suggestions")
-def get_suggestions(token: str = "") -> dict:
-    if not config.ADMIN_TOKEN or token != config.ADMIN_TOKEN:
-        raise HTTPException(status_code=403, detail="token inválido")
+def get_suggestions(request: Request, token: str = "") -> dict:
+    _exigir_admin(request, token)
     return {"suggestions": _store.suggestions()}
 
 
@@ -470,8 +470,105 @@ def get_identificacao(session_id: str) -> dict:
     return {"identificacao": _store.identificacao(session_id)}
 
 
+
+# ---------------------------------------------------------------- painel do professor
+#
+# AUTENTICAÇÃO (ADR 0021). O pedido foi "só abre com o usuário admin em variável
+# de ambiente". A parte que não dá para atender literalmente: o painel é um
+# arquivo estático, e arquivo estático é público — qualquer um baixa o HTML. O
+# que se tranca não é a página, é a RESPOSTA. A página nasce sem nenhum dado
+# dentro; tudo vem daqui, e daqui só sai com credencial conferida a cada
+# requisição.
+#
+# O token de sessão é ASSINADO e SEM ESTADO no servidor. Uma tabela de sessões
+# em memória deslogaria o professor toda vez que a `main` recebesse um push,
+# porque o Railway reinicia o processo — e isso aconteceria no meio da aula.
+# Token assinado sobrevive a restart, a redeploy e a duas instâncias, sem banco.
+#
+# A chave de assinatura é o ADMIN_TOKEN, que já existia. Assim o token mestre
+# continua valendo para `curl` e scripts, e não há segredo novo para guardar.
+
+def _assinar(payload: str) -> str:
+    return hmac.new(config.ADMIN_TOKEN.encode("utf-8"),
+                    payload.encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def _emitir_sessao() -> dict:
+    exp = int(time.time()) + config.ADMIN_SESSAO_HORAS * 3600
+    payload = f"{config.ADMIN_USER}:{exp}"
+    return {"token": f"{payload}:{_assinar(payload)}", "expira_em": exp}
+
+
+def _sessao_valida(token: str) -> bool:
+    partes = (token or "").rsplit(":", 1)
+    if len(partes) != 2:
+        return False
+    payload, assinatura = partes
+    # compare_digest em vez de `==`: custa um import e fecha uma classe inteira
+    # de crítica. Os dois lados em ASCII (hexdigest), sem risco de TypeError.
+    if not hmac.compare_digest(assinatura, _assinar(payload)):
+        return False
+    try:
+        exp = int(payload.rsplit(":", 1)[1])
+    except (ValueError, IndexError):
+        return False
+    return exp > time.time()
+
+
+def _exigir_admin(request: Request, token_query: str = "") -> None:
+    """A porta única. Antes eram três cópias divergentes da mesma linha.
+
+    Aceita, nesta ordem: token de sessão do painel; o ADMIN_TOKEN mestre no
+    header; e o ADMIN_TOKEN na query string. O último existe por compatibilidade
+    e está DEPRECIADO — ele aparece na barra de endereço, e o vazamento realista
+    aqui não é log de servidor: é o professor projetando a planilha no telão.
+    """
+    if not config.ADMIN_TOKEN:
+        raise HTTPException(status_code=403, detail="token inválido")
+    cab = request.headers.get("authorization", "")
+    apresentado = cab[7:].strip() if cab.lower().startswith("bearer ") else ""
+    if apresentado:
+        if _sessao_valida(apresentado):
+            return
+        if hmac.compare_digest(apresentado, config.ADMIN_TOKEN):
+            return
+    if token_query and hmac.compare_digest(token_query, config.ADMIN_TOKEN):
+        return
+    raise HTTPException(status_code=403, detail="token inválido")
+
+
+class LoginIn(BaseModel):
+    usuario: str
+    senha: str
+
+
+@app.post("/admin/login")
+def admin_login(inp: LoginIn, request: Request) -> dict:
+    """Confere usuário e senha contra o ambiente e devolve o token de sessão.
+
+    Falha fechada: sem ADMIN_USER/ADMIN_PASSWORD configurados, ninguém entra.
+    A resposta de erro é sempre a mesma, sem distinguir usuário errado de senha
+    errada — distinguir os dois entrega metade do segredo.
+    """
+    if not (config.ADMIN_USER and config.ADMIN_PASSWORD and config.ADMIN_TOKEN):
+        raise HTTPException(status_code=503, detail="painel não configurado neste servidor")
+    ip = request.client.host if request.client else "?"
+    # Dois tetos: por IP e global. Só o teto por IP é contornado com rotação de
+    # endereço; o global é folgado para um professor (que precisa de 1 a 3
+    # tentativas por dia) e apertado para quem está adivinhando.
+    if not _rate_ok(f"login:{ip}", 5) or not _rate_ok("login:global", 20):
+        raise HTTPException(status_code=429, detail="tentativas demais; espere alguns minutos")
+    ok_u = hmac.compare_digest(inp.usuario.strip().encode("utf-8"),
+                               config.ADMIN_USER.encode("utf-8"))
+    ok_s = hmac.compare_digest(inp.senha.encode("utf-8"),
+                               config.ADMIN_PASSWORD.encode("utf-8"))
+    if not (ok_u and ok_s):
+        raise HTTPException(status_code=403, detail="usuário ou senha inválidos")
+    return _emitir_sessao()
+
+
 @app.get("/turma/{turma}")
-def get_turma(turma: str, token: str = "", formato: str = "json",
+def get_turma(turma: str, request: Request, token: str = "", formato: str = "json",
                capitulo: Optional[int] = None):
     """Progresso da turma, para o professor. Exige ADMIN_TOKEN.
 
@@ -480,8 +577,7 @@ def get_turma(turma: str, token: str = "", formato: str = "json",
     as conversas com o tutor — é o que a mensagem de confirmação promete ao
     aluno, e promessa que o código não cumpre é mentira, não política.
     """
-    if not config.ADMIN_TOKEN or token != config.ADMIN_TOKEN:
-        raise HTTPException(status_code=403, detail="token inválido")
+    _exigir_admin(request, token)
     linhas = _store.progresso_turma(turma, capitulo)
 
     # O peso de cada exercício mora no banco, não no Postgres — a soma acontece
@@ -500,9 +596,17 @@ def get_turma(turma: str, token: str = "", formato: str = "json",
     for l in linhas:
         l["pontos"] = sum(peso.get(i, 0) for i in l.get("ids_corretos", []))
         l["pontos_tentados"] = sum(peso.get(i, 0) for i in l.get("ids_tentados", []))
-        base = possiveis if capitulo is not None else l["pontos_tentados"]
-        l["pontos_possiveis"] = base
-        l["nota"] = round(10 * l["pontos"] / base, 1) if base else None
+        # NOTA SÓ EXISTE COM DENOMINADOR FIXO. Sem `?capitulo=N`, a única base
+        # disponível é o que o aluno tentou — e aí quem tentou um exercício e
+        # acertou recebe 10,0, enquanto quem fez quatrocentos e acertou 350
+        # recebe 8,1. Ordenar por essa coluna INVERTE o ranking, e ela parece
+        # nota. Então ela não se chama nota: sem recorte, `nota` é None e o que
+        # sobra é `acerto_do_que_tentou`, cujo nome diz o que ele mede.
+        l["pontos_possiveis"] = possiveis if capitulo is not None else None
+        l["nota"] = (round(10 * l["pontos"] / possiveis, 1)
+                     if capitulo is not None and possiveis else None)
+        tent = l["pontos_tentados"]
+        l["acerto_do_que_tentou"] = round(10 * l["pontos"] / tent, 1) if tent else None
         # "Duração" aqui é a distância entre a PRIMEIRA e a ÚLTIMA resposta pelo
         # relógio do servidor. Não é tempo de trabalho: quem responde a primeira
         # questão, almoça e responde a última marca noventa minutos. O nome da
@@ -519,7 +623,8 @@ def get_turma(turma: str, token: str = "", formato: str = "json",
     if formato == "csv":
         cols = ["aluno", "resolvidos", "exercicios_tentados", "tentativas",
                 "de_primeira", "capitulos", "videos", "primeira_em", "ultima_em",
-                "minutos_entre_primeira_e_ultima", "pontos", "pontos_possiveis", "nota"]
+                "minutos_entre_primeira_e_ultima", "pontos", "pontos_tentados",
+                "pontos_possiveis", "acerto_do_que_tentou", "nota"]
         # `aluno` é citado porque matrícula com zero à esquerda ("0123") o Excel
         # abre como 123, e a chave deixa de casar com o diário. As colunas de
         # data também, porque o separador decimal brasileiro briga com a vírgula.

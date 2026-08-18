@@ -427,3 +427,39 @@ abbr[title] { text-decoration: underline dotted; text-decoration-thickness: 1px;
      a moldura junto, para não deixar um retângulo órfão no meio da prova. */
   .laboratorio { display: none; }
 }
+
+/* ===== Quadro da turma (ADR 0021) — a bancada do professor =====
+   Vive em `turma.html`, fora do sumário: é ferramenta de uma pessoa só, e uma
+   linha na barra lateral de 80 páginas convidaria aluno a cutucar a porta. Isso
+   é higiene, não segurança — quem protege é o token conferido no servidor. */
+.prof-portaria { max-width: 34rem; }
+.prof-form { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+.prof-campo { font: inherit; padding: .45rem .6rem; min-height: 44px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg); color: var(--fg); min-width: 0; flex: 1 1 12rem; }
+.prof-botao { font: inherit; font-weight: 600; padding: .45rem 1rem; min-height: 44px;
+  border: 1px solid var(--link); border-radius: 8px; background: var(--link);
+  color: #fff; cursor: pointer; }
+.prof-botao-fraco { font: inherit; padding: .3rem .7rem; min-height: 44px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: transparent; color: var(--muted); cursor: pointer; }
+.prof-barra { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: .8rem 0; }
+.prof-chip { font-size: .78rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px; padding: .15rem .6rem; }
+.prof-filtros { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0; }
+.prof-nota { font-size: .82rem; color: var(--muted); }
+.prof-erro { color: #a33; font-size: .9rem; }
+.prof-aviso { border-left: 4px solid var(--prat); background: var(--sidebar);
+  padding: .7rem 1rem; border-radius: 0 8px 8px 0; font-size: .9rem; }
+.prof-tabela-rolagem { overflow-x: auto; max-width: 100%; }
+.prof-tabela { border-collapse: collapse; font-size: .88rem; width: auto; }
+.prof-tabela th, .prof-tabela td { border: 1px solid var(--line); padding: .35rem .6rem;
+  text-align: left; white-space: nowrap; }
+.prof-tabela th { background: rgba(127,127,127,.1); cursor: pointer; user-select: none; }
+.prof-tabela th[aria-sort="descending"]::after { content: " ↓"; }
+.prof-tabela th[aria-sort="ascending"]::after { content: " ↑"; }
+.prof-acoes { display: flex; gap: .5rem; margin: .8rem 0; }
+/* Abaixo de 800px as colunas secundárias saem: treze colunas num visor de
+   360px viram uma faixa que o professor arrasta com o polegar na frente da
+   turma. As quatro primeiras respondem à pergunta que ele faz ao vivo. */
+@media (max-width: 800px) { .prof-col-extra { display: none; } }
