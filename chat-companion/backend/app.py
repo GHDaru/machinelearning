@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import smtplib
 import time
+from datetime import datetime, timezone
 from collections import defaultdict, deque
 from email.message import EmailMessage
 from typing import Optional
@@ -470,7 +471,8 @@ def get_identificacao(session_id: str) -> dict:
 
 
 @app.get("/turma/{turma}")
-def get_turma(turma: str, token: str = "", formato: str = "json"):
+def get_turma(turma: str, token: str = "", formato: str = "json",
+               capitulo: Optional[int] = None):
     """Progresso da turma, para o professor. Exige ADMIN_TOKEN.
 
     Devolve SÓ resultado agregado por aluno: quantos exercícios resolveu, em
@@ -480,16 +482,57 @@ def get_turma(turma: str, token: str = "", formato: str = "json"):
     """
     if not config.ADMIN_TOKEN or token != config.ADMIN_TOKEN:
         raise HTTPException(status_code=403, detail="token inválido")
-    linhas = _store.progresso_turma(turma)
+    linhas = _store.progresso_turma(turma, capitulo)
+
+    # O peso de cada exercício mora no banco, não no Postgres — a soma acontece
+    # aqui, que é onde o banco está carregado.
+    #
+    # SOBRE O DENOMINADOR. O ADR 0014 registrou a dívida: o total do livro cresce
+    # no meio do semestre (já foi de 91 a 430 itens), e uma nota sobre ele muda
+    # sozinha em outubro. Por isso a nota é calculada sobre o RECORTE pedido: com
+    # `?capitulo=N` o denominador é o capítulo, que é estável e é o que o
+    # professor aplica. Sem recorte, a nota sai sobre o que o aluno TENTOU, e a
+    # coluna diz isso no nome.
+    universo = _banco.por_capitulo(capitulo) if capitulo is not None else list(_banco.exercicios.values())
+    peso = {e["id"]: e.get("pontos", 1) for e in universo}
+    possiveis = sum(peso.values())
+
+    for l in linhas:
+        l["pontos"] = sum(peso.get(i, 0) for i in l.get("ids_corretos", []))
+        l["pontos_tentados"] = sum(peso.get(i, 0) for i in l.get("ids_tentados", []))
+        base = possiveis if capitulo is not None else l["pontos_tentados"]
+        l["pontos_possiveis"] = base
+        l["nota"] = round(10 * l["pontos"] / base, 1) if base else None
+        # "Duração" aqui é a distância entre a PRIMEIRA e a ÚLTIMA resposta pelo
+        # relógio do servidor. Não é tempo de trabalho: quem responde a primeira
+        # questão, almoça e responde a última marca noventa minutos. O nome da
+        # coluna carrega a ressalva porque a planilha vai ser lida sem este
+        # comentário do lado.
+        p_, u_ = l.get("primeira_em"), l.get("ultima_em")
+        l["minutos_entre_primeira_e_ultima"] = round((u_ - p_) / 60, 1) if p_ and u_ else None
+        for k in ("primeira_em", "ultima_em"):
+            l[k] = (datetime.fromtimestamp(l[k], tz=timezone.utc).isoformat(timespec="seconds")
+                    if l[k] else None)
+        l.pop("ids_corretos", None)
+        l.pop("ids_tentados", None)
+
     if formato == "csv":
         cols = ["aluno", "resolvidos", "exercicios_tentados", "tentativas",
-                "de_primeira", "capitulos", "videos"]
+                "de_primeira", "capitulos", "videos", "primeira_em", "ultima_em",
+                "minutos_entre_primeira_e_ultima", "pontos", "pontos_possiveis", "nota"]
+        # `aluno` é citado porque matrícula com zero à esquerda ("0123") o Excel
+        # abre como 123, e a chave deixa de casar com o diário. As colunas de
+        # data também, porque o separador decimal brasileiro briga com a vírgula.
+        citar = {"aluno", "primeira_em", "ultima_em"}
+        def cel(l, c):
+            v = "" if l.get(c) is None else str(l[c])
+            return '"' + v.replace('"', '""') + '"' if c in citar else v
         corpo = ",".join(cols) + "\n" + "\n".join(
-            ",".join('"' + str(l[c]).replace('"', '""') + '"' if c == "aluno" else str(l[c])
-                     for c in cols) for l in linhas)
+            ",".join(cel(l, c) for c in cols) for l in linhas)
         return PlainTextResponse(corpo, media_type="text/csv; charset=utf-8")
-    return {"turma": turma, "alunos": len(linhas),
-            "total_exercicios": len(_banco.exercicios), "progresso": linhas}
+    return {"turma": turma, "capitulo": capitulo, "alunos": len(linhas),
+            "pontos_possiveis": possiveis if capitulo is not None else None,
+            "total_exercicios": len(universo), "progresso": linhas}
 
 
 @app.post("/chat")

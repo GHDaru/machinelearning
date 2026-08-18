@@ -112,7 +112,15 @@ def test_o_professor_nao_ve_resposta_nem_conversa(cli):
 
     csv = cli.get("/turma/AP2026", params={"token": TOKEN, "formato": "csv"}).text
     assert "TEXTO-SECRETO" not in csv
-    assert csv.splitlines()[0] == "aluno,resolvidos,exercicios_tentados,tentativas,de_primeira,capitulos,videos"
+    # O cabeçalho é fixado de propósito: coluna nova no export do professor é
+    # decisão de política, não detalhe de implementação, e tem de passar por aqui.
+    assert csv.splitlines()[0] == (
+        "aluno,resolvidos,exercicios_tentados,tentativas,de_primeira,capitulos,videos,"
+        "primeira_em,ultima_em,minutos_entre_primeira_e_ultima,pontos,pontos_possiveis,nota")
+    # E as colunas novas não podem ter aberto uma porta lateral para o texto:
+    # os ids de exercício resolvidos são usados para somar pontos e NÃO saem.
+    assert "ids_corretos" not in csv and "ids_tentados" not in csv
+    assert "ids_corretos" not in bruto and "ids_tentados" not in bruto
 
 
 def test_duas_sessoes_do_mesmo_aluno_viram_uma_linha(cli):
@@ -160,3 +168,50 @@ def test_funciona_sem_modelo(cli, monkeypatch):
     assert "AP2026" in chat(cli, "s1", "/turma AP2026 123456")
     r = cli.post("/chat", json={"session_id": "s1", "message": "e uma pergunta normal?"})
     assert r.status_code == 502  # a conversa quebra; a identificação, não
+
+
+def test_nota_pontos_e_relogio_chegam_ao_professor(cli):
+    """As cinco coisas que o professor pediu, cobradas de ponta a ponta.
+
+    O que fez, quando fez, quanto tempo levou, a nota, e o código dele.
+    """
+    chat(cli, "s9", "/turma AP2026 987654")
+    # dois itens do mesmo capítulo: um certo, um errado.
+    cli.post("/exercicio/tentativa",
+             json={"session_id": "s9", "exercicio_id": "modelos-lineares-e1",
+                   "resposta": "0", "capitulo": 5})
+    cli.post("/exercicio/tentativa",
+             json={"session_id": "s9", "exercicio_id": "modelos-lineares-e2",
+                   "resposta": "resposta-qualquer-errada", "capitulo": 5})
+
+    d = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
+    linha = next(l for l in d["progresso"] if l["aluno"] == "987654")
+
+    # o código do aluno é a chave, e sobrevive à viagem
+    assert linha["aluno"] == "987654"
+    # quando fez: ISO-8601 com fuso, nas duas pontas
+    assert linha["primeira_em"] and linha["primeira_em"].endswith("+00:00")
+    assert linha["ultima_em"] and linha["ultima_em"].endswith("+00:00")
+    # quanto tempo levou: existe e não é negativo
+    assert linha["minutos_entre_primeira_e_ultima"] >= 0
+    # nota: derivada dos pontos, nunca vinda do cliente
+    assert linha["pontos_possiveis"] > 0
+    assert linha["nota"] is not None and 0 <= linha["nota"] <= 10
+
+
+def test_denominador_muda_com_o_recorte_por_capitulo(cli):
+    """A dívida que o ADR 0014 registrou: nota sobre o livro inteiro muda sozinha
+    quando o livro cresce. Com `?capitulo=N` o denominador é o capítulo."""
+    chat(cli, "s10", "/turma AP2026 555")
+    cli.post("/exercicio/tentativa",
+             json={"session_id": "s10", "exercicio_id": "modelos-lineares-e1",
+                   "resposta": "0", "capitulo": 5})
+
+    sem = cli.get("/turma/AP2026", params={"token": TOKEN}).json()
+    com = cli.get("/turma/AP2026", params={"token": TOKEN, "capitulo": 5}).json()
+
+    # sem recorte o denominador é declaradamente o que o aluno TENTOU
+    assert sem["pontos_possiveis"] is None
+    # com recorte, é o capítulo inteiro — inclusive o que ele não abriu
+    assert com["pontos_possiveis"] > 0
+    assert com["total_exercicios"] < sem["total_exercicios"]
