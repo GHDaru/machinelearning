@@ -70,9 +70,15 @@ Agora repare: o XOR é exatamente `(x₁ OU x₂) E (x₁ NÃO-E x₂)` — "pel
 
 Confira nas quatro linhas: (0,0) → h=(0,1) → soma 1, não dispara. (0,1) → h=(1,1) → soma 2, dispara. (1,0) → idem, dispara. (1,1) → h=(1,0) → soma 1, não dispara. **4 de 4.** O que era impossível em um plano ficou trivial em dois passos, porque a camada escondida **reescreveu as entradas** — `h₁` e `h₂` são coordenadas novas, e nelas o problema virou linearmente separável.
 
+<img src="assets/camada-escondida.svg" alt="Duas vistas do mesmo problema XOR, uma acima da outra. Em cima, o espaço das entradas x₁ e x₂: os quatro casos ocupam os cantos de um quadrado, e os dois que devem disparar estão em cantos opostos, de modo que nenhuma reta os separa dos outros dois. Embaixo, o espaço da camada escondida h₁ e h₂, com cada ponto rotulado pela entrada de onde veio: as entradas (0,1) e (1,0) chegam ambas à mesma posição, de modo que quatro casos ocupam apenas três lugares. Nesse espaço uma única reta separa o que dispara do que não dispara." width="444">
+
+A figura é a frase acima, desenhada. Em cima, o problema que o [capítulo III.1](iii-1-neuronio-artificial.md) provou impossível: quatro pontos, e nenhuma reta que separe os verdes dos brancos. Embaixo, os **mesmos quatro casos** depois de passarem pelas duas unidades escondidas, cada ponto rotulado pela entrada de onde veio. Agora uma reta basta.
+
+Repare no rótulo do ponto verde de baixo, porque ele é o mecanismo. Os dois casos que devem disparar, $(0,1)$ e $(1,0)$, **caem exatamente no mesmo ponto**. A camada escondida não entortou a fronteira: ela juntou o que precisava se comportar igual, e o que sobrou foi separável por uma reta. Quatro entradas viraram três posições, e é essa perda de informação, deliberada e seletiva, que resolve o problema.
+
 A tabela acima traz os pesos **prontos**, escolhidos à mão para você conferir a aritmética. A pergunta que ela deixa em aberto é outra: a rede consegue **achar** esses pesos sozinha?
 
-:::lab {"id":"redes-neurais-l1","tipo":"anima-mlp-xor","titulo":"O XOR resolvido, e as duas retas girando","semente":11}
+:::lab {"id":"redes-neurais-l1","tipo":"anima-mlp-xor","titulo":"O XOR resolvido, e as duas retas girando","semente":6}
 É o mesmo XOR em que o perceptron do [capítulo III.1](iii-1-neuronio-artificial.md) oscilava sem fim. Aqui a rede é 2 → 2 → 1, com `tanh` na camada escondida, e ninguém escolheu peso nenhum: ela parte de valores aleatórios e desce o gradiente.
 
 As **duas retas** são as fronteiras que as duas unidades escondidas estão aprendendo, e são o conteúdo da animação, não enfeite. Repare que a solução nunca vira uma fronteira curva: são duas retas, e quem as combina é a camada de saída — exatamente o `(OU) E (NÃO-E)` da tabela, encontrado sozinho.
