@@ -54,7 +54,7 @@ E há um detalhe atribuído a Hornik que o rótulo popular apaga: o poder de apr
 | 📖 | Que 1986 entrega o **procedimento**, não a arquitetura — e que a licença teórica chegou **depois** da engenharia |
 | 📖 | "Existência não é treinabilidade" como a ideia exportável, e os vinte anos do [capítulo III.3](iii-3-treinar-redes-profundas.md) como o preço dela |
 
-## Fundamentos: a camada escondida, e o XOR resolvido
+## Duas retas: o que a camada escondida faz com o espaço
 
 Volte ao laboratório do [capítulo III.1](iii-1-neuronio-artificial.md) e olhe as retas que você **conseguiu** traçar. O OU funciona. O NÃO-E funciona. O XOR, não.
 
@@ -102,23 +102,6 @@ Numa rede 3 → 4 → 2, portanto: a primeira camada tem $3 \times 4 + 4 = 16$; 
 
 Tire a não-linearidade e a profundidade some junto. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear**: o produto de duas matrizes é uma matriz. Você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.
 
-:::exercicio {"id":"redes-neurais-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
-Uma rede tem duas camadas densas empilhadas, **sem nenhuma função de ativação entre elas**. O que essa rede consegue computar?
-
-- [ ] Qualquer função contínua, pelo teorema da aproximação universal — basta ter unidades suficientes.
-- [x] Exatamente o mesmo conjunto de funções que uma única camada linear.
-- [ ] O XOR, porque já são duas camadas e duas fronteiras.
-- [ ] O dobro de fronteiras de decisão de uma camada só, mas todas paralelas entre si.
-
-> **gabarito:** Exatamente o mesmo que uma única camada linear
-> **porque:** Aplicar `W₂(W₁x + b₁) + b₂` é aplicar `(W₂W₁)x + (W₂b₁ + b₂)`. O produto de duas matrizes é uma matriz: a composição colapsa. Você pagou o dobro de parâmetros e de tempo de treino para obter um modelo linear.
->
-> As erradas todas confundem **profundidade** com **poder de representação**. O teorema exige a não-linearidade — é ela que impede o colapso; sem ativação, o teorema simplesmente não se aplica. O XOR continua impossível pelo mesmo motivo do [capítulo III.1](iii-1-neuronio-artificial.md): a função computada ainda é uma reta, e reta nenhuma separa cantos opostos. E "fronteiras paralelas" é uma imagem sedutora e falsa — não há duas fronteiras, há uma.
->
-> A moral prática: **a não-linearidade é o que torna a camada uma camada.** Empilhar transformações lineares não constrói hierarquia nenhuma.
-> **volte para:** #fundamentos-a-camada-escondida-e-o-xor-resolvido
-:::
-
 :::exercicio {"id":"redes-neurais-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 O que a camada escondida faz para tornar o XOR resolvível?
 
@@ -133,7 +116,24 @@ O que a camada escondida faz para tornar o XOR resolvível?
 > A primeira alternativa é a intuição mais comum e é falsa, e a animação acima existe para desmenti-la: nunca aparece uma curva. Aparecem duas retas, e a combinação delas é que recorta o quadrado.
 >
 > A terceira confunde capacidade com representação. Não é o número de pesos que resolve, é o fato de existir uma etapa intermediária que muda o sistema de coordenadas — uma camada linear a mais, sem não-linearidade, teria mais pesos e continuaria sem resolver.
-> **volte para:** #fundamentos-a-camada-escondida-e-o-xor-resolvido
+> **volte para:** #duas-retas-o-que-a-camada-escondida-faz-com-o-espaco
+:::
+
+:::exercicio {"id":"redes-neurais-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Uma rede tem duas camadas densas empilhadas, **sem nenhuma função de ativação entre elas**. O que essa rede consegue computar?
+
+- [ ] Qualquer função contínua, pelo teorema da aproximação universal — basta ter unidades suficientes.
+- [x] Exatamente o mesmo conjunto de funções que uma única camada linear.
+- [ ] O XOR, porque já são duas camadas e duas fronteiras.
+- [ ] O dobro de fronteiras de decisão de uma camada só, mas todas paralelas entre si.
+
+> **gabarito:** Exatamente o mesmo que uma única camada linear
+> **porque:** Aplicar `W₂(W₁x + b₁) + b₂` é aplicar `(W₂W₁)x + (W₂b₁ + b₂)`. O produto de duas matrizes é uma matriz: a composição colapsa. Você pagou o dobro de parâmetros e de tempo de treino para obter um modelo linear.
+>
+> As erradas todas confundem **profundidade** com **poder de representação**. O teorema exige a não-linearidade — é ela que impede o colapso; sem ativação, o teorema simplesmente não se aplica. O XOR continua impossível pelo mesmo motivo do [capítulo III.1](iii-1-neuronio-artificial.md): a função computada ainda é uma reta, e reta nenhuma separa cantos opostos. E "fronteiras paralelas" é uma imagem sedutora e falsa — não há duas fronteiras, há uma.
+>
+> A moral prática: **a não-linearidade é o que torna a camada uma camada.** Empilhar transformações lineares não constrói hierarquia nenhuma.
+> **volte para:** #duas-retas-o-que-a-camada-escondida-faz-com-o-espaco
 :::
 
 :::exercicio {"id":"redes-neurais-e6","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
@@ -150,10 +150,10 @@ Segundo o capítulo, qual modelo já conhecido é o caso extremo de um MLP?
 > A leitura que isso permite é a que interessa: a rede não é uma família estranha e nova, é a generalização de algo que o livro já construiu. E ela explica de novo por que a logística não resolve o XOR — sendo um neurônio, ela traça uma reta.
 >
 > A alternativa do boosting é a mais interessante das erradas porque acerta uma semelhança real: ele também acumula correções. Só que ele soma **modelos** treinados em sequência sobre o resíduo, e a rede compõe **transformações** treinadas em conjunto. Somar e compor são operações diferentes.
-> **volte para:** #fundamentos-a-camada-escondida-e-o-xor-resolvido
+> **volte para:** #duas-retas-o-que-a-camada-escondida-faz-com-o-espaco
 :::
 
-## Backpropagation: a regra da cadeia com reaproveitamento
+## Achar os pesos: a culpa atravessa a camada
 
 Agora o problema de 1969. Os pesos da tabela acima foram postos à mão. Como descobri-los a partir de dados?
 
@@ -167,7 +167,7 @@ Fazer isso ingenuamente seria absurdo: recalcular o caminho inteiro para cada pe
 
 Backpropagation não é um algoritmo de otimização. Ele calcula o gradiente. Quem move os pesos é o gradiente descendente do [capítulo II.4](ii-4-otimizacao.md): a mesma otimização, os mesmos passos, a mesma regularização, só que numa superfície muito maior e cheia de vales.
 
-### A conta, com números
+### Um passo inteiro, com números
 
 Tudo acima é verdade e nenhum peso se mexeu ainda. Aqui um passo inteiro, com a menor rede que ainda precisa da regra da cadeia: duas entradas, **duas** unidades escondidas, uma saída, sigmoide nas duas camadas. Com uma unidade só não haveria o que retropropagar.
 
@@ -222,24 +222,26 @@ Perda de 0,1982 para 0,1578, previsão de 0,5548 para 0,6027. Um passo, e a rede
 
 Há uma lição escondida nas duas linhas cujo gradiente deu zero. Os pesos $w_{21}$ e $w_{22}$ **não se mexeram**, porque $x_2 = 0$ neste exemplo. Peso multiplicado por entrada nula não recebe gradiente, e isso não é defeito: é a regra da cadeia informando que aquele peso não participou do erro. É a mesma atribuição de culpa do perceptron, no [capítulo III.1](iii-1-neuronio-artificial.md), agora atravessando duas camadas. E é a raiz do problema da ReLU morta, que o [capítulo III.3](iii-3-treinar-redes-profundas.md) trata: unidade que nunca ativa nunca aprende, porque nunca recebe gradiente.
 
-### E o que um passo não mostra
+### E quando há mais de duas classes
 
-Um caso não é treinar. A mesma rede, agora sobre os quatro pontos do XOR, em lote cheio:
+**A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada tem uma razão de ser: combinadas, o gradiente na saída se reduz a `previsão − rótulo`, que é simples de derivar e estável de calcular.
 
-| época | EQM | `00` | `01` | `10` | `11` | acertos |
-|---|---|---|---|---|---|---|
-| 0 | 0,2520 | 0,55 | 0,50 | 0,55 | 0,51 | 2/4 |
-| 100 | 0,2507 | 0,52 | 0,48 | 0,52 | 0,48 | 2/4 |
-| 500 | 0,2502 | 0,51 | 0,48 | 0,52 | 0,49 | 2/4 |
-| 1 000 | 0,2500 | 0,51 | 0,49 | 0,51 | 0,49 | 2/4 |
-| 2 000 | 0,2499 | 0,51 | 0,49 | 0,51 | 0,49 | 2/4 |
-| 4 000 | 0,1865 | 0,42 | 0,39 | 0,75 | 0,36 | 3/4 |
-| 8 000 | **0,0017** | 0,04 | 0,95 | 0,96 | 0,04 | **4/4** |
-| 15 000 | 0,0005 | 0,02 | 0,97 | 0,98 | 0,02 | 4/4 |
+:::exercicio {"id":"redes-neurais-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
+Por que a função-degrau precisou sair para que a rede pudesse ser treinada?
 
-O que essa tabela ensina não é que a rede aprende, e sim o **planalto**. Por duas mil épocas o erro fica parado em 0,25 e as quatro saídas ficam em torno de 0,5, o que é a rede respondendo "sei lá" para tudo. Ela parece morta e não está. A quebra vem entre 2 000 e 4 000, e depois a perda cai três ordens de grandeza em poucos milhares de épocas.
+- [x] Ela é plana em toda parte e salta num ponto: a derivada é zero onde existe e não existe onde importa.
+- [ ] Ela é lenta de calcular em comparação com a sigmoide.
+- [ ] Ela só aceita entradas binárias, e redes usam entradas contínuas.
+- [ ] Ela não permite mais de duas classes na saída.
 
-Quem desiste na época 1 000 conclui que o método não funciona, e conclui isso com uma tabela na mão. Distinguir **empacar por planalto** de **empacar por mínimo local** exige rodar mais, e é a diferença entre os dois que a seção de diagnóstico deste capítulo trata.
+> **gabarito:** derivada zero onde existe, inexistente onde importa
+> **porque:** Sem derivada não há gradiente, e sem gradiente não há direção para onde mover o peso. É por isso que ativações de rede treinável são contínuas: sigmoide, tanh, ReLU.
+>
+> Vale marcar que a troca **não** é preferência estética nem questão de desempenho. É a condição para que a otimização do [capítulo II.4](ii-4-otimizacao.md) tenha o que ler.
+>
+> E vale lembrar o limite disso, que o [capítulo III.1](iii-1-neuronio-artificial.md) já estabeleceu: trocar o degrau pela sigmoide é necessário para treinar e não resolve a geometria. Quem resolve o XOR é a camada, não a ativação.
+> **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
+:::
 
 :::exercicio {"id":"redes-neurais-e13","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Na rede do exemplo acima, a saída deu $\hat{y} = 0{,}5548$ para um alvo $y = 1$, com a perda $E = (\hat{y}-y)^2$.
@@ -253,6 +255,8 @@ Calcule $\delta_y = \frac{\partial E}{\partial \hat{y}} \cdot \sigma'(u)$, lembr
 >
 > Se você chegou a $-0{,}11$, usou a convenção $E = \frac{1}{2}(\hat{y}-y)^2$, que cancela o 2 e é comum na literatura. Não está errada, mas **não é a deste livro**: o capítulo II.2 fixou o EQM sem a constante, e misturar as duas é como o aluno anota um número que o capítulo não define.
 >
+> **volte para:** #um-passo-inteiro-com-numeros
+
 :::
 
 :::exercicio {"id":"redes-neurais-e14","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
@@ -271,7 +275,28 @@ Na tabela de atualização, os pesos $w_{21}$ e $w_{22}$ ficaram exatamente onde
 >
 > A quarta descreve um algoritmo que não existe. Todas as camadas são atualizadas no mesmo passo, e é justamente esse o ponto do backpropagation: uma passada para trás basta.
 >
+> **volte para:** #um-passo-inteiro-com-numeros
+
 :::
+
+## Um passo não é treinar: o planalto
+
+Um caso não é treinar. A mesma rede, agora sobre os quatro pontos do XOR, em lote cheio:
+
+| época | EQM | `00` | `01` | `10` | `11` | acertos |
+|---|---|---|---|---|---|---|
+| 0 | 0,2520 | 0,55 | 0,50 | 0,55 | 0,51 | 2/4 |
+| 100 | 0,2507 | 0,52 | 0,48 | 0,52 | 0,48 | 2/4 |
+| 500 | 0,2502 | 0,51 | 0,48 | 0,52 | 0,49 | 2/4 |
+| 1 000 | 0,2500 | 0,51 | 0,49 | 0,51 | 0,49 | 2/4 |
+| 2 000 | 0,2499 | 0,51 | 0,49 | 0,51 | 0,49 | 2/4 |
+| 4 000 | 0,1865 | 0,42 | 0,39 | 0,75 | 0,36 | 3/4 |
+| 8 000 | **0,0017** | 0,04 | 0,95 | 0,96 | 0,04 | **4/4** |
+| 15 000 | 0,0005 | 0,02 | 0,97 | 0,98 | 0,02 | 4/4 |
+
+O que essa tabela ensina não é que a rede aprende, e sim o **planalto**. Por duas mil épocas o erro fica parado em 0,25 e as quatro saídas ficam em torno de 0,5, o que é a rede respondendo "sei lá" para tudo. Ela parece morta e não está. A quebra vem entre 2 000 e 4 000, e depois a perda cai três ordens de grandeza em poucos milhares de épocas.
+
+Quem desiste na época 1 000 conclui que o método não funciona, e conclui isso com uma tabela na mão. Distinguir **empacar por planalto** de **empacar por mínimo local** exige rodar mais, e é a diferença entre os dois que a seção de diagnóstico deste capítulo trata.
 
 :::exercicio {"id":"redes-neurais-e15","tipo":"multipla","objetivo":"O4","dificuldade":"dificil"}
 Você treina a rede do exemplo no XOR e vê a perda parada em 0,2500 da época 100 à 2 000, com as quatro saídas em torno de 0,5. Qual leitura o próprio capítulo sustenta?
@@ -289,9 +314,11 @@ Você treina a rede do exemplo no XOR e vê a perda parada em 0,2500 da época 1
 >
 > A quarta prescreve capacidade sem evidência de que falta capacidade. Duas unidades escondidas bastam para o XOR, e esta mesma rede prova isso ao chegar a 4 de 4 sem ganhar nenhuma unidade nova.
 >
+> **volte para:** #um-passo-nao-e-treinar-o-planalto
+
 :::
 
-**A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada tem uma razão de ser: combinadas, o gradiente na saída se reduz a `previsão − rótulo`, que é simples de derivar e estável de calcular.
+## Contar os parâmetros, e o bug que não grita
 
 :::exercicio {"id":"redes-neurais-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
 Um MLP densa tem 4 entradas, uma camada escondida de 5 unidades e 3 saídas. Todas as camadas têm **viés**.
@@ -304,41 +331,7 @@ Quantos parâmetros treináveis a rede tem no total?
 > A regra que vale levar: **os pesos de uma camada formam uma matriz `entradas × saídas`, e há um viés por unidade de destino** — nunca por unidade de origem. Errar isso é o bug mais comum de quem implementa a rede em NumPy pela primeira vez, e ele não aparece como erro de matemática: aparece como uma exceção de dimensão incompatível no passo para frente, ou pior, como uma soma que "funciona" por *broadcasting* e treina errado.
 >
 > Repare também na escala: 43 parâmetros para uma rede minúscula. Acrescente uma camada escondida de 100 unidades e você passa de mil. É por isso que o custo do passo para trás importa tanto.
-> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
-:::
-
-:::exercicio {"id":"redes-neurais-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
-Por que a função-degrau precisou sair para que a rede pudesse ser treinada?
-
-- [x] Ela é plana em toda parte e salta num ponto: a derivada é zero onde existe e não existe onde importa.
-- [ ] Ela é lenta de calcular em comparação com a sigmoide.
-- [ ] Ela só aceita entradas binárias, e redes usam entradas contínuas.
-- [ ] Ela não permite mais de duas classes na saída.
-
-> **gabarito:** derivada zero onde existe, inexistente onde importa
-> **porque:** Sem derivada não há gradiente, e sem gradiente não há direção para onde mover o peso. É por isso que ativações de rede treinável são contínuas: sigmoide, tanh, ReLU.
->
-> Vale marcar que a troca **não** é preferência estética nem questão de desempenho. É a condição para que a otimização do [capítulo II.4](ii-4-otimizacao.md) tenha o que ler.
->
-> E vale lembrar o limite disso, que o [capítulo III.1](iii-1-neuronio-artificial.md) já estabeleceu: trocar o degrau pela sigmoide é necessário para treinar e não resolve a geometria. Quem resolve o XOR é a camada, não a ativação.
-> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
-:::
-
-:::exercicio {"id":"redes-neurais-e8","tipo":"multipla-multi","objetivo":"O2","dificuldade":"media"}
-Quais afirmações sobre backpropagation são corretas? (marque todas que valem)
-
-- [x] Ele calcula o gradiente, e quem move os pesos é o gradiente descendente.
-- [x] O que o torna viável é o reaproveitamento: propaga-se para trás uma vez, e cada camada reusa o que chegou.
-- [x] O custo do passo para trás fica da mesma ordem do passo para frente.
-- [ ] Ele é um algoritmo de otimização alternativo ao gradiente descendente.
-
-> **gabarito:** calcula o gradiente · reaproveitamento · custo da mesma ordem
-> **porque:** As três corretas separam duas coisas que o vocabulário mistura. Backpropagation é **cálculo de derivada**; otimização é o que se faz com ela. Trocar o otimizador não muda o backpropagation, e vice-versa.
->
-> O reaproveitamento é a descoberta prática, e não a regra da cadeia em si. Aplicá-la peso a peso seria recalcular o caminho inteiro milhões de vezes; propagar uma vez e reusar por camada é o que traz o custo para a mesma ordem da ida.
->
-> A alternativa errada é a confusão mais comum, e ela tem consequência: quem acredita nela procura "trocar o backpropagation" quando o treino não anda, em vez de olhar taxa, inicialização e escala dos dados.
-> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
+> **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
 :::
 
 :::exercicio {"id":"redes-neurais-e9","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
@@ -352,7 +345,7 @@ Quantos parâmetros treináveis ela tem?
 > Repare onde o custo se concentra: a primeira camada sozinha responde por mais da metade, porque é ela que encontra a maior largura de entrada. É a mesma conta que, com imagens, torna uma camada densa impraticável e motiva a convolução do [capítulo III.4](iii-4-visao.md).
 >
 > O erro clássico continua sendo o viés: um por unidade de **destino**, nunca por unidade de origem.
-> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
+> **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
 :::
 
 :::exercicio {"id":"redes-neurais-e10","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
@@ -369,7 +362,24 @@ Ao implementar a rede em NumPy, a soma do viés "funciona" por *broadcasting* me
 > O sintoma é o pior possível: nada quebra, a perda desce um pouco, e o modelo aprende menos do que deveria. É a mesma família do "não deu NaN" do [capítulo II.4](ii-4-otimizacao.md) — ausência de sintoma não é diagnóstico.
 >
 > O gesto que protege é conferir formas explicitamente, e o teste barato do capítulo: se a rede não consegue decorar 50 exemplos, há defeito no caminho do gradiente, e não falta de capacidade.
-> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
+> **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
+:::
+
+:::exercicio {"id":"redes-neurais-e8","tipo":"multipla-multi","objetivo":"O2","dificuldade":"media"}
+Quais afirmações sobre backpropagation são corretas? (marque todas que valem)
+
+- [x] Ele calcula o gradiente, e quem move os pesos é o gradiente descendente.
+- [x] O que o torna viável é o reaproveitamento: propaga-se para trás uma vez, e cada camada reusa o que chegou.
+- [x] O custo do passo para trás fica da mesma ordem do passo para frente.
+- [ ] Ele é um algoritmo de otimização alternativo ao gradiente descendente.
+
+> **gabarito:** calcula o gradiente · reaproveitamento · custo da mesma ordem
+> **porque:** As três corretas separam duas coisas que o vocabulário mistura. Backpropagation é **cálculo de derivada**; otimização é o que se faz com ela. Trocar o otimizador não muda o backpropagation, e vice-versa.
+>
+> O reaproveitamento é a descoberta prática, e não a regra da cadeia em si. Aplicá-la peso a peso seria recalcular o caminho inteiro milhões de vezes; propagar uma vez e reusar por camada é o que traz o custo para a mesma ordem da ida.
+>
+> A alternativa errada é a confusão mais comum, e ela tem consequência: quem acredita nela procura "trocar o backpropagation" quando o treino não anda, em vez de olhar taxa, inicialização e escala dos dados.
+> **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
 :::
 
 ## Quantas camadas e quantas unidades — a decisão é empírica
@@ -405,6 +415,8 @@ A interface está em inglês. A tradução dos rótulos:
 5. **Troque `tanh` por `ReLU`.** Pergunta final, e é a que separa quem leu o teorema de Hornik de quem decorou o nome dele: mudou o que a rede **pode representar**, ou só o quanto ela **consegue treinar**?
 :::
 
+
+## O teorema não decide por você
 
 E aqui a tese do capítulo cobra o preço. O teorema garante que **existe** uma configuração de pesos que resolve seu problema. Ele não garante que o seu treino vá encontrá-la — a inicialização pode ser ruim, o gradiente pode sumir antes de chegar às primeiras camadas, os dados podem ser insuficientes para distinguir aquela solução de mil outras. É por isso que empilhar mais camadas **não funcionou por quase vinte anos** depois de 1986, apesar de o teorema já estar publicado desde 1989. O [capítulo III.3](iii-3-treinar-redes-profundas.md) conta o que foi preciso para destravar.
 
@@ -488,7 +500,7 @@ Uma rede não aprende. Quais verificações vêm **antes** de aumentar o número
 > O que backpropagation acrescenta é **ordem de cálculo**. Aplicando a regra da cadeia ingenuamente, ou seja, percorrendo para cada peso o caminho dele até a saída, o mesmo produto é recalculado incontáveis vezes, e o custo cresce com o número de pesos multiplicado pela profundidade. Propagando de trás para frente, o gradiente da camada *k* já traz condensado tudo o que vem depois dela, e o custo do passo para trás fica **da mesma ordem** do passo para frente.
 >
 > Note o que a boa explicação torna óbvio de graça: **por que a memória cresce com a profundidade**. Guardar os valores intermediários é o preço do reaproveitamento, e é a razão de o tamanho do lote esbarrar na placa de vídeo — um fato de engenharia que cai direto desta derivação.
-> **volte para:** #backpropagation-a-regra-da-cadeia-com-reaproveitamento
+> **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
 :::
 
 ## Verificação
