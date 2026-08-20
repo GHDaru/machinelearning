@@ -98,9 +98,11 @@ Esse botão existe porque o problema apareceu de verdade ao construir esta anima
 
 **Contar os parâmetros.** Uma camada que recebe $e$ entradas e produz $s$ saídas tem uma matriz $W$ de $e \times s$ pesos, mais **um viés por unidade de destino** — $s$ deles. Total: $e \times s + s$.
 
-Numa rede 3 → 4 → 2, portanto: a primeira camada tem $3 \times 4 + 4 = 16$; a segunda, $4 \times 2 + 2 = 10$; a rede tem **26** parâmetros treináveis. Guarde a regra, porque o próximo exercício pede outra arquitetura — e porque é a conta que decide se você tem dado suficiente para treinar.
+Numa rede 3 → 4 → 2, portanto: a primeira camada tem $3 \times 4 + 4 = 16$; a segunda, $4 \times 2 + 2 = 10$; a rede tem **26** parâmetros treináveis. Guarde a regra: você vai repetir essa conta mais adiante, em outra arquitetura, e é ela que decide se há dado suficiente para treinar.
 
-Tire a não-linearidade e a profundidade some junto. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear**: o produto de duas matrizes é uma matriz. Você paga por profundidade e recebe uma regressão. Aliás, o caso extremo já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.
+Tire a não-linearidade e a profundidade some junto. **Duas camadas lineares empilhadas, sem ativação no meio, são uma camada linear**: o produto de duas matrizes é uma matriz. Você paga por profundidade e recebe uma regressão.
+
+O caso extremo dessa família já é seu conhecido: uma camada, uma unidade, ativação sigmoide, e você tem a **regressão logística** do [capítulo II.3](ii-3-regressao-logistica.md). Um neurônio só.
 
 :::exercicio {"id":"redes-neurais-e5","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 O que a camada escondida faz para tornar o XOR resolvível?
@@ -155,7 +157,7 @@ Segundo o capítulo, qual modelo já conhecido é o caso extremo de um MLP?
 
 ## Achar os pesos: a culpa atravessa a camada
 
-Agora o problema de 1969. Os pesos da tabela acima foram postos à mão. Como descobri-los a partir de dados?
+Agora o problema de 1969. Os pesos que fizeram o XOR fechar foram postos à mão, um a um. Como descobri-los a partir de dados?
 
 **Primeiro, o degrau tem de sair.** A função-degrau do neurônio de McCulloch–Pitts é plana em toda parte e salta num ponto: sua derivada é zero onde existe e não existe onde importa. **Sem derivada não há gradiente, e sem gradiente não há direção para onde mover o peso.** Por isso as ativações usadas em rede treinável são contínuas: sigmoide, tangente hiperbólica, ReLU. Sem elas, a otimização do [capítulo II.4](ii-4-otimizacao.md) não tem o que ler.
 
@@ -224,7 +226,7 @@ Há uma lição escondida nas duas linhas cujo gradiente deu zero. Os pesos $w_{
 
 ### E quando há mais de duas classes
 
-**A saída, para classificação multiclasse.** A última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda é a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. A dupla softmax + entropia cruzada tem uma razão de ser: combinadas, o gradiente na saída se reduz a `previsão − rótulo`, que é simples de derivar e estável de calcular.
+O exemplo acima tinha uma saída só. Com mais de duas classes, a última camada produz um número por classe, e o **softmax** os converte em probabilidades que somam 1: exponencia cada um e divide pela soma. A perda passa a ser a **entropia cruzada**, que pune com força a confiança errada — prever 0,99 na classe errada custa muito mais do que prever 0,5. As duas andam juntas por um motivo: combinadas, o gradiente na saída se reduz a `previsão − rótulo`, que é simples de derivar e estável de calcular.
 
 :::exercicio {"id":"redes-neurais-e7","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
 Por que a função-degrau precisou sair para que a rede pudesse ser treinada?
@@ -253,7 +255,7 @@ Calcule $\delta_y = \frac{\partial E}{\partial \hat{y}} \cdot \sigma'(u)$, lembr
 >
 > O sinal negativo diz a direção: a saída está **abaixo** do alvo, e o gradiente descendente vai somar aos pesos que a empurram para cima. Se você chegou a $+0{,}22$, provavelmente calculou $\hat{y} - y$ ao contrário, o que inverteria o treino inteiro e faria a perda subir.
 >
-> Se você chegou a $-0{,}11$, usou a convenção $E = \frac{1}{2}(\hat{y}-y)^2$, que cancela o 2 e é comum na literatura. Não está errada, mas **não é a deste livro**: o capítulo II.2 fixou o EQM sem a constante, e misturar as duas é como o aluno anota um número que o capítulo não define.
+> Se você chegou a $-0{,}11$, usou a convenção $E = \frac{1}{2}(\hat{y}-y)^2$, que cancela o 2 e é comum na literatura. Não está errada, mas **não é a deste livro**: o capítulo II.2 fixou o EQM sem a constante, e misturar as duas faz o aluno anotar um número que o capítulo não define.
 >
 > **volte para:** #um-passo-inteiro-com-numeros
 
@@ -281,7 +283,7 @@ Na tabela de atualização, os pesos $w_{21}$ e $w_{22}$ ficaram exatamente onde
 
 ## Um passo não é treinar: o planalto
 
-Um caso não é treinar. A mesma rede, agora sobre os quatro pontos do XOR, em lote cheio:
+A rede andou na direção certa naquele passo, e um passo ainda não é treino. Aqui está ela sobre os quatro pontos do XOR, em lote cheio:
 
 | época | EQM | `00` | `01` | `10` | `11` | acertos |
 |---|---|---|---|---|---|---|
@@ -320,8 +322,10 @@ Você treina a rede do exemplo no XOR e vê a perda parada em 0,2500 da época 1
 
 ## Contar os parâmetros, e o bug que não grita
 
+A regra de contagem já apareceu: `e × s + s`, com um viés por unidade de **destino**. Vale praticá-la, porque errá-la não costuma derrubar o programa: a rede apenas treina mal, em silêncio.
+
 :::exercicio {"id":"redes-neurais-e2","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
-Um MLP densa tem 4 entradas, uma camada escondida de 5 unidades e 3 saídas. Todas as camadas têm **viés**.
+Um MLP denso tem 4 entradas, uma camada escondida de 5 unidades e 3 saídas. Todas as camadas têm **viés**.
 
 Quantos parâmetros treináveis a rede tem no total?
 
@@ -342,7 +346,7 @@ Quantos parâmetros treináveis ela tem?
 > **gabarito:** 161
 > **porque:** Camada a camada, com a regra `e × s + s`. Primeira: $10 \times 8 + 8 = 88$. Segunda: $8 \times 8 + 8 = 72$. Saída: $8 \times 1 + 1 = 9$. Total $88 + 72 + 9 = \mathbf{161}$.
 >
-> Repare onde o custo se concentra: a primeira camada sozinha responde por mais da metade, porque é ela que encontra a maior largura de entrada. É a mesma conta que, com imagens, torna uma camada densa impraticável e motiva a convolução do [capítulo III.4](iii-4-visao.md).
+> Repare onde o custo se concentra: a primeira camada sozinha responde por mais da metade, porque é ela que recebe o vetor de entrada inteiro, e o número de pesos de uma camada cresce com a largura do que entra. É a mesma conta que, com imagens, torna uma camada densa impraticável e motiva a convolução do [capítulo III.4](iii-4-visao.md).
 >
 > O erro clássico continua sendo o viés: um por unidade de **destino**, nunca por unidade de origem.
 > **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
@@ -418,7 +422,7 @@ A interface está em inglês. A tradução dos rótulos:
 
 ## O teorema não decide por você
 
-E aqui a tese do capítulo cobra o preço. O teorema garante que **existe** uma configuração de pesos que resolve seu problema. Ele não garante que o seu treino vá encontrá-la — a inicialização pode ser ruim, o gradiente pode sumir antes de chegar às primeiras camadas, os dados podem ser insuficientes para distinguir aquela solução de mil outras. É por isso que empilhar mais camadas **não funcionou por quase vinte anos** depois de 1986, apesar de o teorema já estar publicado desde 1989. O [capítulo III.3](iii-3-treinar-redes-profundas.md) conta o que foi preciso para destravar.
+Aqui a tese do capítulo cobra o preço: existência não é treinabilidade. O teorema garante que **existe** uma configuração de pesos que resolve seu problema. Ele não garante que o seu treino vá encontrá-la — a inicialização pode ser ruim, o gradiente pode sumir antes de chegar às primeiras camadas, os dados podem ser insuficientes para distinguir aquela solução de mil outras. É por isso que empilhar mais camadas **não funcionou por quase vinte anos** depois de 1986, apesar de o teorema já estar publicado desde 1989. O [capítulo III.3](iii-3-treinar-redes-profundas.md) conta o que foi preciso para destravar.
 
 :::exercicio {"id":"redes-neurais-e3","tipo":"aberta","objetivo":"O4","pontos":3,"dificuldade":"dificil"}
 Um colega justifica a escolha da arquitetura assim: *"pelo teorema da aproximação universal, uma camada escondida basta — então se o modelo não está aprendendo, é porque faltam unidades."*

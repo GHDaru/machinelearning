@@ -6,6 +6,42 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — a caixa que cobra rigor de data errava a data (cap. `III.1`)
+- Ela discute a lenda de que "um italiano desenvolveu o backpropagation em 1979" e afirmava
+  que *"o que existe em 1979 são as publicações de Werbos"*. A linha do tempo do **próprio
+  capítulo**, cinco linhas acima, dá Werbos em **1974** e **1981**; em 1979 ela ancora só o
+  neocognitron de Fukushima.
+- Achado pela passada de humanização, que não podia corrigi-lo por envolver data e nome.
+  Registrado na errata do capítulo, que vai a seis entradas.
+
+### Corrigido — três defeitos dentro de blocos de exercício no `III.2`
+- `e13`: o feedback tinha uma oração que não fechava — *"misturar as duas é como o aluno
+  anota um número…"*.
+- `e2`: *"Um MLP **densa**"* — o termo é masculino.
+- `e9`: o feedback explicava o custo da primeira camada dizendo que *"é ela que **encontra a
+  maior largura de entrada**"*, frase que não explica nada. Agora diz o que de fato acontece:
+  ela recebe o vetor de entrada inteiro, e o número de pesos cresce com a largura do que entra.
+
+### Alterado — passada de humanização em `III.1` e `III.2`, depois da reforma e não junto
+- 13 edições, todas de prosa. As contagens saem idênticas às de antes — **430 exercícios, 7
+  vídeos, 29 laboratórios, 49 páginas** — que é a prova de que nenhum bloco interativo foi
+  tocado.
+- **Quatro costuras que a reforma estrutural deixou**, e é para isso que a passada veio
+  depois dela: um "E aqui" que apontava para o nada depois de ganhar cabeçalho por cima; o
+  parágrafo do softmax repetindo o próprio título recém-criado; a abertura do planalto
+  ecoando o título e com o referente ("a mesma rede") separado do exemplo por uma subseção
+  inteira; e um *"o próximo exercício pede outra arquitetura"* cujo próximo exercício deixou
+  de ser aquele.
+- Uma seção nova abria **direto num exercício**, sem uma linha de prosa — caso único nos dois
+  capítulos. Ganhou entrada.
+- **Onde a skill foi recusada, e por quê:** banir travessões (contraria o ADR 0013, que fixa
+  o limite em dois por frase); paralelismo negativo, nos casos em que o "não X, e sim Y" é
+  literalmente a alternativa que o exercício vizinho testa — medidas as oito negações em
+  cauda de cada capítulo, nenhuma foi cortada; voz passiva, porque em português a partícula
+  passiva é a forma neutra para procedimento; regra de três em enumeração factual; e os
+  rótulos em negrito de "O aperto / O que se fazia antes / A virada", que são o esqueleto
+  obrigatório do Guia, não enfeite.
+
 ### Alterado — o `III.2` reorganizado em arco narrativo (revisão *developmental*)
 - O autor disse: *"está difícil para ler, está tudo bagunçado. O conteúdo está bom."* Ele
   estava certo nas duas metades, e a causa era mensurável.
