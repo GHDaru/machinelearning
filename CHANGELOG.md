@@ -6,6 +6,43 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — a animação do `III.2` mostrava a rede FALHANDO, ao lado do texto que promete sucesso
+- O capítulo publicava `"semente":11` no laboratório do XOR. O texto ao lado diz *"assista
+  até a contagem fechar, na época 142"*. Com a semente 11 ela **não fecha**: para na época
+  250 com `perda 0.348 · 25 de 48 certos · empacou, e não vai sair daqui`.
+- Pior que o desmentido: o botão **"E se a inicialização for infeliz?"** existe para
+  contrastar com o caso bom — e o caso bom publicado já marcava **0,348**, o mesmo número
+  do infeliz. O contraste que sustenta o exercício `e15` e as linhas sobre mínimo local
+  simplesmente não existia na página.
+- Com a semente correta: `época 142 · perda 0.047 · 48 de 48 certos · resolveu`.
+- **Por que passou por meses de CI verde:** `publicar/testes/anima-mlp-xor.mjs` chamava
+  `TIPOS["anima-mlp-xor"](area, {})` — config **vazia**, que cai no `semente: 6` embutido
+  no código. O teste validava a semente 6; o livro publicava a 11. O teste estava verde e
+  correto sobre uma animação **que o leitor nunca viu**.
+- É a mesma lição que o ADR 0015 já tinha pago uma vez, em nova roupa: naquela vez a
+  verificação reproduzia o caminho do robô e não o do leitor; nesta, reproduzia o *default*
+  e não o *publicado*. **O teste passou a ler a configuração do Markdown do capítulo**, e
+  foi visto reprovando o estado que estava no ar.
+
+### Adicionado — a figura da camada escondida no `III.2`, gerada e verificada por código
+- `publicar/figuras/camada-escondida.mjs` gera `publicar/tema/camada-escondida.svg`: dois
+  planos empilhados, o das entradas e o da camada escondida, com cada ponto rotulado pela
+  **entrada de onde veio**. O capítulo afirmava que a camada "reescreveu as entradas" — a
+  coisa mais importante dele — numa frase no meio de um parágrafo.
+- **O gerador se recusa a desenhar o que não confere.** Ele aplica os pesos que o capítulo
+  publica e assere: que a rede reproduz o XOR nas quatro linhas, que as quatro entradas
+  colapsam em três posições, e que a reta separadora não encosta em nenhum ponto. Visto
+  falhando nos dois casos: reta em cima dos pontos, e pesos adulterados.
+- **A primeira versão estava errada, e o erro ensina.** A reta ia em `h₁+h₂=1`, que passa
+  exatamente por cima dos dois pontos brancos — uma fronteira que não separa nada. Ela era
+  **o único elemento do arquivo desenhado à mão**; tudo o mais vinha de cálculo. Foi
+  justamente o que escapou da regra que quebrou. Agora ela sai dos pesos da saída.
+- A primeira versão também punha os dois painéis lado a lado, e usava `(a,b)` para
+  coordenadas diferentes nos dois. Quem lesse da esquerda para a direita concluía que a
+  camada "consertou" o `(1,1)` — **o oposto** do que acontece. E numa coluna de celular o
+  rótulo de 12px renderizava a **3,9px**. Empilhada e rotulada por procedência, a escala vai
+  a 0,73 e a leitura passa a ser vertical, que é a ordem do argumento.
+
 ### Adicionado — `turma.html`, o quadro do professor ([ADR 0021](adr/0021-o-quadro-da-turma.md))
 - Página no próprio livro que consome `GET /turma/{turma}`: tabela ordenável por clique no
   cabeçalho, busca por aluno, filtro por capítulo e download de CSV montado no cliente

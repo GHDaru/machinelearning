@@ -15413,7 +15413,7 @@
     "id": "redes-neurais-l1",
     "tipo": "anima-mlp-xor",
     "titulo": "O XOR resolvido, e as duas retas girando",
-    "semente": 11
+    "semente": 6
    },
    "intro": "É o mesmo XOR em que o perceptron do [capítulo III.1](iii-1-neuronio-artificial.md) oscilava sem fim. Aqui a rede é 2 → 2 → 1, com `tanh` na camada escondida, e ninguém escolheu peso nenhum: ela parte de valores aleatórios e desce o gradiente.\n\nAs **duas retas** são as fronteiras que as duas unidades escondidas estão aprendendo, e são o conteúdo da animação, não enfeite. Repare que a solução nunca vira uma fronteira curva: são duas retas, e quem as combina é a camada de saída — exatamente o `(OU) E (NÃO-E)` da tabela, encontrado sozinho.\n\nPonto com contorno é ponto que a rede ainda erra. Assista até a contagem fechar, na época 142.\n\nDepois use os dois outros botões, nesta ordem.\n\n**\"E sem a camada escondida?\"** deixa tudo igual e tira só a camada do meio. Mesma descida, mesma perda, mesmo tempo, e ela empaca em 24 de 48, que é o acaso. O que resolveu o XOR não foi o gradiente: foi a camada.\n\n**\"E se a inicialização for infeliz?\"** mantém a camada e muda apenas de onde os pesos partem. A rede empaca em 24 de 48 com a perda parada em 0,348, e não sai mais dali. Não há erro nenhum: o método está correto, a implementação está correta, e a descida caiu num **mínimo local**. Varrendo 60 inicializações sobre este mesmo conjunto, 44 resolvem e 16 não.\n\nEsse botão existe porque o problema apareceu de verdade ao construir esta animação — a primeira semente escolhida era uma das 16. É o modo de falha \"inicialização ruim\" do objetivo **O4**, e vê-lo aqui torna o resto do capítulo menos abstrato.",
    "pagina": "iii-2-redes-neurais"

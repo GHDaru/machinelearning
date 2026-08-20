@@ -61,9 +61,28 @@ if (!TIPOS || !TIPOS["anima-mlp-xor"]) {
   process.exit(1);
 }
 
+// A CONFIGURAÇÃO VEM DO CAPÍTULO, NÃO DO DEFAULT.
+//
+// Este teste rodava com `{}`, o que caía no `semente: 6` embutido no código. O
+// capítulo publicava `semente: 11`. Com a 6 a rede fecha em 48 de 48 na época
+// 142, que é o que o texto promete; com a 11 ela para em 25 de 48 dizendo
+// "empacou, e não vai sair daqui". O teste ficou verde por meses validando uma
+// animação que o leitor nunca viu.
+//
+// É a mesma lição que o ADR 0015 já pagou uma vez: a verificação reproduzia o
+// caminho do robô, não o do leitor. Aqui ela reproduzia o default, não o
+// publicado. Agora a config sai do Markdown.
+function configDoCapitulo() {
+  const md = readFileSync(resolve(RAIZ, "livro/capitulos/iii-2-redes-neurais.md"), "utf8");
+  const m = md.match(/^:::lab (\{[^\n]*"tipo":"anima-mlp-xor"[^\n]*\})/m);
+  if (!m) { console.log("FALHOU: o capítulo não declara mais o laboratório anima-mlp-xor"); process.exit(1); }
+  return JSON.parse(m[1]);
+}
+const CFG = configDoCapitulo();
+
 function roda(botaoIdx) {
   const area = novoEl("div");
-  TIPOS["anima-mlp-xor"](area, {});
+  TIPOS["anima-mlp-xor"](area, CFG);
   const placar = area.children.find((c) => c.className === "lab-placar");
   if (botaoIdx != null) {
     const box = area.children.find((c) => c.className === "lab-botoes");
@@ -77,6 +96,7 @@ function roda(botaoIdx) {
 const com  = roda(null);
 const sem  = roda(1);
 const ruim = roda(2);
+console.log("config do capítulo:", JSON.stringify(CFG));
 console.log("padrão      :", com.texto,  `(${com.quadros} quadros)`);
 console.log("sem camada  :", sem.texto,  `(${sem.quadros} quadros)`);
 console.log("init ruim   :", ruim.texto, `(${ruim.quadros} quadros)`);
