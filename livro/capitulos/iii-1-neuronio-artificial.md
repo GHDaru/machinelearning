@@ -49,7 +49,7 @@ O que McCulloch e Pitts demonstraram foi que **redes desses elementos podem comp
 | **31 de agosto de 1955** | McCarthy, Minsky, Rochester e Shannon assinam a [proposta do projeto de Dartmouth](https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html) — onde **"artificial intelligence" aparece pela primeira vez** |
 | **1956** | O workshop de Dartmouth acontece, e é tomado como o evento fundador do campo |
 
-Duas coisas valem ficar: **o neurônio artificial é doze anos mais velho que o nome do campo em que vive**, e a ideia de Turing sobre máquinas pensantes é de **1948**, não de 1950 — o texto famoso é o segundo, e o primeiro passou vinte anos numa gaveta.
+Vale guardar duas coisas: **o neurônio artificial é doze anos mais velho que o nome do campo em que vive**, e a ideia de Turing sobre máquinas pensantes é de **1948**, não de 1950 — o texto famoso é o segundo, e o primeiro passou vinte anos numa gaveta.
 
 ### A linha até 1986, e o que ela ensina sobre crédito
 
@@ -65,7 +65,9 @@ Duas coisas valem ficar: **o neurônio artificial é doze anos mais velho que o 
 | **1979/80** | Fukushima | O **neocognitron**, primeira arquitetura hierárquica convolucional — treinada **sem** backpropagation. Em japonês em 1979; em inglês em 1980 | [doi:10.1007/BF00344251](https://doi.org/10.1007/BF00344251) |
 | **1986** | Rumelhart, Hinton & Williams | Popularizam o backpropagation e mostram as representações aprendidas nas camadas escondidas | [doi:10.1038/323533a0](https://doi.org/10.1038/323533a0) |
 
-Rosenblatt provou que, **se o problema for linearmente separável**, o perceptron converge em número finito de passos. A prova é sólida, e tudo depende da condição no meio dela. O entusiasmo de 1958 leu só a primeira parte, e a imprensa prometeu máquinas conscientes. Onze anos depois, *Perceptrons* demonstrou com rigor o que você vai descobrir no laboratório abaixo: uma camada não computa o XOR. **O argumento estava correto**; a leitura que se fez dele foi mais ampla do que os autores demonstraram, o financiamento migrou para a IA simbólica, e veio o **inverno da IA**.
+Rosenblatt provou que, **se o problema for linearmente separável**, o perceptron converge em número finito de passos. A prova é sólida, e tudo depende da condição no meio dela. O entusiasmo de 1958 leu só a primeira parte, e a imprensa prometeu máquinas conscientes.
+
+Onze anos depois, *Perceptrons* demonstrou com rigor o que você vai descobrir no laboratório abaixo: uma camada não computa o XOR. **O argumento estava correto**; a leitura que se fez dele foi mais ampla do que os autores demonstraram, o financiamento migrou para a IA simbólica, e veio o **inverno da IA**.
 
 A saída veio em 1986, e a moral vale além da história: **a limitação nunca foi do neurônio, era da arquitetura de uma camada só.** O [capítulo III.2](iii-2-redes-neurais.md) constrói a rede multicamada que resolve isso.
 
@@ -75,7 +77,7 @@ Esse levantamento é de **Jürgen Schmidhuber**, e ele declara o próprio propó
 
 > **O espelho disto está no [capítulo II.2](ii-2-modelos-lineares.md).** Lá, Gauss **provavelmente** tinha os mínimos quadrados antes e perdeu a prioridade para Legendre, que publicou primeiro e argumentou que prioridade se estabelece por publicação. O "provavelmente" é do estudo de referência sobre a disputa, que argumenta sem concluir. Os dois casos, juntos, dizem o que nenhum diz sozinho: **crédito não segue descoberta, segue comunicação** — e é por isso que publicar, datar e documentar contam como trabalho científico.
 
-> **Sobre "um italiano em 1979".** Essa memória circula, e não encontrei quem a sustente. O que existe em 1979 são as publicações de Werbos (americano) e o neocognitron de Fukushima (japonês, em inglês no ano seguinte); a prioridade de 1970 é de Linnainmaa, finlandês. Se você tiver a referência, ela entra aqui — até lá o livro registra a dúvida em vez de escolher uma versão.
+> **Sobre "um italiano em 1979".** Essa memória circula, e não encontrei quem a sustente. O que a linha do tempo acima ancora em 1979 é o neocognitron de Fukushima, japonês, publicado em inglês no ano seguinte. Werbos, americano, está em 1974 e em 1981, perto de 1979 mas não nele. E a prioridade de 1970 é de Linnainmaa, finlandês. Se você tiver a referência, ela entra aqui — até lá o livro registra a dúvida em vez de escolher uma versão.
 
 **Procedência das afirmações desta seção:**
 
@@ -95,7 +97,7 @@ Esse levantamento é de **Jürgen Schmidhuber**, e ele declara o próprio propó
 
 Antes de ler qualquer explicação, brinque. Ajuste `w₁`, `w₂` e `θ` até a tabela-verdade fechar.
 
-Comece pelo **E (AND)**: o neurônio deve disparar só quando as duas entradas forem 1.
+No **E (AND)**, o neurônio deve disparar só quando as duas entradas forem 1.
 
 :::lab {"id":"neuronio-artificial-l1","tipo":"neuronio-mp","titulo":"Neurônio de McCulloch–Pitts","funcao":"AND"}
 Cada ponto no gráfico é uma linha da tabela-verdade. **Verde** = deveria disparar; **branco/cinza** = não deveria. A reta é `w₁x₁ + w₂x₂ = θ`, e a região sombreada é onde o neurônio dispara.
@@ -157,7 +159,7 @@ $$\Delta w_i = \eta \cdot e \cdot x_i \qquad\qquad w_i \leftarrow w_i + \Delta w
 
 Leia a quarta devagar, porque ela responde uma pergunta que parece difícil: *errou, mas de quem é a culpa?* Quem responde é o $x_i$. **A entrada pondera o erro:** cada peso é corrigido na medida em que a entrada dele participou da soma. Se $x_i = 0$, aquele peso não contribuiu para o resultado e não é tocado, mesmo com o erro valendo 1. Se $e = 0$, ninguém é tocado, porque acertar não é motivo para mexer em nada.
 
-É a atribuição de culpa mais barata que se pode imaginar, e ela converge. A frase vale ser guardada: o problema de decidir **qual peso corrigir** tem nome, *credit assignment*, e é o obstáculo que reaparece no [capítulo III.2](iii-2-redes-neurais.md) numa versão muito mais difícil, quando houver uma camada escondida e ninguém souber o que cada unidade deveria ter feito.
+É a atribuição de culpa mais barata que se pode imaginar, e ela converge. O problema de decidir **qual peso corrigir** tem nome, *credit assignment*, e é o obstáculo que reaparece no [capítulo III.2](iii-2-redes-neurais.md) numa versão muito mais difícil, quando houver uma camada escondida e ninguém souber o que cada unidade deveria ter feito.
 
 ### A tabela, à mão
 
@@ -186,7 +188,7 @@ Três coisas para reparar, e a primeira é a que ensina.
 
 **O caso $(0,0)$ não move nada, e nunca poderá.** Com as duas entradas em zero, $\Delta w_1 = \Delta w_2 = 0$ qualquer que seja o erro. Para o OU isso não incomoda, porque a soma dá 0 e $0 < 0{,}5$ já entrega a resposta certa. Mas se a função pedisse **1** em $(0,0)$, este neurônio nunca aprenderia, e não por falta de épocas: não existe peso capaz de mexer naquela linha. Quem resolve é o **viés**, uma entrada fixa em 1 que participa de todas as linhas.
 
-**O erro só assume três valores.** É o degrau: o perceptron sabe *se* errou e para que lado, nunca *quanto*. Isso o torna barato e é o que garante a convergência, mas é também exatamente o que impede de treinar uma rede com camada escondida. Sem "quanto" não há gradiente para propagar, e é por isso que a sigmoide toma o lugar do degrau no próximo capítulo.
+**O erro só assume três valores.** É o degrau: o perceptron sabe *se* errou e para que lado, nunca *quanto*. Isso o torna barato e é o que garante a convergência, mas é também o que impede de treinar uma rede com camada escondida. Sem "quanto" não há gradiente para propagar, e é por isso que a sigmoide toma o lugar do degrau no próximo capítulo.
 
 :::lab {"id":"neuronio-artificial-l5","tipo":"perceptron-tabela","titulo":"A mesma tabela, com a sua partida","taxa":0.5,"w1":-0.2,"w2":0.4,"theta":0.5}
 A tabela acima é uma partida entre infinitas. Aqui você escolhe a sua: mude a taxa, os pesos iniciais e o limiar, ou aperte **"Sortear pesos"** e aceite o que vier. A tabela é recalculada inteira, e o placar responde a única pergunta que importa: **em quantas épocas convergiu.**
@@ -484,7 +486,7 @@ O notebook tem três partes, e a terceira é a que fecha o capítulo:
 2. **O perceptron acha os pesos sozinho** — a regra de Rosenblatt em oito linhas, convergindo em poucas épocas para AND, OR, NAND e NOR.
 3. **O XOR por força bruta.** Em vez de argumentar, o notebook **testa 15.625 combinações** de pesos e limiar numa grade fina. O melhor resultado que aparece é **3 de 4**. Nunca 4.
 
-Esse último ponto é o que transforma "é impossível" de afirmação em resultado. E há um detalhe no caminho que vale reparar: treinando o perceptron no XOR, o número de erros por época **nem diminui**, ele oscila. O perceptron não se aproxima da solução, porque não há solução de que se aproximar. É o sintoma do impossível, não do difícil.
+Esse último ponto é o que transforma "é impossível" de afirmação em resultado. E há um detalhe no caminho: treinando o perceptron no XOR, o número de erros por época **nem diminui**, ele oscila. O perceptron não se aproxima da solução, porque não há solução de que se aproximar. É o sintoma do impossível, não do difícil.
 
 ## Síntese — o que levar
 
@@ -534,3 +536,4 @@ O que este capítulo **já afirmou e teve de corrigir**. Fica no fim, e não no 
 | 2026-08-13 | O capítulo dizia **três vezes** que o neurônio artificial é "treze anos mais velho" que o termo *inteligência artificial* | A tabela do próprio capítulo data o termo em **31/08/1955** e o neurônio em **1943**: são **doze**. O treze só fecharia com o workshop de 1956, que não é o que a tabela diz |
 | 2026-08-14 | As linhas de **1970, 1974 e 1981** apareciam com a coluna *Fonte* preenchida com um travessão, o que se lê como "sem fonte" | Elas sempre tiveram fonte — o levantamento de Schmidhuber, lido e registrado com ✓ na procedência. A coluna passou a mostrá-la |
 | 2026-08-14 | A citação de McCulloch & Pitts no corpo trazia o selo **✓** (fonte lida), enquanto a tabela de procedência dizia **✓ᵐ** (só metadados) | Vale o ✓ᵐ. O artigo não foi lido por inteiro, e o selo do corpo passou a dizer isso |
+| 2026-08-18 | A caixa sobre "um italiano em 1979" dizia que **em 1979 existem as publicações de Werbos** | A linha do tempo do próprio capítulo, cinco linhas acima, dá Werbos em **1974** e **1981**, e ancora em 1979 só o neocognitron de Fukushima. A caixa que cobra rigor de data errava a data — corrigida para dizer o que a tabela sustenta |

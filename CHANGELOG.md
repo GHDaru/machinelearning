@@ -6,6 +6,82 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — a caixa que cobra rigor de data errava a data (cap. `III.1`)
+- Ela discute a lenda de que "um italiano desenvolveu o backpropagation em 1979" e afirmava
+  que *"o que existe em 1979 são as publicações de Werbos"*. A linha do tempo do **próprio
+  capítulo**, cinco linhas acima, dá Werbos em **1974** e **1981**; em 1979 ela ancora só o
+  neocognitron de Fukushima.
+- Achado pela passada de humanização, que não podia corrigi-lo por envolver data e nome.
+  Registrado na errata do capítulo, que vai a seis entradas.
+
+### Corrigido — três defeitos dentro de blocos de exercício no `III.2`
+- `e13`: o feedback tinha uma oração que não fechava — *"misturar as duas é como o aluno
+  anota um número…"*.
+- `e2`: *"Um MLP **densa**"* — o termo é masculino.
+- `e9`: o feedback explicava o custo da primeira camada dizendo que *"é ela que **encontra a
+  maior largura de entrada**"*, frase que não explica nada. Agora diz o que de fato acontece:
+  ela recebe o vetor de entrada inteiro, e o número de pesos cresce com a largura do que entra.
+
+### Alterado — passada de humanização em `III.1` e `III.2`, depois da reforma e não junto
+- 13 edições, todas de prosa. As contagens saem idênticas às de antes — **430 exercícios, 7
+  vídeos, 29 laboratórios, 49 páginas** — que é a prova de que nenhum bloco interativo foi
+  tocado.
+- **Quatro costuras que a reforma estrutural deixou**, e é para isso que a passada veio
+  depois dela: um "E aqui" que apontava para o nada depois de ganhar cabeçalho por cima; o
+  parágrafo do softmax repetindo o próprio título recém-criado; a abertura do planalto
+  ecoando o título e com o referente ("a mesma rede") separado do exemplo por uma subseção
+  inteira; e um *"o próximo exercício pede outra arquitetura"* cujo próximo exercício deixou
+  de ser aquele.
+- Uma seção nova abria **direto num exercício**, sem uma linha de prosa — caso único nos dois
+  capítulos. Ganhou entrada.
+- **Onde a skill foi recusada, e por quê:** banir travessões (contraria o ADR 0013, que fixa
+  o limite em dois por frase); paralelismo negativo, nos casos em que o "não X, e sim Y" é
+  literalmente a alternativa que o exercício vizinho testa — medidas as oito negações em
+  cauda de cada capítulo, nenhuma foi cortada; voz passiva, porque em português a partícula
+  passiva é a forma neutra para procedimento; regra de três em enumeração factual; e os
+  rótulos em negrito de "O aperto / O que se fazia antes / A virada", que são o esqueleto
+  obrigatório do Guia, não enfeite.
+
+### Alterado — o `III.2` reorganizado em arco narrativo (revisão *developmental*)
+- O autor disse: *"está difícil para ler, está tudo bagunçado. O conteúdo está bom."* Ele
+  estava certo nas duas metades, e a causa era mensurável.
+- **O defeito central:** um parágrafo ensinando **softmax e entropia cruzada** estava
+  encaixado entre o `:::` que fechava um exercício e o que abria o seguinte. Conteúdo novo,
+  nunca preparado, no meio do banco de exercícios — quem estava praticando pulava, quem
+  estava lendo era interrompido. Ele subiu para dentro da seção, antes da prática, com
+  cabeçalho próprio: `### E quando há mais de duas classes`.
+- **A seção de retropropagação ocupava 45% do capítulo** e carregava onze ideias novas onde
+  o Guia permite uma, com negrito no meio de parágrafo fazendo o trabalho que cabia a
+  cabeçalho. Virou três seções. A maior agora tem **24,6%**.
+- **Os títulos passaram a nomear movimentos do leitor, não assuntos.** "Duas retas: o que a
+  camada escondida faz com o espaço" · "Achar os pesos: a culpa atravessa a camada" · "Um
+  passo não é treinar: o planalto" · "O teorema não decide por você". O arco é **dá → dá de
+  novo → tira → põe na mão → cobra o preço**.
+- **A tese do capítulo ganhou casa.** "Existência não é treinabilidade" era plantada na
+  linha 36 e sumia por mais de trezentas linhas, voltando espremida entre o laboratório do
+  Playground e o exercício seguinte, sem cabeçalho. Agora abre a seção que fecha o arco.
+- **A regra que passou a valer, e que o `III.1` já praticava sem estar escrita:** exercício
+  **fecha** seção, nunca a abre nem a interrompe. Conferido por varredura: zero ocorrências
+  de prosa depois de um exercício dentro da mesma seção.
+- Escada de dificuldade do objetivo O1 corrigida — começava no segundo degrau (média,
+  fácil, difícil).
+- Os exercícios `e13`, `e14` e `e15`, criados dois ciclos atrás, eram os **únicos três do
+  capítulo sem `volte para:`** — o ponteiro que o Guia Editorial chama de "o gesto mais útil
+  do livro". Cada um passou a apontar para a seção que sustenta a resposta, não para a
+  seção em que ele está.
+
+### Registrado — o que a reforma NÃO pagou, e fica declarado
+- **O objetivo O3 continua órfão.** Ele promete "implementar uma rede densa em NumPy, do
+  forward ao update", e o capítulo tem **zero linhas de código** e nenhuma etapa no
+  `ml-zero`. A tríade que aponta para ele conta parâmetros e discute *broadcasting*;
+  ninguém implementa nada. Reorganizar por cima sem dizer isso esconderia o defeito em vez
+  de pagá-lo.
+- **Nenhuma passada de voz foi feita, e é deliberado.** Medidos os dois gates do ADR 0013:
+  o `III.2` tem **zero** parágrafos sobre-negritados e **uma** frase com dois travessões; o
+  `III.1`, que o autor considera legível, tem um e zero. A dificuldade não estava na frase.
+  O Guia pede revisão *developmental* antes do copyedit, e misturar as duas no mesmo diff
+  tornaria qualquer uma delas irrevisável.
+
 ### Corrigido — a animação do `III.2` mostrava a rede FALHANDO, ao lado do texto que promete sucesso
 - O capítulo publicava `"semente":11` no laboratório do XOR. O texto ao lado diz *"assista
   até a contagem fechar, na época 142"*. Com a semente 11 ela **não fecha**: para na época
