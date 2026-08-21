@@ -144,6 +144,37 @@ E três achados que vieram de testes falhando, todos no capítulo II.4:
 
 > **NumPy adiado.** O plano previa NumPy aqui. Biblioteca padrão bastou, e dependência sem necessidade é estrutura antecipada. Ele entra na etapa 09.
 
+## Etapa 19 — a rede densa, à mão e pela biblioteca
+
+Capítulo [III.2](../livro/capitulos/iii-2-redes-neurais.md). A etapa tem duas metades de propósito, e a ordem entre elas é o assunto.
+
+| Arquivo | O que faz |
+|---|---|
+| [`etapa-19/rede.py`](etapa-19/rede.py) | A rede densa **em NumPy**, do passo para frente ao update. `Rede`, `conferir_gradiente`, `reproduzir_o_capitulo`, `california` |
+| [`etapa-19/mlp.py`](etapa-19/mlp.py) | O mesmo problema pelo `MLPRegressor` do scikit-learn, com as linhas de base e a armadilha da escala |
+| [`dados/california/`](dados/california/) | O California Housing **congelado**, com ficha, `sha256` e o recorte gravado em arquivo |
+| [`tests/test_etapa_19.py`](tests/test_etapa_19.py) | 14 testes — o gabarito da etapa |
+
+```
+python etapa-19/rede.py     # a rede escrita à mão (≈5 s)
+python etapa-19/mlp.py      # a biblioteca, com as linhas de base
+python etapa-19/mlp.py --cru        # a mesma coisa sem padronizar, para ver a falha silenciosa
+python etapa-19/mlp.py --ocultas 32 # outra arquitetura
+```
+
+**Os números, todos no mesmo recorte gravado.** Mediana 0,8982 · regressão linear 0,5271 · rede à mão **0,3990** · biblioteca **0,3878**. As duas primeiras são o **checksum do protocolo**: se as suas não derem exatamente isso, você não achou um modelo melhor, leu outro arquivo.
+
+### A lição
+
+**Ausência de exceção não é evidência de correção — então arranje uma evidência.** Escrever retropropagação é fácil; escrever retropropagação certa é outra coisa, e um sinal trocado não lança exceção: a rede treina, a perda desce um pouco, e a culpa cai na taxa de aprendizado. `conferir_gradiente()` compara a conta analítica com a diferença finita da perda, e o defeito aparece na terceira casa decimal em vez de aparecer em três dias.
+
+Dois erros silenciosos foram medidos aqui, e os dois viraram teste:
+
+1. **Ativação na camada de saída.** A primeira versão aplicava `tanh` em todas as camadas. `tanh` não passa de 1, o alvo vai a 5, e a rede ficou impedida de acertar por construção: **MAE 1,1610**, pior que prever sempre a mediana. Nada quebrou.
+2. **Não padronizar os atributos.** `Population` tem desvio 1 132 e `AveBedrms` tem 0,474 — razão de 2 390 vezes. O erro sobe 34%, a instabilidade entre sementes quadruplica, e a rede **desiste antes** (52 a 76 épocas contra 238 a 336). O resultado empata com a regressão linear e sustenta a conclusão coerente e falsa *"a rede não ganha aqui"*.
+
+> **A regra 1 foi quebrada e depois consertada, e o registro fica.** `mlp.py` entrou antes de `rede.py`, por decisão de quem dá a aula, para a turma poder rodar já. A dívida foi declarada no capítulo em vez de escondida, e paga no ciclo seguinte.
+
 ## Próximas etapas
 
 As etapas 01–16 entram pelo ciclo spec-driven — uma spec por etapa (Princípio VII), com plano, tarefas e verificação. O mapa completo está em [`livro/trilha-ml-zero.md`](../livro/trilha-ml-zero.md).

@@ -6,6 +6,40 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a dívida do objetivo `O3` foi paga: a rede densa em NumPy
+- Dois ciclos atrás, `scikit-learn` entrou na trilha **fora da ordem** que a Restrição 1 pede,
+  por decisão de quem dá a aula, e a dívida ficou declarada em vez de escondida. Ela está
+  paga: [`ml-zero/etapa-19/rede.py`](ml-zero/etapa-19/rede.py) implementa a rede densa do
+  passo para frente ao update, com NumPy e mais nada.
+- **A ponte é verificada, não afirmada.** `reproduzir_o_capitulo()` refaz o passo publicado no
+  `III.2` com os mesmos nove pesos, e as **21 células** batem: $h_1 = 0{,}6457$,
+  $\hat{y} = 0{,}5548$, $E = 0{,}1982$, os nove pesos depois, e a previsão em 0,6027. O teste
+  compara célula a célula, então o capítulo e o código não podem divergir em silêncio.
+- **`conferir_gradiente()` é o que a etapa realmente ensina.** Compara o gradiente analítico
+  com a diferença finita da perda. Escrever retropropagação é fácil; escrever
+  retropropagação certa é outra coisa, e um sinal trocado não lança exceção — a rede treina,
+  a perda desce um pouco, e a culpa cai na taxa de aprendizado.
+- **A mesma rede, nos mesmos 20 640 bairros: MAE 0,3990** contra 0,3878 da biblioteca, em
+  menos de 5 segundos. Perto o bastante para dizer que é o mesmo método — que é a afirmação
+  que interessa. Se ficasse longe, a conclusão honesta seria implementação com defeito, e
+  não "biblioteca é melhor".
+- 8 testes novos (14 na etapa, 102 na trilha), e o do gradiente foi **visto falhando**:
+  removendo a derivada da ativação do caminho de volta, 5 asserções caem e o XOR desce para
+  3 de 4 — exatamente o sintoma que o capítulo descreve.
+
+### Corrigido — a rede à mão achatava a saída, e perdia para a mediana sem avisar
+- A primeira versão de `rede.py` aplicava a ativação em **todas** as camadas, inclusive na
+  saída. Nada quebrou: ela treinou, a perda desceu, e o erro no California Housing deu
+  **1,1610** — pior do que prever sempre a mediana (0,8982).
+- A causa depois de vista é simples: `tanh` não passa de 1 e o alvo vai até 5. A rede estava
+  impedida de acertar **por construção**. Saída de regressão não leva não-linearidade, e é o
+  que o `MLPRegressor` faz por padrão quando ninguém olha.
+- Achado por medição, e não por leitura: o número saiu absurdo ao rodar. Virou a ativação de
+  saída como parâmetro próprio (`igual`), um teste que prende o valor ruim, um comentário no
+  construtor e um parágrafo no capítulo — é a segunda armadilha silenciosa da etapa, ao lado
+  da padronização.
+- `ml-zero/README.md` ganhou a seção da etapa 19, que não existia (nem para o `mlp.py`).
+
 ### Adicionado — o laboratório `mlp-tabela`: os nove pesos mudando na tela (cap. `III.2`)
 - O capítulo mostrava **um** passo de retropropagação com todos os números, e dizia que um
   passo não é treinar. Dizer não é ver. O laboratório novo continua exatamente de onde a
