@@ -18,3 +18,15 @@ uvicorn[standard]>=0.30
 # trilha continua rodando sem instalar nada lá.
 pandas>=2.2
 matplotlib>=3.8
+
+# etapa 19 — o MLP em dados reais (capítulo III.2).
+#
+# É a PRIMEIRA biblioteca de modelo da trilha, e ela entra fora da ordem que a
+# Restrição 1 pede (NumPy do zero antes da chamada de uma linha). A antecipação
+# foi decisão do autor, para a turma poder rodar já; a dívida da implementação
+# em NumPy está declarada no capítulo e no CHANGELOG, não escondida.
+#
+# O dataset NÃO é baixado em tempo de execução: ele está congelado em
+# ml-zero/dados/california/, com sha256 na ficha. O sklearn aqui é o modelo, e
+# não a porta de entrada para a rede.
+scikit-learn>=1.5

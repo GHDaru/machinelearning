@@ -10,6 +10,7 @@
 - **O2.** Derivar backpropagation como aplicação da regra da cadeia.
 - **O3.** Implementar uma rede densa em NumPy, do forward ao update.
 - **O4.** Diagnosticar os modos de falha do treino: gradiente que some, que explode, e inicialização ruim.
+- **O5.** Executar um MLP num conjunto de dados real e diagnosticar o efeito da escala dos atributos sobre o treino.
 
 ## O problema: sabia-se qual era a rede, e não havia como treiná-la
 
@@ -386,6 +387,129 @@ Quais afirmações sobre backpropagation são corretas? (marque todas que valem)
 > **volte para:** #achar-os-pesos-a-culpa-atravessa-a-camada
 :::
 
+## Mão na massa: o mesmo método em 20 640 bairros
+
+Tudo até aqui aconteceu em quatro pontos. Agora o mesmo método, sem nada de novo, sobre **20 640 setores censitários da Califórnia** — o preço mediano do imóvel de cada bairro, a partir de oito atributos do censo de 1990.
+
+A etapa está em [`ml-zero/etapa-19/mlp.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/mlp.py), e os dados estão **congelados no repositório**, com ficha e `sha256`. Nada é baixado quando você roda.
+
+```
+python ml-zero/etapa-19/mlp.py
+```
+
+**A ponte com o que você acabou de calcular cabe numa linha.** A rede tem alguns milhares de pesos em vez de nove, e eles moram exatamente onde a conta manda:
+
+```python
+mlp.coefs_[0].shape   # (8, 64) — a matriz entradas × ocultas
+```
+
+É a mesma matriz $e \times s$ que você contou, e `intercepts_` é o viés por unidade de destino. Uma rede 8 → 64 → 1 tem $8 \times 64 + 64 + 64 + 1 = 641$ parâmetros, e o programa imprime esse número para você conferir.
+
+### As duas linhas de base são um instrumento, não concorrentes
+
+Antes do MLP, o programa treina dois modelos que ninguém espera que ganhem: prever sempre a **mediana**, e uma **regressão linear**. Elas existem por outro motivo.
+
+| modelo | erro médio absoluto no teste |
+|---|---|
+| mediana | 0,8982 |
+| regressão linear | 0,5271 |
+| **MLP 8 → 64 → 1, `tanh`** | **0,3878** |
+
+O alvo está em centenas de milhares de dólares, então a rede erra em média **US$ 38,8 mil** contra US$ 52,7 mil da regressão linear.
+
+As linhas de base são o **checksum do protocolo**. Se o seu número da regressão linear não for `0,5271`, você não achou um modelo melhor: você leu outro arquivo, usou outro recorte ou trocou a métrica. Descobrir isso antes de comparar arquiteturas elimina toda uma classe de discussão que não é sobre modelo nenhum.
+
+É por isso também que o recorte treino/validação/teste **está gravado num arquivo** em vez de sorteado na hora. Sorteio parece inofensivo, e não é: o embaralhamento pode mudar entre versões da biblioteca, e duas turmas em semestres diferentes deixariam de ser comparáveis.
+
+### A armadilha que não avisa
+
+Rode de novo, agora sem padronizar os atributos:
+
+```
+python ml-zero/etapa-19/mlp.py --cru
+```
+
+| | padronizado | cru |
+|---|---|---|
+| erro do MLP | **0,3878** | **0,5193** |
+| amplitude entre 5 sementes | 0,0060 | 0,0258 |
+| épocas até parar | 238 a 336 | **52 a 76** |
+
+Nada quebra. Nenhuma exceção, nenhum aviso. O erro sobe 34%, e o resultado fica **praticamente empatado com a regressão linear** — o que produz a conclusão coerente e falsa *"testei, a rede não ganha neste problema"*. É a mesma família do erro de dimensão que o exercício sobre viés discute: **ausência de exceção não é evidência de correção.**
+
+O sintoma que denuncia está na terceira linha. A rede crua não treinou mais rápido: ela **desistiu antes**, em 52 a 76 épocas contra 238 a 336. O critério de parada viu a perda deixar de melhorar num terreno em que o mesmo passo é grande demais numa direção e minúsculo noutra. E a instabilidade entre sementes **quadruplica**, o que significa que dois colegas com sementes diferentes vão discutir uma diferença que é só ruído.
+
+A causa está na ficha dos dados: `Population` tem desvio padrão 1 132 e `AveBedrms` tem 0,474. **Uma razão de 2 390 vezes.**
+
+### O que este exemplo ainda não é
+
+Esta etapa **usa** uma rede pronta; ela não implementa uma. O objetivo O3 deste capítulo promete implementar a rede densa em NumPy, do passo para frente ao update, e essa etapa ainda não existe — a dívida está declarada no fim do capítulo. A ordem que a construção deste livro pede é a inversa da que você acabou de percorrer: escrever o método antes de chamar a biblioteca. Aqui a biblioteca veio primeiro por decisão de quem dá a aula, e vale saber disso ao usar o resultado.
+
+
+:::exercicio {"id":"redes-neurais-e16","tipo":"numerica","objetivo":"O5","dificuldade":"facil"}
+Rode a etapa com uma camada escondida de **32** unidades, e não 64:
+
+```
+python ml-zero/etapa-19/mlp.py --ocultas 32
+```
+
+Quantos parâmetros treináveis o programa imprime?
+
+> **gabarito:** 321
+> **porque:** Você tem dois caminhos até este número, e o exercício existe para que eles se encontrem.
+
+> Pela regra `e × s + s`, camada a camada: entrada para escondida, $8 \times 32 + 32 = 288$; escondida para saída, $32 \times 1 + 1 = 33$. Total **321**. São os oito atributos do censo, e não sete nem nove — o alvo `MedHouseVal` não entra como entrada.
+>
+> Pelo programa, a última linha da saída imprime o mesmo 321. Se os dois números não baterem, não discuta o modelo: conte de novo, ou confira quantas colunas o `X` realmente tem.
+>
+> Repare no que **não** mudou: as duas linhas de base continuam em 0,8982 e 0,5271. Elas não dependem da arquitetura, e é exatamente por isso que servem de checksum do protocolo.
+> **volte para:** #mao-na-massa-o-mesmo-metodo-em-20-640-bairros
+:::
+
+:::exercicio {"id":"redes-neurais-e17","tipo":"multipla","objetivo":"O5","dificuldade":"media"}
+Com `--cru`, o MLP para em 52 a 76 épocas; padronizado, leva de 238 a 336. O erro no teste sobe de 0,3878 para 0,5193, e nenhuma exceção é lançada. Qual é o diagnóstico?
+
+- [ ] A rede crua convergiu mais rápido: menos épocas para um erro próximo do da regressão linear.
+- [x] A rede crua **desistiu antes**: o critério de parada viu a perda estagnar num terreno em que o mesmo passo é grande demais numa direção e minúsculo noutra.
+- [ ] Padronizar acrescenta parâmetros à rede, e por isso ela demora mais e erra menos.
+- [ ] O número de épocas não diz nada sobre o problema: só a semente mudou.
+
+> **gabarito:** a rede crua desistiu antes
+> **porque:** "Parou cedo" e "convergiu rápido" produzem a mesma linha no terminal e são diagnósticos opostos. O que separa os dois é o erro final, e ele piorou 34%.
+>
+> A causa está na ficha dos dados: `Population` tem desvio padrão 1 132 e `AveBedrms` tem 0,474, uma razão de **2 390 vezes**. Uma única taxa de aprendizado precisa servir às duas direções, e não serve: ela é grande demais para uma e minúscula para a outra. A perda estagna, o critério de parada conclui que não há mais o que melhorar, e o treino termina.
+>
+> A terceira alternativa é falsa e vale desmontar: padronizar **não** mexe em parâmetro nenhum. A rede crua e a padronizada têm exatamente os mesmos 641 pesos. O que muda é o terreno por onde a descida caminha.
+>
+> E o desfecho é o pior possível justamente porque é coerente: o erro cru fica praticamente empatado com a regressão linear, o que sustenta a conclusão falsa *"testei, a rede não ganha neste problema"*. **Ausência de exceção não é evidência de correção.**
+> **volte para:** #mao-na-massa-o-mesmo-metodo-em-20-640-bairros
+:::
+
+:::exercicio {"id":"redes-neurais-e18","tipo":"aberta","objetivo":"O5","pontos":3,"dificuldade":"dificil"}
+**Relate o seu experimento.** Escolha uma configuração diferente da do capítulo, com outra largura ou com duas camadas escondidas, e rode:
+
+```
+python ml-zero/etapa-19/mlp.py --ocultas <a sua escolha>
+```
+
+Antes de rodar, **escreva a sua previsão**: o erro vai ficar acima ou abaixo de 0,3878? Depois relate, em um parágrafo: os dois números das linhas de base que você obteve, a configuração que usou, o número de parâmetros, a mediana e a amplitude entre as cinco sementes — e diga se a sua configuração é melhor que a do capítulo, **justificando com a amplitude**.
+
+> **rubrica:** reporta as duas linhas de base e confirma que deram 0,8982 e 0,5271 — ou, se deram outra coisa, trata isso como bug de protocolo e não como resultado;
+> declara a configuração usada e o número de parâmetros, e o número é consistente com a regra `e × s + s`;
+> reporta **mediana e amplitude** das cinco sementes, e não um número solto;
+> registra a previsão feita antes de rodar e a compara com o que saiu, inclusive quando errou;
+> ao comparar com 0,3878, confronta a diferença **contra a amplitude** antes de declarar vencedor — diferença menor que a amplitude é ruído, não melhora
+> **porque:** O quinto critério é o que o exercício está realmente cobrando, e ele tem um caso concreto neste próprio conjunto de dados.
+>
+> Com 32 unidades, a mediana é 0,3852 contra 0,3878 das 64: uma diferença de **0,0026**. A amplitude entre as cinco sementes é 0,0099 com 32 e 0,0060 com 64. A diferença entre as duas arquiteturas é **menor que a variação de uma delas consigo mesma**. A leitura honesta é "não distingui as duas", e não "32 unidades são melhores".
+>
+> É por isso que a etapa reporta cinco sementes e imprime a amplitude junto. Uma semente é uma amostra de tamanho 1 de uma distribuição cuja dispersão é o assunto do capítulo. Dois colegas com sementes diferentes podem passar uma aula discutindo uma diferença que nenhum dos dois mediu.
+>
+> A previsão escrita antes de rodar existe pelo mesmo motivo do laboratório do Playground: sem ela, qualquer resultado parece o esperado depois que você o vê.
+> **volte para:** #mao-na-massa-o-mesmo-metodo-em-20-640-bairros
+:::
+
+
 ## Quantas camadas e quantas unidades — a decisão é empírica
 
 O teorema diz que uma camada escondida basta. Não diz **quantas unidades** — e "unidades suficientes" pode significar um número absurdo. Redes mais profundas costumam resolver com menos unidades por camada o que uma camada rasa só resolveria com muitas. Isso é observação empírica, não consequência do teorema.
@@ -491,6 +615,9 @@ Uma rede não aprende. Quais verificações vêm **antes** de aumentar o número
 - 1986 não entregou a arquitetura — entregou o **procedimento**. A licença teórica (1989, 1991) chegou **depois** da engenharia.
 - **A ideia exportável: existência não é treinabilidade.** O teorema é não construtivo — garante que a rede certa está no espaço de hipóteses, sem dizer quantas unidades, como achá-la, ou se o gradiente chega lá.
 - Camadas e unidades são **hiperparâmetros**: escolhem-se sob validação, não por teorema.
+- **Linha de base é instrumento, não concorrente**: mediana e regressão linear são o checksum do protocolo. Número diferente do colega significa recorte ou métrica diferente, antes de significar modelo melhor.
+- **Escala de atributo é modo de falha silencioso.** Sem padronizar, o mesmo MLP erra 34% mais, para cedo e não avisa — e o resultado, empatado com a regressão linear, sustenta a conclusão falsa de que a rede não serve.
+- Uma semente é **amostra de tamanho 1**: reporte mediana e amplitude, e compare diferenças contra a amplitude antes de declarar vencedor.
 
 :::exercicio {"id":"redes-neurais-e4","tipo":"aberta","objetivo":"O2","secao":"verificacao","pontos":3,"dificuldade":"dificil"}
 **Desafio de fechamento.** Explique backpropagation a alguém que **conhece a regra da cadeia** mas nunca viu uma rede. Diga o que é o passo para frente, o que é o passo para trás e, na parte que decide, **onde exatamente está o reaproveitamento** que torna o custo viável.

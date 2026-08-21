@@ -7363,6 +7363,94 @@
    "titulo_capitulo": "III.2 — Redes Multicamadas"
   },
   {
+   "id": "redes-neurais-e16",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "numerica",
+   "objetivo": "O5",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Rode a etapa com uma camada escondida de **32** unidades, e não 64:\n\n```\npython ml-zero/etapa-19/mlp.py --ocultas 32\n```\n\nQuantos parâmetros treináveis o programa imprime?\n\n\n> Pela regra `e × s + s`, camada a camada: entrada para escondida, $8 \\times 32 + 32 = 288$; escondida para saída, $32 \\times 1 + 1 = 33$. Total **321**. São os oito atributos do censo, e não sete nem nove — o alvo `MedHouseVal` não entra como entrada.\n>\n> Pelo programa, a última linha da saída imprime o mesmo 321. Se os dois números não baterem, não discuta o modelo: conte de novo, ou confira quantas colunas o `X` realmente tem.\n>\n> Repare no que **não** mudou: as duas linhas de base continuam em 0,8982 e 0,5271. Elas não dependem da arquitetura, e é exatamente por isso que servem de checksum do protocolo.",
+   "opcoes": [],
+   "gabarito": "321",
+   "porque": "Você tem dois caminhos até este número, e o exercício existe para que eles se encontrem.",
+   "volte_para": "#mao-na-massa-o-mesmo-metodo-em-20-640-bairros",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
+   "gabarito_num": {
+    "valor": 321,
+    "tolerancia": 0
+   }
+  },
+  {
+   "id": "redes-neurais-e17",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "multipla",
+   "objetivo": "O5",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Com `--cru`, o MLP para em 52 a 76 épocas; padronizado, leva de 238 a 336. O erro no teste sobe de 0,3878 para 0,5193, e nenhuma exceção é lançada. Qual é o diagnóstico?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A rede crua convergiu mais rápido: menos épocas para um erro próximo do da regressão linear."
+    },
+    {
+     "correta": true,
+     "texto": "A rede crua **desistiu antes**: o critério de parada viu a perda estagnar num terreno em que o mesmo passo é grande demais numa direção e minúsculo noutra."
+    },
+    {
+     "correta": false,
+     "texto": "Padronizar acrescenta parâmetros à rede, e por isso ela demora mais e erra menos."
+    },
+    {
+     "correta": false,
+     "texto": "O número de épocas não diz nada sobre o problema: só a semente mudou."
+    }
+   ],
+   "gabarito": "a rede crua desistiu antes",
+   "porque": "\"Parou cedo\" e \"convergiu rápido\" produzem a mesma linha no terminal e são diagnósticos opostos. O que separa os dois é o erro final, e ele piorou 34%.\n\nA causa está na ficha dos dados: `Population` tem desvio padrão 1 132 e `AveBedrms` tem 0,474, uma razão de **2 390 vezes**. Uma única taxa de aprendizado precisa servir às duas direções, e não serve: ela é grande demais para uma e minúscula para a outra. A perda estagna, o critério de parada conclui que não há mais o que melhorar, e o treino termina.\n\nA terceira alternativa é falsa e vale desmontar: padronizar **não** mexe em parâmetro nenhum. A rede crua e a padronizada têm exatamente os mesmos 641 pesos. O que muda é o terreno por onde a descida caminha.\n\nE o desfecho é o pior possível justamente porque é coerente: o erro cru fica praticamente empatado com a regressão linear, o que sustenta a conclusão falsa *\"testei, a rede não ganha neste problema\"*. **Ausência de exceção não é evidência de correção.**",
+   "volte_para": "#mao-na-massa-o-mesmo-metodo-em-20-640-bairros",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas"
+  },
+  {
+   "id": "redes-neurais-e18",
+   "capitulo": 18,
+   "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
+   "tipo": "aberta",
+   "objetivo": "O5",
+   "pontos": 3,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "**Relate o seu experimento.** Escolha uma configuração diferente da do capítulo, com outra largura ou com duas camadas escondidas, e rode:\n\n```\npython ml-zero/etapa-19/mlp.py --ocultas <a sua escolha>\n```\n\nAntes de rodar, **escreva a sua previsão**: o erro vai ficar acima ou abaixo de 0,3878? Depois relate, em um parágrafo: os dois números das linhas de base que você obteve, a configuração que usou, o número de parâmetros, a mediana e a amplitude entre as cinco sementes — e diga se a sua configuração é melhor que a do capítulo, **justificando com a amplitude**.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "O quinto critério é o que o exercício está realmente cobrando, e ele tem um caso concreto neste próprio conjunto de dados.\n\nCom 32 unidades, a mediana é 0,3852 contra 0,3878 das 64: uma diferença de **0,0026**. A amplitude entre as cinco sementes é 0,0099 com 32 e 0,0060 com 64. A diferença entre as duas arquiteturas é **menor que a variação de uma delas consigo mesma**. A leitura honesta é \"não distingui as duas\", e não \"32 unidades são melhores\".\n\nÉ por isso que a etapa reporta cinco sementes e imprime a amplitude junto. Uma semente é uma amostra de tamanho 1 de uma distribuição cuja dispersão é o assunto do capítulo. Dois colegas com sementes diferentes podem passar uma aula discutindo uma diferença que nenhum dos dois mediu.\n\nA previsão escrita antes de rodar existe pelo mesmo motivo do laboratório do Playground: sem ela, qualquer resultado parece o esperado depois que você o vê.",
+   "volte_para": "#mao-na-massa-o-mesmo-metodo-em-20-640-bairros",
+   "rubrica": "reporta as duas linhas de base e confirma que deram 0,8982 e 0,5271 — ou, se deram outra coisa, trata isso como bug de protocolo e não como resultado;\ndeclara a configuração usada e o número de parâmetros, e o número é consistente com a regra `e × s + s`;\nreporta **mediana e amplitude** das cinco sementes, e não um número solto;\nregistra a previsão feita antes de rodar e a compara com o que saiu, inclusive quando errou;\nao comparar com 0,3878, confronta a diferença **contra a amplitude** antes de declarar vencedor — diferença menor que a amplitude é ruído, não melhora",
+   "versoes": null,
+   "pagina": "iii-2-redes-neurais",
+   "titulo_capitulo": "III.2 — Redes Multicamadas",
+   "criterios": [
+    "reporta as duas linhas de base e confirma que deram 0,8982 e 0,5271 — ou, se deram outra coisa, trata isso como bug de protocolo e não como resultado",
+    "declara a configuração usada e o número de parâmetros, e o número é consistente com a regra `e × s + s`",
+    "reporta **mediana e amplitude** das cinco sementes, e não um número solto",
+    "registra a previsão feita antes de rodar e a compara com o que saiu, inclusive quando errou",
+    "ao comparar com 0,3878, confronta a diferença **contra a amplitude** antes de declarar vencedor — diferença menor que a amplitude é ruído, não melhora"
+   ]
+  },
+  {
    "id": "redes-neurais-e3",
    "capitulo": 18,
    "arquivo": "livro/capitulos/iii-2-redes-neurais.md",
