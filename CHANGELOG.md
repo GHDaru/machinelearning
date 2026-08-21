@@ -6,6 +6,45 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o laboratório `mlp-tabela`: os nove pesos mudando na tela (cap. `III.2`)
+- O capítulo mostrava **um** passo de retropropagação com todos os números, e dizia que um
+  passo não é treinar. Dizer não é ver. O laboratório novo continua exatamente de onde a
+  conta à mão para: **o primeiro clique reproduz a tabela do capítulo dígito por dígito**, e
+  daí em diante o leitor segura o botão.
+- As duas linhas de **gradiente zero** ficam destacadas na tabela. São $w_{21}$ e $w_{22}$, os
+  pesos de $x_2$, e $x_2$ vale 0 no caso do capítulo: é a atribuição de culpa acontecendo na
+  tela, e não numa nota de rodapé.
+- **A manopla do [ADR 0015](adr/0015-animacao-e-laboratorio-sem-manopla.md) é "tudo zero", e a
+  previsão que quase todo mundo faz está errada.** Zero parece a partida mais neutra que
+  existe; a expectativa é "vai demorar mais". Medido: a rede **nunca** fecha o XOR e empaca em
+  **3 de 4** — o mesmo lugar do perceptron do `III.1`, agora com uma camada escondida inteira
+  sem servir para nada. O placar diz a razão em voz alta: $h_1$ e $h_2$ continuam idênticas.
+- **Medido também o que a explicação fácil erraria.** Aumentar $\eta$ não resolve (de 0,5 a 10,
+  sempre 3 de 4, simetria intacta). E o gradiente **não** é zero em toda a rede: no primeiro
+  passo os seis da camada escondida são zero, porque o caminho de volta passa por $v_1$ e
+  $v_2$; a camada de saída se mexe já nesse passo, e do segundo em diante os escondidos também
+  recebem gradiente — sempre o mesmo para as duas unidades.
+- Exercício `e19` (`multipla`, O4) cobra o diagnóstico, com as três alternativas erradas
+  desmontadas por medição e não por retórica. **434 exercícios · 30 laboratórios.**
+- A prosa diz explicitamente que a tabela da seção anterior é **lote cheio** e o laboratório é
+  **por caso**, e que é por isso que o XOR fecha em **583 épocas** aqui contra as 8 000 de lá.
+  Métodos diferentes, números diferentes, e a diferença aparece em vez de se esconder.
+
+### Corrigido — 25 testes de laboratório existiam e a CI nunca os chamava
+- `publicar/testes/` tem 25 testes que rodam o `laboratorios.js` **real** num DOM mínimo e
+  conferem os números que o livro promete. Cada um foi rodado à mão no dia em que nasceu, e
+  nunca mais: nenhum workflow os invocava. **Teste que ninguém roda não guarda nada** — ele
+  registra o que era verdade naquele dia e apodrece junto com o código que deveria vigiar.
+- Descoberto ao procurar onde ligar o teste do `mlp-tabela` na CI: não havia onde.
+- `publicar/testes/rodar.mjs` roda todos e devolve código de saída; a CI ganhou o passo
+  "Testes dos laboratórios e animações". Os 25 estavam verdes na hora de ligar, então o gate
+  entra sem exceção nenhuma.
+- O runner falha se o diretório estiver vazio: gate que passa sem rodar nada é o defeito que
+  ele existe para impedir.
+- `lab-mlp-tabela.mjs` compara as **21 células publicadas** do capítulo com o que o código
+  calcula, e foi **visto falhando**: removendo o fator $v_j$ do delta escondido — um bug de
+  retropropagação de aparência plausível — cinco asserções caem.
+
 ### Adicionado — o capítulo `III.2` sai dos quatro pontos: um MLP em 20 640 bairros
 - Nova etapa `ml-zero/etapa-19/mlp.py` e nova seção **"Mão na massa"** no `III.2`. O mesmo
   método do capítulo, sem nada de novo, sobre o **California Housing** (20 640 setores

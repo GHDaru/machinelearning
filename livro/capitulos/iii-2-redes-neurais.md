@@ -321,6 +321,45 @@ Você treina a rede do exemplo no XOR e vê a perda parada em 0,2500 da época 1
 
 :::
 
+:::lab {"id":"redes-neurais-l3","tipo":"mlp-tabela","titulo":"Os nove pesos mudando: agora o relógio é seu","taxa":0.5}
+Esta é a rede da conta à mão, e você segura o botão. **Aperte "Um passo" uma vez e compare com a tabela que acabou de ler**: o caso é $x = (1,0)$, a previsão vai a 0,5548, a perda a 0,1982, e os nove pesos param exatamente nos números impressos acima. Não é uma ilustração parecida; é a mesma conta.
+
+Repare nas duas linhas com **gradiente zero**, destacadas. São $w_{21}$ e $w_{22}$, os pesos que multiplicam $x_2$, e $x_2$ vale 0 neste caso. É a atribuição de culpa acontecendo na tela.
+
+Depois solte: "Uma época" percorre os quatro casos, "100 épocas" acelera. A tabela da seção anterior usa **lote cheio** — um ajuste por época, com os quatro casos somados. Aqui o ajuste é **por caso**, quatro por época, e por isso o XOR fecha muito antes: **583 épocas** com a partida do capítulo e $\eta = 0{,}5$. Métodos diferentes, números diferentes, e é bom que a diferença apareça.
+
+> ### Escreva a previsão antes de mexer
+>
+> Troque **"Partida dos pesos"** para **"tudo zero"**. Zero parece a partida mais neutra que existe, e a previsão quase unânime é *"vai demorar mais"*.
+>
+> Está errada, e o erro não é de grau. A rede **nunca fecha o XOR**. Ela empaca em **3 de 4** — exatamente onde o perceptron do [capítulo III.1](iii-1-neuronio-artificial.md) empacava, com a diferença de que agora há uma camada escondida inteira sem servir para nada.
+>
+> A razão está no placar, e ele diz em voz alta: $h_1$ e $h_2$ continuam **idênticas**. Com todos os pesos iguais, as duas unidades calculam a mesma coisa, recebem o mesmo delta e mudam do mesmo jeito, para sempre. Nada no método quebra o empate. Duas unidades escondidas viram uma.
+>
+> **É por isso que inicialização é assimetria, e não ruído decorativo.** Sortear os pesos não serve para "começar em algum lugar": serve para que as unidades comecem diferentes umas das outras. Guarde este mecanismo, porque ele é o mesmo que o [capítulo III.3](iii-3-treinar-redes-profundas.md) retoma ao explicar por que a escala da inicialização decide se o gradiente some ou explode.
+:::
+
+:::exercicio {"id":"redes-neurais-e19","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
+No laboratório acima, com a partida **"tudo zero"**, a rede empaca em 3 de 4 e o placar avisa que $h_1$ e $h_2$ continuam idênticas por mais épocas que você rode. Qual é o diagnóstico?
+
+- [ ] Faltam unidades escondidas: com duas idênticas, a rede tem capacidade de uma só, e três resolveriam.
+- [x] A simetria nunca se quebra: pesos iguais recebem gradientes iguais, então as duas unidades permanecem iguais para sempre.
+- [ ] A taxa de aprendizado é pequena demais para tirar os pesos do zero.
+- [ ] O gradiente é exatamente zero em toda a rede, porque toda derivada passa por um peso nulo.
+
+> **gabarito:** a simetria nunca se quebra
+> **porque:** O mecanismo é uma frase: **entradas iguais e pesos iguais produzem deltas iguais**, e peso que recebe o mesmo ajuste continua igual ao vizinho. Não há nada no método que separe $h_1$ de $h_2$, porque a retropropagação é determinística e trata as duas exatamente da mesma forma.
+>
+> A primeira alternativa erra o alvo de um jeito instrutivo: acrescentar uma terceira unidade **idêntica** não ajuda em nada. Três cópias da mesma coisa continuam sendo uma coisa. O problema não é quantas unidades existem, é quantas são **distintas**.
+>
+> A terceira é testável no próprio laboratório, e falha: aumente $\eta$ e a rede continua em 3 de 4. Taxa mexe na velocidade, não na simetria.
+>
+> A quarta é falsa, e a tabela mostra onde. No primeiro passo os seis gradientes da camada escondida são mesmo zero, porque o caminho de volta passa por $v_1$ e $v_2$, que ainda valem zero. Mas a **camada de saída** recebe gradiente já nesse passo e sai do zero; a partir do segundo, os pesos escondidos também recebem. Eles só recebem sempre o mesmo valor, os dois.
+>
+> A consequência prática é a razão de a inicialização ser aleatória em toda biblioteca: sortear os pesos não é para "começar em algum lugar", é para que as unidades comecem **diferentes umas das outras**. Simetria quebrada de fábrica.
+> **volte para:** #um-passo-nao-e-treinar-o-planalto
+:::
+
 ## Contar os parâmetros, e o bug que não grita
 
 A regra de contagem já apareceu: `e × s + s`, com um viés por unidade de **destino**. Vale praticá-la, porque errá-la não costuma derrubar o programa: a rede apenas treina mal, em silêncio.
