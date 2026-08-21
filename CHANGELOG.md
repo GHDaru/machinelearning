@@ -6,6 +6,54 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o capítulo `III.2` sai dos quatro pontos: um MLP em 20 640 bairros
+- Nova etapa `ml-zero/etapa-19/mlp.py` e nova seção **"Mão na massa"** no `III.2`. O mesmo
+  método do capítulo, sem nada de novo, sobre o **California Housing** (20 640 setores
+  censitários, oito atributos). A ponte com a conta à mão cabe numa linha:
+  `mlp.coefs_[0].shape → (8, 64)` é a mesma matriz `entradas × saídas` que o capítulo manda
+  contar, e uma rede 8 → 64 → 1 tem os 641 parâmetros que o programa imprime.
+- **Os dados estão congelados no repositório**, em `ml-zero/dados/california/`, com ficha,
+  `sha256` e o **recorte treino/validação/teste gravado num arquivo**. Nada é baixado quando
+  o aluno roda, e nada é sorteado em tempo de execução: sorteio muda entre versões da
+  biblioteca, e duas turmas de semestres diferentes deixariam de ser comparáveis.
+- **As duas linhas de base são o checksum do protocolo, não concorrentes.** Mediana 0,8982 e
+  regressão linear 0,5271; o MLP fica em **0,3878**. Número diferente do colega significa
+  outro arquivo, outro recorte ou outra métrica, antes de significar modelo melhor.
+- **A armadilha medida, e ela não avisa.** Sem padronizar (`--cru`), o erro sobe 34% para
+  0,5193, a amplitude entre cinco sementes quadruplica (0,0060 → 0,0258) e a rede **desiste
+  antes**: 52 a 76 épocas contra 238 a 336. Nenhuma exceção. O resultado empata com a
+  regressão linear e sustenta a conclusão coerente e falsa *"a rede não ganha aqui"*. A causa
+  está na ficha: `Population` tem desvio 1 132 e `AveBedrms` tem 0,474, razão de 2 390 vezes.
+- **`--ocultas` é a única manopla do aluno.** A arquitetura é hiperparâmetro e se escolhe sob
+  validação; o split, a métrica e o alvo não têm manopla, de propósito.
+- `ml-zero/tests/test_etapa_19.py`, 5 testes: o recorte vem do arquivo, as linhas de base
+  como checksum, `coefs_[0].shape == (8, 64)` e os 641 parâmetros, a rede bate a linear, e
+  **não padronizar é pior e indistinguível da regressão linear** — é este último que prende a
+  armadilha.
+- **Dívida declarada, e não escondida.** Esta etapa *usa* uma rede pronta; ela não implementa
+  uma. O objetivo **O3** promete a rede densa em NumPy, e essa etapa ainda não existe. A
+  ordem que a construção pede é a inversa; `scikit-learn` entra no `requirements.txt` fora de
+  ordem, por decisão de quem dá a aula, e a seção "O que este exemplo ainda não é" diz isso
+  ao leitor.
+
+### Adicionado — objetivo `O5` no `III.2`, com o trio que o cobra (433 exercícios)
+- A seção nova trouxe uma capacidade que nenhum dos quatro objetivos declarava. Em vez de
+  pendurá-la num objetivo alheio, o capítulo ganhou **O5 — "Executar um MLP num conjunto de
+  dados real e diagnosticar o efeito da escala dos atributos sobre o treino"**, e o gate
+  bidirecional de Backward Design passou a cobrá-lo.
+- Trio conforme o [ADR 0014](adr/0014-topico-e-o-objetivo-a-prova-e-por-parte.md), com teto no
+  verbo declarado e **uma única `aberta`**: `e16` (`numerica`) manda rodar `--ocultas 32` e
+  fecha os 321 parâmetros por dois caminhos, a regra `e × s + s` e a saída do programa; `e17`
+  (`multipla`) cobra o diagnóstico do `--cru`, separando *"parou cedo"* de *"convergiu
+  rápido"*; `e18` (`aberta`) é o relato do experimento do próprio aluno.
+- **`e18` cobra o que o exercício está realmente ensinando**, e com caso medido: 32 unidades
+  dão 0,3852 contra 0,3878 das 64, uma diferença de **0,0026** — menor que a amplitude de
+  qualquer uma das duas (0,0099 e 0,0060). A leitura honesta é "não distingui as duas". A
+  rubrica exige confrontar a diferença **contra a amplitude** antes de declarar vencedor, e
+  registrar a previsão escrita **antes** de rodar.
+- Três itens novos na Síntese: linha de base como instrumento, escala de atributo como modo
+  de falha silencioso, e semente como amostra de tamanho 1.
+
 ### Corrigido — a caixa que cobra rigor de data errava a data (cap. `III.1`)
 - Ela discute a lenda de que "um italiano desenvolveu o backpropagation em 1979" e afirmava
   que *"o que existe em 1979 são as publicações de Werbos"*. A linha do tempo do **próprio
