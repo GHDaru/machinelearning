@@ -21,10 +21,12 @@ matplotlib>=3.8
 
 # etapa 19 — o MLP em dados reais (capítulo III.2).
 #
-# É a PRIMEIRA biblioteca de modelo da trilha, e ela entra fora da ordem que a
+# É a PRIMEIRA biblioteca de modelo da trilha, e ela entrou fora da ordem que a
 # Restrição 1 pede (NumPy do zero antes da chamada de uma linha). A antecipação
-# foi decisão do autor, para a turma poder rodar já; a dívida da implementação
-# em NumPy está declarada no capítulo e no CHANGELOG, não escondida.
+# foi decisão do autor, para a turma poder rodar já — e a dívida foi PAGA: a
+# rede densa escrita à mão está em etapa-19/rede.py, com conferência de
+# gradiente contra diferença finita, e chega a MAE 0,3990 contra 0,3878 da
+# biblioteca no mesmo recorte.
 #
 # O dataset NÃO é baixado em tempo de execução: ele está congelado em
 # ml-zero/dados/california/, com sha256 na ficha. O sklearn aqui é o modelo, e

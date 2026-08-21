@@ -480,9 +480,24 @@ O sintoma que denuncia está na terceira linha. A rede crua não treinou mais r�
 
 A causa está na ficha dos dados: `Population` tem desvio padrão 1 132 e `AveBedrms` tem 0,474. **Uma razão de 2 390 vezes.**
 
-### O que este exemplo ainda não é
+### E a mesma rede, escrita à mão
 
-Esta etapa **usa** uma rede pronta; ela não implementa uma. O objetivo O3 deste capítulo promete implementar a rede densa em NumPy, do passo para frente ao update, e essa etapa ainda não existe — a dívida está declarada no fim do capítulo. A ordem que a construção deste livro pede é a inversa da que você acabou de percorrer: escrever o método antes de chamar a biblioteca. Aqui a biblioteca veio primeiro por decisão de quem dá a aula, e vale saber disso ao usar o resultado.
+Esta etapa **usa** uma rede pronta. O objetivo O3 deste capítulo promete outra coisa: implementar a rede densa em NumPy, do passo para frente ao update. Isso está em [`ml-zero/etapa-19/rede.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/rede.py), ao lado, e roda em segundos:
+
+```
+python ml-zero/etapa-19/rede.py
+```
+
+Ele começa refazendo o passo que você calculou à mão, com os mesmos nove pesos e o mesmo caso, e imprime os mesmos $h_1 = 0{,}6457$, $\hat{y} = 0{,}5548$ e $E = 0{,}1982$. Depois fecha o XOR. E então roda nos mesmos 20 640 bairros, com o mesmo recorte gravado: **MAE 0,3990**, contra 0,3878 da biblioteca. Perto o bastante para dizer que é o mesmo método, e é essa a afirmação que interessa.
+
+**A parte que vale copiar para os seus projetos é a conferência de gradiente.** Escrever retropropagação é fácil; escrever retropropagação **certa** é outra coisa, e um sinal trocado não lança exceção nenhuma. A rede treina, a perda desce um pouco, e você culpa a taxa de aprendizado. O arquivo compara o gradiente calculado pela regra da cadeia com a diferença finita da perda:
+
+$$\frac{E(w + h) - E(w - h)}{2h}$$
+
+Se os dois discordarem, há defeito na conta, e você descobre em um segundo em vez de em três dias de treino. É o mesmo raciocínio do exercício sobre viés, aplicado a você: **ausência de exceção não é evidência de correção** — então arranje uma evidência.
+
+E há uma medição para levar junto, porque ela custou uma. A primeira versão daquele arquivo aplicava a ativação em **todas** as camadas, inclusive na saída. Nada quebrou. O erro no California Housing deu **1,1610**, pior do que prever sempre a mediana, e o motivo é simples depois de visto: `tanh` não passa de 1, e o alvo vai até 5. A rede estava impedida de acertar por construção. Saída de regressão não leva não-linearidade, e é isso que a biblioteca faz por padrão quando você não olha.
+
 
 
 :::exercicio {"id":"redes-neurais-e16","tipo":"numerica","objetivo":"O5","dificuldade":"facil"}
