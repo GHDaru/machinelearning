@@ -62,6 +62,14 @@ jobs:
         run: node build.mjs
         working-directory: publicar
 
+      # Os 25 testes de publicar/testes/ rodam o laboratorios.js REAL e conferem
+      # os números que o livro promete ao leitor. Rodavam à mão, no dia em que
+      # cada um nasceu, e a CI nunca os chamou — teste que ninguém roda não
+      # guarda nada. Agora chama.
+      - name: Testes dos laboratórios e animações
+        run: node testes/rodar.mjs
+        working-directory: publicar
+
   backend:
     runs-on: ubuntu-latest
     steps:

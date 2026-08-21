@@ -5244,6 +5244,233 @@
     raiz.__api = { treinar: treinar, est: est, inicial: r0 };
   }
 
+  // --------------------------------------------------------------------------
+  // MLP-TABELA (III.2) — os nove pesos mudando na tela, um passo por vez.
+  //
+  // POR QUE ELE EXISTE
+  //
+  // O capítulo mostra UM passo de retropropagação com todos os números. Um passo
+  // não é treinar, e o capítulo diz isso — mas dizer não é ver. Este laboratório
+  // continua exatamente de onde a conta à mão para: o primeiro passo reproduz o
+  // do texto DÍGITO POR DÍGITO, e daí em diante o aluno segura o botão.
+  //
+  // A MANOPLA (ADR 0015): "tudo zero"
+  //
+  // Pesos zerados parecem a partida mais neutra que existe, e a previsão que
+  // quase todo mundo faz é "vai demorar mais". Está errada, e o erro é
+  // qualitativo: a rede NUNCA fecha o XOR. Com todos os pesos iguais, h₁ e h₂
+  // calculam a mesma coisa, recebem o mesmo delta e permanecem iguais para
+  // sempre. Duas unidades escondidas viram uma, e a rede volta a empacar em 3 de
+  // 4 — o mesmo lugar do perceptron do capítulo III.1.
+  //
+  // Os números que aparecem no placar são medidos pelo teste
+  // publicar/testes/lab-mlp-tabela.mjs, que roda ESTE código.
+  function mlpTabela(raiz, cfg) {
+    var TETO = 4000;                   // teto de épocas; a partida do capítulo fecha bem antes
+    // A ordem começa por (1,0) para que o PRIMEIRO passo seja o do capítulo.
+    var CASOS = [[1, 0, 1], [1, 1, 0], [0, 0, 0], [0, 1, 1]];
+    var PARTIDAS = {
+      capitulo: { W: [[0.5, 0.3], [-0.4, 0.8]], b: [0.1, -0.2], v: [0.6, -0.7], c: 0.2 },
+      zero:     { W: [[0, 0], [0, 0]], b: [0, 0], v: [0, 0], c: 0 },
+    };
+    var semente = (cfg && cfg.semente) || 3;
+    var sorteia = rng(semente);
+
+    var est = {
+      taxa: cfg && cfg.taxa != null ? cfg.taxa : 0.5,
+      partida: (cfg && cfg.partida) || "capitulo",
+    };
+    var p, passo, ultimo;
+
+    function copiar(q) {
+      return { W: [[q.W[0][0], q.W[0][1]], [q.W[1][0], q.W[1][1]]],
+               b: [q.b[0], q.b[1]], v: [q.v[0], q.v[1]], c: q.c };
+    }
+    function sorteada() {
+      var r = function () { return Math.round((sorteia() * 2 - 1) * 100) / 100; };
+      return { W: [[r(), r()], [r(), r()]], b: [r(), r()], v: [r(), r()], c: r() };
+    }
+    function reiniciar() {
+      p = est.partida === "sorteada" ? sorteada() : copiar(PARTIDAS[est.partida]);
+      passo = 0;
+      ultimo = null;
+    }
+
+    var sig = function (z) { return 1 / (1 + Math.exp(-z)); };
+
+    /** Passo para frente de um caso. Sem efeito colateral. */
+    function frente(q, x) {
+      var z = [q.W[0][0] * x[0] + q.W[1][0] * x[1] + q.b[0],
+               q.W[0][1] * x[0] + q.W[1][1] * x[1] + q.b[1]];
+      var h = [sig(z[0]), sig(z[1])];
+      var u = q.v[0] * h[0] + q.v[1] * h[1] + q.c;
+      return { z: z, h: h, u: u, y: sig(u) };
+    }
+
+    /** UM passo de SGD sobre um caso. Devolve antes/gradiente/depois de cada um
+     *  dos nove parâmetros — que é exatamente a tabela do capítulo. */
+    function umPasso(q, caso, taxa) {
+      var x = [caso[0], caso[1]], alvo = caso[2];
+      var f = frente(q, x);
+      var perda = (f.y - alvo) * (f.y - alvo);
+      var dy = 2 * (f.y - alvo) * f.y * (1 - f.y);
+      var d = [dy * q.v[0] * f.h[0] * (1 - f.h[0]),
+               dy * q.v[1] * f.h[1] * (1 - f.h[1])];
+      var g = {
+        w11: d[0] * x[0], w21: d[0] * x[1], b1: d[0],
+        w12: d[1] * x[0], w22: d[1] * x[1], b2: d[1],
+        v1: dy * f.h[0], v2: dy * f.h[1], c: dy,
+      };
+      var antes = { w11: q.W[0][0], w21: q.W[1][0], b1: q.b[0],
+                    w12: q.W[0][1], w22: q.W[1][1], b2: q.b[1],
+                    v1: q.v[0], v2: q.v[1], c: q.c };
+      q.W[0][0] -= taxa * g.w11; q.W[1][0] -= taxa * g.w21; q.b[0] -= taxa * g.b1;
+      q.W[0][1] -= taxa * g.w12; q.W[1][1] -= taxa * g.w22; q.b[1] -= taxa * g.b2;
+      q.v[0] -= taxa * g.v1; q.v[1] -= taxa * g.v2; q.c -= taxa * g.c;
+      var depois = { w11: q.W[0][0], w21: q.W[1][0], b1: q.b[0],
+                     w12: q.W[0][1], w22: q.W[1][1], b2: q.b[1],
+                     v1: q.v[0], v2: q.v[1], c: q.c };
+      return { caso: caso, f: f, perda: perda, dy: dy, d: d,
+               g: g, antes: antes, depois: depois };
+    }
+
+    /** O placar: perda média e acertos sobre os QUATRO casos, sempre. Medir só
+     *  o caso do passo daria um número que sobe e desce sem querer dizer nada. */
+    function placarDos(q) {
+      var perda = 0, acertos = 0, i, f;
+      for (i = 0; i < CASOS.length; i++) {
+        f = frente(q, [CASOS[i][0], CASOS[i][1]]);
+        perda += (f.y - CASOS[i][2]) * (f.y - CASOS[i][2]);
+        if ((f.y >= 0.5) === (CASOS[i][2] === 1)) acertos++;
+      }
+      return { perda: perda / 4, acertos: acertos };
+    }
+
+    /** Roda N passos. Devolve o último, para a tabela. */
+    function avancar(n) {
+      for (var i = 0; i < n; i++) {
+        ultimo = umPasso(p, CASOS[passo % 4], est.taxa);
+        passo++;
+      }
+      return ultimo;
+    }
+
+    /** Treina até fechar 4 de 4, ou até o teto. Sem DOM: é o gancho do teste. */
+    function ateFechar(partida, taxa, teto) {
+      var q = partida === "sorteada" ? sorteada() : copiar(PARTIDAS[partida]);
+      var k, pl, simetrico = true;
+      for (k = 1; k <= (teto || TETO) * 4; k++) {
+        umPasso(q, CASOS[(k - 1) % 4], taxa);
+        if (Math.abs(q.W[0][0] - q.W[0][1]) > 1e-12) simetrico = false;
+        if (k % 4 === 0) {
+          pl = placarDos(q);
+          if (pl.acertos === 4) return { epocas: k / 4, perda: pl.perda, simetrico: simetrico, q: q };
+        }
+      }
+      pl = placarDos(q);
+      return { epocas: null, perda: pl.perda, acertos: pl.acertos, simetrico: simetrico, q: q };
+    }
+
+    var corpo = el("div", "lab-corpo");
+    var painel = el("div", "lab-painel");
+    var visual = el("div", "lab-visual");
+    corpo.appendChild(painel); corpo.appendChild(visual);
+    raiz.appendChild(corpo);
+
+    var linhaCaso = el("p", "lab-nota", "");
+    visual.appendChild(linhaCaso);
+    var caixaTabela = el("div", "lab-tabela-rolagem");
+    visual.appendChild(caixaTabela);
+    var placar = placarDe(visual);
+
+    var num = function (v, casas) {
+      var c = casas == null ? 4 : casas;
+      var s = v.toFixed(c);
+      if (s === "-" + (0).toFixed(c)) s = (0).toFixed(c);
+      return s.replace(".", ",");
+    };
+    var ROTULOS = [["w11", "w₁₁"], ["w21", "w₂₁"], ["b1", "b₁"],
+                   ["w12", "w₁₂"], ["w22", "w₂₂"], ["b2", "b₂"],
+                   ["v1", "v₁"], ["v2", "v₂"], ["c", "c"]];
+
+    function desenhar() {
+      var pl = placarDos(p);
+      var t = document.createElement("table");
+      t.className = "lab-tabela";
+      var html = "<thead><tr><th>peso</th><th>antes</th><th>gradiente</th><th>depois</th></tr></thead><tbody>";
+      for (var i = 0; i < ROTULOS.length; i++) {
+        var k = ROTULOS[i][0];
+        var antes = ultimo ? ultimo.antes[k] : (k === "w11" ? p.W[0][0] : k === "w21" ? p.W[1][0] :
+                     k === "b1" ? p.b[0] : k === "w12" ? p.W[0][1] : k === "w22" ? p.W[1][1] :
+                     k === "b2" ? p.b[1] : k === "v1" ? p.v[0] : k === "v2" ? p.v[1] : p.c);
+        var grad = ultimo ? ultimo.g[k] : null;
+        var depois = ultimo ? ultimo.depois[k] : antes;
+        // Gradiente zerado é a lição do capítulo, não um detalhe: marca-se.
+        var zerado = grad !== null && grad === 0;
+        html += "<tr" + (zerado ? ' class="lab-linha-erro"' : "") + "><td>" + ROTULOS[i][1] + "</td>" +
+          "<td>" + num(antes) + "</td>" +
+          "<td>" + (grad === null ? "—" : num(grad)) + "</td>" +
+          "<td>" + num(depois) + "</td></tr>";
+      }
+      html += "</tbody>";
+      t.innerHTML = html;
+      caixaTabela.innerHTML = "";
+      caixaTabela.appendChild(t);
+
+      if (ultimo) {
+        linhaCaso.textContent = "Passo " + passo + " · caso x = (" + ultimo.caso[0] + ", " +
+          ultimo.caso[1] + "), alvo " + ultimo.caso[2] + " · h₁ = " + num(ultimo.f.h[0]) +
+          " · h₂ = " + num(ultimo.f.h[1]) + " · ŷ = " + num(ultimo.f.y) +
+          " · perda deste caso " + num(ultimo.perda);
+      } else {
+        linhaCaso.textContent = "Passo 0 — nenhum peso se mexeu ainda. O próximo caso é x = (1, 0), alvo 1: o do capítulo.";
+      }
+      placar.textContent = "Perda média nos 4 casos: " + num(pl.perda) +
+        " · acerta " + pl.acertos + " de 4" +
+        (pl.acertos === 4 ? " — o XOR fechou." :
+         Math.abs(p.W[0][0] - p.W[0][1]) < 1e-12 && Math.abs(p.v[0] - p.v[1]) < 1e-12
+           ? " — e h₁ e h₂ continuam idênticas: a simetria não se quebrou."
+           : "");
+      return { p: p, placar: pl, ultimo: ultimo };
+    }
+
+    painel.appendChild(el("p", "lab-dica",
+      "O primeiro passo é o do capítulo, número por número. Escreva a sua previsão " +
+      "antes de trocar a partida para “tudo zero”."));
+
+    var selP = el("label", "lab-campo");
+    selP.appendChild(el("span", "lab-campo-rot", "Partida dos pesos"));
+    var sel = document.createElement("select");
+    sel.className = "lab-select";
+    [["capitulo", "a do capítulo"], ["zero", "tudo zero"], ["sorteada", "sorteada"]]
+      .forEach(function (o) {
+        var op = document.createElement("option");
+        op.value = o[0]; op.textContent = o[1];
+        if (o[0] === est.partida) op.selected = true;
+        sel.appendChild(op);
+      });
+    sel.addEventListener("change", function () { est.partida = sel.value; reiniciar(); desenhar(); });
+    selP.appendChild(sel);
+    painel.appendChild(selP);
+
+    painel.appendChild(campo("Taxa de aprendizado η", est.taxa, 0.1, function (v) {
+      if (!isNaN(v) && v > 0) { est.taxa = v; reiniciar(); desenhar(); }
+    }));
+
+    var botao = botoeiraDe(painel);
+    botao("Um passo", function () { avancar(1); desenhar(); });
+    botao("Uma época (4 casos)", function () { avancar(4); desenhar(); });
+    botao("100 épocas", function () { avancar(400); desenhar(); });
+    botao("Reiniciar", function () { reiniciar(); desenhar(); });
+
+    reiniciar();
+    var r0 = desenhar();
+    // Gancho de teste: a aritmética é conferida sem navegador.
+    raiz.__api = { umPasso: umPasso, frente: frente, placarDos: placarDos,
+                   ateFechar: ateFechar, copiar: copiar, PARTIDAS: PARTIDAS,
+                   CASOS: CASOS, est: est, inicial: r0 };
+  }
+
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
@@ -5265,6 +5492,7 @@
                 "perceptron-treino": perceptronTreino,
                 "circuito-neuronios": circuitoNeuronios,
                 "perceptron-tabela": perceptronTabela,
+                "mlp-tabela": mlpTabela,
                 "iframe": labIframe };
 
   function iniciar() {
