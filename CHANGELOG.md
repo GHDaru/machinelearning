@@ -6,6 +6,31 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a ficha do dado agora define as 10 colunas do arquivo cru
+- O notebook novo entrega ao aluno **10** colunas do censo, e o repositório só definia as **9**
+  derivadas. Lacuna aberta pela própria entrega anterior, e fechada aqui.
+- **`households` ganhou parágrafo próprio, porque ele é o denominador.** No vocabulário do
+  censo americano, um *household* é o conjunto de pessoas que ocupam uma unidade
+  habitacional: domicílio **ocupado**, e casa vazia não conta. É contagem por setor
+  censitário, inteira, de 1 a 6 082, mediana 409.
+- Teste de sanidade que vale guardar: **10 310 499 domicílios** para **29 421 840 moradores**,
+  ou **2,85 moradores por domicílio** — plausível para a Califórnia de 1990.
+- **Explica os absurdos do arquivo derivado.** `AveRooms` em 141,9 e `AveOccup` em 1 243 não
+  são erro de digitação: são denominador minúsculo. Nos 69 setores com mais de 20 cômodos por
+  domicílio, a mediana de `households` é **95**, contra **410** no resto.
+- Hipótese marcada **como hipótese**: se `total_rooms` contasse todas as unidades e
+  `households` só as ocupadas, vacância explicaria o setor de 1 561 cômodos, 11 domicílios e
+  30 moradores. O arquivo não tem coluna de vacância, então fica sem confirmação.
+
+### Corrigido — três linhas do conjunto contradizem a definição da própria coluna
+- Em **três** setores há **mais domicílios do que moradores**: 4 para 3, 39 para 27, 204 para
+  198. Domicílio ocupado tem ao menos um ocupante, então isso não pode acontecer.
+- São 3 linhas em 20 640 e não mudam resultado nenhum. O que elas mostram é a mesma coisa que
+  as 207 linhas perdidas: o conjunto "clássico", usado em milhares de aulas, tem linhas que
+  contradizem a própria definição das colunas, e ninguém esbarra nelas porque ninguém olha.
+- Os **17 números** dessa seção da ficha foram conferidos contra o arquivo um a um, e os
+  principais viraram teste (21 na etapa, 109 na trilha).
+
 ### Adicionado — o notebook do `III.2`: clicar e abrir, com o download do Kaggle
 - [`ml-zero/etapa-19/rede_california.ipynb`](ml-zero/etapa-19/rede_california.ipynb), com o
   link **abre no Colab** na seção nova "Abrir no Colab, sem instalar nada" do capítulo. Nove

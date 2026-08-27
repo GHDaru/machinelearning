@@ -269,3 +269,29 @@ def test_o_download_falha_sem_derrubar_a_etapa(monkeypatch):
     monkeypatch.setattr(kag, "baixar_do_kaggle", explode, raising=True)
     bruto, origem = kag.carregar_bruto(tentar_kaggle=False)
     assert origem == kag.BRUTO and len(bruto) == 20640
+
+
+def test_households_e_o_denominador_e_a_ficha_diz_a_verdade():
+    """Os números que a ficha do dado afirma sobre `households`.
+
+    A ficha explica que *household* é domicílio OCUPADO, e que três dos oito
+    atributos dividem por ele — é daí que saem os valores absurdos de `AveRooms`
+    e `AveOccup`. Afirmação sem gate é promessa, então os números estão aqui.
+    """
+    bruto, _ = kag.carregar_bruto()
+    h = bruto["households"]
+    assert (h % 1 == 0).all() and int(h.min()) == 1 and int(h.max()) == 6082
+    assert int(h.median()) == 409
+    # 2,85 moradores por domicílio no estado — o teste de sanidade da coluna
+    assert round(float(bruto["population"].sum() / h.sum()), 2) == 2.85
+
+    # o absurdo é denominador pequeno, não erro de digitação
+    alto = (bruto["total_rooms"] / h) > 20
+    assert int(alto.sum()) == 69
+    assert int(h[alto].median()) == 95 and int(h[~alto].median()) == 410
+
+    # e as três linhas que contradizem a definição da própria coluna
+    impossiveis = bruto[h > bruto["population"]]
+    assert len(impossiveis) == 3
+    assert sorted(zip(impossiveis["households"], impossiveis["population"])) == [
+        (4.0, 3.0), (39.0, 27.0), (204.0, 198.0)]

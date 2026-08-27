@@ -40,6 +40,64 @@ e muda de versão sem avisar. No dia em que isso acontecer, duas turmas de semes
 diferentes deixam de ser comparáveis — que é exatamente o que o `split.csv` gravado existe
 para impedir. A cópia local é o que faz a etapa rodar na aula em que a rede da escola cai.
 
+## As colunas do arquivo cru
+
+Cada linha é um **setor censitário** (*block group*) do censo de 1990, e não uma casa nem uma
+pessoa. São 20 640 setores, com mediana de 409 domicílios cada.
+
+| Coluna | O quê | Faixa |
+|---|---|---|
+| `longitude`, `latitude` | centro do setor | −124,35 a −114,31 · 32,54 a 41,95 |
+| `housing_median_age` | idade mediana das construções, em anos | 1 a 52 |
+| `total_rooms` | **total** de cômodos do setor | 2 a 39 320 |
+| `total_bedrooms` | **total** de quartos do setor. **207 linhas em branco** | 1 a 6 445 |
+| `population` | moradores do setor | 3 a 35 682 |
+| `households` | **domicílios ocupados** do setor | 1 a 6 082 |
+| `median_income` | renda mediana, em dezenas de milhares de dólares | 0,50 a 15,00 |
+| `median_house_value` | **o alvo**, em dólares. Censurado em 500 001 | 14 999 a 500 001 |
+| `ocean_proximity` | categórica: `<1H OCEAN`, `INLAND`, `NEAR OCEAN`, `NEAR BAY`, `ISLAND` | 5 valores |
+
+### `households` merece um parágrafo, porque ele é o denominador
+
+No vocabulário do censo americano, **um *household* é o conjunto de pessoas que ocupam uma
+unidade habitacional** — ou seja, um domicílio **ocupado**. Casa vazia não conta como
+*household*. A coluna é a **contagem de domicílios do setor**: número inteiro, nunca zero,
+de 1 a 6 082.
+
+Somando o arquivo inteiro: **10 310 499 domicílios** para **29 421 840 moradores**, o que dá
+**2,85 moradores por domicílio** — número plausível para a Califórnia de 1990, e um bom teste
+de sanidade quando se desconfia de uma coluna.
+
+**Três dos oito atributos derivados dividem por ele:**
+
+```
+AveRooms  = total_rooms    / households
+AveBedrms = total_bedrooms / households
+AveOccup  = population     / households
+```
+
+É por isso que os valores absurdos da ficha do derivado, `AveRooms` em 141,9 e `AveOccup` em
+1 243, não são erro de digitação: são **denominador minúsculo**. Dos 69 setores com mais de
+20 cômodos por domicílio, a mediana de `households` é **95**, contra **410** no resto do
+arquivo. Divisão por número pequeno amplifica tudo, inclusive o ruído.
+
+> **Uma hipótese que a ficha não confirma.** O setor com 141,9 cômodos por domicílio tem
+> 1 561 cômodos, 11 domicílios e 30 moradores. Uma explicação natural seria vacância: se
+> `total_rooms` conta os cômodos de **todas** as unidades e `households` conta só as
+> **ocupadas**, um lugar de casa de veraneio produz exatamente esse desenho. O arquivo não tem
+> coluna de vacância, então isto fica como **hipótese**, e não como afirmação.
+
+### Três linhas impossíveis
+
+Em **três** setores há **mais domicílios do que moradores** — 4 domicílios para 3 pessoas,
+39 para 27, 204 para 198. Pela definição, isso não pode acontecer: domicílio ocupado tem ao
+menos um ocupante.
+
+Não é muito, e não muda resultado nenhum: são 3 linhas em 20 640. O que elas mostram é outra
+coisa, e é a mesma lição das 207 linhas da seção seguinte — **o conjunto "clássico", usado em
+milhares de aulas, tem linhas que contradizem a própria definição das colunas, e ninguém
+esbarra nelas porque ninguém olha.**
+
 ## A quarta armadilha: as duas cópias discordam, e nenhuma avisa
 
 As **207** linhas em branco no arquivo do Kaggle **têm valor** no do `scikit-learn`. E o valor
