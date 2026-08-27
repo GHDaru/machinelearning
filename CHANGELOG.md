@@ -6,6 +6,53 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o notebook do `III.2`: clicar e abrir, com o download do Kaggle
+- [`ml-zero/etapa-19/rede_california.ipynb`](ml-zero/etapa-19/rede_california.ipynb), com o
+  link **abre no Colab** na seção nova "Abrir no Colab, sem instalar nada" do capítulo. Nove
+  células de código, todas executadas pelo verificador antes de cada publicação.
+- Usa o trecho que o próprio Kaggle mostra na página do conjunto, sem mudar nada:
+  `kagglehub.dataset_download("camnugent/california-housing-prices")`. **Medido: baixa sem
+  credencial** — o conjunto é público e o `kagglehub` cai em acesso anônimo.
+- **O notebook começa antes do que o capítulo começava.** O que vem do Kaggle não é o arquivo
+  de 9 colunas: são **10** colunas do censo, com a coluna de texto `ocean_proximity` e
+  **207 linhas sem `total_bedrooms`**. O aluno refaz a derivação (três dos oito atributos são
+  razões por `households`) e `conferir()` compara a derivação dele com o congelado, coluna a
+  coluna — o mesmo instrumento das linhas de base, um passo antes.
+- `ml-zero/etapa-19/dados_kaggle.py` com `baixar_do_kaggle`, `carregar_bruto`, `derivar`,
+  `conferir` e `comparar_com_o_congelado`.
+
+### Adicionado — a cópia crua do conjunto, e a procedência conferida em vez de suposta
+- `ml-zero/dados/california/housing_bruto.csv` (20 640 × 10),
+  `sha256 8a3727f4cf54ac1a327f69b1d5b4db54c5834ea81c6e4efc0d163300022a685e`.
+- **Byte a byte igual ao que o Kaggle entrega**, e isso foi *medido* na data da captura, não
+  presumido: o download real bate no `sha256`, na forma, nas colunas e na posição dos nulos.
+- Congelar não é desconfiança do Kaggle: conjunto de terceiro ganha revisão, sai do ar e muda
+  de versão sem avisar, e no dia em que isso acontecer duas turmas de semestres diferentes
+  deixam de ser comparáveis — que é o mesmo motivo de o `split.csv` estar gravado. Se o
+  download falhar, o notebook segue pela cópia local e **diz** que fez isso.
+
+### Corrigido — a quarta armadilha do conjunto: as duas cópias discordam, e nenhuma avisa
+- As **207** linhas em branco no arquivo do Kaggle **têm valor** no que o `scikit-learn`
+  distribui, e o valor é **inteiro**: 217, 279, 1 394, com **186 valores distintos** entre os
+  207. Isso descarta preenchimento — média ou mediana dariam número quebrado, e o *mesmo*
+  número repetido 207 vezes.
+- Não é imputação: é dado que uma das duas cópias perdeu pelo caminho. Duas versões do mesmo
+  conjunto, as duas chamadas "California Housing", discordam sobre 207 linhas.
+- Está na ficha do dado, na seção nova do capítulo e num teste. É o argumento concreto de por
+  que ficha com origem e `sha256` não é burocracia: sem ela, *"usei o California Housing"* não
+  identifica o que se usou.
+- 6 testes novos (20 na etapa, 108 na trilha), e o da conferência foi **visto falhando** com
+  os dois erros plausíveis: dividir por `population` em vez de `households`, e esquecer o
+  fator 100 000 no alvo. Nenhum dos dois lança exceção.
+
+### Corrigido — o notebook da etapa 18 nunca foi verificado, e o README dizia que era
+- `ml-zero/README.md` afirma que **todos** os notebooks têm as células executadas antes de
+  cada publicação. O da etapa 18 não estava na lista de `tests/rodar_notebooks.py` desde que
+  nasceu: rodava, e ninguém sabia disso. **Afirmação sem gate é promessa.**
+- Achado ao acrescentar o notebook novo à lista. Os dois entraram; são **7** notebooks
+  verificados, e a contagem "quatro dos cinco" do README, que também estava velha, foi
+  corrigida para "cinco dos sete".
+
 ### Adicionado — a dívida do objetivo `O3` foi paga: a rede densa em NumPy
 - Dois ciclos atrás, `scikit-learn` entrou na trilha **fora da ordem** que a Restrição 1 pede,
   por decisão de quem dá a aula, e a dívida ficou declarada em vez de escondida. Ela está

@@ -150,12 +150,15 @@ Capítulo [III.2](../livro/capitulos/iii-2-redes-neurais.md). A etapa tem duas m
 
 | Arquivo | O que faz |
 |---|---|
+| [`etapa-19/rede_california.ipynb`](etapa-19/rede_california.ipynb) | O notebook — [abre no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/rede_california.ipynb) sem instalar nada |
 | [`etapa-19/rede.py`](etapa-19/rede.py) | A rede densa **em NumPy**, do passo para frente ao update. `Rede`, `conferir_gradiente`, `reproduzir_o_capitulo`, `california` |
 | [`etapa-19/mlp.py`](etapa-19/mlp.py) | O mesmo problema pelo `MLPRegressor` do scikit-learn, com as linhas de base e a armadilha da escala |
+| [`etapa-19/dados_kaggle.py`](etapa-19/dados_kaggle.py) | O conjunto **cru** do Kaggle, a derivação dos 8 atributos e a conferência dela |
 | [`dados/california/`](dados/california/) | O California Housing **congelado**, com ficha, `sha256` e o recorte gravado em arquivo |
-| [`tests/test_etapa_19.py`](tests/test_etapa_19.py) | 14 testes — o gabarito da etapa |
+| [`tests/test_etapa_19.py`](tests/test_etapa_19.py) | 20 testes — o gabarito da etapa |
 
 ```
+python etapa-19/dados_kaggle.py     # baixa do Kaggle, deriva os 8 atributos e confere
 python etapa-19/rede.py     # a rede escrita à mão (≈5 s)
 python etapa-19/mlp.py      # a biblioteca, com as linhas de base
 python etapa-19/mlp.py --cru        # a mesma coisa sem padronizar, para ver a falha silenciosa
@@ -167,6 +170,8 @@ python etapa-19/mlp.py --ocultas 32 # outra arquitetura
 ### A lição
 
 **Ausência de exceção não é evidência de correção — então arranje uma evidência.** Escrever retropropagação é fácil; escrever retropropagação certa é outra coisa, e um sinal trocado não lança exceção: a rede treina, a perda desce um pouco, e a culpa cai na taxa de aprendizado. `conferir_gradiente()` compara a conta analítica com a diferença finita da perda, e o defeito aparece na terceira casa decimal em vez de aparecer em três dias.
+
+E há um terceiro, que só aparece comparando as duas cópias do conjunto. O que vem do Kaggle tem **10** colunas, uma delas de texto, e **207 linhas sem `total_bedrooms`** — que **têm** valor, inteiro, no arquivo do `scikit-learn`. Não é imputação: é dado que uma das cópias perdeu pelo caminho. Duas versões do "mesmo" conjunto discordam, e nenhuma avisa. Detalhe na [ficha do dado](dados/california/README.md).
 
 Dois erros silenciosos foram medidos aqui, e os dois viraram teste:
 
@@ -203,6 +208,7 @@ Cada notebook roda **na sua máquina e no Colab**, sem alterar nada: a primeira 
 | [`etapa-07/arvores_ensembles.ipynb`](etapa-07/arvores_ensembles.ipynb) | [II.5](../livro/capitulos/ii-5-arvores-ensembles.md) | quatro modelos no mesmo dado, e a vantagem do ensemble encolhendo com ruído |
 | [`etapa-21/exploratoria_limonada.ipynb`](etapa-21/exploratoria_limonada.ipynb) | [I.4](../livro/capitulos/i-4-analise-exploratoria.md) | tipo, nulidade, posição, separatrizes, histograma e boxplot — e as duas colunas em que a régua de outlier engana |
 | [`etapa-18/neuronio_mp.ipynb`](etapa-18/neuronio_mp.ipynb) | [III.1](../livro/capitulos/iii-1-neuronio-artificial.md) | põe os pesos à mão, vê o perceptron achá-los, e trava no XOR |
+| [`etapa-19/rede_california.ipynb`](etapa-19/rede_california.ipynb) | [III.2](../livro/capitulos/iii-2-redes-neurais.md) | baixa do Kaggle, deriva os 8 atributos, mede as linhas de base e cai na armadilha da escala de propósito |
 
 ### Rodar na sua máquina
 
@@ -214,6 +220,8 @@ pip install notebook
 jupyter notebook
 ```
 
-Quatro dos cinco notebooks usam **só a biblioteca padrão** e o código deste diretório — nada a instalar. A exceção é o da **etapa 21**, que usa `pandas` e `matplotlib` porque o assunto dele é *ler distribuição*, e desenhar histograma à mão ensinaria sobre desenho ([ADR 0010](../adr/0010-pandas-na-etapa-de-exploracao.md)). As duas já vêm no Colab.
+Cinco dos sete notebooks usam **só a biblioteca padrão** e o código deste diretório — nada a instalar. As exceções são o da **etapa 21**, que usa `pandas` e `matplotlib` porque o assunto dele é *ler distribuição* e desenhar histograma à mão ensinaria sobre desenho ([ADR 0010](../adr/0010-pandas-na-etapa-de-exploracao.md)), e o da **etapa 19**, que usa `scikit-learn` e `kagglehub`. Os três primeiros já vêm no Colab; o `kagglehub` é uma linha de `pip`, e o notebook roda sem ele pela cópia congelada.
 
 > **Os notebooks são verificados.** Todas as células de código são executadas antes de cada publicação, a partir da pasta da etapa, como o aluno faria. Notebook que não roda é pior que notebook nenhum: ele quebra no meio da aula.
+>
+> Esta frase era verdadeira por pouco. O notebook da **etapa 18** nunca esteve na lista do verificador: rodava, e ninguém sabia disso. Entrou junto com o da etapa 19.
