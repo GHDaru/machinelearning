@@ -187,3 +187,85 @@ def test_a_rede_a_mao_chega_perto_da_biblioteca():
     assert r["parametros"] == 641
     assert r["mae"] < 0.5271, "a rede à mão precisa ao menos ganhar da regressão linear"
     assert r["mae"] < 0.45, f"MAE {r['mae']:.4f} — longe demais dos 0,3878 da biblioteca"
+
+
+# ---------------------------------------------------------------------------
+# O conjunto CRU, como ele sai do Kaggle (dados_kaggle.py).
+#
+# Nenhum destes testes vai à rede. O arquivo bruto está congelado no repositório
+# e é byte a byte o que o Kaggle entrega — a igualdade foi medida, e o `sha256`
+# está na ficha. Teste que depende de download alheio falha por motivo que não é
+# o nosso, e aí ninguém mais olha para ele.
+# ---------------------------------------------------------------------------
+
+kag = carregar("etapa-19", "dados_kaggle")
+
+
+def test_o_arquivo_cru_tem_as_dez_colunas_e_os_buracos():
+    """O arquivo "limpo" tem 9 colunas de números e nenhum buraco. Este tem 10,
+    uma delas é texto, e 207 linhas não têm `total_bedrooms`. As duas versões do
+    mesmo conjunto discordam, e nenhuma avisa."""
+    bruto, origem = kag.carregar_bruto()
+    assert bruto.shape == (20640, 10)
+    assert list(bruto.columns) == kag.COLUNAS_ESPERADAS
+    assert int(bruto["total_bedrooms"].isna().sum()) == 207
+    assert set(bruto["ocean_proximity"].unique()) == {
+        "<1H OCEAN", "INLAND", "NEAR OCEAN", "NEAR BAY", "ISLAND"}
+    assert origem == kag.BRUTO
+
+
+def test_o_sha256_do_bruto_e_o_que_a_ficha_declara():
+    """Medido contra o download real do Kaggle em 2026-08-21: byte a byte igual.
+    Se este número mudar, a cópia congelada deixou de ser o que a ficha diz."""
+    assert kag.sha256(kag.BRUTO) == (
+        "8a3727f4cf54ac1a327f69b1d5b4db54c5834ea81c6e4efc0d163300022a685e")
+
+
+def test_a_derivacao_reconstroi_o_arquivo_congelado():
+    """As 10 colunas do censo viram os 8 atributos + alvo, e o resultado bate com
+    o que o scikit-learn distribui. É o checksum da derivação do aluno."""
+    bruto, _ = kag.carregar_bruto()
+    r = kag.conferir(kag.derivar(bruto))
+    assert r["bate"], f"divergências: {r['divergentes']}"
+    assert r["colunas_conferidas"] == 9
+    assert r["linhas_sem_bedrooms"] == 207
+
+
+def test_a_conferencia_pega_o_erro_de_denominador():
+    """O gate precisa ser visto falhando. Dividir por `population` em vez de
+    `households` é o erro plausível, e ele não lança exceção nenhuma."""
+    bruto, _ = kag.carregar_bruto()
+    errado = kag.derivar(bruto)
+    errado["AveRooms"] = bruto["total_rooms"] / bruto["population"]
+    r = kag.conferir(errado)
+    assert not r["bate"]
+    assert [c for c, _ in r["divergentes"]] == ["AveRooms"]
+    # e esquecer o fator 100 000 no alvo também
+    outro = kag.derivar(bruto)
+    outro["MedHouseVal"] = bruto["median_house_value"]
+    assert "MedHouseVal" in [c for c, _ in kag.conferir(outro)["divergentes"]]
+
+
+def test_as_207_linhas_perdidas_nao_sao_imputacao():
+    """O achado que só aparece comparando as duas cópias: as linhas sem
+    `total_bedrooms` no arquivo do Kaggle TÊM valor no do scikit-learn, e o valor
+    é inteiro. Média ou mediana dariam número quebrado e repetido — logo não é
+    preenchimento, é dado que uma das cópias perdeu pelo caminho."""
+    import pandas as pd
+    bruto, _ = kag.carregar_bruto()
+    ref = pd.read_csv(kag.DERIVADO)
+    falta = bruto["total_bedrooms"].isna().to_numpy()
+    v = ref.loc[falta, "AveBedrms"].to_numpy() * bruto.loc[falta, "households"].to_numpy()
+    assert (abs(v - v.round()) < 0.02).all(), "não são inteiros — então pode ser imputação"
+    assert len(set(v.round().astype(int))) > 100, "valor repetido seria sinal de imputação"
+
+
+def test_o_download_falha_sem_derrubar_a_etapa(monkeypatch):
+    """Sem rede, sem cota, sem biblioteca: `baixar_do_kaggle` devolve None e a
+    etapa segue pelo arquivo congelado. Aula não pode parar por causa de um
+    traceback de terceiro."""
+    def explode(*a, **k):
+        raise RuntimeError("sem rede")
+    monkeypatch.setattr(kag, "baixar_do_kaggle", explode, raising=True)
+    bruto, origem = kag.carregar_bruto(tentar_kaggle=False)
+    assert origem == kag.BRUTO and len(bruto) == 20640

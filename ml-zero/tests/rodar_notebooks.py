@@ -8,6 +8,10 @@ no primeiro `import numpy` — `cannot load module more than once per process`,
 porque extensão em C não recarrega. Um kernel por notebook é, aliás, o que o
 Jupyter dá ao aluno.
 
+O da etapa 18 entrou tarde: o README afirmava que TODOS os notebooks eram
+verificados, e ele estava de fora da lista desde que nasceu. Rodava, mas
+ninguém sabia disso — afirmação sem gate é promessa.
+
 Uso:  python tests/rodar_notebooks.py
 """
 
@@ -23,6 +27,8 @@ NOTEBOOKS = [
     "ml-zero/etapa-02/vazamento.ipynb",
     "ml-zero/etapa-07/arvores_ensembles.ipynb",
     "ml-zero/etapa-21/exploratoria_limonada.ipynb",
+    "ml-zero/etapa-18/neuronio_mp.ipynb",
+    "ml-zero/etapa-19/rede_california.ipynb",
 ]
 
 falhas = []
@@ -30,6 +36,9 @@ for rel in NOTEBOOKS:
     caminho = RAIZ / rel
     nb = json.loads(caminho.read_text(encoding="utf8"))
     codigo = ["".join(c["source"]) for c in nb["cells"] if c["cell_type"] == "code"]
+    # `!pip` é sintaxe de Jupyter, e o aluno no Colab a executa. Fora dele, a
+    # linha vira comentário — a etapa não pode DEPENDER da instalação.
+    codigo = [c.replace("!pip install", "# !pip install") for c in codigo]
     script = "\n\n# ---- proxima celula ----\n\n".join(codigo)
 
     print(f"\n{'=' * 70}\n{rel}  ({len(codigo)} celulas)\n{'=' * 70}")

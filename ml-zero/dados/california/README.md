@@ -9,15 +9,48 @@ não uma pessoa.
 
 | Arquivo | O quê |
 |---|---|
-| [`california.csv`](california.csv) | o congelado, que a etapa lê. UTF-8, ponto decimal |
-| [`obter.py`](obter.py) | o script que o regenera a partir do `scikit-learn` |
+| [`california.csv`](california.csv) | o **derivado**, 9 colunas, que as etapas leem. UTF-8, ponto decimal |
+| [`housing_bruto.csv`](housing_bruto.csv) | o **cru**, 10 colunas, como o Kaggle entrega |
+| [`obter.py`](obter.py) | o script que regenera o derivado a partir do `scikit-learn` |
 | [`split.csv`](split.csv) | quais linhas são treino, validação e teste — **gravado**, não sorteado |
 
 ```
-sha256  de7c6baf96d63c5947036f2f5c050313cabcda16880f9eacfdefb99f1bfd6403
+sha256  de7c6baf96d63c5947036f2f5c050313cabcda16880f9eacfdefb99f1bfd6403   california.csv
+sha256  8a3727f4cf54ac1a327f69b1d5b4db54c5834ea81c6e4efc0d163300022a685e   housing_bruto.csv
 ```
 
-É esse número que prova que a turma inteira treinou sobre o mesmo arquivo.
+São esses números que provam que a turma inteira treinou sobre o mesmo arquivo.
+
+## As duas versões, e por que as duas estão aqui
+
+**O derivado** (`california.csv`) vem do `scikit-learn` 1.9.0: 9 colunas de números, sem
+buraco e sem categoria. É o que as etapas treinam.
+
+**O cru** (`housing_bruto.csv`) é o arquivo de onde aquele preparo saiu, e ele tem o que o
+derivado apagou: a coluna de texto `ocean_proximity` e **207 linhas sem `total_bedrooms`**.
+
+| Procedência | O que foi conferido |
+|---|---|
+| Baixado de [`ageron/handson-ml2`](https://raw.githubusercontent.com/ageron/handson-ml2/master/datasets/housing/housing.csv) em **2026-08-21** | 20 640 × 10, `sha256` acima |
+| Comparado com `kagglehub.dataset_download("camnugent/california-housing-prices")` na mesma data | **byte a byte igual** — mesmo `sha256`. Não é suposição: `dados_kaggle.comparar_com_o_congelado()` faz a conta |
+| O download do Kaggle **não pediu credencial** | conjunto público; o `kagglehub` cai em acesso anônimo |
+
+Então por que congelar, se dá para baixar? Porque conjunto no Kaggle ganha revisão, sai do ar
+e muda de versão sem avisar. No dia em que isso acontecer, duas turmas de semestres
+diferentes deixam de ser comparáveis — que é exatamente o que o `split.csv` gravado existe
+para impedir. A cópia local é o que faz a etapa rodar na aula em que a rede da escola cai.
+
+## A quarta armadilha: as duas cópias discordam, e nenhuma avisa
+
+As **207** linhas em branco no arquivo do Kaggle **têm valor** no do `scikit-learn`. E o valor
+é inteiro: 217, 279, 1 394, com **186 valores distintos** entre os 207.
+
+Isso descarta preenchimento. Imputar pela média ou pela mediana daria número quebrado, e o
+**mesmo** número repetido 207 vezes. O que há ali é dado que uma das duas cópias perdeu pelo
+caminho.
+
+Duas versões do mesmo conjunto, as duas chamadas "California Housing", discordam sobre 207
+linhas. Sem esta ficha, *"usei o California Housing"* não identifica o que se usou.
 
 ## As colunas
 

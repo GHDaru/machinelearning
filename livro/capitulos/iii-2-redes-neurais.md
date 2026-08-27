@@ -444,6 +444,40 @@ mlp.coefs_[0].shape   # (8, 64) — a matriz entradas × ocultas
 
 É a mesma matriz $e \times s$ que você contou, e `intercepts_` é o viés por unidade de destino. Uma rede 8 → 64 → 1 tem $8 \times 64 + 64 + 64 + 1 = 641$ parâmetros, e o programa imprime esse número para você conferir.
 
+### Abrir no Colab, sem instalar nada
+
+Se você prefere clicar a digitar, o mesmo caminho está num notebook:
+
+| O quê | Como usar |
+|---|---|
+| **Notebook no Colab** | [abrir direto no Google Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/rede_california.ipynb) — não precisa instalar nada nem ter conta em lugar nenhum |
+| **Scripts** | [`mlp.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/mlp.py) · [`rede.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/rede.py) · [`dados_kaggle.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/dados_kaggle.py) |
+
+**O notebook começa antes do que esta seção começa**, e é por isso que vale abri-lo. Ele baixa o conjunto do **Kaggle**, com o mesmo trecho que aparece na página de lá:
+
+```python
+import kagglehub
+path = kagglehub.dataset_download("camnugent/california-housing-prices")
+```
+
+E o que vem por esse caminho não é o arquivo de nove colunas que a tabela acima usa. São **dez** colunas do censo de 1990, com uma coluna de texto, `ocean_proximity`, e **207 linhas sem `total_bedrooms`**. O arquivo limpo é o resultado de um preparo que alguém fez, e que ninguém vê; o notebook faz você refazê-lo:
+
+$$\text{AveRooms} = \frac{\text{total\_rooms}}{\text{households}} \qquad \text{AveBedrms} = \frac{\text{total\_bedrooms}}{\text{households}} \qquad \text{AveOccup} = \frac{\text{population}}{\text{households}}$$
+
+Três dos oito atributos são **razões**, e é aí que está o raciocínio. `total_rooms` sozinho diz o tamanho do **setor**, não o tamanho das casas: um setor com 5 000 domicílios tem mais cômodos que um com 200 sem que ninguém more melhor. Dividir por `households` é o que torna a coluna comparável entre os dois.
+
+Depois o notebook **confere a sua derivação** contra o arquivo congelado, coluna a coluna. É o mesmo instrumento das linhas de base, um passo antes: saber que errou **antes** de tirar conclusão sobre modelo.
+
+> ### O achado que só aparece comparando as duas cópias
+>
+> As 207 linhas que o arquivo do Kaggle tem em branco **não estão em branco** no arquivo que o `scikit-learn` distribui. E os valores de lá são inteiros: 217, 279, 1 394, com 186 valores distintos entre os 207.
+>
+> Isso descarta preenchimento: imputar pela média ou pela mediana daria um número quebrado, e o **mesmo** número repetido 207 vezes. O que há ali é dado que **uma das duas cópias perdeu pelo caminho**.
+>
+> Duas versões do mesmo conjunto discordam sobre 207 linhas, as duas se chamam "California Housing", e nenhuma das duas avisa. É por isso que a ficha do dado, com origem e `sha256`, não é burocracia: sem ela, "usei o California Housing" não identifica o que você usou.
+>
+> O repositório guarda a cópia crua congelada, e ela é **byte a byte** a que o Kaggle entrega — conferido, e não suposto. Se o download falhar por rede, cota ou revisão nova do conjunto, o notebook segue pela cópia local e **diz** que fez isso.
+
 ### As duas linhas de base são um instrumento, não concorrentes
 
 Antes do MLP, o programa treina dois modelos que ninguém espera que ganhem: prever sempre a **mediana**, e uma **regressão linear**. Elas existem por outro motivo.
