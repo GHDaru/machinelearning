@@ -428,7 +428,17 @@ Quais afirmações sobre backpropagation são corretas? (marque todas que valem)
 
 ## Mão na massa: o mesmo método em 20 640 bairros
 
-Tudo até aqui aconteceu em quatro pontos. Agora o mesmo método, sem nada de novo, sobre **20 640 setores censitários da Califórnia** — o preço mediano do imóvel de cada bairro, a partir de oito atributos do censo de 1990.
+Tudo até aqui aconteceu em quatro pontos. Agora o mesmo método, sem nada de novo, sobre **20 640 bairros da Califórnia**: o preço mediano do imóvel de cada um, a partir de oito atributos do censo de 1990.
+
+**"Bairro" aqui tem nome técnico, e vale saber qual, porque a tradução fácil erra.** Cada linha é um ***block group***, que fica um degrau **abaixo** do *census tract*. Quem traduz por "setor censitário" e vai procurar acaba no *census tract*, que é cerca de três vezes maior, e sai com a intuição errada sobre o que uma linha representa.
+
+<figure>
+<img src="assets/block-group.svg" alt="Diagrama do encaixe geográfico do censo dos Estados Unidos, em cinco níveis, do maior para o menor, cada um recuado dentro do anterior: Estado (Califórnia), Condado (58 na Califórnia), Census tract (2 500 a 8 000 moradores, com cerca de 3 block groups dentro), Block group (ideal de 400 domicílios, entre 250 e 550, a menor unidade com dado amostral publicado) e Block (o quarteirão, sem dado de renda publicado). O nível Block group está destacado e marcado como aquele a que corresponde cada linha do arquivo CSV. Abaixo do diagrama, os números medidos no arquivo: 20 640 linhas, com mediana de 409 domicílios e 1 166 moradores por linha, o que cai em cima do ideal de 400 domicílios de um block group e bem abaixo dos 1 000 a 3 000 domicílios de um census tract." width="444">
+<figcaption>A mediana medida no arquivo, 409 domicílios, é o que decide a questão: é o tamanho de um <em>block group</em>, não de um <em>census tract</em>.</figcaption>
+</figure>
+
+A definição vem do próprio *Census Bureau*, e o `scikit-learn` a repete na documentação do conjunto: **o *block group* é a menor unidade para a qual o censo publica dado amostral**. Abaixo dele há o *block*, o quarteirão, e para o quarteirão não se publica renda.
+
 
 A etapa está em [`ml-zero/etapa-19/mlp.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-19/mlp.py), e os dados estão **congelados no repositório**, com ficha e `sha256`. Nada é baixado quando você roda.
 
@@ -728,3 +738,11 @@ Uma rede não aprende. Quais verificações vêm **antes** de aumentar o número
 2. "Uma camada escondida basta para aproximar qualquer função contínua." Diga o que essa frase garante, o que ela não garante, e por que a diferença entre as duas coisas custou quase vinte anos à área.
 
 > Estas duas não são corrigidas, e a omissão é deliberada: a primeira vale mais como construção no papel, conferida por você linha a linha, do que como texto — e a segunda rende mais numa discussão.
+
+## Errata
+
+O que este capítulo **já afirmou e teve de corrigir**. Fica no fim, e não no meio do texto, porque é registro de manutenção e não conteúdo de aula — mas fica, porque um livro que corrige em silêncio pede confiança em vez de merecê-la.
+
+| Quando | O que estava escrito | O que está agora |
+|---|---|---|
+| 2026-08-28 | A seção prática dizia **"20 640 setores censitários da Califórnia"** | A unidade é o ***block group***, que fica um degrau **abaixo** do *census tract*. "Setor censitário" leva quem procura ao *census tract*, cerca de três vezes maior, e com ele a intuição errada sobre o que uma linha representa. Corrigido no capítulo, na ficha do dado e na etapa, com a figura do encaixe e as fontes do *Census Bureau* |

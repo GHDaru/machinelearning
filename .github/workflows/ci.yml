@@ -70,6 +70,14 @@ jobs:
         run: node testes/rodar.mjs
         working-directory: publicar
 
+      # As figuras são GERADAS a partir dos dados, e ficam versionadas como SVG.
+      # Sem este passo, o dado podia mudar e a figura seguir afirmando o número
+      # velho, em silêncio, ao lado de um texto que já dizia outro. Cada gerador
+      # também traz asserções próprias; aqui alguém as executa.
+      - name: Gate de deriva das figuras
+        run: node figuras/verificar.mjs
+        working-directory: publicar
+
   backend:
     runs-on: ubuntu-latest
     steps:

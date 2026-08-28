@@ -4,7 +4,8 @@ O QUE ESTA ETAPA É, E O QUE ELA NÃO É
 
 Ela é a ponte entre a conta à mão do capítulo e a biblioteca. No III.2 você
 derivou a retropropagação e acompanhou nove pesos mudando num passo. Aqui a
-mesma ideia roda sobre 20 640 setores censitários da Califórnia, e a rede tem
+mesma ideia roda sobre 20 640 block groups da Califórnia (a menor unidade do
+censo com dado amostral publicado), e a rede tem
 alguns milhares de pesos em vez de nove.
 
 Ela NÃO é a implementação em NumPy que o objetivo O3 do capítulo promete. Essa

@@ -295,3 +295,48 @@ def test_households_e_o_denominador_e_a_ficha_diz_a_verdade():
     assert len(impossiveis) == 3
     assert sorted(zip(impossiveis["households"], impossiveis["population"])) == [
         (4.0, 3.0), (39.0, 27.0), (204.0, 198.0)]
+
+
+def test_a_ablacao_da_ficha_do_dado(dados):
+    """Os números da seção "Onde está o resultado" da ficha do dado.
+
+    A ficha afirma três coisas contraintuitivas — que latitude e longitude batem
+    a mediana apesar da correlação individual quase nula, que tirá-las custa 19%
+    do resultado da rede, e que com uma variável só a rede empata com a linear.
+    Afirmação sem gate é promessa.
+    """
+    from sklearn.linear_model import LinearRegression
+    from sklearn.neural_network import MLPRegressor
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.metrics import mean_absolute_error
+
+    Xtr, ytr = dados["treino"]
+    Xte, yte = dados["teste"]
+
+    def mae(indices):
+        e = StandardScaler().fit(Xtr[:, indices])
+        A, B = e.transform(Xtr[:, indices]), e.transform(Xte[:, indices])
+        lin = LinearRegression().fit(A, ytr)
+        net = MLPRegressor(hidden_layer_sizes=(64,), activation="tanh",
+                           random_state=0, max_iter=400).fit(A, ytr)
+        return (mean_absolute_error(yte, lin.predict(B)),
+                mean_absolute_error(yte, net.predict(B)))
+
+    geo = mae([6, 7])
+    renda = mae([0])
+    tudo = mae(list(range(8)))
+    sem_geo = mae([0, 1, 2, 3, 4, 5])
+
+    # 1. as duas colunas "sem correlação" batem a mediana (0,8982) com folga
+    assert geo[1] == pytest.approx(0.7165, abs=5e-3)
+    assert geo[1] < 0.8982
+
+    # 2. tirar a geografia custa perto de 19% do resultado da rede
+    assert tudo[1] == pytest.approx(0.3888, abs=5e-3)
+    assert sem_geo[1] == pytest.approx(0.4620, abs=5e-3)
+    assert (sem_geo[1] - tudo[1]) / tudo[1] > 0.15
+
+    # 3. com uma variável só, linear e MLP empatam; com as oito, a rede abre vantagem
+    assert renda[0] == pytest.approx(0.6217, abs=5e-3)
+    assert abs(renda[0] - renda[1]) < 0.01, "com uma variável a rede não deveria ganhar nada"
+    assert (tudo[0] - tudo[1]) / tudo[0] > 0.2, "com as oito a rede deveria abrir vantagem"

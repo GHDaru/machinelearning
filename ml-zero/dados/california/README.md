@@ -1,9 +1,9 @@
-# California Housing — 20 640 setores censitários
+# California Housing — 20 640 *block groups*
 
 > Conjunto de dados para a parte de **redes neurais** da disciplina.
 > Capturado em **2026-08-20**, do `scikit-learn` 1.9.0.
 
-Preço mediano de imóvel por setor censitário da Califórnia, do censo de 1990. Nove colunas,
+Preço mediano de imóvel por *block group* da Califórnia, do censo de 1990. Nove colunas,
 20 640 linhas, **nenhum valor faltante** e **nenhum dado pessoal** — cada linha é um setor,
 não uma pessoa.
 
@@ -42,8 +42,24 @@ para impedir. A cópia local é o que faz a etapa rodar na aula em que a rede da
 
 ## As colunas do arquivo cru
 
-Cada linha é um **setor censitário** (*block group*) do censo de 1990, e não uma casa nem uma
-pessoa. São 20 640 setores, com mediana de 409 domicílios cada.
+Cada linha é um ***block group*** do censo de 1990, e não uma casa nem uma pessoa. São 20 640
+deles, com mediana de **409 domicílios** e **1 166 moradores** cada.
+
+**Não traduza por "setor censitário" sem avisar.** O *block group* fica um degrau **abaixo** do
+*census tract*, e quem procura "setor censitário" costuma cair no *census tract*, que é cerca
+de três vezes maior. O encaixe do censo americano é:
+
+```
+Estado  ⊃  Condado  ⊃  Census tract  ⊃  Block group  ⊃  Block
+                       2 500 a 8 000    ideal de 400    o quarteirão
+                       moradores        domicílios      (sem renda publicada)
+                                        ↑ cada linha do arquivo
+```
+
+O *block group* é **a menor unidade para a qual o censo publica dado amostral** — abaixo dele,
+o quarteirão, e para o quarteirão não se publica renda. A mediana medida no arquivo, 409
+domicílios, cai em cima do ideal de 400 e bem abaixo dos 1 000 a 3 000 de um *census tract*:
+os números do arquivo confirmam a definição.
 
 | Coluna | O quê | Faixa |
 |---|---|---|
@@ -57,11 +73,55 @@ pessoa. São 20 640 setores, com mediana de 409 domicílios cada.
 | `median_house_value` | **o alvo**, em dólares. Censurado em 500 001 | 14 999 a 500 001 |
 | `ocean_proximity` | categórica: `<1H OCEAN`, `INLAND`, `NEAR OCEAN`, `NEAR BAY`, `ISLAND` | 5 valores |
 
+### A geografia: `longitude` e `latitude`
+
+Coordenadas do centro do setor. **Longitude negativa é oeste**, então o menor número
+(−124,35) é o ponto mais a noroeste e o maior (−114,31) o mais a leste, na divisa com o
+Arizona. A latitude vai de 32,54, na fronteira com o México, a 41,95, na divisa com o Oregon.
+
+**São a única dupla cujo sentido é conjunto, e não individual.** Latitude sozinha diz pouco;
+latitude *com* longitude diz "isto é Los Angeles" ou "isto é a baía de São Francisco". A
+distribuição mostra os dois aglomerados: 6 310 setores entre 32° e 34° (a região de Los
+Angeles) e 6 562 entre 37° e 39° (a baía).
+
+Guarde isso, porque a seção *Onde está o resultado* mede a consequência: **uma tabela de
+correlação manda jogar as duas fora, e jogá-las fora piora o modelo em 19%.**
+
+### `housing_median_age` — e o teto que quase ninguém nota
+
+Idade mediana das construções do setor, em anos, de 1 a 52.
+
+**52 não é a idade da casa mais velha da Califórnia: é o teto da régua.** São **1 273
+setores** exatamente em 52 — **6,17%** do arquivo —, contra 48 setores em 51 e 136 em 50. O
+degrau denuncia o *top-coding*: tudo que era mais velho que 52 foi registrado como 52.
+
+A ficha anterior declarava a censura do alvo e não esta. São **três** as colunas censuradas
+neste arquivo, e a lista completa está mais abaixo.
+
+### Os três totais: `total_rooms`, `total_bedrooms`, `population`
+
+Todos são **contagens do setor inteiro**, e não médias por casa. É a confusão mais cara do
+conjunto.
+
+| Coluna | Mediana | O que ela **não** é |
+|---|---|---|
+| `total_rooms` | 2 127 | não é o tamanho das casas, é o tamanho do setor |
+| `total_bedrooms` | 435 | idem, e **207 linhas estão em branco** |
+| `population` | 1 166 | moradores do setor |
+
+Um setor com 5 000 domicílios tem mais cômodos que um com 200 sem que ninguém more melhor.
+Por isso os três só viram atributo **depois de divididos por `households`** — é o que a
+próxima seção explica.
+
+Uma relação estável para calibrar a intuição: a mediana de `total_bedrooms / total_rooms` é
+**0,203**. Cerca de um em cada cinco cômodos é quarto, e isso vale para o arquivo quase
+inteiro.
+
 ### `households` merece um parágrafo, porque ele é o denominador
 
 No vocabulário do censo americano, **um *household* é o conjunto de pessoas que ocupam uma
 unidade habitacional** — ou seja, um domicílio **ocupado**. Casa vazia não conta como
-*household*. A coluna é a **contagem de domicílios do setor**: número inteiro, nunca zero,
+*household*. A coluna é a **contagem de domicílios do *block group***: número inteiro, nunca zero,
 de 1 a 6 082.
 
 Somando o arquivo inteiro: **10 310 499 domicílios** para **29 421 840 moradores**, o que dá
@@ -81,11 +141,69 @@ AveOccup  = population     / households
 20 cômodos por domicílio, a mediana de `households` é **95**, contra **410** no resto do
 arquivo. Divisão por número pequeno amplifica tudo, inclusive o ruído.
 
-> **Uma hipótese que a ficha não confirma.** O setor com 141,9 cômodos por domicílio tem
-> 1 561 cômodos, 11 domicílios e 30 moradores. Uma explicação natural seria vacância: se
-> `total_rooms` conta os cômodos de **todas** as unidades e `households` conta só as
-> **ocupadas**, um lugar de casa de veraneio produz exatamente esse desenho. O arquivo não tem
-> coluna de vacância, então isto fica como **hipótese**, e não como afirmação.
+> **A explicação é vacância, e ela está documentada.** O *block group* com 141,9 cômodos por
+> domicílio tem 1 561 cômodos, 11 domicílios e 30 moradores. A documentação do `scikit-learn`
+> diz exatamente isso, e vale citar: *"these columns may take surprisingly large values for
+> block groups with few households and many empty houses, such as vacation resorts"* — poucos
+> domicílios ocupados e muitas casas vazias, como em lugares de veraneio.
+>
+> `total_rooms` conta os cômodos de **todas** as unidades; `households` conta só as
+> **ocupadas**. A razão entre os dois explode onde a vacância é alta.
+
+### `median_income` — a coluna que carrega o resultado, e ela tem teto **e** piso
+
+Renda mediana do domicílio no setor, **em dezenas de milhares de dólares de 1990**. A mediana
+do arquivo é 3,5348, ou seja **US$ 35 348** por ano.
+
+Ela é censurada nas duas pontas, e as duas usam o mesmo truque de sentinela:
+
+- **teto em 15,0001** (US$ 150 001), com 49 setores exatamente ali;
+- **piso em 0,4999** (US$ 4 999), com 12 setores.
+
+O `+0,0001` e o `−0,0001` existem para que o valor censurado seja **distinguível** do valor
+redondo. É a convenção do censo, e é um bom detalhe para quem vai desenhar coleta de dados.
+
+**É de longe a coluna mais informativa**: correlação de **+0,688** com o alvo, contra +0,152
+da segunda colocada. Sozinha ela leva o erro de 0,8982 (a mediana) para 0,6217.
+
+### `median_house_value` — o alvo, e o teto de meio milhão
+
+Valor mediano do imóvel no setor, **em dólares** (o arquivo derivado divide por 100 000).
+Mediana de **US$ 179 700**.
+
+- **teto em 500 001**, com **965 setores** — **4,68%** do arquivo;
+- **piso em 14 999**, com 4 setores.
+
+Os 965 setores no teto são a faixa horizontal que aparece em qualquer gráfico de resíduos, e
+**nenhum modelo consegue acertá-la**: o teto não está nos dados, está na régua que os coletou.
+
+### `ocean_proximity` — a única categórica, e a categoria que some do teste
+
+Cinco valores, e a distribuição é muito desigual:
+
+| Categoria | Setores | Valor mediano do imóvel |
+|---|---|---|
+| `<1H OCEAN` | 9 136 | US$ 214 850 |
+| `INLAND` | 6 551 | **US$ 108 500** |
+| `NEAR OCEAN` | 2 658 | US$ 229 450 |
+| `NEAR BAY` | 2 290 | US$ 233 800 |
+| `ISLAND` | **5** | US$ 414 700 |
+
+`INLAND` vale metade do resto, e a coluna claramente carrega informação. Mas repare no
+`ISLAND`: **cinco linhas em 20 640**, todas agrupadas em torno de 33,3° N e −118,3° O, no mar
+ao largo de Los Angeles.
+
+> **A armadilha, medida no recorte que este repositório usa:** dos 5 setores `ISLAND`, **4
+> caem no treino, 1 na validação e ZERO no teste**.
+>
+> Quem transformar a coluna em *one-hot* ganha um atributo `ISLAND` que vale 1 em quatro
+> linhas de treino e **em nenhuma linha de teste**. O modelo aprende um peso para ele que
+> jamais será avaliado. Não é bug do recorte: com 5 exemplos, **nenhum** sorteio razoável
+> garante presença nas três partes.
+>
+> É por isso que o arquivo derivado não tem esta coluna. E é o argumento concreto contra
+> *one-hot* automático em categoria rara — o problema não aparece como erro, aparece como um
+> parâmetro que ninguém nunca testou.
 
 ### Três linhas impossíveis
 
@@ -141,6 +259,48 @@ teto não está nos dados, está na régua que os coletou.
 quase desabitados, onde a média divide por um denominador minúsculo. `AveOccup` tem o mesmo
 efeito, chegando a 1 243 moradores por domicílio.
 
+## Onde está o resultado, medido por ablação
+
+Correlação de Pearson de cada atributo com o alvo, no arquivo derivado:
+
+| Atributo | *r* |
+|---|---|
+| `MedInc` | **+0,688** |
+| `AveRooms` | +0,152 |
+| `Latitude` | −0,144 |
+| `HouseAge` | +0,106 |
+| `AveBedrms` | −0,047 |
+| `Longitude` | −0,046 |
+| `Population` | −0,025 |
+| `AveOccup` | −0,024 |
+
+Lida sozinha, essa tabela diz "use `MedInc` e jogue o resto fora". Ela está errada, e dá para
+mostrar isso treinando. MAE no teste, com o mesmo recorte gravado (prever sempre a mediana dá
+0,8982):
+
+| Atributos usados | Regressão linear | MLP 64, `tanh` |
+|---|---|---|
+| só `Latitude` + `Longitude` | 0,7873 | **0,7165** |
+| só `MedInc` | 0,6217 | 0,6183 |
+| as oito | 0,5271 | **0,3888** |
+| as oito **sem** a geografia | 0,5710 | 0,4620 |
+
+Três leituras, e nenhuma delas cabe na tabela de correlação:
+
+**1. As duas colunas "sem correlação" batem a mediana com folga.** Latitude e longitude
+sozinhas levam o erro de 0,8982 a 0,7165. Correlação linear mede uma coluna por vez; a
+informação aqui está no **par**, e nenhum valor de latitude significa alguma coisa sem a
+longitude ao lado.
+
+**2. Tirar a geografia custa 19% do resultado da rede** — de 0,3888 para 0,4620. As duas
+colunas que a tabela mandaria descartar respondem por mais melhoria do que qualquer outra
+dupla do conjunto.
+
+**3. Com uma variável só, a rede não tem o que fazer.** Em `MedInc` sozinho, linear e MLP
+empatam (0,6217 contra 0,6183). Com as oito, a rede abre 26% de vantagem. **A vantagem de uma
+rede está nas interações entre atributos**, e não em curvar uma variável isolada — é por isso
+que ela não aparece em problema de uma dimensão.
+
 ## Sobre o Boston Housing, que este conjunto substitui
 
 O conjunto clássico de preço de imóvel no ensino era o **Boston Housing**, e ele foi
@@ -152,3 +312,21 @@ e aponta a análise de M. Carlisle, *"Racist data destruction?"* (2019).
 
 O princípio V deste livro diz que conjunto com viés documentado só entra **como objeto de
 estudo do viés**. É exatamente esse o estatuto do Boston aqui: ele é citado, não usado.
+
+## Fontes
+
+Selos: **✓** aberta e lida · **✓ᵐ** só metadados · **❌** procurada e não encontrada.
+
+| Selo | Fonte |
+|---|---|
+| ✓ | **scikit-learn**, *California Housing dataset*, [datasets/real_world.html](https://scikit-learn.org/stable/datasets/real_world.html#california-housing-dataset) — conferida em 2026-08-28. É de lá que vêm, literalmente: *"using one row per census **block group**"*; *"a block group is the smallest geographical unit for which the U.S. Census Bureau publishes sample data"*; e a explicação da vacância citada acima |
+| ✓ | **U.S. Census Bureau**, *Geographic Areas Reference Manual*, cap. 11 — [Ch11GARM.pdf](https://www2.census.gov/geo/pdfs/reference/GARM/Ch11GARM.pdf). O tamanho do *block group*: *"an ideal size for a BG of 400 housing units, with a minimum of 250, and a maximum of 550"*, e *"the average number of BGs per census tract was 3"* |
+| ✓ | **U.S. Census Bureau**, *GARM*, cap. 10 — [Ch10GARM.pdf](https://www2.census.gov/geo/pdfs/reference/GARM/Ch10GARM.pdf). O *census tract*: *"between 2,500 and 8,000 residents"*, com *"1,000 to 3,000 housing units"* |
+| ✓ᵐ | **Pace, R. Kelley & Ronald Barry**, *Sparse Spatial Autoregressions*, *Statistics and Probability Letters* 33:291–297, 1997 — [10.1016/S0167-7152(96)00140-X](https://doi.org/10.1016/S0167-7152(96)00140-X). O artigo de origem do conjunto. **Não foi lido**: o DOI resolve, o texto não foi aberto |
+| ❌ | **StatLib**, `lib.stat.cmu.edu/datasets/houses.zip` — a origem que o `scikit-learn` declara. Devolveu **403** na tentativa de 2026-08-28, então a cadeia de procedência foi fechada por outro caminho: o arquivo cru veio de [`ageron/handson-ml2`](https://raw.githubusercontent.com/ageron/handson-ml2/master/datasets/housing/housing.csv) e bate **byte a byte** com o que o `kagglehub` baixa do Kaggle |
+| ❌ | **IBGE**, definição de setor censitário, para dimensionar a analogia com o *block group*. O site devolveu **403** nesta sessão. Por isso a ficha **não** afirma equivalência de tamanho entre os dois: diz apenas que a tradução leva o leitor ao *census tract*, que é o erro concreto |
+
+Tudo o que esta ficha afirma sobre o **conteúdo do arquivo** (medianas, faixas, contagens, as
+207 linhas, as 3 linhas impossíveis, a distribuição do `ISLAND`) é **medido na geração**, não
+copiado de fonte alguma — e os principais números estão presos em
+[`tests/test_etapa_19.py`](../../tests/test_etapa_19.py).

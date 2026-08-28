@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 444 496"
+  role="img" width="444" font-family="ui-sans-serif, system-ui, sans-serif">
+  <style>
+    .fundo { fill: #ffffff; }
+    .cx { fill: #f4f5f7; stroke: #c9ccd2; }
+    .cx-alvo { fill: #e8f2ea; stroke: #2f7d46; stroke-width: 2; }
+    .t { fill: #1c1f24; font-size: 14px; font-weight: 600; }
+    .d { fill: #4a5058; font-size: 11.5px; }
+    .nota { fill: #6b7280; font-size: 10.5px; font-style: italic; }
+    .tit { fill: #1c1f24; font-size: 15px; font-weight: 700; }
+    .marca { fill: #2f7d46; font-size: 11.5px; font-weight: 700; }
+    .leg { fill: #4a5058; font-size: 11px; }
+    .fio-enc { stroke: #9aa1aa; stroke-width: 1.2; fill: none; }
+    .seta { stroke: #2f7d46; stroke-width: 1.6; fill: none; }
+    .ponta { fill: #2f7d46; }
+    .sep { stroke: #d8dbe0; }
+    :root:not([data-tema="claro"]) { }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-tema="claro"]) .fundo { fill: #14171a; }
+      :root:not([data-tema="claro"]) .cx { fill: #1e2227; stroke: #3a4048; }
+      :root:not([data-tema="claro"]) .cx-alvo { fill: #1b2a20; stroke: #6fbe86; }
+      :root:not([data-tema="claro"]) .t, :root:not([data-tema="claro"]) .tit { fill: #e6e8ea; }
+      :root:not([data-tema="claro"]) .d, :root:not([data-tema="claro"]) .leg { fill: #b3b8bf; }
+      :root:not([data-tema="claro"]) .nota { fill: #8d949c; }
+      :root:not([data-tema="claro"]) .marca { fill: #6fbe86; }
+      :root:not([data-tema="claro"]) .fio-enc { stroke: #666d76; }
+      :root:not([data-tema="claro"]) .seta { stroke: #6fbe86; }
+      :root:not([data-tema="claro"]) .ponta { fill: #6fbe86; }
+      :root:not([data-tema="claro"]) .sep { stroke: #3a4048; }
+    }
+    :root[data-tema="escuro"] .fundo { fill: #14171a; }
+    :root[data-tema="escuro"] .cx { fill: #1e2227; stroke: #3a4048; }
+    :root[data-tema="escuro"] .cx-alvo { fill: #1b2a20; stroke: #6fbe86; }
+    :root[data-tema="escuro"] .t, :root[data-tema="escuro"] .tit { fill: #e6e8ea; }
+    :root[data-tema="escuro"] .d, :root[data-tema="escuro"] .leg { fill: #b3b8bf; }
+    :root[data-tema="escuro"] .nota { fill: #8d949c; }
+    :root[data-tema="escuro"] .marca { fill: #6fbe86; }
+    :root[data-tema="escuro"] .fio-enc { stroke: #666d76; }
+    :root[data-tema="escuro"] .seta { stroke: #6fbe86; }
+    :root[data-tema="escuro"] .ponta { fill: #6fbe86; }
+    :root[data-tema="escuro"] .sep { stroke: #3a4048; }
+  </style>
+  <rect width="100%" height="100%" class="fundo"/>
+
+  <text x="22" y="30" class="tit">Uma linha do arquivo é um block group</text>
+  <text x="22" y="49" class="leg">O encaixe do censo dos Estados Unidos, do maior para o menor.</text>
+  <line x1="22" y1="60" x2="422" y2="60" class="sep"/>
+
+  <rect x="22" y="74" width="400" height="46" rx="6" class="cx"/>
+  <text x="34" y="94" class="t">Estado</text>
+  <text x="34" y="110" class="d">Califórnia</text>
+  <path d="M 33 120 V 153 H 44" class="fio-enc"/>
+  <rect x="44" y="130" width="378" height="46" rx="6" class="cx"/>
+  <text x="56" y="150" class="t">Condado</text>
+  <text x="56" y="166" class="d">58 na Califórnia</text>
+  <path d="M 55 176 V 216 H 66" class="fio-enc"/>
+  <rect x="66" y="186" width="356" height="60" rx="6" class="cx"/>
+  <text x="78" y="206" class="t">Census tract</text>
+  <text x="78" y="222" class="d">2 500 a 8 000 moradores</text>
+  <text x="78" y="237" class="nota">≈ 3 block groups dentro</text>
+  <path d="M 77 246 V 286 H 88" class="fio-enc"/>
+  <rect x="88" y="256" width="260" height="60" rx="6" class="cx-alvo"/>
+  <text x="100" y="276" class="t">Block group</text>
+  <text x="100" y="292" class="d">ideal 400 domicílios (250 a 550)</text>
+  <text x="100" y="307" class="nota">menor unidade com dado amostral</text>
+  <path d="M 99 316 V 356 H 110" class="fio-enc"/>
+  <rect x="110" y="326" width="312" height="60" rx="6" class="cx"/>
+  <text x="122" y="346" class="t">Block</text>
+  <text x="122" y="362" class="d">o quarteirão</text>
+  <text x="122" y="377" class="nota">sem dado de renda publicado</text>
+
+  <path d="M 418 286 H 355" class="seta"/>
+  <polygon points="350,286 359,281 359,291" class="ponta"/>
+  <text x="420" y="278" text-anchor="end" class="marca">cada linha</text>
+  <text x="420" y="294" text-anchor="end" class="marca">do CSV</text>
+
+  <line x1="22" y1="402" x2="422" y2="402" class="sep"/>
+  <text x="22" y="422" class="tit">E é isto que o arquivo mede</text>
+  <text x="22" y="443" class="d"><tspan class="marca">20 640</tspan> linhas · mediana de <tspan class="marca">409</tspan> domicílios</text>
+  <text x="22" y="459" class="d">e <tspan class="marca">1 166</tspan> moradores por linha</text>
+  <text x="22" y="479" class="leg">A mediana medida cai em cima do ideal do block group (400), e bem</text>
+  <text x="22" y="493" class="leg">abaixo dos 1 000 a 3 000 domicílios de um census tract.</text>
+</svg>
