@@ -399,7 +399,7 @@ mkdirSync(resolve(SAIDA, "assets"), { recursive: true });
 for (const arq of [
   "estilo.css", "app.js", "capa.png", "capa-social.png", "autor.png",
   "companion.css", "companion.js", "interativos.css", "interativos.js",
-  "uso.js", "grafo.js", "professor.js", "laboratorios.js", "neuronio-mp.svg", "camada-escondida.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
+  "uso.js", "grafo.js", "professor.js", "laboratorios.js", "neuronio-mp.svg", "camada-escondida.svg", "block-group.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
 }

@@ -6,6 +6,74 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — não são "setores censitários": são ***block groups*** (cap. `III.2`)
+- O capítulo dizia **"20 640 setores censitários da Califórnia"**. A unidade é o ***block
+  group***, que fica um degrau **abaixo** do *census tract*. Quem traduz por "setor
+  censitário" e vai procurar acaba no *census tract*, que é cerca de **três vezes maior**, e
+  sai com a intuição errada sobre o que uma linha do arquivo representa.
+- **Confirmado na fonte primária.** A documentação do `scikit-learn` diz, literalmente,
+  *"using one row per census block group"*, e o *Geographic Areas Reference Manual* do
+  *Census Bureau* dá os tamanhos: *block group* com **ideal de 400 domicílios (250 a 550)**,
+  *census tract* com **2 500 a 8 000 moradores** e **1 000 a 3 000 domicílios**.
+- **E o próprio arquivo decide a questão:** a mediana medida é de **409 domicílios**, em cima
+  do ideal do *block group* e bem abaixo da faixa de um *census tract*.
+- Corrigido no capítulo, na ficha do dado e na etapa. Registrado na **errata**, que o `III.2`
+  não tinha e agora tem.
+
+### Adicionado — a figura do encaixe do censo, e a ficha ganha `Fontes` com selos
+- `publicar/tema/block-group.svg`, gerada por `publicar/figuras/block-group.mjs`: os cinco
+  níveis encaixados (Estado ⊃ Condado ⊃ *Census tract* ⊃ *Block group* ⊃ *Block*), com o
+  *block group* destacado como "cada linha do CSV". **Segunda figura gerada do livro.**
+- Os números têm duas procedências e a figura diz qual é qual: os do censo vêm do GARM e
+  estão citados; os do arquivo são **medidos na geração**, lendo o CSV congelado. Número em
+  figura não pode ser literal digitado à mão — foi esse o defeito da primeira versão da figura
+  da camada escondida.
+- O gerador **se recusa a desenhar** se a mediana medida sair do ideal do *block group* ou
+  entrar na faixa de um *census tract*: a figura afirma isso, então recusa existir se deixar
+  de valer. Visto falhando com um CSV de medianas infladas.
+- A ficha do dado ganhou seção **`Fontes`** com selos: ✓ para o `scikit-learn` e os dois
+  capítulos do GARM (abertos e lidos, com as frases citadas), ✓ᵐ para Pace & Barry (1997), e
+  **❌ para o StatLib** (403 na tentativa) e **para o IBGE** (403) — por isso a ficha **não**
+  afirma equivalência de tamanho entre *block group* e setor censitário do IBGE.
+
+### Corrigido — a hipótese da vacância deixou de ser hipótese
+- A ficha registrava como **não confirmada** a explicação para `AveRooms` chegar a 141,9. A
+  documentação do `scikit-learn` a confirma nestas palavras: *"these columns may take
+  surprisingly large values for block groups with few households and many empty houses, such
+  as vacation resorts"*. `total_rooms` conta todas as unidades; `households`, só as ocupadas.
+
+### Adicionado — gate de deriva das figuras, porque nada as regenerava
+- As figuras deste livro são **geradas dos dados**, e ficavam versionadas como SVG sem que
+  nada as regerasse. O dado podia mudar e a figura seguir afirmando o número velho, em
+  silêncio, ao lado de um texto que já dizia outro — o mesmo defeito que o gate de deriva do
+  `banco.json` fecha, e ninguém tinha fechado para figura.
+- `publicar/figuras/verificar.mjs` regenera cada uma e compara; a CI ganhou o passo. Falha
+  também se um gerador não tiver SVG versionado, ou se as asserções do gerador recusarem os
+  dados.
+- **Ele não mutila a árvore de trabalho.** A primeira versão deixava o SVG regenerado no
+  lugar, então a segunda execução passava: o gate "consertava" o que devia denunciar, e a
+  falha não era reproduzível. Agora restaura o arquivo e falha igual nas duas execuções —
+  conferido por código de saída, sem `| tail` mascarando nada.
+
+### Adicionado — as 10 colunas do arquivo cru, explicadas uma a uma
+- A ficha definia `households` e listava o resto numa tabela. Agora cada coluna tem
+  tratamento, e três achados saíram daí:
+- **São três as colunas censuradas, não uma.** A ficha declarava só o alvo. `housing_median_age`
+  tem teto em **52**, com **1 273 setores** (6,17%) exatamente ali, contra 48 em 51 — o degrau
+  denuncia o *top-coding*. E `median_income` é censurada nas **duas** pontas: teto em
+  **15,0001** (49 linhas) e piso em **0,4999** (12 linhas), com o `±0,0001` servindo de
+  sentinela para distinguir o valor censurado do redondo.
+- **`ISLAND` some do teste.** Dos 5 *block groups* dessa categoria, **4 caem no treino, 1 na
+  validação e ZERO no teste**. Quem fizer *one-hot* ganha um atributo que vale 1 em quatro
+  linhas de treino e em nenhuma de teste: o modelo aprende um peso que jamais será avaliado.
+  Com 5 exemplos, nenhum sorteio razoável garante presença nas três partes.
+- **Onde está o resultado, medido por ablação:** só `MedInc` leva o erro de 0,8982 para
+  0,6217, e ali linear e MLP empatam (0,6217 contra 0,6183). Só latitude e longitude dão
+  0,7165 com a rede — **apesar de correlação individual de −0,144 e −0,046**, que numa tabela
+  de correlação mandaria jogá-las fora. Tirar a geografia das oito piora o MLP de 0,3888 para
+  **0,4620**. A vantagem da rede está nas **interações**, não na não-linearidade de uma
+  variável isolada.
+
 ### Adicionado — a ficha do dado agora define as 10 colunas do arquivo cru
 - O notebook novo entrega ao aluno **10** colunas do censo, e o repositório só definia as **9**
   derivadas. Lacuna aberta pela própria entrega anterior, e fechada aqui.
