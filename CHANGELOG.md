@@ -6,6 +6,37 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado — o `II.2` foi remontado na ordem do ADR 0022, e todo cartão passou a ter uma interação e um exercício
+
+- **A ordem mudou, e a história foi para o fim.** A seção "De onde isto veio" saía na linha 30,
+  trinta linhas antes do modelo, e é ali que o diagnóstico dizia que o leitor apressado desiste.
+  O capítulo passa a correr nos cinco atos do
+  [ADR 0022](adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md): o problema, a conta
+  (exemplo trabalhado antes da prática, porque procedimento rende g = −0,03 quando se pratica
+  primeiro), a leitura, a decisão, e a história no fim. Os cinco elementos e a tabela de selos
+  vieram intactos, como o Princípio X exige das duas posições.
+- **A fronteira do ADR foi respeitada ato a ato.** No Ato II a dedução mantém a ordem
+  fórmula → exemplo trabalhado → prática desvanecida. Nos Atos III e IV a prática vem antes: a
+  montagem da limonada, o preço-termômetro e o confundimento perfeito agora **precedem** a lista
+  das "quatro coisas que o coeficiente não diz", que passa a nomear o que o leitor acabou de
+  produzir. É a condição que Sinha & Kapur medem em g = 0,56 contra 0,20.
+- **A premissa do autor passou a valer sem exceção:** todo cartão tem uma interação **e** um
+  exercício. Eram 13 de 18 cartões sem interação e 6 de 18 sem exercício. São **39 cartões**, e
+  o gate `cartoes-legiveis.mjs` passa por inteiro: 968 a 1 570 px, 96 a 247 palavras, razão
+  1,62x contra o teto de 3x.
+- **27 exercícios e 22 interações novos.** As interações são 9 `prever` de opção, 4 `prever`
+  numéricas, 6 `principio` e 3 `desvanecidas`. Os exercícios respeitam o teto de verbo do
+  [ADR 0014](adr/0014-tres-exercicios-por-objetivo-e-a-prova.md): nenhuma `aberta` nova, e a
+  única do capítulo continua sendo a do preço da limonada.
+- **O baralho ficou contínuo.** Nenhum `:::cartao-fim` no meio: `pontasDe()` reporta **47 de
+  16 383 palavras** fora do baralho, e são o título e o selo de data. Voltaram para dentro os
+  três trechos que a régua antiga tinha expulsado — a montagem da limonada, "O que o coeficiente
+  diz" e "Uma vez com número" — mais o "Reproduza", a síntese, a verificação e os objetivos de
+  aprendizagem, que o leitor de cartão nunca tinha visto.
+- **D17 melhorou em vez de piorar.** Das 26 múltiplas do capítulo, **nenhuma** tem a correta como
+  alternativa mais longa, e a posição da resposta certa se distribui em 6 / 6 / 8 / 6.
+
+
 ### Corrigido — o modo cartão escondia 29,1% do `II.2`, e três exercícios que valem nota ficavam impossíveis de responder
 
 - **O mecanismo.** Com o baralho ligado, o `tema/cartoes.js` põe `hidden` em tudo que não caiu

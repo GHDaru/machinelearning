@@ -3719,12 +3719,12 @@
    "enunciado": "Você precisa prever **quantos reais** um cliente vai gastar. Qual das duas serve?",
    "opcoes": [
     {
-     "correta": false,
-     "texto": "A logística, que usa a mesma forma somada."
+     "correta": true,
+     "texto": "A linear: a saída pedida é um valor."
     },
     {
-     "correta": true,
-     "texto": "A linear, porque a saída pedida é um valor."
+     "correta": false,
+     "texto": "A logística, que usa a mesma forma somada."
     },
     {
      "correta": false,
@@ -3732,11 +3732,11 @@
     },
     {
      "correta": false,
-     "texto": "Nenhuma: dinheiro exige modelo próprio."
+     "texto": "Nenhuma: dinheiro exige um modelo próprio."
     }
    ],
    "gabarito": "a regressão linear",
-   "porque": "A pergunta define o modelo: pedir **quanto** é regressão, e pedir **qual** é classificação. A saída da regressão linear é um número na mesma unidade da resposta observada, e é isso que a decisão precisa.\n\nA primeira alternativa confunde forma com função: a logística usa a mesma soma ponderada e depois a espreme num intervalo entre 0 e 1, o que a torna inútil para reais. A terceira é a confusão que este capítulo separou logo no começo, porque perda, saída e existência de fórmula fechada mudam entre as duas. A quarta inventa uma exigência: dinheiro é um número contínuo como qualquer outro, e o que às vezes muda é a escala usada, nunca a família.",
+   "porque": "A pergunta define o modelo: pedir **quanto** é regressão, e pedir **qual** é classificação. A saída da regressão linear é um número na mesma unidade da resposta observada, e é isso que a decisão precisa.\n\nQuem marca a logística confunde forma com função: ela usa a mesma soma ponderada e depois a espreme num intervalo entre 0 e 1, o que a torna inútil para reais. Quem marca \"qualquer uma\" repete a confusão que este capítulo separou logo no começo, porque perda, saída e existência de fórmula fechada mudam entre as duas. E quem pede um modelo próprio inventa uma exigência: dinheiro é um número contínuo como qualquer outro, e o que às vezes muda é a escala usada, nunca a família.",
    "volte_para": "#objetivos-de-aprendizagem",
    "rubrica": null,
    "versoes": null,
@@ -3867,6 +3867,10 @@
    "enunciado": "Três textos escrevem a perda como $\\frac{1}{n}\\sum(y-\\hat{y})^2$, $\\frac{1}{2n}\\sum(y-\\hat{y})^2$ e $\\sum(y-\\hat{y})^2$. O que muda entre eles?",
    "opcoes": [
     {
+     "correta": true,
+     "texto": "Só o número do painel: o mínimo não anda."
+    },
+    {
      "correta": false,
      "texto": "A reta ótima, diferente em cada convenção."
     },
@@ -3875,16 +3879,12 @@
      "texto": "A necessidade de otimização iterativa."
     },
     {
-     "correta": true,
-     "texto": "Só o número do painel: o mínimo não anda."
-    },
-    {
      "correta": false,
      "texto": "O grau do polinômio que se ajusta aos dados."
     }
    ],
    "gabarito": "só o número que aparece no painel",
-   "porque": "Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.\n\nA primeira alternativa é a leitura intuitiva e errada: a constante estica o eixo vertical do gráfico da perda, sem mexer no ponto mais baixo dele. A segunda inverte a razão de existir do meio, que é comodidade de dedução e não requisito de método, porque ele cancela o 2 que desce ao derivar o quadrado. A quarta troca de assunto, já que grau de polinômio é escolha de atributos e nada tem a ver com a escala da perda.\n\nSaber disso evita duas confusões práticas. Comparar o \"erro\" de dois relatórios que usaram convenções diferentes não faz sentido, e ver um número dez vezes maior num livro não significa que o modelo de lá seja pior.",
+   "porque": "Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.\n\nQuem marca \"a reta ótima\" segue a leitura intuitiva e errada: a constante estica o eixo vertical do gráfico da perda, sem mexer no ponto mais baixo dele. Quem marca a otimização iterativa inverte a razão de existir do meio, que é comodidade de dedução e não requisito de método, porque ele cancela o 2 que desce ao derivar o quadrado. E o grau do polinômio troca de assunto, já que ele é escolha de atributos e nada tem a ver com a escala da perda.\n\nSaber disso evita duas confusões práticas. Comparar o \"erro\" de dois relatórios que usaram convenções diferentes não faz sentido, e ver um número dez vezes maior num livro não significa que o modelo de lá seja pior.",
    "volte_para": "#o-criterio-minimizar-o-erro-quadratico-medio",
    "rubrica": null,
    "versoes": null,
@@ -3954,7 +3954,7 @@
     },
     {
      "correta": true,
-     "texto": "Porque inverter uma matriz $d \\times d$ é caro, e a logística não tem fórmula."
+     "texto": "Porque inverter $d \\times d$ é caro, e a logística não tem fórmula."
     }
    ],
    "gabarito": "custo com muitos atributos, e ela não existe na logística",
@@ -4165,11 +4165,11 @@
    "opcoes": [
     {
      "correta": false,
-     "texto": "O melhor erro que o gradiente alcançou."
+     "texto": "O menor erro que o gradiente alcançou nos 4 000 passos."
     },
     {
      "correta": true,
-     "texto": "O erro que as equações normais devolvem."
+     "texto": "O erro das equações normais."
     },
     {
      "correta": false,
@@ -4206,11 +4206,11 @@
     },
     {
      "correta": true,
-     "texto": "As equações normais não percorrem a superfície."
+     "texto": "As equações normais não andam pela superfície."
     },
     {
      "correta": false,
-     "texto": "O dado padronizado deixa de ser correlacionado."
+     "texto": "O dado padronizado deixa de ser correlacionado entre si."
     },
     {
      "correta": false,
@@ -4262,24 +4262,24 @@
    "enunciado": "Olhando **só** esta tabela, o que ela permite afirmar?",
    "opcoes": [
     {
-     "correta": false,
-     "texto": "Que a chuva derruba e o preço alto levanta."
-    },
-    {
-     "correta": false,
-     "texto": "Que a precipitação é o melhor previsor aqui."
-    },
-    {
      "correta": true,
      "texto": "Que as quatro andam junto, sem dizer por quê."
     },
     {
      "correta": false,
-     "texto": "Que subir o preço é a melhor alavanca."
+     "texto": "Que a chuva derruba as vendas e o preço as levanta."
+    },
+    {
+     "correta": false,
+     "texto": "Que a precipitação é o melhor previsor da tabela."
+    },
+    {
+     "correta": false,
+     "texto": "Que subir o preço é a melhor alavanca do negócio."
     }
    ],
    "gabarito": "andam junto com as vendas, sem dizer por quê",
-   "porque": "Correlação é uma medida de acompanhamento entre duas colunas. Ela diz que os números sobem e descem juntos, e não diz nada sobre quem move quem, nem sobre o que mais mudou ao mesmo tempo.\n\nA primeira alternativa é a leitura causal, e é o assunto do resto desta seção. A segunda é falsa dentro da própria tabela, porque quem tem o maior valor absoluto é `temperatura`, com 0,990. A quarta é a recomendação que vai para o slide e custa dinheiro.\n\nA tabela cumpriu o papel dela, que é apontar onde olhar. Quem para nela transforma um mapa em conclusão.",
+   "porque": "Correlação é uma medida de acompanhamento entre duas colunas. Ela diz que os números sobem e descem juntos, e não diz nada sobre quem move quem, nem sobre o que mais mudou ao mesmo tempo.\n\nA leitura causal (\"a chuva derruba, o preço levanta\") é o assunto do resto desta seção. A alternativa da precipitação é falsa dentro da própria tabela, porque quem tem o maior valor absoluto é `temperatura`, com 0,990. E \"subir o preço\" é a recomendação que vai para o slide e custa dinheiro.\n\nA tabela cumpriu o papel dela, que é apontar onde olhar. Quem para nela transforma um mapa em conclusão.",
    "volte_para": "#o-caso-da-limonada",
    "rubrica": null,
    "versoes": null,
@@ -4304,11 +4304,11 @@
     },
     {
      "correta": true,
-     "texto": "O valor alto só aparece nos meses quentes."
+     "texto": "O valor alto só sai nos meses quentes."
     },
     {
      "correta": false,
-     "texto": "A correlação com vendas passa de 0,5."
+     "texto": "A correlação com as vendas passa de 0,5."
     },
     {
      "correta": false,
@@ -4337,7 +4337,7 @@
    "opcoes": [
     {
      "correta": false,
-     "texto": "Que 98,2% das decisões de preço foram boas."
+     "texto": "Que 98,2% das decisões de preço da barraca foram boas."
     },
     {
      "correta": false,
@@ -4345,7 +4345,7 @@
     },
     {
      "correta": true,
-     "texto": "Que ele reproduz 98,2% da variação das vendas."
+     "texto": "Que ele reproduz 98,2% da variação observada."
     },
     {
      "correta": false,
@@ -4556,11 +4556,11 @@
    "opcoes": [
     {
      "correta": false,
-     "texto": "Nada muda: o linear vence pelas cinco linhas."
+     "texto": "Nada muda: o linear vence pelas cinco linhas da tabela."
     },
     {
      "correta": true,
-     "texto": "Nenhuma se aplica, e a escolha volta a ser empírica."
+     "texto": "Nenhuma se aplica: a escolha volta a ser empírica."
     },
     {
      "correta": false,
@@ -4633,12 +4633,12 @@
    "enunciado": "Por que sempre treinar um modelo linear primeiro?",
    "opcoes": [
     {
-     "correta": false,
-     "texto": "Porque ele costuma vencer o modelo complexo."
-    },
-    {
      "correta": true,
      "texto": "Porque diz em minutos quanto do sinal é linear."
+    },
+    {
+     "correta": false,
+     "texto": "Porque ele costuma vencer o modelo complexo."
     },
     {
      "correta": false,
@@ -4646,11 +4646,11 @@
     },
     {
      "correta": false,
-     "texto": "Porque é a única forma de achar vazamento."
+     "texto": "Porque é a única forma de achar vazamento no dado."
     }
    ],
    "gabarito": "custa minutos e diz quanto do sinal é linear",
-   "porque": "É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.\n\nA primeira alternativa é falsa e o próprio capítulo dá o contraexemplo, com 0,4963 de AUC contra 0,9392 do boosting no capítulo II.5. A terceira inventa uma dependência técnica que não existe, já que árvores e ensembles não pedem coeficiente nenhum para funcionar. A quarta confunde linha de base com auditoria de dados, e vazamento se detecta olhando como as colunas foram construídas.\n\nO corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.",
+   "porque": "É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.\n\n\"Costuma vencer\" é falso, e o próprio capítulo dá o contraexemplo: 0,4963 de AUC contra 0,9392 do boosting, no capítulo II.5. \"Exige um linear antes\" inventa uma dependência técnica que não existe, já que árvores e ensembles não pedem coeficiente nenhum para funcionar. E \"achar vazamento\" confunde linha de base com auditoria de dados, porque vazamento se detecta olhando como as colunas foram construídas.\n\nO corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.",
    "volte_para": "#treine-sempre-um-linear-primeiro",
    "rubrica": null,
    "versoes": null,
@@ -4670,24 +4670,24 @@
    "enunciado": "Que problema os mínimos quadrados vieram resolver naquela astronomia?",
    "opcoes": [
     {
-     "correta": false,
-     "texto": "Faltava observação para determinar a órbita."
-    },
-    {
-     "correta": false,
-     "texto": "O instrumento era impreciso, e o erro grande."
-    },
-    {
      "correta": true,
      "texto": "Faltava regra explícita do que é a melhor curva."
     },
     {
      "correta": false,
-     "texto": "Faltava como calcular à mão tantos pontos."
+     "texto": "Faltava observação para determinar a órbita direito."
+    },
+    {
+     "correta": false,
+     "texto": "O instrumento era impreciso, e o erro de medida grande."
+    },
+    {
+     "correta": false,
+     "texto": "Faltava como calcular à mão com tantas observações."
     }
    ],
    "gabarito": "faltava uma regra explícita do que é \"a melhor curva\"",
-   "porque": "O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.\n\nA primeira alternativa inverte o quadro, porque com poucas observações não haveria discordância a resolver. A segunda descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. A quarta é um custo verdadeiro da época e não é o que travava: mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.\n\nÉ esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.",
+   "porque": "O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.\n\n\"Faltava observação\" inverte o quadro, porque com poucas observações não haveria discordância a resolver. O instrumento impreciso descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E a dificuldade de calcular à mão era um custo verdadeiro da época sem ser o que travava, porque mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.\n\nÉ esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.",
    "volte_para": "#de-onde-isto-veio",
    "rubrica": null,
    "versoes": null,
@@ -4716,7 +4716,7 @@
     },
     {
      "correta": true,
-     "texto": "Uma resposta igual para quem quer que refaça a conta com os mesmos dados."
+     "texto": "Uma resposta igual para quem refizer a conta."
     },
     {
      "correta": false,
@@ -4912,24 +4912,24 @@
    "enunciado": "Por que a etapa 05 implementa as duas rotas, solução fechada e gradiente, em vez de só a mais rápida?",
    "opcoes": [
     {
-     "correta": false,
-     "texto": "Porque as duas dão respostas diferentes, e a média das duas é melhor."
-    },
-    {
-     "correta": false,
-     "texto": "Porque a solução fechada falha em conjuntos com muitas linhas de dados."
-    },
-    {
      "correta": true,
-     "texto": "Porque poder comparar as duas é o que torna o gradiente confiável depois."
+     "texto": "Porque poder comparar as duas torna o gradiente confiável."
     },
     {
      "correta": false,
-     "texto": "Porque o gradiente é exigido pela biblioteca padrão usada na trilha."
+     "texto": "Porque as duas dão respostas diferentes, e a média delas é melhor."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a solução fechada falha em conjuntos com muitas linhas."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o gradiente é exigido pela biblioteca padrão da trilha."
     }
    ],
    "gabarito": "comparar as duas é o que torna o gradiente confiável",
-   "porque": "A etapa existe para o leitor ver, com os próprios dados, que as duas rotas param no mesmo lugar. É a única vez na trilha em que há resposta exata para servir de régua, e a confiança construída aqui é gasta na regressão logística, onde régua não existe.\n\nA primeira alternativa inventa um desacordo que o experimento nega, já que a diferença medida fica abaixo de 0,05 por coeficiente. A segunda troca linhas por colunas: o que encarece a solução fechada é a quantidade de **atributos**, porque a matriz a inverter é $d \\times d$. A quarta inverte a dependência, porque a biblioteca padrão não exige método nenhum.\n\nVale notar o que a mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md): o 05 pergunta que função o modelo representa, e o 06 pergunta como se chega aos coeficientes.",
+   "porque": "A etapa existe para o leitor ver, com os próprios dados, que as duas rotas param no mesmo lugar. É a única vez na trilha em que há resposta exata para servir de régua, e a confiança construída aqui é gasta na regressão logística, onde régua não existe.\n\n\"Respostas diferentes\" inventa um desacordo que o experimento nega, já que a diferença medida fica abaixo de 0,05 por coeficiente. \"Falha com muitas linhas\" troca linhas por colunas: o que encarece a solução fechada é a quantidade de **atributos**, porque a matriz a inverter é $d \\times d$. E \"exigido pela biblioteca\" inverte a dependência, porque a biblioteca padrão não exige método nenhum.\n\nVale notar o que a mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md): o 05 pergunta que função o modelo representa, e o 06 pergunta como se chega aos coeficientes.",
    "volte_para": "#mao-na-massa",
    "rubrica": null,
    "versoes": null,

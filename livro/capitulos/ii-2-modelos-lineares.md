@@ -31,15 +31,15 @@ As duas compartilham a forma `w·x + b`, e só uma tem fórmula que devolve os c
 :::exercicio {"id":"modelos-lineares-e28","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
 Você precisa prever **quantos reais** um cliente vai gastar. Qual das duas serve?
 
+- [x] A linear: a saída pedida é um valor.
 - [ ] A logística, que usa a mesma forma somada.
-- [x] A linear, porque a saída pedida é um valor.
 - [ ] Qualquer uma: a diferença é de notação.
-- [ ] Nenhuma: dinheiro exige modelo próprio.
+- [ ] Nenhuma: dinheiro exige um modelo próprio.
 
 > **gabarito:** a regressão linear
 > **porque:** A pergunta define o modelo: pedir **quanto** é regressão, e pedir **qual** é classificação. A saída da regressão linear é um número na mesma unidade da resposta observada, e é isso que a decisão precisa.
 >
-> A primeira alternativa confunde forma com função: a logística usa a mesma soma ponderada e depois a espreme num intervalo entre 0 e 1, o que a torna inútil para reais. A terceira é a confusão que este capítulo separou logo no começo, porque perda, saída e existência de fórmula fechada mudam entre as duas. A quarta inventa uma exigência: dinheiro é um número contínuo como qualquer outro, e o que às vezes muda é a escala usada, nunca a família.
+> Quem marca a logística confunde forma com função: ela usa a mesma soma ponderada e depois a espreme num intervalo entre 0 e 1, o que a torna inútil para reais. Quem marca "qualquer uma" repete a confusão que este capítulo separou logo no começo, porque perda, saída e existência de fórmula fechada mudam entre as duas. E quem pede um modelo próprio inventa uma exigência: dinheiro é um número contínuo como qualquer outro, e o que às vezes muda é a escala usada, nunca a família.
 > **volte para:** #objetivos-de-aprendizagem
 :::
 
@@ -177,15 +177,15 @@ Uma reta erra $+2$, $-1$ e $+3$ nos três pontos do conjunto. Complete a conta:
 :::exercicio {"id":"modelos-lineares-e8","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Três textos escrevem a perda como $\frac{1}{n}\sum(y-\hat{y})^2$, $\frac{1}{2n}\sum(y-\hat{y})^2$ e $\sum(y-\hat{y})^2$. O que muda entre eles?
 
+- [x] Só o número do painel: o mínimo não anda.
 - [ ] A reta ótima, diferente em cada convenção.
 - [ ] A necessidade de otimização iterativa.
-- [x] Só o número do painel: o mínimo não anda.
 - [ ] O grau do polinômio que se ajusta aos dados.
 
 > **gabarito:** só o número que aparece no painel
 > **porque:** Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.
 >
-> A primeira alternativa é a leitura intuitiva e errada: a constante estica o eixo vertical do gráfico da perda, sem mexer no ponto mais baixo dele. A segunda inverte a razão de existir do meio, que é comodidade de dedução e não requisito de método, porque ele cancela o 2 que desce ao derivar o quadrado. A quarta troca de assunto, já que grau de polinômio é escolha de atributos e nada tem a ver com a escala da perda.
+> Quem marca "a reta ótima" segue a leitura intuitiva e errada: a constante estica o eixo vertical do gráfico da perda, sem mexer no ponto mais baixo dele. Quem marca a otimização iterativa inverte a razão de existir do meio, que é comodidade de dedução e não requisito de método, porque ele cancela o 2 que desce ao derivar o quadrado. E o grau do polinômio troca de assunto, já que ele é escolha de atributos e nada tem a ver com a escala da perda.
 >
 > Saber disso evita duas confusões práticas. Comparar o "erro" de dois relatórios que usaram convenções diferentes não faz sentido, e ver um número dez vezes maior num livro não significa que o modelo de lá seja pior.
 > **volte para:** #o-criterio-minimizar-o-erro-quadratico-medio
@@ -252,7 +252,7 @@ Se a solução fechada das equações normais é exata e existe, por que o livro
 - [ ] Porque o gradiente encontra um mínimo melhor que a solução fechada.
 - [ ] Porque a solução fechada só vale quando os dados não têm ruído.
 - [ ] Porque o gradiente é mais preciso quando existem *outliers* no conjunto.
-- [x] Porque inverter uma matriz $d \times d$ é caro, e a logística não tem fórmula.
+- [x] Porque inverter $d \times d$ é caro, e a logística não tem fórmula.
 
 > **gabarito:** custo com muitos atributos, e ela não existe na logística
 > **porque:** Os dois motivos são de alcance, não de qualidade. No experimento do livro, gradiente e solução fechada chegam ao mesmo lugar, com diferença menor que 0,05 em cada coeficiente, e isso descarta a primeira alternativa pela evidência do próprio capítulo.
@@ -523,8 +523,8 @@ Como vieram, ele **não chega**: termina 2,8% acima, e não por passo mal escolh
 :::exercicio {"id":"modelos-lineares-e26","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 O placar marca o **excesso sobre o ótimo fechado**. O que serve de referência para esse zero?
 
-- [ ] O melhor erro que o gradiente alcançou.
-- [x] O erro que as equações normais devolvem.
+- [ ] O menor erro que o gradiente alcançou nos 4 000 passos.
+- [x] O erro das equações normais.
 - [ ] O erro de quem prevê sempre a média.
 - [ ] O erro num conjunto de teste separado.
 
@@ -558,8 +558,8 @@ Dois atributos quase colineares carregam quase a mesma informação, e muitas co
 O gradiente melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?
 
 - [ ] Padronizar não altera os coeficientes ótimos.
-- [x] As equações normais não percorrem a superfície.
-- [ ] O dado padronizado deixa de ser correlacionado.
+- [x] As equações normais não andam pela superfície.
+- [ ] O dado padronizado deixa de ser correlacionado entre si.
 - [ ] A álgebra usa um passo maior a cada iteração.
 
 > **gabarito:** as equações normais resolvem de uma vez
@@ -639,15 +639,15 @@ Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.**
 :::exercicio {"id":"modelos-lineares-e22","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
 Olhando **só** esta tabela, o que ela permite afirmar?
 
-- [ ] Que a chuva derruba e o preço alto levanta.
-- [ ] Que a precipitação é o melhor previsor aqui.
 - [x] Que as quatro andam junto, sem dizer por quê.
-- [ ] Que subir o preço é a melhor alavanca.
+- [ ] Que a chuva derruba as vendas e o preço as levanta.
+- [ ] Que a precipitação é o melhor previsor da tabela.
+- [ ] Que subir o preço é a melhor alavanca do negócio.
 
 > **gabarito:** andam junto com as vendas, sem dizer por quê
 > **porque:** Correlação é uma medida de acompanhamento entre duas colunas. Ela diz que os números sobem e descem juntos, e não diz nada sobre quem move quem, nem sobre o que mais mudou ao mesmo tempo.
 >
-> A primeira alternativa é a leitura causal, e é o assunto do resto desta seção. A segunda é falsa dentro da própria tabela, porque quem tem o maior valor absoluto é `temperatura`, com 0,990. A quarta é a recomendação que vai para o slide e custa dinheiro.
+> A leitura causal ("a chuva derruba, o preço levanta") é o assunto do resto desta seção. A alternativa da precipitação é falsa dentro da própria tabela, porque quem tem o maior valor absoluto é `temperatura`, com 0,990. E "subir o preço" é a recomendação que vai para o slide e custa dinheiro.
 >
 > A tabela cumpriu o papel dela, que é apontar onde olhar. Quem para nela transforma um mapa em conclusão.
 > **volte para:** #o-caso-da-limonada
@@ -681,8 +681,8 @@ O preço de 0,50 aparece em 62 dias, todos em julho e agosto.
 O que torna `preco` um termômetro disfarçado aqui?
 
 - [ ] Foi registrado na unidade da temperatura.
-- [x] O valor alto só aparece nos meses quentes.
-- [ ] A correlação com vendas passa de 0,5.
+- [x] O valor alto só sai nos meses quentes.
+- [ ] A correlação com as vendas passa de 0,5.
 - [ ] O valor baixo cobre 303 dos 365 dias.
 
 > **gabarito:** o valor alto só aparece nos dois meses mais quentes
@@ -726,9 +726,9 @@ Do preço 0,30 para o 0,50 a venda média sobe de 23,7 para 33,1 copos, **9,4 a 
 :::exercicio {"id":"modelos-lineares-e24","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
 O ajuste tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?
 
-- [ ] Que 98,2% das decisões de preço foram boas.
+- [ ] Que 98,2% das decisões de preço da barraca foram boas.
 - [ ] Que o efeito do preço tem 98,2% de chance.
-- [x] Que ele reproduz 98,2% da variação das vendas.
+- [x] Que ele reproduz 98,2% da variação observada.
 - [ ] Que 1,8% das linhas ficaram fora do ajuste.
 
 > **gabarito:** reproduz 98,2% da variação observada nas vendas
@@ -972,8 +972,8 @@ Quatro linhas só entram com a restrição correspondente. Uma vale sempre.
 :::exercicio {"id":"modelos-lineares-e25","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
 Um time tem 15 000 linhas, 8 atributos, nenhuma exigência de auditoria e nenhum limite de latência. O que a tabela diz sobre a escolha?
 
-- [ ] Nada muda: o linear vence pelas cinco linhas.
-- [x] Nenhuma se aplica, e a escolha volta a ser empírica.
+- [ ] Nada muda: o linear vence pelas cinco linhas da tabela.
+- [x] Nenhuma se aplica: a escolha volta a ser empírica.
 - [ ] O linear fica desaconselhado: há dados demais.
 - [ ] A calibração deixa de importar num conjunto grande.
 
@@ -1047,15 +1047,15 @@ Você treinou o linear, treinou o complexo depois, e no mesmo teste o ganho do s
 :::exercicio {"id":"modelos-lineares-e13","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
 Por que sempre treinar um modelo linear primeiro?
 
-- [ ] Porque ele costuma vencer o modelo complexo.
 - [x] Porque diz em minutos quanto do sinal é linear.
+- [ ] Porque ele costuma vencer o modelo complexo.
 - [ ] Porque o modelo complexo exige um linear antes.
-- [ ] Porque é a única forma de achar vazamento.
+- [ ] Porque é a única forma de achar vazamento no dado.
 
 > **gabarito:** custa minutos e diz quanto do sinal é linear
 > **porque:** É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.
 >
-> A primeira alternativa é falsa e o próprio capítulo dá o contraexemplo, com 0,4963 de AUC contra 0,9392 do boosting no capítulo II.5. A terceira inventa uma dependência técnica que não existe, já que árvores e ensembles não pedem coeficiente nenhum para funcionar. A quarta confunde linha de base com auditoria de dados, e vazamento se detecta olhando como as colunas foram construídas.
+> "Costuma vencer" é falso, e o próprio capítulo dá o contraexemplo: 0,4963 de AUC contra 0,9392 do boosting, no capítulo II.5. "Exige um linear antes" inventa uma dependência técnica que não existe, já que árvores e ensembles não pedem coeficiente nenhum para funcionar. E "achar vazamento" confunde linha de base com auditoria de dados, porque vazamento se detecta olhando como as colunas foram construídas.
 >
 > O corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.
 > **volte para:** #treine-sempre-um-linear-primeiro
@@ -1085,15 +1085,15 @@ Dois astrônomos recebem as mesmas observações discordantes e escolhem a órbi
 :::exercicio {"id":"modelos-lineares-e31","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Que problema os mínimos quadrados vieram resolver naquela astronomia?
 
-- [ ] Faltava observação para determinar a órbita.
-- [ ] O instrumento era impreciso, e o erro grande.
 - [x] Faltava regra explícita do que é a melhor curva.
-- [ ] Faltava como calcular à mão tantos pontos.
+- [ ] Faltava observação para determinar a órbita direito.
+- [ ] O instrumento era impreciso, e o erro de medida grande.
+- [ ] Faltava como calcular à mão com tantas observações.
 
 > **gabarito:** faltava uma regra explícita do que é "a melhor curva"
 > **porque:** O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.
 >
-> A primeira alternativa inverte o quadro, porque com poucas observações não haveria discordância a resolver. A segunda descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. A quarta é um custo verdadeiro da época e não é o que travava: mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.
+> "Faltava observação" inverte o quadro, porque com poucas observações não haveria discordância a resolver. O instrumento impreciso descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E a dificuldade de calcular à mão era um custo verdadeiro da época sem ser o que travava, porque mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.
 >
 > É esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.
 > **volte para:** #de-onde-isto-veio
@@ -1123,7 +1123,7 @@ O que a regra de minimizar a soma dos quadrados dos desvios trouxe que o "escolh
 
 - [ ] Uma curva mais próxima da órbita verdadeira do que qualquer outra.
 - [ ] Uma forma de descartar automaticamente as observações defeituosas.
-- [x] Uma resposta igual para quem quer que refaça a conta com os mesmos dados.
+- [x] Uma resposta igual para quem refizer a conta.
 - [ ] Uma medida do erro de cada instrumento usado na observação.
 
 > **gabarito:** a mesma resposta para qualquer pessoa
@@ -1337,15 +1337,15 @@ O `Padronizador` guarda a média e o desvio de cada atributo para poder reescala
 :::exercicio {"id":"modelos-lineares-e38","tipo":"multipla","objetivo":"O2","dificuldade":"facil"}
 Por que a etapa 05 implementa as duas rotas, solução fechada e gradiente, em vez de só a mais rápida?
 
-- [ ] Porque as duas dão respostas diferentes, e a média das duas é melhor.
-- [ ] Porque a solução fechada falha em conjuntos com muitas linhas de dados.
-- [x] Porque poder comparar as duas é o que torna o gradiente confiável depois.
-- [ ] Porque o gradiente é exigido pela biblioteca padrão usada na trilha.
+- [x] Porque poder comparar as duas torna o gradiente confiável.
+- [ ] Porque as duas dão respostas diferentes, e a média delas é melhor.
+- [ ] Porque a solução fechada falha em conjuntos com muitas linhas.
+- [ ] Porque o gradiente é exigido pela biblioteca padrão da trilha.
 
 > **gabarito:** comparar as duas é o que torna o gradiente confiável
 > **porque:** A etapa existe para o leitor ver, com os próprios dados, que as duas rotas param no mesmo lugar. É a única vez na trilha em que há resposta exata para servir de régua, e a confiança construída aqui é gasta na regressão logística, onde régua não existe.
 >
-> A primeira alternativa inventa um desacordo que o experimento nega, já que a diferença medida fica abaixo de 0,05 por coeficiente. A segunda troca linhas por colunas: o que encarece a solução fechada é a quantidade de **atributos**, porque a matriz a inverter é $d \times d$. A quarta inverte a dependência, porque a biblioteca padrão não exige método nenhum.
+> "Respostas diferentes" inventa um desacordo que o experimento nega, já que a diferença medida fica abaixo de 0,05 por coeficiente. "Falha com muitas linhas" troca linhas por colunas: o que encarece a solução fechada é a quantidade de **atributos**, porque a matriz a inverter é $d \times d$. E "exigido pela biblioteca" inverte a dependência, porque a biblioteca padrão não exige método nenhum.
 >
 > Vale notar o que a mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md): o 05 pergunta que função o modelo representa, e o 06 pergunta como se chega aos coeficientes.
 > **volte para:** #mao-na-massa
