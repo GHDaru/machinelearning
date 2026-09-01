@@ -280,6 +280,7 @@ function pagina({ tituloPagina, corpo, navLateral, prev, next, data, ehIndex, ch
 <link rel="stylesheet" href="${A}estilo.css">
 <link rel="stylesheet" href="${A}interativos.css">
 <link rel="stylesheet" href="${A}matematica.css">
+<link rel="stylesheet" href="${A}cartoes.css">
 </head><body${ehIndex ? ' class="pagina-index"' : hero ? ' class="pagina-capitulo"' : ""} data-slug="${slug}" data-lang="pt" data-titulo="${tituloPagina.replace(/"/g, "&quot;")}">
 <button id="alt-tema" aria-label="Alternar tema">◐</button>
 <div class="layout">
@@ -299,6 +300,7 @@ function pagina({ tituloPagina, corpo, navLateral, prev, next, data, ehIndex, ch
 <script src="${A}uso.js" defer></script>
 <script src="${A}grafo.js" defer></script>
 ${companionSnippet(chapter)}
+<script src="${A}cartoes.js" defer></script>
 </body></html>`;
 }
 
@@ -400,6 +402,7 @@ mkdirSync(resolve(SAIDA, "assets"), { recursive: true });
 for (const arq of [
   "estilo.css", "app.js", "capa.png", "capa-social.png", "autor.png",
   "companion.css", "companion.js", "interativos.css", "interativos.js",
+  "cartoes.css", "cartoes.js",
   "uso.js", "grafo.js", "professor.js", "laboratorios.js", "neuronio-mp.svg", "camada-escondida.svg", "block-group.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
