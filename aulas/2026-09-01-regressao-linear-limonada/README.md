@@ -17,12 +17,16 @@ regressão regularizada, sobre o dataset da limonada
 1. **Descritiva** por campo quantitativo — histograma com boxplot superior, outliers (IQR),
    assimetria, curtose e os cuidados de cada variável (inclusive a pegadinha do `preco`
    binário, que a regra do IQR marca inteiro como "outlier").
-2. **Diagnóstica** — matriz de correlação e a armadilha do preço (+0,51 que é estação).
-3. **Preparação** — `X`/`y`, treino/teste, padronização sem vazamento.
-4. **Regressão linear** — coeficientes, R²/MAE/RMSE em treino e teste, resíduos.
-5. **Feedback de retorno** — o que o modelo responde e o que exige dado novo.
-6. **Ridge e Lasso** — 14 atributos expandidos; o Lasso empata em R² com 8 parâmetros.
-7. **Transformação** — log em `precipitacao`: assimetria 1,86 → 0,81, ganho medido.
+2. **Par a par** — todos os cruzamentos num comando (`pd.plotting.scatter_matrix`) e depois
+   cada par com o alvo em close: dispersão para as contínuas, boxplot por grupo para o preço.
+3. **Diagnóstica** — matriz de correlação e a armadilha do preço (+0,51 que é estação).
+4. **O calendário** — vendas médias por dia da semana (amplitude < 1 copo: sem sinal, fica
+   fora do modelo) e a série do ano inteiro, com o período de preço 0,50 sombreado no pico.
+5. **Preparação** — `X`/`y`, treino/teste, padronização sem vazamento.
+6. **Regressão linear** — coeficientes, R²/MAE/RMSE em treino e teste, resíduos.
+7. **Feedback de retorno** — o que o modelo responde e o que exige dado novo.
+8. **Ridge e Lasso** — 14 atributos expandidos; o Lasso empata em R² com 8 parâmetros.
+9. **Transformação** — log em `precipitacao`: assimetria 1,86 → 0,81, ganho medido.
 
 ## Como abrir com a turma
 
