@@ -161,7 +161,7 @@ Resta escolher os $w$. O critério é minimizar o **erro quadrático médio**, o
 
 $$L(w, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{y}_i\right)^2$$
 
-> **Três convenções, a mesma reta.** Muito texto escreve $\frac{1}{2n}$, porque o meio cancela o 2 que desce ao derivar; outros minimizam a **soma** em vez da média. Multiplicar a perda por constante positiva não move o mínimo, então a reta é a mesma nas três.
+> **Três convenções, a mesma reta.** Muito texto escreve $\frac{1}{2n}$, porque o meio cancela o 2 que desce ao derivar; outros minimizam a **soma**. Constante positiva não move o mínimo, e a reta é a mesma nas três.
 
 :::interacao {"id":"modelos-lineares-i5","tipo":"desvanecido","titulo":"O EQM de três pontos"}
 Uma reta erra $+2$, $-1$ e $+3$ nos três pontos do conjunto. Complete a conta:
@@ -175,12 +175,12 @@ Uma reta erra $+2$, $-1$ e $+3$ nos três pontos do conjunto. Complete a conta:
 :::
 
 :::exercicio {"id":"modelos-lineares-e8","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
-Três textos escrevem a perda de formas diferentes: um usa $\frac{1}{n}\sum(y-\hat{y})^2$, outro $\frac{1}{2n}\sum(y-\hat{y})^2$, e o terceiro só $\sum(y-\hat{y})^2$. O que muda entre eles?
+Três textos escrevem a perda como $\frac{1}{n}\sum(y-\hat{y})^2$, $\frac{1}{2n}\sum(y-\hat{y})^2$ e $\sum(y-\hat{y})^2$. O que muda entre eles?
 
-- [ ] A reta ótima, que fica diferente em cada uma das três convenções.
-- [ ] A necessidade de otimização iterativa, que só a primeira forma dispensa.
-- [x] Só o número do painel, porque o ponto de mínimo não se move com a escala.
-- [ ] O grau do polinômio ajustado, que sobe quando a constante multiplica.
+- [ ] A reta ótima, diferente em cada convenção.
+- [ ] A necessidade de otimização iterativa.
+- [x] Só o número do painel: o mínimo não anda.
+- [ ] O grau do polinômio que se ajusta aos dados.
 
 > **gabarito:** só o número que aparece no painel
 > **porque:** Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.
@@ -445,7 +445,7 @@ $$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1 \qquad S_{xx} = 1 + 0 + 1 = 2$$
 Logo $a = 1/2 = 0{,}5$, e $b = 4 - 0{,}5 \times 2 = 3$. A reta é $\hat{y} = 0{,}5x + 3$, e passa por $(2, 4)$.
 
 :::interacao {"id":"modelos-lineares-i11","tipo":"desvanecido","titulo":"O mesmo caminho, outros três pontos"}
-Agora os pontos são (0, 1), (1, 2) e (2, 6), com $\bar{x} = 1$ e $\bar{y} = 3$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-2$, $-1$, $+3$.
+Agora os pontos são (0, 1), (1, 2) e (2, 6): $\bar{x} = 1$, $\bar{y} = 3$, desvios em $x$ de $-1$, $0$, $+1$ e em $y$ de $-2$, $-1$, $+3$.
 
 - [?] S_xy => (-1)(-2) + (0)(-1) + (1)(3) = 5
 - [?] S_xx => 1 + 0 + 1 = 2
@@ -513,22 +513,20 @@ Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
 ### O gradiente contra a álgebra
 
 :::lab {"id":"modelos-lineares-l2","tipo":"anima-normais","titulo":"O gradiente atrás de uma resposta que já existe"}
-Trezentos pontos e dois atributos **quase colineares**: o segundo é o primeiro mais um ruidinho. O placar traz o **excesso de erro sobre o ótimo fechado**, em porcentagem, e a varredura vai a 4 000 passos.
+Trezentos pontos e dois atributos **quase colineares**. O placar traz o excesso de erro sobre o ótimo fechado, e a varredura vai a 4 000 passos.
 
-**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?
+**Antes de assistir, chute:** quantos passos até chegar a 1% do ótimo?
 
-Com os atributos como vieram, ele **não chega**: ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido, porque a animação dá a cada regime o maior passo estável possível.
-
-Clique em **"E se os atributos fossem padronizados?"**. Agora chega a 1% no passo **1 460**, termina 351 vezes mais perto do ótimo, e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
+Como vieram, ele **não chega**: termina 2,8% acima, e não por passo mal escolhido. Clique em **"E se os atributos fossem padronizados?"**: agora chega a 1% no passo **1 460** e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
 :::
 
 :::exercicio {"id":"modelos-lineares-e26","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
-O placar da animação mostra o **excesso de erro sobre o ótimo fechado**, em porcentagem. O que serve de referência para esse zero?
+O placar marca o **excesso sobre o ótimo fechado**. O que serve de referência para esse zero?
 
-- [ ] O menor erro que o gradiente alcançou ao longo dos 4 000 passos.
-- [x] O erro da reta que as equações normais devolvem numa única conta.
-- [ ] O erro de um modelo que prevê sempre a média das respostas.
-- [ ] O erro medido num conjunto de teste separado antes do ajuste.
+- [ ] O melhor erro que o gradiente alcançou.
+- [x] O erro que as equações normais devolvem.
+- [ ] O erro de quem prevê sempre a média.
+- [ ] O erro num conjunto de teste separado.
 
 > **gabarito:** o erro da solução fechada
 > **porque:** A animação só consegue dizer "2,8% acima" porque existe um número exato para comparar, e ele vem das equações normais. É o caso raro em que a resposta certa é conhecida antes de o otimizador começar.
@@ -541,14 +539,14 @@ O placar da animação mostra o **excesso de erro sobre o ótimo fechado**, em p
 
 :::cartao {"nivel":2,"titulo":"O que mudou não foi o otimizador"}
 
-**Padronizar não é higiene de planilha:** é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. A pergunta não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
+**Padronizar não é higiene de planilha:** é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. O capítulo [II.4](ii-4-otimizacao.md) retoma esta superfície pelo lado da taxa de aprendizado.
 
 :::interacao {"id":"modelos-lineares-i23","tipo":"prever","titulo":"A forma que dois atributos colineares desenham"}
 Dois atributos quase colineares carregam quase a mesma informação, e muitas combinações de pesos dão quase o mesmo erro.
 
-- ( ) Uma tigela redonda, porque a perda continua sendo soma de quadrados.
-- (!) Um vale comprido e estreito, com o fundo quase plano numa direção.
-- ( ) Uma superfície com vários fundos, um para cada combinação de pesos.
+- ( ) Uma tigela redonda como antes.
+- (!) Um vale comprido e estreito.
+- ( ) Uma superfície com vários fundos.
 
 > **pergunta:** Que forma isso dá à superfície de erro?
 > **revela:** Um **vale comprido e estreito**. Ao longo da direção em que os dois pesos se compensam o erro quase não muda, e na direção perpendicular ele sobe rápido.
@@ -557,12 +555,12 @@ Dois atributos quase colineares carregam quase a mesma informação, e muitas co
 :::
 
 :::exercicio {"id":"modelos-lineares-e20","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
-Na animação, o gradiente vai muito melhor com os atributos padronizados. A álgebra deu a resposta exata **nos dois casos**. Por quê?
+O gradiente melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?
 
-- [ ] Porque a padronização não altera os valores dos coeficientes ótimos.
-- [x] Porque as equações normais resolvem o sistema sem percorrer a superfície.
-- [ ] Porque o dado padronizado deixa de ter atributos correlacionados entre si.
-- [ ] Porque a álgebra usa um passo maior que o do gradiente a cada iteração.
+- [ ] Padronizar não altera os coeficientes ótimos.
+- [x] As equações normais não percorrem a superfície.
+- [ ] O dado padronizado deixa de ser correlacionado.
+- [ ] A álgebra usa um passo maior a cada iteração.
 
 > **gabarito:** as equações normais resolvem de uma vez
 > **porque:** A forma da superfície é o que atrapalha **quem anda por ela**. As equações normais não andam: elas igualam as derivadas a zero e resolvem o sistema resultante, então um vale estreito e um vale redondo dão o mesmo trabalho.
@@ -614,14 +612,14 @@ Comparando dois clientes, um com 2 000 reais a mais de renda e um dependente a m
 
 ## O caso da limonada
 
-O conjunto está em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md): 365 dias de uma barraca, com o tempo que fez, quantos panfletos saíram, o preço praticado e quantos copos foram vendidos. O dado é sintético, e é por isso que serve: as armadilhas aparecem limpas.
+O conjunto em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de uma barraca: tempo, panfletos, preço e copos vendidos.
 
 :::interacao {"id":"modelos-lineares-i14","tipo":"prever","titulo":"O sinal que você espera"}
-Antes de olhar a tabela: nestes 365 dias, o preço cobrado e o número de copos vendidos aparecem correlacionados.
+Nestes 365 dias, preço cobrado e copos vendidos aparecem correlacionados.
 
-- ( ) Negativamente, porque copo mais caro afasta parte da freguesia.
-- (!) Positivamente, porque o preço alto aparece nos dias de mais venda.
-- ( ) Perto de zero, porque o preço quase não mudou ao longo do ano.
+- ( ) Negativamente: caro afasta freguês.
+- (!) Positivamente: caro vendeu mais.
+- ( ) Perto de zero: o preço mal mudou.
 
 > **pergunta:** Com que sinal?
 > **revela:** **Positivamente**, e forte: **+0,513**. Quem previu negativo aplicou a teoria econômica correta ao dado errado, e é exatamente esse o susto que o caso existe para dar.
@@ -636,15 +634,15 @@ Antes de olhar a tabela: nestes 365 dias, o preço cobrado e o número de copos 
 | `panfletos` | +0,805 |
 | **`preco`** | **+0,513** |
 
-Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.** A última linha é onde o relatório morre: ela sugere uma recomendação de negócio (*aumente o preço*) que é o oposto do que a barraca deve fazer.
+Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.** A última linha é onde o relatório morre: ela sugere *aumente o preço*, o oposto do que a barraca deve fazer.
 
 :::exercicio {"id":"modelos-lineares-e22","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
-Olhando **só** esta tabela de correlações, o que ela permite afirmar?
+Olhando **só** esta tabela, o que ela permite afirmar?
 
-- [ ] Que a chuva causa queda nas vendas, e o preço alto causa alta.
-- [ ] Que a precipitação é o atributo mais forte para prever as vendas.
-- [x] Que as quatro variáveis andam junto com as vendas, sem dizer por quê.
-- [ ] Que subir o preço é a alavanca de maior retorno para a barraca.
+- [ ] Que a chuva derruba e o preço alto levanta.
+- [ ] Que a precipitação é o melhor previsor aqui.
+- [x] Que as quatro andam junto, sem dizer por quê.
+- [ ] Que subir o preço é a melhor alavanca.
 
 > **gabarito:** andam junto com as vendas, sem dizer por quê
 > **porque:** Correlação é uma medida de acompanhamento entre duas colunas. Ela diz que os números sobem e descem juntos, e não diz nada sobre quem move quem, nem sobre o que mais mudou ao mesmo tempo.
@@ -659,17 +657,17 @@ Olhando **só** esta tabela de correlações, o que ela permite afirmar?
 
 ### O preço é um termômetro disfarçado
 
-Antes de explicar, olhe o dado:
+Antes de explicar, olhe o dado.
 
 | preço | dias | temperatura média* | vendas médias | meses em que aparece |
 |---|---|---|---|---|
 | 0,30 | 303 | 57,0 | 23,7 | jan–jun, set–dez |
 | 0,50 | 62 | 78,8 | 33,1 | **só julho e agosto** |
 
-> \* A unidade da temperatura **não está no arquivo**, e a ficha do dado recusa-se a inventá-la. A faixa observada (15,1 a 102,9) é típica de Fahrenheit, onde 78,8 °F são cerca de 26 °C. É a leitura mais provável, não uma certeza.
+> \* A unidade da temperatura **não está no arquivo**, e a ficha do dado recusa-se a inventá-la. A faixa (15,1 a 102,9) é típica de Fahrenheit, onde 78,8 °F são cerca de 26 °C.
 
 :::interacao {"id":"modelos-lineares-i15","tipo":"principio","titulo":"O que o preço está marcando"}
-O preço de 0,50 aparece em 62 dias, e todos eles caem em julho e agosto.
+O preço de 0,50 aparece em 62 dias, todos em julho e agosto.
 
 > **pergunta:** Escreva o que esse fato faz com a correlação de +0,513.
 > **revela:** Ele a explica inteira. A coluna `preco` tem dois valores, e o valor alto é um **carimbo de julho e agosto**. Comparar vendas a 0,50 com vendas a 0,30 é comparar verão com o resto do ano, e a correlação mede o calor de julho.
@@ -680,12 +678,12 @@ O preço de 0,50 aparece em 62 dias, e todos eles caem em julho e agosto.
 :::
 
 :::exercicio {"id":"modelos-lineares-e23","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
-O que, neste conjunto, torna `preco` um termômetro disfarçado?
+O que torna `preco` um termômetro disfarçado aqui?
 
-- [ ] O preço foi registrado na mesma unidade que a temperatura do dia.
-- [x] O preço só assumiu o valor alto nos dois meses mais quentes do ano.
-- [ ] A correlação entre preço e vendas é positiva e maior do que 0,5.
-- [ ] O preço de 0,30 aparece em 303 dos 365 dias do conjunto de dados.
+- [ ] Foi registrado na unidade da temperatura.
+- [x] O valor alto só aparece nos meses quentes.
+- [ ] A correlação com vendas passa de 0,5.
+- [ ] O valor baixo cobre 303 dos 365 dias.
 
 > **gabarito:** o valor alto só aparece nos dois meses mais quentes
 > **porque:** O que faz uma coluna virar termômetro é a **coincidência entre o recorte dela e o recorte de outra variável**. Aqui o preço de 0,50 e o mês de julho ocupam exatamente os mesmos 62 dias, então quem lê o preço está lendo o calendário.
@@ -710,7 +708,7 @@ vendas = 3,192
        + 2,4143 · preco          R² = 0,982
 ```
 
-> **O $R^2$**, que o livro ainda não tinha apresentado, é a fração da variação de `vendas` que o modelo reproduz: 0 é não fazer melhor que prever sempre a média, 1 é acertar cada ponto. **0,982 é altíssimo, e é por isso que ele está aqui.**
+> **O $R^2$** é a fração da variação de `vendas` que o modelo reproduz: 0 é não fazer melhor que a média, 1 é acertar cada ponto. **0,982 é altíssimo, e é por isso que ele está aqui.**
 
 :::interacao {"id":"modelos-lineares-i3","tipo":"desvanecido","titulo":"Quem explica os 9,4 copos"}
 Do preço 0,30 para o 0,50 a venda média sobe de 23,7 para 33,1 copos, **9,4 a mais**, e a temperatura média sobe de 57,0 para 78,8. Complete as duas parcelas:
@@ -726,12 +724,12 @@ Do preço 0,30 para o 0,50 a venda média sobe de 23,7 para 33,1 copos, **9,4 a 
 :::
 
 :::exercicio {"id":"modelos-lineares-e24","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
-O ajuste múltiplo da limonada tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?
+O ajuste tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?
 
-- [ ] Que 98,2% das decisões de preço da barraca foram decisões acertadas.
-- [ ] Que o efeito estimado do preço tem 98,2% de chance de estar correto.
-- [x] Que o modelo reproduz 98,2% da variação observada nas vendas.
-- [ ] Que sobraram 1,8% das linhas do conjunto que o modelo não usou.
+- [ ] Que 98,2% das decisões de preço foram boas.
+- [ ] Que o efeito do preço tem 98,2% de chance.
+- [x] Que ele reproduz 98,2% da variação das vendas.
+- [ ] Que 1,8% das linhas ficaram fora do ajuste.
 
 > **gabarito:** reproduz 98,2% da variação observada nas vendas
 > **porque:** O $R^2$ compara o erro do modelo com o erro de quem prevê sempre a média. Ele mede **ajuste ao passado**, e é uma afirmação sobre a coluna `vendas` e mais nada.
@@ -884,15 +882,15 @@ Escreva a resposta que você daria a ela, em até seis linhas, sem jargão. Diga
 
 ### As quatro coisas que ele não diz
 
-A limonada mostrou duas delas em números. Aqui vão as quatro na forma curta, que serve de lista de conferência:
+A limonada mostrou duas delas em números. As quatro, em forma de lista de conferência:
 
-1. **Não diz causalidade.** "Mantendo tudo mais constante" é uma operação sobre a equação ajustada, não uma intervenção no mundo. É o `preco` de julho.
-2. **Não é comparável entre atributos sem padronização.** Um coeficiente de 0,003 para renda em reais e 2,5 para número de filhos não diz que filhos importam mais.
-3. **Não é confiável sob colinearidade.** Atributos que andam juntos trocam peso entre si com pouca mudança nos dados. É o par `temperatura` e `panfletos`.
-4. **Não vale fora da faixa observada.** Extrapolar uma reta é a forma mais fácil de produzir uma previsão absurda com aparência de rigor.
+1. **Não diz causalidade.** "Mantendo tudo mais constante" é operação sobre a equação, não intervenção no mundo. É o `preco` de julho.
+2. **Não é comparável sem padronização.** Um coeficiente de 0,003 para renda em reais e 2,5 para filhos não diz que filhos importam mais.
+3. **Não é confiável sob colinearidade.** Atributos que andam juntos trocam peso entre si. É o par `temperatura` e `panfletos`.
+4. **Não vale fora da faixa observada.** Extrapolar uma reta produz o absurdo com aparência de rigor.
 
 :::interacao {"id":"modelos-lineares-i19","tipo":"principio","titulo":"O que a métrica enxerga"}
-Você tem um painel com erro de treino, erro de validação e R², e ele está todo verde.
+Um painel com erro de treino, erro de validação e R², todo verde.
 
 > **pergunta:** Quais dos quatro itens acima esse painel detectaria?
 > **revela:** **Nenhum.** Todos os quatro são falhas de **leitura**, e a métrica mede acerto de previsão. A limonada é a prova em números: R² de 0,982 com o coeficiente do preço invertido de sinal.
@@ -903,9 +901,7 @@ Você tem um painel com erro de treino, erro de validação e R², e ele está t
 :::
 
 :::exercicio {"id":"modelos-lineares-e12","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
-Um modelo de crédito tem dois atributos altamente correlacionados, `renda_declarada` e `renda_comprovada`. Depois de acrescentar 200 linhas ao treino, o coeficiente de um passou de +0,8 para −0,4, e o do outro fez o caminho inverso. O erro de teste não mudou.
-
-Qual das quatro limitações isto ilustra?
+Num modelo de crédito, `renda_declarada` e `renda_comprovada` são quase idênticas. Com 200 linhas novas no treino, o coeficiente de um foi de +0,8 para −0,4, e o do outro fez o inverso. O erro de teste não mudou. Qual limitação isto ilustra?
 
 - [ ] Não diz causalidade.
 - [ ] Não é comparável entre atributos sem padronização.
@@ -931,28 +927,55 @@ Não como consolo, e sim como decisão de engenharia.
 Uma pergunta que só tem resposta boa se você pensar no sistema inteiro, e não no placar.
 
 > **pergunta:** Descreva uma situação em que você escolheria o linear **sabendo** que ele vai prever pior.
-> **revela:** Há pelo menos cinco, e a tabela abaixo as lista: poucos dados por atributo, exigência de auditoria, probabilidade que vira dinheiro, linha de base obrigatória e latência apertada.
+> **revela:** Há pelo menos cinco, e o cartão seguinte as lista: poucos dados por atributo, exigência de auditoria, probabilidade que vira dinheiro, linha de base obrigatória e latência apertada.
 >
 > O que as cinco têm em comum é o que a resposta fraca não vê: **nenhuma delas aparece na métrica de teste.** Latência, auditabilidade e calibração são requisitos do sistema, e a AUC não sabe que eles existem.
 >
 > Se a sua resposta foi "quando os dados são poucos", você achou a linha mais citada e a menos interessante. As outras quatro é que decidem projeto de verdade.
 :::
 
+:::exercicio {"id":"modelos-lineares-e41","tipo":"completar","objetivo":"O4","dificuldade":"facil"}
+Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na métrica de teste.
+
+> **gabarito:** restrições|restricoes|requisitos|exigências|exigencias
+> **porque:** A tabela não afirma que o linear prevê melhor. Ela lista **restrições** que o problema impõe antes de qualquer medição, e sob as quais um ganho de acerto precisa ser grande o bastante para pagar o que se perde.
+>
+> Quem responde "vantagens" inverte o sentido da seção, porque a vantagem é do problema e não do modelo. Quem responde "métricas" comete o erro que o cartão combate: latência, auditabilidade e calibração são exigências, e três delas nem são medidas por AUC.
+>
+> A consequência prática é a ordem de trabalho. Escreva as restrições antes de abrir o notebook, porque depois de ver o placar fica difícil não decidir por ele.
+> **volte para:** #quando-o-linear-e-a-escolha-certa
+:::
+
+:::cartao {"nivel":4,"titulo":"As cinco situações, e nenhuma é o placar"}
+
 | Situação | Por quê |
 |---|---|
-| **Poucos dados por atributo** | menos parâmetros, menos variância. Com 200 linhas e 50 colunas, o ensemble decora |
-| **Necessidade de auditoria** | um número por atributo, defensável e questionável. Exigência regulatória em crédito e seguro |
+| **Poucos dados por atributo** | menos parâmetros, menos variância: com 200 linhas e 50 colunas, o ensemble decora |
+| **Necessidade de auditoria** | um número por atributo, defensável. Exigência regulatória em crédito e seguro |
 | **Probabilidade que vira dinheiro** | sai razoavelmente calibrado; ensembles frequentemente não (cap. II.1) |
-| **Linha de base obrigatória** | é a régua contra a qual o modelo complexo precisa se justificar |
-| **Latência apertada** | uma multiplicação de vetores; ordens de grandeza mais rápido que uma floresta |
+| **Linha de base obrigatória** | é a régua contra a qual o modelo complexo se justifica |
+| **Latência apertada** | uma multiplicação de vetores, muito mais rápida que uma floresta |
+
+:::interacao {"id":"modelos-lineares-i38","tipo":"prever","titulo":"A linha que vale sempre"}
+Quatro linhas só entram com a restrição correspondente. Uma vale sempre.
+
+- ( ) Poucos dados por atributo.
+- ( ) Necessidade de auditoria.
+- (!) Linha de base obrigatória.
+
+> **pergunta:** Qual delas?
+> **revela:** **Linha de base obrigatória.** As outras quatro dependem do contexto: só valem se houver pouco dado, regulador, dinheiro multiplicado ou prazo de resposta.
+>
+> A linha de base não depende de nada disso. Ela responde "quanto do sinal é simplesmente linear?", e essa pergunta existe em todo problema, inclusive naqueles em que o linear vai perder feio no fim.
+:::
 
 :::exercicio {"id":"modelos-lineares-e25","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
-Um time tem 15 000 linhas, 8 atributos, nenhuma exigência de auditoria e nenhum limite de latência. O que a tabela acima diz sobre a escolha do modelo?
+Um time tem 15 000 linhas, 8 atributos, nenhuma exigência de auditoria e nenhum limite de latência. O que a tabela diz sobre a escolha?
 
-- [ ] Nada muda: o linear segue sendo a escolha certa pelas cinco linhas.
-- [x] Nenhuma das cinco situações se aplica, e a escolha volta a ser empírica.
-- [ ] O linear passa a ser desaconselhado, porque há dados demais para ele.
-- [ ] A calibração deixa de importar, porque o conjunto é grande o bastante.
+- [ ] Nada muda: o linear vence pelas cinco linhas.
+- [x] Nenhuma se aplica, e a escolha volta a ser empírica.
+- [ ] O linear fica desaconselhado: há dados demais.
+- [ ] A calibração deixa de importar num conjunto grande.
 
 > **gabarito:** nenhuma se aplica, e a escolha volta a ser empírica
 > **porque:** A tabela é uma lista de **restrições**, não uma preferência por família de modelo. Sem restrição ativa, o critério que sobra é o de sempre: meça no conjunto de teste e escolha o que serve melhor à decisão.
@@ -1004,14 +1027,14 @@ Ainda no caso da seguradora acima: quais dessas restrições, sozinhas, já apon
 
 A linha de base tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta anterior a todas as outras, que é "quanto do sinal é simplesmente linear?".
 
-E o contraexemplo honesto, para que o corolário não vire fé: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md), o linear faz **0,4963 de AUC** contra **0,9392** do boosting. O dado de lá foi construído com uma fronteira irregular, que é onde a reta não tem chance.
+E o contraexemplo honesto, para o corolário não virar fé: no [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz **0,4963 de AUC** contra **0,9392** do boosting, num dado de fronteira irregular.
 
 :::interacao {"id":"modelos-lineares-i22","tipo":"prever","titulo":"Quando o ganho é pequeno"}
-Você treinou o linear primeiro, treinou o modelo complexo depois, e no mesmo conjunto de teste o ganho do segundo sobre o primeiro foi pequeno.
+Você treinou o linear, treinou o complexo depois, e no mesmo teste o ganho do segundo foi pequeno.
 
-- ( ) Que o modelo complexo foi mal configurado e precisa de mais ajuste.
-- (!) Que o sinal do problema é quase todo linear, e o resto é manutenção.
-- ( ) Que o conjunto de teste é pequeno demais para separar os dois modelos.
+- ( ) O complexo foi mal configurado.
+- (!) O sinal é quase todo linear.
+- ( ) O teste é pequeno demais.
 
 > **pergunta:** O que esse resultado revelou?
 > **revela:** Que **o sinal é quase todo linear**. A linha de base não serve para ser vencida: ela serve para dizer quanto de estrutura o problema tem além de uma soma ponderada.
@@ -1022,12 +1045,12 @@ Você treinou o linear primeiro, treinou o modelo complexo depois, e no mesmo co
 :::
 
 :::exercicio {"id":"modelos-lineares-e13","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
-Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?
+Por que sempre treinar um modelo linear primeiro?
 
-- [ ] Porque ele costuma vencer os modelos complexos na maioria dos problemas.
-- [x] Porque em minutos ele diz quanto do sinal é simplesmente linear.
-- [ ] Porque modelos complexos exigem um linear como etapa de pré-processamento.
-- [ ] Porque ele é a única forma conhecida de detectar vazamento nos dados.
+- [ ] Porque ele costuma vencer o modelo complexo.
+- [x] Porque diz em minutos quanto do sinal é linear.
+- [ ] Porque o modelo complexo exige um linear antes.
+- [ ] Porque é a única forma de achar vazamento.
 
 > **gabarito:** custa minutos e diz quanto do sinal é linear
 > **porque:** É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.
@@ -1042,16 +1065,16 @@ Segundo este capítulo, qual é a razão de sempre treinar um modelo linear prim
 
 ## De onde isto veio
 
-**O aperto.** Virada do século XVIII para o XIX, astronomia. Um cometa é observado várias vezes, por instrumentos diferentes, em noites diferentes, e **nenhuma das observações concorda com as outras**. A órbita verdadeira é uma só; os dados são muitos e discordantes. O astrônomo precisa de **uma** curva e não tem critério defensável para escolhê-la.
+**O aperto.** Virada do século XVIII para o XIX, astronomia. Um cometa é observado em noites diferentes, por instrumentos diferentes, e **nenhuma das observações concorda com as outras**. A órbita é uma só, e o astrônomo não tem critério defensável para escolher a curva.
 
-**O que se fazia antes.** Escolhia-se a olho, descartava-se a observação que parecia pior, ou faziam-se médias de subconjuntos convenientes. Todos esses caminhos tinham o mesmo defeito: **dois astrônomos competentes, com os mesmos dados, chegavam a órbitas diferentes**.
+**O que se fazia antes.** Escolhia-se a olho, descartava-se a observação pior, ou faziam-se médias de subconjuntos convenientes. Todos com o mesmo defeito: **dois astrônomos competentes chegavam a órbitas diferentes**.
 
 :::interacao {"id":"modelos-lineares-i28","tipo":"prever","titulo":"Dois astrônomos, os mesmos dados"}
-Dois astrônomos recebem as mesmas observações discordantes e cada um escolhe a órbita a olho, descartando o que lhes parece pior.
+Dois astrônomos recebem as mesmas observações discordantes e escolhem a órbita a olho.
 
-- ( ) A mesma órbita, porque os dados são os mesmos para os dois.
-- (!) Órbitas diferentes, e sem meio de decidir qual das duas vale.
-- ( ) Órbitas diferentes, e a média das duas resolve a divergência.
+- ( ) A mesma órbita: o dado é o mesmo.
+- (!) Órbitas diferentes, e sem árbitro.
+- ( ) Órbitas diferentes, e a média vale.
 
 > **pergunta:** O que eles obtêm?
 > **revela:** **Órbitas diferentes, e sem árbitro.** O problema não era falta de dado nem falta de talento: era não existir uma regra escrita que dissesse o que "melhor curva" significa.
@@ -1060,12 +1083,12 @@ Dois astrônomos recebem as mesmas observações discordantes e cada um escolhe 
 :::
 
 :::exercicio {"id":"modelos-lineares-e31","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
-Qual era o problema que os mínimos quadrados vieram resolver, na astronomia daquela virada de século?
+Que problema os mínimos quadrados vieram resolver naquela astronomia?
 
-- [ ] As observações eram poucas, e faltava dado para determinar a órbita.
-- [ ] Os instrumentos eram imprecisos, e o erro de medida era grande demais.
-- [x] Não havia regra explícita que dissesse qual curva contava como a melhor.
-- [ ] Não havia como calcular, à mão, uma curva com tantas observações.
+- [ ] Faltava observação para determinar a órbita.
+- [ ] O instrumento era impreciso, e o erro grande.
+- [x] Faltava regra explícita do que é a melhor curva.
+- [ ] Faltava como calcular à mão tantos pontos.
 
 > **gabarito:** faltava uma regra explícita do que é "a melhor curva"
 > **porque:** O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.
@@ -1159,9 +1182,9 @@ Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se
 :::interacao {"id":"modelos-lineares-i31","tipo":"prever","titulo":"O que estava em disputa"}
 Legendre e Gauss disputaram a autoria de alguma coisa, e vale ser exato sobre o quê.
 
-- ( ) Da ideia de ajustar uma reta a pontos que não caem sobre ela.
-- (!) Da regra que declara mínima a soma dos quadrados dos desvios.
-- ( ) Do cálculo da órbita do cometa observado naquele mesmo ano.
+- ( ) Da ideia de ajustar uma reta.
+- (!) Da regra que minimiza os quadrados.
+- ( ) Do cálculo da órbita do cometa.
 
 > **pergunta:** O que estava em disputa?
 > **revela:** A **regra**. Ajustar curvas a observações discordantes já se fazia, mal e sem critério; o que nenhum dos dois inventou foi a reta, e o que os dois reivindicaram foi o critério que decide qual curva vence.
@@ -1170,12 +1193,12 @@ Legendre e Gauss disputaram a autoria de alguma coisa, e vale ser exato sobre o 
 :::
 
 :::exercicio {"id":"modelos-lineares-e34","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
-Sobre a disputa entre Legendre e Gauss, qual afirmação o capítulo sustenta?
+Sobre a disputa, qual afirmação o capítulo sustenta?
 
-- [ ] Que Gauss provou ter usado o método desde 1795, e a disputa está encerrada.
-- [ ] Que Legendre inventou a reta ajustada, e Gauss apenas a divulgou depois.
-- [ ] Que os dois chegaram ao método no mesmo ano, sem conhecimento um do outro.
-- [x] Que Legendre publicou primeiro, em 1805, e Gauss reivindicou uso anterior.
+- [ ] Que Gauss provou o uso desde 1795, e está encerrado.
+- [ ] Que Legendre inventou a reta, e Gauss a divulgou.
+- [ ] Que os dois chegaram ao método no mesmo ano.
+- [x] Que Legendre publicou antes, e Gauss reivindicou.
 
 > **gabarito:** Legendre publicou primeiro, e Gauss reivindicou uso anterior
 > **porque:** É o que as fontes seladas do capítulo sustentam, e nada além disso. A tabela de procedência marca as duas obras com ✓ᵐ, o que confere obra, ano e conteúdo geral, e não autoriza afirmar mais do que a existência e a data de cada publicação.
@@ -1268,9 +1291,9 @@ O capítulo lê a disputa Legendre-Gauss junto com o caso do backpropagation, no
 :::interacao {"id":"modelos-lineares-i34","tipo":"prever","titulo":"O selo da ideia reaproveitável"}
 "Perda é critério de arbitragem" é a frase que este capítulo mais quer que você leve embora.
 
-- ( ) ✓, porque a fonte primária foi aberta e lida por inteiro.
-- ( ) ✓ᵐ, porque os metadados da obra de Legendre foram conferidos.
-- (!) 📖, porque é uma leitura deste livro, e não uma afirmação histórica.
+- ( ) ✓, fonte aberta e lida.
+- ( ) ✓ᵐ, metadados conferidos.
+- (!) 📖, leitura deste livro.
 
 > **pergunta:** Que selo ela leva na tabela, e por quê?
 > **revela:** **📖.** Nenhum documento de 1805 diz "função de perda é critério de arbitragem": a frase é a interpretação que este livro faz do que aconteceu, e vender interpretação como fato histórico é uma das três proibições da casa.
@@ -1278,20 +1301,15 @@ O capítulo lê a disputa Legendre-Gauss junto com o caso do backpropagation, no
 > Repare que o selo não enfraquece a ideia. Ele diz de onde ela vem, e é justamente por vir de leitura editorial que ela pode ser discutida sem que ninguém precise abrir um arquivo de 1805.
 :::
 
-:::exercicio {"id":"modelos-lineares-e37","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
-Por que "perda é critério de arbitragem" leva selo 📖, e não ✓?
+:::exercicio {"id":"modelos-lineares-e37","tipo":"completar","objetivo":"O1","dificuldade":"dificil"}
+"Perda é critério de arbitragem" não é afirmação de fonte histórica: é ______ deste livro, e o selo 📖 existe para dizer isso.
 
-- [ ] Porque a fonte de 1805 existe, e ninguém conseguiu localizá-la ainda.
-- [ ] Porque a frase é uma hipótese que ainda espera confirmação experimental.
-- [x] Porque ela é interpretação deste livro, e não afirmação de fonte histórica.
-- [ ] Porque o selo ✓ vale só para obras publicadas depois do século XX.
-
-> **gabarito:** é leitura editorial, não afirmação histórica
+> **gabarito:** leitura editorial|leitura|interpretação|interpretacao|uma leitura editorial
 > **porque:** O 📖 marca o que o livro **conclui**, separando-o do que as fontes **dizem**. A frase é a tradução da virada de 1805 para uma regra de projeto de hoje, e essa tradução é responsabilidade do autor deste capítulo.
 >
-> A primeira alternativa descreveria um ❌, que é procurar e não achar. A segunda trata uma leitura conceitual como hipótese empírica, quando não há experimento que a confirme ou refute. A quarta inventa uma regra de data que não existe no alfabeto de selos.
+> Três respostas próximas erram, e cada uma por um selo diferente. Quem responde "fonte não encontrada" descreveu o ❌, que é procurar e não achar; aqui ninguém procurou, porque não há o que procurar. Quem responde "hipótese" trata uma leitura conceitual como afirmação empírica à espera de experimento. E quem responde "metadado" descreveu o ✓ᵐ, que confere que uma obra existe e nada diz sobre o que ela afirma.
 >
-> E a distinção tem consequência prática. Você pode discordar da leitura sem contestar nenhum fato histórico, o que é exatamente o tipo de discordância que um livro deve tornar possível.
+> A distinção tem consequência prática. Você pode discordar da leitura sem contestar nenhum fato histórico, o que é exatamente o tipo de discordância que um livro deve tornar possível.
 > **volte para:** #de-onde-isto-veio
 :::
 

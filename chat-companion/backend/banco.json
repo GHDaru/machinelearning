@@ -3716,23 +3716,23 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Você precisa prever **quantos reais** um cliente vai gastar no próximo mês. Qual das duas famílias deste par serve?",
+   "enunciado": "Você precisa prever **quantos reais** um cliente vai gastar. Qual das duas serve?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "A logística, porque ela também usa a forma `w·x + b` para prever."
+     "texto": "A logística, que usa a mesma forma somada."
     },
     {
      "correta": true,
-     "texto": "A linear, porque a saída pedida é uma quantidade em reais."
+     "texto": "A linear, porque a saída pedida é um valor."
     },
     {
      "correta": false,
-     "texto": "Qualquer uma, porque a diferença entre as duas é só de notação."
+     "texto": "Qualquer uma: a diferença é de notação."
     },
     {
      "correta": false,
-     "texto": "Nenhuma, porque valor em dinheiro exige um modelo especializado."
+     "texto": "Nenhuma: dinheiro exige modelo próprio."
     }
    ],
    "gabarito": "a regressão linear",
@@ -3790,23 +3790,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Uma equipe usa a probabilidade prevista para calcular quanto dinheiro provisionar. Por que a calibração pesa mais que a ordenação aqui?",
+   "enunciado": "Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a calibração pesa mais que a ordenação?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Porque a ordenação é uma medida antiga, hoje substituída pela calibração."
+     "texto": "A ordenação foi substituída pela calibração."
     },
     {
      "correta": false,
-     "texto": "Porque provisão contábil não aceita nenhum modelo estatístico como base."
+     "texto": "Provisão não aceita base estatística."
     },
     {
      "correta": true,
-     "texto": "Porque o número previsto é multiplicado, e não apenas usado para ordenar."
+     "texto": "O número é multiplicado, não só ordenado."
     },
     {
      "correta": false,
-     "texto": "Porque a calibração melhora a acurácia do modelo em todos os limiares."
+     "texto": "Calibrar melhora a acurácia por limiar."
     }
    ],
    "gabarito": "o número previsto é multiplicado",
@@ -3864,23 +3864,23 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Três textos escrevem a perda de formas diferentes: um usa $\\frac{1}{n}\\sum(y-\\hat{y})^2$, outro $\\frac{1}{2n}\\sum(y-\\hat{y})^2$, e o terceiro só $\\sum(y-\\hat{y})^2$. O que muda entre eles?",
+   "enunciado": "Três textos escrevem a perda como $\\frac{1}{n}\\sum(y-\\hat{y})^2$, $\\frac{1}{2n}\\sum(y-\\hat{y})^2$ e $\\sum(y-\\hat{y})^2$. O que muda entre eles?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "A reta ótima, que fica diferente em cada uma das três convenções."
+     "texto": "A reta ótima, diferente em cada convenção."
     },
     {
      "correta": false,
-     "texto": "A necessidade de otimização iterativa, que só a primeira forma dispensa."
+     "texto": "A necessidade de otimização iterativa."
     },
     {
      "correta": true,
-     "texto": "Só o número do painel, porque o ponto de mínimo não se move com a escala."
+     "texto": "Só o número do painel: o mínimo não anda."
     },
     {
      "correta": false,
-     "texto": "O grau do polinômio ajustado, que sobe quando a constante multiplica."
+     "texto": "O grau do polinômio que se ajusta aos dados."
     }
    ],
    "gabarito": "só o número que aparece no painel",
@@ -3975,7 +3975,7 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "No laboratório, o lado de cada quadrado cinza é o resíduo daquele ponto. Some as áreas, divida pelo número de pontos, e você acabou de calcular o ______ daquela reta.",
+   "enunciado": "Some as áreas dos quadrados cinza, divida pelo número de pontos, e você calculou o ______ daquela reta.",
    "opcoes": [],
    "gabarito": "EQM|erro quadrático médio|erro quadratico medio|erro quadrático|erro quadratico",
    "porque": "Área do quadrado é resíduo ao quadrado, e somar as áreas é somar os quadrados dos resíduos. Dividir pelo número de pontos fecha exatamente a fórmula do EQM.\n\nDuas respostas próximas ficam de fora, e por bom motivo. Quem responde \"resíduo\" parou um passo antes, porque resíduo é o lado do quadrado e não a área somada. Quem responde \"soma dos quadrados\" parou na conta certa sem a divisão, e é a divisão que torna o número comparável entre conjuntos de tamanhos diferentes.\n\nO gesto de ver o erro como **área** é o que faz a punição desproporcional virar imagem: dobrar o resíduo quadruplica o quadrado, e é isso que a sua mão sente ao arrastar a reta.",
@@ -3995,23 +3995,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Por que a convexidade de $L$ é a propriedade que torna o ajuste confiável?",
+   "enunciado": "Por que a convexidade de $L$ torna o ajuste confiável?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Porque ela garante que o erro no fundo da tigela seja pequeno."
+     "texto": "Garante erro pequeno no fundo da tigela."
     },
     {
      "correta": false,
-     "texto": "Porque ela permite trocar o erro quadrático pelo erro absoluto."
+     "texto": "Permite trocar o quadrático pelo absoluto."
     },
     {
      "correta": false,
-     "texto": "Porque ela dispensa escolher o tamanho do passo do otimizador."
+     "texto": "Dispensa escolher o passo do otimizador."
     },
     {
      "correta": true,
-     "texto": "Porque ela garante um mínimo só, e todo caminho leva ao mesmo lugar."
+     "texto": "Garante um mínimo só, para todo caminho."
     }
    ],
    "gabarito": "um mínimo só, e o mesmo para todo caminho",
@@ -4161,23 +4161,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O placar da animação mostra o **excesso de erro sobre o ótimo fechado**, em porcentagem. O que serve de referência para esse zero?",
+   "enunciado": "O placar marca o **excesso sobre o ótimo fechado**. O que serve de referência para esse zero?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "O menor erro que o gradiente alcançou ao longo dos 4 000 passos."
+     "texto": "O melhor erro que o gradiente alcançou."
     },
     {
      "correta": true,
-     "texto": "O erro da reta que as equações normais devolvem numa única conta."
+     "texto": "O erro que as equações normais devolvem."
     },
     {
      "correta": false,
-     "texto": "O erro de um modelo que prevê sempre a média das respostas."
+     "texto": "O erro de quem prevê sempre a média."
     },
     {
      "correta": false,
-     "texto": "O erro medido num conjunto de teste separado antes do ajuste."
+     "texto": "O erro num conjunto de teste separado."
     }
    ],
    "gabarito": "o erro da solução fechada",
@@ -4198,23 +4198,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Na animação, o gradiente vai muito melhor com os atributos padronizados. A álgebra deu a resposta exata **nos dois casos**. Por quê?",
+   "enunciado": "O gradiente melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Porque a padronização não altera os valores dos coeficientes ótimos."
+     "texto": "Padronizar não altera os coeficientes ótimos."
     },
     {
      "correta": true,
-     "texto": "Porque as equações normais resolvem o sistema sem percorrer a superfície."
+     "texto": "As equações normais não percorrem a superfície."
     },
     {
      "correta": false,
-     "texto": "Porque o dado padronizado deixa de ter atributos correlacionados entre si."
+     "texto": "O dado padronizado deixa de ser correlacionado."
     },
     {
      "correta": false,
-     "texto": "Porque a álgebra usa um passo maior que o do gradiente a cada iteração."
+     "texto": "A álgebra usa um passo maior a cada iteração."
     }
    ],
    "gabarito": "as equações normais resolvem de uma vez",
@@ -4259,23 +4259,23 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Olhando **só** esta tabela de correlações, o que ela permite afirmar?",
+   "enunciado": "Olhando **só** esta tabela, o que ela permite afirmar?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Que a chuva causa queda nas vendas, e o preço alto causa alta."
+     "texto": "Que a chuva derruba e o preço alto levanta."
     },
     {
      "correta": false,
-     "texto": "Que a precipitação é o atributo mais forte para prever as vendas."
+     "texto": "Que a precipitação é o melhor previsor aqui."
     },
     {
      "correta": true,
-     "texto": "Que as quatro variáveis andam junto com as vendas, sem dizer por quê."
+     "texto": "Que as quatro andam junto, sem dizer por quê."
     },
     {
      "correta": false,
-     "texto": "Que subir o preço é a alavanca de maior retorno para a barraca."
+     "texto": "Que subir o preço é a melhor alavanca."
     }
    ],
    "gabarito": "andam junto com as vendas, sem dizer por quê",
@@ -4296,23 +4296,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O que, neste conjunto, torna `preco` um termômetro disfarçado?",
+   "enunciado": "O que torna `preco` um termômetro disfarçado aqui?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "O preço foi registrado na mesma unidade que a temperatura do dia."
+     "texto": "Foi registrado na unidade da temperatura."
     },
     {
      "correta": true,
-     "texto": "O preço só assumiu o valor alto nos dois meses mais quentes do ano."
+     "texto": "O valor alto só aparece nos meses quentes."
     },
     {
      "correta": false,
-     "texto": "A correlação entre preço e vendas é positiva e maior do que 0,5."
+     "texto": "A correlação com vendas passa de 0,5."
     },
     {
      "correta": false,
-     "texto": "O preço de 0,30 aparece em 303 dos 365 dias do conjunto de dados."
+     "texto": "O valor baixo cobre 303 dos 365 dias."
     }
    ],
    "gabarito": "o valor alto só aparece nos dois meses mais quentes",
@@ -4333,23 +4333,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O ajuste múltiplo da limonada tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?",
+   "enunciado": "O ajuste tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Que 98,2% das decisões de preço da barraca foram decisões acertadas."
+     "texto": "Que 98,2% das decisões de preço foram boas."
     },
     {
      "correta": false,
-     "texto": "Que o efeito estimado do preço tem 98,2% de chance de estar correto."
+     "texto": "Que o efeito do preço tem 98,2% de chance."
     },
     {
      "correta": true,
-     "texto": "Que o modelo reproduz 98,2% da variação observada nas vendas."
+     "texto": "Que ele reproduz 98,2% da variação das vendas."
     },
     {
      "correta": false,
-     "texto": "Que sobraram 1,8% das linhas do conjunto que o modelo não usou."
+     "texto": "Que 1,8% das linhas ficaram fora do ajuste."
     }
    ],
    "gabarito": "reproduz 98,2% da variação observada nas vendas",
@@ -4495,7 +4495,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Um modelo de crédito tem dois atributos altamente correlacionados, `renda_declarada` e `renda_comprovada`. Depois de acrescentar 200 linhas ao treino, o coeficiente de um passou de +0,8 para −0,4, e o do outro fez o caminho inverso. O erro de teste não mudou.\n\nQual das quatro limitações isto ilustra?",
+   "enunciado": "Num modelo de crédito, `renda_declarada` e `renda_comprovada` são quase idênticas. Com 200 linhas novas no treino, o coeficiente de um foi de +0,8 para −0,4, e o do outro fez o inverso. O erro de teste não mudou. Qual limitação isto ilustra?",
    "opcoes": [
     {
      "correta": false,
@@ -4523,6 +4523,26 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
+   "id": "modelos-lineares-e41",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "completar",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na métrica de teste.",
+   "opcoes": [],
+   "gabarito": "restrições|restricoes|requisitos|exigências|exigencias",
+   "porque": "A tabela não afirma que o linear prevê melhor. Ela lista **restrições** que o problema impõe antes de qualquer medição, e sob as quais um ganho de acerto precisa ser grande o bastante para pagar o que se perde.\n\nQuem responde \"vantagens\" inverte o sentido da seção, porque a vantagem é do problema e não do modelo. Quem responde \"métricas\" comete o erro que o cartão combate: latência, auditabilidade e calibração são exigências, e três delas nem são medidas por AUC.\n\nA consequência prática é a ordem de trabalho. Escreva as restrições antes de abrir o notebook, porque depois de ver o placar fica difícil não decidir por ele.",
+   "volte_para": "#quando-o-linear-e-a-escolha-certa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
    "id": "modelos-lineares-e25",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -4532,23 +4552,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Um time tem 15 000 linhas, 8 atributos, nenhuma exigência de auditoria e nenhum limite de latência. O que a tabela acima diz sobre a escolha do modelo?",
+   "enunciado": "Um time tem 15 000 linhas, 8 atributos, nenhuma exigência de auditoria e nenhum limite de latência. O que a tabela diz sobre a escolha?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Nada muda: o linear segue sendo a escolha certa pelas cinco linhas."
+     "texto": "Nada muda: o linear vence pelas cinco linhas."
     },
     {
      "correta": true,
-     "texto": "Nenhuma das cinco situações se aplica, e a escolha volta a ser empírica."
+     "texto": "Nenhuma se aplica, e a escolha volta a ser empírica."
     },
     {
      "correta": false,
-     "texto": "O linear passa a ser desaconselhado, porque há dados demais para ele."
+     "texto": "O linear fica desaconselhado: há dados demais."
     },
     {
      "correta": false,
-     "texto": "A calibração deixa de importar, porque o conjunto é grande o bastante."
+     "texto": "A calibração deixa de importar num conjunto grande."
     }
    ],
    "gabarito": "nenhuma se aplica, e a escolha volta a ser empírica",
@@ -4610,23 +4630,23 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?",
+   "enunciado": "Por que sempre treinar um modelo linear primeiro?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Porque ele costuma vencer os modelos complexos na maioria dos problemas."
+     "texto": "Porque ele costuma vencer o modelo complexo."
     },
     {
      "correta": true,
-     "texto": "Porque em minutos ele diz quanto do sinal é simplesmente linear."
+     "texto": "Porque diz em minutos quanto do sinal é linear."
     },
     {
      "correta": false,
-     "texto": "Porque modelos complexos exigem um linear como etapa de pré-processamento."
+     "texto": "Porque o modelo complexo exige um linear antes."
     },
     {
      "correta": false,
-     "texto": "Porque ele é a única forma conhecida de detectar vazamento nos dados."
+     "texto": "Porque é a única forma de achar vazamento."
     }
    ],
    "gabarito": "custa minutos e diz quanto do sinal é linear",
@@ -4647,23 +4667,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Qual era o problema que os mínimos quadrados vieram resolver, na astronomia daquela virada de século?",
+   "enunciado": "Que problema os mínimos quadrados vieram resolver naquela astronomia?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "As observações eram poucas, e faltava dado para determinar a órbita."
+     "texto": "Faltava observação para determinar a órbita."
     },
     {
      "correta": false,
-     "texto": "Os instrumentos eram imprecisos, e o erro de medida era grande demais."
+     "texto": "O instrumento era impreciso, e o erro grande."
     },
     {
      "correta": true,
-     "texto": "Não havia regra explícita que dissesse qual curva contava como a melhor."
+     "texto": "Faltava regra explícita do que é a melhor curva."
     },
     {
      "correta": false,
-     "texto": "Não havia como calcular, à mão, uma curva com tantas observações."
+     "texto": "Faltava como calcular à mão tantos pontos."
     }
    ],
    "gabarito": "faltava uma regra explícita do que é \"a melhor curva\"",
@@ -4758,23 +4778,23 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Sobre a disputa entre Legendre e Gauss, qual afirmação o capítulo sustenta?",
+   "enunciado": "Sobre a disputa, qual afirmação o capítulo sustenta?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Que Gauss provou ter usado o método desde 1795, e a disputa está encerrada."
+     "texto": "Que Gauss provou o uso desde 1795, e está encerrado."
     },
     {
      "correta": false,
-     "texto": "Que Legendre inventou a reta ajustada, e Gauss apenas a divulgou depois."
+     "texto": "Que Legendre inventou a reta, e Gauss a divulgou."
     },
     {
      "correta": false,
-     "texto": "Que os dois chegaram ao método no mesmo ano, sem conhecimento um do outro."
+     "texto": "Que os dois chegaram ao método no mesmo ano."
     },
     {
      "correta": true,
-     "texto": "Que Legendre publicou primeiro, em 1805, e Gauss reivindicou uso anterior."
+     "texto": "Que Legendre publicou antes, e Gauss reivindicou."
     }
    ],
    "gabarito": "Legendre publicou primeiro, e Gauss reivindicou uso anterior",
@@ -4863,33 +4883,16 @@
    "id": "modelos-lineares-e37",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "completar",
    "objetivo": "O1",
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Por que \"perda é critério de arbitragem\" leva selo 📖, e não ✓?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Porque a fonte de 1805 existe, e ninguém conseguiu localizá-la ainda."
-    },
-    {
-     "correta": false,
-     "texto": "Porque a frase é uma hipótese que ainda espera confirmação experimental."
-    },
-    {
-     "correta": true,
-     "texto": "Porque ela é interpretação deste livro, e não afirmação de fonte histórica."
-    },
-    {
-     "correta": false,
-     "texto": "Porque o selo ✓ vale só para obras publicadas depois do século XX."
-    }
-   ],
-   "gabarito": "é leitura editorial, não afirmação histórica",
-   "porque": "O 📖 marca o que o livro **conclui**, separando-o do que as fontes **dizem**. A frase é a tradução da virada de 1805 para uma regra de projeto de hoje, e essa tradução é responsabilidade do autor deste capítulo.\n\nA primeira alternativa descreveria um ❌, que é procurar e não achar. A segunda trata uma leitura conceitual como hipótese empírica, quando não há experimento que a confirme ou refute. A quarta inventa uma regra de data que não existe no alfabeto de selos.\n\nE a distinção tem consequência prática. Você pode discordar da leitura sem contestar nenhum fato histórico, o que é exatamente o tipo de discordância que um livro deve tornar possível.",
+   "enunciado": "\"Perda é critério de arbitragem\" não é afirmação de fonte histórica: é ______ deste livro, e o selo 📖 existe para dizer isso.",
+   "opcoes": [],
+   "gabarito": "leitura editorial|leitura|interpretação|interpretacao|uma leitura editorial",
+   "porque": "O 📖 marca o que o livro **conclui**, separando-o do que as fontes **dizem**. A frase é a tradução da virada de 1805 para uma regra de projeto de hoje, e essa tradução é responsabilidade do autor deste capítulo.\n\nTrês respostas próximas erram, e cada uma por um selo diferente. Quem responde \"fonte não encontrada\" descreveu o ❌, que é procurar e não achar; aqui ninguém procurou, porque não há o que procurar. Quem responde \"hipótese\" trata uma leitura conceitual como afirmação empírica à espera de experimento. E quem responde \"metadado\" descreveu o ✓ᵐ, que confere que uma obra existe e nada diz sobre o que ela afirma.\n\nA distinção tem consequência prática. Você pode discordar da leitura sem contestar nenhum fato histórico, o que é exatamente o tipo de discordância que um livro deve tornar possível.",
    "volte_para": "#de-onde-isto-veio",
    "rubrica": null,
    "versoes": null,
@@ -16237,7 +16240,7 @@
     "b": 4,
     "ruido": 3.2
    },
-   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta.\n\n1. **Minimize no olho.** Arraste as alças até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** O lado de cada quadrado é o resíduo, e o que você minimiza é a soma das áreas.\n3. **Revele a reta ótima.** Descubra sozinho quanto custou o olho, e o que o ponto mais distante fez com a sua reta.",
+   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta.\n\n1. **Minimize no olho** até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Mostrar os quadrados\"**: você minimiza a soma das áreas.\n3. **Revele a reta ótima** e descubra sozinho quanto custou o olho.",
    "pagina": "ii-2-modelos-lineares"
   },
   {
@@ -16251,7 +16254,7 @@
     "tipo": "anima-normais",
     "titulo": "O gradiente atrás de uma resposta que já existe"
    },
-   "intro": "Trezentos pontos e dois atributos **quase colineares**: o segundo é o primeiro mais um ruidinho. O placar traz o **excesso de erro sobre o ótimo fechado**, em porcentagem, e a varredura vai a 4 000 passos.\n\n**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?\n\nCom os atributos como vieram, ele **não chega**: ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido, porque a animação dá a cada regime o maior passo estável possível.\n\nClique em **\"E se os atributos fossem padronizados?\"**. Agora chega a 1% no passo **1 460**, termina 351 vezes mais perto do ótimo, e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.",
+   "intro": "Trezentos pontos e dois atributos **quase colineares**. O placar traz o excesso de erro sobre o ótimo fechado, e a varredura vai a 4 000 passos.\n\n**Antes de assistir, chute:** quantos passos até chegar a 1% do ótimo?\n\nComo vieram, ele **não chega**: termina 2,8% acima, e não por passo mal escolhido. Clique em **\"E se os atributos fossem padronizados?\"**: agora chega a 1% no passo **1 460** e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.",
    "pagina": "ii-2-modelos-lineares"
   },
   {
