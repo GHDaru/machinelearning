@@ -24,23 +24,30 @@
 //   altura   400 a 1600 px  (meia tela a duas telas, a 360×800)
 //   palavras 80 a 250
 //   razão maior/menor  ≤ 3x
-//   no máximo 2 cartões SEGUIDOS sem exercício nem laboratório
+//   TODO cartão tem uma interação E um exercício
 //
-// A ÚLTIMA REGRA MUDOU, E O MOTIVO VALE REGISTRAR. O crítico pediu "≥80% dos
-// cartões com objeto", e eu adotei sem questionar. Está errado, e quem apontou
-// foi quem teve de obedecer: expresso como FRAÇÃO DO TOTAL, o teto de cartões
-// narrativos passa a ser fixado por uma quantidade que nada tem a ver com
-// legibilidade — quantos exercícios o autor por acaso escreveu.
+// A ÚLTIMA REGRA MUDOU DUAS VEZES, E AS DUAS VALEM REGISTRAR.
 //
-// No II.2 são 14 objetos, então 80% permitia no máximo 17 cartões e sobravam
-// TRÊS vagas narrativas. O custo saiu do leitor: a montagem do caso da limonada
-// — a tabela de correlação em que o caso inteiro se apoia — ficou fora do
-// baralho, e em modo cartão o leitor chegava ao "controle que não salva" sem
-// nunca ter visto a correlação de +0,513.
+// O crítico pediu "≥80% dos cartões com objeto", e eu adotei sem questionar.
+// Estava errado, e quem apontou foi quem teve de obedecer: expresso como FRAÇÃO
+// DO TOTAL, o teto de cartões narrativos passa a ser fixado por algo que nada
+// tem a ver com legibilidade — quantos exercícios o autor por acaso escreveu.
+// Virou "no máximo 2 seguidos sem nada para fazer".
 //
-// A regra por SEQUÊNCIA mede o que se queria medir desde o começo: quanto tempo
-// o leitor fica lendo sem fazer nada. Não põe a qualidade narrativa refém da
-// contagem de exercícios.
+// Então o AUTOR fixou a premissa, e ela é mais forte que as duas:
+//
+//     "todo card deve ter uma interação e um exercício, mesmo que teórico —
+//      algo que conduza o leitor à solução ou à ideia"
+//
+// Não é teto nem piso: é uma propriedade de TODO cartão. Um cartão sem gesto é
+// leitura disfarçada de microlearning; um cartão sem cobrança não sabe se
+// ensinou. A regra por sequência tolerava dois seguidos de cada; esta não
+// tolera nenhum.
+//
+// "Mesmo que teórico" é o que a torna exequível: a interação não precisa ser
+// simulação. Predizer antes de revelar, ordenar, escolher e conferir, completar
+// uma conta — tudo conta, desde que o leitor faça algo antes de o texto
+// responder. O que não conta é um objeto que só se assiste.
 //
 // Uso:  node publicar/gates/cartoes-legiveis.mjs [arquivo.html ...]
 //
@@ -60,7 +67,9 @@ export const LIMITES = {
   alturaMin: 400, alturaMax: 1600,
   palavrasMin: 80, palavrasMax: 250,
   razaoMax: 3,
-  seguidosSemObjeto: 2,
+  // Premissa do autor: sem exceção, sem fração, sem sequência tolerada.
+  todoCartaoTemInteracao: true,
+  todoCartaoTemExercicio: true,
 };
 
 let chromium;
@@ -123,32 +132,29 @@ for (const nome of paginas) {
       const h = Math.round(c.scrollHeight);
       const txt = (c.innerText || "").trim();
       const pal = txt ? txt.split(/\s+/).length : 0;
-      const inter = c.querySelectorAll(".exercicio, .laboratorio").length;
+      const exercicios = c.querySelectorAll(".exercicio").length;
+      // Interação é qualquer coisa em que o leitor FAÇA algo antes de o texto
+      // responder — laboratório, ou um interativo mais leve marcado como tal.
+      const interacoes = c.querySelectorAll(".laboratorio, .interacao, [data-interacao]").length;
+      const inter = exercicios + interacoes;
       if (estava) c.setAttribute("hidden", "");
-      return { i: i + 1, h, pal, inter, titulo: (c.querySelector("h2,h3")?.textContent || "").trim().slice(0, 46) };
+      return { i: i + 1, h, pal, inter, exercicios, interacoes,
+               titulo: (c.querySelector("h2,h3")?.textContent || "").trim().slice(0, 46) };
     });
   });
   if (!medidas.length) continue;
 
   const alturas = medidas.map((m) => m.h);
   const razao = Math.max(...alturas) / Math.max(1, Math.min(...alturas));
-  // A maior sequência de cartões seguidos sem exercício nem laboratório.
-  let corrida = 0, maiorCorrida = 0, inicioPior = 0, inicio = 0;
-  medidas.forEach((m, k) => {
-    if (m.inter === 0) {
-      if (corrida === 0) inicio = k;
-      corrida++;
-      if (corrida > maiorCorrida) { maiorCorrida = corrida; inicioPior = inicio; }
-    } else corrida = 0;
-  });
-  const comInter = medidas.filter((m) => m.inter > 0).length / medidas.length;
+  const semInteracao = medidas.filter((m) => m.interacoes === 0);
+  const semExercicio = medidas.filter((m) => m.exercicios === 0);
   const foraAltura = medidas.filter((m) => m.h < LIMITES.alturaMin || m.h > LIMITES.alturaMax);
   const foraPalavras = medidas.filter((m) => m.pal < LIMITES.palavrasMin || m.pal > LIMITES.palavrasMax);
 
   if (foraAltura.length || foraPalavras.length || razao > LIMITES.razaoMax
-      || maiorCorrida > LIMITES.seguidosSemObjeto) {
-    falhas.push({ nome, total: medidas.length, razao, comInter, foraAltura, foraPalavras,
-                  maiorCorrida, inicioPior, medidas });
+      || semInteracao.length || semExercicio.length) {
+    falhas.push({ nome, total: medidas.length, razao, foraAltura, foraPalavras,
+                  semInteracao, semExercicio });
   }
 }
 
@@ -165,12 +171,12 @@ if (falhas.length) {
   for (const f of falhas) {
     console.error(`\n   ${f.nome} — ${f.total} cartões`);
     console.error(`     razão maior/menor: ${f.razao.toFixed(1)}x (teto ${LIMITES.razaoMax}x)`);
-    if (f.maiorCorrida > LIMITES.seguidosSemObjeto) {
-      const quais = f.medidas.slice(f.inicioPior, f.inicioPior + f.maiorCorrida)
-        .map((m) => `${m.i} ("${m.titulo}")`).join(", ");
-      console.error(`     ${f.maiorCorrida} cartões seguidos sem nada para fazer (teto ${LIMITES.seguidosSemObjeto}): ${quais}`);
+    if (f.semInteracao.length) {
+      console.error(`     ${f.semInteracao.length} de ${f.total} cartões SEM INTERAÇÃO: ${f.semInteracao.map((m) => m.i).join(", ")}`);
     }
-    console.error(`     com exercício ou laboratório: ${(100 * f.comInter).toFixed(0)}% (informativo)`);
+    if (f.semExercicio.length) {
+      console.error(`     ${f.semExercicio.length} de ${f.total} cartões SEM EXERCÍCIO: ${f.semExercicio.map((m) => m.i).join(", ")}`);
+    }
     for (const m of f.foraAltura) {
       const q = (m.h / ALT).toFixed(1);
       console.error(`     cartão ${m.i}: ${m.h}px (${q} telas) — "${m.titulo}"`);
@@ -183,4 +189,4 @@ if (falhas.length) {
   console.error("   Sem teto e sem piso, a barra de progresso mente sobre o esforço que falta.");
   process.exit(1);
 }
-console.log(`✓ ${comCartoes} página(s) com modo cartão: todo cartão fecha entre ${LIMITES.alturaMin} e ${LIMITES.alturaMax}px e entre ${LIMITES.palavrasMin} e ${LIMITES.palavrasMax} palavras, e nunca passa de ${LIMITES.seguidosSemObjeto} cartões seguidos sem nada para fazer.`);
+console.log(`✓ ${comCartoes} página(s) com modo cartão: todo cartão fecha entre ${LIMITES.alturaMin} e ${LIMITES.alturaMax}px e entre ${LIMITES.palavrasMin} e ${LIMITES.palavrasMax} palavras, e todo cartão tem uma interação e um exercício.`);
