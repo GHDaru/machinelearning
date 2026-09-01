@@ -20,6 +20,17 @@
   background: linear-gradient(90deg, var(--link), var(--prat));
   border-radius: 2px; transition: width .35s ease; }
 
+/* ---- o corte declarado --------------------------------------------------- */
+/* O marcador `:::cartao` do Markdown vira este `<hr>` (ver publicar/cartoes.mjs).
+   Ele existe para o JavaScript saber onde cortar; para o leitor da página longa
+   ele não existe, e é por isso que some nas duas mídias — tela e papel. */
+.corte-cartao { display: none; }
+
+/* O que não entrou em cartão nenhum. Continua no capítulo; sai da TELA enquanto
+   o baralho está aberto, para o leitor não ver meio texto solto embaixo do
+   cartão da vez. Desligar o modo cartão devolve tudo à ordem original. */
+.cartoes-fora { display: none; }
+
 /* ---- o cartão ------------------------------------------------------------ */
 .cartao { animation: cartao-entra .3s ease; }
 .cartao[hidden] { display: none; }
@@ -68,5 +79,8 @@
 @media print {
   .cartoes-barra, .cartoes-nav { display: none !important; }
   .cartao[hidden] { display: block !important; }
+  /* No papel o capítulo sai INTEIRO — inclusive o que ficou fora do baralho.
+     Um trecho sem gesto não vira cartão; nem por isso deixa de ser o capítulo. */
+  .cartoes-fora { display: block !important; }
   .cartao-nivel { display: none; }
 }

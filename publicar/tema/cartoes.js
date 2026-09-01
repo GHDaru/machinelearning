@@ -16,9 +16,27 @@
      2. **não muda o padrão.** A página longa é o que o leitor recebe; o modo
         cartão é um clique. Desligar devolve os nós à ordem original;
      3. **não decide a régua no meio do código.** A segmentação inteira vive em
-        `segmentarPorCabecalhos`, que é PURA: recebe nós, devolve descrições de
-        cartão, não toca no DOM. Trocar a régua (por marcador no Markdown, por
-        tamanho, por tempo de leitura) é trocar essa função e mais nada.
+        `segmentar`, que é PURA: recebe nós, devolve descrições de cartão, não
+        toca no DOM. Trocar a régua é trocar essa função e mais nada.
+
+   A RÉGUA, e por que ela mudou. A v1 cortava por cabeçalho — critério
+   TIPOGRÁFICO. Medido a 360×800 no capítulo II.2, isso dava cartões de 226 px a
+   5 849 px (25,9x entre o maior e o menor, contra 1,2x na referência aprovada
+   pelo autor): o cartão da dedução tinha 7,3 telas e 1 289 palavras, e a barra
+   prometia "7 de 18" tanto para ele quanto para um cartão de 39 palavras. Um
+   cartão que rola sete telas é a página longa com um botão.
+
+   Agora o corte é DECLARADO no Markdown (`:::cartao {"nivel":1,"titulo":"…"}`,
+   ver `publicar/cartoes.mjs`) e chega ao DOM como um `<hr class="corte-cartao">`
+   invisível. `segmentarPorMarcador` o usa quando ele existe;
+   `segmentarPorCabecalhos` continua valendo para os capítulos que ainda não
+   declararam corte — os 28 outros seguem funcionando sem tocar em nada.
+
+   O que está entre `:::cartao-fim` e o próximo `:::cartao` (e o que vem antes do
+   primeiro) fica FORA do baralho: continua no capítulo, e some enquanto o modo
+   cartão está ligado. É a saída para o trecho sem gesto — a disputa
+   Legendre-Gauss do II.2 é o caso claro. Perder conteúdo seria falha; deixá-lo
+   fora do baralho é decisão.
 
    Acessibilidade: os botões são botões (teclado de graça), as setas ←/→ navegam
    quando o foco não está num campo, a troca de cartão move o foco para o cartão
@@ -83,6 +101,50 @@
     return cartoes;
   }
 
+  function ehCorte(no) {
+    return no.nodeType === 1 && no.className &&
+           (" " + no.className + " ").indexOf(" corte-cartao ") >= 0;
+  }
+
+  /**
+   * A RÉGUA v2 — o autor declara onde cada cartão começa e onde o baralho acaba.
+   *
+   * Também função pura. Um cartão vai de um `<hr class="corte-cartao">` até o
+   * próximo marcador; `data-fim` fecha o baralho, e o que vem depois (ou antes
+   * do primeiro corte) sai em `fora` — continua no capítulo, escondido enquanto
+   * o modo cartão está ligado.
+   *
+   * @param {Array<Node>} nos
+   * @returns {{cartoes:Array<Object>, fora:Array<Node>}}
+   */
+  function segmentarPorMarcador(nos) {
+    var cartoes = [];
+    var fora = [];
+    var atual = null;
+    for (var i = 0; i < nos.length; i++) {
+      var no = nos[i];
+      if (ehCorte(no)) {
+        if (no.getAttribute("data-fim")) { atual = null; fora.push(no); continue; }
+        atual = { nivel: Number(no.getAttribute("data-nivel")) || 0,
+                  titulo: no.getAttribute("data-titulo") || "",
+                  id: "", pai: "", nos: [no] };
+        cartoes.push(atual);
+        continue;
+      }
+      if (atual) atual.nos.push(no);
+      else fora.push(no);
+    }
+    return { cartoes: cartoes, fora: fora };
+  }
+
+  /** Escolhe a régua: marcador declarado ganha; cabeçalho é o que sobra. */
+  function segmentar(nos) {
+    for (var i = 0; i < nos.length; i++) {
+      if (ehCorte(nos[i])) return segmentarPorMarcador(nos);
+    }
+    return { cartoes: segmentarPorCabecalhos(nos), fora: [] };
+  }
+
   // --------------------------------------------------------------- montagem
 
   function el(tag, cls, txt) {
@@ -98,7 +160,9 @@
   if (!document.body.classList.contains("pagina-capitulo")) return;
 
   var originais = [].slice.call(artigo.childNodes);
-  var cartoes = segmentarPorCabecalhos(originais);
+  var recorte = segmentar(originais);
+  var cartoes = recorte.cartoes;
+  var fora = recorte.fora;
   if (cartoes.length < 2) return;            // página sem estrutura não vira fluxo
 
   var TOTAL = cartoes.length;
@@ -118,6 +182,7 @@
 
   // Palco (dentro do artigo, para herdar a largura e o estilo do texto) e nav.
   var palco = el("div", "cartoes-palco");
+  var foraCaixa = el("div", "cartoes-fora");
 
   var nav = el("nav", "cartoes-nav");
   nav.setAttribute("aria-label", "Navegação por cartões");
@@ -180,13 +245,24 @@
       d.setAttribute("tabindex", "-1");
       d.setAttribute("aria-label", "Cartão " + (i + 1) + " de " + TOTAL + ": " + c.titulo);
       d.setAttribute("hidden", "");
+      // "Nível 1 · cartão 3/17" — o rótulo da referência. Sem nível declarado
+      // (capítulo ainda no corte por cabeçalho), a seção-mãe faz as vezes.
       d.appendChild(el("p", "cartao-nivel",
-        (c.pai ? c.pai + " · " : "") + "cartão " + (i + 1) + " de " + TOTAL));
+        (c.nivel ? "Nível " + c.nivel + " · " : (c.pai ? c.pai + " · " : "")) +
+        "cartão " + (i + 1) + "/" + TOTAL));
       // MOVE os nós — não copia. É o que garante que o exercício dentro do
       // cartão seja o MESMO elemento que o backend já conhece.
       for (var j = 0; j < c.nos.length; j++) d.appendChild(c.nos[j]);
       c.el = d;
       palco.appendChild(d);
+    }
+    // O que não entrou em cartão nenhum não some do capítulo: some da TELA
+    // enquanto o baralho está aberto. `desligar()` devolve tudo à ordem
+    // original, porque reanexa `originais` um a um.
+    if (fora.length) {
+      foraCaixa.hidden = true;
+      for (var f = 0; f < fora.length; f++) foraCaixa.appendChild(fora[f]);
+      palco.appendChild(foraCaixa);
     }
     artigo.appendChild(palco);
     artigo.classList.add("em-cartoes");

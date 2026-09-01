@@ -21,6 +21,7 @@ import anchor from "markdown-it-anchor";
 import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair, semGabarito } from "./interativos.mjs";
+import { marcarCortes } from "./cartoes.mjs";
 import { verificar as verificarProsa } from "./prosa.mjs";
 import { verificar as verificarIntervalos } from "./intervalos.mjs";
 import { verificar as verificarTema } from "./gates/tema-unico.mjs";
@@ -456,7 +457,10 @@ for (let k = 0; k < itens.length; k++) {
   // navegador trata TUDO como CSS: some o resto dos exercícios, o link do
   // Colab, o companion e o histórico do leitor. Aconteceu no III.1 e no II.7.
   const renderMd = (t) => dedupCssMatematica(md.render(t, { srcDir: dirname(item.arquivo) }));
-  const comInterativos = renderizar(bruto, renderMd, item.arquivo, cap);
+  // O corte do modo cartão é DECLARADO pelo autor e vira um `<hr>` invisível na
+  // posição exata (ver publicar/cartoes.mjs). Roda antes dos blocos interativos
+  // porque um cartão CONTÉM exercícios: o marcador é divisória, não invólucro.
+  const comInterativos = renderizar(marcarCortes(bruto, item.arquivo), renderMd, item.arquivo, cap);
   let corpo = dedupCssMatematica(marcarCallouts(md.render(comInterativos, { srcDir: dirname(item.arquivo) })));
 
   let hero = null;

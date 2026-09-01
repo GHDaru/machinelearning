@@ -3707,43 +3707,6 @@
    "titulo_capitulo": "II.1 — Avaliação"
   },
   {
-   "id": "modelos-lineares-e1",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O1",
-   "pontos": 1,
-   "dificuldade": "media",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Porque o erro quadrático é sempre menor que o absoluto."
-    },
-    {
-     "correta": true,
-     "texto": "Porque é diferenciável em todo ponto e admite solução fechada — não porque seja intrinsecamente mais correto."
-    },
-    {
-     "correta": false,
-     "texto": "Porque o erro absoluto não pode ser minimizado."
-    },
-    {
-     "correta": false,
-     "texto": "Porque o quadrado elimina os erros negativos, e o valor absoluto não."
-    }
-   ],
-   "gabarito": "É diferenciável e admite solução fechada",
-   "porque": "As razões são de **conveniência matemática**, e reconhecer isso é o que separa quem usa o método de quem o repete. O quadrado é diferenciável em toda parte (o valor absoluto tem um bico em zero, que complica o otimizador) e leva às equações normais, resolvíveis de uma vez.\n\nNão é que ele seja mais correto. Ele pune erros grandes de forma desproporcional, o que na presença de *outliers* é ativamente ruim — e nesse caso o erro absoluto é a escolha certa, à custa de exigir otimização iterativa. A última alternativa erra num detalhe revelador: o valor absoluto **também** elimina o sinal do erro. Eliminar sinal não é o ponto; a diferenciabilidade é.",
-   "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
    "id": "modelos-lineares-e8",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -3774,6 +3737,43 @@
    ],
    "gabarito": "só o número que aparece no painel",
    "porque": "Minimizar $L$ e minimizar $cL$, com $c$ positivo, tem o mesmo argumento de mínimo. Os três textos ajustam exatamente a mesma reta, e discordam apenas sobre qual valor imprimir.\n\nO meio da segunda forma existe por comodidade de dedução: ele cancela o 2 que desce ao derivar o quadrado, e deixa o gradiente mais limpo. É notação, não modelagem.\n\nSaber disso evita duas confusões práticas. Comparar o \"erro\" de dois relatórios que usaram convenções diferentes não faz sentido, e ver um número dez vezes maior num livro não significa que o modelo de lá seja pior.",
+   "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e1",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque o erro quadrático é sempre menor que o absoluto."
+    },
+    {
+     "correta": true,
+     "texto": "Porque é diferenciável em todo ponto e admite solução fechada — não porque seja intrinsecamente mais correto."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o erro absoluto não pode ser minimizado."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o quadrado elimina os erros negativos, e o valor absoluto não."
+    }
+   ],
+   "gabarito": "É diferenciável e admite solução fechada",
+   "porque": "As razões são de **conveniência matemática**, e reconhecer isso é o que separa quem usa o método de quem o repete. O quadrado é diferenciável em toda parte (o valor absoluto tem um bico em zero, que complica o otimizador) e leva às equações normais, resolvíveis de uma vez.\n\nNão é que ele seja mais correto. Ele pune erros grandes de forma desproporcional, o que na presença de *outliers* é ativamente ruim — e nesse caso o erro absoluto é a escolha certa, à custa de exigir otimização iterativa. A última alternativa erra num detalhe revelador: o valor absoluto **também** elimina o sinal do erro. Eliminar sinal não é o ponto; a diferenciabilidade é.",
    "volte_para": "#fundamentos-regressao-linear-como-minimizacao",
    "rubrica": null,
    "versoes": null,
@@ -3818,30 +3818,6 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "modelos-lineares-e7",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "numerica",
-   "objetivo": "O2",
-   "pontos": 1,
-   "dificuldade": "media",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).\n\nCalcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy} / S_{xx}$. Responda com duas casas decimais.",
-   "opcoes": [],
-   "gabarito": "1.40 ± 0.02",
-   "porque": "As médias são x̄ = 2,5 e ȳ = 4. Os desvios em x são −1,5, −0,5, +0,5 e +1,5; em y são −2, −1, +1 e +2.\n\nS_xy = (−1,5)(−2) + (−0,5)(−1) + (0,5)(1) + (1,5)(2) = 3 + 0,5 + 0,5 + 3 = **7**\nS_xx = 2,25 + 0,25 + 0,25 + 2,25 = **5**\n\nLogo a = 7 / 5 = **1,4**, e o intercepto sai de b = ȳ − a·x̄ = 4 − 1,4 × 2,5 = **0,5**.\n\nConfira no laboratório acima que a reta ótima passa por (x̄, ȳ) = (2,5; 4): 1,4 × 2,5 + 0,5 = 4. Isso não é coincidência deste exemplo — é o passo 2 da dedução, e vale sempre.",
-   "volte_para": "#a-deducao-em-cinco-passos",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares",
-   "gabarito_num": {
-    "valor": 1.4,
-    "tolerancia": 0.02
-   }
-  },
-  {
    "id": "modelos-lineares-e10",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -3863,6 +3839,30 @@
    "gabarito_num": {
     "valor": 8,
     "tolerancia": 0
+   }
+  },
+  {
+   "id": "modelos-lineares-e7",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).\n\nCalcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy} / S_{xx}$. Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "1.40 ± 0.02",
+   "porque": "As médias são x̄ = 2,5 e ȳ = 4. Os desvios em x são −1,5, −0,5, +0,5 e +1,5; em y são −2, −1, +1 e +2.\n\nS_xy = (−1,5)(−2) + (−0,5)(−1) + (0,5)(1) + (1,5)(2) = 3 + 0,5 + 0,5 + 3 = **7**\nS_xx = 2,25 + 0,25 + 0,25 + 2,25 = **5**\n\nLogo a = 7 / 5 = **1,4**, e o intercepto sai de b = ȳ − a·x̄ = 4 − 1,4 × 2,5 = **0,5**.\n\nConfira no laboratório acima que a reta ótima passa por (x̄, ȳ) = (2,5; 4): 1,4 × 2,5 + 0,5 = 4. Isso não é coincidência deste exemplo — é o passo 2 da dedução, e vale sempre.",
+   "volte_para": "#a-deducao-em-cinco-passos",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 1.4,
+    "tolerancia": 0.02
    }
   },
   {
@@ -3940,30 +3940,6 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "modelos-lineares-e4",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "numerica",
-   "objetivo": "O3",
-   "pontos": 1,
-   "dificuldade": "facil",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.",
-   "opcoes": [],
-   "gabarito": "53 ± 4",
-   "porque": "O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.\n\nO número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. \"0,0188\" não diz nada a quem manda imprimir panfleto; \"53 panfletos por copo\" diz — e diz que a panfletagem provavelmente não se paga.\n\nE a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor, não panfleto. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** — pior ainda para a ideia.",
-   "volte_para": "#e-o-item-3-de-brinde",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares",
-   "gabarito_num": {
-    "valor": 53,
-    "tolerancia": 4
-   }
-  },
-  {
    "id": "modelos-lineares-e5",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -4001,6 +3977,30 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
+   "id": "modelos-lineares-e4",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O3",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.",
+   "opcoes": [],
+   "gabarito": "53 ± 4",
+   "porque": "O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.\n\nO número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. \"0,0188\" não diz nada a quem manda imprimir panfleto; \"53 panfletos por copo\" diz — e diz que a panfletagem provavelmente não se paga.\n\nE a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor, não panfleto. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** — pior ainda para a ideia.",
+   "volte_para": "#e-o-item-3-de-brinde",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 53,
+    "tolerancia": 4
+   }
+  },
+  {
    "id": "modelos-lineares-e6",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -4026,43 +4026,6 @@
     "Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque",
     "Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico"
    ]
-  },
-  {
-   "id": "modelos-lineares-e13",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O4",
-   "pontos": 1,
-   "dificuldade": "facil",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Porque ele costuma vencer os modelos complexos na maioria dos problemas."
-    },
-    {
-     "correta": true,
-     "texto": "Porque ele custa minutos e responde quanto do sinal é simplesmente linear, que é a pergunta anterior a todas as outras."
-    },
-    {
-     "correta": false,
-     "texto": "Porque modelos complexos exigem um linear como pré-processamento."
-    },
-    {
-     "correta": false,
-     "texto": "Porque é a única forma de detectar vazamento nos dados."
-    }
-   ],
-   "gabarito": "custa minutos e diz quanto do sinal é linear",
-   "porque": "É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.\n\nA primeira alternativa é falsa e o próprio capítulo dá o contraexemplo: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz 0,4963 de AUC contra 0,9392 do boosting. O ponto nunca foi que ele vence.\n\nO corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.",
-   "volte_para": "#quando-o-linear-e-a-escolha-certa",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
    "id": "modelos-lineares-e14",
@@ -4099,6 +4062,43 @@
    ],
    "gabarito": "as quatro restrições",
    "porque": "Cada uma corresponde a uma linha da tabela desta seção, e o exercício existe para mostrar que elas se acumulam. Poucos dados por atributo favorecem menos parâmetros e menos variância — com 300 linhas e 40 colunas, um ensemble decora. Latência apertada favorece uma multiplicação de vetores. Auditoria favorece um número por atributo, defensável e questionável. E probabilidade que vira dinheiro exige calibração, que o linear costuma entregar razoavelmente e ensembles frequentemente não.\n\nA quinta alternativa é a que o capítulo combate desde o título. Escolher pelo teste sozinho ignora que três das quatro restrições acima nem aparecem numa métrica: latência, auditabilidade e calibração não são medidas por AUC.\n\nRepare no que o item **não** afirma. Nada disso garante que o linear terá o melhor desempenho preditivo. Ele diz que, sob estas restrições, um ganho de desempenho precisaria ser grande o bastante para pagar quatro perdas simultâneas.",
+   "volte_para": "#quando-o-linear-e-a-escolha-certa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e13",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque ele costuma vencer os modelos complexos na maioria dos problemas."
+    },
+    {
+     "correta": true,
+     "texto": "Porque ele custa minutos e responde quanto do sinal é simplesmente linear, que é a pergunta anterior a todas as outras."
+    },
+    {
+     "correta": false,
+     "texto": "Porque modelos complexos exigem um linear como pré-processamento."
+    },
+    {
+     "correta": false,
+     "texto": "Porque é a única forma de detectar vazamento nos dados."
+    }
+   ],
+   "gabarito": "custa minutos e diz quanto do sinal é linear",
+   "porque": "É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.\n\nA primeira alternativa é falsa e o próprio capítulo dá o contraexemplo: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz 0,4963 de AUC contra 0,9392 do boosting. O ponto nunca foi que ele vence.\n\nO corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.",
    "volte_para": "#quando-o-linear-e-a-escolha-certa",
    "rubrica": null,
    "versoes": null,
@@ -15365,7 +15365,7 @@
     "b": 4,
     "ruido": 3.2
    },
-   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.\n\nTrês coisas para tentar, nesta ordem:\n\n1. **Minimize no olho.** Arraste as alças até o **erro quadrático médio (EQM)** parar de cair. Anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.\n3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em \"Ajustar automaticamente\" e compare os coeficientes com o que você tinha.\n\nUma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**",
+   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O painel mostra cinco medidas de erro ao mesmo tempo e marca **uma** como a que estamos minimizando. Três coisas para tentar, nesta ordem:\n\n1. **Minimize no olho.** Arraste as alças até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Mostrar os quadrados\".** O lado de cada quadrado é o resíduo, e o que você minimiza é a soma das áreas. Repare no ponto que fica longe.\n3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho; \"Ajustar automaticamente\" mostra os coeficientes.",
    "pagina": "ii-2-modelos-lineares"
   },
   {
@@ -15373,13 +15373,13 @@
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "anima-normais",
-   "titulo": "O gradiente correndo atrás de uma resposta que já existe",
+   "titulo": "O gradiente atrás de uma resposta que já existe",
    "config": {
     "id": "modelos-lineares-l2",
     "tipo": "anima-normais",
-    "titulo": "O gradiente correndo atrás de uma resposta que já existe"
+    "titulo": "O gradiente atrás de uma resposta que já existe"
    },
-   "intro": "Trezentos pontos, dois atributos **quase colineares** (o segundo é o primeiro mais um ruidinho). As equações normais resolvem isso numa conta. A animação mostra a descida de gradiente tentando chegar ao mesmo lugar, e o que aparece no placar é o **excesso de erro sobre o ótimo fechado**: quanto pior o gradiente ainda está, em porcentagem, do que a álgebra já entregou.\n\nCada quadro dá dez passos, e a varredura vai a **4 000**.\n\n**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?\n\nCom os atributos como vieram, ele **não chega**. Ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido: a animação dá a cada regime o **maior passo estável possível**, calculado do próprio dado. O problema é a forma da superfície, que com atributos correlacionados é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.\n\n**Clique em \"E se os atributos fossem padronizados?\".** Mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460** e termina 351 vezes mais perto do ótimo. O passo estável saltou de 7,3 × 10⁻³ para 2,5 × 10⁻¹.\n\n> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é \"qual é melhor\", e sim \"até onde cada um alcança\". O capítulo [II.4](ii-4-otimizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.",
+   "intro": "Trezentos pontos e dois atributos **quase colineares**: o segundo é o primeiro mais um ruidinho. A álgebra resolve isso numa conta; a animação mostra o gradiente tentando chegar ao mesmo lugar, e o placar traz o **excesso de erro sobre o ótimo fechado**, em porcentagem. Cada quadro dá dez passos, e a varredura vai a 4 000.\n\n**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?\n\nCom os atributos como vieram, ele **não chega**: ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido, porque a animação dá a cada regime o maior passo estável possível, calculado do próprio dado. O problema é a forma da superfície: com atributos correlacionados ela é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.\n\nClique em **\"E se os atributos fossem padronizados?\"**: mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460**, termina 351 vezes mais perto do ótimo, e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.",
    "pagina": "ii-2-modelos-lineares"
   },
   {

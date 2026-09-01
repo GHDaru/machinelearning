@@ -1,6 +1,6 @@
 # II.2 — Modelos Lineares
 
-> **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
+> **Estado da arte capturado em 2026-08** · última revisão 2026-09-01 · [histórico](../HISTORICO.md)
 >
 > **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
 
@@ -26,8 +26,6 @@ O modelo campeão do concurso interno, quinhentas árvores somadas, dá a melhor
 - quando a decisão precisa ser **auditada**, ele é o único que alguém consegue defender numa reunião.
 
 Guarde a cena, porque o capítulo vai cobrar o outro lado: **essa transparência tem preço, e o preço é mais alto do que parece.** Um coeficiente é fácil de ler e fácil de ler errado — e a segunda metade deste capítulo é sobre isso.
-
-E há a razão pedagógica: é no modelo linear que otimização, regularização e interpretação aparecem na forma mais limpa. Quem não entende gradiente aqui não vai entender numa rede de doze camadas.
 
 ## De onde isto veio
 
@@ -62,7 +60,11 @@ O estudo de referência sobre a disputa é o de **Stephen Stigler** (1981), e va
 | ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820. O resumo de Stigler fala em "new evidence, both documentary and statistical", **sem nomear quais** — e o selo ✓ᵃ não autoriza afirmar o que está no corpo do artigo |
 | 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo III.1 |
 
+:::cartao {"nivel":1,"titulo":"O modelo é uma reta"}
+
 ## Fundamentos: regressão linear como minimização
+
+Todo o capítulo se apoia numa forma só: uma soma ponderada dos atributos, mais um deslocamento. É dela que sai **um número por atributo**, e é dela que saem o critério de erro, a dedução e a interpretação do coeficiente.
 
 O modelo é uma reta (ou um plano, ou um hiperplano):
 
@@ -70,38 +72,17 @@ $$\hat{y} = w_1x_1 + w_2x_2 + \dots + w_dx_d + b$$
 
 Aqui $\hat{y}$ é a previsão do modelo e $y$ o valor observado — **o chapéu marca sempre o que o modelo produz, e sem chapéu é o que o mundo entregou**. São $n$ exemplos e $d$ atributos.
 
-Resta escolher os $w$. O critério: minimizar o **erro quadrático médio**, o **EQM**:
+E há a razão pedagógica de começar por aqui: é no modelo linear que otimização, regularização e interpretação aparecem na forma mais limpa. Quem não entende gradiente aqui não vai entender numa rede de doze camadas.
+
+:::cartao {"nivel":1,"titulo":"O critério: erro quadrático médio"}
+
+### O critério: minimizar o erro quadrático médio
+
+Resta escolher os $w$. O critério é minimizar o **erro quadrático médio**, o **EQM**:
 
 $$L(w, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{y}_i\right)^2$$
 
-> **Duas convenções que você vai encontrar por aí, e por que elas não mudam nada.** Muito texto escreve $\frac{1}{2n}$ em vez de $\frac{1}{n}$ — o meio existe só para cancelar o 2 que aparece ao derivar, e deixar a conta mais limpa. Outros omitem o $\frac{1}{n}$ e minimizam a **soma** (o SQE) em vez da média.
->
-> **Multiplicar a perda por uma constante positiva não move o ponto de mínimo.** A reta ótima é a mesma nas três escalas; o que muda é o número que aparece no painel. Este livro usa o **EQM** ($\frac{1}{n}$, sem o meio) em todo lugar: no texto, na dedução e no laboratório.
-
-Por que ao quadrado, e não em valor absoluto? Três razões, em ordem de honestidade:
-
-1. **É diferenciável em todo ponto**, o que faz o otimizador funcionar sem casos especiais. O valor absoluto tem um bico em zero.
-2. **Tem solução fechada.** Derivando e igualando a zero, chega-se às *equações normais* — um sistema linear que se resolve de uma vez, sem iteração.
-3. **Pune o erro grande desproporcionalmente**, o que às vezes é o que você quer e às vezes não é. Se houver *outliers*, o erro quadrático os persegue — e aí o erro absoluto é a escolha certa. Esta é uma decisão de modelagem, não uma constante da natureza.
-
-A solução fechada existe e está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar** — no experimento, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
-
-> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$, inviável com muitos atributos, e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
-
-:::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
-Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
-
-- [ ] Porque o erro quadrático é sempre menor que o absoluto.
-- [x] Porque é diferenciável em todo ponto e admite solução fechada — não porque seja intrinsecamente mais correto.
-- [ ] Porque o erro absoluto não pode ser minimizado.
-- [ ] Porque o quadrado elimina os erros negativos, e o valor absoluto não.
-
-> **gabarito:** É diferenciável e admite solução fechada
-> **porque:** As razões são de **conveniência matemática**, e reconhecer isso é o que separa quem usa o método de quem o repete. O quadrado é diferenciável em toda parte (o valor absoluto tem um bico em zero, que complica o otimizador) e leva às equações normais, resolvíveis de uma vez.
->
-> Não é que ele seja mais correto. Ele pune erros grandes de forma desproporcional, o que na presença de *outliers* é ativamente ruim — e nesse caso o erro absoluto é a escolha certa, à custa de exigir otimização iterativa. A última alternativa erra num detalhe revelador: o valor absoluto **também** elimina o sinal do erro. Eliminar sinal não é o ponto; a diferenciabilidade é.
-> **volte para:** #fundamentos-regressao-linear-como-minimizacao
-:::
+> **Três convenções, a mesma reta.** Muito texto escreve $\frac{1}{2n}$: o meio cancela o 2 que desce ao derivar. Outros omitem o $\frac{1}{n}$ e minimizam a **soma** (o SQE) em vez da média. Multiplicar a perda por constante positiva não move o mínimo: a reta ótima é a mesma nas três escalas, e só muda o número do painel. Este livro usa o **EQM** em todo lugar: no texto, na dedução e no laboratório.
 
 :::exercicio {"id":"modelos-lineares-e8","tipo":"multipla","objetivo":"O1","dificuldade":"facil"}
 Três textos escrevem a perda da regressão linear de formas diferentes: um usa $\frac{1}{n}\sum(y-\hat{y})^2$, outro $\frac{1}{2n}\sum(y-\hat{y})^2$, e o terceiro só $\sum(y-\hat{y})^2$. O que muda entre eles?
@@ -120,6 +101,39 @@ Três textos escrevem a perda da regressão linear de formas diferentes: um usa 
 > **volte para:** #fundamentos-regressao-linear-como-minimizacao
 :::
 
+:::cartao {"nivel":1,"titulo":"Por que ao quadrado, e não em valor absoluto"}
+
+### Por que ao quadrado, e não em valor absoluto
+
+Três razões, em ordem de honestidade:
+
+1. **É diferenciável em todo ponto**, o que faz o otimizador funcionar sem casos especiais. O valor absoluto tem um bico em zero.
+2. **Tem solução fechada.** Derivando e igualando a zero, chega-se às *equações normais* — um sistema linear que se resolve de uma vez, sem iteração.
+3. **Pune o erro grande desproporcionalmente**, o que às vezes é o que você quer e às vezes não é. Se houver *outliers*, o erro quadrático os persegue — e aí o erro absoluto é a escolha certa. Esta é uma decisão de modelagem, não uma constante da natureza.
+
+:::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
+Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
+
+- [ ] Porque o erro quadrático é sempre menor que o absoluto.
+- [x] Porque é diferenciável em todo ponto e admite solução fechada — não porque seja intrinsecamente mais correto.
+- [ ] Porque o erro absoluto não pode ser minimizado.
+- [ ] Porque o quadrado elimina os erros negativos, e o valor absoluto não.
+
+> **gabarito:** É diferenciável e admite solução fechada
+> **porque:** As razões são de **conveniência matemática**, e reconhecer isso é o que separa quem usa o método de quem o repete. O quadrado é diferenciável em toda parte (o valor absoluto tem um bico em zero, que complica o otimizador) e leva às equações normais, resolvíveis de uma vez.
+>
+> Não é que ele seja mais correto. Ele pune erros grandes de forma desproporcional, o que na presença de *outliers* é ativamente ruim — e nesse caso o erro absoluto é a escolha certa, à custa de exigir otimização iterativa. A última alternativa erra num detalhe revelador: o valor absoluto **também** elimina o sinal do erro. Eliminar sinal não é o ponto; a diferenciabilidade é.
+> **volte para:** #fundamentos-regressao-linear-como-minimizacao
+:::
+
+:::cartao {"nivel":1,"titulo":"A fechada existe, e ainda assim o gradiente"}
+
+### A solução fechada existe. Por que, então, gradiente?
+
+A solução fechada está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar** — no experimento, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
+
+> Se a solução fechada existe e é exata, por que usar gradiente? Porque ela envolve inverter uma matriz $d \times d$, inviável com muitos atributos, e porque ela **não existe** para a regressão logística ([capítulo II.3](ii-3-regressao-logistica.md)). O gradiente é a ferramenta geral; a solução fechada é o caso de sorte.
+
 :::exercicio {"id":"modelos-lineares-e9","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
 Se a solução fechada das equações normais é exata e existe, por que o livro ensina o gradiente?
 
@@ -137,33 +151,39 @@ Se a solução fechada das equações normais é exata e existe, por que o livro
 > **volte para:** #fundamentos-regressao-linear-como-minimizacao
 :::
 
+:::cartao {"nivel":1,"titulo":"Ponha a reta à mão"}
+
 ## Ponha a reta à mão
 
-Antes da fórmula, o gesto. Arraste a reta até achar que está boa, e olhe o número subir e descer enquanto você mexe.
+Antes da fórmula, o gesto.
 
 :::lab {"id":"modelos-lineares-l1","tipo":"regressao-linear","titulo":"Mínimos quadrados à mão","n":24,"a":1.8,"b":4,"ruido":3.2}
-Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O laboratório mostra cinco medidas de erro ao mesmo tempo, e marca **uma** como a que estamos minimizando.
+Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta. O painel mostra cinco medidas de erro ao mesmo tempo e marca **uma** como a que estamos minimizando. Três coisas para tentar, nesta ordem:
 
-Três coisas para tentar, nesta ordem:
-
-1. **Minimize no olho.** Arraste as alças até o **erro quadrático médio (EQM)** parar de cair. Anote o valor.
-2. **Ligue "Mostrar os quadrados".** Agora o erro tem área: cada quadrado tem lado igual ao resíduo, e o que você está minimizando é a **soma das áreas**. Repare no que acontece quando um único ponto fica longe.
-3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho. Depois clique em "Ajustar automaticamente" e compare os coeficientes com o que você tinha.
-
-Uma pergunta para levar para a próxima seção: **por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?**
+1. **Minimize no olho.** Arraste as alças até o EQM parar de cair, e anote o valor.
+2. **Ligue "Mostrar os quadrados".** O lado de cada quadrado é o resíduo, e o que você minimiza é a soma das áreas. Repare no ponto que fica longe.
+3. **Revele a reta ótima.** A distância entre a sua e a dela é o preço do olho; "Ajustar automaticamente" mostra os coeficientes.
 :::
+
+:::cartao {"nivel":2,"titulo":"Passo 1 — a tigela tem um fundo só"}
 
 ## A dedução, em cinco passos
 
-O laboratório mostrou que existe um fundo do poço. Esta seção mostra **por que ele existe e como chegar nele por conta**, sem tentativa e erro. É a diferença entre usar a fórmula e saber de onde ela vem.
+Por que existe uma reta ótima única, e como o computador a encontra sem tentar todas? Esta seção mostra **por que o fundo do poço existe e como chegar nele por conta**, sem tentativa e erro. É a diferença entre usar a fórmula e saber de onde ela vem.
 
 Com um só atributo o índice atrapalha mais do que ajuda, então escrevemos $a$ no lugar de $w_1$: a reta é $\hat{y} = ax + b$. O critério é o mesmo EQM de antes, com a mesma ordem do resíduo:
 
 $$L(a, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right)^2$$
 
-**Passo 1 — por que há um mínimo, e um só.** $L$ é uma soma de quadrados: é uma superfície convexa em $(a, b)$, uma tigela. Tigela tem um fundo, e só um. É a razão de o laboratório sempre convergir para a mesma reta, venha você por onde vier.
+### Passo 1 — por que há um mínimo, e um só
 
-**Passo 2 — no fundo, as derivadas se anulam.** Derivando em relação a $b$:
+$L$ é uma soma de quadrados: é uma superfície convexa em $(a, b)$, uma tigela. Tigela tem um fundo, e só um. É a razão de o laboratório sempre convergir para a mesma reta, venha você por onde vier.
+
+:::cartao {"nivel":2,"titulo":"Passo 2 — a reta passa pelo centro de massa"}
+
+### Passo 2 — no fundo, as derivadas se anulam
+
+Derivando em relação a $b$:
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
 
@@ -173,43 +193,43 @@ $$b = \bar{y} - a\bar{x}$$
 
 **A reta ótima passa pelo centro de massa dos dados** — sempre, em qualquer conjunto. É um resultado que se vê no laboratório: gire a reta ótima em torno de um ponto e ele será $(\bar{x}, \bar{y})$.
 
-**Passo 3 — a segunda condição.** Derivando em relação a $a$:
+:::exercicio {"id":"modelos-lineares-e10","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
+Uma reta de mínimos quadrados tem inclinação $a = 2{,}5$. As médias dos dados são $\bar{x} = 4$ e $\bar{y} = 18$.
+
+Qual é o **intercepto** $b$?
+
+> **gabarito:** 8
+> **porque:** O passo 2 da dedução garante que a reta ótima passa pelo centro de massa $(\bar{x}, \bar{y})$, sempre. Daí sai direto $b = \bar{y} - a\bar{x} = 18 - 2{,}5 \times 4 = 18 - 10 = \mathbf{8}$.
+>
+> Vale reparar no que este exercício não pede: nenhum dado individual. O intercepto ótimo depende só da inclinação e das duas médias, e essa é uma consequência forte da condição de mínimo, não um atalho.
+>
+> É também a razão de o intercepto quase nunca ser interpretável sozinho. Ele é o valor previsto em $x = 0$, e $x = 0$ costuma estar fora da faixa observada — extrapolação, que é a quarta coisa que o coeficiente não diz.
+> **volte para:** #a-deducao-em-cinco-passos
+:::
+
+:::cartao {"nivel":2,"titulo":"Passo 3 — os resíduos são ortogonais ao atributo"}
+
+### Passo 3 — a segunda condição
+
+Derivando em relação a $a$:
 
 $$\frac{\partial L}{\partial a} = -2\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
 
 **Os resíduos são ortogonais ao atributo.** Traduzindo: o que sobrou de erro **não tem mais nada de linear em $x$** — se tivesse, a reta ainda poderia melhorar. É o significado geométrico do ajuste, e vale para qualquer número de atributos.
 
-**Passo 4 — resolver o sistema.** Substituindo $b = \bar{y} - a\bar{x}$ na segunda condição e reorganizando em torno das médias:
+> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
+
+:::cartao {"nivel":2,"titulo":"Passo 4 — duas somas, e a reta está pronta"}
+
+### Passo 4 — resolver o sistema
+
+Substituindo $b = \bar{y} - a\bar{x}$ na segunda condição e reorganizando em torno das médias:
 
 $$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2} = \frac{S_{xy}}{S_{xx}}$$
 
 > $S_{xy}$ e $S_{xx}$ são **somas de desvios**, não a perda — a letra é a mesma por tradição, e é por isso que a perda aqui se chama $L$.
 
 Duas contas, uma soma de produtos e uma soma de quadrados, e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
-
-**Uma vez com número.** Três pontos: (1, 3), (2, 5) e (3, 4). As médias são $\bar{x} = 2$ e $\bar{y} = 4$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-1$, $+1$, $0$.
-
-$$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1 \qquad S_{xx} = 1 + 0 + 1 = 2$$
-
-Logo $a = 1/2 = 0{,}5$, e $b = \bar{y} - a\bar{x} = 4 - 0{,}5 \times 2 = 3$. A reta é $\hat{y} = 0{,}5x + 3$ — e ela passa por $(2, 4)$, o centro de massa, como o passo 2 garantiu.
-
-**Passo 5 — o que a fórmula avisa.** O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que você vai encontrar adiante, no caso da limonada, onde o preço **não varia** dentro de nenhum mês.
-
-> **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
-
-:::lab {"id":"modelos-lineares-l2","tipo":"anima-normais","titulo":"O gradiente correndo atrás de uma resposta que já existe"}
-Trezentos pontos, dois atributos **quase colineares** (o segundo é o primeiro mais um ruidinho). As equações normais resolvem isso numa conta. A animação mostra a descida de gradiente tentando chegar ao mesmo lugar, e o que aparece no placar é o **excesso de erro sobre o ótimo fechado**: quanto pior o gradiente ainda está, em porcentagem, do que a álgebra já entregou.
-
-Cada quadro dá dez passos, e a varredura vai a **4 000**.
-
-**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?
-
-Com os atributos como vieram, ele **não chega**. Ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido: a animação dá a cada regime o **maior passo estável possível**, calculado do próprio dado. O problema é a forma da superfície, que com atributos correlacionados é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.
-
-**Clique em "E se os atributos fossem padronizados?".** Mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460** e termina 351 vezes mais perto do ótimo. O passo estável saltou de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
-
-> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
-:::
 
 :::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6).
@@ -228,19 +248,21 @@ Calcule a **inclinação** $a$ da reta de mínimos quadrados, usando $a = S_{xy}
 > **volte para:** #a-deducao-em-cinco-passos
 :::
 
-:::exercicio {"id":"modelos-lineares-e10","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
-Uma reta de mínimos quadrados tem inclinação $a = 2{,}5$. As médias dos dados são $\bar{x} = 4$ e $\bar{y} = 18$.
+:::cartao-fim
 
-Qual é o **intercepto** $b$?
+### Uma vez com número
 
-> **gabarito:** 8
-> **porque:** O passo 2 da dedução garante que a reta ótima passa pelo centro de massa $(\bar{x}, \bar{y})$, sempre. Daí sai direto $b = \bar{y} - a\bar{x} = 18 - 2{,}5 \times 4 = 18 - 10 = \mathbf{8}$.
->
-> Vale reparar no que este exercício não pede: nenhum dado individual. O intercepto ótimo depende só da inclinação e das duas médias, e essa é uma consequência forte da condição de mínimo, não um atalho.
->
-> É também a razão de o intercepto quase nunca ser interpretável sozinho. Ele é o valor previsto em $x = 0$, e $x = 0$ costuma estar fora da faixa observada — extrapolação, que é a quarta coisa que o coeficiente não diz.
-> **volte para:** #a-deducao-em-cinco-passos
-:::
+Três pontos: (1, 3), (2, 5) e (3, 4). As médias são $\bar{x} = 2$ e $\bar{y} = 4$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-1$, $+1$, $0$.
+
+$$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1 \qquad S_{xx} = 1 + 0 + 1 = 2$$
+
+Logo $a = 1/2 = 0{,}5$, e $b = \bar{y} - a\bar{x} = 4 - 0{,}5 \times 2 = 3$. A reta é $\hat{y} = 0{,}5x + 3$ — e ela passa por $(2, 4)$, o centro de massa, como o passo 2 garantiu.
+
+:::cartao {"nivel":2,"titulo":"Passo 5 — o denominador avisa"}
+
+### Passo 5 — o que a fórmula avisa
+
+O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica — é o dado não conter a informação. É o mesmo fenômeno que você vai encontrar adiante, no caso da limonada, onde o preço **não varia** dentro de nenhum mês.
 
 :::exercicio {"id":"modelos-lineares-e11","tipo":"multipla","objetivo":"O2","dificuldade":"dificil"}
 Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
@@ -259,6 +281,24 @@ Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
 > **volte para:** #a-deducao-em-cinco-passos
 :::
 
+:::cartao {"nivel":2,"titulo":"O gradiente contra a álgebra"}
+
+### O gradiente contra a álgebra
+
+:::lab {"id":"modelos-lineares-l2","tipo":"anima-normais","titulo":"O gradiente atrás de uma resposta que já existe"}
+Trezentos pontos e dois atributos **quase colineares**: o segundo é o primeiro mais um ruidinho. A álgebra resolve isso numa conta; a animação mostra o gradiente tentando chegar ao mesmo lugar, e o placar traz o **excesso de erro sobre o ótimo fechado**, em porcentagem. Cada quadro dá dez passos, e a varredura vai a 4 000.
+
+**Antes de assistir, chute:** quantos passos até o gradiente chegar a 1% do ótimo?
+
+Com os atributos como vieram, ele **não chega**: ao fim dos 4 000 passos ainda está 2,8% acima. Não é passo mal escolhido, porque a animação dá a cada regime o maior passo estável possível, calculado do próprio dado. O problema é a forma da superfície: com atributos correlacionados ela é um vale comprido e estreito, e o gradiente desce a parede em vez de andar pelo fundo.
+
+Clique em **"E se os atributos fossem padronizados?"**: mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460**, termina 351 vezes mais perto do ótimo, e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
+:::
+
+:::cartao-fim
+
+> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
+
 ## Interpretar coeficientes — e o que eles não dizem
 
 O modelo linear é interpretável, e é por isso que ele sobrevive em crédito, seguro e saúde. Mas "interpretável" não significa "fácil de interpretar corretamente".
@@ -269,11 +309,13 @@ Aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os dema
 
 > Na regressão logística a leitura é outra: o coeficiente multiplica a **razão de chances**, não a saída. Está no [capítulo II.3](ii-3-regressao-logistica.md), e confundir as duas é o erro de interpretação mais comum deste livro.
 
+:::cartao {"nivel":3,"titulo":"As quatro coisas que o coeficiente não diz"}
+
 ### As quatro coisas que ele não diz
 
-1. **Não diz causalidade.** "Mantendo tudo mais constante" é uma operação matemática sobre a equação ajustada, não uma intervenção no mundo. Se você mudar $x_j$ de fato, as outras variáveis mudam junto — e o modelo não sabe disso.
-2. **Não é comparável entre atributos sem padronização.** Um coeficiente de 0,003 para renda em reais e 2,5 para número de filhos não diz que filhos importam mais. Compare coeficientes só depois de padronizar — e mesmo assim com cuidado.
-3. **Não é confiável sob colinearidade.** Quando dois atributos são altamente correlacionados, o modelo pode dar peso alto a um e negativo ao outro, ou trocá-los completamente com uma pequena mudança nos dados. O *erro* não piora; a *interpretação* vira ruído. É o modo de falha mais traiçoeiro do modelo linear, porque a métrica não avisa.
+1. **Não diz causalidade.** "Mantendo tudo mais constante" é uma operação matemática sobre a equação ajustada, não uma intervenção no mundo. Se você mudar $x_j$ de fato, as outras variáveis mudam junto, e o modelo não sabe disso.
+2. **Não é comparável entre atributos sem padronização.** Um coeficiente de 0,003 para renda em reais e 2,5 para número de filhos não diz que filhos importam mais. Compare coeficientes só depois de padronizar, e mesmo assim com cuidado.
+3. **Não é confiável sob colinearidade.** Quando dois atributos são altamente correlacionados, o modelo pode dar peso alto a um e negativo ao outro, ou trocá-los completamente com uma pequena mudança nos dados. O *erro* não piora; a *interpretação* vira ruído.
 4. **Não vale fora da faixa observada.** Extrapolar uma reta é a forma mais fácil de produzir uma previsão absurda com aparência de rigor.
 
 :::exercicio {"id":"modelos-lineares-e12","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
@@ -295,6 +337,7 @@ Qual das quatro limitações do coeficiente isto ilustra?
 > **volte para:** #as-quatro-coisas-que-ele-nao-diz
 :::
 
+:::cartao-fim
 
 ## O caso da limonada
 
@@ -322,9 +365,11 @@ A última linha é onde o relatório morre. Ela sugere uma recomendação de neg
 
 O preço subiu **no verão**. `preco` não é uma alavanca de decisão: é um **termômetro disfarçado**. A correlação de +0,513 mede o calor de julho, não a disposição do freguês a pagar.
 
+:::cartao {"nivel":3,"titulo":"O controle que não salva"}
+
 ### O passo que deveria salvar, e não salva
 
-A resposta de manual é "controle pelas outras variáveis". Ajustando tudo junto:
+A resposta de manual, diante da limonada, é "controle pelas outras variáveis". Ajustando tudo junto:
 
 ```
 vendas = 3,192
@@ -338,13 +383,44 @@ O coeficiente do preço continua **positivo**. Controlar pela temperatura não d
 
 **Controlar por uma variável só remove o confundimento que aquela variável mede.** Se o confundidor real é "estação", e você mediu "temperatura do dia", a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma métrica avisa: o R² é 0,982.
 
-Este é o item 1 da lista anterior, *não diz causalidade*, em números e não em advertência.
+:::exercicio {"id":"modelos-lineares-e5","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
+Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?
+
+- [ ] O modelo provou que subir o preço aumenta as vendas; a correlação simples estava certa.
+- [ ] O coeficiente é positivo por erro numérico — com mais dados ele viraria negativo.
+- [x] `preco` funciona como indicador de julho e agosto, e a temperatura do dia não captura tudo o que "ser verão" significa.
+- [ ] O problema seria resolvido padronizando os atributos antes de ajustar.
+
+> **gabarito:** `preco` funciona como indicador de julho e agosto
+> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" (férias, fluxo de rua, hábito) que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
+>
+> A primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico: não é ruído, é **viés** — mais dados do mesmo tipo tornariam o coeficiente errado mais preciso, não mais correto. A quarta confunde escalas com confundimento: padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis entre si, e não mexe em qual variável está roubando o efeito da outra.
+>
+> Controlar por uma variável só remove o confundimento que aquela variável mede.
+> **volte para:** #o-passo-que-deveria-salvar-e-nao-salva
+:::
+
+:::cartao {"nivel":3,"titulo":"E o item 3, de brinde"}
 
 ### E o item 3, de brinde
 
-`temperatura` e `panfletos` correlacionam **+0,798**: em dia quente, distribuíam-se mais panfletos. O coeficiente do panfleto sai em 0,0188 — ou seja, **53 panfletos para um copo a mais**. Lido como efeito da panfletagem, é falso: parte do que ele mede é simplesmente o calor daquele dia.
+Este é o item 1 da lista anterior, *não diz causalidade*, em números e não em advertência. O item 3 vem de brinde: `temperatura` e `panfletos` correlacionam **+0,798**, porque em dia quente distribuíam-se mais panfletos. O coeficiente do panfleto sai em 0,0188, ou seja, **53 panfletos para um copo a mais**. Lido como efeito da panfletagem, é falso: parte do que ele mede é simplesmente o calor daquele dia.
 
 Colinearidade não estraga a previsão. Estraga a **leitura** — e é o modo de falha mais traiçoeiro do modelo linear, porque o erro de validação não muda.
+
+:::exercicio {"id":"modelos-lineares-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
+Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
+
+> **gabarito:** 53 ± 4
+> **porque:** O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.
+>
+> O número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. "0,0188" não diz nada a quem manda imprimir panfleto; "53 panfletos por copo" diz — e diz que a panfletagem provavelmente não se paga.
+>
+> E a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor, não panfleto. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** — pior ainda para a ideia.
+> **volte para:** #e-o-item-3-de-brinde
+:::
+
+:::cartao-fim
 
 ### Reproduza
 
@@ -365,58 +441,13 @@ Ele não existe. Rode e veja:
 df.assign(mes=df.data.dt.month).groupby("mes").preco.nunique()   # tudo 1
 ```
 
-**Nenhum mês do ano tem mais de um preço.** São 0,30 de janeiro a junho e de setembro a dezembro, 0,50 nos 62 dias de julho e agosto — exatamente os dois meses inteiros. Restringir a julho e agosto não isola o efeito do preço: deixa o preço **constante**, e um atributo que não varia não tem coeficiente.
+:::cartao {"nivel":3,"titulo":"O confundimento é perfeito"}
+
+### O confundimento é perfeito
+
+**Nenhum mês do ano tem mais de um preço.** São 0,30 de janeiro a junho e de setembro a dezembro, 0,50 nos 62 dias de julho e agosto, exatamente os dois meses inteiros. Restringir a julho e agosto não isola o efeito do preço: deixa o preço **constante**, e um atributo que não varia não tem coeficiente.
 
 O confundimento aqui é **perfeito**: preço e estação são a mesma variável, com dois nomes. Não há recorte, controle nem modelo que separe as duas — a informação não está no dado, e nenhuma técnica a inventa. Estimar efeito de preço exigiria **variar o preço de propósito** em dias comparáveis: cobrar 0,30 e 0,50 dentro do mesmo mês.
-
-Esta é a resposta menos confortável e a mais honesta que a análise pode dar: *com estes dados, não dá — e aqui está o que precisaria ser coletado.*
-
-:::exercicio {"id":"modelos-lineares-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
-Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
-
-> **gabarito:** 53 ± 4
-> **porque:** O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.
->
-> O número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. "0,0188" não diz nada a quem manda imprimir panfleto; "53 panfletos por copo" diz — e diz que a panfletagem provavelmente não se paga.
->
-> E a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor, não panfleto. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** — pior ainda para a ideia.
-> **volte para:** #e-o-item-3-de-brinde
-:::
-
-:::exercicio {"id":"modelos-lineares-e5","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
-Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?
-
-- [ ] O modelo provou que subir o preço aumenta as vendas; a correlação simples estava certa.
-- [ ] O coeficiente é positivo por erro numérico — com mais dados ele viraria negativo.
-- [x] `preco` funciona como indicador de julho e agosto, e a temperatura do dia não captura tudo o que "ser verão" significa.
-- [ ] O problema seria resolvido padronizando os atributos antes de ajustar.
-
-> **gabarito:** `preco` funciona como indicador de julho e agosto
-> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" (férias, fluxo de rua, hábito) que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
->
-> A primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico: não é ruído, é **viés** — mais dados do mesmo tipo tornariam o coeficiente errado mais preciso, não mais correto. A quarta confunde escalas com confundimento: padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis entre si, e não mexe em qual variável está roubando o efeito da outra.
->
-> Controlar por uma variável só remove o confundimento que aquela variável mede.
-> **volte para:** #o-passo-que-deveria-salvar-e-nao-salva
-:::
-
-## Quando o linear é a escolha certa
-
-Não como consolo, e sim como decisão de engenharia.
-
-Antes da tabela, o contraexemplo honesto: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md), o linear faz **0,4963 de AUC** contra **0,9392** do boosting. É um massacre — e é uma afirmação sobre **aquele terreno**, não sobre o modelo. O dado de lá foi construído com uma fronteira irregular, que é exatamente onde a reta não tem chance. Troque o terreno e a conclusão vira.
-
-
-
-| Situação | Por quê |
-|---|---|
-| **Poucos dados por atributo** | menos parâmetros, menos variância. Com 200 linhas e 50 colunas, o ensemble decora |
-| **Necessidade de auditoria** | um número por atributo, defensável e questionável. Exigência regulatória em crédito e seguro |
-| **Probabilidade que vira dinheiro** | sai razoavelmente calibrado; ensembles frequentemente não (cap. II.1) |
-| **Linha de base obrigatória** | é a régua contra a qual o modelo complexo precisa se justificar |
-| **Latência apertada** | uma multiplicação de vetores; ordens de grandeza mais rápido que uma floresta |
-
-O último ponto tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta que importa antes de qualquer outra — "quanto do sinal é simplesmente linear?". Se o modelo complexo ganha pouco dele, você acabou de descobrir que o problema é fácil e que o resto é custo de manutenção.
 
 :::exercicio {"id":"modelos-lineares-e6","tipo":"aberta","objetivo":"O4","dificuldade":"media"}
 A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.
@@ -432,22 +463,23 @@ Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. D
 > **volte para:** #quando-o-linear-e-a-escolha-certa
 :::
 
-:::exercicio {"id":"modelos-lineares-e13","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
-Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?
+:::cartao-fim
 
-- [ ] Porque ele costuma vencer os modelos complexos na maioria dos problemas.
-- [x] Porque ele custa minutos e responde quanto do sinal é simplesmente linear, que é a pergunta anterior a todas as outras.
-- [ ] Porque modelos complexos exigem um linear como pré-processamento.
-- [ ] Porque é a única forma de detectar vazamento nos dados.
+Esta é a resposta menos confortável e a mais honesta que a análise pode dar: *com estes dados, não dá — e aqui está o que precisaria ser coletado.*
 
-> **gabarito:** custa minutos e diz quanto do sinal é linear
-> **porque:** É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.
->
-> A primeira alternativa é falsa e o próprio capítulo dá o contraexemplo: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz 0,4963 de AUC contra 0,9392 do boosting. O ponto nunca foi que ele vence.
->
-> O corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.
-> **volte para:** #quando-o-linear-e-a-escolha-certa
-:::
+:::cartao {"nivel":4,"titulo":"Quando o linear é a escolha certa"}
+
+## Quando o linear é a escolha certa
+
+Não como consolo, e sim como decisão de engenharia.
+
+| Situação | Por quê |
+|---|---|
+| **Poucos dados por atributo** | menos parâmetros, menos variância. Com 200 linhas e 50 colunas, o ensemble decora |
+| **Necessidade de auditoria** | um número por atributo, defensável e questionável. Exigência regulatória em crédito e seguro |
+| **Probabilidade que vira dinheiro** | sai razoavelmente calibrado; ensembles frequentemente não (cap. II.1) |
+| **Linha de base obrigatória** | é a régua contra a qual o modelo complexo precisa se justificar |
+| **Latência apertada** | uma multiplicação de vetores; ordens de grandeza mais rápido que uma floresta |
 
 :::exercicio {"id":"modelos-lineares-e14","tipo":"multipla-multi","objetivo":"O4","dificuldade":"dificil"}
 Uma seguradora precisa de um modelo de risco com estas restrições: 300 apólices históricas com 40 atributos, resposta em menos de 10 ms, justificativa por escrito ao regulador em cada recusa, e a probabilidade prevista multiplicada pelo valor da apólice para calcular a provisão.
@@ -468,6 +500,33 @@ Quais dessas restrições, sozinhas, já apontam para o modelo linear? (marque t
 > Repare no que o item **não** afirma. Nada disso garante que o linear terá o melhor desempenho preditivo. Ele diz que, sob estas restrições, um ganho de desempenho precisaria ser grande o bastante para pagar quatro perdas simultâneas.
 > **volte para:** #quando-o-linear-e-a-escolha-certa
 :::
+
+:::cartao {"nivel":4,"titulo":"Treine sempre um linear primeiro"}
+
+### Treine sempre um linear primeiro
+
+O último ponto da tabela tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta que importa antes de qualquer outra — "quanto do sinal é simplesmente linear?". Se o modelo complexo ganha pouco dele, você acabou de descobrir que o problema é fácil e que o resto é custo de manutenção.
+
+E o contraexemplo honesto, para que o corolário não vire fé: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md), o linear faz **0,4963 de AUC** contra **0,9392** do boosting. É um massacre, e é uma afirmação sobre *aquele terreno*, não sobre o modelo. O dado de lá foi construído com uma fronteira irregular, que é exatamente onde a reta não tem chance.
+
+:::exercicio {"id":"modelos-lineares-e13","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
+Segundo este capítulo, qual é a razão de sempre treinar um modelo linear primeiro?
+
+- [ ] Porque ele costuma vencer os modelos complexos na maioria dos problemas.
+- [x] Porque ele custa minutos e responde quanto do sinal é simplesmente linear, que é a pergunta anterior a todas as outras.
+- [ ] Porque modelos complexos exigem um linear como pré-processamento.
+- [ ] Porque é a única forma de detectar vazamento nos dados.
+
+> **gabarito:** custa minutos e diz quanto do sinal é linear
+> **porque:** É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.
+>
+> A primeira alternativa é falsa e o próprio capítulo dá o contraexemplo: no experimento do [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz 0,4963 de AUC contra 0,9392 do boosting. O ponto nunca foi que ele vence.
+>
+> O corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.
+> **volte para:** #quando-o-linear-e-a-escolha-certa
+:::
+
+:::cartao-fim
 
 ## Mão na massa
 

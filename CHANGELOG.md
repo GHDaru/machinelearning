@@ -6,6 +6,50 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado — o modo cartão passa a cortar por conceito, não por cabeçalho (cap. `II.2`)
+- A régua v1 cortava em cada `<h2>`/`<h3>`. Cabeçalho é critério **tipográfico**: diz onde o
+  autor quis um título, não onde termina uma unidade que o leitor consegue fechar. Medido a
+  360×800 no `II.2`, o resultado era **226 px a 5 849 px por cartão — 25,9x** entre o maior e
+  o menor, contra 1,2x na referência de microlearning aprovada. O cartão "A dedução, em cinco
+  passos" tinha **7,3 telas, 1 289 palavras e 49 blocos de fórmula**; o seguinte tinha 39
+  palavras, e a navegação prometia "7 de 18" para os dois. Um cartão que rola sete telas é a
+  página longa com um botão.
+- O corte agora é **declarado no Markdown**: `:::cartao {"nivel":1,"titulo":"…"}` abre um
+  cartão e `:::cartao-fim` fecha o baralho (`publicar/cartoes.mjs`, sintaxe no
+  `publicar/README.md`). O marcador é **divisória, não invólucro** — um cartão contém
+  exercícios, e `:::` aninhado em `:::` não é analisável pelo parser da casa. Ele chega ao DOM
+  como um `<hr class="corte-cartao">` invisível, e `tema/cartoes.js` corta por ele.
+- **`nivel` e `titulo` vêm do marcador**, então o rótulo virou `Nível 1 · cartão 3/17` (o da
+  referência) em vez da seção-mãe, e um cartão cujo objeto é um laboratório passa a ter nome
+  na barra de progresso e no `aria-label`.
+- **`:::cartao-fim` é a saída para o trecho sem gesto.** A disputa Legendre-Gauss não tem o que
+  manipular nem pergunta respondível sem rolar para trás: ela **continua no capítulo** e fica
+  fora do fluxo de cartões. Perder conteúdo é falha; deixá-lo fora do baralho é decisão.
+- **Os 28 outros capítulos não sentiram nada:** sem marcador, a régua cai no corte por
+  cabeçalho, byte a byte como antes.
+
+### Alterado — o `II.2` recortado em 17 cartões, com o portão fechando
+- 17 cartões, **14 deles com exercício ou laboratório (82%)**; alturas de **614 px a 1 566 px**
+  (razão **2,55x**) e de **136 a 240 palavras**. `gates/cartoes-legiveis.mjs` passa a sair 0.
+- **Nenhum exercício foi reescrito.** Os 12 blocos `:::exercicio` só mudaram de lugar, para
+  ficar junto do conceito que cobram — o `banco.json` regenerado é idêntico item a item, e só
+  a ordem mudou.
+- A dedução virou **cinco cartões encadeados** (a tigela · o centro de massa · a
+  ortogonalidade · as duas somas · o aviso do denominador), com o exercício que cobra cada
+  passo dentro do cartão do passo.
+- Os passos 1 a 5, que eram parágrafos em negrito no meio de um bloco de 1 289 palavras,
+  viraram `###` de verdade — o que também dá sumário e âncora à dedução na página longa.
+- Prosa comprimida onde o teto de 250 palavras exigiu, **sem perder fato**: as três convenções
+  da perda, as instruções dos dois laboratórios e as quatro coisas que o coeficiente não diz
+  continuam completas.
+
+### Adicionado — teste do marcador de cartão
+- `publicar/testes/cartoes-marcador.mjs`: valida o que o marcador aceita, o que recusa (JSON
+  quebrado, sem título, sem nível), o escape do atributo, o marcador citado dentro de cerca de
+  código, e que um capítulo sem marcador sai byte a byte como entrou. Marcador que vira
+  parágrafo não quebra nada: o capítulo volta em silêncio ao corte por cabeçalho, e defeito
+  que não grita é defeito que fica.
+
 ### Corrigido — não são "setores censitários": são ***block groups*** (cap. `III.2`)
 - O capítulo dizia **"20 640 setores censitários da Califórnia"**. A unidade é o ***block
   group***, que fica um degrau **abaixo** do *census tract*. Quem traduz por "setor
