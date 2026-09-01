@@ -231,9 +231,11 @@ $$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i=1}^{n}x_i\left(y_i - ax_i 
 > **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
 
 :::interacao {"id":"modelos-lineares-i2","tipo":"principio","titulo":"De onde sai o xᵢ"}
-As duas condições do mínimo, já derivadas:
+As duas condições do mínimo, já derivadas, uma sob a outra:
 
-$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i} r_i \qquad \frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i} x_i\, r_i$$
+$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i} r_i$$
+
+$$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i} x_i\, r_i$$
 
 Só a segunda traz um $x_i$ multiplicando o resíduo.
 

@@ -54,7 +54,7 @@
 // Precisa do Playwright, como a auditoria de jornada, e pelo mesmo motivo:
 // contar caractere não é ler página. Ausente, ele FALHA em vez de se pular.
 import { createServer } from "node:http";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, resolve, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -89,16 +89,79 @@ const servidor = createServer((req, res) => {
   const p = decodeURIComponent(req.url.split("?")[0]);
   const alvo = join(DOCS, p === "/" ? "index.html" : p);
   if (!alvo.startsWith(DOCS)) { res.writeHead(403).end(); return; }
-  try {
-    res.writeHead(200, { "Content-Type": TIPOS[extname(alvo)] || "application/octet-stream" });
-    res.end(readFileSync(alvo));
-  } catch { res.writeHead(404).end(); }
+  // Ler ANTES de escrever o cabeçalho. Ao contrário, o 404 já achava o
+  // cabeçalho enviado e o servidor morria com `ERR_HTTP_HEADERS_SENT`, o que
+  // derrubava o gate inteiro com uma mensagem que não fala de cartão nenhum —
+  // qualquer arquivo faltando virava um erro que parecia ser de outra coisa.
+  let corpo;
+  try { corpo = readFileSync(alvo); } catch { res.writeHead(404).end(); return; }
+  res.writeHead(200, { "Content-Type": TIPOS[extname(alvo)] || "application/octet-stream" });
+  res.end(corpo);
 });
 await new Promise((ok) => servidor.listen(PORTA, "127.0.0.1", ok));
 
+// QUAIS PÁGINAS ABRIR, E O QUE SE COBRA DE CADA UMA
+//
+// Duas descobertas mudaram este bloco, e a segunda desfez a primeira.
+//
+// A primeira foi de custo. Sem argumento, o gate abria as 81 páginas do site com
+// `waitUntil: "networkidle"`, e `networkidle` só desiste no timeout de 30s — o
+// site tem ilhas que atualizam sozinhas e nunca dão o silêncio que ele espera.
+// Medido: **sete minutos para chegar à décima quinta página**. Trocando por
+// `load`, que é a espera certa porque o modo cartão é montado na carga e não
+// depende de rede, as 81 páginas passaram a levar **37 segundos**.
+//
+// A segunda quase virou um defeito meu. Com o custo resolvido pelo `load`, a
+// economia óbvia — só abrir as páginas cujo Markdown traz `:::cartao` — ficou
+// sem função e virou perigo: **toda** página tem modo cartão, porque quando não
+// há marcador o `cartoes.js` corta por cabeçalho. Filtrar por marcador teria
+// estreitado o gate de 81 páginas para 1 sem dizer a ninguém, que é exatamente
+// a classe de defeito que este repositório passa o tempo caçando. O filtro caiu.
+//
+// O QUE SOBRA É UMA DISTINÇÃO DE COBRANÇA, E ELA É DECLARADA EM VOZ ALTA
+//
+// Todas as 81 páginas são MEDIDAS. O que muda é o que se COBRA:
+//
+//   baralho cortado à mão (`:::cartao` no fonte) — cobrado por inteiro, com a
+//     premissa do autor: todo cartão tem interação E exercício;
+//   baralho por cabeçalho (a queda automática) — medido e RELATADO como dívida,
+//     sem reprovar. Cobrar hoje reprovaria 58 páginas e 636 cartões de uma vez,
+//     e isso é decisão de escopo editorial, não de portão.
+//
+// O resumo imprime os dois números SEMPRE, inclusive quando passa. É o que
+// impede a segunda camada de virar silêncio: um gate que estreita sozinho é um
+// gate que mente, e a única defesa é ele dizer de quantas páginas desistiu.
+//
+// O casamento fonte → página é pelo nome do arquivo, que o motor preserva: um
+// `.md` em qualquer subpasta de `livro/` vira `docs/<mesmo-nome>.html`.
+const CAPS = resolve(RAIZ, "livro");
+const COM_CARTAO = new Set();
+(function indexar(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const alvo = join(dir, e.name);
+    if (e.isDirectory()) indexar(alvo);
+    else if (e.name.endsWith(".md")) {
+      const fonte = readFileSync(alvo, "utf8")
+        .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
+      if (/^:::cartao\b/m.test(fonte)) COM_CARTAO.add(e.name.slice(0, -3).toLowerCase());
+    }
+  }
+})(CAPS);
+
 const pedidos = process.argv.slice(2);
-const paginas = pedidos.length ? pedidos.map((p) => p.replace(/\.html$/, ""))
+const paginas = pedidos.length
+  ? pedidos.map((p) => p.replace(/\.html$/, ""))
   : readdirSync(DOCS).filter((f) => f.endsWith(".html")).map((f) => f.slice(0, -5));
+const cobrado = (nome) => COM_CARTAO.has(nome.toLowerCase());
+
+// Página pedida à mão que não existe é erro de quem chamou, e merece uma frase
+// em vez do stack do Playwright dizendo `ERR_HTTP_RESPONSE_CODE_FAILURE`.
+const inexistentes = paginas.filter((n) => !existsSync(join(DOCS, n + ".html")));
+if (inexistentes.length) {
+  console.error(`✗ página(s) inexistente(s) em docs/: ${inexistentes.join(", ")}`);
+  console.error("   (rode `node publicar/build.mjs` antes, ou confira o nome)");
+  process.exit(1);
+}
 
 const navegador = await chromium.launch({
   executablePath: process.env.CHROMIUM || undefined,
@@ -108,9 +171,17 @@ const pagina = await navegador.newPage({ viewport: { width: LARG, height: ALT } 
 
 const falhas = [];
 let comCartoes = 0;
+// `cobradas` são as páginas com baralho cortado à mão; `relatadas`, as de queda
+// automática por cabeçalho — medidas, somadas e ditas, mas não reprovadas.
+let cobradas = 0, relatadas = 0;
+const divida = { paginas: 0, cartoes: 0, semInteracao: 0, semExercicio: 0,
+                 piorRazao: 0, piorPagina: "" };
 
 for (const nome of paginas) {
-  await pagina.goto(`http://127.0.0.1:${PORTA}/${nome}.html`, { waitUntil: "networkidle" });
+  // `load` e não `networkidle`: o modo cartão é montado por script na carga, e
+  // não espera rede nenhuma. `networkidle` esperava por um silêncio que as
+  // ilhas vivas da página nunca dão.
+  await pagina.goto(`http://127.0.0.1:${PORTA}/${nome}.html`, { waitUntil: "load" });
   const ligou = await pagina.evaluate(() => {
     const b = document.querySelector(".cartoes-alt");
     if (!b) return false;
@@ -151,10 +222,22 @@ for (const nome of paginas) {
   const foraAltura = medidas.filter((m) => m.h < LIMITES.alturaMin || m.h > LIMITES.alturaMax);
   const foraPalavras = medidas.filter((m) => m.pal < LIMITES.palavrasMin || m.pal > LIMITES.palavrasMax);
 
-  if (foraAltura.length || foraPalavras.length || razao > LIMITES.razaoMax
-      || semInteracao.length || semExercicio.length) {
-    falhas.push({ nome, total: medidas.length, razao, foraAltura, foraPalavras,
-                  semInteracao, semExercicio });
+  const problema = foraAltura.length || foraPalavras.length || razao > LIMITES.razaoMax
+    || semInteracao.length || semExercicio.length;
+
+  if (cobrado(nome)) {
+    cobradas++;
+    if (problema) {
+      falhas.push({ nome, total: medidas.length, razao, foraAltura, foraPalavras,
+                    semInteracao, semExercicio });
+    }
+  } else {
+    relatadas++;
+    divida.cartoes += medidas.length;
+    divida.semInteracao += semInteracao.length;
+    divida.semExercicio += semExercicio.length;
+    if (problema) divida.paginas++;
+    if (razao > divida.piorRazao) { divida.piorRazao = razao; divida.piorPagina = nome; }
   }
 }
 
@@ -164,6 +247,25 @@ servidor.close();
 if (!comCartoes) {
   console.error("✗ nenhuma página com modo cartão foi encontrada — o gate não pode passar vazio.");
   process.exit(1);
+}
+if (!cobradas) {
+  console.error("✗ nenhuma página com baralho cortado à mão (`:::cartao`) entrou na varredura —");
+  console.error("   sobrou só a camada relatada, e gate que só relata não é gate.");
+  process.exit(1);
+}
+
+// SEMPRE, inclusive no verde: é este parágrafo que impede a camada relatada de
+// virar silêncio.
+console.log(`Modo cartão: ${comCartoes} página(s) medida(s) · ` +
+            `${cobradas} cobrada(s) por inteiro (baralho cortado à mão) · ` +
+            `${relatadas} relatada(s) (corte automático por cabeçalho).`);
+if (relatadas) {
+  console.log(`   Dívida da camada relatada: ${divida.cartoes} cartões, ` +
+              `${divida.semInteracao} sem interação e ${divida.semExercicio} sem exercício; ` +
+              `${divida.paginas} página(s) fora de algum limite; ` +
+              `pior razão ${divida.piorRazao.toFixed(1)}x em ${divida.piorPagina}.`);
+  console.log("   Estes números NÃO reprovam — eles existem para que ninguém precise " +
+              "descobrir sozinho o tamanho do que falta.");
 }
 
 if (falhas.length) {

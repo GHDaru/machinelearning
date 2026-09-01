@@ -30,6 +30,21 @@
 //      Laboratório que não monta é uma caixa vazia com um título.
 //   D. **O companion está no DOM.**
 //   E. **Nenhum erro de JavaScript no console.**
+//   F. **As interações do fonte montam, e a que bloqueia bloqueia mesmo.** Conta
+//      os blocos `:::interacao` do Markdown e exige o mesmo número de
+//      `.interacao` no DOM; exige que cada uma tenha botão, `role="status"` e um
+//      controle onde responder; e então **clica em revelar sem responder nada** e
+//      afirma que a revelação NÃO aconteceu e que a página disse por quê.
+//
+//      Esta última é a razão de F existir. O bloqueio do `prever` é a peça em que
+//      a evidência do método se apoia — resolver antes de explicar só rende
+//      quando a explicação vem DEPOIS da tentativa —, e ele estava afirmado em
+//      dois lugares que não são o navegador: `publicar/testes/interacoes.mjs`, num
+//      DOM falso, e um script de rascunho fora do repositório. Um DOM falso não
+//      tem `disabled`, não tem foco e não tem tabulação; foi exatamente aí que
+//      um `aria-disabled` passou, deixando o botão inalcançável para leitor de
+//      tela sem que teste nenhum reclamasse. Afirmação que o leitor sente tem de
+//      ser afirmada onde o leitor está.
 //
 // COMO RODAR
 //
@@ -97,7 +112,7 @@ const FONTES = new Map();
   }
 })(CAPS);
 
-function exerciciosNoFonte(nomeHtml) {
+function blocosNoFonte(nomeHtml, tipo) {
   const arq = FONTES.get(nomeHtml.replace(/\.html$/, "").toLowerCase());
   if (!arq) return null;
   // Fora as cercas de código, senão o BANCO-DE-EXERCICIOS.md — que ENSINA a
@@ -106,7 +121,7 @@ function exerciciosNoFonte(nomeHtml) {
   // encontrou, e o defeito era do medidor.
   const fonte = readFileSync(arq, "utf8")
     .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
-  return (fonte.match(/^:::exercicio/gm) || []).length;
+  return (fonte.match(new RegExp("^:::" + tipo, "gm")) || []).length;
 }
 
 const paginas = (process.env.SO_ESTAS
@@ -121,6 +136,7 @@ const aba = await navegador.newPage({ viewport: { width: LARGURA, height: 800 } 
 
 const falhas = [];
 let comExercicios = 0;
+let comInteracoes = 0;
 const errosJs = [];
 aba.on("pageerror", (e) => errosJs.push(String(e).slice(0, 140)));
 aba.on("console", (m) => { if (m.type() === "error" && !/ERR_CERT|ERR_NAME|ERR_CONNECTION/.test(m.text())) errosJs.push(m.text().slice(0, 140)); });
@@ -154,7 +170,30 @@ for (const nome of paginas) {
     };
   });
 
-  const noFonte = exerciciosNoFonte(nome);
+  // F roda numa segunda passada porque ela CLICA: separar deixa claro que a
+  // primeira leitura enxergou a página intocada.
+  const ias = await aba.evaluate(() => {
+    const nomeDe = (s) => s.getAttribute("data-interacao") || "(interação sem id)";
+    const secoes = [...document.querySelectorAll(".interacao")];
+    const incompletas = [], vazaram = [], mudas = [];
+    for (const sec of secoes) {
+      const botao = sec.querySelector(".ia-revelar");
+      const status = sec.querySelector(".ia-status");
+      const controle = sec.querySelector(".ia-livre, .ia-num, .ia-opcao, .ia-branco");
+      if (!botao || !status || !controle) { incompletas.push(nomeDe(sec)); continue; }
+      // Clicar por `evaluate` e não pelo Playwright é deliberado: o cartão pode
+      // estar `hidden` (só um aparece por vez) e o Playwright, com razão, recusa
+      // clicar no que não se vê. Aqui o alvo da asserção é a regra, não o
+      // acerto do ponteiro — a visibilidade quem cobra é a asserção A.
+      botao.click();
+      if (sec.getAttribute("data-revelado") === "true") vazaram.push(nomeDe(sec));
+      else if (!(status.textContent || "").trim()) mudas.push(nomeDe(sec));
+    }
+    return { montadas: secoes.length, incompletas, vazaram, mudas };
+  });
+
+  const noFonte = blocosNoFonte(nome, "exercicio");
+  const iasNoFonte = blocosNoFonte(nome, "interacao");
 
   if (visto.scrollWidth > visto.viewport + 1) {
     falhas.push(`${nome} · A · rola de lado: ${visto.scrollWidth}px num visor de ${visto.viewport}px` +
@@ -171,17 +210,37 @@ for (const nome of paginas) {
   }
   if (!visto.companion) falhas.push(`${nome} · D · companion ausente do DOM`);
   if (errosJs.length) falhas.push(`${nome} · E · erro de JavaScript: ${errosJs[0]}`);
+
+  if (iasNoFonte !== null) {
+    comInteracoes += ias.montadas;
+    if (iasNoFonte !== ias.montadas) {
+      falhas.push(`${nome} · F · o fonte declara ${iasNoFonte} interação(ões) e o navegador montou ${ias.montadas}`);
+    }
+  }
+  if (ias.incompletas.length) {
+    falhas.push(`${nome} · F · interação sem botão, sem status ou sem onde responder: ${ias.incompletas.join(", ")}`);
+  }
+  if (ias.vazaram.length) {
+    falhas.push(`${nome} · F · revelou sem o leitor ter respondido — ${ias.vazaram.join(", ")}. ` +
+                `A explicação tem de vir DEPOIS da tentativa; revelada antes, ela vira texto lido.`);
+  }
+  if (ias.mudas.length) {
+    falhas.push(`${nome} · F · bloqueou a revelação e não disse por quê: ${ias.mudas.join(", ")}. ` +
+                `Botão que não responde e não explica é botão quebrado, para o leitor.`);
+  }
 }
 
 await navegador.close();
 servidor.close();
 
 console.log(`Jornada: ${paginas.length} página(s) abertas em Chromium a ${LARGURA}px · ` +
-            `${comExercicios} com fonte rastreável para conferir a contagem de exercícios.`);
+            `${comExercicios} com fonte rastreável para conferir a contagem de exercícios · ` +
+            `${comInteracoes} interação(ões) clicada(s) sem resposta para ver se seguram.`);
 if (falhas.length) {
   console.error(`✗ ${falhas.length} problema(s) que o leitor veria:`);
   falhas.forEach((f) => console.error("   " + f));
   process.exit(1);
 }
 console.log("✓ nenhuma página rola de lado, os exercícios do fonte chegam ao DOM, " +
-            "os laboratórios montam, o companion carrega e o console fica limpo.");
+            "os laboratórios montam, o companion carrega, o console fica limpo e " +
+            "nenhuma interação revela antes de o leitor responder.");

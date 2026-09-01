@@ -47,7 +47,8 @@ O build **falha** (não avisa) quando:
 - o `objetivo` citado não existe entre os declarados no capítulo;
 - múltipla escolha não tem exatamente uma correta;
 - há id de exercício ou vídeo duplicado;
-- um vídeo está sem `ref`, sem `autor` ou sem justificativa.
+- um vídeo está sem `ref`, sem `autor` ou sem justificativa;
+- uma interação está sem `id`, `tipo`, enunciado ou `revela`, ou tem id repetido; ou é um `prever` sem previsão a fazer, ou um `desvanecido` sem passo apagado.
 
 Exercício quebrado é pior que exercício nenhum: ele ensina errado com a autoridade do livro.
 
@@ -58,6 +59,7 @@ Exercício quebrado é pior que exercício nenhum: ele ensina errado com a autor
 | 1º blockquote `**Estado da arte capturado em ...**` | vira o selo de data do livro vivo |
 | `## Objetivos de aprendizagem` / `## Verificação` / `## Pratique` / `## Assista` | vira callout com cor própria |
 | `:::exercicio` / `:::video` / `:::lab` | vira UI interativa (ignorados dentro de cercas de código) |
+| `:::interacao {"tipo":"principio\|desvanecido\|prever"}` | vira UI **formativa**, com a revelação embutida: não vale nota, não grava nada e não fala com o backend — por isso pode revelar no cliente. Sintaxe em [`livro/BANCO-DE-EXERCICIOS.md`](../livro/BANCO-DE-EXERCICIOS.md) |
 | `:::cartao {"nivel":1,"titulo":"…"}` | onde começa um cartão do **modo cartão**; `:::cartao-fim` fecha o baralho |
 | Link para `.md` publicado | reescrito para `.html`; o resto aponta para o GitHub |
 | `<div data-viz="uso-livro">` | ilha viva preenchida em runtime |

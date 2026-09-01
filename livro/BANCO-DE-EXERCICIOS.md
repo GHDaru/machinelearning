@@ -181,6 +181,73 @@ Novos widgets entram em `publicar/tema/laboratorios.js`, registrados no objeto `
 
 Não há resposta a esconder: o gabarito é o comportamento do objeto. Isso o torna a superfície **mais robusta** do livro — funciona offline, funciona sem servidor, e continua funcionando quando tudo o mais falha.
 
+## Interações
+
+A **quarta** superfície, e a única que revela **no cliente**. A distinção que a define, e que decide toda a arquitetura:
+
+| | `:::exercicio` | `:::interacao` |
+|---|---|---|
+| Função | **somativa** — vale nota | **formativa** — não vale nada |
+| Correção | no **backend**; o gabarito nunca vai ao cliente | **no cliente**, revelando |
+| Registro | grava tentativa por aluno, e aprende do erro | não grava nada — nem servidor, nem `localStorage` |
+| Quando o leitor erra | conta contra ele | **é o ponto** |
+
+**É porque a interação não vale nota que ela pode revelar no cliente sem violar o Princípio VIII.3.** Aquele princípio protege o gabarito daquilo que é contabilizado; onde não há tentativa, placar nem telemetria, não existe segredo a guardar. E a escolha compra uma garantia: sem segredo não há chamada de rede, e a interação continua inteira com o backend fora do ar (Princípio VIII.6).
+
+A premissa do autor é que **todo cartão tem uma interação e um exercício** — quem cobra isso é `publicar/gates/cartoes-legiveis.mjs`, que conta `.interacao` e `[data-interacao]` no DOM.
+
+```markdown
+:::interacao {"id":"modelos-lineares-i1","tipo":"prever","titulo":"O peso do ponto distante","numero":100}
+Um ponto erra por **1**; o *outlier* erra por **10**. No critério absoluto o segundo pesa 10 vezes mais.
+
+> **pergunta:** E no quadrático, quantas vezes?
+> **revela:** **Cem vezes.** O erro decuplicou e o peso centuplicou.
+:::
+```
+
+### Atributos
+
+| Atributo | Obrigatório | O que é |
+|---|---|---|
+| `id` | sim | único no livro inteiro; convenção `<capitulo>-iK`. O build recusa duplicata |
+| `tipo` | sim | `principio`, `desvanecido` ou `prever` |
+| `titulo` | não | exibido no cabeçalho do bloco |
+| `numero` | só `prever` numérico | o valor real, contra o qual a previsão é comparada |
+| `tolerancia` | não | margem aceita em torno de `numero` (padrão 0) |
+
+### Metadados do rodapé
+
+| Chave | Quando | O que faz |
+|---|---|---|
+| `revela` | **sempre** | o que aparece depois do clique. Sem ele o build falha |
+| `pergunta` | `principio` e `prever` | o que o leitor responde **antes** de revelar |
+
+### Marcadores no corpo
+
+| Marcador | Tipo | O que é |
+|---|---|---|
+| `- [?] rótulo => a linha certa` | `desvanecido` | um passo apagado da conta |
+| `- ( ) texto` | `prever` | uma opção de previsão |
+| `- (!) texto` | `prever` | a opção que é o que **de fato acontece** |
+
+O marcador do passo **não é** `- [x]`, e por dois motivos: `[x]` significa "gabarito" nesta casa, e interação não tem gabarito; e o gate de vazamento do `build.mjs` recusa qualquer `- [x]` no Markdown exportado, que `semGabarito()` só limpa dentro de bloco de exercício.
+
+### Os três tipos, e a evidência de cada um
+
+| `tipo` | O gesto | Apoio |
+|---|---|---|
+| `principio` | exemplo trabalhado com pergunta de princípio. O leitor escreve, clica, e a explicação aparece **ao lado** da resposta dele — que não é corrigida, é comparada | autoexplicação provocada supera receber a explicação pronta (g=0,35; Bisra *et al.*, 2018) |
+| `desvanecido` | passo apagado da conta. Ao conferir, as linhas certas aparecem e as dele ficam ao lado. Sem nota, sem "errado" | desvanecimento somado a prompt de princípio rende em transferência próxima e distante (Atkinson, Renkl & Merrill, 2003) |
+| `prever` | pergunta com 2 ou 3 opções, ou campo numérico, que **tem de ser respondida** antes de o botão liberar. A revelação repete a previsão dele e diz se bateu | resolver antes de explicar rende (g=0,36; Sinha & Kapur, 2021), **desde que a explicação construa sobre o que o leitor tentou** — g=0,56 contra 0,20 quando ignora |
+
+A última coluna é a razão de a revelação do `prever` começar pela previsão do leitor, e não pela resposta.
+
+### Acessibilidade, e uma armadilha
+
+O botão de revelar **não** nasce `disabled` nem `aria-disabled` enquanto falta responder. As duas coisas o tiram da tabulação ou o anunciam como indisponível — e aí o motivo de ele não liberar, que mora no `role="status"` ao lado, deixa de ser alcançável por quem lê a tela. (Medido: o Playwright recusa clicar num `aria-disabled`, aplicando a mesma regra que a tecnologia assistiva.) O sinal de "ainda não" é `data-pronto`, que pinta e não bloqueia; quem bloqueia é o clique, que escreve o porquê. A revelação entra num `aria-live="polite"` que já existe vazio no DOM, porque região viva criada na hora não anuncia de forma confiável.
+
+O código: `publicar/tema/interacoes.js` (comportamento) e `publicar/testes/interacoes.mjs` (o que ele promete). DOM falso não tem foco nem tabulação, e foi por aí que o `aria-disabled` passou. Por isso a **asserção F** de `publicar/jornada.mjs` refaz o gesto num Chromium de verdade: clica em revelar sem responder nada e exige que nada tenha sido revelado e que a página tenha dito por quê.
+
 ## Progresso do leitor
 
 - Identidade **anônima**, gerada pelo navegador — a mesma do chat. Sem cadastro, sem email.

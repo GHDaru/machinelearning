@@ -6,6 +6,97 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o gate do modo cartão levava 40 minutos, morria em arquivo faltando, e quase virou um gate de uma página só
+
+- **O custo.** Ele abria as 81 páginas com `waitUntil: "networkidle"`, e `networkidle` só
+  desiste no timeout de 30s — o site tem ilhas que atualizam sozinhas e nunca dão o silêncio
+  que ele espera. Medido: **sete minutos para chegar à décima quinta página**. Com
+  `waitUntil: "load"`, que é a espera certa porque o modo cartão é montado na carga e não
+  depende de rede, as 81 páginas levam **37 segundos**.
+- **O erro que se disfarçava de outro.** O servidor de teste escrevia o cabeçalho **antes** de
+  ler o arquivo, então todo 404 estourava `ERR_HTTP_HEADERS_SENT` e derrubava o gate inteiro
+  com um stack que não fala de cartão nenhum. Agora lê primeiro; e página pedida à mão que não
+  existe recebe uma frase, não um stack.
+- **E o defeito que quase entrou no lugar.** Com o custo resolvido, a economia óbvia era só
+  abrir as páginas cujo Markdown traz `:::cartao`. Ela estava errada: **toda** página tem modo
+  cartão, porque sem marcador o `cartoes.js` corta por cabeçalho. O filtro teria estreitado o
+  gate de 81 páginas para 1 **sem dizer a ninguém** — a classe de defeito que este
+  repositório passa o tempo caçando. Foi medido antes de ser adotado, e por isso caiu.
+- **O que ficou no lugar do filtro:** todas as páginas são medidas, e o marcador decide o que
+  se **cobra**. Baralho cortado à mão é cobrado por inteiro, com a premissa do autor (todo
+  cartão tem interação e exercício); baralho por cabeçalho é medido e **relatado**, sem
+  reprovar. E o resumo imprime os dois números **sempre, inclusive quando passa** — é isso que
+  impede a camada relatada de virar silêncio. O gate também recusa uma varredura em que só
+  sobre a camada relatada: gate que só relata não é gate.
+- O tamanho do que ficou de fora virou a **D20** do [`ROADMAP.md`](ROADMAP.md): 623 de 682
+  cartões sem interação em 57 páginas, pior razão 80,1x.
+
+### Adicionado — asserção **F** na auditoria da jornada: a interação que bloqueia é clicada num Chromium de verdade
+
+- **A afirmação mais próxima do leitor era a menos protegida.** O bloqueio do `prever` — o
+  botão que não libera enquanto o leitor não arrisca — é a peça em que a evidência do método
+  se apoia: resolver antes de explicar só rende quando a explicação vem **depois** da
+  tentativa. Ele estava afirmado em dois lugares que não são o navegador: o
+  `publicar/testes/interacoes.mjs`, num DOM falso, e um script de rascunho **fora do
+  repositório**. Um DOM falso não tem `disabled`, não tem foco e não tem tabulação; foi
+  exatamente por aí que um `aria-disabled` passou, deixando o botão inalcançável para leitor
+  de tela sem que teste nenhum reclamasse.
+- **O que F cobra, por página:** as interações do fonte chegam ao DOM (contagem
+  `:::interacao` × `.interacao`, a mesma trava que a asserção B faz pelos exercícios); cada
+  uma tem botão, `role="status"` e um controle onde responder; e então o script **clica em
+  revelar sem responder nada** e exige que a revelação **não** tenha acontecido e que a
+  página **tenha dito por quê**.
+- **Quatro mutações, quatro falhas** — porque portão que nunca se viu falhar não é portão.
+  Dispensar a resposta acusa `revelou sem o leitor ter respondido`; bloquear sem escrever no
+  status acusa `bloqueou a revelação e não disse por quê`; renomear uma `<section class="interacao">`
+  no HTML montado acusa `o fonte declara 3 e o navegador montou 2`; remover o campo de
+  previsão acusa `interação sem botão, sem status ou sem onde responder`. Com o código
+  íntegro, as 81 páginas passam.
+- O clique é disparado por `evaluate`, e não pelo Playwright, porque no modo cartão só um
+  cartão fica visível e o Playwright — com razão — recusa clicar no que não se vê. O alvo de F
+  é a regra; visibilidade quem cobra é a asserção A.
+
+### Adicionado — `:::interacao`, a peça formativa que faltava para "todo cartão tem uma interação E um exercício"
+
+- **A distinção define a arquitetura.** O exercício é **somativo**: vale nota, é corrigido no
+  backend, grava tentativa por aluno, e o erro conta contra ele. A interação é **formativa**:
+  não vale nada, é revelada **no cliente**, não grava coisa nenhuma — nem servidor, nem
+  `localStorage` — e errar nela **é o ponto**. **É porque ela não vale nota que pode revelar
+  no cliente sem violar o Princípio VIII.3**: aquele princípio protege o gabarito daquilo
+  que é contabilizado, e aqui não há tentativa, placar nem telemetria a envenenar. De quebra,
+  sem segredo não há chamada de rede, e a interação fica inteira com o backend fora do ar
+  (Princípio VIII.6) — o teste roda o JavaScript real num ambiente onde tocar em `fetch`,
+  `XMLHttpRequest` ou `localStorage` **explode**.
+- **Três tipos, e cada um vem de evidência.** `principio` (exemplo trabalhado com pergunta de
+  princípio; autoexplicação provocada supera receber a explicação pronta, g=0,35 — Bisra
+  *et al.*, 2018); `desvanecido` (passo apagado, a linha certa aparece **ao lado** da do
+  leitor, sem nota e sem "errado" — Atkinson, Renkl & Merrill, 2003); `prever` (o botão só
+  libera depois da previsão, e a revelação **repete a previsão dele antes de dar o
+  resultado**, porque o ganho de resolver-antes-de-explicar depende de a explicação construir
+  sobre o que o leitor tentou: g=0,56 quando constrói, g=0,20 quando ignora — Sinha & Kapur,
+  2021).
+- **Sintaxe da casa**, com um desvio deliberado: o passo apagado é `- [?] rótulo => a linha
+  certa`, e não `- [x]`. `[x]` significa "gabarito" aqui, e interação não tem gabarito — e o
+  gate de vazamento do `build.mjs` recusa `- [x]` no Markdown exportado, que `semGabarito()`
+  só limpa dentro de bloco de exercício. A previsão usa `- ( )` e `- (!)` pelo mesmo motivo.
+  Documentação em [`livro/BANCO-DE-EXERCICIOS.md`](livro/BANCO-DE-EXERCICIOS.md).
+- **O botão de revelar não nasce `disabled` nem `aria-disabled`.** As duas coisas o tiram da
+  tabulação ou o anunciam como indisponível, e levam junto a única explicação de por que ele
+  não libera — que mora no `role="status"` ao lado. Medido: o Playwright **recusa clicar** num
+  `aria-disabled`, aplicando a mesma regra da tecnologia assistiva. O sinal de "ainda não" é
+  `data-pronto`, que pinta e não bloqueia. A revelação entra num `aria-live="polite"` que já
+  existe vazio no DOM, porque região viva criada na hora não anuncia de forma confiável.
+- **Um de cada tipo no `II.2`, com conteúdo do próprio capítulo:** o peso do *outlier* no
+  critério quadrático (`prever`: 100 contra 10), de onde sai o $x_i$ na segunda condição do
+  mínimo (`principio`), e quem explica os 9,4 copos da limonada (`desvanecido`: 8,05 de
+  temperatura contra 0,48 de preço, com o maior coeficiente da equação rendendo a menor
+  parcela). **Os cartões sem interação caíram de 16 para 13**, dentro dos limites de altura,
+  palavras e razão do gate.
+- Arquivos: `publicar/tema/interacoes.js`, `publicar/testes/interacoes.mjs` (63 asserções,
+  ligadas ao `testes/rodar.mjs`), parser em `publicar/interativos.mjs` e estilo em
+  `publicar/tema/interativos.css`. **O `:::exercicio` e o backend não foram tocados**: o
+  `banco.json` não ganhou nem perdeu item.
+
 ### Alterado — o modo cartão passa a cortar por conceito, não por cabeçalho (cap. `II.2`)
 - A régua v1 cortava em cada `<h2>`/`<h3>`. Cabeçalho é critério **tipográfico**: diz onde o
   autor quis um título, não onde termina uma unidade que o leitor consegue fechar. Medido a
