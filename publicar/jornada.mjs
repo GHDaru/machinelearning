@@ -178,6 +178,7 @@ const aba = await navegador.newPage({ viewport: { width: LARGURA, height: 800 } 
 const falhas = [];
 let comExercicios = 0;
 let comInteracoes = 0;
+let comFormulas = 0, redirecionadas = 0, formulasCortadasTotal = 0;
 const errosJs = [];
 aba.on("pageerror", (e) => errosJs.push(String(e).slice(0, 140)));
 aba.on("console", (m) => { if (m.type() === "error" && !/ERR_CERT|ERR_NAME|ERR_CONNECTION/.test(m.text())) errosJs.push(m.text().slice(0, 140)); });
@@ -203,6 +204,14 @@ for (const nome of paginas) {
         .filter((e) => e.getBoundingClientRect().right > W + 1 && !dentroDeRolagem(e))
         .slice(0, 3)
         .map((e) => e.tagName + (e.className ? "." + String(e.className).split(" ")[0] : "")),
+      // G: a fórmula está dentro de um contêiner que rola, então ela escapa de
+      // A por construção. O que se mede aqui é outra coisa: o conteúdo dela cabe
+      // na caixa em que ela é DESENHADA? Não cabendo, a expressão termina na
+      // margem, e no Chromium móvel nem barra aparece antes do gesto.
+      formulasCortadas: [...document.querySelectorAll("mjx-container")]
+        .filter((e) => e.scrollWidth > e.clientWidth + 1)
+        .map((e) => ({ sw: e.scrollWidth, cw: e.clientWidth,
+                       tex: (e.textContent || "").trim().slice(0, 46) })),
       exercicios: document.querySelectorAll(".exercicio").length,
       labsVazios: [...document.querySelectorAll("[data-lab]")]
         .filter((e) => !e.querySelector("canvas, svg, table, button"))
@@ -269,6 +278,34 @@ for (const nome of paginas) {
     falhas.push(`${nome} · F · bloqueou a revelação e não disse por quê: ${ias.mudas.join(", ")}. ` +
                 `Botão que não responde e não explica é botão quebrado, para o leitor.`);
   }
+
+  // G — fórmula cortada na margem.
+  //
+  // Stub de redirecionamento não entra: ele carrega, o `meta refresh` leva o
+  // navegador ao capítulo de destino, e o que se mediria aqui seria o destino
+  // outra vez, com outro nome. Contar duas vezes a mesma fórmula obrigaria a
+  // dívida a declarar o mesmo número em dois lugares, e o segundo envelheceria
+  // calado. O destino é medido no turno dele.
+  const caminhoFinal = new URL(aba.url()).pathname.replace(/^\//, "");
+  if (caminhoFinal !== nome) {
+    redirecionadas++;
+  } else {
+    comFormulas++;
+    const cortadas = visto.formulasCortadas;
+    const previsto = FORMULA_CORTADA_PENDENTE.get(nome.replace(/\.html$/, "")) || 0;
+    formulasCortadasTotal += cortadas.length;
+    if (cortadas.length > previsto) {
+      const amostra = cortadas.slice(0, 3)
+        .map((f) => `${f.sw}px num espaço de ${f.cw}px ("${f.tex}…")`).join("; ");
+      falhas.push(`${nome} · G · ${cortadas.length} fórmula(s) terminam cortadas na margem ` +
+                  `(a dívida declarada é ${previsto}): ${amostra}. ` +
+                  `Quebre a fórmula em duas linhas — o eixo horizontal já é do baralho.`);
+    } else if (cortadas.length < previsto) {
+      falhas.push(`${nome} · G · a dívida declara ${previsto} fórmula(s) cortada(s) e há ${cortadas.length}: ` +
+                  `atualize FORMULA_CORTADA_PENDENTE (publicar/jornada.mjs). ` +
+                  `Dívida paga que continua na lista vira teto para o próximo corte.`);
+    }
+  }
 }
 
 await navegador.close();
@@ -277,11 +314,18 @@ servidor.close();
 console.log(`Jornada: ${paginas.length} página(s) abertas em Chromium a ${LARGURA}px · ` +
             `${comExercicios} com fonte rastreável para conferir a contagem de exercícios · ` +
             `${comInteracoes} interação(ões) clicada(s) sem resposta para ver se seguram.`);
+// Sempre, inclusive no verde: a asserção G dispensa os stubs e tolera uma dívida,
+// e quem dispensa em silêncio estreita o gate sem avisar ninguém.
+console.log(`   Fórmulas: ${comFormulas} página(s) medidas e ${redirecionadas} dispensadas ` +
+            `(stub de redirecionamento, medido no destino) · ` +
+            `${formulasCortadasTotal} fórmula(s) ainda cortam, todas declaradas em ` +
+            `FORMULA_CORTADA_PENDENTE.`);
 if (falhas.length) {
   console.error(`✗ ${falhas.length} problema(s) que o leitor veria:`);
   falhas.forEach((f) => console.error("   " + f));
   process.exit(1);
 }
 console.log("✓ nenhuma página rola de lado, os exercícios do fonte chegam ao DOM, " +
-            "os laboratórios montam, o companion carrega, o console fica limpo e " +
-            "nenhuma interação revela antes de o leitor responder.");
+            "os laboratórios montam, o companion carrega, o console fica limpo, " +
+            "nenhuma interação revela antes de o leitor responder e nenhuma fórmula " +
+            "termina cortada na margem fora da dívida declarada.");
