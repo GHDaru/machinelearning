@@ -23,12 +23,15 @@ import anchor from "markdown-it-anchor";
 import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair, semGabarito } from "./interativos.mjs";
-import { marcarCortes } from "./cartoes.mjs";
+import { marcarCortes, pontasDe } from "./cartoes.mjs";
 import { verificar as verificarProsa } from "./prosa.mjs";
 import { verificar as verificarIntervalos } from "./intervalos.mjs";
 import { verificar as verificarTema } from "./gates/tema-unico.mjs";
 import { verificar as verificarHtml } from "./gates/html-integro.mjs";
 import { verificar as verificarLinks } from "./gates/links-relativos.mjs";
+
+// Quanto de cada capítulo com baralho fica fora dele. Ver `pontasDe`.
+const pontasFora = [];
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -475,6 +478,14 @@ for (let k = 0; k < itens.length; k++) {
   // posição exata (ver publicar/cartoes.mjs). Roda antes dos blocos interativos
   // porque um cartão CONTÉM exercícios: o marcador é divisória, não invólucro.
   const comInterativos = renderizar(marcarCortes(bruto, item.arquivo), renderMd, item.arquivo, cap);
+  // As pontas fora do baralho são permitidas; ficar caladas sobre elas não é.
+  const pontas = pontasDe(bruto);
+  if (pontas && (pontas.antes || pontas.depois)) {
+    const fora = pontas.antes + pontas.depois;
+    pontasFora.push(`${item.arquivo}: ${fora} de ${pontas.total} palavras ` +
+      `(${(100 * fora / pontas.total).toFixed(0)}%) ficam fora do baralho — ` +
+      `${pontas.antes} antes do primeiro cartão, ${pontas.depois} depois do fecho`);
+  }
   let corpo = dedupCssMatematica(marcarCallouts(md.render(comInterativos, { srcDir: dirname(item.arquivo) })));
 
   let hero = null;
@@ -577,6 +588,11 @@ mkdirSync(resolve(SAIDA, "md"), { recursive: true });
 // Knowledge Graph do livro — derivado do conteúdo a cada build.
 const grafo = gerarGrafo(itens, RAIZ, versaoDoLivro());
 writeFileSync(resolve(SAIDA, "assets/grafo.json"), JSON.stringify(grafo));
+if (pontasFora.length) {
+  console.log(`✓ Modo cartão: ${pontasFora.length} capítulo(s) com baralho declarado.`);
+  pontasFora.forEach((p) => console.log("   " + p));
+  console.log("   As pontas são permitidas; o número existe para que ninguém as descubra tarde.");
+}
 console.log(`✓ Grafo do livro: ${grafo.nos.length} nós, ${grafo.arestas.length} arestas`);
 
 // index = tela-capa (splash).

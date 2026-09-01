@@ -360,8 +360,14 @@ ok("as opções congelam depois da revelação", opcoes[0].disabled === true);
 // ---- o capítulo de verdade ------------------------------------------------
 const cap = readFileSync(resolve(RAIZ, "livro/capitulos/ii-2-modelos-lineares.md"), "utf8");
 const doCap = extrair(cap, "livro/capitulos/ii-2-modelos-lineares.md", 10).interacoes;
-ok("o II.2 traz um exemplar de cada tipo, com conteúdo do próprio capítulo",
-   doCap.length === 3 && new Set(doCap.map((i) => i.tipo)).size === 3);
+// A asserção é sobre COBERTURA DE TIPO, não sobre quantidade. A primeira versão
+// exigia exatamente 3 interações, o número que o capítulo tinha no dia em que
+// este teste nasceu — e reprovou assim que o capítulo ganhou a quarta, dando o
+// veredito "motor quebrado" para o fato "o livro cresceu". Teste de motor não
+// fixa contagem de conteúdo: fixa que os três tipos continuam exercitados por
+// texto real, que é o que pega um tipo virando letra morta numa refatoração.
+ok("o II.2 exercita os três tipos, com conteúdo do próprio capítulo",
+   doCap.length >= 3 && new Set(doCap.map((i) => i.tipo)).size === 3);
 
 if (falhas) { console.error(`✗ ${falhas} FALHOU`); process.exit(1); }
 console.log("✓ interação: formativa, revela no cliente, não julga e não toca em rede.");

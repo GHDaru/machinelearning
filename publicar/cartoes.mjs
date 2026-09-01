@@ -92,11 +92,108 @@ export function cartoesDe(markdown, arquivo = "?") {
 }
 
 /**
+ * O baralho não pode ter ilha.
+ *
+ * POR QUE ISTO É UM ERRO DE BUILD, E NÃO UM AVISO
+ *
+ * Com o modo cartão ligado, o `cartoes.js` põe `hidden` em tudo que não caiu
+ * dentro de um cartão. Isso é deliberado: o leitor pediu um baralho, e o que
+ * sobra na página atrás dele seria ruído. O que NÃO é deliberado é o que
+ * acontece quando o autor fecha o baralho no meio do capítulo com
+ * `:::cartao-fim`, escreve prosa, e abre outro `:::cartao` depois. O trecho do
+ * meio vira uma ILHA: existe na página inteira, some no modo cartão, e nada
+ * avisa ninguém.
+ *
+ * Medido no `II.2` em 2026-09-01, antes deste gate existir: o baralho era
+ * interrompido seis vezes e escondia 2.198 das 7.543 palavras do capítulo
+ * (29,1%). Entre as ilhas estavam a montagem inteira do caso da limonada, o
+ * exemplo aritmético que torna a dedução concreta, e a seção que diz o que o
+ * coeficiente DIZ, antes das quatro que dizem o que ele não diz.
+ *
+ * E o dano não parou na prosa. Três exercícios QUE VALEM NOTA ficaram dentro de
+ * cartões citando material que tinha ido para a ilha: `e4` pede "pelo ajuste
+ * múltiplo acima" e não há acima; `e5` cita um coeficiente `+2,41` que não
+ * aparece em cartão nenhum; `e6`, a aberta corrigida por rubrica, começa com
+ * "você tem os 365 dias do conjunto acima". Um quarto do banco do capítulo era
+ * inrespondível exatamente no modo em que o capítulo se propõe a ser lido no
+ * celular.
+ *
+ * Por isso o erro é de build. Ilha não degrada a leitura: ela quebra a
+ * avaliação, em silêncio, e do lado do leitor que tem menos tela para descobrir
+ * o que faltou.
+ *
+ * O QUE CONTINUA PERMITIDO. Ficar fora do baralho ANTES do primeiro `:::cartao`
+ * ou DEPOIS do `:::cartao-fim` final. É onde moram o cabeçalho, o selo de data e
+ * o que o autor decidir não cartonar. O que se recusa é a ilha no MEIO, porque
+ * só ela é invisível para quem a escreveu.
+ */
+export function ilhasDe(markdown) {
+  const emCerca = cercas(markdown);
+  const marcas = [];
+  for (const m of markdown.matchAll(RE_MARCADOR)) {
+    if (emCerca(m.index)) continue;
+    marcas.push({ fim: !!m[1], ini: m.index, apos: m.index + m[0].length });
+  }
+  if (!marcas.length) return [];                       // capítulo sem baralho
+  const ultimoFim = [...marcas].reverse().find((m) => m.fim);
+  if (!ultimoFim) return [];                           // baralho aberto até o fim do arquivo
+
+  const ilhas = [];
+  for (let i = 0; i < marcas.length - 1; i++) {
+    if (!marcas[i].fim) continue;                      // só `cartao-fim` abre ilha
+    if (marcas[i].ini >= ultimoFim.ini) break;         // o fecho final não abre ilha
+    const trecho = markdown.slice(marcas[i].apos, marcas[i + 1].ini);
+    const palavras = trecho.trim().split(/\s+/).filter(Boolean).length;
+    if (!palavras) continue;
+    const linha = markdown.slice(0, marcas[i].apos).split("\n").length;
+    const primeira = trecho.trim().split("\n").find((l) => l.trim()) || "";
+    ilhas.push({ linha, palavras, amostra: primeira.trim().slice(0, 70) });
+  }
+  return ilhas;
+}
+
+/**
+ * Quanto do capítulo fica fora do baralho nas pontas — antes do primeiro
+ * `:::cartao` e depois do `:::cartao-fim` final.
+ *
+ * As pontas são PERMITIDAS, e por isso mesmo precisam ser ditas. A ilha do meio
+ * é recusada pelo build; a ponta não, e sem este número ela seria a mesma perda
+ * um passo ao lado: bastaria adiantar o fecho final para o capítulo inteiro
+ * virar rodapé escondido, com o gate calado. O `build.mjs` imprime isto em todo
+ * capítulo com baralho, inclusive quando passa.
+ */
+export function pontasDe(markdown) {
+  const emCerca = cercas(markdown);
+  const marcas = [];
+  for (const m of markdown.matchAll(RE_MARCADOR)) {
+    if (emCerca(m.index)) continue;
+    marcas.push({ fim: !!m[1], ini: m.index, apos: m.index + m[0].length });
+  }
+  if (!marcas.length) return null;
+  const conta = (t) => t.trim().split(/\s+/).filter(Boolean).length;
+  const ultimoFim = [...marcas].reverse().find((m) => m.fim);
+  return {
+    antes: conta(markdown.slice(0, marcas[0].ini)),
+    depois: ultimoFim ? conta(markdown.slice(ultimoFim.apos)) : 0,
+    total: conta(markdown),
+  };
+}
+
+/**
  * Troca cada marcador pelo `<hr>` invisível que o JavaScript do tema procura.
  * Roda ANTES do markdown-it; o `<hr …>` sozinho na linha é bloco HTML.
  */
 export function marcarCortes(markdown, arquivo = "?") {
   cartoesDe(markdown, arquivo); // valida antes de escrever qualquer coisa
+  const ilhas = ilhasDe(markdown);
+  if (ilhas.length) {
+    const total = ilhas.reduce((a, i) => a + i.palavras, 0);
+    throw new ErroDeCartao(arquivo,
+      `${ilhas.length} ilha(s) no meio do baralho, ${total} palavra(s) que somem no modo cartão:\n` +
+      ilhas.map((i) => `      linha ${i.linha}, ${i.palavras} palavra(s): "${i.amostra}…"`).join("\n") +
+      "\n      Um `:::cartao-fim` no meio do capítulo esconde tudo até o próximo `:::cartao`." +
+      "\n      Ou o trecho vira cartão, ou ele vai para antes do primeiro marcador ou depois do fecho final.");
+  }
   const emCerca = cercas(markdown);
   return markdown.replace(RE_MARCADOR, (bloco, fim, json, offset) => {
     if (emCerca(offset)) return bloco;

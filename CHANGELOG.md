@@ -6,6 +6,43 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o modo cartão escondia 29,1% do `II.2`, e três exercícios que valem nota ficavam impossíveis de responder
+
+- **O mecanismo.** Com o baralho ligado, o `tema/cartoes.js` põe `hidden` em tudo que não caiu
+  dentro de um cartão. Isso é deliberado. O que não era deliberado é a **ilha**: fechar o
+  baralho no meio do capítulo com `:::cartao-fim`, escrever prosa, e reabrir com outro
+  `:::cartao`. O trecho do meio existe na página inteira, some no modo cartão, e nada avisava.
+- **O tamanho, medido no `II.2`:** seis interrupções, **2.198 das 7.543 palavras** fora do
+  baralho. Sumiam a montagem inteira do caso da limonada (os 365 dias, a correlação
+  `preco +0,851`, a tabela preço × estação), o exemplo aritmético que torna a dedução concreta,
+  e a seção que diz o que o coeficiente **diz**, antes das quatro que dizem o que ele não diz.
+- **E o dano não parou na prosa.** Três exercícios estavam **dentro** de cartões citando
+  material que tinha ido para a ilha: `e4` pede *"pelo ajuste múltiplo acima"* e não há acima;
+  `e5` cita um coeficiente `+2,41` que não aparece em cartão nenhum; `e6`, a aberta corrigida
+  por rubrica, abre com *"você tem os 365 dias do conjunto acima"*. **Um quarto do banco do
+  capítulo era inrespondível justamente no modo em que o capítulo se propõe a ser lido no
+  celular** — e os cartões do Nível 3, que carregam a tese, argumentavam sobre um número que o
+  leitor de cartão não tinha visto.
+- **O conserto é um gate, não um remendo.** `ilhasDe()` em `publicar/cartoes.mjs` reprova o
+  build, com a linha e a amostra de cada trecho perdido. Ilha não degrada a leitura: ela quebra
+  a avaliação, em silêncio, e do lado do leitor que tem menos tela para descobrir o que faltou.
+- **A ponta continua permitida, e passa a ser dita.** Ficar fora do baralho antes do primeiro
+  marcador ou depois do fecho final é decisão de autor, e é onde moram o cabeçalho e o selo de
+  data. Mas sem número isso seria a mesma perda um passo ao lado: bastaria adiantar o fecho para
+  o capítulo virar rodapé escondido com o gate calado. `pontasDe()` imprime o quanto **em toda
+  execução, inclusive quando passa**.
+- Treze casos em `publicar/testes/cartoes-ilha.mjs`, incluindo os que o detector **não** pode
+  acusar: capítulo sem baralho, ponta nas duas bordas, fecho vazio e marcador citado dentro de
+  cerca de código. Detector que acusa demais é desligado, e desligado ele não acusa nada.
+
+### Corrigido — um teste de motor fixava a contagem de conteúdo de um capítulo
+
+- `publicar/testes/interacoes.mjs` exigia que o `II.2` tivesse **exatamente** três interações,
+  que era o número do dia em que ele nasceu. Reprovou assim que o capítulo ganhou a quarta,
+  dando o veredito "motor quebrado" para o fato "o livro cresceu". A asserção passa a ser sobre
+  **cobertura de tipo**: os três tipos continuam exercitados por texto real, que é o que pega um
+  tipo virando letra morta numa refatoração.
+
 ### Corrigido — o gate do modo cartão levava 40 minutos, morria em arquivo faltando, e quase virou um gate de uma página só
 
 - **O custo.** Ele abria as 81 páginas com `waitUntil: "networkidle"`, e `networkidle` só
