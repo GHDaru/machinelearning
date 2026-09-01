@@ -185,7 +185,7 @@ $L$ é uma soma de quadrados: é uma superfície convexa em $(a, b)$, uma tigela
 
 Derivando em relação a $b$:
 
-$$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
+$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
 
 onde $r_i = y_i - ax_i - b$ é o resíduo. **A soma dos resíduos é zero.** Dividindo por $n$: $\bar{y} = a\bar{x} + b$, ou seja,
 
@@ -213,7 +213,7 @@ Qual é o **intercepto** $b$?
 
 Derivando em relação a $a$:
 
-$$\frac{\partial L}{\partial a} = -2\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
+$$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
 
 **Os resíduos são ortogonais ao atributo.** Traduzindo: o que sobrou de erro **não tem mais nada de linear em $x$** — se tivesse, a reta ainda poderia melhorar. É o significado geométrico do ajuste, e vale para qualquer número de atributos.
 
@@ -358,10 +358,12 @@ Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.**
 
 A última linha é onde o relatório morre. Ela sugere uma recomendação de negócio (*aumente o preço*) que é o oposto do que a barraca deve fazer. Antes de ler adiante, olhe o dado:
 
-| preço | dias | temperatura média | vendas médias | meses em que aparece |
+| preço | dias | temperatura média* | vendas médias | meses em que aparece |
 |---|---|---|---|---|
 | 0,30 | 303 | 57,0 | 23,7 | jan–jun, set–dez |
 | 0,50 | 62 | 78,8 | 33,1 | **só julho e agosto** |
+
+> \* **A unidade da temperatura não está no arquivo**, e a ficha do dado recusa-se a inventá-la. A faixa observada (15,1 a 102,9) é típica de Fahrenheit, onde 78,8 °F são cerca de 26 °C. É a leitura mais provável, não uma certeza. Guarde a pergunta, porque ela é a primeira que se faz num dado alheio: *o que você faz antes de reportar um coeficiente cuja unidade você não conhece?*
 
 O preço subiu **no verão**. `preco` não é uma alavanca de decisão: é um **termômetro disfarçado**. A correlação de +0,513 mede o calor de julho, não a disposição do freguês a pagar.
 
@@ -378,6 +380,11 @@ vendas = 3,192
        + 0,0188 · panfletos
        + 2,4143 · preco          R² = 0,982
 ```
+
+> **O $R^2$, que o livro ainda não tinha apresentado**, é a fração da variação de `vendas` que o modelo reproduz: 0 é não fazer melhor que prever sempre a média, 1 é acertar cada ponto. **0,982 é altíssimo, e é por isso que ele está aqui.** Reproduzir bem o passado e dizer o efeito de mexer numa alavanca são coisas diferentes.
+
+
+:::cartao {"nivel":3,"titulo":"Controlar remove só o que a variável mede"}
 
 O coeficiente do preço continua **positivo**. Controlar pela temperatura não desfez nada — porque a temperatura média não captura *ser julho*, e o que sobrou de julho continua morando dentro de `preco`.
 
@@ -460,7 +467,7 @@ Escreva a resposta que você daria a ela — em até seis linhas, sem jargão. D
 > A resposta forte não é "não dá para saber". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* — o modelo responde bem. *Quanto vendo a mais se eu baixar o preço?* — o dado não contém a resposta, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês — que é justamente o que nunca aconteceu nestes 365 dias.
 >
 > Uma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita — é exatamente o relatório que o capítulo existe para impedir.
-> **volte para:** #quando-o-linear-e-a-escolha-certa
+> **volte para:** #o-passo-que-deveria-salvar-e-nao-salva
 :::
 
 :::cartao-fim
