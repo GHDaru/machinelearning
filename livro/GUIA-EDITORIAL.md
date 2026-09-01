@@ -65,6 +65,18 @@ A terceira superfície do livro, ao lado de exercício e vídeo:
 
 Um laboratório roda inteiro no navegador. Não há gabarito a esconder — o gabarito é o comportamento do próprio objeto. Isso o torna a superfície mais robusta do livro: funciona mesmo com o backend fora do ar.
 
+> **O laboratório vem antes da explicação — e há uma fronteira que esta regra não declarava.**
+> Praticar antes de ser ensinado rende em **conceito e transferência** (g = 0,36) e **não rende em
+> procedimento** (g = −0,03) — Sinha & Kapur, 2021, 53 estudos. Num ato de procedimento, o exemplo
+> trabalhado vem primeiro, e o leitor produz depois.
+>
+> E a prática tem de ser **assistida**: descoberta sem apoio rende **d = −0,38**, e com feedback,
+> exemplo e andaime rende **+0,30** (Alfieri et al., 2011). A diferença é de sinal, não de grau.
+>
+> A condição que quase ninguém cumpre: **a explicação que vem depois tem de construir sobre o que o
+> leitor tentou** (g = 0,56, contra 0,20 quando ignora). Laboratório seguido de texto genérico é a
+> versão que produz os efeitos pequenos. Ver [ADR 0022](../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md).
+
 **Regras de autoria:**
 
 - O bloco declara **o que manipular ali ensina** e, sobretudo, **o que o leitor deve descobrir sozinho**. Um laboratório que explica antes de deixar brincar desperdiça o próprio mecanismo.

@@ -119,7 +119,14 @@ A razão não é ornamental. Quem sabe *que problema forçou o método a existir
 
 #### A seção obrigatória: "De onde isto veio"
 
-Todo capítulo de método tem essa seção, posicionada **depois** de "o problema" e **antes** da intuição. Ela não é caixa de curiosidade: é o que dá ao leitor um motivo para não pular direto para a fórmula.
+Todo capítulo de método tem essa seção. Ela não é caixa de curiosidade: é o que dá ao leitor um motivo para não pular direto para a fórmula.
+
+**Duas posições são admitidas** ([ADR 0022](../../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md)):
+
+- **depois de "o problema" e antes da intuição** — quando é a história que estabelece o aperto que o método resolve;
+- **ao fim do capítulo** — quando o capítulo leva o leitor ao aperto por outro caminho, tipicamente pela prática.
+
+O que não muda com a posição: os **cinco elementos** e a **tabela de selos** continuam obrigatórios nas duas. A seção pode mudar de lugar; não pode mudar de natureza. E a proibição de curiosidade decorativa vale igual nas duas — o que decide não é onde a seção está, é se ela carrega a ideia reaproveitável.
 
 Cinco elementos, nesta ordem:
 
@@ -206,7 +213,9 @@ O leitor deve terminá-la **querendo continuar**. Um livro técnico compete com 
 
 Esta constituição prevalece sobre preferências pontuais. Emendas são registradas aqui e no `livro/HISTORICO.md`. O `CLAUDE.md` da raiz aponta para este documento como fonte de autoridade.
 
-**Versão**: 1.2.0 | **Ratificada**: 2026-08-01 | **Última emenda**: 2026-08-10
+**Versão**: 1.3.0 | **Ratificada**: 2026-08-01 | **Última emenda**: 2026-09-01
+
+**Emenda 1.3.0 (2026-09-01)** — o **Princípio X** passa a admitir **duas posições** para "De onde isto veio": a original (depois de "o problema") e **ao fim do capítulo**, quando é a prática que leva o leitor ao aperto. Os cinco elementos e a tabela de selos continuam obrigatórios nas duas, e a proibição de curiosidade decorativa também. Motivada por pedido do autor e decidida em [ADR 0022](../../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md), que registra que a mudança se apoia em **ritmo**, e não em evidência de aprendizagem: procurei estudo sobre a posição de narrativa histórica e **não achei** (❌).
 
 **Emenda 1.2.0 (2026-08-10)** — novo **Princípio X, "Nenhum método cai do céu"** (não-negociável): todo capítulo de método traz a seção **"De onde isto veio"** (o aperto, o que se fazia antes, a virada, **a ideia reaproveitável**, o nome), com **selos de proveniência por afirmação histórica** (✓ / ✓ᵐ / ⏳ / ❌ / 📖), três proibições (gênio solitário, curiosidade decorativa, mistura de registro) e a regra de **pesquisar a história em sessão própria**, não capítulo a capítulo.
 
