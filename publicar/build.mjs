@@ -25,6 +25,7 @@ import { verificar as verificarProsa } from "./prosa.mjs";
 import { verificar as verificarIntervalos } from "./intervalos.mjs";
 import { verificar as verificarTema } from "./gates/tema-unico.mjs";
 import { verificar as verificarHtml } from "./gates/html-integro.mjs";
+import { verificar as verificarLinks } from "./gates/links-relativos.mjs";
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -995,5 +996,14 @@ if (htmlRompido.length) {
   process.exit(1);
 }
 
-console.log(`✓ Livro gerado: ${gerados} páginas + capa em docs/ (links internos OK)`);
+// A frase "links internos OK" era decorativa: nada conferia link nenhum, e sete
+// links quebrados chegaram ao livro publicado. Agora ela é o resultado do gate.
+const { conferidos: nLinks, problemas: linksRuins } = verificarLinks();
+if (linksRuins.length) {
+  console.error(`✗ ${linksRuins.length} link(s) relativo(s) apontando para arquivo inexistente:`);
+  for (const l of linksRuins) console.error(`   ${l.arquivo}:${l.linha} → ${l.alvo}   ("${l.texto}")`);
+  console.error("   O reescritor manda o desconhecido para o GitHub, então isto vira um 404 com cara de link bom.");
+  process.exit(1);
+}
+console.log(`✓ Livro gerado: ${gerados} páginas + capa em docs/ (${nLinks} links relativos conferidos)`);
 console.log(`  Interatividade: ${placar.exercicios} exercícios · ${placar.videos} vídeos · ${placar.laboratorios} laboratórios`);

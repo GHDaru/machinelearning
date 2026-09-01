@@ -95,7 +95,7 @@ Um agente recebe recompensa 0 nos dois primeiros passos e 100 no terceiro. Com �
 >
 > O número diz o que o desconto faz com uma promessa distante. Um prêmio de 100 daqui a dois passos entra na conta valendo 64, e a diferença de 36 é o preço da espera declarado por quem escolheu γ.
 >
-> É a mesma aritmética da matriz de custo do [capítulo II.8](ii-8-do-modelo-a-decisao.md), com uma diferença que vale notar: lá os valores vêm de quem paga a conta no mundo, aqui γ é escolhido pela equipe. Um parâmetro que decide comportamento e não tem dono declarado é um lugar fácil de esconder uma decisão de negócio.
+> É a mesma aritmética da matriz de custo do [capítulo II.8](../capitulos/ii-8-do-modelo-a-decisao.md), com uma diferença que vale notar: lá os valores vêm de quem paga a conta no mundo, aqui γ é escolhido pela equipe. Um parâmetro que decide comportamento e não tem dono declarado é um lugar fácil de esconder uma decisão de negócio.
 :::
 
 :::exercicio {"id":"prova-parte-iv-q6","tipo":"multipla","objetivo":"O2","secao":"prova","objetivos":["livro/capitulos/iv-1-nao-supervisionado.md:O4","livro/capitulos/i-4-analise-exploratoria.md:O3"],"dificuldade":"dificil"}
@@ -107,7 +107,7 @@ Uma analista roda k-means com sete valores de k, olha os grupos de cada um, esco
 - [ ] O erro é não ter normalizado os atributos antes.
 
 > **gabarito:** critério escolhido depois de ver o resultado, sem gabarito para desmentir
-> **porque:** É o mesmo erro estrutural do [capítulo I.4](i-4-analise-exploratoria.md), em que escolher o padrão mais forte entre muitos e confirmá-lo nos mesmos dados garante que o teste já nasceu contaminado. Aqui ele é pior, porque no agrupamento não há resposta certa esperando para contradizê-la.
+> **porque:** É o mesmo erro estrutural do [capítulo I.4](../capitulos/i-4-analise-exploratoria.md), em que escolher o padrão mais forte entre muitos e confirmá-lo nos mesmos dados garante que o teste já nasceu contaminado. Aqui ele é pior, porque no agrupamento não há resposta certa esperando para contradizê-la.
 >
 > A primeira alternativa piora o problema com aparência de rigor: testar mais valores de k aumenta o número de partições examinadas, e portanto a chance de a mais "interpretável" ser a mais afortunada.
 >
@@ -139,7 +139,7 @@ Um sistema de crédito recomenda aprovações, e só quem foi aprovado gera hist
 - [ ] São problemas diferentes: um é viés de seleção e o outro é exploração insuficiente, sem relação entre si.
 
 > **gabarito:** a decisão filtra o dado, e mais coleta reforça
-> **porque:** São o mesmo mecanismo com dois vocabulários. O [capítulo I.3](i-3-dados.md) chama de viés de seleção com laço de realimentação; o [capítulo IV.2](iv-2-reforco.md) chama de explotação em excesso. Nos dois, o sistema fica mais confiante sobre uma fatia cada vez mais estreita do mundo.
+> **porque:** São o mesmo mecanismo com dois vocabulários. O [capítulo I.3](../capitulos/i-3-dados.md) chama de viés de seleção com laço de realimentação; o [capítulo IV.2](../capitulos/iv-2-reforco.md) chama de explotação em excesso. Nos dois, o sistema fica mais confiante sobre uma fatia cada vez mais estreita do mundo.
 >
 > A quarta alternativa acerta os dois nomes e nega a relação, que é o ponto do item. Ver que são o mesmo mecanismo é o que transfere o remédio: reservar uma fração de decisões fora da recomendação do modelo, e aceitar pagar por ela.
 >

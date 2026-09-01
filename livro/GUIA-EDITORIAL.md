@@ -34,7 +34,7 @@ A posição do item 3 é a regra, não sugestão: **depois** do problema e **ant
 ```markdown
 # 04 — Avaliação
 
-> **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](../HISTORICO.md)
+> **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](HISTORICO.md)
 ```
 
 O selo diz ao leitor se a seção "estado da arte" está fresca — o que a data de um evento citado no corpo não faz.
