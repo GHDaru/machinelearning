@@ -6,6 +6,42 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — o laboratório do `II.2` pedia um chute e não dava onde chutar
+
+- O laboratório `modelos-lineares-l2` pedia em negrito *"Antes de assistir, chute: quantos passos
+  até chegar a 1% do ótimo?"* e não oferecia campo nenhum. Dois parágrafos abaixo, na mesma tela,
+  estava a resposta: `1 460`. Sem campo e com o número à vista, o ganho de prever antes de ver
+  não acontece, porque ele depende de o leitor ter se comprometido com um número.
+- O pedido virou a interação `modelos-lineares-i39`, do tipo `prever` com campo numérico
+  (`"numero":1460`, `"tolerancia":500`), **antes** do laboratório; o parágrafo com a resposta
+  passou a ser o `revela` dela, que só aparece depois de o leitor arriscar.
+- Reusou-se a peça existente em vez de dar o campo ao próprio widget, e a razão é de verificação:
+  o bloqueio da `:::interacao` já é conferido num Chromium de verdade pela asserção F de
+  `publicar/jornada.mjs`, que clica em revelar sem responder e exige que nada apareça. Um segundo
+  mecanismo de bloqueio dentro de `tema/laboratorios.js` nasceria fora do alcance de F. Além
+  disso, o `laboratório` é a superfície que, por definição, não tem gabarito a esconder.
+- O cartão 15 passou de 1 466px para 1 547px, dentro do teto de 1 600px do gate dos cartões, e de
+  191 para 159 palavras. A prosa de apoio foi encurtada para caber, e é onde o conserto doeu.
+
+### Corrigido — fórmula cortada na margem, e a asserção G que passa a cobrar isso (D21)
+
+- Quatro fórmulas do `II.2` mediam 408px, 445px, 514px e 324px em espaços de 322px e 281px num
+  Chromium a 360px: o leitor via a expressão terminar no nada. Todas foram **quebradas em duas
+  linhas**. O corte acontecia no modo cartão e também no fluxo longo.
+- Quebrar, e não anunciar a rolagem, por uma razão medida no tema: com o modo cartão ligado,
+  `tema/cartoes.js` liga `ArrowLeft` e `ArrowRight` à troca de cartão para tudo que não seja
+  `INPUT`, `TEXTAREA` ou `SELECT`. O eixo horizontal já pertence ao baralho.
+- **Asserção G** em `publicar/jornada.mjs`: para cada `mjx-container`, `scrollWidth <= clientWidth`.
+  Ela existe porque a asserção A não a pega por projeto — A dispensa quem está dentro de um
+  contêiner que rola sozinho, e a fórmula está. A cuida do layout; G, da leitura.
+- Dívida em `FORMULA_CORTADA_PENDENTE`, no molde do `PROSA_PENDENTE`: **12 fórmulas em 5
+  capítulos**, cobrada nas duas direções. Conferido quebrando o conserto de propósito — devolver a
+  fórmula do passo 3 à linha única reprova com `445px num espaço de 322px`; declarar dívida no
+  `II.2` já limpo reprova pedindo a saída da lista.
+- Stubs de redirecionamento não entram em G: o `meta refresh` leva o navegador ao destino, e medir
+  ali contaria a mesma fórmula duas vezes. São 29 dispensados, e o número é impresso sempre.
+
+
 ### Adicionado — gate BILATERAL de viés de comprimento nas múltiplas escolhas (D17)
 
 - **O defeito original**, medido no `ROADMAP.md`: **88% das múltiplas do livro eram gabaritáveis

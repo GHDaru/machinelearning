@@ -178,7 +178,7 @@ const aba = await navegador.newPage({ viewport: { width: LARGURA, height: 800 } 
 const falhas = [];
 let comExercicios = 0;
 let comInteracoes = 0;
-let comFormulas = 0, redirecionadas = 0, formulasCortadasTotal = 0;
+let comFormulas = 0, redirecionadas = 0, formulasCortadasTotal = 0, dividaDeclarada = 0;
 const errosJs = [];
 aba.on("pageerror", (e) => errosJs.push(String(e).slice(0, 140)));
 aba.on("console", (m) => { if (m.type() === "error" && !/ERR_CERT|ERR_NAME|ERR_CONNECTION/.test(m.text())) errosJs.push(m.text().slice(0, 140)); });
@@ -294,6 +294,7 @@ for (const nome of paginas) {
     const cortadas = visto.formulasCortadas;
     const previsto = FORMULA_CORTADA_PENDENTE.get(nome.replace(/\.html$/, "")) || 0;
     formulasCortadasTotal += cortadas.length;
+    dividaDeclarada += previsto;
     if (cortadas.length > previsto) {
       const amostra = cortadas.slice(0, 3)
         .map((f) => `${f.sw}px num espaço de ${f.cw}px ("${f.tex}…")`).join("; ");
@@ -318,8 +319,8 @@ console.log(`Jornada: ${paginas.length} página(s) abertas em Chromium a ${LARGU
 // e quem dispensa em silêncio estreita o gate sem avisar ninguém.
 console.log(`   Fórmulas: ${comFormulas} página(s) medidas e ${redirecionadas} dispensadas ` +
             `(stub de redirecionamento, medido no destino) · ` +
-            `${formulasCortadasTotal} fórmula(s) ainda cortam, todas declaradas em ` +
-            `FORMULA_CORTADA_PENDENTE.`);
+            `${formulasCortadasTotal} fórmula(s) ainda cortam, contra ${dividaDeclarada} ` +
+            `declarada(s) em FORMULA_CORTADA_PENDENTE para essas páginas.`);
 if (falhas.length) {
   console.error(`✗ ${falhas.length} problema(s) que o leitor veria:`);
   falhas.forEach((f) => console.error("   " + f));
