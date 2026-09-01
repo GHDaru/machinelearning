@@ -57,6 +57,13 @@ jobs:
           fi
         working-directory: publicar
 
+      # Gate do viés de comprimento (D17). BILATERAL: reprova tanto o banco em que
+      # marcar a alternativa mais longa acerta demais quanto aquele em que RISCAR
+      # a mais longa elimina de graça. Os dois já aconteceram neste repositório.
+      - name: Gate de viés de comprimento nas múltiplas
+        run: node gates/vies-de-comprimento.mjs
+        working-directory: publicar
+
       # Gate de links internos quebrados.
       - name: Build do livro
         run: node build.mjs

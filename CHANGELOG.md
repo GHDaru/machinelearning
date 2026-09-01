@@ -6,6 +6,37 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — gate BILATERAL de viés de comprimento nas múltiplas escolhas (D17)
+
+- **O defeito original**, medido no `ROADMAP.md`: **88% das múltiplas do livro eram gabaritáveis
+  marcando a alternativa mais longa**, contra 25% de acaso. A causa é assimetria de esforço, e não
+  descuido: a correta precisa ser defensável e ganha a ressalva; o distrator só precisa estar
+  errado, e sai curto.
+- **A cura ingênua criou o defeito espelhado, no mesmo repositório e na mesma semana.** Encurtar as
+  corretas do `II.2` levou o capítulo de 88% a **0 de 26**. Zero está tão longe do acaso quanto 88%,
+  só que do outro lado: quem aprende a **riscar** a mais longa elimina uma em quatro sem abrir o
+  livro. Um gate que cobrasse só o excesso teria dado verde exatamente aí.
+- **`publicar/gates/vies-de-comprimento.mjs`** compara o número de itens em que a correta é a mais
+  longa com o esperado Σ 1/Nᵢ, e reprova por `|z| > 2,5` — os **dois** lados.
+- **O teto é 2,5 por medição, não por gosto.** Um capítulo deste livro tem cerca de 26 múltiplas, e
+  0 de 26 dá z = −2,94: um teto de 3 deixaria passar justamente o estado que originou o gate.
+- **Dívida declarada e cobrada nas duas direções**, como no `PROSA_PENDENTE`. As 36 páginas ainda
+  enviesadas (223 de 252, 88%) estão em `VIES_PENDENTE`: são medidas, relatadas em toda execução e
+  não reprovam. Mas página que já foi consertada e continua na lista **reprova o build**, porque
+  dívida paga que não sai da lista esconde a próxima.
+- Vinte e sete casos em `publicar/testes/vies-de-comprimento.mjs`, e os dois que decidem são o
+  excesso e a falta. Conferido também contra o livro real: tirar `ii-4-otimizacao` da lista sem
+  consertá-la reprova por excesso (z = 3,22); o `II.2` do commit anterior reprova por falta
+  (z = −2,94); declarar o `II.2` já consertado na lista reprova pedindo a saída dela.
+- O `II.2` é a primeira página **cobrada**: 8 de 26 com a correta mais longa (esperado 6,5,
+  z = 0,68), a correta mais curta em 6 de 26, e a posição da resposta certa distribuída em
+  6 / 6 / 8 / 6.
+- O mesmo canal lateral existia nas **interações de previsão**, onde não vale nota e mesmo assim
+  destrói o gesto: a opção verdadeira estava em segundo lugar em 10 de 13, e nunca em primeiro.
+  Quem aprende "é sempre a do meio" para de prever. Agora está em 4 / 3 / 6. Isto o gate **não**
+  cobra, porque interação não vira nota e não entra no banco: fica como dívida declarada aqui.
+
+
 ### Alterado — o `II.2` foi remontado na ordem do ADR 0022, e todo cartão passou a ter uma interação e um exercício
 
 - **A ordem mudou, e a história foi para o fim.** A seção "De onde isto veio" saía na linha 30,
@@ -22,19 +53,17 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   produzir. É a condição que Sinha & Kapur medem em g = 0,56 contra 0,20.
 - **A premissa do autor passou a valer sem exceção:** todo cartão tem uma interação **e** um
   exercício. Eram 13 de 18 cartões sem interação e 6 de 18 sem exercício. São **39 cartões**, e
-  o gate `cartoes-legiveis.mjs` passa por inteiro: 968 a 1 570 px, 96 a 247 palavras, razão
-  1,62x contra o teto de 3x.
-- **27 exercícios e 22 interações novos.** As interações são 9 `prever` de opção, 4 `prever`
-  numéricas, 6 `principio` e 3 `desvanecidas`. Os exercícios respeitam o teto de verbo do
-  [ADR 0014](adr/0014-tres-exercicios-por-objetivo-e-a-prova.md): nenhuma `aberta` nova, e a
-  única do capítulo continua sendo a do preço da limonada.
+  o gate `cartoes-legiveis.mjs` passa por inteiro, dentro de 400–1 600 px e 80–250 palavras, com
+  razão maior/menor de 1,6x contra o teto de 3x.
 - **O baralho ficou contínuo.** Nenhum `:::cartao-fim` no meio: `pontasDe()` reporta **47 de
-  16 383 palavras** fora do baralho, e são o título e o selo de data. Voltaram para dentro os
+  16 373 palavras** fora do baralho, e são o título e o selo de data. Voltaram para dentro os
   três trechos que a régua antiga tinha expulsado — a montagem da limonada, "O que o coeficiente
   diz" e "Uma vez com número" — mais o "Reproduza", a síntese, a verificação e os objetivos de
   aprendizagem, que o leitor de cartão nunca tinha visto.
-- **D17 melhorou em vez de piorar.** Das 26 múltiplas do capítulo, **nenhuma** tem a correta como
-  alternativa mais longa, e a posição da resposta certa se distribui em 6 / 6 / 8 / 6.
+- **27 exercícios e 34 interações novos**, e nenhum bloco antigo perdido. As interações são 18
+  `prever` (5 delas numéricas), 16 `principio` e 3 `desvanecidas`, mais os 2 laboratórios que já
+  existiam. Nenhuma `aberta` nova: a única do capítulo continua sendo a do preço da limonada,
+  como o [ADR 0014](adr/0014-tres-exercicios-por-objetivo-e-a-prova.md) manda.
 
 
 ### Corrigido — o modo cartão escondia 29,1% do `II.2`, e três exercícios que valem nota ficavam impossíveis de responder

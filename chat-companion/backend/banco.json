@@ -3720,7 +3720,7 @@
    "opcoes": [
     {
      "correta": true,
-     "texto": "A linear: a saída pedida é um valor."
+     "texto": "A linear, porque a saída pedida é um valor."
     },
     {
      "correta": false,
@@ -3769,7 +3769,7 @@
     },
     {
      "correta": true,
-     "texto": "Porque a recusa exige uma explicação, e ele não produz nenhuma."
+     "texto": "Porque a recusa exige explicação por escrito, e ele não escreve nenhuma."
     }
    ],
    "gabarito": "a recusa exige uma explicação",
@@ -3909,7 +3909,7 @@
     },
     {
      "correta": true,
-     "texto": "Porque é diferenciável em todo ponto e admite solução fechada."
+     "texto": "Porque é diferenciável em todo ponto e admite solução fechada exata."
     },
     {
      "correta": false,
@@ -3954,7 +3954,7 @@
     },
     {
      "correta": true,
-     "texto": "Porque inverter $d \\times d$ é caro, e a logística não tem fórmula."
+     "texto": "Porque inverter $d \\times d$ fica caro, e a logística não tem fórmula fechada."
     }
    ],
    "gabarito": "custo com muitos atributos, e ela não existe na logística",
@@ -4140,7 +4140,7 @@
     },
     {
      "correta": true,
-     "texto": "Que todos os $x$ são iguais, e nenhuma inclinação é melhor que outra."
+     "texto": "Que todos os $x$ são iguais, e nenhuma inclinação fica melhor que outra ali."
     }
    ],
    "gabarito": "todos os $x$ são iguais, e não existe reta",
@@ -4169,7 +4169,7 @@
     },
     {
      "correta": true,
-     "texto": "O erro das equações normais."
+     "texto": "O erro que as equações normais devolvem."
     },
     {
      "correta": false,
@@ -4206,7 +4206,7 @@
     },
     {
      "correta": true,
-     "texto": "As equações normais não andam pela superfície."
+     "texto": "As equações normais resolvem o sistema sem andar pela superfície."
     },
     {
      "correta": false,
@@ -4443,7 +4443,7 @@
     },
     {
      "correta": true,
-     "texto": "Que não há recorte mensal em que preço e estação variem separados."
+     "texto": "Que não há recorte mensal em que preço e estação variem separadamente."
     },
     {
      "correta": false,
@@ -4671,7 +4671,7 @@
    "opcoes": [
     {
      "correta": true,
-     "texto": "Faltava regra explícita do que é a melhor curva."
+     "texto": "Faltava uma regra explícita do que é a melhor curva."
     },
     {
      "correta": false,
@@ -4716,7 +4716,7 @@
     },
     {
      "correta": true,
-     "texto": "Uma resposta igual para quem refizer a conta."
+     "texto": "Uma resposta igual para quem refizer a conta com os mesmos dados."
     },
     {
      "correta": false,
@@ -4794,7 +4794,7 @@
     },
     {
      "correta": true,
-     "texto": "Que Legendre publicou antes, e Gauss reivindicou."
+     "texto": "Que Legendre publicou antes, e Gauss reivindicou uso anterior a isso."
     }
    ],
    "gabarito": "Legendre publicou primeiro, e Gauss reivindicou uso anterior",
@@ -16254,7 +16254,7 @@
     "tipo": "anima-normais",
     "titulo": "O gradiente atrás de uma resposta que já existe"
    },
-   "intro": "Trezentos pontos e dois atributos **quase colineares**. O placar traz o excesso de erro sobre o ótimo fechado, e a varredura vai a 4 000 passos.\n\n**Antes de assistir, chute:** quantos passos até chegar a 1% do ótimo?\n\nComo vieram, ele **não chega**: termina 2,8% acima, e não por passo mal escolhido. Clique em **\"E se os atributos fossem padronizados?\"**: agora chega a 1% no passo **1 460** e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.",
+   "intro": "Trezentos pontos, varredura de 4 000 passos, e o placar mede o excesso de erro sobre o ótimo fechado.",
    "pagina": "ii-2-modelos-lineares"
   },
   {

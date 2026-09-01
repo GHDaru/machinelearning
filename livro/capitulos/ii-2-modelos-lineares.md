@@ -18,8 +18,8 @@ Só de **regressão linear**. A **regressão logística**, que tem "regressão" 
 :::interacao {"id":"modelos-lineares-i25","tipo":"prever","titulo":"Qual das duas tem fórmula fechada"}
 As duas compartilham a forma `w·x + b`, e só uma tem fórmula que devolve os coeficientes de uma vez.
 
-- ( ) A logística, pela saída limitada.
 - (!) A linear, pela perda quadrática.
+- ( ) A logística, pela saída limitada.
 - ( ) As duas, pela forma somada.
 
 > **pergunta:** Qual tem solução fechada?
@@ -31,7 +31,7 @@ As duas compartilham a forma `w·x + b`, e só uma tem fórmula que devolve os c
 :::exercicio {"id":"modelos-lineares-e28","tipo":"multipla","objetivo":"O4","dificuldade":"facil"}
 Você precisa prever **quantos reais** um cliente vai gastar. Qual das duas serve?
 
-- [x] A linear: a saída pedida é um valor.
+- [x] A linear, porque a saída pedida é um valor.
 - [ ] A logística, que usa a mesma forma somada.
 - [ ] Qualquer uma: a diferença é de notação.
 - [ ] Nenhuma: dinheiro exige um modelo próprio.
@@ -68,7 +68,7 @@ No caso do banco, por que o modelo mais preciso é recusado?
 - [ ] Porque quinhentas árvores custam caro demais para treinar todo mês.
 - [ ] Porque a precisão dele foi medida errada e não se sustenta no teste.
 - [ ] Porque a lei proíbe usar aprendizado de máquina em decisão de crédito.
-- [x] Porque a recusa exige uma explicação, e ele não produz nenhuma.
+- [x] Porque a recusa exige explicação por escrito, e ele não escreve nenhuma.
 
 > **gabarito:** a recusa exige uma explicação
 > **porque:** O requisito que ele falha não é de qualidade preditiva. É de **prestação de contas**: a decisão precisa vir acompanhada de uma frase defensável, e um voto de quinhentas árvores não se resume a uma.
@@ -216,7 +216,7 @@ Um ponto erra por **1**; o *outlier* erra por **10**. No critério absoluto o se
 Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
 
 - [ ] Porque o erro quadrático é sempre menor que o erro absoluto.
-- [x] Porque é diferenciável em todo ponto e admite solução fechada.
+- [x] Porque é diferenciável em todo ponto e admite solução fechada exata.
 - [ ] Porque o erro absoluto não pode ser minimizado por nenhum método.
 - [ ] Porque o quadrado elimina os erros negativos, e o absoluto não.
 
@@ -252,7 +252,7 @@ Se a solução fechada das equações normais é exata e existe, por que o livro
 - [ ] Porque o gradiente encontra um mínimo melhor que a solução fechada.
 - [ ] Porque a solução fechada só vale quando os dados não têm ruído.
 - [ ] Porque o gradiente é mais preciso quando existem *outliers* no conjunto.
-- [x] Porque inverter $d \times d$ é caro, e a logística não tem fórmula.
+- [x] Porque inverter $d \times d$ fica caro, e a logística não tem fórmula fechada.
 
 > **gabarito:** custo com muitos atributos, e ela não existe na logística
 > **porque:** Os dois motivos são de alcance, não de qualidade. No experimento do livro, gradiente e solução fechada chegam ao mesmo lugar, com diferença menor que 0,05 em cada coeficiente, e isso descarta a primeira alternativa pela evidência do próprio capítulo.
@@ -305,8 +305,8 @@ $L$ é uma soma de quadrados: uma superfície convexa em $(a, b)$, uma tigela. T
 Duas pessoas arrastam a reta do laboratório a partir de posições bem diferentes, até o EQM parar de cair.
 
 - ( ) Em retas diferentes: o começo decide.
-- (!) Na mesma reta: há um fundo só.
 - ( ) Em retas diferentes: há mínimos locais.
+- (!) Na mesma reta: há um fundo só.
 
 > **pergunta:** Onde elas param?
 > **revela:** Na **mesma reta**. A convexidade é o que garante isso: uma tigela não tem um segundo fundo onde alguém possa ficar preso, então o ponto de partida muda o caminho e nunca o destino.
@@ -335,7 +335,9 @@ Por que a convexidade de $L$ torna o ajuste confiável?
 
 Derivando em relação a $b$:
 
-$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
+$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right) = 0$$
+
+$$\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
 
 onde $r_i = y_i - ax_i - b$ é o resíduo. **A soma dos resíduos é zero.** Dividindo por $n$: $\bar{y} = a\bar{x} + b$, ou seja, $b = \bar{y} - a\bar{x}$.
 
@@ -370,14 +372,18 @@ Qual é o **intercepto** $b$?
 
 Derivando em relação a $a$:
 
-$$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0 \;\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
+$$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i=1}^{n}x_i\left(y_i - ax_i - b\right) = 0$$
+
+$$\Longrightarrow\; \sum_{i=1}^{n} x_i r_i = 0$$
 
 **Os resíduos são ortogonais ao atributo.** O que sobrou de erro **não tem mais nada de linear em $x$**: se tivesse, a reta ainda poderia melhorar.
 
 :::interacao {"id":"modelos-lineares-i2","tipo":"principio","titulo":"De onde sai o xᵢ"}
 As duas condições do mínimo, uma sob a outra, trazem o resíduo multiplicado por coisas diferentes:
 
-$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i} r_i \qquad \frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i} x_i\, r_i$$
+$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i} r_i$$
+
+$$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i} x_i\, r_i$$
 
 > **pergunta:** Por que o $x_i$ aparece ao derivar em relação a $a$, e não em relação a $b$?
 > **revela:** Pela regra da cadeia. O resíduo é $r_i = y_i - ax_i - b$: derivado em relação a $b$ ele dá $-1$, e em relação a $a$ dá $-x_i$. O que multiplica cada resíduo é **a sensibilidade daquele resíduo ao parâmetro**, e ela é $x_i$ porque é $x_i$ que multiplica $a$ na reta.
@@ -440,7 +446,9 @@ Calcule a **inclinação** $a$ da reta de mínimos quadrados. Responda com duas 
 
 Três pontos: (1, 3), (2, 5) e (3, 4). As médias são $\bar{x} = 2$ e $\bar{y} = 4$. Os desvios em $x$ são $-1$, $0$, $+1$; em $y$, $-1$, $+1$, $0$.
 
-$$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1 \qquad S_{xx} = 1 + 0 + 1 = 2$$
+$$S_{xy} = (-1)(-1) + (0)(1) + (1)(0) = 1$$
+
+$$S_{xx} = 1 + 0 + 1 = 2$$
 
 Logo $a = 1/2 = 0{,}5$, e $b = 4 - 0{,}5 \times 2 = 3$. A reta é $\hat{y} = 0{,}5x + 3$, e passa por $(2, 4)$.
 
@@ -497,7 +505,7 @@ Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
 - [ ] Erro numérico de arredondamento, corrigível com mais precisão na conta.
 - [ ] Que o modelo está perfeitamente ajustado, e o erro nos pontos é zero.
 - [ ] Que há colinearidade entre dois atributos, e um deles precisa sair.
-- [x] Que todos os $x$ são iguais, e nenhuma inclinação é melhor que outra.
+- [x] Que todos os $x$ são iguais, e nenhuma inclinação fica melhor que outra ali.
 
 > **gabarito:** todos os $x$ são iguais, e não existe reta
 > **porque:** $S_{xx}$ é a variação de $x$ em torno da média. Zerado, significa que $x$ nunca variou, e sem variação no que se quer usar como explicação nenhuma inclinação é preferível a outra. A conta não quebra por imprecisão; ela quebra porque a pergunta não tem resposta nos dados.
@@ -512,19 +520,22 @@ Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
 
 ### O gradiente contra a álgebra
 
+:::interacao {"id":"modelos-lineares-i39","tipo":"prever","titulo":"Quantos passos","numero":1460,"tolerancia":500}
+Os dois atributos são **quase colineares**.
+
+> **pergunta:** Padronizados os atributos, em que passo o excesso cai abaixo de 1%?
+> **revela:** No passo **1 460**. Como os atributos vieram, o gradiente **não chega**: termina 2,8% acima ao fim dos 4 000 passos, e não por passo mal escolhido, já que cada regime roda com o maior passo estável que a própria superfície admite, de 7,3 × 10⁻³ ali e 2,5 × 10⁻¹ depois de padronizar.
+:::
+
 :::lab {"id":"modelos-lineares-l2","tipo":"anima-normais","titulo":"O gradiente atrás de uma resposta que já existe"}
-Trezentos pontos e dois atributos **quase colineares**. O placar traz o excesso de erro sobre o ótimo fechado, e a varredura vai a 4 000 passos.
-
-**Antes de assistir, chute:** quantos passos até chegar a 1% do ótimo?
-
-Como vieram, ele **não chega**: termina 2,8% acima, e não por passo mal escolhido. Clique em **"E se os atributos fossem padronizados?"**: agora chega a 1% no passo **1 460** e o passo estável salta de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
+Trezentos pontos, varredura de 4 000 passos, e o placar mede o excesso de erro sobre o ótimo fechado.
 :::
 
 :::exercicio {"id":"modelos-lineares-e26","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 O placar marca o **excesso sobre o ótimo fechado**. O que serve de referência para esse zero?
 
 - [ ] O menor erro que o gradiente alcançou nos 4 000 passos.
-- [x] O erro das equações normais.
+- [x] O erro que as equações normais devolvem.
 - [ ] O erro de quem prevê sempre a média.
 - [ ] O erro num conjunto de teste separado.
 
@@ -551,14 +562,14 @@ Dois atributos quase colineares carregam quase a mesma informação, e muitas co
 > **pergunta:** Que forma isso dá à superfície de erro?
 > **revela:** Um **vale comprido e estreito**. Ao longo da direção em que os dois pesos se compensam o erro quase não muda, e na direção perpendicular ele sobe rápido.
 >
-> A terceira opção é a confusão que o passo 1 já resolveu: a superfície continua convexa, com um fundo só. O que mudou não foi o número de mínimos, foi a **forma** ao redor dele, e o gradiente desce a parede em vez de andar pelo fundo.
+> A opção dos vários fundos é a confusão que o passo 1 já resolveu: a superfície continua convexa, com um fundo só. O que mudou não foi o número de mínimos, foi a **forma** ao redor dele, e o gradiente desce a parede em vez de andar pelo fundo.
 :::
 
 :::exercicio {"id":"modelos-lineares-e20","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
 O gradiente melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?
 
 - [ ] Padronizar não altera os coeficientes ótimos.
-- [x] As equações normais não andam pela superfície.
+- [x] As equações normais resolvem o sistema sem andar pela superfície.
 - [ ] O dado padronizado deixa de ser correlacionado entre si.
 - [ ] A álgebra usa um passo maior a cada iteração.
 
@@ -617,8 +628,8 @@ O conjunto em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md
 :::interacao {"id":"modelos-lineares-i14","tipo":"prever","titulo":"O sinal que você espera"}
 Nestes 365 dias, preço cobrado e copos vendidos aparecem correlacionados.
 
-- ( ) Negativamente: caro afasta freguês.
 - (!) Positivamente: caro vendeu mais.
+- ( ) Negativamente: caro afasta freguês.
 - ( ) Perto de zero: o preço mal mudou.
 
 > **pergunta:** Com que sinal?
@@ -786,8 +797,8 @@ Colinearidade não estraga a previsão. Estraga a **leitura**, e é o modo de fa
 Suponha que a barraca passasse a distribuir a mesma quantidade de panfletos em dias frios e em dias quentes, e que o modelo fosse reajustado.
 
 - ( ) Subiria, porque haveria mais panfletos distribuídos ao longo do ano.
-- (!) Desceria, porque parte dos 0,0188 de hoje é calor, e não panfleto.
 - ( ) Ficaria igual, porque o coeficiente já está controlado pela temperatura.
+- (!) Desceria, porque parte dos 0,0188 de hoje é calor, e não panfleto.
 
 > **pergunta:** O que aconteceria com o coeficiente de `panfletos`?
 > **revela:** **Desceria.** Hoje o panfleto aparece junto do calor e leva crédito por vendas que o calor explicaria sozinho. Distribuindo panfleto em dia frio também, essa carona acaba.
@@ -833,7 +844,7 @@ A terceira linha devolve 1 para os doze meses. O que esse resultado prova?
 
 - [ ] Que o conjunto tem um erro de coleta, e um mês perdeu suas linhas.
 - [ ] Que o efeito do preço é pequeno, porque ele quase nunca foi mudado.
-- [x] Que não há recorte mensal em que preço e estação variem separados.
+- [x] Que não há recorte mensal em que preço e estação variem separadamente.
 - [ ] Que o modelo precisa de um atributo novo indicando o mês de cada dia.
 
 > **gabarito:** não há recorte em que os dois variem separados
@@ -1072,20 +1083,20 @@ Por que sempre treinar um modelo linear primeiro?
 :::interacao {"id":"modelos-lineares-i28","tipo":"prever","titulo":"Dois astrônomos, os mesmos dados"}
 Dois astrônomos recebem as mesmas observações discordantes e escolhem a órbita a olho.
 
-- ( ) A mesma órbita: o dado é o mesmo.
 - (!) Órbitas diferentes, e sem árbitro.
+- ( ) A mesma órbita: o dado é o mesmo.
 - ( ) Órbitas diferentes, e a média vale.
 
 > **pergunta:** O que eles obtêm?
 > **revela:** **Órbitas diferentes, e sem árbitro.** O problema não era falta de dado nem falta de talento: era não existir uma regra escrita que dissesse o que "melhor curva" significa.
 >
-> A terceira opção parece conciliadora e não resolve nada, porque a média de duas escolhas arbitrárias continua arbitrária. Sem critério declarado, não há como preferir uma resposta, nem como reconstruir a resposta de ontem.
+> A opção da média parece conciliadora e não resolve nada, porque a média de duas escolhas arbitrárias continua arbitrária. Sem critério declarado, não há como preferir uma resposta, nem como reconstruir a resposta de ontem.
 :::
 
 :::exercicio {"id":"modelos-lineares-e31","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Que problema os mínimos quadrados vieram resolver naquela astronomia?
 
-- [x] Faltava regra explícita do que é a melhor curva.
+- [x] Faltava uma regra explícita do que é a melhor curva.
 - [ ] Faltava observação para determinar a órbita direito.
 - [ ] O instrumento era impreciso, e o erro de medida grande.
 - [ ] Faltava como calcular à mão com tantas observações.
@@ -1123,7 +1134,7 @@ O que a regra de minimizar a soma dos quadrados dos desvios trouxe que o "escolh
 
 - [ ] Uma curva mais próxima da órbita verdadeira do que qualquer outra.
 - [ ] Uma forma de descartar automaticamente as observações defeituosas.
-- [x] Uma resposta igual para quem refizer a conta.
+- [x] Uma resposta igual para quem refizer a conta com os mesmos dados.
 - [ ] Uma medida do erro de cada instrumento usado na observação.
 
 > **gabarito:** a mesma resposta para qualquer pessoa
@@ -1151,7 +1162,7 @@ Uma equipe decide minimizar o erro absoluto em vez do quadrático, no mesmo prob
 > **pergunta:** O que essa equipe está trocando?
 > **revela:** O **critério**. A família de modelos continua a mesma reta, e o que muda é a regra que decide qual reta ganha, porque o absoluto pesa o ponto distante dez vezes onde o quadrático pesa cem.
 >
-> A segunda opção é a confusão que a seção existe para desfazer. Perda não é uma propriedade do mundo que se descobre: é uma escolha declarada, e por isso trocá-la é decisão de projeto que precisa ser justificada e registrada.
+> A opção do "nada de essencial" é a confusão que a seção existe para desfazer. Perda não é uma propriedade do mundo que se descobre: é uma escolha declarada, e por isso trocá-la é decisão de projeto que precisa ser justificada e registrada.
 :::
 
 :::exercicio {"id":"modelos-lineares-e33","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
@@ -1183,8 +1194,8 @@ Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se
 Legendre e Gauss disputaram a autoria de alguma coisa, e vale ser exato sobre o quê.
 
 - ( ) Da ideia de ajustar uma reta.
-- (!) Da regra que minimiza os quadrados.
 - ( ) Do cálculo da órbita do cometa.
+- (!) Da regra que minimiza os quadrados.
 
 > **pergunta:** O que estava em disputa?
 > **revela:** A **regra**. Ajustar curvas a observações discordantes já se fazia, mal e sem critério; o que nenhum dos dois inventou foi a reta, e o que os dois reivindicaram foi o critério que decide qual curva vence.
@@ -1198,7 +1209,7 @@ Sobre a disputa, qual afirmação o capítulo sustenta?
 - [ ] Que Gauss provou o uso desde 1795, e está encerrado.
 - [ ] Que Legendre inventou a reta, e Gauss a divulgou.
 - [ ] Que os dois chegaram ao método no mesmo ano.
-- [x] Que Legendre publicou antes, e Gauss reivindicou.
+- [x] Que Legendre publicou antes, e Gauss reivindicou uso anterior a isso.
 
 > **gabarito:** Legendre publicou primeiro, e Gauss reivindicou uso anterior
 > **porque:** É o que as fontes seladas do capítulo sustentam, e nada além disso. A tabela de procedência marca as duas obras com ✓ᵐ, o que confere obra, ano e conteúdo geral, e não autoriza afirmar mais do que a existência e a data de cada publicação.
@@ -1324,8 +1335,8 @@ A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em bibliote
 :::interacao {"id":"modelos-lineares-i35","tipo":"prever","titulo":"Onde o padronizador aprende"}
 O `Padronizador` guarda a média e o desvio de cada atributo para poder reescalar os dados.
 
-- ( ) No conjunto inteiro, antes de separar treino e teste.
 - (!) Só no treino, e depois aplica os mesmos números ao teste.
+- ( ) No conjunto inteiro, antes de separar treino e teste.
 - ( ) Em cada conjunto separadamente, com os números de cada um.
 
 > **pergunta:** De onde ele tira esses números?

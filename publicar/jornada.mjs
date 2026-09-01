@@ -45,6 +45,29 @@
 //      um `aria-disabled` passou, deixando o botão inalcançável para leitor de
 //      tela sem que teste nenhum reclamasse. Afirmação que o leitor sente tem de
 //      ser afirmada onde o leitor está.
+//   G. **Nenhuma fórmula termina cortada na margem.** Para cada `mjx-container`,
+//      exige `scrollWidth <= clientWidth`. A dívida conhecida está declarada em
+//      `FORMULA_CORTADA_PENDENTE`, e a lista falha nas DUAS direções.
+//
+//      G existe porque A não a pega, e não por descuido de A: a fórmula mora num
+//      contêiner com `overflow-x: auto` (tema/estilo.css), e A dispensa de
+//      propósito quem está dentro de um contêiner que rola sozinho, porque o que
+//      A protege é o texto do capítulo não ser diagramado fora da tela. As duas
+//      restrições são diferentes: A cuida do LAYOUT, G cuida da LEITURA.
+//
+//      O defeito que a separou é a D21 do ROADMAP, medida num Chromium a 360px:
+//      no II.2, duas fórmulas da dedução mediam 408px e 445px num espaço de
+//      322px, e o leitor via a expressão terminar em `= 0 =` no nada. A auditoria
+//      passava verde. Rolagem existia; **aviso de que havia rolagem, não** — o
+//      Chromium móvel desenha barra sobreposta, que só aparece depois do gesto
+//      que o leitor não sabe que precisa fazer.
+//
+//      O conserto adotado foi QUEBRAR a fórmula em duas linhas, e não anunciar a
+//      rolagem, por uma razão medida no próprio tema: com o modo cartão ligado,
+//      `tema/cartoes.js` liga ArrowLeft e ArrowRight à troca de cartão para tudo
+//      que não seja INPUT, TEXTAREA ou SELECT. O eixo horizontal já está tomado
+//      pelo baralho, e uma fórmula que só se lê rolando de lado disputa com ele o
+//      mesmo gesto. Por isso G cobra ausência de corte, e não presença de dica.
 //
 // COMO RODAR
 //
@@ -123,6 +146,24 @@ function blocosNoFonte(nomeHtml, tipo) {
     .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
   return (fonte.match(new RegExp("^:::" + tipo, "gm")) || []).length;
 }
+
+// A DÍVIDA DE FÓRMULA CORTADA — cobrada, não apenas registrada.
+//
+// Espelha o `PROSA_PENDENTE` de `publicar/prosa.mjs`, inclusive no que ele tem de
+// desconfortável: a lista falha nas DUAS direções. Fórmula nova que corta quebra
+// o gate; página que se limpou e continua aqui também. Dívida paga que fica na
+// lista vira um teto por baixo do qual um corte novo entra sem ninguém ver — que
+// é a classe de defeito que criou esta asserção.
+//
+// Medido em 2026-09-01, num Chromium a 360px, depois de o II.2 ser consertado.
+// Página que não está aqui tem de estar em zero.
+export const FORMULA_CORTADA_PENDENTE = new Map([
+  ["ii-3-regressao-logistica", 1],
+  ["ii-5-arvores-ensembles", 1],
+  ["iii-1-neuronio-artificial", 1],
+  ["iii-2-redes-neurais", 8],
+  ["iv-2-reforco", 1],
+]);
 
 const paginas = (process.env.SO_ESTAS
   ? process.env.SO_ESTAS.split(",").map((s) => (s.endsWith(".html") ? s : s + ".html"))

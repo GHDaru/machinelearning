@@ -27,7 +27,7 @@ O v5 é o v4 **mais a seção histórica** que o Princípio X tornou obrigatóri
 10. **Síntese + "o que levar"** — leitura executiva e as ideias exportáveis para o trabalho do leitor.
 11. **Verificação** — 2–3 perguntas abertas que testam exatamente os objetivos do item 1.
 
-A posição do item 3 é a regra, não sugestão: **depois** do problema e **antes** da intuição. Antes do problema, a história não tem a que se agarrar; depois da fórmula, o leitor já pulou.
+O item 3 admite **duas posições**, e só duas ([ADR 0022](../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md), emenda 1.3.0 da constituição). A posição padrão é a acima: depois do problema e antes da intuição, porque antes do problema a história não tem a que se agarrar. A alternativa é **ao fim do capítulo**, quando é a prática que leva o leitor ao aperto: é o caso do `II.2`, em que o leitor vê duas rotas darem a mesma reta e um coeficiente mentir com R² de 0,982 antes de saber de onde veio o critério. O que não muda com a posição são os cinco elementos e a tabela de selos.
 
 ### 2.1 Cabeçalho obrigatório
 
