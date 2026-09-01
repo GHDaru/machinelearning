@@ -8,6 +8,8 @@
 //  - 1º blockquote "**Estado da arte capturado em ...**" -> selo de data
 //  - Seções ## de tipos pedagógicos -> callout próprio (Diátaxis/Bloom)
 //  - Blocos :::exercicio / :::video -> UI interativa SEM gabarito (interativos.mjs)
+//  - Blocos :::interacao -> UI formativa COM a revelação embutida: não vale
+//    nota, não grava nada, não fala com o backend — e por isso pode revelar
 //  - Links internos .md -> reescritos para .html; links .html passam intactos
 //  - <div data-viz="..."> -> ilha viva (grafo do livro, uso do livro)
 
@@ -74,7 +76,8 @@ function companionSnippet(chapter) {
 <link rel="stylesheet" href="${A}companion.css">
 <script src="${A}companion.js" defer></script>
 <script src="${A}interativos.js" defer></script>
-<script src="${A}laboratorios.js" defer></script>`;
+<script src="${A}laboratorios.js" defer></script>
+<script src="${A}interacoes.js" defer></script>`;
 }
 
 // linkify: false de propósito — num livro técnico, "train.py"/"README.md" no
@@ -403,7 +406,7 @@ mkdirSync(resolve(SAIDA, "assets"), { recursive: true });
 for (const arq of [
   "estilo.css", "app.js", "capa.png", "capa-social.png", "autor.png",
   "companion.css", "companion.js", "interativos.css", "interativos.js",
-  "cartoes.css", "cartoes.js",
+  "interacoes.js", "cartoes.css", "cartoes.js",
   "uso.js", "grafo.js", "professor.js", "laboratorios.js", "neuronio-mp.svg", "camada-escondida.svg", "block-group.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
@@ -426,6 +429,10 @@ writeFileSync(resolve(SAIDA, ".nojekyll"), "");
 
 let gerados = 0;
 const placar = { exercicios: 0, videos: 0, laboratorios: 0, capitulos: 0 };
+// Id de interação é único no livro inteiro, como o de exercício e o de
+// laboratório. Aqui, e não no exercicios.mjs, porque interação não entra no
+// banco: ela não tem o que o backend corrija.
+const idsDeInteracao = new Map();
 
 for (let k = 0; k < itens.length; k++) {
   const item = itens[k];
@@ -439,10 +446,17 @@ for (let k = 0; k < itens.length; k++) {
   const data = extrairData(bruto);
 
   // Contagem para o placar da capa (só o que existe de fato).
-  const { exercicios, videos, laboratorios } = extrair(bruto, item.arquivo, cap);
+  const { exercicios, videos, laboratorios, interacoes } = extrair(bruto, item.arquivo, cap);
   placar.exercicios += exercicios.length;
   placar.videos += videos.length;
   placar.laboratorios += laboratorios.length;
+  for (const ia of interacoes) {
+    if (idsDeInteracao.has(ia.id)) {
+      console.error(`✗ id de interação duplicado: "${ia.id}" (${idsDeInteracao.get(ia.id)} e ${item.arquivo})`);
+      process.exit(1);
+    }
+    idsDeInteracao.set(ia.id, item.arquivo);
+  }
 
   // Blocos interativos ANTES do parse: viram HTML puro, sem gabarito.
   //
@@ -490,6 +504,7 @@ for (let k = 0; k < itens.length; k++) {
       exercicios.length ? `<span title="Exercícios corrigidos no servidor">🎯 ${exercicios.length} exercícios</span>` : "",
       videos.length ? `<span>🎬 ${videos.length} vídeos</span>` : "",
       laboratorios.length ? `<span title="Objetos interativos para manipular">🔬 ${laboratorios.length} laboratórios</span>` : "",
+      interacoes.length ? `<span title="Gestos formativos: não valem nota, revelam ao clicar">🧩 ${interacoes.length} interações</span>` : "",
       `<a class="cap-dl" href="md/${item.slug}.md" download title="Baixar o Markdown-fonte deste capítulo">⬇ md</a>`,
     ].join("");
     hero = `<header class="cap-hero"><div class="cap-num" aria-hidden="true">${num}</div>

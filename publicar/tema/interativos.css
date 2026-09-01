@@ -246,3 +246,120 @@
 .lab-tabela-rolagem > .lab-tabela { margin: 0; }
 .lab-linha-erro td { background: rgba(200, 80, 80, .13); }
 .lab-nota { font-size: .78rem; color: var(--muted); margin: .35rem 0 0; }
+
+/* ---------------------------------------------------------- interações
+   A quarta superfície: FORMATIVA. Ela revela no cliente porque não vale nota
+   (ver o cabeçalho de tema/interacoes.js). Verde de `--verif` para separá-la
+   à primeira vista do exercício (--prat), do vídeo (--roubar) e do
+   laboratório (--obj): cor diferente porque contrato diferente. */
+
+.interacao {
+  border: 1px solid var(--ex-borda);
+  border-left: 4px solid var(--verif);
+  border-radius: 10px;
+  background: var(--ex-fundo);
+  padding: 1rem 1.1rem .9rem;
+  margin: 1.6rem 0;
+}
+.ia-cab {
+  display: flex; align-items: baseline; gap: .55rem; flex-wrap: wrap;
+  font-size: .74rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); margin-bottom: .5rem;
+}
+.ia-tag { color: var(--verif); font-weight: 700; }
+.ia-titulo { text-transform: none; letter-spacing: 0; color: var(--fg); font-weight: 700; font-size: 1rem; }
+.ia-modo { margin-left: auto; text-transform: none; letter-spacing: 0; font-style: italic; }
+
+.ia-corpo { font-size: .95rem; }
+.ia-corpo > :first-child { margin-top: 0; }
+.ia-corpo > :last-child { margin-bottom: .6rem; }
+/* Fórmula larga rola DENTRO da caixa; a página a 360px nunca rola de lado. */
+.ia-corpo, .ia-passo-rot { overflow-x: auto; max-width: 100%; }
+
+.ia-pergunta { font-weight: 600; margin: .6rem 0 .5rem; }
+
+/* ---- o passo apagado ---- */
+.ia-passos { list-style: decimal; margin: .3rem 0 .8rem; padding-left: 1.4rem; }
+.ia-passo {
+  display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap;
+  margin: .35rem 0; font-size: .92rem;
+}
+.ia-passo-rot { flex: 1 1 10rem; min-width: 0; }
+.ia-branco {
+  flex: 0 1 7rem; min-width: 4.5rem; font: inherit; font-size: .92rem; color: var(--fg);
+  background: var(--bg); border: 1px dashed var(--verif); border-radius: 7px;
+  padding: .22rem .45rem; font-variant-numeric: tabular-nums;
+}
+.ia-passo-cmp { flex: 1 1 100%; font-size: .84rem; color: var(--muted); }
+.ia-passo-cmp:empty { display: none; }
+.ia-cmp-certo { color: var(--verif); font-variant-numeric: tabular-nums; }
+.ia-cmp-sua::before { content: " · "; }
+
+/* ---- a previsão ---- */
+.ia-opcoes { list-style: none; margin: .2rem 0 .8rem; padding: 0; }
+.ia-opcoes li { margin: .25rem 0; }
+.ia-opcoes label {
+  display: flex; gap: .55rem; align-items: flex-start;
+  padding: .4rem .6rem; border: 1px solid transparent; border-radius: 7px; cursor: pointer;
+}
+.ia-opcoes label:hover { background: rgba(127, 127, 127, .1); }
+.ia-opcoes input { margin-top: .3rem; flex: none; }
+.ia-opcoes label span p { margin: 0; }
+.ia-num, .ia-livre {
+  width: 100%; max-width: 26rem; font: inherit; color: var(--fg);
+  background: var(--bg); border: 1px solid var(--ex-borda);
+  border-radius: 7px; padding: .45rem .6rem;
+}
+.ia-livre { max-width: 100%; resize: vertical; }
+
+/* Foco visível em tudo o que se opera pelo teclado. */
+.ia-num:focus, .ia-livre:focus, .ia-branco:focus, .ia-opcao:focus-visible, .ia-revelar:focus-visible {
+  outline: 2px solid var(--link); outline-offset: 1px;
+}
+
+/* ---- revelar ---- */
+.ia-acoes { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+.ia-revelar {
+  font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer;
+  background: var(--verif); color: #fff; border: 0; border-radius: 7px; padding: .4rem 1rem;
+}
+.ia-revelar:hover { filter: brightness(1.08); }
+/* `data-pronto`, e não `disabled`/`aria-disabled`: o botão continua clicável e
+   anunciado como clicável, e o motivo de ele não liberar é DITO no
+   `role="status"` ao lado, que o `aria-describedby` liga a ele. Botão
+   desabilitado some da tabulação, ou é anunciado como indisponível, e nos dois
+   casos leva junto a explicação. */
+.ia-revelar[data-pronto="false"] { opacity: .62; }
+.ia-revelar[data-pronto="feito"] { opacity: .62; cursor: default; }
+.ia-status { font-size: .85rem; color: var(--muted); }
+
+.ia-revelacao { margin-top: .85rem; }
+.ia-revelacao:empty { display: none; }
+.ia-rev-caixa {
+  padding: .7rem .85rem; border: 1px dashed var(--ex-borda); border-radius: 8px;
+  background: var(--bg); font-size: .93rem; animation: ia-revela .28s ease;
+}
+.ia-rev-rot {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); margin-bottom: .3rem;
+}
+.ia-rev-rot + * { margin-top: 0; }
+.ia-sua {
+  margin: 0 0 .7rem; padding: .3rem 0 .3rem .7rem; border-left: 3px solid var(--ex-borda);
+  color: var(--fg); white-space: pre-wrap;
+}
+.ia-sua-prev { margin: 0 0 .7rem; }
+.ia-bateu { color: var(--muted); }
+.interacao[data-bateu="sim"] .ia-bateu { color: var(--ex-certo); }
+.ia-rev-texto > :first-child { margin-top: 0; }
+.ia-rev-texto > :last-child { margin-bottom: 0; }
+
+@keyframes ia-revela { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ia-rev-caixa { animation: none; } }
+
+/* No papel a interação vira o exemplo trabalhado que ela é: o enunciado fica,
+   o campo e o botão saem. A revelação sai também — quem imprime não gesticula. */
+@media print {
+  .ia-acoes, .ia-revelacao, .ia-branco, .ia-num, .ia-livre { display: none !important; }
+  .interacao { break-inside: avoid; }
+}

@@ -28,16 +28,60 @@
 //   O que manipular aqui ensina, e o que o leitor deve tentar descobrir.
 //   :::
 //
+//   :::interacao {"id":"modelos-lineares-i1","tipo":"prever","titulo":"..."}
+//   O exemplo trabalhado, a conta ou o contexto — em Markdown.
+//
+//   - [?] rótulo do passo apagado => a linha certa      (só em `desvanecido`)
+//   - ( ) opção de previsão                             (só em `prever`)
+//   - (!) a opção que é o que de fato acontece          (só em `prever`)
+//
+//   > **pergunta:** o que o leitor responde ANTES de revelar
+//   > **revela:** o que aparece depois do clique
+//   :::
+//
 // Laboratório é a terceira superfície: exercício pergunta e corrige, vídeo
 // mostra, laboratório deixa MANIPULAR. Roda inteiro no navegador — não há
 // gabarito a esconder, porque o gabarito é o comportamento do próprio objeto.
+//
+// Interação é a QUARTA, e a única que revela no cliente. Ela é FORMATIVA: não
+// vale nota, não grava tentativa, não fala com o backend — e é exatamente por
+// isso que pode revelar aqui. O Princípio VIII.3 protege o gabarito do que
+// VALE NOTA; onde não há nota não há gabarito a proteger, e insistir em pedir
+// ao servidor uma resposta que ninguém contabiliza custaria a garantia mais
+// valiosa da interação: ela funciona com a rede fora do ar (VIII.6). A
+// justificativa inteira está no cabeçalho de `publicar/tema/interacoes.js`.
 
 const TIPOS = ["multipla", "multipla-multi", "numerica", "completar", "aberta"];
 
-const RE_BLOCO = /^:::(exercicio|video|lab)\s+(\{[\s\S]*?\})\s*\n([\s\S]*?)\n:::[ \t]*$/gm;
+const RE_BLOCO = /^:::(exercicio|video|lab|interacao)\s+(\{[\s\S]*?\})\s*\n([\s\S]*?)\n:::[ \t]*$/gm;
 const RE_CERCA = /^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm;
 const RE_OPCAO = /^[-*]\s+\[([ xX])\]\s+(.+?)\s*$/;
 const RE_META = /^>\s*\*\*([a-zà-ú ]+):\*\*\s*([\s\S]*?)\s*$/i;
+
+// --------------------------------------------------------------- interações
+//
+// Os três tipos vêm de evidência, não de gosto:
+//   principio    — exemplo trabalhado + prompt de princípio. Autoexplicação
+//                  PROVOCADA supera receber a explicação pronta (g=0,35;
+//                  Bisra, Liu, Nesbit, Salimi & Winne, 2018).
+//   desvanecido  — passo apagado do exemplo. Desvanecimento somado a prompt de
+//                  princípio rende em transferência próxima e distante
+//                  (Atkinson, Renkl & Merrill, 2003).
+//   prever       — prever e conferir. Resolver antes de explicar rende (g=0,36;
+//                  Sinha & Kapur, 2021) DESDE QUE a explicação construa sobre o
+//                  que o leitor tentou (g=0,56 contra 0,20 quando ignora) — é
+//                  por isso que a revelação repete a previsão dele na tela.
+const TIPOS_INTERACAO = ["principio", "desvanecido", "prever"];
+
+// O passo apagado: `- [?] rótulo => a linha certa`.
+// O marcador NÃO é `- [x]` de propósito, e a razão é dupla. Semântica: `[x]`
+// significa "gabarito" na casa, e interação não tem gabarito. Mecânica: o gate
+// de vazamento do build.mjs recusa qualquer linha `- [x]` no Markdown
+// exportado, e `semGabarito()` só limpa bloco de exercício — um `[x]` aqui
+// derrubaria o build por uma resposta que nunca foi segredo.
+const RE_PASSO = /^[-*]\s+\[\?\]\s+(.+?)\s*=>\s*(.+?)\s*$/;
+// A previsão: `- ( )` para as opções e `- (!)` para a que de fato acontece.
+const RE_PREVISAO = /^[-*]\s+\(([ !])\)\s+(.+?)\s*$/;
 
 /** Erro de autoria com localização — vira falha de build, não aviso silencioso. */
 export class ErroDeBloco extends Error {
@@ -137,6 +181,69 @@ function validarExercicio(ex, arquivo) {
   }
 }
 
+/** Separa o corpo de uma interação: enunciado, passos, previsões e rodapé. */
+function fatiarInteracao(corpo) {
+  const enunciado = [];
+  const passos = [];
+  const previsoes = [];
+  const meta = {};
+  let chaveAberta = null;
+
+  for (const linha of corpo.split("\n")) {
+    const mMeta = linha.match(RE_META);
+    if (mMeta) {
+      chaveAberta = mMeta[1].trim().toLowerCase().replace(/\s+/g, "_");
+      meta[chaveAberta] = mMeta[2];
+      continue;
+    }
+    if (chaveAberta && /^>\s?/.test(linha)) {
+      meta[chaveAberta] += "\n" + linha.replace(/^>\s?/, "");
+      continue;
+    }
+    chaveAberta = null;
+
+    const mPasso = linha.match(RE_PASSO);
+    if (mPasso) {
+      passos.push({ rotulo: mPasso[1].trim(), certo: mPasso[2].trim() });
+      continue;
+    }
+    const mPrev = linha.match(RE_PREVISAO);
+    if (mPrev) {
+      previsoes.push({ real: mPrev[1] === "!", texto: mPrev[2] });
+      continue;
+    }
+    if (!passos.length && !previsoes.length) enunciado.push(linha);
+  }
+
+  return { enunciado: enunciado.join("\n").trim(), passos, previsoes, meta };
+}
+
+function validarInteracao(ia, arquivo) {
+  const erro = (m) => {
+    throw new ErroDeBloco(arquivo, ia.id, m);
+  };
+  if (!ia.id) erro("falta `id`");
+  if (!TIPOS_INTERACAO.includes(ia.tipo)) erro(`tipo "${ia.tipo}" desconhecido (use: ${TIPOS_INTERACAO.join(", ")})`);
+  if (!ia.enunciado) erro("enunciado vazio — diga o que o leitor tem diante dos olhos antes de agir");
+  if (!ia.revela) erro("falta `> **revela:**` — gesto sem retorno não é interação, é formulário");
+
+  if (ia.tipo === "principio") {
+    if (!ia.pergunta) erro("falta `> **pergunta:**` — o que rende é a autoexplicação PROVOCADA, e sem pergunta não há provocação");
+  } else if (ia.tipo === "desvanecido") {
+    if (!ia.passos.length) erro("nenhum passo apagado — marque ao menos uma linha com `- [?] rótulo => a linha certa`");
+  } else {
+    if (!ia.pergunta) erro("falta `> **pergunta:**` — não há previsão sem pergunta");
+    if (ia.previsoes.length) {
+      if (ia.numero != null) erro("escolha um modo só: opções `( )` ou o atributo `numero`, nunca os dois");
+      if (ia.previsoes.length < 2) erro("previsão por opção precisa de ao menos 2 opções");
+      const reais = ia.previsoes.filter((o) => o.real).length;
+      if (reais !== 1) erro(`exatamente uma opção leva \`(!)\` — o que de fato acontece (achei ${reais})`);
+    } else if (ia.numero == null) {
+      erro("previsão precisa de opções `- ( )` / `- (!)` ou do atributo `numero` (campo numérico)");
+    }
+  }
+}
+
 /** Interpreta `0.75 ± 0.02` / `0.75 +- 0.02` / `0.75` -> {valor, tolerancia}.
  *
  * A troca de vírgula por ponto é GLOBAL, e isso não é detalhe de estilo. O
@@ -160,12 +267,18 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
   const exercicios = [];
   const videos = [];
   const laboratorios = [];
+  const interacoes = [];
   const emCerca = cercas(markdown);
 
   for (const m of markdown.matchAll(RE_BLOCO)) {
     if (emCerca(m.index)) continue; // exemplo de sintaxe, não exercício
     const [, tipoBloco, attrsJson, corpo] = m;
     const attrs = parseAtributos(attrsJson, arquivo);
+
+    if (tipoBloco === "interacao") {
+      interacoes.push(montarInteracao(attrs, corpo, arquivo, capitulo));
+      continue;
+    }
 
     if (tipoBloco === "lab") {
       if (!attrs.id) throw new ErroDeBloco(arquivo, null, "laboratório sem `id`");
@@ -230,7 +343,31 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
     exercicios.push(ex);
   }
 
-  return { exercicios, videos, laboratorios };
+  return { exercicios, videos, laboratorios, interacoes };
+}
+
+/** Monta e valida uma interação a partir do bloco cru. Fonte única do objeto. */
+function montarInteracao(attrs, corpo, arquivo, capitulo) {
+  const { enunciado, passos, previsoes, meta } = fatiarInteracao(corpo);
+  const ia = {
+    id: attrs.id,
+    capitulo,
+    arquivo,
+    tipo: attrs.tipo,
+    titulo: attrs.titulo || null,
+    enunciado,
+    passos,
+    previsoes,
+    pergunta: meta.pergunta || null,
+    revela: meta.revela || null,
+    // Só no modo numérico do `prever`. A tolerância é declarada porque a
+    // previsão de um leitor que arredondou diferente não pode "não bater" por
+    // arredondamento — o mesmo cuidado do gabarito numérico do exercício.
+    numero: attrs.numero == null ? null : String(attrs.numero),
+    tolerancia: Number(attrs.tolerancia) || 0,
+  };
+  validarInteracao(ia, arquivo);
+  return ia;
 }
 
 /** Metadados que revelam a resposta — nunca saem do backend. */
@@ -279,6 +416,7 @@ export function renderizar(markdown, renderMd, arquivo = "?", capitulo = 0) {
   return markdown.replace(RE_BLOCO, (bloco, tipoBloco, attrsJson, corpo, offset) => {
     if (emCerca(offset)) return bloco; // exemplo de sintaxe: passa intacto
     const attrs = parseAtributos(attrsJson, arquivo);
+    if (tipoBloco === "interacao") return htmlInteracao(montarInteracao(attrs, corpo, arquivo, capitulo), renderMd);
     if (tipoBloco === "lab") return htmlLab(attrs, corpo.trim(), renderMd, capitulo);
     if (tipoBloco === "video") return htmlVideo(attrs, corpo.trim(), renderMd, capitulo);
     const { enunciado, opcoes } = fatiar(corpo);
@@ -365,4 +503,83 @@ function htmlLab(attrs, intro, renderMd, capitulo) {
 </section>`;
 }
 
-export { TIPOS };
+// ------------------------------------------------------- HTML das interações
+
+const ROTULO_INTERACAO = {
+  principio: "explique antes de ver",
+  desvanecido: "complete os passos que faltam",
+  prever: "preveja antes de revelar",
+};
+
+const BOTAO_INTERACAO = {
+  principio: "Revelar a explicação",
+  desvanecido: "Conferir os passos",
+  prever: "Revelar o resultado",
+};
+
+// O bloco inteiro tem de ser UM bloco HTML para o markdown-it, e bloco HTML
+// termina na primeira linha em branco. Uma fórmula MathJax dentro de uma opção
+// nasce com linhas em branco no `<style>` — foi assim que o II.7 e o III.1
+// foram ao ar com um `<style>` aberto e meia página lida como CSS. O dedup do
+// build já cuida daquele caso; isto aqui é o cinto.
+const semVazio = (h) => String(h).replace(/\n[ \t]*\n+/g, "\n").trim();
+const semParagrafo = (h) => semVazio(h).replace(/^<p>/, "").replace(/<\/p>$/, "");
+
+/**
+ * UI de uma interação — COM a revelação embutida, e é aqui que ela difere de
+ * tudo o mais nesta casa. O `.ia-fonte` é um `<template>`: inerte, invisível,
+ * fora do `innerText` (o gate dos cartões conta palavra, e a explicação só
+ * passa a contar depois que o leitor a pediu) e sem uma linha de rede.
+ */
+function htmlInteracao(ia, renderMd) {
+  // O botão NÃO nasce `disabled` nem `aria-disabled`. As duas coisas dizem à
+  // tecnologia assistiva (e ao Playwright, que aplica a mesma regra) que o
+  // controle está indisponível — e aí o motivo de ele não liberar, que mora no
+  // `role="status"` ao lado, deixa de ser alcançável justamente por quem mais
+  // precisa dele. O sinal de "ainda não" é `data-pronto`, que pinta e não
+  // bloqueia; quem bloqueia é o `interacoes.js`, dizendo o porquê.
+  const id = esc(ia.id);
+  const tipo = esc(ia.tipo);
+
+  let entrada;
+  if (tipo === "desvanecido") {
+    entrada = `<ol class="ia-passos">${ia.passos
+      .map(
+        (p, i) =>
+          `<li class="ia-passo"><span class="ia-passo-rot">${semParagrafo(renderMd(p.rotulo))}</span>` +
+          `<input class="ia-branco" type="text" inputmode="text" autocomplete="off" spellcheck="false"` +
+          ` data-certo="${esc(p.certo)}" aria-label="passo ${i + 1}, a linha que falta"` +
+          ` placeholder="?"><span class="ia-passo-cmp"></span></li>`
+      )
+      .join("")}</ol>`;
+  } else if (tipo === "prever" && ia.previsoes.length) {
+    entrada = `<ul class="ia-opcoes">${ia.previsoes
+      .map(
+        (o, i) =>
+          `<li><label><input class="ia-opcao" type="radio" name="ia-${id}" value="${i}"${o.real ? ' data-real="1"' : ""}>` +
+          `<span>${semParagrafo(renderMd(o.texto))}</span></label></li>`
+      )
+      .join("")}</ul>`;
+  } else if (tipo === "prever") {
+    entrada = `<div class="ia-entrada"><input class="ia-num" type="text" inputmode="decimal" autocomplete="off"` +
+      ` data-real="${esc(ia.numero)}" data-tol="${esc(ia.tolerancia)}" aria-label="sua previsão, em número"` +
+      ` placeholder="seu palpite"></div>`;
+  } else {
+    entrada = `<div class="ia-entrada"><textarea class="ia-livre" rows="3" aria-label="sua explicação"` +
+      ` placeholder="Com suas palavras. Ninguém corrige isto: ela fica ao lado da explicação, para você comparar."></textarea></div>`;
+  }
+
+  const cabTitulo = ia.titulo ? `<span class="ia-titulo">${esc(ia.titulo)}</span>` : "";
+  const pergunta = ia.pergunta ? `<p class="ia-pergunta">${semParagrafo(renderMd(ia.pergunta))}</p>` : "";
+
+  return `<section class="interacao" data-interacao="${id}" data-tipo="${tipo}">
+<header class="ia-cab"><span class="ia-tag">Interação</span>${cabTitulo}<span class="ia-modo">${ROTULO_INTERACAO[tipo]}</span></header>
+<div class="ia-corpo">${semVazio(renderMd(ia.enunciado))}</div>
+${pergunta}${entrada}
+<div class="ia-acoes"><button class="ia-revelar" type="button" data-pronto="false" aria-describedby="ia-status-${id}">${BOTAO_INTERACAO[tipo]}</button><span class="ia-status" id="ia-status-${id}" role="status"></span></div>
+<div class="ia-revelacao" aria-live="polite"></div>
+<template class="ia-fonte">${semVazio(renderMd(ia.revela))}</template>
+</section>`;
+}
+
+export { TIPOS, TIPOS_INTERACAO };

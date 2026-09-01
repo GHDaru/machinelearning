@@ -111,6 +111,17 @@ Três razões, em ordem de honestidade:
 2. **Tem solução fechada.** Derivando e igualando a zero, chega-se às *equações normais* — um sistema linear que se resolve de uma vez, sem iteração.
 3. **Pune o erro grande desproporcionalmente**, o que às vezes é o que você quer e às vezes não é. Se houver *outliers*, o erro quadrático os persegue — e aí o erro absoluto é a escolha certa. Esta é uma decisão de modelagem, não uma constante da natureza.
 
+:::interacao {"id":"modelos-lineares-i1","tipo":"prever","titulo":"O peso do ponto distante","numero":100}
+Um ponto erra por **1**; o *outlier* erra por **10**. No critério absoluto o segundo pesa 10 vezes mais.
+
+> **pergunta:** E no quadrático, quantas vezes?
+> **revela:** **Cem vezes.** O erro decuplicou e o peso centuplicou, porque $10^2 = 100$ contra $1^2 = 1$. Quem previu 10 leu o critério certo, o absoluto, e é justamente essa a diferença entre os dois.
+>
+> "Persegue os *outliers*" deixa de ser advertência e vira aritmética: um ponto dez vezes mais distante manda cem vezes mais na escolha da reta. Com quatro pontos comportados e um *outlier* assim, a reta obedece ao *outlier*, e o EQM cai ao ceder a ele.
+>
+> É o que o item 3 quer dizer com decisão de modelagem. Trocar para o erro absoluto devolve a proporção de dez para um, ao custo de perder o bico diferenciável e a solução fechada dos itens 1 e 2.
+:::
+
 :::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
 Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
 
@@ -218,6 +229,21 @@ $$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i=1}^{n}x_i\left(y_i - ax_i 
 **Os resíduos são ortogonais ao atributo.** Traduzindo: o que sobrou de erro **não tem mais nada de linear em $x$** — se tivesse, a reta ainda poderia melhorar. É o significado geométrico do ajuste, e vale para qualquer número de atributos.
 
 > **Isto é a versão com um atributo do que a etapa 05 do `ml-zero` faz para $d$ atributos.** Lá as duas condições viram um sistema $d \times d$, as **equações normais**, resolvido por eliminação de Gauss. A ideia é idêntica: derivar, igualar a zero, resolver. O que cresce é a álgebra, não o conceito.
+
+:::interacao {"id":"modelos-lineares-i2","tipo":"principio","titulo":"De onde sai o xᵢ"}
+As duas condições do mínimo, já derivadas:
+
+$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i} r_i \qquad \frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i} x_i\, r_i$$
+
+Só a segunda traz um $x_i$ multiplicando o resíduo.
+
+> **pergunta:** Por que o $x_i$ aparece ao derivar em relação a $a$, e não ao derivar em relação a $b$?
+> **revela:** Pela regra da cadeia. O resíduo é $r_i = y_i - ax_i - b$: derivado em relação a $b$ ele dá $-1$, e em relação a $a$ dá $-x_i$. O que multiplica cada resíduo é **a sensibilidade daquele resíduo ao parâmetro**, e ela é $x_i$ porque é $x_i$ que multiplica $a$ na reta.
+>
+> Daí sai o significado geométrico. Na condição de $b$ todo ponto pesa igual, e por isso ela vira "a soma dos resíduos é zero". Na condição de $a$ cada ponto pesa o próprio $x_i$: ponto com $x$ grande manda muito na inclinação, e ponto com $x = 0$ não opina sobre ela — ele só desloca a reta.
+>
+> É a mesma regra de atribuição de culpa que o perceptron usa no [capítulo III.1](iii-1-neuronio-artificial.md): quem não entrou na conta não responde pelo erro.
+:::
 
 :::cartao {"nivel":2,"titulo":"Passo 4 — duas somas, e a reta está pronta"}
 
@@ -382,6 +408,19 @@ vendas = 3,192
 ```
 
 > **O $R^2$, que o livro ainda não tinha apresentado**, é a fração da variação de `vendas` que o modelo reproduz: 0 é não fazer melhor que prever sempre a média, 1 é acertar cada ponto. **0,982 é altíssimo, e é por isso que ele está aqui.** Reproduzir bem o passado e dizer o efeito de mexer numa alavanca são coisas diferentes.
+
+:::interacao {"id":"modelos-lineares-i3","tipo":"desvanecido","titulo":"Quem explica os 9,4 copos"}
+Do preço 0,30 para o 0,50 a venda média sobe de 23,7 para 33,1 copos, **9,4 a mais**, e a temperatura média sobe de 57,0 para 78,8. Com os coeficientes acima, complete as duas parcelas:
+
+- [?] temperatura: `0,3692 × (78,8 − 57,0)` => 8,05 copos
+- [?] preço: `2,4143 × (0,50 − 0,30)` => 0,48 copo
+
+> **revela:** A temperatura responde por **8,05** dos 9,4 copos, e o preço por **0,48** — cinco por cento da diferença. O que sobra está na precipitação e nos panfletos, que também mudam de janeiro para julho.
+>
+> Repare no contraste: **+2,4143 é o maior coeficiente da equação**, e mesmo assim a parcela dele é a menor de todas. Coeficiente é efeito por unidade; parcela é efeito por unidade vezes **a variação que de fato existiu no dado**. O preço variou 0,20 em 365 dias; a temperatura variou 21,8.
+>
+> São as duas armadilhas deste capítulo na mesma conta. Coeficiente grande não é atributo importante enquanto não se padroniza — o item 2 da lista anterior. E aqueles 0,20 de variação de preço só aconteceram em julho e agosto, que é o que faz do +2,4143 um número sobre a estação.
+:::
 
 
 :::cartao {"nivel":3,"titulo":"Controlar remove só o que a variável mede"}
