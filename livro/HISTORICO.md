@@ -5,6 +5,48 @@
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
 
+## Edição 2.1 — 2026-09-01 · a primeira promoção a `completo`: Regressão Linear (spec 010)
+
+Abre o ciclo **C5** do roadmap, e estreia o portão dos sete itens: o **II.2 — Modelos
+Lineares** é o primeiro capítulo do livro no nível `completo`. Modelo de IA usado: Claude
+(Anthropic), via Claude Code, em sessão remota conduzida a partir do pedido do autor.
+
+**A leitura que pagou a D10 deste capítulo.** Stigler (1981), item 2 da fila de verificação,
+foi **lido na íntegra** — dez páginas de digitalização sem camada de texto, lidas como
+imagem, com [nota de leitura](../estudos/2026-09-01-leitura-stigler-1981.md) em `estudos/`.
+O que a leitura mudou não foi enfeite:
+
+- **Bessel (1832) saiu do corpo do capítulo.** A atribuição ("publicou nota confirmando ter
+  visto o método com Gauss") **não aparece** em Stigler; a fonte corrente é Plackett (1972),
+  não lido. O selo desceu para ⏳ com a fonte nomeada — rebaixar foi o gesto honesto.
+- **Olbers (1816) mudou de natureza:** não é testemunho espontâneo, é um rodapé publicado
+  depois de sete anos de insistência de Gauss, que Stigler trata como apoio relutante.
+- **O resumo prometia menos do que o corpo entrega.** O resumo diz que os dados do arco
+  meridiano "poderiam, concebivelmente, permitir verificação"; o corpo mostra Stigler
+  **fazendo** a análise: os números de Gauss de 1799 não saem da formulação de primeira
+  ordem da época, e só aparecem com expansão de segunda ordem ajustada por mínimos
+  quadrados. É a armadilha do Princípio X reencontrada (*resumo não é fonte*), desta vez
+  no resumo escrito pelo próprio autor.
+- **Entraram** Robert Adrain (o terceiro descobridor, 1808/09) e a evidência documental
+  nova: Lindenau e von Zach, que Gauss dizia ter avisado, creditando o método a Legendre
+  em 1806–07 sem citar Gauss.
+
+**O esqueleto v5 se completou.** "Fundamentos científicos" com três papers abertos — Hand
+(2006) **lido na íntegra** (o discriminante linear captura de 85% a 100% do ganho alcançável
+nos dez conjuntos da Tabela 1), Rudin (2019) e Westreich & Greenland (2013) com resumo lido
+e o registro dizendo exatamente isso. "O estado da arte" fechou com a **cláusula E4** no
+placar abaixo.
+
+**Os números da limonada viraram asserção.** As correlações, a tabela por preço, os cinco
+coeficientes do ajuste múltiplo, o R² de 0,982 e o "nenhum mês tem dois preços" são
+recalculados do CSV cru por quatro testes novos em `ml-zero/tests/test_etapa_05.py`, com a
+`RegressaoLinear` da própria etapa. A frase que a edição 1.1 corrigiu à mão agora tem gate.
+
+**E o snapshot por capítulo voltou a dizer a verdade.** A tabela abaixo estava parada na
+edição 0.5 — numeração antiga, sete capítulos ditos "completos" num sentido que a emenda
+1.1.0 aposentou. Foi regenerada por script a partir dos arquivos, e passa a ser atualizada
+a cada edição.
+
 ## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações
 
 Fecha o **ciclo 009**, e fecha as quatro colunas que ele abriu para os 29 capítulos: voz, exercícios, prova e **fontes**. Modelo de IA usado: Claude Opus 5.
@@ -233,38 +275,41 @@ O repositório nasce com a máquina inteira funcionando e o conteúdo em constru
 
 > **Níveis** (constituição 1.1.0): `esqueleto` = objetivos e problema · `essencial` = corpo ensinável e prática · `completo` = o portão dos sete itens.
 >
-> Os capítulos 19–27, criados na edição 0.5, estão todos em `esqueleto`. O 18 está em `essencial`.
+> Regenerado por script em **2026-09-01** (edição 2.1), contando os blocos `:::` de cada
+> arquivo de capítulo; os 70 exercícios das sete provas não entram nesta tabela. A versão
+> anterior desta tabela estava parada na edição 0.5, com a numeração antiga.
 
-| Capítulo | Estado | Captura | Exercícios | Vídeos |
+| Capítulo | Nível | Exercícios | Laboratórios | Vídeos |
 |---|---|---|---|---|
-| 00 — Introdução | completo | 2026-08 | 3 | 1 |
-| 01 — Fundamentos | completo | 2026-08 | 3 | 1 |
-| 02 — Qualidade e Vazamento | completo | 2026-08 | 4 | 1 |
-| 03 — Representação | esqueleto | — | 0 | 0 |
-| 04 — Avaliação | completo (piloto v4) | 2026-08 | 5 | 1 |
-| 05 — Modelos Lineares | completo | 2026-08 | 3 | 1 |
-| 06 — Otimização | completo | 2026-08 | 4 | 1 |
-| 07 — Árvores e Ensembles | completo | 2026-08 | 5 | 1 |
-| 08 — Não Supervisionado | esqueleto | — | 0 | 0 |
-| 09 — Redes Neurais | esqueleto | — | 0 | 0 |
-| 10 — Visão | esqueleto | — | 0 | 0 |
-| 11 — Sequências e Linguagem | esqueleto | — | 0 | 0 |
-| 12 — Modelos de Fundação | esqueleto | — | 0 | 0 |
-| 13 — Reforço | esqueleto | — | 0 | 0 |
-| 14 — Interpretabilidade e Justiça | esqueleto | — | 0 | 0 |
-| 15 — Sistemas de ML | esqueleto | — | 0 | 0 |
-| 16 — MLOps | esqueleto | — | 0 | 0 |
-| 17 — Fronteira | esqueleto | — | 0 | 0 |
-| **18 — O Neurônio Artificial** | **essencial** | 2026-08 | 4 | 1 laboratório |
-| 19 — Ciclo da Ciência de Dados | esqueleto | — | 0 | 0 |
-| 20 — Coleta e Integração | esqueleto | — | 0 | 0 |
-| 21 — Análise Exploratória | esqueleto | — | 0 | 0 |
-| 22 — Visualização e Storytelling | esqueleto | — | 0 | 0 |
-| 23 — Análise Multidimensional | esqueleto | — | 0 | 0 |
-| 24 — Séries Temporais | esqueleto | — | 0 | 0 |
-| 25 — Do Modelo à Decisão | esqueleto | — | 0 | 0 |
-| 26 — Treinar Redes Profundas | esqueleto | — | 0 | 0 |
-| 27 — IA Simbólica, Fuzzy e Evolutiva | esqueleto | — | 0 | 0 |
+| 0.1 — Introdução | essencial | 9 | 0 | 1 |
+| 0.2 — Fundamentos | essencial | 12 | 1 | 1 |
+| I.1 — O Ciclo da Ciência de Dados | essencial | 12 | 1 | 0 |
+| I.2 — Coleta e Integração | essencial | 12 | 0 | 0 |
+| I.3 — Qualidade e Vazamento | essencial | 12 | 1 | 1 |
+| I.4 — Análise Exploratória | essencial | 12 | 1 | 0 |
+| I.5 — Visualização e Storytelling | essencial | 12 | 1 | 0 |
+| I.6 — Representação | essencial | 12 | 1 | 0 |
+| II.1 — Avaliação | essencial | 15 | 1 | 1 |
+| **II.2 — Modelos Lineares** | **completo** | 12 | 2 | 0 |
+| II.3 — Regressão Logística | essencial | 9 | 1 | 1 |
+| II.4 — Otimização e Regularização | essencial | 12 | 1 | 1 |
+| II.5 — Árvores e Ensembles | essencial | 12 | 1 | 1 |
+| II.6 — Análise Multidimensional | essencial | 12 | 0 | 0 |
+| II.7 — Séries Temporais | essencial | 12 | 1 | 0 |
+| II.8 — Do Modelo à Decisão | essencial | 12 | 1 | 0 |
+| III.1 — O Neurônio Artificial | essencial | 15 | 5 | 0 |
+| III.2 — Redes Multicamadas | essencial | 19 | 3 | 0 |
+| III.3 — Treinar Redes Profundas | essencial | 12 | 1 | 0 |
+| III.4 — Visão Computacional | essencial | 12 | 1 | 0 |
+| III.5 — Sequências e Linguagem | essencial | 12 | 1 | 0 |
+| III.6 — Modelos de Fundação e Generativos | essencial | 12 | 0 | 0 |
+| IV.1 — Aprendizado Não Supervisionado | essencial | 12 | 1 | 0 |
+| IV.2 — Aprendizado por Reforço | essencial | 12 | 1 | 0 |
+| IV.3 — IA Simbólica, Fuzzy e Evolutiva | essencial | 12 | 1 | 0 |
+| V.1 — Interpretabilidade e Justiça | essencial | 12 | 1 | 0 |
+| V.2 — Sistemas de ML | essencial | 12 | 0 | 0 |
+| V.3 — MLOps | essencial | 12 | 1 | 0 |
+| V.4 — Fronteira e Expiração | essencial | 9 | 0 | 0 |
 
 ## Registro de expiração — o placar das previsões
 
@@ -276,6 +321,7 @@ Cada capítulo declara uma **cláusula de expiração**: o que, ali, tem prazo. 
 | E2 | AUC-PR é a escolha padrão para classes raras; calibração é etapa pós-treino dedicada. Se modelos de uso geral passarem a entregar escores bem calibrados sem etapa dedicada, a recomendação muda. | 04 | 2026-08 | 🔵 aberta | — |
 
 | E3 | Gradient boosting é a escolha padrão para tabular de porte médio (Grinsztajn et al., 2022). **Gatilho de revisão**: um benchmark independente, com igual rigor de busca de hiperparâmetros, mostrando vantagem consistente de método não-árvore nesse regime. | 07 | 2026-08 | 🔵 aberta | — |
+| E4 | O modelo linear é a linha de base obrigatória em tabular e a escolha padrão sob exigência de auditoria (Hand 2006; Rudin 2019). **Gatilhos de revisão**: um regulador de crédito de jurisdição relevante aceitar explicação *post-hoc* de caixa-preta como justificativa formal de recusa; **ou** benchmark independente mostrar método não linear com calibração e estabilidade sob deriva equivalentes às do linear, sem etapa dedicada. | II.2 | 2026-09 | 🔵 aberta | — |
 
 **Legenda:** 🔵 aberta (ainda em pé, sem evidência de mudança) · 🟡 em curso (há sinais, mas não conclusivos) · 🟢 confirmada (o previsto aconteceu) · 🔴 refutada (o livro errou — e isso é a notícia mais importante de uma edição)
 

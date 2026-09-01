@@ -1,8 +1,8 @@
 # II.2 — Modelos Lineares
 
-> **Estado da arte capturado em 2026-08** · última revisão 2026-08-05 · [histórico](../HISTORICO.md)
+> **Estado da arte capturado em 2026-09** · última revisão 2026-09-01 · [histórico](../HISTORICO.md)
 >
-> **Nível: essencial.** Corpo escrito e prática funcionando; o aprofundamento (experimento próprio, todas as fontes conferidas, cláusula de expiração) vem em ciclo próprio — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
+> **Nível: completo.** A primeira promoção do livro (spec 010): fonte central lida na íntegra ([nota de leitura](../../estudos/2026-09-01-leitura-stigler-1981.md)), números do corpo sob asserção executável, cláusula de expiração declarada no [placar](../HISTORICO.md) e revisão developmental feita — ver [níveis de maturidade](../GUIA-EDITORIAL.md#niveis-de-maturidade).
 
 ## Objetivos de aprendizagem
 
@@ -43,11 +43,15 @@ E há a razão pedagógica: é no modelo linear que otimização, regularizaçã
 
 ### A disputa de prioridade mais famosa da estatística
 
-**Legendre publicou primeiro**, em 1805, em *Nouvelles méthodes pour la détermination des orbites des comètes*, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando usar o método desde 1795.
+**Legendre publicou primeiro**, em 1805, em *Nouvelles méthodes pour la détermination des orbites des comètes*, com exposição clara e exemplo trabalhado, e deu ao método o nome que ficou. **Gauss publicou em 1809** (*Theoria motus corporum coelestium*) afirmando usar o método desde 1795 — e Stigler anota que, nas rememorações de Gauss, a data às vezes virava 1794.
 
-Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação. Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência — Olbers (1816) e Bessel (1832) publicaram notas confirmando ter visto o método com ele antes.
+Legendre reagiu mal, e o argumento dele é o que interessa aqui: **prioridade se estabelece por publicação**. Em 1820 atacou publicamente a reivindicação, num texto que rendeu a Stigler um estudo próprio (1977). Gauss entendia prioridade como *ser o primeiro a descobrir*, e apoiava-se em registros privados e correspondência. O apoio público que conseguiu foi magro: segundo Stigler, a confirmação de Olbers (1816) é um **rodapé**, publicado depois de sete anos de insistência de Gauss — apoio relutante, não testemunho espontâneo.
 
-O estudo de referência sobre a disputa é o de **Stephen Stigler** (1981), e vale citar a conclusão dele com o hedge que ele mesmo pôs: *"It is argued (though not conclusively) that Gauss probably possessed the method well before Legendre, but that he was unsuccessful in communicating it to his contemporaries."* Argumenta-se, **sem concluir**, que Gauss provavelmente tinha o método bem antes, e que falhou em comunicá-lo. Stigler acrescenta que dados do arco meridiano francês poderiam, concebivelmente, permitir uma verificação definitiva — ou seja, o caso segue **aberto**, e não resolvido a favor de Gauss.
+O estudo de referência sobre a disputa é o de **Stephen Stigler** (1981), lido na íntegra para este capítulo, e vale citar a conclusão dele com o hedge que ele mesmo pôs: *"It is argued (though not conclusively) that Gauss probably possessed the method well before Legendre, but that he was unsuccessful in communicating it to his contemporaries."* Argumenta-se, **sem concluir**, que Gauss provavelmente tinha o método bem antes, e que falhou em comunicá-lo.
+
+A evidência nova que Stigler traz aponta nas duas direções, e as duas ensinam. Contra Gauss: em 1806 e 1807, resenhas de Lindenau e von Zach (dois dos astrônomos a quem Gauss dizia ter contado o método antes de 1805) descrevem mínimos quadrados **como método de Legendre**, pelo nome francês, sem mencionar Gauss uma única vez. A favor: Stigler refez as contas da carta de 1799 em que Gauss diz ter aplicado *"meine Methode"* aos dados do arco meridiano francês, os mesmos que definiram o primeiro metro. Com a formulação de primeira ordem que Boscovich, Laplace e Legendre usavam, **os números de Gauss não saem**; eles só aparecem com uma expansão de segunda ordem ajustada por mínimos quadrados. Para Stigler, isso apoia, sem fechar, que Gauss já tratava dados com o método em 1799.
+
+Dois arremates do artigo. A lista de descobridores não termina em dois: **Robert Adrain** publicou o método em 1808/09, nos Estados Unidos — e Stigler levanta a hipótese desconfortável de ele o ter "descoberto" lendo o livro de Legendre. E o veredito final é uma imagem: mínimos quadrados é o automóvel da estatística, e Gauss pode ter sido o primeiro a descobrir, *"but he was no Henry Ford of statistics"* — quem pôs o método ao alcance de todos foi Legendre.
 
 > **O espelho disto está no [capítulo III.1](iii-1-neuronio-artificial.md).** Lá, quem leva o crédito pelo backpropagation são os últimos (Rumelhart *et al.*, 1986), não o primeiro (Linnainmaa, 1970), e a leitura deste livro é que o crédito não fica com quem inventa primeiro, e sim com quem reinventa por último. Aqui o caso é o inverso exato — o primeiro descobridor perde para o primeiro **publicador**.
 >
@@ -57,9 +61,9 @@ O estudo de referência sobre a disputa é o de **Stephen Stigler** (1981), e va
 
 | Selo | Afirmação |
 |---|---|
-| ✓ᵐ | Legendre (1805) e Gauss (1809): obra, ano e conteúdo geral. Nenhuma das duas lida no original |
-| ✓ᵃ | A tese que **Stigler declara** e o trecho citado entre aspas, do resumo de ["Gauss and the Invention of Least Squares"](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full), *Annals of Statistics* 9(3):465–474, 1981, [10.1214/aos/1176345451](https://doi.org/10.1214/aos/1176345451) — **resumo lido no original; o corpo, não** |
-| ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820. O resumo de Stigler fala em "new evidence, both documentary and statistical", **sem nomear quais** — e o selo ✓ᵃ não autoriza afirmar o que está no corpo do artigo |
+| ✓ | Tudo o que esta seção atribui a Stigler: a tese e o trecho citado, o rodapé relutante de Olbers, o ataque de 1820, as resenhas de Lindenau e von Zach, a análise do arco meridiano e o caso Adrain — ["Gauss and the Invention of Least Squares"](https://projecteuclid.org/journals/annals-of-statistics/volume-9/issue-3/Gauss-and-the-Invention-of-Least-Squares/10.1214/aos/1176345451.full), *Annals of Statistics* 9(3):465–474, 1981, [10.1214/aos/1176345451](https://doi.org/10.1214/aos/1176345451), **lido na íntegra em 2026-09** ([nota de leitura](../../estudos/2026-09-01-leitura-stigler-1981.md)) |
+| ✓ᵐ | Legendre (1805) e Gauss (1809): obra, ano e conteúdo geral. Nenhuma das duas lida no original — o que se afirma delas aqui é relato de Stigler, e o registro do texto diz isso |
+| ⏳ | A nota de Bessel (1832) confirmando ter visto o método com Gauss antes de 1805: atribuição corrente via Plackett (1972), não lido. Ela **não aparece** em Stigler (1981), e por isso saiu do corpo desta seção |
 | 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo III.1 |
 
 ## Fundamentos: regressão linear como minimização
@@ -208,7 +212,7 @@ Com os atributos como vieram, ele **não chega**. Ao fim dos 4 000 passos ainda 
 
 **Clique em "E se os atributos fossem padronizados?".** Mesmos dados, mesmo modelo, mesma quantidade de passos. Agora chega a 1% no passo **1 460** e termina 351 vezes mais perto do ótimo. O passo estável saltou de 7,3 × 10⁻³ para 2,5 × 10⁻¹.
 
-> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao-regularizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
+> **O que mudou não foi o otimizador, foi o problema.** Padronizar não é higiene de planilha: é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. É por isso que a pergunta do exercício acima não é "qual é melhor", e sim "até onde cada um alcança". O capítulo [II.4](ii-4-otimizacao.md) retoma esta mesma superfície pelo lado da taxa de aprendizado.
 :::
 
 :::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
@@ -371,6 +375,8 @@ O confundimento aqui é **perfeito**: preço e estação são a mesma variável,
 
 Esta é a resposta menos confortável e a mais honesta que a análise pode dar: *com estes dados, não dá — e aqui está o que precisaria ser coletado.*
 
+> **Estes números são vigiados.** Desde a promoção deste capítulo a `completo`, cada valor citado nesta seção (as correlações, a tabela por preço, os coeficientes, o R² e o "nenhum mês tem dois preços") é recalculado do CSV cru pela suíte de testes ([`test_etapa_05.py`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/tests/test_etapa_05.py)), com a `RegressaoLinear` da etapa 05. Se o texto e o dado discordarem, os testes caem.
+
 :::exercicio {"id":"modelos-lineares-e4","tipo":"numerica","objetivo":"O3","dificuldade":"facil"}
 Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
 
@@ -469,6 +475,29 @@ Quais dessas restrições, sozinhas, já apontam para o modelo linear? (marque t
 > **volte para:** #quando-o-linear-e-a-escolha-certa
 :::
 
+## Fundamentos científicos
+
+As três afirmações mais fortes deste capítulo não valem por repetição. Cada uma tem quem a mediu ou a argumentou em fonte aberta, e o que cada paper muda **na prática** vem junto.
+
+**Hand (2006)** ([doi:10.1214/088342306000000060](https://doi.org/10.1214/088342306000000060), ✓ lido na íntegra) — *Classifier Technology and the Illusion of Progress*. Em dez conjuntos de dados sorteados da literatura, o discriminante linear de Fisher captura **de 85% a 100% do ganho de acurácia alcançável** entre a regra trivial e o melhor método publicado para aquele conjunto; na maioria, acima de 90%. E o placar é a parte fraca do argumento. A parte forte: as diferenças pequenas que sobram para os métodos sofisticados são do tamanho das incertezas que o protocolo clássico ignora — deriva da população, viés de seleção, rótulo de classe definido por limiar arbitrário, custo de erro desconhecido. O exemplo central é de crédito: um classificador treinado com 92 258 empréstimos de um banco britânico degrada conforme a população muda, e o refinamento fino do modelo complexo é o que a deriva apaga primeiro. **Decisão que o paper sustenta:** o "treine sempre um linear primeiro" da seção anterior não é conservadorismo, é onde mora a maior parte do ganho — e a vantagem pequena do modelo complexo, medida em laboratório, precisa sobreviver à pergunta "sobrevive à deriva?" antes de virar sistema.
+
+**Rudin (2019)** ([arXiv:1811.10154](https://arxiv.org/abs/1811.10154), *Nature Machine Intelligence* 1:206–215, ✓ᵃ resumo lido) — *Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead*. A tese que a autora declara: em decisão de alto risco, **explicar uma caixa-preta depois de treinada perpetua más práticas e pode causar dano grave**; o caminho é projetar modelos interpretáveis desde o início. **Decisão que a tese sustenta:** a cena que abre este capítulo, o banco que precisa explicar a recusa, não se resolve com um "explicador" acoplado às quinhentas árvores. Se a explicação é requisito, ela é requisito *de projeto*, e o modelo linear é o candidato a ser batido.
+
+**Westreich & Greenland (2013)** ([doi:10.1093/aje/kws412](https://doi.org/10.1093/aje/kws412), *Am. J. Epidemiology* 177(4):292–298, ✓ᵃ resumo lido) — *The Table 2 Fallacy*. O nome vem da "Tabela 2" dos artigos de epidemiologia, que apresenta lado a lado os coeficientes ajustados da exposição e dos confundidores, como se todos fossem efeitos comparáveis. A tese declarada: **apresentar todos os coeficientes de um modelo numa tabela única convida à leitura errada** — efeito direto confundido com efeito total, e coeficientes de controle lidos como se tivessem o mesmo estatuto do coeficiente de interesse. **Decisão que a tese sustenta:** o coeficiente de `preco` da limonada é uma falácia da Tabela 2 que você produziu de propósito. Num relatório real, interprete o coeficiente da variável de interesse, desenhado para a pergunta; os demais estão ali para ajustar, não para ser lidos um a um.
+
+## O estado da arte
+
+O método em si está estabilizado há dois séculos: a perda quadrática, as equações normais e a solução fechada deste capítulo são as de 1805, e nenhuma revisão vai mudá-las. O que está vivo é **onde o linear fica no fluxo de trabalho, e como se leem os coeficientes**.
+
+O consenso de 2026, como este livro o captura: o linear é a **linha de base obrigatória** em dados tabulares (esta seção e a anterior), e a escolha padrão quando a decisão exige auditoria, calibração ou latência baixa. O desempenho puro em tabular de porte médio pertence ao gradient boosting — medido no [capítulo II.5](ii-5-arvores-ensembles.md) e no benchmark que o sustenta.
+
+Duas disputas reais, e vale saber que existem:
+
+1. **Explicar a caixa-preta ou não a usar.** Rudin (2019) é uma posição num debate aberto: há uma literatura inteira de explicação *post-hoc* (importâncias, SHAP, contrafactuais) que defende o caminho oposto — treinar o modelo mais forte e explicá-lo depois. O [capítulo V.1](v-1-interpretabilidade-justica.md) entra nesse debate; este capítulo só registra que ele **não está resolvido**.
+2. **Quanto do progresso sobrevive fora do laboratório.** Hand (2006) e o benchmark do II.5 não se contradizem: medem perguntas diferentes. Um benchmark mede acurácia sob distribuição fixa; Hand pergunta o que resta da vantagem quando a população deriva e o custo de erro muda. Um modelo pode ganhar na primeira medida e empatar na segunda — e a decisão de engenharia depende de qual das duas descreve o seu problema.
+
+> **Cláusula de expiração.** Escrevo em 2026 que o modelo linear é a linha de base obrigatória em tabular e a escolha padrão sob exigência de auditoria, sustentado por Hand (2006) e pela tese de Rudin (2019). Dois gatilhos de revisão, ambos observáveis: **(a)** um regulador de crédito de jurisdição relevante passar a aceitar explicação *post-hoc* de caixa-preta como justificativa formal de recusa; **(b)** um benchmark independente mostrar método não linear entregando, sem etapa dedicada, calibração e estabilidade sob deriva equivalentes às do linear. Acompanhamento no [placar de expiração](../HISTORICO.md).
+
 ## Mão na massa
 
 A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão:
@@ -492,7 +521,8 @@ O caso da limonada do começo ao fim: a correlação que sugere *aumente o preç
 - $a = S_{xy}/S_{xx}$, e o denominador avisa: **atributo que não varia não tem coeficiente**.
 - Gradiente e solução fechada chegam ao mesmo lugar. O gradiente é a ferramenta **geral**; a fechada é o caso de sorte.
 - Coeficiente **não é causa**, não é comparável sem padronização, não é estável sob colinearidade, e não vale fora da faixa observada.
-- Treine sempre um linear primeiro. Ele responde "quanto do sinal é simplesmente linear?" em minutos.
+- Treine sempre um linear primeiro. Ele responde "quanto do sinal é simplesmente linear?" em minutos — e é ali que mora a maior parte do ganho alcançável (Hand, 2006).
+- Em decisão de alto risco, interpretabilidade é requisito **de projeto**, não acessório colado depois (Rudin, 2019). E coeficiente de controle não se lê como efeito: é a falácia da Tabela 2.
 
 ## Verificação
 

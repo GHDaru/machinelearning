@@ -319,3 +319,101 @@ def test_a_licao_3_early_stopping_e_regularizacao_de_graca():
     assert norma(parando) <= norma(ate_o_fim), (
         "parar cedo deveria deixar os pesos menores — é o efeito regularizador"
     )
+
+
+# ------------------------------------- o caso da limonada, como asserções
+#
+# O capítulo II.2 publica os números do caso da limonada no corpo do texto:
+# a matriz de correlação ingênua, a tabela por preço, o ajuste múltiplo com
+# R² de 0,982 e a checagem de que nenhum mês tem dois preços. Desde a
+# promoção do capítulo a `completo` (spec 010), esses números deixam de ser
+# texto copiado do notebook e viram asserção: recalculados aqui do CSV cru,
+# com a RegressaoLinear desta etapa. Se o texto e o dado discordarem, é o
+# build que cai, não o leitor que descobre.
+
+import csv
+from conftest import RAIZ
+
+
+@pytest.fixture(scope="module")
+def limonada():
+    with open(RAIZ / "dados" / "limonada" / "limonada.csv", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def _coluna(linhas, chave):
+    return [float(l[chave]) for l in linhas]
+
+
+def _corr(a, b):
+    ma, mb = sum(a) / len(a), sum(b) / len(b)
+    sa = math.sqrt(sum((x - ma) ** 2 for x in a))
+    sb = math.sqrt(sum((x - mb) ** 2 for x in b))
+    return sum((x - ma) * (y - mb) for x, y in zip(a, b)) / (sa * sb)
+
+
+def test_limonada_a_tabela_de_correlacao_ingenua(limonada):
+    """A tabela que abre o caso — inclusive o +0,513 do preço, que é a armadilha."""
+    vendas = _coluna(limonada, "vendas")
+    esperado = {"temperatura": 0.990, "precipitacao": -0.909,
+                "panfletos": 0.805, "preco": 0.513}
+    for chave, valor in esperado.items():
+        assert _corr(_coluna(limonada, chave), vendas) == pytest.approx(valor, abs=5e-4)
+    # e o item 3 "de brinde": panfleto anda junto com o calor
+    assert _corr(_coluna(limonada, "temperatura"),
+                 _coluna(limonada, "panfletos")) == pytest.approx(0.798, abs=5e-4)
+
+
+def test_limonada_o_preco_e_um_termometro_disfarcado(limonada):
+    """A tabela por preço: 0,50 só existe no verão, em dias mais quentes."""
+    def grupo(p):
+        sel = [l for l in limonada if float(l["preco"]) == p]
+        media = lambda k: sum(float(l[k]) for l in sel) / len(sel)
+        return len(sel), media("temperatura"), media("vendas")
+
+    dias, temp, vendas = grupo(0.3)
+    assert (dias, round(temp, 1), round(vendas, 1)) == (303, 57.0, 23.7)
+    dias, temp, vendas = grupo(0.5)
+    assert (dias, round(temp, 1), round(vendas, 1)) == (62, 78.8, 33.1)
+    meses_com_050 = {l["data"][5:7] for l in limonada if float(l["preco"]) == 0.5}
+    assert meses_com_050 == {"07", "08"}, "o preço alto é julho e agosto, inteiros"
+
+
+def test_limonada_controlar_pela_temperatura_nao_conserta(limonada):
+    """O ajuste múltiplo do capítulo, coeficiente a coeficiente.
+
+    O do preço continua POSITIVO (+2,41) mesmo com temperatura no modelo — o
+    que sobrou de "ser julho" mora dentro de `preco`. E o R² de 0,982 mostra
+    que nenhuma métrica avisa.
+    """
+    X = [[float(l["temperatura"]), float(l["precipitacao"]),
+          float(l["panfletos"]), float(l["preco"])] for l in limonada]
+    y = _coluna(limonada, "vendas")
+    m = RegressaoLinear(solucao_fechada=True, padronizar=False).fit(X, y)
+
+    assert m.vies == pytest.approx(3.192, abs=5e-4)
+    for peso, esperado in zip(m.pesos, [0.3692, -2.2460, 0.0188, 2.4143]):
+        assert peso == pytest.approx(esperado, abs=5e-5)
+    assert m.pesos[3] > 0, "a armadilha: o coeficiente do preço segue positivo"
+
+    pred = m.predict(X)
+    media = sum(y) / len(y)
+    r2 = 1 - sum((a - b) ** 2 for a, b in zip(y, pred)) / \
+        sum((a - media) ** 2 for a in y)
+    assert r2 == pytest.approx(0.982, abs=5e-4)
+    # "53 panfletos para um copo a mais" — o coeficiente invertido
+    assert round(1 / m.pesos[2]) == 53
+
+
+def test_limonada_nenhum_mes_tem_dois_precos(limonada):
+    """A frase que o notebook derrubou e a edição 1.1 corrigiu, agora como gate.
+
+    O conserto óbvio (isolar um período em que o preço varie sem a estação)
+    NÃO existe neste dado: o confundimento é perfeito. Se alguém regenerar o
+    dataset com preços misturados, o capítulo inteiro muda — e este teste é o
+    aviso.
+    """
+    precos_por_mes = {}
+    for l in limonada:
+        precos_por_mes.setdefault(l["data"][5:7], set()).add(l["preco"])
+    assert all(len(p) == 1 for p in precos_por_mes.values())

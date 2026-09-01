@@ -44,6 +44,16 @@ Uma referência ⏳ pode aparecer numa lista de leitura, nunca como evidência d
 - ⏳ **Niculescu-Mizil, A., & Caruana, R. (2005).** Predicting Good Probabilities with Supervised Learning. *ICML*. — Calibração como propriedade independente do ranking.
 - ⏳ **Efron, B., & Tibshirani, R. (1993).** *An Introduction to the Bootstrap*. Chapman & Hall. — O intervalo de confiança recomendado na seção de incerteza.
 
+## Capítulo II.2 — Modelos Lineares
+
+- ✓ **Stigler, S. M. (1981).** Gauss and the Invention of Least Squares. *The Annals of Statistics*, 9(3), 465–474. [doi:10.1214/aos/1176345451](https://doi.org/10.1214/aos/1176345451) — *lido na íntegra em 2026-09-01* ([nota de leitura](../estudos/2026-09-01-leitura-stigler-1981.md)). Sustenta a seção histórica do II.2: a disputa de prioridade, o rodapé relutante de Olbers, a evidência de Lindenau/von Zach e a análise do arco meridiano.
+- ✓ **Hand, D. J. (2006).** Classifier Technology and the Illusion of Progress. *Statistical Science*, 21(1), 1–14. [doi:10.1214/088342306000000060](https://doi.org/10.1214/088342306000000060) — *lido na íntegra em 2026-09-01.* Sustenta os números dos "Fundamentos científicos" do II.2: o discriminante linear captura de 85% a 100% do ganho alcançável nos dez conjuntos da Tabela 1, e a deriva de população engole vantagens pequenas (o caso dos 92 258 empréstimos).
+- ✓ **Rudin, C. (2019).** Stop Explaining Black Box Machine Learning Models for High Stakes Decisions and Use Interpretable Models Instead. *Nature Machine Intelligence*, 1, 206–215. [arXiv:1811.10154](https://arxiv.org/abs/1811.10154) — *verificado em 2026-09-01 (página do arXiv; resumo lido, logo no capítulo vale ✓ᵃ: o texto cita a tese que a autora declara, nada do corpo).*
+- ✓ **Westreich, D., & Greenland, S. (2013).** The Table 2 Fallacy: Presenting and Interpreting Confounder and Modifier Coefficients. *American Journal of Epidemiology*, 177(4), 292–298. [doi:10.1093/aje/kws412](https://doi.org/10.1093/aje/kws412) — *verificado em 2026-09-01 (página da revista; resumo lido, logo no capítulo vale ✓ᵃ: o texto cita a tese declarada, nada do corpo).*
+- ⏳ **Plackett, R. L. (1972).** The discovery of the method of least squares. *Biometrika*, 59(2), 239–251. — A apresentação de referência da evidência da disputa, segundo Stigler (1981, lido). É a fonte corrente da nota de Bessel (1832) e do detalhe dos sete anos de Olbers; atrás de paywall, na fila do próximo ciclo.
+- ⏳ **Legendre, A.-M. (1805).** *Nouvelles méthodes pour la détermination des orbites des comètes.* Paris: Firmin Didot. — O apêndice *Sur la méthode des moindres quarrés* é domínio público e curto; candidato natural do próximo ciclo. O que o II.2 afirma dele hoje é relato de Stigler (1981, lido).
+- ⏳ **Gauss, C. F. (1809).** *Theoria motus corporum coelestium.* Hamburgo: Perthes. — A reivindicação de uso desde 1795. O que o II.2 afirma dele hoje é relato de Stigler (1981, lido).
+
 ## Capítulo II.5 — Árvores e Ensembles
 
 - ✓ **Breiman, L. (2001).** Random Forests. *Machine Learning*, 45, 5–32. [doi:10.1023/A:1010933404324](https://doi.org/10.1023/A:1010933404324) — *verificado em 2026-08-05.* Sustenta a afirmação de que a subamostragem de atributos existe para descorrelacionar as árvores, e não apenas para acelerar.

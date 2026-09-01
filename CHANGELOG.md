@@ -6,6 +6,25 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o `II.2` é o primeiro capítulo `completo` do livro (spec 010, ciclo C5)
+- **Stigler (1981) lido na íntegra** — dez páginas de digitalização lidas como imagem, com
+  [nota de leitura](estudos/2026-09-01-leitura-stigler-1981.md). Os selos da seção histórica
+  subiram **e desceram** pelo que a leitura sustenta: **Bessel (1832) saiu do corpo** (não
+  está em Stigler; fonte corrente é Plackett 1972, não lido, agora ⏳ declarado), Olbers
+  (1816) virou o que é (rodapé relutante, após sete anos de insistência), e entraram Adrain,
+  a evidência de Lindenau/von Zach e a análise do arco meridiano que o resumo só prometia.
+- **Seções novas do esqueleto v5**: "Fundamentos científicos" (Hand 2006 **lido na íntegra**;
+  Rudin 2019 e Westreich & Greenland 2013 com resumo lido e registro dizendo isso) e
+  "O estado da arte", fechando com a **cláusula de expiração E4** no placar do
+  [`HISTORICO.md`](livro/HISTORICO.md).
+- **Os números da limonada viraram asserção executável**: quatro testes novos em
+  `ml-zero/tests/test_etapa_05.py` recalculam do CSV cru as correlações, a tabela por preço,
+  os coeficientes do ajuste múltiplo, o R² de 0,982 e o "nenhum mês tem dois preços".
+- Bibliografia ganhou a seção do `II.2` (7 referências, 4 ✓); o snapshot por capítulo do
+  `HISTORICO.md`, parado na edição 0.5, foi regenerado por script.
+- Link do laboratório `anima-normais` para o `II.4` corrigido (apontava para arquivo com
+  nome antigo).
+
 ### Corrigido — não são "setores censitários": são ***block groups*** (cap. `III.2`)
 - O capítulo dizia **"20 640 setores censitários da Califórnia"**. A unidade é o ***block
   group***, que fica um degrau **abaixo** do *census tract*. Quem traduz por "setor
