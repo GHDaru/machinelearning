@@ -139,6 +139,32 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   **cobertura de tipo**: os três tipos continuam exercitados por texto real, que é o que pega um
   tipo virando letra morta numa refatoração.
 
+### Adicionado — `livro/BASE-EDUCACIONAL.md`, e o que ele revelou ao ser escrito
+
+- **A evidência estava em seis lugares, e regra que mora em seis lugares diverge em silêncio.** Os
+  achados que decidem a ordem dos atos de um capítulo viviam espalhados entre a constituição, o
+  guia editorial, o banco de exercícios, uma ADR, o `CHANGELOG` e um comentário de 40 linhas dentro
+  de `tema/interacoes.js`. Agora estão num documento só, escrito para o autor e para o agente na
+  mesma leitura.
+- **O achado do levantamento: nenhuma das cinco fontes educacionais está em `bibliografia.md`.**
+  Sinha & Kapur, Alfieri *et al.*, Bisra *et al.* e Atkinson, Renkl & Merrill sustentam hoje a ordem
+  dos cinco atos, o bloqueio da revelação em toda interação e os três tipos formativos — e **nenhuma
+  tem registro de verificação neste repositório**. A `bibliografia.md` é onde se responde "esta
+  referência pode sustentar uma afirmação?", e elas não estão lá. As quatro entram no documento com
+  selo **⏳**, e a fila de verificação da §8 é ordenada por dúvida fechada por unidade de esforço.
+- **As regras ficam de pé; o que muda é como elas podem ser citadas.** Foram adotadas e estão
+  funcionando. O que não se pode é apresentá-las como evidência verificada, e onde o livro se apoiar
+  num número em ⏳ o texto precisa dizer o mesmo.
+- **O espaço negativo ganhou seção própria (§5)**, porque é a parte que se perde primeiro: a posição
+  da narrativa histórica é **❌**, sem estudo achado; a profundidade da correção não vem de achado
+  nenhum e sim do Princípio VIII.2; os limites de tamanho do cartão são **📖**, medidos aqui; e
+  "é microlearning" não é argumento para coisa alguma.
+- **A §7 mapeia cada regra ao portão que a cobra**, que é o que torna o documento utilizável por um
+  agente. Três linhas dizem "revisão humana", e isso é dívida declarada: são as regras que ainda não
+  viraram asserção executável.
+- Ligado a partir do `CLAUDE.md`, da constituição, do `GUIA-EDITORIAL.md` e do `BANCO-DE-EXERCICIOS.md`.
+  O gate de links pegou um link meu quebrado para a ADR 0014 antes de qualquer publicação.
+
 ### Corrigido — o gate do modo cartão levava 40 minutos, morria em arquivo faltando, e quase virou um gate de uma página só
 
 - **O custo.** Ele abria as 81 páginas com `waitUntil: "networkidle"`, e `networkidle` só

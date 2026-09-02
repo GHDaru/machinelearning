@@ -33,6 +33,8 @@ Todo capítulo e toda etapa da construção seguem a combinação:
 - **Diátaxis** (Procida): quatro tipos de texto, **nunca misturados** na mesma seção — capítulos = *explanation*, `ml-zero` = *tutorial*, banco de exercícios e fichas de dataset = *reference*, "receitas" = *how-to*.
 - **Carga Cognitiva** (Sweller): *worked example* antes do exercício; *completion problems* ("complete", não "crie do zero"); *fading* do andaime capítulo a capítulo; **uma ideia nova por vez**.
 
+A evidência por trás destas quatro bases, mais os achados que decidem a **ordem** dos atos de um capítulo, está reunida em [`livro/BASE-EDUCACIONAL.md`](../../livro/BASE-EDUCACIONAL.md), com o selo de proveniência de cada um e a fronteira onde deixam de valer.
+
 O **esqueleto v5 de capítulo** (ver Guia Editorial) é a materialização deste princípio e é obrigatório. Ele estende o v4 — que já acrescentara ao v3 do livro de harness as duas seções de interatividade, **Pratique** e **Assista** — com a seção histórica **"De onde isto veio"** exigida pelo Princípio X.
 
 ### IV. Livro vivo (datação, expiração e interatividade viva)

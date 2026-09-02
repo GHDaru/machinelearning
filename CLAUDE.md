@@ -71,6 +71,7 @@ Antes de agir, verifique se uma skill de [`skills/`](skills/README.md) se aplica
 
 ## Mapa do repositório
 
+- `livro/BASE-EDUCACIONAL.md` — **a evidência por trás da didática**: os achados, o número de cada um, o selo de proveniência, a fronteira onde deixam de valer, e o portão que cobra cada regra. **Leia antes de planejar um capítulo.**
 - `livro/` — o livro. `GUIA-EDITORIAL.md` (como escrever), `HISTORICO.md` (edições + expiração), `bibliografia.md`, `glossario.md`, `capitulos/`, `BANCO-DE-EXERCICIOS.md` (como avaliar), `videoteca.md` (curadoria).
 - `ml-zero/` — a construção prática (Python + NumPy + FastAPI), uma etapa por capítulo. Regras na seção "Restrições" da constituição.
 - `chat-companion/backend/` — o backend do livro vivo: chat com RAG no texto, **correção de exercícios**, progresso e telemetria anônima.

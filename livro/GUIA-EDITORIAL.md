@@ -73,6 +73,10 @@ Um laboratório roda inteiro no navegador. Não há gabarito a esconder — o ga
 > E a prática tem de ser **assistida**: descoberta sem apoio rende **d = −0,38**, e com feedback,
 > exemplo e andaime rende **+0,30** (Alfieri et al., 2011). A diferença é de sinal, não de grau.
 >
+> A evidência inteira, com o selo de proveniência de cada achado, a fronteira onde ele deixa de valer
+> e a fila de verificação, está em [`BASE-EDUCACIONAL.md`](BASE-EDUCACIONAL.md). Os dois números acima
+> ainda estão em ⏳, e o documento diz o que isso permite e o que não permite.
+>
 > A condição que quase ninguém cumpre: **a explicação que vem depois tem de construir sobre o que o
 > leitor tentou** (g = 0,56, contra 0,20 quando ignora). Laboratório seguido de texto genérico é a
 > versão que produz os efeitos pequenos. Ver [ADR 0022](../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md).

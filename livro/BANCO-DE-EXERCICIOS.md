@@ -234,6 +234,8 @@ O marcador do passo **não é** `- [x]`, e por dois motivos: `[x]` significa "ga
 
 ### Os três tipos, e a evidência de cada um
 
+Os números abaixo são resumo. A fonte, o selo e a fronteira de cada achado estão em [`BASE-EDUCACIONAL.md`](BASE-EDUCACIONAL.md), e quatro dos cinco ainda estão em ⏳.
+
 | `tipo` | O gesto | Apoio |
 |---|---|---|
 | `principio` | exemplo trabalhado com pergunta de princípio. O leitor escreve, clica, e a explicação aparece **ao lado** da resposta dele — que não é corrigida, é comparada | autoexplicação provocada supera receber a explicação pronta (g=0,35; Bisra *et al.*, 2018) |
