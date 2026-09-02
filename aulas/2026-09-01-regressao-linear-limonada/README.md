@@ -1,52 +1,61 @@
-# Aula 2026-09-01 — Regressão linear com o caso da limonada
+# Sequência de aulas — Regressão linear com o caso da limonada
 
-Material de aula de **Análise Preditiva** (fora do livro): da análise descritiva à
-regressão regularizada, sobre o dataset da limonada
-([`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md), sintético, 365 dias).
+Material de aula de **Análise Preditiva** (fora do livro), em duas aulas sobre o dataset
+da limonada ([`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md), sintético,
+365 dias). Cada notebook está **executado** (saídas e gráficos incluídos), roda de ponta a
+ponta no Colab ou na máquina local, e baixa o CSV sozinho quando não encontra o repositório.
 
-## O que há nesta pasta
+## Aula 1 — Análise descritiva e diagnóstica
 
 | Arquivo | O que é |
 |---|---|
-| [`aula_limonada.ipynb`](aula_limonada.ipynb) | O notebook da aula, **já executado** (saídas e gráficos incluídos). Roda de ponta a ponta no Colab ou na máquina local — baixa o CSV sozinho quando não encontra o repositório |
-| [`prova.md`](prova.md) | As 10 questões com **gabarito comentado** — material do professor, não distribuir antes da prova |
-| [`prova_google_forms.gs`](prova_google_forms.gs) | Script (Google Apps Script) que **cria o Google Forms sozinho**, em modo teste, com pontos e feedback por questão |
+| [`aula1_descritiva_diagnostica.ipynb`](aula1_descritiva_diagnostica.ipynb) | O notebook da aula 1 |
+| [`prova_aula1.md`](prova_aula1.md) | As 10 questões com gabarito comentado — material do professor |
+| [`prova_aula1_google_forms.gs`](prova_aula1_google_forms.gs) | Script que cria o Google Forms da prova 1 sozinho (quiz, pontos, feedback) |
 
-## Roteiro do notebook
+Roteiro: **1)** o dado e os tipos · **2)** descritiva por campo (histograma com boxplot
+superior, outliers pelo IQR, assimetria, curtose, cuidados — inclusive a pegadinha do
+`preco` binário) · **3)** par a par (`pd.plotting.scatter_matrix` com todos os cruzamentos
+e os pares com o alvo em close, com a fórmula de Pearson) · **4)** diagnóstica (matriz de
+correlação e a armadilha do +0,51 do preço) · **5)** o calendário (médias por dia da semana:
+amplitude < 1 copo, sem sinal; a série do ano com o preço 0,50 sombreado no pico).
 
-1. **Descritiva** por campo quantitativo — histograma com boxplot superior, outliers (IQR),
-   assimetria, curtose e os cuidados de cada variável (inclusive a pegadinha do `preco`
-   binário, que a regra do IQR marca inteiro como "outlier").
-2. **Par a par** — todos os cruzamentos num comando (`pd.plotting.scatter_matrix`) e depois
-   cada par com o alvo em close: dispersão para as contínuas, boxplot por grupo para o preço.
-3. **Diagnóstica** — matriz de correlação e a armadilha do preço (+0,51 que é estação).
-4. **O calendário** — vendas médias por dia da semana (amplitude < 1 copo: sem sinal, fica
-   fora do modelo) e a série do ano inteiro, com o período de preço 0,50 sombreado no pico.
-5. **Preparação** — `X`/`y`, treino/teste, padronização sem vazamento.
-6. **Regressão linear** — coeficientes, R²/MAE/RMSE em treino e teste, resíduos.
-7. **Feedback de retorno** — o que o modelo responde e o que exige dado novo.
-8. **Ridge e Lasso** — 14 atributos expandidos; o Lasso empata em R² com 8 parâmetros.
-9. **Transformação** — log em `precipitacao`: assimetria 1,86 → 0,81, ganho medido.
+## Aula 2 — O modelo de regressão
+
+| Arquivo | O que é |
+|---|---|
+| [`aula2_regressao.ipynb`](aula2_regressao.ipynb) | O notebook da aula 2 |
+| [`prova_aula2_rascunho.md`](prova_aula2_rascunho.md) | **Rascunho** da prova 2, a revisar antes da aula (ver nota no cabeçalho) |
+| [`prova_aula2_rascunho_google_forms.gs`](prova_aula2_rascunho_google_forms.gs) | Script do Forms correspondente ao rascunho |
+
+Roteiro: **1)** retomada · **2)** **regressão item a item** — uma reta para cada variável
+contra `vendas`, com a, b, r, R² e RMSE por item (temperatura sozinha: R² 0,98; o preço
+"bem ajustado" rendendo +47 copos/real; a soma dos R² dando ~2,7 — os itens compartilham a
+estação) e os resíduos de cada ajuste (o U da chuva) · **3)** preparação sem vazamento ·
+**4)** modelo múltiplo, coeficientes contra as retas simples (o preço derrete de +47 para
+~+1) e avaliação contra a régua do melhor item · **5)** feedback de retorno · **6)** Ridge
+e Lasso em 14 atributos expandidos (Lasso empata com 8) · **7)** transformação log da chuva.
 
 ## Como abrir com a turma
 
 - **Colab (depois do merge na `main`)**:
-  <https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/aulas/2026-09-01-regressao-linear-limonada/aula_limonada.ipynb>
-- **Colab (hoje, antes do merge)**: baixe o `.ipynb` desta pasta e use
-  *File → Upload notebook* no Colab. O notebook baixa o CSV sozinho.
-- **Local**: `jupyter notebook aula_limonada.ipynb` na raiz do repositório
-  (usa pandas, matplotlib e scikit-learn — os mesmos do `ml-zero/requirements.txt`).
+  - Aula 1: <https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/aulas/2026-09-01-regressao-linear-limonada/aula1_descritiva_diagnostica.ipynb>
+  - Aula 2: <https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/aulas/2026-09-01-regressao-linear-limonada/aula2_regressao.ipynb>
+- **Colab (antes do merge)**: baixe o `.ipynb` e use *File → Upload notebook*. O notebook
+  baixa o CSV sozinho.
+- **Local**: `jupyter notebook` na raiz do repositório (usa pandas, matplotlib e
+  scikit-learn — os mesmos do `ml-zero/requirements.txt`; a aula 1 usa só pandas e matplotlib).
 
-## Como gerar a prova no Google Forms
+## Como gerar uma prova no Google Forms
 
 1. Abra <https://script.google.com> e crie um projeto novo.
-2. Cole o conteúdo de `prova_google_forms.gs` e salve.
-3. Execute `criarProva` (▶) e autorize.
+2. Cole o conteúdo do `.gs` da prova e salve.
+3. Execute a função principal (▶) e autorize.
 4. O log imprime as duas URLs: **edição** (professor) e **publicada** (alunos).
 
-O formulário nasce como *quiz*: corrige sozinho, mostra a pontuação e devolve o
-feedback explicativo de cada questão.
+O formulário nasce como *quiz*: corrige sozinho, mostra a pontuação e devolve o feedback
+explicativo de cada questão.
 
 > Nota de procedência: os números citados no material (assimetria 1,86 e curtose 5,2 da
-> chuva, 62 dias a 0,50, R² ≈ 0,98, Lasso com 8 de 14) são os que o próprio notebook
-> calcula ao executar — nenhum número digitado à mão.
+> chuva, 62 dias a 0,50, R² por item, soma ~2,7, +47 copos/real, Lasso com 8 de 14) são os
+> que os próprios notebooks calculam ao executar — nenhum número digitado à mão.

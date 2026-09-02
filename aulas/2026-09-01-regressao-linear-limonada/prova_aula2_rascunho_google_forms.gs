@@ -1,6 +1,10 @@
 /**
- * Gera a prova "Regressão linear com o caso da limonada" como um Google Forms
- * no modo teste (quiz), com gabarito, pontuação e feedback por questão.
+ * [RASCUNHO — revisar antes da aula 2] Gera a prova "Regressão linear com o
+ * caso da limonada" como um Google Forms no modo teste (quiz).
+ *
+ * ATENÇÃO: as questões 1–5 cobrem a parte descritiva/diagnóstica, que já caiu
+ * na prova da aula 1 (prova_aula1_google_forms.gs). Antes de aplicar, trocá-las
+ * por questões da regressão item a item — ver nota em prova_aula2_rascunho.md.
  *
  * Como usar (2 minutos):
  *   1. Abra https://script.google.com e crie um projeto novo.

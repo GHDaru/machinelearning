@@ -1,9 +1,13 @@
-# Prova — Regressão linear com o caso da limonada
+# [RASCUNHO] Prova da aula 2 — Regressão linear com o caso da limonada
 
-> 10 questões de múltipla escolha, 1 ponto cada. Aplicação: Google Forms, ao final da aula.
-> Para gerar o formulário automaticamente, use [`prova_google_forms.gs`](prova_google_forms.gs)
-> (instruções no [README](README.md)). O gabarito comentado está ao final deste arquivo —
-> **não distribua este arquivo aos alunos antes da prova.**
+> **Status: rascunho a revisar antes da aula 2.** Esta prova foi escrita quando o material
+> era uma aula única; as questões 1–5 cobrem a parte descritiva/diagnóstica, que **já caiu
+> na prova da aula 1**. Antes de aplicar, substituí-las por questões da regressão item a
+> item (a = S_xy/S_xx, R² = r² na simples, o U nos resíduos da chuva, o preço de +47 para
+> ~+1 no múltiplo, a régua do melhor item). As questões 6–10 seguem válidas.
+>
+> Script correspondente: [`prova_aula2_rascunho_google_forms.gs`](prova_aula2_rascunho_google_forms.gs).
+> **Não distribua este arquivo aos alunos antes da prova.**
 
 ---
 
