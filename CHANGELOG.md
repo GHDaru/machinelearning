@@ -6,6 +6,31 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): descritiva campo a campo + o primeiro MLP na Califórnia
+- **Notebook `etapa-22/descritiva_mlp_california.ipynb`**, no mesmo formato do
+  `etapa-21/exploratoria_limonada.ipynb`: descritiva de cada uma das 9 colunas
+  quantitativas do arquivo cru (histograma + boxplot, assimetria, curtose,
+  outliers pelo IQR), com os cuidados que a régua do IQR não pega sozinha —
+  a bimodalidade de `latitude`/`longitude` (Los Angeles × Baía de São
+  Francisco), o *top-coding* de `housing_median_age` em 52 anos (6,17% do
+  arquivo) e de `median_income` nos dois extremos, e o teto de `median_house_value`
+  em US$ 500 001 (965 setores, 4,68%).
+- **Diagnóstica rápida**: correlação de cada campo com o alvo, com o mesmo
+  aviso que a ficha do dado já registra — `latitude`/`longitude` parecem fracas
+  isoladas e não são, porque a informação está no par.
+- **O MLP sem tratar nada**: os 8 campos numéricos crus (sem padronizar, sem
+  derivar razão nenhuma) treinam um `MLPRegressor` que converge mal
+  (`ConvergenceWarning`, sem exceção) e perde para uma regressão linear simples
+  — MAE de US$ 66.049 contra US$ 51.373, ambos medidos no notebook.
+- **Tabela de 40 configurações**, gerada por `itertools.product` (5 arquiteturas
+  × 2 ativações × 2 otimizadores × 2 níveis de regularização L2), para o aluno
+  escolher um `FORMATO`, rodar e comparar contra as linhas de base — com o
+  aviso de que uma rodada é amostra de tamanho 1.
+- Notebook **executado e com saída gravada** (figuras e números), reproduzindo
+  o hábito do `etapa-21`; não ganhou `tests/test_etapa_22.py` pela mesma razão
+  que o `etapa-21` não tem — é material de aula, não uma etapa do pipeline
+  `ml-zero`.
+
 ### Corrigido — não são "setores censitários": são ***block groups*** (cap. `III.2`)
 - O capítulo dizia **"20 640 setores censitários da Califórnia"**. A unidade é o ***block
   group***, que fica um degrau **abaixo** do *census tract*. Quem traduz por "setor
