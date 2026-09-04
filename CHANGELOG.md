@@ -30,14 +30,27 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   épocas e sem aviso, e passa a bater a regressão linear. Uma ablação 2×2
   (entrada tratada × alvo tratado, cada combinação isolada) mostra que **nenhum
   dos dois tratamentos sozinho** entrega o ganho — só os dois juntos.
+- **Seção nova "Por dentro do MLP"**: cada hiperparâmetro explicado com equação
+  e visual — a equação do *forward pass* e um esquema de rede para
+  `hidden_layer_sizes` (com a contagem real de parâmetros para 13 entradas);
+  ReLU e tanh plotadas lado a lado; a regra de atualização do `adam` e a ideia
+  de `lbfgs` como quase-Newton, ilustradas pelas curvas de perda reais dos
+  MLPs cru e tratado já treinados (a mesma arquitetura, `ConvergenceWarning`
+  visível numa e não na outra); a perda com regularização L2 para `alpha`,
+  com uma medição real (`0.0001` a `10`) mostrando quando ela passa a doer; e
+  o que `max_iter` conta em cada solver (épocas para `adam`/`sgd`, iterações
+  para `lbfgs` — unidades diferentes, não comparáveis direto).
 - **Tabela de 40 configurações**, gerada por `itertools.product` (5 arquiteturas
-  × 2 ativações × 2 otimizadores × 2 níveis de regularização L2), agora sobre
-  os dados **tratados**, para o aluno escolher um `FORMATO`, rodar e comparar
-  — com o aviso de que uma rodada é amostra de tamanho 1.
-- Notebook **executado e com saída gravada** (figuras e números), reproduzindo
-  o hábito do `etapa-21`; não ganhou `tests/test_etapa_22.py` pela mesma razão
-  que o `etapa-21` não tem — é material de aula, não uma etapa do pipeline
-  `ml-zero`.
+  × 2 ativações × 2 otimizadores × **2 tetos de época** `max_iter` — `50` e
+  `400`, substituindo `alpha`, que fica fixo em `0.0001` e é explicado à parte),
+  sobre os dados **tratados**, para o aluno escolher um `FORMATO`, rodar e
+  comparar — com o aviso de que uma rodada é amostra de tamanho 1 e de que um
+  `FORMATO` em `max_iter=50` pode perder só por falta de tempo de treino, não
+  por arquitetura ruim.
+- Notebook **executado e com saída gravada** (14 figuras, todos os números
+  medidos), reproduzindo o hábito do `etapa-21`; não ganhou
+  `tests/test_etapa_22.py` pela mesma razão que o `etapa-21` não tem — é
+  material de aula, não uma etapa do pipeline `ml-zero`.
 
 ### Corrigido — não são "setores censitários": são ***block groups*** (cap. `III.2`)
 - O capítulo dizia **"20 640 setores censitários da Califórnia"**. A unidade é o ***block
