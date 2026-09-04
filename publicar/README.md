@@ -61,6 +61,7 @@ Exercício quebrado é pior que exercício nenhum: ele ensina errado com a autor
 | `:::exercicio` / `:::video` / `:::lab` | vira UI interativa (ignorados dentro de cercas de código) |
 | `:::interacao {"tipo":"principio\|desvanecido\|prever"}` | vira UI **formativa**, com a revelação embutida: não vale nota, não grava nada e não fala com o backend — por isso pode revelar no cliente. Sintaxe em [`livro/BANCO-DE-EXERCICIOS.md`](../livro/BANCO-DE-EXERCICIOS.md) |
 | `:::cartao {"nivel":1,"titulo":"…"}` | onde começa um cartão do **modo cartão**; `:::cartao-fim` fecha o baralho |
+| `:::aprofundar {"titulo":"…"}` | vira um `<details>` **fechado**, sem JavaScript: a dedução pesada sai do fluxo principal e o texto fechado não conta no `innerText` que o gate dos cartões mede. Não aninha bloco nenhum, para não virar esconderijo |
 | Link para `.md` publicado | reescrito para `.html`; o resto aponta para o GitHub |
 | `<div data-viz="uso-livro">` | ilha viva preenchida em runtime |
 
@@ -105,6 +106,28 @@ fechável.
 
 ```bash
 node publicar/gates/cartoes-legiveis.mjs ii-2-modelos-lineares
+```
+
+## O glossário ligado
+
+Um termo do glossário que aparece num cartão é ligado ao glossário **no primeiro uso daquele
+cartão**, uma vez só. A unidade é o cartão, e não o capítulo, pelo mesmo motivo que existe o
+modo cartão: o leitor vê um por vez, e um link que mora noutro cartão não existe para ele.
+
+```markdown
+O [resíduo](../glossario.md#modelos-lineares) é a distância vertical até a reta.
+```
+
+O cartão que **apresenta** o termo — o que o nomeia no título ou num cabeçalho — é isento: a
+definição já está ali, com mais contexto do que a linha do glossário daria.
+
+Duas coisas o portão se recusa a olhar, e as duas por decisão: a **alternativa** de exercício,
+porque `gates/vies-de-comprimento.mjs` mede o comprimento dela em caracteres e um link
+deslocaria aquela medição; e o **lado da resposta** (`gabarito`, `porque`, `revela`), que nem
+chega ao HTML.
+
+```bash
+node publicar/gates/glossario-ligado.mjs
 ```
 
 ## Regerar a capa

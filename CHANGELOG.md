@@ -6,6 +6,56 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o glossário deixou de ser um arquivo para o qual ninguém aponta
+
+- **A régua, medida.** A página de perda da regressão linear do Google Machine Learning Crash
+  Course liga **nove termos** ao glossário numa página só, cada um no primeiro uso. Medido aqui
+  no mesmo dia: `grep -ro 'glossario\.md' livro/capitulos/ | wc -l` devolvia **0**. Os 27
+  capítulos não apontavam para `livro/glossario.md`, que existia com 8 verbetes.
+- **18 verbetes novos** em `livro/glossario.md`, levantados lendo o `II.2` inteiro: regressão
+  linear e logística, mínimos quadrados, solução fechada, gradiente descendente, taxa de
+  aprendizado, convexidade, centro de massa, ortogonalidade, inclinação, intercepto, erro
+  absoluto, padronização, coeficiente, coeficiente de determinação, extrapolação e ensemble.
+  `Confundidor` ganhou `confundimento` como variante, para o cartão não levar dois links a um
+  passo um do outro.
+- **80 ligações no `II.2`**, uma por termo por cartão, sempre no primeiro uso daquele cartão.
+  A unidade é o cartão porque o leitor vê **um cartão por vez**: "primeira ocorrência no
+  capítulo" põe o link no cartão 3 e deixa a descoberto quem abriu o cartão 27.
+- **Portão novo**: `publicar/gates/glossario-ligado.mjs`, com testes em
+  `publicar/testes/glossario-ligado.mjs` e passo próprio na CI. Reprova em quatro direções —
+  termo usado e nunca ligado, link fora do primeiro uso, link repetido no mesmo cartão e âncora
+  que não existe no glossário. As quatro foram vistas falhando antes de este texto ser escrito.
+- **Onde ele se recusa a olhar, e por quê**: a alternativa de exercício não recebe link, porque
+  `gates/vies-de-comprimento.mjs` mede o **comprimento em caracteres** da alternativa, e um link
+  de 38 caracteres que não muda uma palavra para o leitor deslocaria aquela medição. Fora
+  também o lado da resposta, que nem chega ao HTML (Princípio VIII.3).
+- **Dívida declarada, no molde do D17**: os outros 26 capítulos entram em `LIGACAO_PENDENTE`,
+  medidos pelo mesmo corte por cabeçalho que o leitor recebe (310 cartões, 592 usos de termo,
+  0 ligados) e relatados em **toda** execução, inclusive no verde. Capítulo que ligar tudo e
+  continuar na lista reprova o build.
+- `gates/links-relativos.mjs` passou a rodar na CI, onde não estava.
+
+### Adicionado — `:::aprofundar`, a dedução sai do fluxo principal sem sair do livro
+
+- Novo bloco no motor (`publicar/interativos.mjs`): `:::aprofundar {"titulo":"…"}` vira um
+  `<details>` **fechado**, sem uma linha de JavaScript. O teclado, o foco e a busca da página vêm
+  do navegador, e o bloco continua inteiro com o backend fora do ar (Princípio VIII.6).
+- Por que ele existe: o cartão tem teto de 1.600 px e de 250 palavras, a dívida D21 foi paga
+  quebrando fórmula em duas linhas (o que *aumenta* a altura), e a carga cognitiva pede uma ideia
+  nova por vez. A derivada completa dentro do fluxo principal é a segunda ideia da página.
+- **Medido, não presumido**: num Chromium 141 a 360×800, o corpo fechado fica fora do `innerText`
+  que `gates/cartoes-legiveis.mjs` usa para contar palavras. São 15 palavras contra 29 no mesmo
+  cartão aberto, e 70 px contra 138 px. A asserção está em `publicar/testes/aprofundar.mjs` e
+  cobra as duas direções, porque olhar só o lado fechado passaria com um bloco que nunca abre.
+- O bloco **não pode virar esconderijo**, e a recusa é do parser: nenhum `:::exercicio`,
+  `:::interacao`, `:::lab`, `:::video` ou corte de cartão vive lá dentro. O gate dos cartões acha
+  `.exercicio` e `.interacao` com `querySelectorAll`, que atravessa `<details>` fechado; sem a
+  recusa, um cartão passaria no portão da premissa do autor sem nada à vista para o leitor.
+- A asserção G de `publicar/jornada.mjs` passa a abrir todo `<details>` antes de medir fórmula
+  cortada, e a devolvê-lo ao estado anterior. O Chromium de hoje já devolvia a geometria do que
+  está fechado, e foi medido; o que não existe é promessa de que continuará devolvendo.
+- Documentação em `livro/BANCO-DE-EXERCICIOS.md` e em `publicar/README.md`.
+
 ### Corrigido — o laboratório do `II.2` pedia um chute e não dava onde chutar
 
 - O laboratório `modelos-lineares-l2` pedia em negrito *"Antes de assistir, chute: quantos passos

@@ -250,6 +250,36 @@ O botão de revelar **não** nasce `disabled` nem `aria-disabled` enquanto falta
 
 O código: `publicar/tema/interacoes.js` (comportamento) e `publicar/testes/interacoes.mjs` (o que ele promete). DOM falso não tem foco nem tabulação, e foi por aí que o `aria-disabled` passou. Por isso a **asserção F** de `publicar/jornada.mjs` refaz o gesto num Chromium de verdade: clica em revelar sem responder nada e exige que nada tenha sido revelado e que a página tenha dito por quê.
 
+## Aprofundamentos
+
+A **quinta** superfície, e a única que *tira* conteúdo do caminho do leitor. O `:::aprofundar` guarda a dedução pesada dentro de um `<details>` fechado. Quem quer a conta clica; quem quer o conceito segue adiante sem rolar por cima dela.
+
+```markdown
+:::aprofundar {"titulo":"De onde sai o 2/n"}
+A conta inteira, para quem quer. Markdown normal aqui dentro: prosa, fórmula, tabela, código.
+:::
+```
+
+| Atributo | Obrigatório | O que é |
+|---|---|---|
+| `titulo` | sim | o texto do `<summary>`, e a única pista que o leitor tem do que está fechado ali |
+
+### Por que ele existe
+
+Três coisas se encontram no mesmo ponto. O cartão tem teto de 1.600 px e de 250 palavras, e a dedução é o que mais encosta nele. A dívida D21 foi paga quebrando fórmula em duas linhas, o que *aumenta* a altura do cartão. E a carga cognitiva (Sweller, ✓ em [`BASE-EDUCACIONAL.md`](BASE-EDUCACIONAL.md)) pede uma ideia nova por vez, sendo a derivada completa a segunda ideia da página.
+
+### O que ele promete, e como isso foi medido
+
+É um `<details>` nativo, **sem uma linha de JavaScript**: o foco e o teclado vêm do navegador, e o bloco continua inteiro com o backend fora do ar (Princípio VIII.6). Os navegadores atuais também abrem um `<details>` fechado quando o `Ctrl+F` acha texto lá dentro, e esta é a única promessa da lista que **não** foi medida aqui: busca na página é interface do navegador, e não se dispara por script. Ele nasce **fechado**, porque é aprofundamento e não conteúdo escondido: o fluxo principal fica completo sem ele.
+
+Fechado, o corpo **não entra no `innerText`** que `publicar/gates/cartoes-legiveis.mjs` usa para contar as palavras de um cartão. Medido num Chromium 141 a 360×800: 15 palavras fechado contra 29 aberto no mesmo cartão, e 70 px contra 138 px de altura. A medição vive em `publicar/testes/aprofundar.mjs`, roda num navegador de verdade e cobra as duas direções, porque uma asserção que só olhasse o lado fechado passaria com um bloco que nunca abre.
+
+### O que o parser recusa, e por quê
+
+Um aprofundamento que guardasse exercício, interação, laboratório, vídeo ou corte de cartão seria perda de conteúdo com cara de organização. E seria **silenciosa**: o gate dos cartões acha `.exercicio` e `.interacao` com `querySelectorAll`, que atravessa `<details>` fechado. O cartão passaria no portão da premissa do autor exibindo uma linha fechada, e o leitor ficaria sem nada para fazer. Por isso **nenhum bloco `:::` vive dentro de um `:::aprofundar`**, e a recusa é do parser.
+
+Há um limite herdado, e ele tem mensagem de erro própria: o corpo termina na primeira linha que seja só `:::`, ainda que dentro de cerca de código. A regra é do `RE_BLOCO` de `publicar/interativos.mjs`, que é a fonte única da sintaxe da casa. Um exemplo de bloco completo mora fora do aprofundamento; código sem `:::` solto é aceito normalmente, inclusive com linha em branco no meio.
+
 ## Progresso do leitor
 
 - Identidade **anônima**, gerada pelo navegador — a mesma do chat. Sem cadastro, sem email.
@@ -273,6 +303,7 @@ O gate falha quando:
 - numérica tem gabarito ilegível;
 - aberta tem menos de 2 critérios;
 - há `id` de exercício ou de vídeo duplicado;
-- vídeo sem `ref`, sem `autor` ou sem justificativa.
+- vídeo sem `ref`, sem `autor` ou sem justificativa;
+- aprofundamento sem `titulo`, com corpo vazio ou com um bloco `:::` aninhado dentro.
 
 Nenhum desses é aviso. Todos são erro de build — porque um exercício quebrado é pior que exercício nenhum.

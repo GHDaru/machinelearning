@@ -28,6 +28,10 @@
 //   O que manipular aqui ensina, e o que o leitor deve tentar descobrir.
 //   :::
 //
+//   :::aprofundar {"titulo":"De onde sai o 2/n"}
+//   A dedução inteira, para quem quer. Fechada por padrão.
+//   :::
+//
 //   :::interacao {"id":"modelos-lineares-i1","tipo":"prever","titulo":"..."}
 //   O exemplo trabalhado, a conta ou o contexto — em Markdown.
 //
@@ -53,7 +57,7 @@
 
 const TIPOS = ["multipla", "multipla-multi", "numerica", "completar", "aberta"];
 
-const RE_BLOCO = /^:::(exercicio|video|lab|interacao)\s+(\{[\s\S]*?\})\s*\n([\s\S]*?)\n:::[ \t]*$/gm;
+const RE_BLOCO = /^:::(exercicio|video|lab|interacao|aprofundar)\s+(\{[\s\S]*?\})\s*\n([\s\S]*?)\n:::[ \t]*$/gm;
 const RE_CERCA = /^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm;
 const RE_OPCAO = /^[-*]\s+\[([ xX])\]\s+(.+?)\s*$/;
 const RE_META = /^>\s*\*\*([a-zà-ú ]+):\*\*\s*([\s\S]*?)\s*$/i;
@@ -112,6 +116,96 @@ function parseAtributos(json, arquivo) {
   } catch (e) {
     throw new ErroDeBloco(arquivo, null, `atributos não são JSON válido — ${e.message}`);
   }
+}
+
+// -------------------------------------------------------------- aprofundar
+//
+// A QUINTA superfície, e a única que TIRA coisa do caminho do leitor.
+//
+// O que ela resolve. A dedução completa é a parte do capítulo que mais encosta
+// nos limites do cartão (1 600 px e 250 palavras, `gates/cartoes-legiveis.mjs`),
+// e a D21 do roadmap piorou isso: fórmula que cortava na margem foi consertada
+// quebrando-a em duas linhas, o que aumenta a altura. A carga cognitiva
+// (Sweller, ✓ em BASE-EDUCACIONAL.md) pede uma ideia nova por vez, e a derivada
+// inteira no fluxo principal é a segunda ideia da página. Quem quer a conta
+// clica; quem quer o conceito segue adiante sem rolar por cima dela.
+//
+// Por que `<details>` nativo, sem uma linha de JavaScript:
+//   - teclado e leitor de tela vêm do navegador, não do nosso código;
+//   - funciona com o backend fora do ar, que é a garantia do Princípio VIII.6;
+//   - o `Ctrl+F` dos navegadores atuais abre o bloco fechado para mostrar o
+//     achado. ATENÇÃO: esta é a única linha desta lista que NÃO foi medida
+//     aqui. Busca na página é interface do navegador e não se dispara por
+//     script, então ela é herdada da plataforma, e não verificada por nós.
+//
+// A MEDIÇÃO QUE AUTORIZA O BLOCO. Num Chromium 141 a 360×800, o `innerText` de
+// um cartão com `<details>` FECHADO devolve o texto do `<summary>` e mais nada:
+// 15 palavras contra 29 com o mesmo bloco aberto (`textContent` devolve as 29
+// nos dois casos). É esse `innerText` que o gate dos cartões conta, e é por isso
+// que o aprofundamento não estoura o teto de palavras. A altura segue o mesmo
+// caminho: 70 px fechado, 138 px aberto. As duas medidas são refeitas a cada
+// execução de `publicar/testes/aprofundar.mjs`, num navegador de verdade.
+//
+// POR QUE O BLOCO RECUSA APARENTAR QUE ORGANIZA E NA PRÁTICA ESCONDE
+//
+// Um `:::aprofundar` que guardasse exercício, interação, laboratório, vídeo ou
+// um corte de cartão seria perda de conteúdo disfarçada de organização, e o
+// pior é que ela seria SILENCIOSA: o gate dos cartões acha `.exercicio` e
+// `.interacao` com `querySelectorAll`, que atravessa `<details>` fechado. O
+// cartão passaria no portão da premissa do autor exibindo um bloco fechado, e o
+// leitor teria a página sem exercício nenhum à vista. Por isso a recusa é do
+// parser: nenhum bloco `:::` vive dentro de um aprofundamento.
+const RE_LINHA_BLOCO = /^:::([a-zà-ú-]+)/gim;
+// O corte de cartão chega aqui já convertido: `marcarCortes()` roda antes de
+// `renderizar()` e troca `:::cartao` por este `<hr>`. Sem esta segunda forma, a
+// recusa valeria em `extrair()` (que lê o Markdown cru) e falharia justo no
+// caminho que gera a página.
+const RE_CORTE_CONVERTIDO = /<hr class="corte-cartao"/i;
+
+/** Monta e valida um aprofundamento. Fonte única do objeto, como `montarInteracao`. */
+function montarAprofundamento(attrs, corpo, arquivo) {
+  const erro = (m) => {
+    throw new ErroDeBloco(arquivo, attrs.titulo || null, m);
+  };
+  if (!attrs.titulo) {
+    erro("aprofundamento sem `titulo` — é o texto do `<summary>`, e é a única " +
+      "pista que o leitor tem do que está fechado ali");
+  }
+  const texto = corpo.trim();
+  if (!texto) erro("aprofundamento vazio — um `<details>` sem conteúdo é só uma linha que não abre");
+
+  // O LIMITE HERDADO DO `RE_BLOCO`, dito em voz alta em vez de virar mistério.
+  // O corpo do bloco vai até a primeira linha que seja só `:::` — regra da
+  // fonte única da sintaxe, e ela não sabe o que é cerca de código. Um exemplo
+  // de bloco completo dentro de ```markdown, aqui dentro, faria o
+  // aprofundamento fechar no `:::` do exemplo, deixando a cerca aberta e a
+  // mensagem de erro falando de outra coisa. A cerca desbalanceada é o sintoma,
+  // e é ela que se relata.
+  const cercasAbertas = (texto.match(/^(?:```|~~~)/gm) || []).length % 2;
+  if (cercasAbertas) {
+    erro("o corpo tem uma cerca de código sem fecho. Se dentro dela havia um exemplo com " +
+      "`:::` sozinho numa linha, foi ele que fechou o aprofundamento antes da hora: o corpo " +
+      "termina no primeiro `:::`, e isso vem do `RE_BLOCO`, que é a sintaxe da casa inteira. " +
+      "Exemplo de bloco completo mora fora do aprofundamento.");
+  }
+  // Cerca de código é exemplo, e a casa inteira respeita isso: o próprio
+  // BANCO-DE-EXERCICIOS.md documenta a sintaxe citando blocos dentro de
+  // ```markdown. Mascaro o miolo das cercas preservando as quebras de linha,
+  // para o número da linha continuar honesto na mensagem de erro.
+  const semCerca = texto.replace(RE_CERCA, (b) => b.replace(/[^\n]/g, " "));
+  const achado = [...semCerca.matchAll(RE_LINHA_BLOCO)][0];
+  if (achado) {
+    erro(`tem um \`:::${achado[1]}\` dentro. Aprofundamento não aninha bloco nenhum: ` +
+      "o que entra ali nasce fechado, e exercício, interação, laboratório, vídeo ou corte " +
+      "de cartão fechado é conteúdo perdido com cara de organização. " +
+      "Tire o bloco do aprofundamento, ou deixe o aprofundamento de fora dele.");
+  }
+  if (RE_CORTE_CONVERTIDO.test(texto)) {
+    erro("tem um corte de cartão (`:::cartao`) dentro. O corte é divisória do baralho: " +
+      "dentro de um bloco que fecha, ele parte um cartão que ninguém vê.");
+  }
+
+  return { titulo: String(attrs.titulo), corpo: texto };
 }
 
 /** Separa corpo em: enunciado, opções e metadados do rodapé (`> **chave:** valor`). */
@@ -261,13 +355,15 @@ export function parseNumerico(txt) {
 
 /**
  * Extrai todos os blocos interativos de um Markdown.
- * @returns {{exercicios: object[], videos: object[], laboratorios: object[]}}
+ * @returns {{exercicios: object[], videos: object[], laboratorios: object[],
+ *            interacoes: object[], aprofundamentos: object[]}}
  */
 export function extrair(markdown, arquivo = "?", capitulo = 0) {
   const exercicios = [];
   const videos = [];
   const laboratorios = [];
   const interacoes = [];
+  const aprofundamentos = [];
   const emCerca = cercas(markdown);
 
   for (const m of markdown.matchAll(RE_BLOCO)) {
@@ -277,6 +373,11 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
 
     if (tipoBloco === "interacao") {
       interacoes.push(montarInteracao(attrs, corpo, arquivo, capitulo));
+      continue;
+    }
+
+    if (tipoBloco === "aprofundar") {
+      aprofundamentos.push(montarAprofundamento(attrs, corpo, arquivo));
       continue;
     }
 
@@ -343,7 +444,7 @@ export function extrair(markdown, arquivo = "?", capitulo = 0) {
     exercicios.push(ex);
   }
 
-  return { exercicios, videos, laboratorios, interacoes };
+  return { exercicios, videos, laboratorios, interacoes, aprofundamentos };
 }
 
 /** Monta e valida uma interação a partir do bloco cru. Fonte única do objeto. */
@@ -417,6 +518,7 @@ export function renderizar(markdown, renderMd, arquivo = "?", capitulo = 0) {
     if (emCerca(offset)) return bloco; // exemplo de sintaxe: passa intacto
     const attrs = parseAtributos(attrsJson, arquivo);
     if (tipoBloco === "interacao") return htmlInteracao(montarInteracao(attrs, corpo, arquivo, capitulo), renderMd);
+    if (tipoBloco === "aprofundar") return htmlAprofundar(montarAprofundamento(attrs, corpo, arquivo), renderMd);
     if (tipoBloco === "lab") return htmlLab(attrs, corpo.trim(), renderMd, capitulo);
     if (tipoBloco === "video") return htmlVideo(attrs, corpo.trim(), renderMd, capitulo);
     const { enunciado, opcoes } = fatiar(corpo);
@@ -501,6 +603,42 @@ function htmlLab(attrs, intro, renderMd, capitulo) {
   <div class="lab-intro">${renderMd(intro)}</div>
   <div class="lab-area"></div>
 </section>`;
+}
+
+// ------------------------------------------------------ HTML do aprofundar
+
+/**
+ * O bloco inteiro tem de ser UM bloco HTML para o markdown-it, e bloco HTML
+ * termina na primeira LINHA EM BRANCO. Daí este passo, que a interação também
+ * dá (`semVazio`), com um cuidado a mais: dentro de `<pre>` a linha em branco é
+ * conteúdo, e apagá-la corromperia o código que o autor escreveu. Lá ela vira a
+ * entidade `&#10;`, que o navegador lê como quebra de linha e que não parte
+ * bloco nenhum, porque no arquivo ela não é uma linha em branco.
+ */
+function umBlocoSo(html) {
+  return String(html)
+    .split(/(<pre[\s\S]*?<\/pre>)/)
+    .map((parte, i) =>
+      i % 2
+        ? parte.replace(/\n(?:[ \t]*\n)+/g, (m) => "\n" + "&#10;".repeat(m.split("\n").length - 2))
+        : parte.replace(/\n[ \t]*\n+/g, "\n"))
+    .join("")
+    .trim();
+}
+
+/**
+ * UI de um aprofundamento: `<details>` FECHADO, sem uma linha de JavaScript.
+ *
+ * Fechado por padrão porque é aprofundamento, não conteúdo escondido: o fluxo
+ * principal continua completo sem ele, e quem quer a conta pede a conta. O
+ * `<summary>` é o único texto que conta no `innerText` do cartão — ver a
+ * medição no cabeçalho da seção `aprofundar`, mais acima.
+ */
+function htmlAprofundar(ap, renderMd) {
+  return `<details class="aprofundar">
+<summary class="ap-cab"><span class="ap-tag">Aprofundar</span><span class="ap-titulo">${esc(ap.titulo)}</span></summary>
+<div class="ap-corpo">${umBlocoSo(renderMd(ap.corpo))}</div>
+</details>`;
 }
 
 // ------------------------------------------------------- HTML das interações

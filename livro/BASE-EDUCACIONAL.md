@@ -132,6 +132,8 @@ Esta seção existe porque o espaço negativo é a parte que se perde primeiro, 
 
 **A profundidade da correção: sem número aqui.** A regra de que o retorno desmonta as alternativas erradas vem do Princípio VIII.2 da constituição, que é decisão editorial. Nenhum dos achados acima a sustenta, e ela não precisa deles. Quando um material de referência com correções de 22 palavras foi comparado com o nosso, de 125, a comparação foi declarada **fora de escopo**: a barra vale para segmentação, ritmo e presença de objeto interativo, e não para profundidade de correção.
 
+**A ligação ao glossário: comparação com um material concreto, não estudo.** A régua de ligar cada termo no primeiro uso veio de medir uma página do Google Machine Learning Crash Course, que liga nove termos ao glossário. Não há aqui número de aprendizagem que a sustente, e nenhum foi inventado: é **📖 leitura editorial**, e o que ela empresta da constituição é o Princípio VIII, que já mandava o termo novo entrar no glossário. A escolha de tomar o **cartão** como unidade, e não o capítulo, tem justificativa de leitura e não de literatura: no modo cartão o leitor vê um cartão por vez, e um link que mora noutro cartão não existe para ele.
+
 **O tamanho do cartão: medido aqui, não na literatura.** Os limites de 400 a 1.600px e de 80 a 250 palavras saíram de uma comparação com um material concreto e da medição do nosso, não de um estudo. São **📖 leitura editorial** com número próprio, e o gate que os cobra é honesto sobre isso.
 
 **Microlearning como categoria: não use como argumento.** O livro adota a **forma** (unidade fechável, um gesto por unidade), e cada peça dessa forma se justifica por um dos achados acima. "É microlearning" não é razão para nada.
@@ -163,6 +165,7 @@ Esta seção é o que torna o documento utilizável por um agente. Teoria que n�
 | A interação não revela antes da resposta | **asserção F** de `publicar/jornada.mjs` | clica em revelar sem responder e algo aparece |
 | Todo cartão fecha, com interação e exercício | `publicar/gates/cartoes-legiveis.mjs` | fora de 400–1.600px, de 80–250 palavras, ou sem os dois |
 | O baralho não tem ilha escondida | `ilhasDe()` em `publicar/cartoes.mjs` | trecho entre dois cartões que some no modo cartão |
+| O termo do glossário é ligado no primeiro uso do cartão | `publicar/gates/glossario-ligado.mjs` | termo usado e nunca ligado, link fora do primeiro uso, link repetido no mesmo cartão, âncora inexistente |
 | O comprimento da alternativa não entrega a resposta | `publicar/gates/vies-de-comprimento.mjs` | \|z\| > 2,5 nas duas direções |
 | A fórmula não termina cortada na margem | **asserção G** de `publicar/jornada.mjs` | `scrollWidth` maior que `clientWidth` |
 | Retorno que só diz "errado" é proibido | Princípio VIII.2, revisão humana | — |

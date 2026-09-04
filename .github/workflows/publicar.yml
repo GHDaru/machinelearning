@@ -110,6 +110,16 @@ jobs:
         env:
           PLAYWRIGHT: playwright
 
+      # O `:::aprofundar` promete que o texto fechado não entra na contagem de
+      # palavras do cartão, e essa promessa é do NAVEGADOR: `innerText` depende
+      # de layout, e nenhum DOM falso o modela. O teste roda no job `livro` sem
+      # navegador e diz em voz alta que não mediu; aqui ele mede.
+      - name: O texto fechado do `:::aprofundar` fica fora da conta do cartão
+        run: node testes/aprofundar.mjs
+        working-directory: publicar
+        env:
+          PLAYWRIGHT: playwright
+
       - uses: actions/upload-artifact@v4
         with:
           name: site

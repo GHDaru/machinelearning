@@ -3790,7 +3790,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a calibração pesa mais que a ordenação?",
+   "enunciado": "Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a [calibração](../glossario.md#termos-fundamentais) pesa mais que a ordenação?",
    "opcoes": [
     {
      "correta": false,
@@ -3901,7 +3901,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?",
+   "enunciado": "Por que a [regressão linear](../glossario.md#regressao-linear) minimiza o erro **ao quadrado** em vez do [erro absoluto](../glossario.md#regressao-linear)?",
    "opcoes": [
     {
      "correta": false,
@@ -3938,7 +3938,7 @@
    "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Se a solução fechada das equações normais é exata e existe, por que o livro ensina o gradiente?",
+   "enunciado": "Se a solução fechada das [equações normais](../glossario.md#modelos-lineares) é exata e existe, por que o livro ensina o gradiente?",
    "opcoes": [
     {
      "correta": false,
@@ -4032,7 +4032,7 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Uma reta de mínimos quadrados tem inclinação $a = 2{,}5$. As médias dos dados são $\\bar{x} = 4$ e $\\bar{y} = 18$.\n\nQual é o **intercepto** $b$?",
+   "enunciado": "Uma reta de [mínimos quadrados](../glossario.md#regressao-linear) tem [inclinação](../glossario.md#regressao-linear) $a = 2{,}5$. As médias dos dados são $\\bar{x} = 4$ e $\\bar{y} = 18$.\n\nQual é o **[intercepto](../glossario.md#regressao-linear)** $b$?",
    "opcoes": [],
    "gabarito": "8",
    "porque": "O passo 2 da dedução garante que a reta ótima passa pelo centro de massa $(\\bar{x}, \\bar{y})$, sempre. Daí sai direto $b = \\bar{y} - a\\bar{x} = 18 - 2{,}5 \\times 4 = 18 - 10 = \\mathbf{8}$.\n\nDois erros comuns dão números reconhecíveis. Quem soma em vez de subtrair chega a 28, e quem inverte as médias calcula $4 - 2{,}5 \\times 18$ e chega a $-41$. O teste é rápido: a reta tem de passar por $(4, 18)$, e só $b = 8$ passa.\n\nVale reparar no que este exercício não pede: nenhum dado individual. O intercepto ótimo depende só da inclinação e das duas médias, e essa é uma consequência forte da condição de mínimo.",
@@ -4056,7 +4056,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Numa reta já ajustada por mínimos quadrados, some os produtos de cada atributo pelo seu resíduo, $\\sum_i x_i r_i$. O resultado vale sempre ______.",
+   "enunciado": "Numa reta já ajustada por [mínimos quadrados](../glossario.md#regressao-linear), some os produtos de cada atributo pelo seu resíduo, $\\sum_i x_i r_i$. O resultado vale sempre ______.",
    "opcoes": [],
    "gabarito": "0|zero",
    "porque": "É a segunda condição de mínimo, e ela não é aproximada nem estatística: se aquela soma fosse diferente de zero, a derivada de $L$ em relação a $a$ não seria zero, e a reta ainda teria por onde melhorar.\n\nDuas respostas erradas revelam a confusão que este passo desfaz. Quem responde \"$n$\" ou \"a média dos resíduos\" está pensando na **primeira** condição, que é a soma dos resíduos sozinhos. Quem responde \"depende dos dados\" trata um resultado exato como tendência, e ele vale para qualquer conjunto em que a reta tenha sido de fato minimizada.\n\nA leitura que fica é a que o passo 3 chama de ortogonalidade. O erro que sobrou não guarda nenhuma informação linear sobre $x$, e por isso não há reta melhor a extrair dele.",
@@ -4076,7 +4076,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Um conjunto tem três pontos cujos desvios em $x$ são $-2$, $0$ e $+2$, e cujos desvios em $y$ são $-3$, $0$ e $+3$.\n\nCalcule a **inclinação** $a$ da reta de mínimos quadrados. Responda com duas casas decimais.",
+   "enunciado": "Um conjunto tem três pontos cujos desvios em $x$ são $-2$, $0$ e $+2$, e cujos desvios em $y$ são $-3$, $0$ e $+3$.\n\nCalcule a **[inclinação](../glossario.md#regressao-linear)** $a$ da reta de [mínimos quadrados](../glossario.md#regressao-linear). Responda com duas casas decimais.",
    "opcoes": [],
    "gabarito": "1.50 ± 0.02",
    "porque": "S_xy = (−2)(−3) + 0 + (2)(3) = 6 + 0 + 6 = 12, e S_xx = 4 + 0 + 4 = 8. Logo a = 12 / 8 = **1,5**.\n\nDois enganos frequentes dão números que dá para reconhecer. Quem soma os desvios em vez de multiplicá-los chega a zero nos dois lados, porque desvio em torno da média sempre soma zero, e isso é sinal de que o produto foi esquecido. Quem inverte a fração calcula 8 / 12 e chega a 0,67, que é a inclinação da reta de $x$ contra $y$, um modelo diferente e com outra pergunta.\n\nRepare que o ponto do meio, com desvio zero nos dois eixos, não entrou em nenhuma das somas. Ele é exatamente o centro de massa, e o passo 2 já dizia que a reta passa por ele.",
@@ -4100,7 +4100,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6). Calcule a **inclinação** $a$ da reta de mínimos quadrados, com duas casas decimais.",
+   "enunciado": "Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6). Calcule a **[inclinação](../glossario.md#regressao-linear)** $a$ da reta de [mínimos quadrados](../glossario.md#regressao-linear), com duas casas decimais.",
    "opcoes": [],
    "gabarito": "1.40 ± 0.02",
    "porque": "As médias são x̄ = 2,5 e ȳ = 4. Os desvios em x são −1,5, −0,5, +0,5 e +1,5; em y são −2, −1, +1 e +2.\n\nS_xy = (−1,5)(−2) + (−0,5)(−1) + (0,5)(1) + (1,5)(2) = 3 + 0,5 + 0,5 + 3 = **7**\nS_xx = 2,25 + 0,25 + 0,25 + 2,25 = **5**\n\nLogo a = 7 / 5 = **1,4**, e o intercepto sai de b = ȳ − a·x̄ = 4 − 1,4 × 2,5 = **0,5**.\n\nO engano mais comum aqui é usar os valores brutos em vez dos desvios, o que dá 50 / 30 ≈ 1,67. A fórmula é sobre variação em torno da média, e trocar $x_i$ por $(x_i - \\bar{x})$ é o passo que não pode ser pulado.\n\nConfira que a reta ótima passa por (x̄, ȳ) = (2,5; 4): 1,4 × 2,5 + 0,5 = 4.",
@@ -4198,7 +4198,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O gradiente melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?",
+   "enunciado": "O [gradiente](../glossario.md#regressao-linear) melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?",
    "opcoes": [
     {
      "correta": false,
@@ -4532,7 +4532,7 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na métrica de teste.",
+   "enunciado": "Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na [métrica](../glossario.md#termos-fundamentais) de teste.",
    "opcoes": [],
    "gabarito": "restrições|restricoes|requisitos|exigências|exigencias",
    "porque": "A tabela não afirma que o linear prevê melhor. Ela lista **restrições** que o problema impõe antes de qualquer medição, e sob as quais um ganho de acerto precisa ser grande o bastante para pagar o que se perde.\n\nQuem responde \"vantagens\" inverte o sentido da seção, porque a vantagem é do problema e não do modelo. Quem responde \"métricas\" comete o erro que o cartão combate: latência, auditabilidade e calibração são exigências, e três delas nem são medidas por AUC.\n\nA consequência prática é a ordem de trabalho. Escreva as restrições antes de abrir o notebook, porque depois de ver o placar fica difícil não decidir por ele.",
@@ -4667,7 +4667,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Que problema os mínimos quadrados vieram resolver naquela astronomia?",
+   "enunciado": "Que problema os [mínimos quadrados](../glossario.md#regressao-linear) vieram resolver naquela astronomia?",
    "opcoes": [
     {
      "correta": true,
@@ -4946,7 +4946,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Complete a síntese do capítulo: uma função de perda é um ______ de arbitragem, e não uma descoberta sobre o mundo.",
+   "enunciado": "Complete a síntese do capítulo: uma [função de perda](../glossario.md#termos-fundamentais) é um ______ de arbitragem, e não uma descoberta sobre o mundo.",
    "opcoes": [],
    "gabarito": "critério|criterio",
    "porque": "É a ideia reaproveitável desta lição, e ela reposiciona tudo o mais. A perda declara o que conta como erro, e a partir dessa declaração o resto do método é consequência mecânica.\n\nDuas respostas próximas erram por motivos diferentes. Quem responde \"método\" troca a regra pelo procedimento que a executa, e o procedimento é o que muda quando você troca gradiente por álgebra. Quem responde \"modelo\" troca a regra pela família de funções, e a reta continua reta com qualquer perda.\n\nO teste de que a ideia foi absorvida é conseguir usá-la fora daqui. Toda vez que um sistema classifica, ordena ou recomenda, alguém escolheu um critério, e essa escolha é discutível.",
@@ -4966,7 +4966,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com intercepto precisa estimar nesse conjunto?",
+   "enunciado": "Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com [intercepto](../glossario.md#regressao-linear) precisa estimar nesse conjunto?",
    "opcoes": [],
    "gabarito": "61",
    "porque": "Um coeficiente por atributo, mais o intercepto: 60 + 1 = **61**. Compare com as 180 linhas disponíveis e você tem três exemplos por parâmetro, que é pouco.\n\nQuem responde 60 esqueceu o intercepto, que também é estimado dos dados e não é uma constante dada. Quem responde 180 confundiu parâmetro com exemplo, e essa troca é o coração da questão: o que decide a variância do ajuste é a **razão** entre os dois números.\n\nÉ a primeira linha da tabela de decisão do capítulo, agora em números. Com três linhas por parâmetro, um ensemble teria muito mais o que estimar errado, e é por isso que a resposta à questão 2 é começar pelo linear.",
@@ -16240,7 +16240,7 @@
     "b": 4,
     "ruido": 3.2
    },
-   "intro": "Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta.\n\n1. **Minimize no olho** até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Mostrar os quadrados\"**: você minimiza a soma das áreas.\n3. **Revele a reta ótima** e descubra sozinho quanto custou o olho.",
+   "intro": "Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta.\n\n1. **Minimize no olho** até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Mostrar os quadrados\"**: você minimiza a soma das áreas.\n3. **Revele a reta ótima** e descubra sozinho quanto custou o olho.",
    "pagina": "ii-2-modelos-lineares"
   },
   {

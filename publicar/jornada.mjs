@@ -49,6 +49,13 @@
 //      exige `scrollWidth <= clientWidth`. A dívida conhecida está declarada em
 //      `FORMULA_CORTADA_PENDENTE`, e a lista falha nas DUAS direções.
 //
+//      G mede também a fórmula dentro de um `<details>` fechado, que é onde o
+//      `:::aprofundar` guarda a dedução. Ela abre cada bloco, mede e o devolve
+//      ao estado anterior — não porque o Chromium de hoje esconda a geometria
+//      (ele não esconde, foi medido), mas porque `content-visibility: hidden`
+//      não promete devolvê-la, e um gate que depende de gentileza do navegador
+//      estreita sozinho no dia em que ela acaba.
+//
 //      G existe porque A não a pega, e não por descuido de A: a fórmula mora num
 //      contêiner com `overflow-x: auto` (tema/estilo.css), e A dispensa de
 //      propósito quem está dentro de um contêiner que rola sozinho, porque o que
@@ -197,21 +204,42 @@ for (const nome of paginas) {
       }
       return false;
     };
+    // A lê a página INTOCADA, e é por isso que ela vem antes de qualquer
+    // abertura de bloco: o que A protege é o layout que o leitor recebe.
+    const estouram = [...document.querySelectorAll("body *")]
+      .filter((e) => e.getBoundingClientRect().right > W + 1 && !dentroDeRolagem(e))
+      .slice(0, 3)
+      .map((e) => e.tagName + (e.className ? "." + String(e.className).split(" ")[0] : ""));
+
+    // G MEDE TAMBÉM O QUE ESTÁ FECHADO, e o motivo é o `:::aprofundar`: a
+    // dedução passou a morar num `<details>` fechado, e é ela quem mais corta.
+    //
+    // O que foi medido, e não presumido: num Chromium 141, uma fórmula dentro de
+    // um `<details>` FECHADO ainda devolve geometria real (551 px de conteúdo
+    // numa caixa de 281 px), então G já a via sem esta abertura. Só que essa
+    // leitura é um efeito colateral: `content-visibility: hidden` diz que o
+    // conteúdo é PULADO, e o navegador o dispõe por gentileza, ao ser
+    // perguntado. No dia em que ele parar, a fórmula escondida mediria 0 contra
+    // 0 e passaria por não existir — o gate estreitaria sozinho, em silêncio, e
+    // logo sobre a dívida que ele nasceu para cobrar (D21). Abrir custa três
+    // linhas e não muda número nenhum hoje. Cada bloco volta ao estado anterior.
+    const fechados = [...document.querySelectorAll("details:not([open])")];
+    fechados.forEach((d) => d.setAttribute("open", ""));
+    const formulasCortadas = [...document.querySelectorAll("mjx-container")]
+      .filter((e) => e.scrollWidth > e.clientWidth + 1)
+      .map((e) => ({ sw: e.scrollWidth, cw: e.clientWidth,
+                     tex: (e.textContent || "").trim().slice(0, 46) }));
+    fechados.forEach((d) => d.removeAttribute("open"));
+
     return {
       scrollWidth: document.documentElement.scrollWidth,
       viewport: W,
-      estouram: [...document.querySelectorAll("body *")]
-        .filter((e) => e.getBoundingClientRect().right > W + 1 && !dentroDeRolagem(e))
-        .slice(0, 3)
-        .map((e) => e.tagName + (e.className ? "." + String(e.className).split(" ")[0] : "")),
+      estouram,
       // G: a fórmula está dentro de um contêiner que rola, então ela escapa de
       // A por construção. O que se mede aqui é outra coisa: o conteúdo dela cabe
       // na caixa em que ela é DESENHADA? Não cabendo, a expressão termina na
       // margem, e no Chromium móvel nem barra aparece antes do gesto.
-      formulasCortadas: [...document.querySelectorAll("mjx-container")]
-        .filter((e) => e.scrollWidth > e.clientWidth + 1)
-        .map((e) => ({ sw: e.scrollWidth, cw: e.clientWidth,
-                       tex: (e.textContent || "").trim().slice(0, 46) })),
+      formulasCortadas,
       exercicios: document.querySelectorAll(".exercicio").length,
       labsVazios: [...document.querySelectorAll("[data-lab]")]
         .filter((e) => !e.querySelector("canvas, svg, table, button"))

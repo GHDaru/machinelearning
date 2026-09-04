@@ -363,3 +363,64 @@
   .ia-acoes, .ia-revelacao, .ia-branco, .ia-num, .ia-livre { display: none !important; }
   .interacao { break-inside: avoid; }
 }
+
+/* ---------------------------------------------------------- aprofundar
+
+   O `:::aprofundar` é um `<details>` nativo, fechado por padrão, sem uma linha
+   de JavaScript: o teclado, o foco e a busca da página vêm do navegador. O CSS
+   aqui só o veste, e veste com as variáveis do tema — daí ele acompanhar claro
+   e escuro sem uma regra por tema. */
+
+.aprofundar {
+  border: 1px solid var(--ex-borda);
+  border-left: 4px solid var(--roubar);
+  border-radius: 10px;
+  background: var(--ex-fundo);
+  margin: 1.6rem 0;
+}
+
+/* O marcador padrão do navegador sai e entra um sinal nosso, porque é ele que
+   diz ao leitor que ali há mais conteúdo. `list-style: none` derruba o
+   triângulo nos navegadores atuais; a linha do WebKit cobre os antigos. */
+.ap-cab {
+  display: flex; align-items: baseline; gap: .55rem; flex-wrap: wrap;
+  padding: .75rem 1.1rem;
+  font-size: .74rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+.ap-cab::-webkit-details-marker { display: none; }
+.ap-cab::before {
+  content: "+";
+  font-size: 1.05rem; line-height: 1; font-weight: 700;
+  color: var(--roubar);
+  width: 1rem; text-align: center;
+}
+.aprofundar[open] > .ap-cab::before { content: "−"; }
+.aprofundar[open] > .ap-cab { border-bottom: 1px solid var(--ex-borda); }
+.ap-cab:hover { color: var(--fg); }
+/* O foco visível é do teclado, e some do clique do mouse: `:focus-visible` é a
+   regra que separa os dois. Sem isto, quem navega por Tab não sabe onde está. */
+.ap-cab:focus-visible { outline: 2px solid var(--link); outline-offset: -2px; border-radius: 9px; }
+.ap-tag { color: var(--roubar); font-weight: 700; }
+.ap-titulo {
+  font-size: 1rem; text-transform: none; letter-spacing: 0;
+  color: var(--fg); font-weight: 700;
+}
+
+.ap-corpo { padding: .2rem 1.1rem .9rem; font-size: .95rem; }
+.ap-corpo > :first-child { margin-top: .7rem; }
+.ap-corpo > :last-child { margin-bottom: 0; }
+
+/* No papel não há o que clicar, e conteúdo fechado seria conteúdo perdido: a
+   impressão abre todos. Medido num Chromium 141 com a mídia `print` emulada: o
+   texto fechado passa a aparecer no `innerText` e a caixa do corpo ganha altura.
+   `::details-content` é o caminho dos navegadores que já o têm; onde ele não
+   existe a regra é ignorada, e é por isso que o `+` do resumo vira `▸`: num
+   navegador sem a regra, o leitor ao menos vê que ali havia um bloco. */
+@media print {
+  .aprofundar { break-inside: avoid; }
+  .aprofundar::details-content { content-visibility: visible; }
+  .ap-cab::before { content: "▸"; }
+}

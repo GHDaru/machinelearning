@@ -8,12 +8,12 @@
 
 ## Objetivos de aprendizagem
 
-- **O1.** Derivar a regressão linear como minimização do erro quadrático.
-- **O2.** Obter as equações normais da reta e calcular a inclinação e o intercepto ótimos.
-- **O3.** Interpretar os coeficientes de um modelo linear — e dizer o que eles **não** significam.
+- **O1.** Derivar a [regressão linear](../glossario.md#regressao-linear) como minimização do erro quadrático.
+- **O2.** Obter as [equações normais](../glossario.md#modelos-lineares) da reta e calcular a [inclinação](../glossario.md#regressao-linear) e o [intercepto](../glossario.md#regressao-linear) ótimos.
+- **O3.** Interpretar os [coeficientes](../glossario.md#diagnostico-e-leitura-do-modelo) de um modelo linear — e dizer o que eles **não** significam.
 - **O4.** Reconhecer as situações em que o modelo linear é a escolha certa, não a escolha simplória.
 
-Só de **regressão linear**. A **regressão logística**, que tem "regressão" no nome e classifica, tem capítulo próprio: [II.3](ii-3-regressao-logistica.md).
+Só de **regressão linear**. A **[regressão logística](../glossario.md#regressao-linear)**, que tem "regressão" no nome e classifica, tem capítulo próprio: [II.3](ii-3-regressao-logistica.md).
 
 :::interacao {"id":"modelos-lineares-i25","tipo":"prever","titulo":"Qual das duas tem fórmula fechada"}
 As duas compartilham a forma `w·x + b`, e só uma tem fórmula que devolve os coeficientes de uma vez.
@@ -52,7 +52,7 @@ Um banco precisa negar um crédito e **explicar por quê**. A lei exige a explic
 O modelo campeão do concurso interno, quinhentas árvores somadas, dá a melhor previsão da casa e não produz **uma única frase** que caiba na carta de recusa. Ele acerta mais e não serve.
 
 :::interacao {"id":"modelos-lineares-i26","tipo":"principio","titulo":"Acerta mais e não serve"}
-O ensemble ganhou o concurso interno por uma margem confortável de acerto.
+O [ensemble](../glossario.md#diagnostico-e-leitura-do-modelo) ganhou o concurso interno por uma margem confortável de acerto.
 
 > **pergunta:** Escreva por que isso não basta para ele ser aprovado neste banco.
 > **revela:** Porque o requisito não é acerto, é **explicação por escrito**, e ele não está no placar. Um modelo que erra um pouco mais e escreve a frase atende ao cliente, ao regulador e ao auditor; o campeão não atende a nenhum dos três.
@@ -83,11 +83,11 @@ No caso do banco, por que o modelo mais preciso é recusado?
 
 E há o que raramente se diz em voz alta sobre o linear:
 
-- com **poucos dados por atributo**, ele frequentemente ganha, porque tem menos o que estimar errado;
-- quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto ensembles precisam de correção posterior ([capítulo II.1](ii-1-avaliacao.md));
+- com **poucos dados por [atributo](../glossario.md#termos-fundamentais)**, ele frequentemente ganha, porque tem menos o que estimar errado;
+- quando a saída vira **probabilidade que multiplica dinheiro**, ele nasce razoavelmente calibrado, enquanto [ensembles](../glossario.md#diagnostico-e-leitura-do-modelo) precisam de correção posterior ([capítulo II.1](ii-1-avaliacao.md));
 - quando a decisão precisa ser **auditada**, ele é o único que alguém consegue defender numa reunião.
 
-Guarde a cena, porque o capítulo vai cobrar o outro lado: um coeficiente é fácil de ler e **fácil de ler errado**.
+Guarde a cena, porque o capítulo vai cobrar o outro lado: um [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) é fácil de ler e **fácil de ler errado**.
 
 :::interacao {"id":"modelos-lineares-i27","tipo":"prever","titulo":"Duzentas linhas, cinquenta colunas"}
 Um conjunto tem 200 linhas e 50 colunas, e você compara um linear com um ensemble de árvores.
@@ -103,7 +103,7 @@ Um conjunto tem 200 linhas e 50 colunas, e você compara um linear com um ensemb
 :::
 
 :::exercicio {"id":"modelos-lineares-e30","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
-Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a calibração pesa mais que a ordenação?
+Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a [calibração](../glossario.md#termos-fundamentais) pesa mais que a ordenação?
 
 - [ ] A ordenação foi substituída pela calibração.
 - [ ] Provisão não aceita base estatística.
@@ -123,7 +123,7 @@ Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provi
 
 ## Fundamentos: regressão linear como minimização
 
-Uma forma só sustenta o capítulo inteiro: uma soma ponderada dos atributos, mais um deslocamento. É dela que sai **um número por atributo**.
+Uma forma só sustenta o capítulo inteiro: uma soma ponderada dos [atributos](../glossario.md#termos-fundamentais), mais um deslocamento. É dela que sai **um número por atributo**.
 
 $$\hat{y} = w_1x_1 + w_2x_2 + \dots + w_dx_d + b$$
 
@@ -198,8 +198,8 @@ Três textos escrevem a perda como $\frac{1}{n}\sum(y-\hat{y})^2$, $\frac{1}{2n}
 Três razões, em ordem de honestidade:
 
 1. **É diferenciável em todo ponto**, o que faz o otimizador funcionar sem casos especiais. O valor absoluto tem um bico em zero.
-2. **Tem solução fechada.** Derivando e igualando a zero, chega-se às *equações normais*, um sistema linear que se resolve de uma vez.
-3. **Pune o erro grande desproporcionalmente**, o que às vezes é o que você quer e às vezes não é. Havendo *outliers*, o erro quadrático os persegue.
+2. **Tem [solução fechada](../glossario.md#regressao-linear).** Derivando e igualando a zero, chega-se às *[equações normais](../glossario.md#modelos-lineares)*, um sistema linear que se resolve de uma vez.
+3. **Pune o erro grande desproporcionalmente**, o que às vezes é o que você quer e às vezes não é. Havendo *[outliers](../glossario.md#estatistica-descritiva-e-exploracao)*, o erro quadrático os persegue.
 
 :::interacao {"id":"modelos-lineares-i1","tipo":"prever","titulo":"O peso do ponto distante","numero":100}
 Um ponto erra por **1**; o *outlier* erra por **10**. No critério absoluto o segundo pesa 10 vezes mais.
@@ -213,7 +213,7 @@ Um ponto erra por **1**; o *outlier* erra por **10**. No critério absoluto o se
 :::
 
 :::exercicio {"id":"modelos-lineares-e1","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
-Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absoluto?
+Por que a [regressão linear](../glossario.md#regressao-linear) minimiza o erro **ao quadrado** em vez do [erro absoluto](../glossario.md#regressao-linear)?
 
 - [ ] Porque o erro quadrático é sempre menor que o erro absoluto.
 - [x] Porque é diferenciável em todo ponto e admite solução fechada exata.
@@ -233,7 +233,7 @@ Por que a regressão linear minimiza o erro **ao quadrado** em vez do erro absol
 
 ### A solução fechada existe. Por que, então, gradiente?
 
-A solução fechada está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar**, com diferença menor que 0,05 em cada coeficiente. Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
+A solução fechada está implementada na [etapa 05](../trilha-ml-zero.md), em 25 linhas de eliminação de Gauss. Vale conferir: **gradiente e solução fechada chegam ao mesmo lugar**, com diferença menor que 0,05 em cada [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo). Isso desmistifica o gradiente, que passa a ser *um jeito* de resolver, não *o* jeito.
 
 :::interacao {"id":"modelos-lineares-i6","tipo":"principio","titulo":"Duas rotas, o mesmo lugar"}
 No experimento do livro, gradiente e solução fechada param a menos de 0,05 um do outro em cada coeficiente.
@@ -247,7 +247,7 @@ No experimento do livro, gradiente e solução fechada param a menos de 0,05 um 
 :::
 
 :::exercicio {"id":"modelos-lineares-e9","tipo":"multipla","objetivo":"O1","dificuldade":"dificil"}
-Se a solução fechada das equações normais é exata e existe, por que o livro ensina o gradiente?
+Se a solução fechada das [equações normais](../glossario.md#modelos-lineares) é exata e existe, por que o livro ensina o gradiente?
 
 - [ ] Porque o gradiente encontra um mínimo melhor que a solução fechada.
 - [ ] Porque a solução fechada só vale quando os dados não têm ruído.
@@ -268,7 +268,7 @@ Se a solução fechada das equações normais é exata e existe, por que o livro
 ## Ponha a reta à mão
 
 :::lab {"id":"modelos-lineares-l1","tipo":"regressao-linear","titulo":"Mínimos quadrados à mão","n":24,"a":1.8,"b":4,"ruido":3.2}
-Cada segmento cinza é um **resíduo**: a distância vertical de um ponto até a **sua** reta.
+Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta.
 
 1. **Minimize no olho** até o EQM parar de cair, e anote o valor.
 2. **Ligue "Mostrar os quadrados"**: você minimiza a soma das áreas.
@@ -293,13 +293,13 @@ Some as áreas dos quadrados cinza, divida pelo número de pontos, e você calcu
 
 Por que existe uma reta ótima única, e como o computador a encontra sem tentar todas?
 
-Com um só atributo escrevemos $a$ no lugar de $w_1$, e a reta vira $\hat{y} = ax + b$. O critério é o mesmo EQM:
+Com um só [atributo](../glossario.md#termos-fundamentais) escrevemos $a$ no lugar de $w_1$, e a reta vira $\hat{y} = ax + b$. O critério é o mesmo EQM:
 
 $$L(a, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right)^2$$
 
 ### Passo 1 — por que há um mínimo, e um só
 
-$L$ é uma soma de quadrados: uma superfície convexa em $(a, b)$, uma tigela. Tigela tem um fundo, e só um.
+$L$ é uma soma de quadrados: uma superfície [convexa](../glossario.md#regressao-linear) em $(a, b)$, uma tigela. Tigela tem um fundo, e só um.
 
 :::interacao {"id":"modelos-lineares-i7","tipo":"prever","titulo":"Dois começos, um destino"}
 Duas pessoas arrastam a reta do laboratório a partir de posições bem diferentes, até o EQM parar de cair.
@@ -339,7 +339,7 @@ $$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b
 
 $$\Longrightarrow\; \sum_{i=1}^{n} r_i = 0$$
 
-onde $r_i = y_i - ax_i - b$ é o resíduo. **A soma dos resíduos é zero.** Dividindo por $n$: $\bar{y} = a\bar{x} + b$, ou seja, $b = \bar{y} - a\bar{x}$.
+onde $r_i = y_i - ax_i - b$ é o [resíduo](../glossario.md#modelos-lineares). **A soma dos resíduos é zero.** Dividindo por $n$: $\bar{y} = a\bar{x} + b$, ou seja, $b = \bar{y} - a\bar{x}$.
 
 :::interacao {"id":"modelos-lineares-i8","tipo":"principio","titulo":"De zero a centro de massa"}
 A condição de mínimo em $b$ diz apenas que a soma dos resíduos é zero.
@@ -353,9 +353,9 @@ A condição de mínimo em $b$ diz apenas que a soma dos resíduos é zero.
 :::
 
 :::exercicio {"id":"modelos-lineares-e10","tipo":"numerica","objetivo":"O2","dificuldade":"facil"}
-Uma reta de mínimos quadrados tem inclinação $a = 2{,}5$. As médias dos dados são $\bar{x} = 4$ e $\bar{y} = 18$.
+Uma reta de [mínimos quadrados](../glossario.md#regressao-linear) tem [inclinação](../glossario.md#regressao-linear) $a = 2{,}5$. As médias dos dados são $\bar{x} = 4$ e $\bar{y} = 18$.
 
-Qual é o **intercepto** $b$?
+Qual é o **[intercepto](../glossario.md#regressao-linear)** $b$?
 
 > **gabarito:** 8
 > **porque:** O passo 2 da dedução garante que a reta ótima passa pelo centro de massa $(\bar{x}, \bar{y})$, sempre. Daí sai direto $b = \bar{y} - a\bar{x} = 18 - 2{,}5 \times 4 = 18 - 10 = \mathbf{8}$.
@@ -394,7 +394,7 @@ $$\frac{\partial L}{\partial a} = -\frac{2}{n}\sum_{i} x_i\, r_i$$
 :::
 
 :::exercicio {"id":"modelos-lineares-e18","tipo":"completar","objetivo":"O2","dificuldade":"media"}
-Numa reta já ajustada por mínimos quadrados, some os produtos de cada atributo pelo seu resíduo, $\sum_i x_i r_i$. O resultado vale sempre ______.
+Numa reta já ajustada por [mínimos quadrados](../glossario.md#regressao-linear), some os produtos de cada atributo pelo seu resíduo, $\sum_i x_i r_i$. O resultado vale sempre ______.
 
 > **gabarito:** 0|zero
 > **porque:** É a segunda condição de mínimo, e ela não é aproximada nem estatística: se aquela soma fosse diferente de zero, a derivada de $L$ em relação a $a$ não seria zero, e a reta ainda teria por onde melhorar.
@@ -413,7 +413,7 @@ Substituindo $b = \bar{y} - a\bar{x}$ na segunda condição e reorganizando em t
 
 $$a = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2} = \frac{S_{xy}}{S_{xx}}$$
 
-Duas contas, uma soma de produtos e uma soma de quadrados, e a reta está pronta. Sem iteração, sem taxa de aprendizado, sem critério de parada.
+Duas contas, uma soma de produtos e uma soma de quadrados, e a reta está pronta. Sem iteração, sem [taxa de aprendizado](../glossario.md#regressao-linear), sem critério de parada.
 
 :::interacao {"id":"modelos-lineares-i10","tipo":"principio","titulo":"Produto em cima, quadrado embaixo"}
 O numerador soma produtos de dois desvios; o denominador soma quadrados de um só.
@@ -429,7 +429,7 @@ O numerador soma produtos de dois desvios; o denominador soma quadrados de um s�
 :::exercicio {"id":"modelos-lineares-e19","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
 Um conjunto tem três pontos cujos desvios em $x$ são $-2$, $0$ e $+2$, e cujos desvios em $y$ são $-3$, $0$ e $+3$.
 
-Calcule a **inclinação** $a$ da reta de mínimos quadrados. Responda com duas casas decimais.
+Calcule a **[inclinação](../glossario.md#regressao-linear)** $a$ da reta de [mínimos quadrados](../glossario.md#regressao-linear). Responda com duas casas decimais.
 
 > **gabarito:** 1.50 ± 0.02
 > **porque:** S_xy = (−2)(−3) + 0 + (2)(3) = 6 + 0 + 6 = 12, e S_xx = 4 + 0 + 4 = 8. Logo a = 12 / 8 = **1,5**.
@@ -466,7 +466,7 @@ Agora os pontos são (0, 1), (1, 2) e (2, 6): $\bar{x} = 1$, $\bar{y} = 3$, desv
 :::
 
 :::exercicio {"id":"modelos-lineares-e7","tipo":"numerica","objetivo":"O2","dificuldade":"media"}
-Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6). Calcule a **inclinação** $a$ da reta de mínimos quadrados, com duas casas decimais.
+Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6). Calcule a **[inclinação](../glossario.md#regressao-linear)** $a$ da reta de [mínimos quadrados](../glossario.md#regressao-linear), com duas casas decimais.
 
 > **gabarito:** 1.40 ± 0.02
 > **porque:** As médias são x̄ = 2,5 e ȳ = 4. Os desvios em x são −1,5, −0,5, +0,5 e +1,5; em y são −2, −1, +1 e +2.
@@ -486,7 +486,7 @@ Quatro pontos: (1, 2), (2, 3), (3, 5) e (4, 6). Calcule a **inclinação** $a$ d
 
 ### Passo 5 — o que a fórmula avisa
 
-O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma inclinação é melhor que outra. Não é falha numérica, é o dado não conter a informação.
+O denominador é a variação de $x$. Se $S_{xx} = 0$, todos os $x$ são iguais, e **não existe reta**: nenhuma [inclinação](../glossario.md#regressao-linear) é melhor que outra. Não é falha numérica, é o dado não conter a informação.
 
 :::interacao {"id":"modelos-lineares-i12","tipo":"prever","titulo":"Quarenta dias pelo mesmo preço","numero":0}
 Uma barraca vendeu limonada por quarenta dias e cobrou 0,30 por copo em todos eles. Você quer ajustar `vendas` contra `preco`.
@@ -521,7 +521,7 @@ Ao ajustar uma reta, o denominador $S_{xx}$ dá zero. O que isso significa?
 ### O gradiente contra a álgebra
 
 :::interacao {"id":"modelos-lineares-i39","tipo":"prever","titulo":"Quantos passos","numero":1460,"tolerancia":500}
-Os dois atributos são **quase colineares**.
+Os dois [atributos](../glossario.md#termos-fundamentais) são **quase colineares**.
 
 > **pergunta:** Padronizados os atributos, em que passo o excesso cai abaixo de 1%?
 > **revela:** No passo **1 460**. Como os atributos vieram, o gradiente **não chega**: termina 2,8% acima ao fim dos 4 000 passos, e não por passo mal escolhido, já que cada regime roda com o maior passo estável que a própria superfície admite, de 7,3 × 10⁻³ ali e 2,5 × 10⁻¹ depois de padronizar.
@@ -550,10 +550,10 @@ O placar marca o **excesso sobre o ótimo fechado**. O que serve de referência 
 
 :::cartao {"nivel":2,"titulo":"O que mudou não foi o otimizador"}
 
-**Padronizar não é higiene de planilha:** é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. O capítulo [II.4](ii-4-otimizacao.md) retoma esta superfície pelo lado da taxa de aprendizado.
+**[Padronizar](../glossario.md#regressao-linear) não é higiene de planilha:** é o que transforma um vale estreito num vale redondo. E repare no que a álgebra fez enquanto isso: **nos dois casos ela deu a resposta exata numa única conta**. O capítulo [II.4](ii-4-otimizacao.md) retoma esta superfície pelo lado da [taxa de aprendizado](../glossario.md#regressao-linear).
 
 :::interacao {"id":"modelos-lineares-i23","tipo":"prever","titulo":"A forma que dois atributos colineares desenham"}
-Dois atributos quase colineares carregam quase a mesma informação, e muitas combinações de pesos dão quase o mesmo erro.
+Dois [atributos](../glossario.md#termos-fundamentais) quase colineares carregam quase a mesma informação, e muitas combinações de pesos dão quase o mesmo erro.
 
 - ( ) Uma tigela redonda como antes.
 - (!) Um vale comprido e estreito.
@@ -566,7 +566,7 @@ Dois atributos quase colineares carregam quase a mesma informação, e muitas co
 :::
 
 :::exercicio {"id":"modelos-lineares-e20","tipo":"multipla","objetivo":"O2","dificuldade":"media"}
-O gradiente melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?
+O [gradiente](../glossario.md#regressao-linear) melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?
 
 - [ ] Padronizar não altera os coeficientes ótimos.
 - [x] As equações normais resolvem o sistema sem andar pela superfície.
@@ -590,9 +590,9 @@ O modelo linear é interpretável, e é por isso que ele sobrevive em crédito, 
 
 ### O que o coeficiente diz
 
-Aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os demais atributos constantes. É a leitura mais direta que um modelo oferece.
+Aumentar $x_j$ em uma unidade muda $\hat{y}$ em $w_j$ unidades, mantendo os demais [atributos](../glossario.md#termos-fundamentais) constantes. É a leitura mais direta que um modelo oferece.
 
-> Na regressão logística a leitura é outra: o coeficiente multiplica a **razão de chances**, não a saída. Confundir as duas é o erro de interpretação mais comum deste livro.
+> Na [regressão logística](../glossario.md#regressao-linear) a leitura é outra: o coeficiente multiplica a **[razão de chances](../glossario.md#modelos-lineares)**, não a saída. Confundir as duas é o erro de interpretação mais comum deste livro.
 
 :::interacao {"id":"modelos-lineares-i13","tipo":"prever","titulo":"Trinta e cinco por metro quadrado","numero":350}
 Um modelo de aluguel saiu assim, com a área em metros quadrados: $\hat{y} = 1200 + 35\,x$.
@@ -638,7 +638,7 @@ Nestes 365 dias, preço cobrado e copos vendidos aparecem correlacionados.
 > Guarde a estranheza sem explicá-la ainda. Uma correlação positiva significa que, nos dias em que a barraca cobrou mais, ela também vendeu mais. Alguma coisa está acontecendo junto com o preço, e o resto desta parte é descobrir o quê.
 :::
 
-| atributo | correlação com `vendas` |
+| [atributo](../glossario.md#termos-fundamentais) | correlação com `vendas` |
 |---|---|
 | `temperatura` | +0,990 |
 | `precipitacao` | −0,909 |
@@ -753,9 +753,9 @@ O ajuste tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?
 
 :::cartao {"nivel":3,"titulo":"Controlar remove só o que a variável mede"}
 
-O coeficiente do preço continua **positivo**. Controlar pela temperatura não desfez nada, porque a temperatura média não captura *ser julho*, e o que sobrou de julho continua morando dentro de `preco`.
+O [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) do preço continua **positivo**. Controlar pela temperatura não desfez nada, porque a temperatura média não captura *ser julho*, e o que sobrou de julho continua morando dentro de `preco`.
 
-**Controlar por uma variável só remove o confundimento que aquela variável mede.** Se o confundidor real é "estação", e você mediu "temperatura do dia", a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma métrica avisa.
+**Controlar por uma variável só remove o [confundimento](../glossario.md#estatistica-descritiva-e-exploracao) que aquela variável mede.** Se o confundidor real é "estação", e você mediu "temperatura do dia", a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma [métrica](../glossario.md#termos-fundamentais) avisa.
 
 :::interacao {"id":"modelos-lineares-i16","tipo":"principio","titulo":"O que a temperatura não carregou"}
 A temperatura entrou no modelo e o coeficiente do preço continuou positivo.
@@ -789,9 +789,9 @@ Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesm
 
 ### O panfleto, de brinde
 
-O preço foi a causalidade em números, e não em advertência. Vem outro de brinde: `temperatura` e `panfletos` correlacionam **+0,798**, porque em dia quente distribuíam-se mais panfletos. O coeficiente do panfleto sai em 0,0188, e lido como efeito da panfletagem é falso.
+O preço foi a causalidade em números, e não em advertência. Vem outro de brinde: `temperatura` e `panfletos` correlacionam **+0,798**, porque em dia quente distribuíam-se mais panfletos. O [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) do panfleto sai em 0,0188, e lido como efeito da panfletagem é falso.
 
-Colinearidade não estraga a previsão. Estraga a **leitura**, e é o modo de falha mais traiçoeiro do modelo linear, porque o erro de validação não muda.
+[Colinearidade](../glossario.md#modelos-lineares) não estraga a previsão. Estraga a **leitura**, e é o modo de falha mais traiçoeiro do modelo linear, porque o erro de validação não muda.
 
 :::interacao {"id":"modelos-lineares-i17","tipo":"prever","titulo":"Panfleto em dia frio"}
 Suponha que a barraca passasse a distribuir a mesma quantidade de panfletos em dias frios e em dias quentes, e que o modelo fosse reajustado.
@@ -896,9 +896,9 @@ Escreva a resposta que você daria a ela, em até seis linhas, sem jargão. Diga
 A limonada mostrou duas delas em números. As quatro, em forma de lista de conferência:
 
 1. **Não diz causalidade.** "Mantendo tudo mais constante" é operação sobre a equação, não intervenção no mundo. É o `preco` de julho.
-2. **Não é comparável sem padronização.** Um coeficiente de 0,003 para renda em reais e 2,5 para filhos não diz que filhos importam mais.
-3. **Não é confiável sob colinearidade.** Atributos que andam juntos trocam peso entre si. É o par `temperatura` e `panfletos`.
-4. **Não vale fora da faixa observada.** Extrapolar uma reta produz o absurdo com aparência de rigor.
+2. **Não é comparável sem [padronização](../glossario.md#regressao-linear).** Um coeficiente de 0,003 para renda em reais e 2,5 para filhos não diz que filhos importam mais.
+3. **Não é confiável sob [colinearidade](../glossario.md#modelos-lineares).** [Atributos](../glossario.md#termos-fundamentais) que andam juntos trocam peso entre si. É o par `temperatura` e `panfletos`.
+4. **Não vale fora da faixa observada.** [Extrapolar](../glossario.md#diagnostico-e-leitura-do-modelo) uma reta produz o absurdo com aparência de rigor.
 
 :::interacao {"id":"modelos-lineares-i19","tipo":"principio","titulo":"O que a métrica enxerga"}
 Um painel com erro de treino, erro de validação e R², todo verde.
@@ -946,7 +946,7 @@ Uma pergunta que só tem resposta boa se você pensar no sistema inteiro, e não
 :::
 
 :::exercicio {"id":"modelos-lineares-e41","tipo":"completar","objetivo":"O4","dificuldade":"facil"}
-Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na métrica de teste.
+Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na [métrica](../glossario.md#termos-fundamentais) de teste.
 
 > **gabarito:** restrições|restricoes|requisitos|exigências|exigencias
 > **porque:** A tabela não afirma que o linear prevê melhor. Ela lista **restrições** que o problema impõe antes de qualquer medição, e sob as quais um ganho de acerto precisa ser grande o bastante para pagar o que se perde.
@@ -961,10 +961,10 @@ Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por is
 
 | Situação | Por quê |
 |---|---|
-| **Poucos dados por atributo** | menos parâmetros, menos variância: com 200 linhas e 50 colunas, o ensemble decora |
+| **Poucos dados por [atributo](../glossario.md#termos-fundamentais)** | menos [parâmetros](../glossario.md#termos-fundamentais), menos [variância](../glossario.md#termos-fundamentais): com 200 linhas e 50 colunas, o [ensemble](../glossario.md#diagnostico-e-leitura-do-modelo) decora |
 | **Necessidade de auditoria** | um número por atributo, defensável. Exigência regulatória em crédito e seguro |
 | **Probabilidade que vira dinheiro** | sai razoavelmente calibrado; ensembles frequentemente não (cap. II.1) |
-| **Linha de base obrigatória** | é a régua contra a qual o modelo complexo se justifica |
+| **[Linha de base](../glossario.md#termos-fundamentais) obrigatória** | é a régua contra a qual o modelo complexo se justifica |
 | **Latência apertada** | uma multiplicação de vetores, muito mais rápida que uma floresta |
 
 :::interacao {"id":"modelos-lineares-i38","tipo":"prever","titulo":"A linha que vale sempre"}
@@ -1004,7 +1004,7 @@ Um time tem 15 000 linhas, 8 atributos, nenhuma exigência de auditoria e nenhum
 Quatro restrições numa proposta só, e nenhuma delas é sobre acertar mais.
 
 :::interacao {"id":"modelos-lineares-i21","tipo":"principio","titulo":"O que a AUC não vê"}
-Uma seguradora precisa de: modelo treinado em 300 apólices com 40 atributos, resposta em menos de 10 ms, justificativa por escrito ao regulador em cada recusa, e probabilidade multiplicada pelo valor da apólice para calcular a provisão.
+Uma seguradora precisa de: modelo treinado em 300 apólices com 40 [atributos](../glossario.md#termos-fundamentais), resposta em menos de 10 ms, justificativa por escrito ao regulador em cada recusa, e probabilidade multiplicada pelo valor da apólice para calcular a provisão.
 
 > **pergunta:** Quais dessas quatro restrições apareceriam numa comparação feita só por AUC?
 > **revela:** Só a **primeira**, e mesmo assim de lado: com 300 linhas e 40 atributos o ensemble decora, e isso chega à AUC de teste como variância alta entre partições.
@@ -1036,7 +1036,7 @@ Ainda no caso da seguradora acima: quais dessas restrições, sozinhas, já apon
 
 ### Treine sempre um linear primeiro
 
-A linha de base tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta anterior a todas as outras, que é "quanto do sinal é simplesmente linear?".
+A [linha de base](../glossario.md#termos-fundamentais) tem um corolário que vale sozinho: **sempre treine um linear primeiro**. Ele custa minutos e responde à pergunta anterior a todas as outras, que é "quanto do sinal é simplesmente linear?".
 
 E o contraexemplo honesto, para o corolário não virar fé: no [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz **0,4963 de AUC** contra **0,9392** do boosting, num dado de fronteira irregular.
 
@@ -1094,7 +1094,7 @@ Dois astrônomos recebem as mesmas observações discordantes e escolhem a órbi
 :::
 
 :::exercicio {"id":"modelos-lineares-e31","tipo":"multipla","objetivo":"O1","dificuldade":"media"}
-Que problema os mínimos quadrados vieram resolver naquela astronomia?
+Que problema os [mínimos quadrados](../glossario.md#regressao-linear) vieram resolver naquela astronomia?
 
 - [x] Faltava uma regra explícita do que é a melhor curva.
 - [ ] Faltava observação para determinar a órbita direito.
@@ -1116,7 +1116,7 @@ Que problema os mínimos quadrados vieram resolver naquela astronomia?
 
 **A virada.** Trocar "a melhor curva" por **uma regra explícita do que significa melhor**: aquela que torna mínima a soma dos quadrados dos desvios. A regra não é mais verdadeira que as outras, ela é **pública**. Dados os mesmos números, devolve a mesma resposta para qualquer pessoa.
 
-**O nome.** *Mínimos quadrados*, em francês *moindres carrés*, foi batizado por Legendre, e o nome é literalmente a definição do critério.
+**O nome.** *[Mínimos quadrados](../glossario.md#regressao-linear)*, em francês *moindres carrés*, foi batizado por Legendre, e o nome é literalmente a definição do critério.
 
 :::interacao {"id":"modelos-lineares-i29","tipo":"principio","titulo":"Por que 'pública' é a palavra certa"}
 A regra dos mínimos quadrados não é mais verdadeira que as alternativas dela.
@@ -1150,10 +1150,10 @@ O que a regra de minimizar a soma dos quadrados dos desvios trouxe que o "escolh
 
 ### Perda é critério de arbitragem
 
-**A ideia reaproveitável.** **Uma função de perda é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta, que é conveniência matemática mais uma hipótese sobre o ruído, e não a resposta "porque é o certo".
+**A ideia reaproveitável.** **Uma [função de perda](../glossario.md#termos-fundamentais) é um critério de arbitragem, não uma descoberta sobre o mundo.** Ela existe para tornar a escolha reproduzível e discutível. É por isso que a pergunta "por que erro *quadrático*, e não valor absoluto?" tem resposta honesta, que é conveniência matemática mais uma hipótese sobre o ruído, e não a resposta "porque é o certo".
 
 :::interacao {"id":"modelos-lineares-i30","tipo":"prever","titulo":"Trocar a perda é trocar o quê"}
-Uma equipe decide minimizar o erro absoluto em vez do quadrático, no mesmo problema e com os mesmos dados.
+Uma equipe decide minimizar o [erro absoluto](../glossario.md#regressao-linear) em vez do quadrático, no mesmo problema e com os mesmos dados.
 
 - ( ) O modelo, porque a reta deixa de ser uma soma ponderada.
 - ( ) Nada de essencial, porque as duas perdas medem o mesmo erro.
@@ -1328,12 +1328,12 @@ O capítulo lê a disputa Legendre-Gauss junto com o caso do backpropagation, no
 
 ## Mão na massa
 
-A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão, a `RegressaoLinear` com **os dois caminhos** (solução fechada por eliminação de Gauss e gradiente) para você conferir que chegam ao mesmo lugar, e o `Padronizador`, que aprende no treino e **aplica** ao teste.
+A **etapa 05–06** do [`ml-zero`](../trilha-ml-zero.md) implementa, em biblioteca padrão, a `RegressaoLinear` com **os dois caminhos** ([solução fechada](../glossario.md#regressao-linear) por eliminação de Gauss e [gradiente](../glossario.md#regressao-linear)) para você conferir que chegam ao mesmo lugar, e o `Padronizador`, que aprende no treino e **aplica** ao teste.
 
 **Notebook pronto para executar** — [`regressao_limonada.ipynb`](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb) · [abrir no Colab](https://colab.research.google.com/github/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb)
 
 :::interacao {"id":"modelos-lineares-i35","tipo":"prever","titulo":"Onde o padronizador aprende"}
-O `Padronizador` guarda a média e o desvio de cada atributo para poder reescalar os dados.
+O `Padronizador` guarda a média e o desvio de cada [atributo](../glossario.md#termos-fundamentais) para poder reescalar os dados.
 
 - (!) Só no treino, e depois aplica os mesmos números ao teste.
 - ( ) No conjunto inteiro, antes de separar treino e teste.
@@ -1366,16 +1366,16 @@ Por que a etapa 05 implementa as duas rotas, solução fechada e gradiente, em v
 
 ## Síntese — o que levar
 
-- Regressão linear minimiza **erro quadrático** por diferenciabilidade e solução fechada, não por ser intrinsecamente mais correto.
-- A dedução dá **duas condições**: a soma dos resíduos é zero, e os resíduos são ortogonais ao atributo.
-- $a = S_{xy}/S_{xx}$, e o denominador avisa: **atributo que não varia não tem coeficiente**.
-- Gradiente e solução fechada chegam ao mesmo lugar. O gradiente é a ferramenta **geral**; a fechada é o caso de sorte.
-- Coeficiente **não é causa**, não é comparável sem padronização, não é estável sob colinearidade, e não vale fora da faixa observada.
+- [Regressão linear](../glossario.md#regressao-linear) minimiza **erro quadrático** por diferenciabilidade e [solução fechada](../glossario.md#regressao-linear), não por ser intrinsecamente mais correto.
+- A dedução dá **duas condições**: a soma dos [resíduos](../glossario.md#modelos-lineares) é zero, e os resíduos são [ortogonais](../glossario.md#regressao-linear) ao [atributo](../glossario.md#termos-fundamentais).
+- $a = S_{xy}/S_{xx}$, e o denominador avisa: **atributo que não varia não tem [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo)**.
+- [Gradiente](../glossario.md#regressao-linear) e solução fechada chegam ao mesmo lugar. O gradiente é a ferramenta **geral**; a fechada é o caso de sorte.
+- Coeficiente **não é causa**, não é comparável sem [padronização](../glossario.md#regressao-linear), não é estável sob [colinearidade](../glossario.md#modelos-lineares), e não vale fora da faixa observada.
 - Treine sempre um linear primeiro, porque ele responde em minutos quanto do sinal é simplesmente linear.
 - **Uma perda é um critério de arbitragem**: quem escolhe a perda escolhe o que conta como erro.
 
 :::interacao {"id":"modelos-lineares-i36","tipo":"principio","titulo":"A frase que você diria ao colega"}
-Um colega quer aprovar um ensemble para um sistema de crédito sem treinar o linear antes.
+Um colega quer aprovar um [ensemble](../glossario.md#diagnostico-e-leitura-do-modelo) para um sistema de crédito sem treinar o linear antes.
 
 > **pergunta:** Escreva a frase que você diria a ele, usando uma das linhas acima.
 > **revela:** A frase mais forte não é sobre acerto: é que **sem a linha de base ninguém sabe quanto do ganho é real**, e que um sistema de crédito ainda vai precisar de uma explicação por escrito em cada recusa.
@@ -1384,7 +1384,7 @@ Um colega quer aprovar um ensemble para um sistema de crédito sem treinar o lin
 :::
 
 :::exercicio {"id":"modelos-lineares-e39","tipo":"completar","objetivo":"O1","dificuldade":"media"}
-Complete a síntese do capítulo: uma função de perda é um ______ de arbitragem, e não uma descoberta sobre o mundo.
+Complete a síntese do capítulo: uma [função de perda](../glossario.md#termos-fundamentais) é um ______ de arbitragem, e não uma descoberta sobre o mundo.
 
 > **gabarito:** critério|criterio
 > **porque:** É a ideia reaproveitável desta lição, e ela reposiciona tudo o mais. A perda declara o que conta como erro, e a partir dessa declaração o resto do método é consequência mecânica.
@@ -1399,8 +1399,8 @@ Complete a síntese do capítulo: uma função de perda é um ______ de arbitrag
 
 ## Verificação
 
-1. Mostre, sem consultar o texto, por que a reta de mínimos quadrados passa necessariamente pelo ponto $(\bar{x}, \bar{y})$.
-2. Você tem 180 linhas e 60 atributos. Que família de modelo você tenta primeiro, e por quê?
+1. Mostre, sem consultar o texto, por que a reta de [mínimos quadrados](../glossario.md#regressao-linear) passa necessariamente pelo ponto $(\bar{x}, \bar{y})$.
+2. Você tem 180 linhas e 60 [atributos](../glossario.md#termos-fundamentais). Que família de modelo você tenta primeiro, e por quê?
 3. Dois atributos do seu modelo são quase idênticos. O erro de validação está ótimo. O que pode estar errado mesmo assim?
 4. No laboratório, o que aconteceria com a reta ótima se todos os pontos tivessem o mesmo $x$? Responda pela fórmula, não pelo desenho.
 
@@ -1414,7 +1414,7 @@ Responda a questão 1 acima antes de revelar, escrevendo o argumento inteiro com
 :::
 
 :::exercicio {"id":"modelos-lineares-e40","tipo":"numerica","objetivo":"O4","dificuldade":"media"}
-Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com intercepto precisa estimar nesse conjunto?
+Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com [intercepto](../glossario.md#regressao-linear) precisa estimar nesse conjunto?
 
 > **gabarito:** 61
 > **porque:** Um coeficiente por atributo, mais o intercepto: 60 + 1 = **61**. Compare com as 180 linhas disponíveis e você tem três exemplos por parâmetro, que é pouco.
