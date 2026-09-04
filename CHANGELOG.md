@@ -6,6 +6,18 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): capstone de 5 sementes, forward pass real, e correções de uma rodada de crítica adversarial
+- **Rodada de aprimoramento com três especialistas e um aluno crítico.** Um agente buscou o notebook de referência de Aurélien Géron (`ageron/handson-ml3`, capítulo 10, MLP no mesmo dataset); três especialistas com contexto independente (MLP, redes neurais/otimização, design instrucional) construíram uma régua de qualidade a partir dessa referência; um quarto agente, interpretando um aluno cético, percorreu o notebook célula a célula contra essa régua. O achado central: o capítulo *prometia* em texto um capstone de 5 sementes e nunca o implementava em código — entre outras 18 lacunas, priorizadas por gravidade.
+- **Seção nova "O capstone"**: a configuração escolhida pelo aluno (seção 7) agora roda de fato com 5 sementes, nos dados tratados e nos crus, reporta mediana e amplitude dos dois grupos, e monta um `resumo_final` (JSON) com toda a sessão do aluno — o artefato pronto para uma avaliação externa.
+- **Forward pass numérico real**: a seção 6 ganhou uma célula que calcula $h=f(W_1x+b_1)$, $\hat y=W_2h+b_2$ à mão, com NumPy puro, usando os pesos reais do MLP tratado sobre uma linha real do treino, e confere contra `.predict()` — fecha a lacuna que antes só tinha um diagrama esquemático.
+- **Diagnóstico de overfitting**: a seção 5 agora reporta o MAE de treino ao lado do MAE de teste do MLP tratado (US$ 35.069 vs. US$ 36.997) — próximos, evidência de que a rede não decorou o treino.
+- **Comparação de capacidade**: MLP tratado (961 parâmetros) vs. regressão linear (14) impressa explicitamente, em vez de ficar implícita.
+- **Feedback automático nos dois exercícios** (seções 4 e 7): erro percentual e veredito (otimista/pessimista) entre a previsão do aluno e o MAE observado, em vez de só exibir os dois números lado a lado. `FORMATO` inválido agora levanta uma mensagem amigável em vez de um `KeyError` cru do pandas.
+- **Gabarito de referência**: uma amostra de 6 dos 40 formatos mede uma faixa plausível de MAE antes do aluno rodar o seu, para distinguir "resultado normal" de "troquei uma variável por engano".
+- **"Limitações do MLP" consolidadas** numa subseção própria da síntese (sensibilidade a escala e a semente, caixa-preta, custo de treino, risco de overfitting), e a ligação explícita entre a ativação não-linear (seção 6) e a interação latitude×longitude que a correlação simples não via (seção 3).
+- **Conteúdo de avaliação em Forms preparado à parte** (`avaliacao_forms.md`, fora deste notebook): não há API de criação de Google Forms disponível nesta sessão, então o material entregue é o conjunto de perguntas pronto para colar num formulário, mapeado 1:1 com os campos de `resumo_final`.
+- Notebook reexecutado do zero (74 células, 0 erros, 15 figuras).
+
 ### Adicionado — aula (fora do livro): descritiva campo a campo, cru × tratado, e o primeiro MLP na Califórnia
 - **Notebook `etapa-22/descritiva_mlp_california.ipynb`**, no mesmo formato do
   `etapa-21/exploratoria_limonada.ipynb`. Introdução ao dataset (a unidade
