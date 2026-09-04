@@ -6,6 +6,34 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Corrigido — 223 siglas chegavam nuas ao leitor, e a causa era uma linha do motor (D24)
+
+- **O defeito, medido.** O motor embrulha cada sigla conhecida em `<abbr>` com a expansão no
+  `title`, e o embrulho parava na **primeira alternativa de exercício de cada página**: 223
+  ocorrências nuas dentro de bloco interativo, 207 `<abbr>` em 35 das 49 páginas, e o `II.2`
+  com **zero** `<abbr>` usando "AUC" quatro vezes sem expandir nenhuma. Viola o Princípio VIII.
+- **A causa não era a ordem de renderização.** O passe `abrirSiglas` já rodava depois de os
+  blocos interativos virarem HTML. O que o parava era `<input>` na lista de tags protegidas:
+  elemento vazio, escrito sem barra final, subia o contador de proteção e nunca o descia. Da
+  primeira alternativa em diante a página inteira ficava protegida, prosa comum junto.
+- **O conserto**: elemento vazio nunca abre escopo de proteção, e `label` e `button` saem da
+  lista, porque é ali que moram o texto da alternativa e o rótulo do gesto. Resultado: 207
+  `<abbr>` viram **470**, e a conta de sigla nua nos 27 capítulos vai a zero. O passe passou a
+  alcançar também o teaser do cabeçalho do capítulo e a descrição da capa.
+- **Asserção nova na auditoria da jornada**: `H` abre cada página num Chromium e cobra que toda
+  sigla do dicionário em texto visível esteja dentro de um `<abbr>`. Falha nas duas direções, no
+  molde do `FORMULA_CORTADA_PENDENTE`, e imprime os números inclusive no verde.
+- **Dívida declarada, com o motivo escrito**: 14 ocorrências em 5 páginas continuam nuas porque
+  são escritas pelo navegador, por `publicar/tema/laboratorios.js`, depois da carga — o "IQR" da
+  tabela do boxplot, o "SQE" do painel de perda, o "AUC 0.65" do mostrador de vazamento. Nenhuma
+  passa pelo motor. Entram em `SIGLA_NUA_PENDENTE`, com número por página.
+- **O dicionário virou módulo**: `publicar/siglas.mjs` guarda as 65 siglas e o passe, com teste
+  próprio em `publicar/testes/siglas.mjs` (12 casos, sem navegador).
+- **Uma isenção que era falsa passou a ser verdadeira.** `gates/glossario-ligado.mjs` dispensa as
+  siglas da tabela escrevendo que "o motor já a embrulha em `<abbr>`". Era verdade em 35 páginas
+  e falso onde o texto era interativo. O comentário passou a dizer isso, com a data, e a apontar
+  quem mede o mecanismo que sustenta a isenção.
+
 ### Adicionado — o glossário deixou de ser um arquivo para o qual ninguém aponta
 
 - **A régua, medida.** A página de perda da regressão linear do Google Machine Learning Crash

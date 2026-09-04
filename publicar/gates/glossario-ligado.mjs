@@ -101,9 +101,21 @@ export const AMBIGUAS = new Map([
  *
  * Um verbete é uma linha de tabela ou de lista que começa por `**Termo**`, com
  * as variantes entre parênteses logo depois: `**Viés** (*bias*)`. A sigla em
- * caixa alta é descartada de propósito — o motor já a embrulha em `<abbr>` com
- * a expansão no `title` (`build.mjs`), e exigir link em cima disso duplicaria
- * um mecanismo que já funciona. O que sobra é o termo por extenso.
+ * caixa alta é descartada de propósito: o motor a embrulha em `<abbr>` com a
+ * expansão no `title` (`abrirSiglas`, em `build.mjs`, sobre o dicionário de
+ * `publicar/siglas.mjs`), e exigir link em cima disso duplicaria um mecanismo
+ * que já funciona. O que sobra é o termo por extenso.
+ *
+ * ESTA ISENÇÃO PASSOU A SER VERDADE EM 2026-09-04, e antes disso não era.
+ * Quando ela foi escrita, o embrulho do motor parava na primeira alternativa de
+ * exercício de cada página: o II.2 tinha zero `<abbr>` e usava "AUC" quatro
+ * vezes sem expandir nenhuma (D24 do ROADMAP, 223 ocorrências nuas no livro).
+ * A isenção estava apoiada num mecanismo que não chegava lá.
+ *
+ * O que a sustenta agora não é o conserto, e sim quem o mede: a asserção H de
+ * `publicar/jornada.mjs` abre cada página num navegador e cobra que toda sigla
+ * do dicionário em texto visível esteja dentro de um `<abbr>`. Isenção de um
+ * gate só é honesta enquanto outro gate cobra o mecanismo que a justifica.
  *
  * @returns {{termo:string, secao:string, ancora:string, formas:string[]}[]}
  */
