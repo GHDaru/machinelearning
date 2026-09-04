@@ -222,5 +222,36 @@ const capLimpo = {
   checa("e a dívida é medida pelo corte por cabeçalho, não zerada", r.divida.usos > 100, true);
 }
 
+// ---- a emenda com o `:::aprofundar` -----------------------------------------
+//
+// Primeiro uso é o primeiro que o LEITOR vê. O `:::aprofundar` nasce fechado,
+// então o que está lá dentro não conta como menção. Sem esta regra o autor seria
+// levado a pôr o link no único lugar do cartão onde a maioria nunca olha.
+{
+  const comAprofundamento = [
+    ':::cartao {"nivel":1,"titulo":"A conta"}',
+    "Aqui a prosa que o leitor vê, sem o termo.",
+    "",
+    ':::aprofundar {"titulo":"A derivada inteira"}',
+    "Aqui dentro aparece o resíduo pela primeira vez.",
+    ":::",
+    "",
+    "E agora o resíduo aparece no fluxo principal.",
+    "",
+    ":::cartao-fim",
+  ].join("\n");
+
+  // O campo é `legivel`: é o texto que o LEITOR lê, e é o nome certo para o que
+  // este gate mede. A primeira versão deste teste leu um campo inexistente, e as
+  // duas asserções passaram contra `undefined` sem provar nada.
+  const legivel = fatiarCartoes(comAprofundamento)[0].legivel;
+  checa("o corpo do aprofundamento fica fora do texto que o leitor lê",
+        /Aqui dentro aparece/.test(legivel), false);
+  checa("e o que vem depois do bloco continua dentro",
+        /fluxo principal/.test(legivel), true);
+  checa("a prosa antes do bloco também",
+        /sem o termo/.test(legivel), true);
+}
+
 console.log(falhas ? `\n${falhas} FALHA(S)` : "\nTudo verde.");
 process.exit(falhas ? 1 : 0);

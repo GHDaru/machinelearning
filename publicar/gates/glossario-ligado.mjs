@@ -130,6 +130,29 @@ export function termosDoGlossario(fonte) {
 }
 
 const RE_MARCADOR = /^:::cartao(-fim)?[ \t]*(\{[^\n]*\})?[ \t]*$/;
+// O `:::aprofundar` NÃO entra na lista acima, e a distinção é o miolo da coisa.
+//
+// `emBloco` não descarta o corpo de um bloco: descarta a linha de alternativa e
+// o lado da resposta. Está certo assim, porque o ENUNCIADO de um exercício é
+// texto que o leitor lê, e um termo que estreia ali estreia de verdade.
+//
+// O aprofundamento é o contrário: ele vira um `<details>` que nasce fechado, e
+// o corpo INTEIRO fica fora da tela. A regra deste gate é "ligue no primeiro
+// uso", e primeiro uso quer dizer a primeira vez que o LEITOR vê a palavra. Sem
+// a regra abaixo, um termo cuja primeira menção caísse num aprofundamento seria
+// cobrado ali, e o autor poria o link no único lugar do cartão onde a maioria
+// nunca olha. O gate satisfeito e o leitor desamparado é a pior combinação que
+// um portão pode produzir.
+//
+// A consequência aceita: termo que só aparece dentro de aprofundamento não tem
+// link exigido. Aprofundamento é profundidade para quem já seguiu o fluxo
+// principal, e exigir ligação num lugar opcional é pedir ao autor um trabalho
+// que não chega a quem precisa.
+//
+// Os dois construtores desta rodada acharam esta emenda um no trabalho do outro,
+// cada um do seu lado, antes de ela custar alguma coisa. Hoje ainda é latente:
+// nenhum capítulo usa o bloco.
+const RE_APROFUNDAR = /^:::aprofundar\b/;
 const RE_ABRE_BLOCO = /^:::(exercicio|video|lab|interacao)\b/;
 const RE_FECHA_BLOCO = /^:::[ \t]*$/;
 const RE_OPCAO = /^\s*-\s*(\[[ xX?]\]|\([ !]\))/;
@@ -153,7 +176,7 @@ const RE_OPCAO = /^\s*-\s*(\[[ xX?]\]|\([ !]\))/;
 export function fatiarCartoes(markdown) {
   const linhas = markdown.split("\n");
   const cartoes = [];
-  let atual = null, emBloco = false, emCerca = false;
+  let atual = null, emBloco = false, emCerca = false, emAprofundamento = false;
 
   for (const linha of linhas) {
     if (/^(?:```|~~~)/.test(linha)) { emCerca = !emCerca; continue; }
@@ -163,6 +186,7 @@ export function fatiarCartoes(markdown) {
     if (marca) {
       atual = null;
       emBloco = false;
+      emAprofundamento = false;
       if (!marca[1]) {
         let attrs = {};
         try { attrs = JSON.parse(marca[2] || "{}"); } catch { /* o build já reprova */ }
@@ -173,6 +197,8 @@ export function fatiarCartoes(markdown) {
     }
     if (!atual) continue;
 
+    if (RE_APROFUNDAR.test(linha)) { emAprofundamento = true; continue; }
+    if (emAprofundamento) { if (RE_FECHA_BLOCO.test(linha)) emAprofundamento = false; continue; }
     if (RE_ABRE_BLOCO.test(linha)) { emBloco = true; continue; }
     if (RE_FECHA_BLOCO.test(linha)) { emBloco = false; continue; }
     if (RE_OPCAO.test(linha)) continue;              // alternativa: ver cabeçalho
@@ -194,7 +220,7 @@ export function fatiarCartoes(markdown) {
 /** O corte automático do `tema/cartoes.js`: um cartão a cada `<h2>` ou `<h3>`. */
 function fatiarPorCabecalho(markdown) {
   const cartoes = [];
-  let atual = null, emBloco = false, emCerca = false;
+  let atual = null, emBloco = false, emCerca = false, emAprofundamento = false;
   for (const linha of markdown.split("\n")) {
     if (/^(?:```|~~~)/.test(linha)) { emCerca = !emCerca; continue; }
     if (emCerca) continue;
@@ -203,9 +229,12 @@ function fatiarPorCabecalho(markdown) {
       atual = { titulo: cab[1], cabecalhos: [cab[1]], bruto: [linha] };
       cartoes.push(atual);
       emBloco = false;
+      emAprofundamento = false;
       continue;
     }
     if (!atual) continue;                            // o que vem antes do 1º cabeçalho
+    if (RE_APROFUNDAR.test(linha)) { emAprofundamento = true; continue; }
+    if (emAprofundamento) { if (RE_FECHA_BLOCO.test(linha)) emAprofundamento = false; continue; }
     if (RE_ABRE_BLOCO.test(linha)) { emBloco = true; continue; }
     if (RE_FECHA_BLOCO.test(linha)) { emBloco = false; continue; }
     if (RE_OPCAO.test(linha)) continue;
