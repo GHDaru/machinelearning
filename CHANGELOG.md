@@ -6,6 +6,36 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a tigela deixou de ser palavra: o plano (a, b) virou painel vivo (D25)
+
+- **O defeito, medido.** O `II.2` tinha **zero figuras em 39 cartões**, e o cartão 9 apoiava a
+  dedução inteira numa frase: *"L é uma soma de quadrados, uma superfície convexa em (a, b), uma
+  tigela; tigela tem um fundo, e só um"*. É dessa afirmação que sai o direito de derivar, igualar
+  a zero e chamar o resultado de mínimo, e os cartões 10 a 14 pedem a álgebra num visor de 360px
+  a partir de um substantivo. A referência de microlearning mostra a tigela três vezes.
+- **O conserto não é ilustração.** O laboratório do cartão 8 ganhou um **segundo painel**: o plano
+  (a, b) com as curvas de nível do erro quadrático médio, o fundo marcado, o ponto do leitor sobre
+  ele e o **rastro** de onde ele já esteve. O leitor arrasta a alça da reta e vê o próprio ponto
+  descer a tigela.
+- **Nenhuma manopla nova** ([ADR 0015](adr/0015-animacao-e-laboratorio-sem-manopla.md)): o controle
+  continua sendo a alça e os dois cursores, e o painel é a consequência visível deles. O par
+  corrente e o erro nele são escritos na tela, com nome, ao lado do erro do fundo.
+- **A aritmética é exata, e é testada como tal.** Com as equações normais,
+  `L(a, b) = L(â, b̂) + A·u² + 2B·u·v + C·v²`, e a forma é positiva definida — um fundo, e só um.
+  `publicar/testes/lab-tigela.mjs` confere a decomposição contra o cálculo bruto do erro e mede
+  cada anel desenhado em 24 ângulos, além de cobrar rastro, quadro e legibilidade. Os cinco modos
+  de falha foram vistos reprovando antes de o teste entrar.
+- **O laboratório passou a ler `clientWidth`** e a diagramar em pixels de CSS (defeito **D18**):
+  o texto que chegava ao leitor a **6,0px** numa coluna de 360px agora chega a **12,0px**, medido
+  num Chromium. Sobram 26 laboratórios com backing store fixo.
+- **Os dois painéis couberam no cartão sem estourar o teto de 1.600px**, e o preço está declarado:
+  rótulo de botão mais curto (que passou de três linhas para duas no celular), veredito de uma
+  linha só, e a dica que repetia a intro do laboratório. O cartão 8 mede **1.563px** contra 1.561
+  antes, com 158 palavras.
+- **O cartão 9 passou a apontar para o gesto**: "a tigela que você percorreu no laboratório". A
+  explicação que constrói sobre a tentativa do leitor rende g = 0,56; a que a ignora, g = 0,20
+  ([`BASE-EDUCACIONAL.md`](livro/BASE-EDUCACIONAL.md) §3.1).
+
 ### Corrigido — 223 siglas chegavam nuas ao leitor, e a causa era uma linha do motor (D24)
 
 - **O defeito, medido.** O motor embrulha cada sigla conhecida em `<abbr>` com a expansão no

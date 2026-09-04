@@ -268,11 +268,11 @@ Se a solução fechada das [equações normais](../glossario.md#modelos-lineares
 ## Ponha a reta à mão
 
 :::lab {"id":"modelos-lineares-l1","tipo":"regressao-linear","titulo":"Mínimos quadrados à mão","n":24,"a":1.8,"b":4,"ruido":3.2}
-Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta.
+Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta. No segundo painel, o mesmo ajuste visto de cima.
 
 1. **Minimize no olho** até o EQM parar de cair, e anote o valor.
-2. **Ligue "Mostrar os quadrados"**: você minimiza a soma das áreas.
-3. **Revele a reta ótima** e descubra sozinho quanto custou o olho.
+2. **Ligue "Ver os quadrados"**: você minimiza a soma das áreas.
+3. **Revele a ótima** e veja o rastro parar no fundo da tigela.
 :::
 
 :::exercicio {"id":"modelos-lineares-e16","tipo":"completar","objetivo":"O1","dificuldade":"facil"}
@@ -299,7 +299,7 @@ $$L(a, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - ax_i - b\right)^2$$
 
 ### Passo 1 — por que há um mínimo, e um só
 
-$L$ é uma soma de quadrados: uma superfície [convexa](../glossario.md#regressao-linear) em $(a, b)$, uma tigela. Tigela tem um fundo, e só um.
+$L$ é uma soma de quadrados: a tigela que você percorreu no laboratório, [convexa](../glossario.md#regressao-linear) em $(a, b)$. Tigela tem um fundo, e só um.
 
 :::interacao {"id":"modelos-lineares-i7","tipo":"prever","titulo":"Dois começos, um destino"}
 Duas pessoas arrastam a reta do laboratório a partir de posições bem diferentes, até o EQM parar de cair.

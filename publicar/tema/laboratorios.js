@@ -284,10 +284,44 @@
              r2: sqt === 0 ? 0 : 1 - sqe / sqt };
   }
 
+  /* Dois painéis, e o segundo é o que faltava.
+
+     O primeiro é a nuvem de pontos com a reta do leitor: ele arrasta a alça e
+     vê o resíduo encolher. O segundo é o MESMO ajuste visto de outro lugar — o
+     plano (a, b), com as curvas de nível do erro quadrático médio e o ponto do
+     leitor sobre elas, deixando rastro.
+
+     POR QUE O SEGUNDO EXISTE
+
+     O capítulo apoia a dedução inteira numa frase: "L é uma soma de quadrados,
+     uma superfície convexa em (a, b), uma tigela; tigela tem um fundo, e só
+     um". É dessa afirmação que sai o direito de derivar, igualar a zero e
+     chamar o resultado de mínimo — e ela era entregue como palavra, num
+     capítulo de 39 cartões sem uma única figura. Os seis cartões de álgebra que
+     vêm depois pedem que o leitor manipule ∂L/∂b = 0 segurando um parabolóide
+     de cabeça, a partir de um substantivo.
+
+     Aqui a tigela deixa de ser palavra: é o objeto que ele move. O rastro é a
+     parte que ensina — ele mostra que todo caminho desce para o mesmo fundo, e
+     é isso, e não a frase, que justifica o passo seguinte da dedução.
+
+     NÃO É MANOPLA NOVA (ADR 0015). O controle continua sendo o mesmo: as alças
+     da reta e os dois campos. O plano é a CONSEQUÊNCIA visível deles.
+
+     A ARITMÉTICA É EXATA, e é ela que autoriza desenhar anel como curva de
+     nível. Com u = a − â e v = b − b̂, as equações normais dão
+
+         L(a, b) = L(â, b̂) + A·u² + 2B·u·v + C·v²,   A = Σx²/n, B = x̄, C = 1,
+
+     porque os termos cruzados com o resíduo ótimo somam zero — que é a própria
+     conclusão da dedução. A forma é positiva definida (A − B² = variância de x
+     > 0), então as curvas de nível são elipses concêntricas: uma tigela, um
+     fundo. `publicar/testes/lab-tigela.mjs` confere isso contra o cálculo
+     bruto do erro, ângulo por ângulo de cada anel desenhado. */
   function regressaoLinear(raiz, cfg) {
     var semente = cfg.semente || 20260811;
     var estado = { a: 0, b: 0, pts: gerarPontos(cfg, semente),
-                   otima: false, quadrados: false, arrastando: null };
+                   otima: false, quadrados: false, arrastando: null, rastro: [] };
 
     var corpo = el("div", "lab-corpo");
     var painel = el("div", "lab-painel");
@@ -295,10 +329,61 @@
     corpo.appendChild(painel);
     corpo.appendChild(visual);
 
+    var planos = el("div", "lab-planos");
+    visual.appendChild(planos);
+
     var canvas = document.createElement("canvas");
-    canvas.width = 560; canvas.height = 400;
     canvas.className = "lab-canvas lab-canvas-larga";
-    visual.appendChild(canvas);
+    planos.appendChild(canvas);
+
+    var canvasPlano = document.createElement("canvas");
+    canvasPlano.className = "lab-canvas lab-canvas-larga";
+    planos.appendChild(canvasPlano);
+
+    /* D18 — o desenho lê `clientWidth` e diagrama a partir dele.
+
+       O backing store fixo (560×400) era encolhido pelo CSS para 281px numa
+       coluna de 360px, e a fonte de 12px chegava ao leitor a 6,0px: abaixo do
+       piso de legibilidade, justo no aparelho em que o livro é lido. Aqui o
+       canvas é medido em pixels de CSS e a resolução é o mesmo número vezes a
+       densidade da tela, com a transformação aplicada de uma vez — 12px de
+       fonte saem a 12px, em qualquer largura. */
+    var DPR = Math.max(1, (window.devicePixelRatio || 1));
+    var dimDisp = { W: 560, H: 400 }, dimPlano = { W: 560, H: 300 };
+
+    function medir(cv, razao, hMin, hMax) {
+      var w = cv.clientWidth;
+      if (w === undefined) w = 560;         // sem layout (teste sem navegador)
+      if (!w) return null;                  // cartão escondido: guarda o tamanho
+      w = Math.round(w);
+      var h = Math.round(Math.max(hMin, Math.min(hMax, w * razao)));
+      if (cv.width !== w * DPR || cv.height !== h * DPR) {
+        cv.width = Math.round(w * DPR);
+        cv.height = Math.round(h * DPR);
+      }
+      cv.style.height = h + "px";
+      var ctx = cv.getContext("2d");
+      if (ctx.setTransform) ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      return { ctx: ctx, W: w, H: h };
+    }
+
+    /* Quanto de altura cada painel pede, e por quê.
+
+       Lado a lado, cada um é estreito e pode ser alto. Empilhados, a soma das
+       duas alturas entra na conta do cartão, e o teto de 1.600px é medido num
+       visor de 360px — então a régua aperta só onde ela de fato existe: no
+       celular. Empilhado numa coluna larga (o computador, onde a coluna do
+       gráfico mede 380px), o painel volta a respirar. */
+    function empilhado() {
+      var lv = visual.clientWidth, lc = canvas.clientWidth;
+      if (!lv || lc === undefined) return false;
+      return lc > lv * 0.8;
+    }
+    function razaoDe(cv, larga, estreita) {
+      if (!empilhado()) return 0.78;
+      var w = cv.clientWidth === undefined ? 560 : cv.clientWidth;
+      return w >= 340 ? larga : estreita;
+    }
 
     var campoA = campo("inclinação a", estado.a, 0.1, function (v) {
       estado.a = isFinite(v) ? v : 0; desenhar();
@@ -323,33 +408,35 @@
       botoes.appendChild(b);
       return b;
     }
-    botao("Ajustar automaticamente", function () {
+    botao("Ajustar sozinho", function () {
       var o = ajusteOtimo(estado.pts);
       estado.a = Math.round(o.a * 1000) / 1000;
       estado.b = Math.round(o.b * 1000) / 1000;
       sincronizar();
       desenhar();
     }, "lab-botao-primario");
-    var btOtima = botao("Revelar a reta ótima", function () {
+    var btOtima = botao("Revelar a ótima", function () {
       estado.otima = !estado.otima;
-      btOtima.textContent = estado.otima ? "Esconder a reta ótima" : "Revelar a reta ótima";
+      btOtima.textContent = estado.otima ? "Esconder a ótima" : "Revelar a ótima";
       desenhar();
     });
-    var btQuad = botao("Mostrar os quadrados", function () {
+    var btQuad = botao("Ver os quadrados", function () {
       estado.quadrados = !estado.quadrados;
-      btQuad.textContent = estado.quadrados ? "Esconder os quadrados" : "Mostrar os quadrados";
+      btQuad.textContent = estado.quadrados ? "Sem os quadrados" : "Ver os quadrados";
       desenhar();
     });
+    // Dados novos movem o fundo da tigela: o rastro antigo passaria a ser
+    // rastro sobre outra superfície, e mentiria sobre onde o leitor esteve.
     botao("Novos dados", function () {
       semente = (semente * 1664525 + 1013904223) >>> 0;
       estado.pts = gerarPontos(cfg, semente);
+      estado.rastro = [];
       desenhar();
     });
     painel.appendChild(botoes);
 
     var dica = el("p", "lab-dica",
-      "Arraste as alças ● nas pontas da reta, ou use os campos acima. " +
-      "Cada segmento cinza é um resíduo: a distância vertical do ponto até a sua reta.");
+      "Arraste as alças ● nas pontas da reta.");
     painel.appendChild(dica);
 
     function sincronizar() {
@@ -359,21 +446,24 @@
       campoB.querySelector(".lab-faixa").value = String(estado.b);
     }
 
-    // ---- escalas (recalculadas a cada desenho: os dados mudam) ----
+    // ---- escalas da dispersão (recalculadas a cada desenho: os dados mudam) ----
     var esc = {};
     function escalas() {
       var xs = estado.pts.map(function (p) { return p.x; });
       var ys = estado.pts.map(function (p) { return p.y; });
-      var m = 46;
+      // A margem segue a MENOR dimensão: empilhado, o canvas é largo e baixo,
+      // e uma margem calculada só pela largura comia metade da altura útil.
+      var m = Math.max(22, Math.min(46, Math.round(
+        Math.min(dimDisp.W * 0.11, dimDisp.H * 0.19))));
       var x0 = 0, x1 = Math.max.apply(null, xs) + 1;
       var y0 = Math.min(0, Math.min.apply(null, ys) - 2);
       var y1 = Math.max.apply(null, ys) + 3;
       esc = {
         m: m, x0: x0, x1: x1, y0: y0, y1: y1,
-        px: function (v) { return m + (v - x0) / (x1 - x0) * (canvas.width - 2 * m); },
-        py: function (v) { return canvas.height - m - (v - y0) / (y1 - y0) * (canvas.height - 2 * m); },
-        vx: function (p) { return x0 + (p - m) / (canvas.width - 2 * m) * (x1 - x0); },
-        vy: function (p) { return y0 + (canvas.height - m - p) / (canvas.height - 2 * m) * (y1 - y0); },
+        px: function (v) { return m + (v - x0) / (x1 - x0) * (dimDisp.W - 2 * m); },
+        py: function (v) { return dimDisp.H - m - (v - y0) / (y1 - y0) * (dimDisp.H - 2 * m); },
+        vx: function (p) { return x0 + (p - m) / (dimDisp.W - 2 * m) * (x1 - x0); },
+        vy: function (p) { return y0 + (dimDisp.H - m - p) / (dimDisp.H - 2 * m) * (y1 - y0); },
       };
     }
 
@@ -383,10 +473,11 @@
     }
 
     // ---- arrastar direto na reta ----
+    // O desenho é em pixels de CSS, então a posição do ponteiro também é: não
+    // há mais conversão para o backing store.
     function posicao(ev) {
       var r = canvas.getBoundingClientRect();
-      return { px: (ev.clientX - r.left) * (canvas.width / r.width),
-               py: (ev.clientY - r.top) * (canvas.height / r.height) };
+      return { px: ev.clientX - r.left, py: ev.clientY - r.top };
     }
     canvas.addEventListener("pointerdown", function (ev) {
       var p = posicao(ev), as = alcas();
@@ -433,31 +524,100 @@
       return Math.abs(v) >= 100 ? v.toFixed(0) : v.toFixed(2);
     }
 
-    function desenhar() {
+    // ---------------- a tigela: forma quadrática exata do EQM em (a, b) -------
+    function forma() {
+      var n = estado.pts.length, sx = 0, sxx = 0;
+      estado.pts.forEach(function (p) { sx += p.x; sxx += p.x * p.x; });
+      var o = ajusteOtimo(estado.pts);
+      return { a: o.a, b: o.b, A: sxx / n, B: sx / n, C: 1,
+               Lmin: metricas(estado.pts, o.a, o.b).eqm };
+    }
+    function alturaQ(f, a, b) {          // quanto o EQM sobe acima do fundo
+      var u = a - f.a, v = b - f.b;
+      return f.A * u * u + 2 * f.B * u * v + f.C * v * v;
+    }
+    function eqmEm(f, a, b) { return f.Lmin + alturaQ(f, a, b); }
+    function raioNoAngulo(f, q, th) {    // onde o anel de altura q corta a direção th
+      var c = Math.cos(th), s = Math.sin(th);
+      var d = f.A * c * c + 2 * f.B * c * s + f.C * s * s;
+      return d <= 0 ? 0 : Math.sqrt(Math.max(0, q) / d);
+    }
+    /* A janela é FIXA enquanto os dados não mudam, e isso é decisão de leitura:
+       mapa que se redesenha a cada arrasto faz o rastro nadar, e o rastro é o
+       que ensina.
+
+       Ela é a CAIXA DO ANEL EXTERNO, e não um retângulo arbitrário em volta do
+       fundo. A primeira versão era arbitrária, e o resultado foi uma listra
+       diagonal. A razão é a anisotropia da tigela: com os dados deste
+       laboratório, o erro cresce 209 vezes mais depressa numa direção que na
+       outra, e os eixos da elipse ficam na razão de 14 para 1. Elipse assim,
+       dentro de caixa qualquer, sai cortada em duas bordas. Tomando a caixa da
+       PRÓPRIA elipse, os anéis nascem encaixados e tocam os quatro lados, que
+       é o desenho que diz "tigela".
+
+       O anel externo é o que passa pela PARTIDA do laboratório, (0, 0), com
+       folga. Assim o quadro contém a partida e o fundo, e todo par que os dois
+       cursores alcançam cai dentro dele. O piso existe para o caso em que a
+       reta ótima passa pela origem: sem ele, o quadro teria largura zero. */
+    function janela(f) {
+      var det = f.A * f.C - f.B * f.B;       // = variância de x, positiva
+      var q = alturaQ(f, 0, 0) * 1.3;
+      var da = Math.max(Math.sqrt(q * f.C / det), 0.8);
+      var db = Math.max(Math.sqrt(q * f.A / det), 3);
+      // O anel externo é o maior que ainda cabe na caixa: fora do caso
+      // degenerado, é exatamente o que passa pela partida com folga.
+      return { a0: f.a - da, a1: f.a + da, b0: f.b - db, b1: f.b + db,
+               qMax: Math.min(da * da * det / f.C, db * db * det / f.A) };
+    }
+    var ANEIS = 6;
+    function niveis(f, j) {              // as alturas dos anéis desenhados
+      var fora = [];
+      for (var k = 1; k <= ANEIS; k++) fora.push(j.qMax * (k / ANEIS) * (k / ANEIS));
+      return fora;
+    }
+
+    function registrar() {
+      var u = estado.rastro[estado.rastro.length - 1];
+      if (u && Math.abs(u[0] - estado.a) < 1e-9 && Math.abs(u[1] - estado.b) < 1e-9) return;
+      estado.rastro.push([estado.a, estado.b]);
+      if (estado.rastro.length > 240) estado.rastro.shift();
+    }
+
+    function cores(escuro) {
+      return {
+        fundo: escuro ? "#1d1f22" : "#f7f7f5",
+        eixo: escuro ? "#4a4d52" : "#c9c9c4",
+        texto: escuro ? "#9a9a97" : "#6a6a6a",
+        ponto: escuro ? "#7db3d5" : "#2f6f9f",
+        reta: "#e0a24a",
+        otima: escuro ? "#6fc08a" : "#2e8b57",
+        residuo: escuro ? "rgba(224,162,74,.45)" : "rgba(180,120,40,.45)",
+        banda: escuro ? "rgba(125,179,213,.13)" : "rgba(47,111,159,.11)",
+        anel: escuro ? "rgba(125,179,213,.42)" : "rgba(47,111,159,.34)",
+        rastro: escuro ? "rgba(224,162,74,.55)" : "rgba(180,120,40,.55)",
+      };
+    }
+
+    // ------------------------------------------------ painel 1: a dispersão
+    function desenharDispersao(escuro) {
+      var d = medir(canvas, razaoDe(canvas, 0.62, 0.50), 130, 360);
+      if (!d) return;
+      dimDisp = { W: d.W, H: d.H };
       escalas();
-      var ctx = canvas.getContext("2d");
-      var W = canvas.width, H = canvas.height;
-      var escuro = document.documentElement.getAttribute("data-tema") === "escuro";
-      var corFundo = escuro ? "#1d1f22" : "#f7f7f5";
-      var corEixo = escuro ? "#4a4d52" : "#c9c9c4";
-      var corTexto = escuro ? "#9a9a97" : "#6a6a6a";
-      var corPonto = escuro ? "#7db3d5" : "#2f6f9f";
-      var corReta = "#e0a24a";
-      var corOtima = escuro ? "#6fc08a" : "#2e8b57";
-      var corResiduo = escuro ? "rgba(224,162,74,.45)" : "rgba(180,120,40,.45)";
+      var ctx = d.ctx, W = d.W, H = d.H, c = cores(escuro);
 
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = corFundo;
+      ctx.fillStyle = c.fundo;
       ctx.fillRect(0, 0, W, H);
 
       // eixos
-      ctx.strokeStyle = corEixo;
+      ctx.strokeStyle = c.eixo;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(esc.m, esc.py(esc.y0)); ctx.lineTo(W - esc.m, esc.py(esc.y0));
       ctx.moveTo(esc.px(esc.x0), esc.m - 10); ctx.lineTo(esc.px(esc.x0), H - esc.m);
       ctx.stroke();
-      ctx.fillStyle = corTexto;
+      ctx.fillStyle = c.texto;
       ctx.font = "12px system-ui, sans-serif";
       ctx.fillText("x", W - esc.m + 8, esc.py(esc.y0) + 4);
       ctx.fillText("y", esc.px(esc.x0) - 16, esc.m - 14);
@@ -465,7 +625,7 @@
       // quadrados do erro (a área É o erro quadrático)
       if (estado.quadrados) {
         ctx.fillStyle = escuro ? "rgba(224,162,74,.16)" : "rgba(224,162,74,.22)";
-        ctx.strokeStyle = corResiduo;
+        ctx.strokeStyle = c.residuo;
         estado.pts.forEach(function (p) {
           var yr = estado.a * p.x + estado.b;
           var lado = Math.abs(esc.py(p.y) - esc.py(yr));
@@ -476,7 +636,7 @@
       }
 
       // resíduos
-      ctx.strokeStyle = corResiduo;
+      ctx.strokeStyle = c.residuo;
       ctx.lineWidth = 1.5;
       estado.pts.forEach(function (p) {
         var yr = estado.a * p.x + estado.b;
@@ -489,7 +649,7 @@
       // reta ótima
       if (estado.otima) {
         var o = ajusteOtimo(estado.pts);
-        ctx.strokeStyle = corOtima;
+        ctx.strokeStyle = c.otima;
         ctx.lineWidth = 2;
         ctx.setLineDash([7, 5]);
         ctx.beginPath();
@@ -500,7 +660,7 @@
       }
 
       // a reta do aluno
-      ctx.strokeStyle = corReta;
+      ctx.strokeStyle = c.reta;
       ctx.lineWidth = 2.5;
       ctx.beginPath();
       ctx.moveTo(esc.px(esc.x0), esc.py(estado.a * esc.x0 + estado.b));
@@ -509,7 +669,7 @@
 
       // pontos
       estado.pts.forEach(function (p) {
-        ctx.fillStyle = corPonto;
+        ctx.fillStyle = c.ponto;
         ctx.beginPath();
         ctx.arc(esc.px(p.x), esc.py(p.y), 4, 0, Math.PI * 2);
         ctx.fill();
@@ -517,14 +677,157 @@
 
       // alças
       alcas().forEach(function (h) {
-        ctx.fillStyle = corReta;
-        ctx.strokeStyle = corFundo;
+        ctx.fillStyle = c.reta;
+        ctx.strokeStyle = c.fundo;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(esc.px(h.x), esc.py(h.y), 8, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
       });
+    }
+
+    // ------------------------------------- painel 2: o plano (a, b), a tigela
+    var ultimoPlano = null;     // geometria do último desenho, para os testes
+    function desenharPlano(escuro) {
+      var d = medir(canvasPlano, razaoDe(canvasPlano, 0.62, 0.56), 130, 320);
+      if (!d) return;
+      dimPlano = { W: d.W, H: d.H };
+      var ctx = d.ctx, W = d.W, H = d.H, c = cores(escuro);
+      var f = forma(), j = janela(f), qs = niveis(f, j);
+
+      var ml = 40, mr = 12, mt = 32, mb = 24;
+      var pw = Math.max(10, W - ml - mr), ph = Math.max(10, H - mt - mb);
+      function PX(a) { return ml + (a - j.a0) / (j.a1 - j.a0) * pw; }
+      function PY(b) { return mt + ph - (b - j.b0) / (j.b1 - j.b0) * ph; }
+      ultimoPlano = { W: W, H: H, ml: ml, mt: mt, pw: pw, ph: ph,
+                      f: f, j: j, qs: qs, PX: PX, PY: PY };
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = c.fundo;
+      ctx.fillRect(0, 0, W, H);
+
+      // as curvas de nível, da mais alta para a mais baixa: cada banda soma
+      // opacidade sobre a anterior, e o centro fica fundo. É a tigela vista
+      // de cima.
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(ml, mt, pw, ph);
+      ctx.clip();
+      for (var k = qs.length - 1; k >= 0; k--) {
+        ctx.beginPath();
+        for (var t = 0; t <= 120; t++) {
+          var th = t / 120 * Math.PI * 2;
+          var r = raioNoAngulo(f, qs[k], th);
+          var xa = PX(f.a + r * Math.cos(th)), yb = PY(f.b + r * Math.sin(th));
+          if (t === 0) ctx.moveTo(xa, yb); else ctx.lineTo(xa, yb);
+        }
+        ctx.closePath();
+        ctx.fillStyle = c.banda;
+        ctx.fill();
+        ctx.strokeStyle = c.anel;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // o rastro: por onde o leitor já passou
+      if (estado.rastro.length > 1) {
+        ctx.strokeStyle = c.rastro;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        estado.rastro.forEach(function (r, i) {
+          var x = PX(r[0]), y = PY(r[1]);
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        ctx.fillStyle = c.rastro;
+        estado.rastro.forEach(function (r) {
+          ctx.beginPath();
+          ctx.arc(PX(r[0]), PY(r[1]), 2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      // o fundo da tigela, com o número que ele vale, escrito ao lado dele
+      var ox = PX(f.a), oy = PY(f.b);
+      ctx.strokeStyle = c.otima;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(ox - 6, oy); ctx.lineTo(ox + 6, oy);
+      ctx.moveTo(ox, oy - 6); ctx.lineTo(ox, oy + 6);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(ox, oy, 9, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // o ponto do leitor; fora do quadro, ele encosta na borda e diz isso
+      var cx = PX(estado.a), cy = PY(estado.b);
+      var fora = cx < ml || cx > ml + pw || cy < mt || cy > mt + ph;
+      var dx = Math.min(ml + pw, Math.max(ml, cx));
+      var dy = Math.min(mt + ph, Math.max(mt, cy));
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = c.reta;
+      if (fora) {
+        ctx.beginPath();
+        ctx.arc(dx, dy, 6, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = c.reta;
+        ctx.beginPath();
+        ctx.arc(dx, dy, 5.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = c.fundo;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // moldura e nomes dos eixos
+      ctx.strokeStyle = c.eixo;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(ml, mt, pw, ph);
+      ctx.font = "12px system-ui, sans-serif";
+      ctx.fillStyle = c.texto;
+      // Rótulo de eixo é curto de propósito: com duas casas, "-36.73" passava
+      // da margem esquerda e o leitor via "36.73" — um valor com o sinal
+      // trocado, que é pior do que não ter rótulo nenhum.
+      var eixoFmt = function (v) {
+        return Math.abs(v) >= 10 ? v.toFixed(0) : v.toFixed(1);
+      };
+      ctx.textAlign = "center";
+      ctx.fillText(eixoFmt(j.a0), ml, mt + ph + 16);
+      ctx.fillText("a", ml + pw / 2, mt + ph + 16);
+      ctx.fillText(eixoFmt(j.a1), ml + pw, mt + ph + 16);
+      ctx.textAlign = "right";
+      ctx.fillText(eixoFmt(j.b1), ml - 6, mt + 10);
+      ctx.fillText("b", ml - 6, mt + ph / 2 + 4);
+      ctx.fillText(eixoFmt(j.b0), ml - 6, mt + ph);
+
+      // O fundo tem nome e número, escritos FORA do recorte do gráfico: dentro
+      // dele, a borda comia a primeira letra da palavra.
+      ctx.fillStyle = c.otima;
+      var dir = ox + 132 < ml + pw;
+      ctx.textAlign = dir ? "left" : "right";
+      var ly = Math.max(mt + 11, Math.min(mt + ph - 4, oy - 12));
+      ctx.fillText("fundo · EQM " + fmt(f.Lmin), ox + (dir ? 13 : -13), ly);
+      ctx.textAlign = "left";
+
+      // OS NÚMEROS TÊM NOME NA TELA (ADR 0015): o par que o leitor está
+      // segurando e o erro exatamente nele. Sem isto o painel seria forma
+      // bonita, e forma bonita é decoração.
+      ctx.textAlign = "left";
+      ctx.fillStyle = c.texto;
+      ctx.fillText("o plano (a, b): a tigela vista de cima", 4, 12);
+      ctx.fillStyle = c.reta;
+      ctx.fillText("você  a " + fmt(estado.a) + " · b " + fmt(estado.b) +
+                   " · EQM " + fmt(eqmEm(f, estado.a, estado.b)), 4, 26);
+    }
+
+    function desenhar() {
+      registrar();
+      var escuro = document.documentElement.getAttribute("data-tema") === "escuro";
+      desenharDispersao(escuro);
+      desenharPlano(escuro);
 
       // ---- placar ----
       var m = metricas(estado.pts, estado.a, estado.b);
@@ -545,9 +848,8 @@
       html += "</tbody></table>";
       var folga = m.eqm - mo.eqm;
       html += '<p class="lab-veredito">' + (folga < 1e-9
-        ? "<b>Esta é a reta ótima.</b> Nenhuma outra reta tem EQM menor neste conjunto."
-        : "O menor EQM possível aqui é <b>" + fmt(mo.eqm) + "</b>. Você está a " +
-          fmt(folga) + " dele.") + "</p>";
+        ? "<b>Esta é a reta ótima</b> — nenhuma tem EQM menor."
+        : "O menor EQM aqui é <b>" + fmt(mo.eqm) + "</b>. Falta " + fmt(folga) + ".") + "</p>";
       placar.innerHTML = html;
     }
 
@@ -556,6 +858,34 @@
     desenhar();
     new MutationObserver(function () { desenhar(); }).observe(
       document.documentElement, { attributes: true, attributeFilter: ["data-tema"] });
+    // O cartão nasce escondido: quando ele aparece (ou a janela muda de
+    // largura), o canvas ganha `clientWidth` e o desenho é refeito na medida
+    // certa. Sem isto o painel ficaria com o tamanho de quando ninguém o via.
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(function () { desenhar(); }).observe(visual);
+    } else if (window.addEventListener) {
+      window.addEventListener("resize", function () { desenhar(); });
+    }
+
+    // Gancho de teste: a geometria da tigela é conferida sem navegador.
+    raiz.__api = {
+      estado: estado, forma: forma, janela: janela, niveis: niveis,
+      alturaQ: alturaQ, raioNoAngulo: raioNoAngulo,
+      eqmEm: function (a, b) { return eqmEm(forma(), a, b); },
+      metricas: function (a, b) { return metricas(estado.pts, a, b); },
+      otimo: function () { return ajusteOtimo(estado.pts); },
+      mover: function (a, b) { estado.a = a; estado.b = b; sincronizar(); desenhar(); },
+      novosDados: function () {
+        semente = (semente * 1664525 + 1013904223) >>> 0;
+        estado.pts = gerarPontos(cfg, semente);
+        estado.rastro = [];
+        desenhar();
+      },
+      plano: function () { return ultimoPlano; },
+      dimensoes: function () { return { disp: dimDisp, plano: dimPlano,
+                                        dpr: DPR, canvas: canvas, canvasPlano: canvasPlano }; },
+      desenhar: desenhar,
+    };
   }
 
 
