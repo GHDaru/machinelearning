@@ -6,6 +6,350 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — o glossário deixou de ser um arquivo para o qual ninguém aponta
+
+- **A régua, medida.** A página de perda da regressão linear do Google Machine Learning Crash
+  Course liga **nove termos** ao glossário numa página só, cada um no primeiro uso. Medido aqui
+  no mesmo dia: `grep -ro 'glossario\.md' livro/capitulos/ | wc -l` devolvia **0**. Os 27
+  capítulos não apontavam para `livro/glossario.md`, que existia com 8 verbetes.
+- **18 verbetes novos** em `livro/glossario.md`, levantados lendo o `II.2` inteiro: regressão
+  linear e logística, mínimos quadrados, solução fechada, gradiente descendente, taxa de
+  aprendizado, convexidade, centro de massa, ortogonalidade, inclinação, intercepto, erro
+  absoluto, padronização, coeficiente, coeficiente de determinação, extrapolação e ensemble.
+  `Confundidor` ganhou `confundimento` como variante, para o cartão não levar dois links a um
+  passo um do outro.
+- **80 ligações no `II.2`**, uma por termo por cartão, sempre no primeiro uso daquele cartão.
+  A unidade é o cartão porque o leitor vê **um cartão por vez**: "primeira ocorrência no
+  capítulo" põe o link no cartão 3 e deixa a descoberto quem abriu o cartão 27.
+- **Portão novo**: `publicar/gates/glossario-ligado.mjs`, com testes em
+  `publicar/testes/glossario-ligado.mjs` e passo próprio na CI. Reprova em quatro direções —
+  termo usado e nunca ligado, link fora do primeiro uso, link repetido no mesmo cartão e âncora
+  que não existe no glossário. As quatro foram vistas falhando antes de este texto ser escrito.
+- **Onde ele se recusa a olhar, e por quê**: a alternativa de exercício não recebe link, porque
+  `gates/vies-de-comprimento.mjs` mede o **comprimento em caracteres** da alternativa, e um link
+  de 38 caracteres que não muda uma palavra para o leitor deslocaria aquela medição. Fora
+  também o lado da resposta, que nem chega ao HTML (Princípio VIII.3).
+- **Dívida declarada, no molde do D17**: os outros 26 capítulos entram em `LIGACAO_PENDENTE`,
+  medidos pelo mesmo corte por cabeçalho que o leitor recebe (310 cartões, 592 usos de termo,
+  0 ligados) e relatados em **toda** execução, inclusive no verde. Capítulo que ligar tudo e
+  continuar na lista reprova o build.
+- `gates/links-relativos.mjs` passou a rodar na CI, onde não estava.
+
+### Adicionado — `:::aprofundar`, a dedução sai do fluxo principal sem sair do livro
+
+- Novo bloco no motor (`publicar/interativos.mjs`): `:::aprofundar {"titulo":"…"}` vira um
+  `<details>` **fechado**, sem uma linha de JavaScript. O teclado, o foco e a busca da página vêm
+  do navegador, e o bloco continua inteiro com o backend fora do ar (Princípio VIII.6).
+- Por que ele existe: o cartão tem teto de 1.600 px e de 250 palavras, a dívida D21 foi paga
+  quebrando fórmula em duas linhas (o que *aumenta* a altura), e a carga cognitiva pede uma ideia
+  nova por vez. A derivada completa dentro do fluxo principal é a segunda ideia da página.
+- **Medido, não presumido**: num Chromium 141 a 360×800, o corpo fechado fica fora do `innerText`
+  que `gates/cartoes-legiveis.mjs` usa para contar palavras. São 15 palavras contra 29 no mesmo
+  cartão aberto, e 70 px contra 138 px. A asserção está em `publicar/testes/aprofundar.mjs` e
+  cobra as duas direções, porque olhar só o lado fechado passaria com um bloco que nunca abre.
+- O bloco **não pode virar esconderijo**, e a recusa é do parser: nenhum `:::exercicio`,
+  `:::interacao`, `:::lab`, `:::video` ou corte de cartão vive lá dentro. O gate dos cartões acha
+  `.exercicio` e `.interacao` com `querySelectorAll`, que atravessa `<details>` fechado; sem a
+  recusa, um cartão passaria no portão da premissa do autor sem nada à vista para o leitor.
+- A asserção G de `publicar/jornada.mjs` passa a abrir todo `<details>` antes de medir fórmula
+  cortada, e a devolvê-lo ao estado anterior. O Chromium de hoje já devolvia a geometria do que
+  está fechado, e foi medido; o que não existe é promessa de que continuará devolvendo.
+- Documentação em `livro/BANCO-DE-EXERCICIOS.md` e em `publicar/README.md`.
+
+### Corrigido — o laboratório do `II.2` pedia um chute e não dava onde chutar
+
+- O laboratório `modelos-lineares-l2` pedia em negrito *"Antes de assistir, chute: quantos passos
+  até chegar a 1% do ótimo?"* e não oferecia campo nenhum. Dois parágrafos abaixo, na mesma tela,
+  estava a resposta: `1 460`. Sem campo e com o número à vista, o ganho de prever antes de ver
+  não acontece, porque ele depende de o leitor ter se comprometido com um número.
+- O pedido virou a interação `modelos-lineares-i39`, do tipo `prever` com campo numérico
+  (`"numero":1460`, `"tolerancia":500`), **antes** do laboratório; o parágrafo com a resposta
+  passou a ser o `revela` dela, que só aparece depois de o leitor arriscar.
+- Reusou-se a peça existente em vez de dar o campo ao próprio widget, e a razão é de verificação:
+  o bloqueio da `:::interacao` já é conferido num Chromium de verdade pela asserção F de
+  `publicar/jornada.mjs`, que clica em revelar sem responder e exige que nada apareça. Um segundo
+  mecanismo de bloqueio dentro de `tema/laboratorios.js` nasceria fora do alcance de F. Além
+  disso, o `laboratório` é a superfície que, por definição, não tem gabarito a esconder.
+- O cartão 15 passou de 1 466px para 1 547px, dentro do teto de 1 600px do gate dos cartões, e de
+  191 para 159 palavras. A prosa de apoio foi encurtada para caber, e é onde o conserto doeu.
+
+### Corrigido — fórmula cortada na margem, e a asserção G que passa a cobrar isso (D21)
+
+- Quatro fórmulas do `II.2` mediam 408px, 445px, 514px e 324px em espaços de 322px e 281px num
+  Chromium a 360px: o leitor via a expressão terminar no nada. Todas foram **quebradas em duas
+  linhas**. O corte acontecia no modo cartão e também no fluxo longo.
+- Quebrar, e não anunciar a rolagem, por uma razão medida no tema: com o modo cartão ligado,
+  `tema/cartoes.js` liga `ArrowLeft` e `ArrowRight` à troca de cartão para tudo que não seja
+  `INPUT`, `TEXTAREA` ou `SELECT`. O eixo horizontal já pertence ao baralho.
+- **Asserção G** em `publicar/jornada.mjs`: para cada `mjx-container`, `scrollWidth <= clientWidth`.
+  Ela existe porque a asserção A não a pega por projeto — A dispensa quem está dentro de um
+  contêiner que rola sozinho, e a fórmula está. A cuida do layout; G, da leitura.
+- Dívida em `FORMULA_CORTADA_PENDENTE`, no molde do `PROSA_PENDENTE`: **12 fórmulas em 5
+  capítulos**, cobrada nas duas direções. Conferido quebrando o conserto de propósito — devolver a
+  fórmula do passo 3 à linha única reprova com `445px num espaço de 322px`; declarar dívida no
+  `II.2` já limpo reprova pedindo a saída da lista.
+- Stubs de redirecionamento não entram em G: o `meta refresh` leva o navegador ao destino, e medir
+  ali contaria a mesma fórmula duas vezes. São 29 dispensados, e o número é impresso sempre.
+
+
+### Adicionado — gate BILATERAL de viés de comprimento nas múltiplas escolhas (D17)
+
+- **O defeito original**, medido no `ROADMAP.md`: **88% das múltiplas do livro eram gabaritáveis
+  marcando a alternativa mais longa**, contra 25% de acaso. A causa é assimetria de esforço, e não
+  descuido: a correta precisa ser defensável e ganha a ressalva; o distrator só precisa estar
+  errado, e sai curto.
+- **A cura ingênua criou o defeito espelhado, no mesmo repositório e na mesma semana.** Encurtar as
+  corretas do `II.2` levou o capítulo de 88% a **0 de 26**. Zero está tão longe do acaso quanto 88%,
+  só que do outro lado: quem aprende a **riscar** a mais longa elimina uma em quatro sem abrir o
+  livro. Um gate que cobrasse só o excesso teria dado verde exatamente aí.
+- **`publicar/gates/vies-de-comprimento.mjs`** compara o número de itens em que a correta é a mais
+  longa com o esperado Σ 1/Nᵢ, e reprova por `|z| > 2,5` — os **dois** lados.
+- **O teto é 2,5 por medição, não por gosto.** Um capítulo deste livro tem cerca de 26 múltiplas, e
+  0 de 26 dá z = −2,94: um teto de 3 deixaria passar justamente o estado que originou o gate.
+- **Dívida declarada e cobrada nas duas direções**, como no `PROSA_PENDENTE`. As 36 páginas ainda
+  enviesadas (223 de 252, 88%) estão em `VIES_PENDENTE`: são medidas, relatadas em toda execução e
+  não reprovam. Mas página que já foi consertada e continua na lista **reprova o build**, porque
+  dívida paga que não sai da lista esconde a próxima.
+- Vinte e sete casos em `publicar/testes/vies-de-comprimento.mjs`, e os dois que decidem são o
+  excesso e a falta. Conferido também contra o livro real: tirar `ii-4-otimizacao` da lista sem
+  consertá-la reprova por excesso (z = 3,22); o `II.2` do commit anterior reprova por falta
+  (z = −2,94); declarar o `II.2` já consertado na lista reprova pedindo a saída dela.
+- O `II.2` é a primeira página **cobrada**: 8 de 26 com a correta mais longa (esperado 6,5,
+  z = 0,68), a correta mais curta em 6 de 26, e a posição da resposta certa distribuída em
+  6 / 6 / 8 / 6.
+- O mesmo canal lateral existia nas **interações de previsão**, onde não vale nota e mesmo assim
+  destrói o gesto: a opção verdadeira estava em segundo lugar em 10 de 13, e nunca em primeiro.
+  Quem aprende "é sempre a do meio" para de prever. Agora está em 4 / 3 / 6. Isto o gate **não**
+  cobra, porque interação não vira nota e não entra no banco: fica como dívida declarada aqui.
+
+
+### Alterado — o `II.2` foi remontado na ordem do ADR 0022, e todo cartão passou a ter uma interação e um exercício
+
+- **A ordem mudou, e a história foi para o fim.** A seção "De onde isto veio" saía na linha 30,
+  trinta linhas antes do modelo, e é ali que o diagnóstico dizia que o leitor apressado desiste.
+  O capítulo passa a correr nos cinco atos do
+  [ADR 0022](adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md): o problema, a conta
+  (exemplo trabalhado antes da prática, porque procedimento rende g = −0,03 quando se pratica
+  primeiro), a leitura, a decisão, e a história no fim. Os cinco elementos e a tabela de selos
+  vieram intactos, como o Princípio X exige das duas posições.
+- **A fronteira do ADR foi respeitada ato a ato.** No Ato II a dedução mantém a ordem
+  fórmula → exemplo trabalhado → prática desvanecida. Nos Atos III e IV a prática vem antes: a
+  montagem da limonada, o preço-termômetro e o confundimento perfeito agora **precedem** a lista
+  das "quatro coisas que o coeficiente não diz", que passa a nomear o que o leitor acabou de
+  produzir. É a condição que Sinha & Kapur medem em g = 0,56 contra 0,20.
+- **A premissa do autor passou a valer sem exceção:** todo cartão tem uma interação **e** um
+  exercício. Eram 13 de 18 cartões sem interação e 6 de 18 sem exercício. São **39 cartões**, e
+  o gate `cartoes-legiveis.mjs` passa por inteiro, dentro de 400–1 600 px e 80–250 palavras, com
+  razão maior/menor de 1,6x contra o teto de 3x.
+- **O baralho ficou contínuo.** Nenhum `:::cartao-fim` no meio: `pontasDe()` reporta **47 de
+  16 373 palavras** fora do baralho, e são o título e o selo de data. Voltaram para dentro os
+  três trechos que a régua antiga tinha expulsado — a montagem da limonada, "O que o coeficiente
+  diz" e "Uma vez com número" — mais o "Reproduza", a síntese, a verificação e os objetivos de
+  aprendizagem, que o leitor de cartão nunca tinha visto.
+- **27 exercícios e 34 interações novos**, e nenhum bloco antigo perdido. As interações são 18
+  `prever` (5 delas numéricas), 16 `principio` e 3 `desvanecidas`, mais os 2 laboratórios que já
+  existiam. Nenhuma `aberta` nova: a única do capítulo continua sendo a do preço da limonada,
+  como o [ADR 0014](adr/0014-tres-exercicios-por-objetivo-e-a-prova.md) manda.
+
+
+### Corrigido — o modo cartão escondia 29,1% do `II.2`, e três exercícios que valem nota ficavam impossíveis de responder
+
+- **O mecanismo.** Com o baralho ligado, o `tema/cartoes.js` põe `hidden` em tudo que não caiu
+  dentro de um cartão. Isso é deliberado. O que não era deliberado é a **ilha**: fechar o
+  baralho no meio do capítulo com `:::cartao-fim`, escrever prosa, e reabrir com outro
+  `:::cartao`. O trecho do meio existe na página inteira, some no modo cartão, e nada avisava.
+- **O tamanho, medido no `II.2`:** seis interrupções, **2.198 das 7.543 palavras** fora do
+  baralho. Sumiam a montagem inteira do caso da limonada (os 365 dias, a correlação
+  `preco +0,851`, a tabela preço × estação), o exemplo aritmético que torna a dedução concreta,
+  e a seção que diz o que o coeficiente **diz**, antes das quatro que dizem o que ele não diz.
+- **E o dano não parou na prosa.** Três exercícios estavam **dentro** de cartões citando
+  material que tinha ido para a ilha: `e4` pede *"pelo ajuste múltiplo acima"* e não há acima;
+  `e5` cita um coeficiente `+2,41` que não aparece em cartão nenhum; `e6`, a aberta corrigida
+  por rubrica, abre com *"você tem os 365 dias do conjunto acima"*. **Um quarto do banco do
+  capítulo era inrespondível justamente no modo em que o capítulo se propõe a ser lido no
+  celular** — e os cartões do Nível 3, que carregam a tese, argumentavam sobre um número que o
+  leitor de cartão não tinha visto.
+- **O conserto é um gate, não um remendo.** `ilhasDe()` em `publicar/cartoes.mjs` reprova o
+  build, com a linha e a amostra de cada trecho perdido. Ilha não degrada a leitura: ela quebra
+  a avaliação, em silêncio, e do lado do leitor que tem menos tela para descobrir o que faltou.
+- **A ponta continua permitida, e passa a ser dita.** Ficar fora do baralho antes do primeiro
+  marcador ou depois do fecho final é decisão de autor, e é onde moram o cabeçalho e o selo de
+  data. Mas sem número isso seria a mesma perda um passo ao lado: bastaria adiantar o fecho para
+  o capítulo virar rodapé escondido com o gate calado. `pontasDe()` imprime o quanto **em toda
+  execução, inclusive quando passa**.
+- Treze casos em `publicar/testes/cartoes-ilha.mjs`, incluindo os que o detector **não** pode
+  acusar: capítulo sem baralho, ponta nas duas bordas, fecho vazio e marcador citado dentro de
+  cerca de código. Detector que acusa demais é desligado, e desligado ele não acusa nada.
+
+### Corrigido — um teste de motor fixava a contagem de conteúdo de um capítulo
+
+- `publicar/testes/interacoes.mjs` exigia que o `II.2` tivesse **exatamente** três interações,
+  que era o número do dia em que ele nasceu. Reprovou assim que o capítulo ganhou a quarta,
+  dando o veredito "motor quebrado" para o fato "o livro cresceu". A asserção passa a ser sobre
+  **cobertura de tipo**: os três tipos continuam exercitados por texto real, que é o que pega um
+  tipo virando letra morta numa refatoração.
+
+### Adicionado — `livro/BASE-EDUCACIONAL.md`, e o que ele revelou ao ser escrito
+
+- **A evidência estava em seis lugares, e regra que mora em seis lugares diverge em silêncio.** Os
+  achados que decidem a ordem dos atos de um capítulo viviam espalhados entre a constituição, o
+  guia editorial, o banco de exercícios, uma ADR, o `CHANGELOG` e um comentário de 40 linhas dentro
+  de `tema/interacoes.js`. Agora estão num documento só, escrito para o autor e para o agente na
+  mesma leitura.
+- **O achado do levantamento: nenhuma das cinco fontes educacionais está em `bibliografia.md`.**
+  Sinha & Kapur, Alfieri *et al.*, Bisra *et al.* e Atkinson, Renkl & Merrill sustentam hoje a ordem
+  dos cinco atos, o bloqueio da revelação em toda interação e os três tipos formativos — e **nenhuma
+  tem registro de verificação neste repositório**. A `bibliografia.md` é onde se responde "esta
+  referência pode sustentar uma afirmação?", e elas não estão lá. As quatro entram no documento com
+  selo **⏳**, e a fila de verificação da §8 é ordenada por dúvida fechada por unidade de esforço.
+- **As regras ficam de pé; o que muda é como elas podem ser citadas.** Foram adotadas e estão
+  funcionando. O que não se pode é apresentá-las como evidência verificada, e onde o livro se apoiar
+  num número em ⏳ o texto precisa dizer o mesmo.
+- **O espaço negativo ganhou seção própria (§5)**, porque é a parte que se perde primeiro: a posição
+  da narrativa histórica é **❌**, sem estudo achado; a profundidade da correção não vem de achado
+  nenhum e sim do Princípio VIII.2; os limites de tamanho do cartão são **📖**, medidos aqui; e
+  "é microlearning" não é argumento para coisa alguma.
+- **A §7 mapeia cada regra ao portão que a cobra**, que é o que torna o documento utilizável por um
+  agente. Três linhas dizem "revisão humana", e isso é dívida declarada: são as regras que ainda não
+  viraram asserção executável.
+- Ligado a partir do `CLAUDE.md`, da constituição, do `GUIA-EDITORIAL.md` e do `BANCO-DE-EXERCICIOS.md`.
+  O gate de links pegou um link meu quebrado para a ADR 0014 antes de qualquer publicação.
+
+### Corrigido — o gate do modo cartão levava 40 minutos, morria em arquivo faltando, e quase virou um gate de uma página só
+
+- **O custo.** Ele abria as 81 páginas com `waitUntil: "networkidle"`, e `networkidle` só
+  desiste no timeout de 30s — o site tem ilhas que atualizam sozinhas e nunca dão o silêncio
+  que ele espera. Medido: **sete minutos para chegar à décima quinta página**. Com
+  `waitUntil: "load"`, que é a espera certa porque o modo cartão é montado na carga e não
+  depende de rede, as 81 páginas levam **37 segundos**.
+- **O erro que se disfarçava de outro.** O servidor de teste escrevia o cabeçalho **antes** de
+  ler o arquivo, então todo 404 estourava `ERR_HTTP_HEADERS_SENT` e derrubava o gate inteiro
+  com um stack que não fala de cartão nenhum. Agora lê primeiro; e página pedida à mão que não
+  existe recebe uma frase, não um stack.
+- **E o defeito que quase entrou no lugar.** Com o custo resolvido, a economia óbvia era só
+  abrir as páginas cujo Markdown traz `:::cartao`. Ela estava errada: **toda** página tem modo
+  cartão, porque sem marcador o `cartoes.js` corta por cabeçalho. O filtro teria estreitado o
+  gate de 81 páginas para 1 **sem dizer a ninguém** — a classe de defeito que este
+  repositório passa o tempo caçando. Foi medido antes de ser adotado, e por isso caiu.
+- **O que ficou no lugar do filtro:** todas as páginas são medidas, e o marcador decide o que
+  se **cobra**. Baralho cortado à mão é cobrado por inteiro, com a premissa do autor (todo
+  cartão tem interação e exercício); baralho por cabeçalho é medido e **relatado**, sem
+  reprovar. E o resumo imprime os dois números **sempre, inclusive quando passa** — é isso que
+  impede a camada relatada de virar silêncio. O gate também recusa uma varredura em que só
+  sobre a camada relatada: gate que só relata não é gate.
+- O tamanho do que ficou de fora virou a **D20** do [`ROADMAP.md`](ROADMAP.md): 623 de 682
+  cartões sem interação em 57 páginas, pior razão 80,1x.
+
+### Adicionado — asserção **F** na auditoria da jornada: a interação que bloqueia é clicada num Chromium de verdade
+
+- **A afirmação mais próxima do leitor era a menos protegida.** O bloqueio do `prever` — o
+  botão que não libera enquanto o leitor não arrisca — é a peça em que a evidência do método
+  se apoia: resolver antes de explicar só rende quando a explicação vem **depois** da
+  tentativa. Ele estava afirmado em dois lugares que não são o navegador: o
+  `publicar/testes/interacoes.mjs`, num DOM falso, e um script de rascunho **fora do
+  repositório**. Um DOM falso não tem `disabled`, não tem foco e não tem tabulação; foi
+  exatamente por aí que um `aria-disabled` passou, deixando o botão inalcançável para leitor
+  de tela sem que teste nenhum reclamasse.
+- **O que F cobra, por página:** as interações do fonte chegam ao DOM (contagem
+  `:::interacao` × `.interacao`, a mesma trava que a asserção B faz pelos exercícios); cada
+  uma tem botão, `role="status"` e um controle onde responder; e então o script **clica em
+  revelar sem responder nada** e exige que a revelação **não** tenha acontecido e que a
+  página **tenha dito por quê**.
+- **Quatro mutações, quatro falhas** — porque portão que nunca se viu falhar não é portão.
+  Dispensar a resposta acusa `revelou sem o leitor ter respondido`; bloquear sem escrever no
+  status acusa `bloqueou a revelação e não disse por quê`; renomear uma `<section class="interacao">`
+  no HTML montado acusa `o fonte declara 3 e o navegador montou 2`; remover o campo de
+  previsão acusa `interação sem botão, sem status ou sem onde responder`. Com o código
+  íntegro, as 81 páginas passam.
+- O clique é disparado por `evaluate`, e não pelo Playwright, porque no modo cartão só um
+  cartão fica visível e o Playwright — com razão — recusa clicar no que não se vê. O alvo de F
+  é a regra; visibilidade quem cobra é a asserção A.
+
+### Adicionado — `:::interacao`, a peça formativa que faltava para "todo cartão tem uma interação E um exercício"
+
+- **A distinção define a arquitetura.** O exercício é **somativo**: vale nota, é corrigido no
+  backend, grava tentativa por aluno, e o erro conta contra ele. A interação é **formativa**:
+  não vale nada, é revelada **no cliente**, não grava coisa nenhuma — nem servidor, nem
+  `localStorage` — e errar nela **é o ponto**. **É porque ela não vale nota que pode revelar
+  no cliente sem violar o Princípio VIII.3**: aquele princípio protege o gabarito daquilo
+  que é contabilizado, e aqui não há tentativa, placar nem telemetria a envenenar. De quebra,
+  sem segredo não há chamada de rede, e a interação fica inteira com o backend fora do ar
+  (Princípio VIII.6) — o teste roda o JavaScript real num ambiente onde tocar em `fetch`,
+  `XMLHttpRequest` ou `localStorage` **explode**.
+- **Três tipos, e cada um vem de evidência.** `principio` (exemplo trabalhado com pergunta de
+  princípio; autoexplicação provocada supera receber a explicação pronta, g=0,35 — Bisra
+  *et al.*, 2018); `desvanecido` (passo apagado, a linha certa aparece **ao lado** da do
+  leitor, sem nota e sem "errado" — Atkinson, Renkl & Merrill, 2003); `prever` (o botão só
+  libera depois da previsão, e a revelação **repete a previsão dele antes de dar o
+  resultado**, porque o ganho de resolver-antes-de-explicar depende de a explicação construir
+  sobre o que o leitor tentou: g=0,56 quando constrói, g=0,20 quando ignora — Sinha & Kapur,
+  2021).
+- **Sintaxe da casa**, com um desvio deliberado: o passo apagado é `- [?] rótulo => a linha
+  certa`, e não `- [x]`. `[x]` significa "gabarito" aqui, e interação não tem gabarito — e o
+  gate de vazamento do `build.mjs` recusa `- [x]` no Markdown exportado, que `semGabarito()`
+  só limpa dentro de bloco de exercício. A previsão usa `- ( )` e `- (!)` pelo mesmo motivo.
+  Documentação em [`livro/BANCO-DE-EXERCICIOS.md`](livro/BANCO-DE-EXERCICIOS.md).
+- **O botão de revelar não nasce `disabled` nem `aria-disabled`.** As duas coisas o tiram da
+  tabulação ou o anunciam como indisponível, e levam junto a única explicação de por que ele
+  não libera — que mora no `role="status"` ao lado. Medido: o Playwright **recusa clicar** num
+  `aria-disabled`, aplicando a mesma regra da tecnologia assistiva. O sinal de "ainda não" é
+  `data-pronto`, que pinta e não bloqueia. A revelação entra num `aria-live="polite"` que já
+  existe vazio no DOM, porque região viva criada na hora não anuncia de forma confiável.
+- **Um de cada tipo no `II.2`, com conteúdo do próprio capítulo:** o peso do *outlier* no
+  critério quadrático (`prever`: 100 contra 10), de onde sai o $x_i$ na segunda condição do
+  mínimo (`principio`), e quem explica os 9,4 copos da limonada (`desvanecido`: 8,05 de
+  temperatura contra 0,48 de preço, com o maior coeficiente da equação rendendo a menor
+  parcela). **Os cartões sem interação caíram de 16 para 13**, dentro dos limites de altura,
+  palavras e razão do gate.
+- Arquivos: `publicar/tema/interacoes.js`, `publicar/testes/interacoes.mjs` (63 asserções,
+  ligadas ao `testes/rodar.mjs`), parser em `publicar/interativos.mjs` e estilo em
+  `publicar/tema/interativos.css`. **O `:::exercicio` e o backend não foram tocados**: o
+  `banco.json` não ganhou nem perdeu item.
+
+### Alterado — o modo cartão passa a cortar por conceito, não por cabeçalho (cap. `II.2`)
+- A régua v1 cortava em cada `<h2>`/`<h3>`. Cabeçalho é critério **tipográfico**: diz onde o
+  autor quis um título, não onde termina uma unidade que o leitor consegue fechar. Medido a
+  360×800 no `II.2`, o resultado era **226 px a 5 849 px por cartão — 25,9x** entre o maior e
+  o menor, contra 1,2x na referência de microlearning aprovada. O cartão "A dedução, em cinco
+  passos" tinha **7,3 telas, 1 289 palavras e 49 blocos de fórmula**; o seguinte tinha 39
+  palavras, e a navegação prometia "7 de 18" para os dois. Um cartão que rola sete telas é a
+  página longa com um botão.
+- O corte agora é **declarado no Markdown**: `:::cartao {"nivel":1,"titulo":"…"}` abre um
+  cartão e `:::cartao-fim` fecha o baralho (`publicar/cartoes.mjs`, sintaxe no
+  `publicar/README.md`). O marcador é **divisória, não invólucro** — um cartão contém
+  exercícios, e `:::` aninhado em `:::` não é analisável pelo parser da casa. Ele chega ao DOM
+  como um `<hr class="corte-cartao">` invisível, e `tema/cartoes.js` corta por ele.
+- **`nivel` e `titulo` vêm do marcador**, então o rótulo virou `Nível 1 · cartão 3/17` (o da
+  referência) em vez da seção-mãe, e um cartão cujo objeto é um laboratório passa a ter nome
+  na barra de progresso e no `aria-label`.
+- **`:::cartao-fim` é a saída para o trecho sem gesto.** A disputa Legendre-Gauss não tem o que
+  manipular nem pergunta respondível sem rolar para trás: ela **continua no capítulo** e fica
+  fora do fluxo de cartões. Perder conteúdo é falha; deixá-lo fora do baralho é decisão.
+- **Os 28 outros capítulos não sentiram nada:** sem marcador, a régua cai no corte por
+  cabeçalho, byte a byte como antes.
+
+### Alterado — o `II.2` recortado em 17 cartões, com o portão fechando
+- 17 cartões, **14 deles com exercício ou laboratório (82%)**; alturas de **614 px a 1 566 px**
+  (razão **2,55x**) e de **136 a 240 palavras**. `gates/cartoes-legiveis.mjs` passa a sair 0.
+- **Nenhum exercício foi reescrito.** Os 12 blocos `:::exercicio` só mudaram de lugar, para
+  ficar junto do conceito que cobram — o `banco.json` regenerado é idêntico item a item, e só
+  a ordem mudou.
+- A dedução virou **cinco cartões encadeados** (a tigela · o centro de massa · a
+  ortogonalidade · as duas somas · o aviso do denominador), com o exercício que cobra cada
+  passo dentro do cartão do passo.
+- Os passos 1 a 5, que eram parágrafos em negrito no meio de um bloco de 1 289 palavras,
+  viraram `###` de verdade — o que também dá sumário e âncora à dedução na página longa.
+- Prosa comprimida onde o teto de 250 palavras exigiu, **sem perder fato**: as três convenções
+  da perda, as instruções dos dois laboratórios e as quatro coisas que o coeficiente não diz
+  continuam completas.
+
+### Adicionado — teste do marcador de cartão
+- `publicar/testes/cartoes-marcador.mjs`: valida o que o marcador aceita, o que recusa (JSON
+  quebrado, sem título, sem nível), o escape do atributo, o marcador citado dentro de cerca de
+  código, e que um capítulo sem marcador sai byte a byte como entrou. Marcador que vira
+  parágrafo não quebra nada: o capítulo volta em silêncio ao corte por cabeçalho, e defeito
+  que não grita é defeito que fica.
+
 ### Corrigido — não são "setores censitários": são ***block groups*** (cap. `III.2`)
 - O capítulo dizia **"20 640 setores censitários da Califórnia"**. A unidade é o ***block
   group***, que fica um degrau **abaixo** do *census tract*. Quem traduz por "setor

@@ -84,7 +84,7 @@
 | **Outlier** | Ponto distante do resto **segundo um critério declarado**. Fora da cerca não significa errado: pode ser o fenômeno (chuva forte acontece) |
 | **Análise univariada** | Olhar uma variável de cada vez — tipo, contagem, nulidade, centro, dispersão, pontas — antes de cruzar duas |
 | **Correlação** | Quanto duas variáveis andam juntas, entre −1 e +1. Mede associação linear, **não** causa, e não vê curva |
-| **Confundidor** | Variável que influencia as outras duas e cria associação sem causa. Controlar por uma variável só remove o confundimento que **aquela** variável mede |
+| **Confundidor** (confundimento) | Variável que influencia as outras duas e cria associação sem causa. Controlar por uma variável só remove o confundimento que **aquela** variável mede |
 
 ### Avaliação
 
@@ -120,3 +120,36 @@
 | **One-hot** | Uma coluna por categoria, com 1 na que vale. Explode em alta cardinalidade |
 | **Embedding** | Representação densa aprendida: a categoria (ou palavra, ou item) vira um vetor de poucas dimensões, e a proximidade no vetor passa a significar semelhança |
 | **Churn** | Abandono: o cliente deixa de comprar ou cancela. O alvo mais comum em retenção |
+
+## Acrescentados na edição 1.2 — os termos do capítulo II.2
+
+> A régua foi uma página do Google Machine Learning Crash Course: nove termos ligados ao glossário numa página só, cada um no primeiro uso. Medido aqui no mesmo dia, o livro tinha **zero** ligações: nenhum dos 27 capítulos apontava para este arquivo. O capítulo II.2 é o primeiro a pagar, e o portão `publicar/gates/glossario-ligado.mjs` cobra a partir de agora, com os outros 26 declarados em dívida.
+>
+> A régua da ligação é **por cartão**, não por capítulo. No modo cartão o leitor vê um cartão por vez, e um link que mora noutro cartão não existe para ele.
+
+### Regressão linear
+
+| Termo | O que é | Onde aparece |
+|---|---|---|
+| **Regressão linear** | O modelo que prevê um número somando cada atributo multiplicado por um peso, mais um deslocamento fixo | II.2 |
+| **Regressão logística** | A parente que classifica: a mesma soma ponderada, espremida entre 0 e 1 para virar probabilidade | II.2, II.3 |
+| **Mínimos quadrados** | O critério que escolhe a reta: aquela que torna mínima a soma dos quadrados dos resíduos. O nome é a definição, e foi Legendre quem o deu, em 1805 | II.2 |
+| **Solução fechada** (fórmula fechada) | Resposta obtida por uma conta direta, sem iteração e sem critério de parada. A regressão linear tem uma; a logística não | II.2, II.3 |
+| **Gradiente descendente** (gradiente) | O método que desce a superfície de erro em passos contra a subida, até parar de melhorar. É a ferramenta geral, e serve onde não existe fórmula fechada | II.2, II.4 |
+| **Taxa de aprendizado** | O tamanho do passo do gradiente. Grande demais salta o fundo; pequeno demais não chega até ele | II.2, II.4 |
+| **Convexidade** (convexa) | A superfície de erro tem um fundo só, como uma tigela. É o que garante que o ponto de partida mude o caminho e nunca o destino | II.2 |
+| **Centro de massa** | O ponto formado pelas duas médias, uma de cada eixo. A reta de mínimos quadrados passa por ele sempre | II.2 |
+| **Ortogonalidade** (ortogonais) | O que sobrou de erro não guarda mais nada de linear sobre o atributo. Se guardasse, ainda haveria reta melhor a extrair dele | II.2 |
+| **Inclinação** | Quanto a previsão muda a cada unidade a mais do atributo. Num modelo de uma variável, é o coeficiente da reta | II.2 |
+| **Intercepto** | O valor previsto quando todo atributo vale zero. É a parcela que não depende de atributo nenhum | II.2 |
+| **Erro absoluto** | A perda que soma o módulo do resíduo em vez do quadrado. Pesa o ponto distante dez vezes onde o quadrático pesa cem | II.2 |
+| **Padronização** (padronizar) | Pôr todo atributo na mesma escala, subtraindo a média e dividindo pelo desvio. Sem ela, comparar coeficiente é comparar unidade de medida | II.2, II.4 |
+
+### Diagnóstico e leitura do modelo
+
+| Termo | O que é | Onde aparece |
+|---|---|---|
+| **Coeficiente** | O número que multiplica um atributo dentro do modelo. É um parâmetro, e é ele que vira a frase da carta de recusa | II.2, II.3 |
+| **Coeficiente de determinação** (R²) | A fração da variação do alvo que o modelo reproduz: 0 é não fazer melhor que a média, 1 é acertar cada ponto. Mede **ajuste ao passado**, e não o efeito de mexer numa alavanca | II.2 |
+| **Extrapolação** (extrapolar) | Prever fora da faixa de valores que o modelo viu. A reta continua traçando fora dela, e o absurdo sai com aparência de rigor | II.2 |
+| **Ensemble** | Modelo feito de muitos modelos, somados ou votados. Costuma acertar mais, e não produz a frase por escrito que a auditoria pede | II.2, II.5 |

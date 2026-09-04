@@ -47,7 +47,8 @@ O build **falha** (não avisa) quando:
 - o `objetivo` citado não existe entre os declarados no capítulo;
 - múltipla escolha não tem exatamente uma correta;
 - há id de exercício ou vídeo duplicado;
-- um vídeo está sem `ref`, sem `autor` ou sem justificativa.
+- um vídeo está sem `ref`, sem `autor` ou sem justificativa;
+- uma interação está sem `id`, `tipo`, enunciado ou `revela`, ou tem id repetido; ou é um `prever` sem previsão a fazer, ou um `desvanecido` sem passo apagado.
 
 Exercício quebrado é pior que exercício nenhum: ele ensina errado com a autoridade do livro.
 
@@ -57,9 +58,77 @@ Exercício quebrado é pior que exercício nenhum: ele ensina errado com a autor
 |---|---|
 | 1º blockquote `**Estado da arte capturado em ...**` | vira o selo de data do livro vivo |
 | `## Objetivos de aprendizagem` / `## Verificação` / `## Pratique` / `## Assista` | vira callout com cor própria |
-| `:::exercicio` / `:::video` | vira UI interativa (ignorados dentro de cercas de código) |
+| `:::exercicio` / `:::video` / `:::lab` | vira UI interativa (ignorados dentro de cercas de código) |
+| `:::interacao {"tipo":"principio\|desvanecido\|prever"}` | vira UI **formativa**, com a revelação embutida: não vale nota, não grava nada e não fala com o backend — por isso pode revelar no cliente. Sintaxe em [`livro/BANCO-DE-EXERCICIOS.md`](../livro/BANCO-DE-EXERCICIOS.md) |
+| `:::cartao {"nivel":1,"titulo":"…"}` | onde começa um cartão do **modo cartão**; `:::cartao-fim` fecha o baralho |
+| `:::aprofundar {"titulo":"…"}` | vira um `<details>` **fechado**, sem JavaScript: a dedução pesada sai do fluxo principal e o texto fechado não conta no `innerText` que o gate dos cartões mede. Não aninha bloco nenhum, para não virar esconderijo |
 | Link para `.md` publicado | reescrito para `.html`; o resto aponta para o GitHub |
 | `<div data-viz="uso-livro">` | ilha viva preenchida em runtime |
+
+## O corte do modo cartão
+
+O **modo cartão** lê o mesmo capítulo uma tela por vez. Ele não gera conteúdo: move os nós que
+o build já produziu, no cliente (`tema/cartoes.js`). O que mudou no ciclo desta entrega foi a
+**régua** — onde um cartão começa.
+
+A v1 cortava por **cabeçalho**, que é critério tipográfico. Medido a 360×800 no `II.2`, isso
+dava cartões de **226 px a 5 849 px** (25,9x entre o maior e o menor); o da dedução tinha 7,3
+telas e 1 289 palavras, e a barra prometia "7 de 18" para ele e para um cartão de 39 palavras.
+Um cartão que rola sete telas é a página longa com um botão.
+
+Agora o corte é **declarado** pelo autor, e o marcador é uma **divisória, não um invólucro** —
+porque um cartão contém exercícios, e `:::` aninhado em `:::` não é analisável pelo parser da
+casa:
+
+```markdown
+:::cartao {"nivel":1,"titulo":"O modelo é uma reta"}
+
+## Fundamentos
+
+… tudo daqui até o próximo marcador é UM cartão, exercícios inclusive …
+
+:::cartao-fim
+
+… isto continua no capítulo e fica FORA do baralho …
+```
+
+- `nivel` e `titulo` vão para o rótulo do cartão (`Nível 1 · cartão 3/17`), para o
+  `aria-label` e para o anúncio de troca. O corte por cabeçalho só sabia repetir a seção-mãe.
+- `:::cartao-fim` é a saída para o trecho **sem gesto**: a disputa Legendre-Gauss do `II.2` não
+  tem o que manipular nem pergunta que se responda sem rolar para trás. Perder conteúdo é
+  falha; deixá-lo fora do baralho é decisão.
+- **Capítulo sem marcador continua caindo no corte por cabeçalho**, sem mudança nenhuma.
+
+O portão é `gates/cartoes-legiveis.mjs`, que abre a página num Chromium a 360×800 e exige, de
+**todo** cartão: 400 a 1 600 px de altura, 80 a 250 palavras, razão maior/menor ≤ 3x e ao menos
+80% dos cartões com exercício ou laboratório. Microlearning só funciona porque a unidade é
+fechável.
+
+```bash
+node publicar/gates/cartoes-legiveis.mjs ii-2-modelos-lineares
+```
+
+## O glossário ligado
+
+Um termo do glossário que aparece num cartão é ligado ao glossário **no primeiro uso daquele
+cartão**, uma vez só. A unidade é o cartão, e não o capítulo, pelo mesmo motivo que existe o
+modo cartão: o leitor vê um por vez, e um link que mora noutro cartão não existe para ele.
+
+```markdown
+O [resíduo](../glossario.md#modelos-lineares) é a distância vertical até a reta.
+```
+
+O cartão que **apresenta** o termo — o que o nomeia no título ou num cabeçalho — é isento: a
+definição já está ali, com mais contexto do que a linha do glossário daria.
+
+Duas coisas o portão se recusa a olhar, e as duas por decisão: a **alternativa** de exercício,
+porque `gates/vies-de-comprimento.mjs` mede o comprimento dela em caracteres e um link
+deslocaria aquela medição; e o **lado da resposta** (`gabarito`, `porque`, `revela`), que nem
+chega ao HTML.
+
+```bash
+node publicar/gates/glossario-ligado.mjs
+```
 
 ## Regerar a capa
 

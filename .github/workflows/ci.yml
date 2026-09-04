@@ -57,6 +57,30 @@ jobs:
           fi
         working-directory: publicar
 
+      # Gate do viés de comprimento (D17). BILATERAL: reprova tanto o banco em que
+      # marcar a alternativa mais longa acerta demais quanto aquele em que RISCAR
+      # a mais longa elimina de graça. Os dois já aconteceram neste repositório.
+      - name: Gate de viés de comprimento nas múltiplas
+        run: node gates/vies-de-comprimento.mjs
+        working-directory: publicar
+
+      # Gate do glossário ligado. O livro tinha ZERO ligações para
+      # `livro/glossario.md` em 27 capítulos; a régua é a do Google Machine
+      # Learning Crash Course, que liga cada termo no primeiro uso. A unidade
+      # aqui é o CARTÃO, porque é um cartão por vez que o leitor vê. Os 26
+      # capítulos ainda não ligados estão em LIGACAO_PENDENTE: medidos,
+      # relatados em toda execução, e não reprovam.
+      - name: Gate do glossário ligado
+        run: node gates/glossario-ligado.mjs
+        working-directory: publicar
+
+      # Gate de links relativos: todo `[texto](alvo.md)` do livro resolve para
+      # um arquivo que existe. Sem ele, o reescritor do build manda o alvo
+      # desconhecido para o GitHub, e o erro de digitação vira um 404 bem-formado.
+      - name: Gate de links relativos
+        run: node gates/links-relativos.mjs
+        working-directory: publicar
+
       # Gate de links internos quebrados.
       - name: Build do livro
         run: node build.mjs

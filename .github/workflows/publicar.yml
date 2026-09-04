@@ -83,6 +83,43 @@ jobs:
         run: npm run build
         working-directory: publicar
 
+      # OS DOIS GATES QUE ABREM A PÁGINA NUM NAVEGADOR. Todos os outros leem
+      # a fonte; estes leem o PRODUTO. Existiam e a CI nunca os chamava —
+      # rodavam à mão no dia em que nasceram, e depois nunca mais. Gate que
+      # ninguém roda não guarda nada.
+      #
+      # Custam um Chromium (~150 MB) no runner. O leitor não paga nada disso:
+      # a trilha de custo zero é a do aluno, não a da nossa integração.
+      - name: Instalar o Chromium para os gates de navegador
+        run: npx --yes playwright@1 install --with-deps chromium
+        working-directory: publicar
+
+      # Rolagem lateral a 360px, exercícios do fonte chegando ao DOM,
+      # laboratórios montando, companion carregando e console limpo.
+      - name: Auditoria da jornada (81 páginas a 360px)
+        run: node jornada.mjs
+        working-directory: publicar
+        env:
+          PLAYWRIGHT: playwright
+
+      # Um cartão tem de ser FECHÁVEL. Sem teto e sem piso, a barra de
+      # progresso mente sobre o esforço que falta.
+      - name: Gate do modo cartão (o cartão fecha?)
+        run: node gates/cartoes-legiveis.mjs
+        working-directory: publicar
+        env:
+          PLAYWRIGHT: playwright
+
+      # O `:::aprofundar` promete que o texto fechado não entra na contagem de
+      # palavras do cartão, e essa promessa é do NAVEGADOR: `innerText` depende
+      # de layout, e nenhum DOM falso o modela. O teste roda no job `livro` sem
+      # navegador e diz em voz alta que não mediu; aqui ele mede.
+      - name: O texto fechado do `:::aprofundar` fica fora da conta do cartão
+        run: node testes/aprofundar.mjs
+        working-directory: publicar
+        env:
+          PLAYWRIGHT: playwright
+
       - uses: actions/upload-artifact@v4
         with:
           name: site

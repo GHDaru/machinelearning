@@ -8,6 +8,8 @@
 //  - 1º blockquote "**Estado da arte capturado em ...**" -> selo de data
 //  - Seções ## de tipos pedagógicos -> callout próprio (Diátaxis/Bloom)
 //  - Blocos :::exercicio / :::video -> UI interativa SEM gabarito (interativos.mjs)
+//  - Blocos :::interacao -> UI formativa COM a revelação embutida: não vale
+//    nota, não grava nada, não fala com o backend — e por isso pode revelar
 //  - Links internos .md -> reescritos para .html; links .html passam intactos
 //  - <div data-viz="..."> -> ilha viva (grafo do livro, uso do livro)
 
@@ -21,10 +23,15 @@ import anchor from "markdown-it-anchor";
 import mathjax from "markdown-it-mathjax3";
 import { gerarGrafo } from "./grafo.mjs";
 import { renderizar, extrair, semGabarito } from "./interativos.mjs";
+import { marcarCortes, pontasDe } from "./cartoes.mjs";
 import { verificar as verificarProsa } from "./prosa.mjs";
 import { verificar as verificarIntervalos } from "./intervalos.mjs";
 import { verificar as verificarTema } from "./gates/tema-unico.mjs";
 import { verificar as verificarHtml } from "./gates/html-integro.mjs";
+import { verificar as verificarLinks } from "./gates/links-relativos.mjs";
+
+// Quanto de cada capítulo com baralho fica fora dele. Ver `pontasDe`.
+const pontasFora = [];
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAIZ = resolve(AQUI, "..");
@@ -72,7 +79,8 @@ function companionSnippet(chapter) {
 <link rel="stylesheet" href="${A}companion.css">
 <script src="${A}companion.js" defer></script>
 <script src="${A}interativos.js" defer></script>
-<script src="${A}laboratorios.js" defer></script>`;
+<script src="${A}laboratorios.js" defer></script>
+<script src="${A}interacoes.js" defer></script>`;
 }
 
 // linkify: false de propósito — num livro técnico, "train.py"/"README.md" no
@@ -279,6 +287,7 @@ function pagina({ tituloPagina, corpo, navLateral, prev, next, data, ehIndex, ch
 <link rel="stylesheet" href="${A}estilo.css">
 <link rel="stylesheet" href="${A}interativos.css">
 <link rel="stylesheet" href="${A}matematica.css">
+<link rel="stylesheet" href="${A}cartoes.css">
 </head><body${ehIndex ? ' class="pagina-index"' : hero ? ' class="pagina-capitulo"' : ""} data-slug="${slug}" data-lang="pt" data-titulo="${tituloPagina.replace(/"/g, "&quot;")}">
 <button id="alt-tema" aria-label="Alternar tema">◐</button>
 <div class="layout">
@@ -298,6 +307,7 @@ function pagina({ tituloPagina, corpo, navLateral, prev, next, data, ehIndex, ch
 <script src="${A}uso.js" defer></script>
 <script src="${A}grafo.js" defer></script>
 ${companionSnippet(chapter)}
+<script src="${A}cartoes.js" defer></script>
 </body></html>`;
 }
 
@@ -399,6 +409,7 @@ mkdirSync(resolve(SAIDA, "assets"), { recursive: true });
 for (const arq of [
   "estilo.css", "app.js", "capa.png", "capa-social.png", "autor.png",
   "companion.css", "companion.js", "interativos.css", "interativos.js",
+  "interacoes.js", "cartoes.css", "cartoes.js",
   "uso.js", "grafo.js", "professor.js", "laboratorios.js", "neuronio-mp.svg", "camada-escondida.svg", "block-group.svg", "favicon.svg", "favicon-32.png", "apple-touch-icon.png",
 ]) {
   cpSync(resolve(AQUI, "tema", arq), resolve(SAIDA, "assets", arq));
@@ -421,6 +432,10 @@ writeFileSync(resolve(SAIDA, ".nojekyll"), "");
 
 let gerados = 0;
 const placar = { exercicios: 0, videos: 0, laboratorios: 0, capitulos: 0 };
+// Id de interação é único no livro inteiro, como o de exercício e o de
+// laboratório. Aqui, e não no exercicios.mjs, porque interação não entra no
+// banco: ela não tem o que o backend corrija.
+const idsDeInteracao = new Map();
 
 for (let k = 0; k < itens.length; k++) {
   const item = itens[k];
@@ -434,10 +449,17 @@ for (let k = 0; k < itens.length; k++) {
   const data = extrairData(bruto);
 
   // Contagem para o placar da capa (só o que existe de fato).
-  const { exercicios, videos, laboratorios } = extrair(bruto, item.arquivo, cap);
+  const { exercicios, videos, laboratorios, interacoes } = extrair(bruto, item.arquivo, cap);
   placar.exercicios += exercicios.length;
   placar.videos += videos.length;
   placar.laboratorios += laboratorios.length;
+  for (const ia of interacoes) {
+    if (idsDeInteracao.has(ia.id)) {
+      console.error(`✗ id de interação duplicado: "${ia.id}" (${idsDeInteracao.get(ia.id)} e ${item.arquivo})`);
+      process.exit(1);
+    }
+    idsDeInteracao.set(ia.id, item.arquivo);
+  }
 
   // Blocos interativos ANTES do parse: viram HTML puro, sem gabarito.
   //
@@ -452,7 +474,18 @@ for (let k = 0; k < itens.length; k++) {
   // navegador trata TUDO como CSS: some o resto dos exercícios, o link do
   // Colab, o companion e o histórico do leitor. Aconteceu no III.1 e no II.7.
   const renderMd = (t) => dedupCssMatematica(md.render(t, { srcDir: dirname(item.arquivo) }));
-  const comInterativos = renderizar(bruto, renderMd, item.arquivo, cap);
+  // O corte do modo cartão é DECLARADO pelo autor e vira um `<hr>` invisível na
+  // posição exata (ver publicar/cartoes.mjs). Roda antes dos blocos interativos
+  // porque um cartão CONTÉM exercícios: o marcador é divisória, não invólucro.
+  const comInterativos = renderizar(marcarCortes(bruto, item.arquivo), renderMd, item.arquivo, cap);
+  // As pontas fora do baralho são permitidas; ficar caladas sobre elas não é.
+  const pontas = pontasDe(bruto);
+  if (pontas && (pontas.antes || pontas.depois)) {
+    const fora = pontas.antes + pontas.depois;
+    pontasFora.push(`${item.arquivo}: ${fora} de ${pontas.total} palavras ` +
+      `(${(100 * fora / pontas.total).toFixed(0)}%) ficam fora do baralho — ` +
+      `${pontas.antes} antes do primeiro cartão, ${pontas.depois} depois do fecho`);
+  }
   let corpo = dedupCssMatematica(marcarCallouts(md.render(comInterativos, { srcDir: dirname(item.arquivo) })));
 
   let hero = null;
@@ -482,6 +515,7 @@ for (let k = 0; k < itens.length; k++) {
       exercicios.length ? `<span title="Exercícios corrigidos no servidor">🎯 ${exercicios.length} exercícios</span>` : "",
       videos.length ? `<span>🎬 ${videos.length} vídeos</span>` : "",
       laboratorios.length ? `<span title="Objetos interativos para manipular">🔬 ${laboratorios.length} laboratórios</span>` : "",
+      interacoes.length ? `<span title="Gestos formativos: não valem nota, revelam ao clicar">🧩 ${interacoes.length} interações</span>` : "",
       `<a class="cap-dl" href="md/${item.slug}.md" download title="Baixar o Markdown-fonte deste capítulo">⬇ md</a>`,
     ].join("");
     hero = `<header class="cap-hero"><div class="cap-num" aria-hidden="true">${num}</div>
@@ -554,6 +588,11 @@ mkdirSync(resolve(SAIDA, "md"), { recursive: true });
 // Knowledge Graph do livro — derivado do conteúdo a cada build.
 const grafo = gerarGrafo(itens, RAIZ, versaoDoLivro());
 writeFileSync(resolve(SAIDA, "assets/grafo.json"), JSON.stringify(grafo));
+if (pontasFora.length) {
+  console.log(`✓ Modo cartão: ${pontasFora.length} capítulo(s) com baralho declarado.`);
+  pontasFora.forEach((p) => console.log("   " + p));
+  console.log("   As pontas são permitidas; o número existe para que ninguém as descubra tarde.");
+}
 console.log(`✓ Grafo do livro: ${grafo.nos.length} nós, ${grafo.arestas.length} arestas`);
 
 // index = tela-capa (splash).
@@ -995,5 +1034,14 @@ if (htmlRompido.length) {
   process.exit(1);
 }
 
-console.log(`✓ Livro gerado: ${gerados} páginas + capa em docs/ (links internos OK)`);
+// A frase "links internos OK" era decorativa: nada conferia link nenhum, e sete
+// links quebrados chegaram ao livro publicado. Agora ela é o resultado do gate.
+const { conferidos: nLinks, problemas: linksRuins } = verificarLinks();
+if (linksRuins.length) {
+  console.error(`✗ ${linksRuins.length} link(s) relativo(s) apontando para arquivo inexistente:`);
+  for (const l of linksRuins) console.error(`   ${l.arquivo}:${l.linha} → ${l.alvo}   ("${l.texto}")`);
+  console.error("   O reescritor manda o desconhecido para o GitHub, então isto vira um 404 com cara de link bom.");
+  process.exit(1);
+}
+console.log(`✓ Livro gerado: ${gerados} páginas + capa em docs/ (${nLinks} links relativos conferidos)`);
 console.log(`  Interatividade: ${placar.exercicios} exercícios · ${placar.videos} vídeos · ${placar.laboratorios} laboratórios`);

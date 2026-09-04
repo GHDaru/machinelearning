@@ -30,6 +30,51 @@
 //      Laboratório que não monta é uma caixa vazia com um título.
 //   D. **O companion está no DOM.**
 //   E. **Nenhum erro de JavaScript no console.**
+//   F. **As interações do fonte montam, e a que bloqueia bloqueia mesmo.** Conta
+//      os blocos `:::interacao` do Markdown e exige o mesmo número de
+//      `.interacao` no DOM; exige que cada uma tenha botão, `role="status"` e um
+//      controle onde responder; e então **clica em revelar sem responder nada** e
+//      afirma que a revelação NÃO aconteceu e que a página disse por quê.
+//
+//      Esta última é a razão de F existir. O bloqueio do `prever` é a peça em que
+//      a evidência do método se apoia — resolver antes de explicar só rende
+//      quando a explicação vem DEPOIS da tentativa —, e ele estava afirmado em
+//      dois lugares que não são o navegador: `publicar/testes/interacoes.mjs`, num
+//      DOM falso, e um script de rascunho fora do repositório. Um DOM falso não
+//      tem `disabled`, não tem foco e não tem tabulação; foi exatamente aí que
+//      um `aria-disabled` passou, deixando o botão inalcançável para leitor de
+//      tela sem que teste nenhum reclamasse. Afirmação que o leitor sente tem de
+//      ser afirmada onde o leitor está.
+//   G. **Nenhuma fórmula termina cortada na margem.** Para cada `mjx-container`,
+//      exige `scrollWidth <= clientWidth`. A dívida conhecida está declarada em
+//      `FORMULA_CORTADA_PENDENTE`, e a lista falha nas DUAS direções.
+//
+//      G mede também a fórmula dentro de um `<details>` fechado, que é onde o
+//      `:::aprofundar` guarda a dedução. Ela abre cada bloco, mede e o devolve
+//      ao estado anterior — não porque o Chromium de hoje esconda a geometria
+//      (ele não esconde, foi medido), mas porque `content-visibility: hidden`
+//      não promete devolvê-la, e um gate que depende de gentileza do navegador
+//      estreita sozinho no dia em que ela acaba.
+//
+//      G existe porque A não a pega, e não por descuido de A: a fórmula mora num
+//      contêiner com `overflow-x: auto` (tema/estilo.css), e A dispensa de
+//      propósito quem está dentro de um contêiner que rola sozinho, porque o que
+//      A protege é o texto do capítulo não ser diagramado fora da tela. As duas
+//      restrições são diferentes: A cuida do LAYOUT, G cuida da LEITURA.
+//
+//      O defeito que a separou é a D21 do ROADMAP, medida num Chromium a 360px:
+//      no II.2, duas fórmulas da dedução mediam 408px e 445px num espaço de
+//      322px, e o leitor via a expressão terminar em `= 0 =` no nada. A auditoria
+//      passava verde. Rolagem existia; **aviso de que havia rolagem, não** — o
+//      Chromium móvel desenha barra sobreposta, que só aparece depois do gesto
+//      que o leitor não sabe que precisa fazer.
+//
+//      O conserto adotado foi QUEBRAR a fórmula em duas linhas, e não anunciar a
+//      rolagem, por uma razão medida no próprio tema: com o modo cartão ligado,
+//      `tema/cartoes.js` liga ArrowLeft e ArrowRight à troca de cartão para tudo
+//      que não seja INPUT, TEXTAREA ou SELECT. O eixo horizontal já está tomado
+//      pelo baralho, e uma fórmula que só se lê rolando de lado disputa com ele o
+//      mesmo gesto. Por isso G cobra ausência de corte, e não presença de dica.
 //
 // COMO RODAR
 //
@@ -97,7 +142,7 @@ const FONTES = new Map();
   }
 })(CAPS);
 
-function exerciciosNoFonte(nomeHtml) {
+function blocosNoFonte(nomeHtml, tipo) {
   const arq = FONTES.get(nomeHtml.replace(/\.html$/, "").toLowerCase());
   if (!arq) return null;
   // Fora as cercas de código, senão o BANCO-DE-EXERCICIOS.md — que ENSINA a
@@ -106,8 +151,26 @@ function exerciciosNoFonte(nomeHtml) {
   // encontrou, e o defeito era do medidor.
   const fonte = readFileSync(arq, "utf8")
     .replace(/^(?:```|~~~)[\s\S]*?^(?:```|~~~)[ \t]*$/gm, "");
-  return (fonte.match(/^:::exercicio/gm) || []).length;
+  return (fonte.match(new RegExp("^:::" + tipo, "gm")) || []).length;
 }
+
+// A DÍVIDA DE FÓRMULA CORTADA — cobrada, não apenas registrada.
+//
+// Espelha o `PROSA_PENDENTE` de `publicar/prosa.mjs`, inclusive no que ele tem de
+// desconfortável: a lista falha nas DUAS direções. Fórmula nova que corta quebra
+// o gate; página que se limpou e continua aqui também. Dívida paga que fica na
+// lista vira um teto por baixo do qual um corte novo entra sem ninguém ver — que
+// é a classe de defeito que criou esta asserção.
+//
+// Medido em 2026-09-01, num Chromium a 360px, depois de o II.2 ser consertado.
+// Página que não está aqui tem de estar em zero.
+export const FORMULA_CORTADA_PENDENTE = new Map([
+  ["ii-3-regressao-logistica", 1],
+  ["ii-5-arvores-ensembles", 1],
+  ["iii-1-neuronio-artificial", 1],
+  ["iii-2-redes-neurais", 8],
+  ["iv-2-reforco", 1],
+]);
 
 const paginas = (process.env.SO_ESTAS
   ? process.env.SO_ESTAS.split(",").map((s) => (s.endsWith(".html") ? s : s + ".html"))
@@ -121,6 +184,8 @@ const aba = await navegador.newPage({ viewport: { width: LARGURA, height: 800 } 
 
 const falhas = [];
 let comExercicios = 0;
+let comInteracoes = 0;
+let comFormulas = 0, redirecionadas = 0, formulasCortadasTotal = 0, dividaDeclarada = 0;
 const errosJs = [];
 aba.on("pageerror", (e) => errosJs.push(String(e).slice(0, 140)));
 aba.on("console", (m) => { if (m.type() === "error" && !/ERR_CERT|ERR_NAME|ERR_CONNECTION/.test(m.text())) errosJs.push(m.text().slice(0, 140)); });
@@ -139,13 +204,42 @@ for (const nome of paginas) {
       }
       return false;
     };
+    // A lê a página INTOCADA, e é por isso que ela vem antes de qualquer
+    // abertura de bloco: o que A protege é o layout que o leitor recebe.
+    const estouram = [...document.querySelectorAll("body *")]
+      .filter((e) => e.getBoundingClientRect().right > W + 1 && !dentroDeRolagem(e))
+      .slice(0, 3)
+      .map((e) => e.tagName + (e.className ? "." + String(e.className).split(" ")[0] : ""));
+
+    // G MEDE TAMBÉM O QUE ESTÁ FECHADO, e o motivo é o `:::aprofundar`: a
+    // dedução passou a morar num `<details>` fechado, e é ela quem mais corta.
+    //
+    // O que foi medido, e não presumido: num Chromium 141, uma fórmula dentro de
+    // um `<details>` FECHADO ainda devolve geometria real (551 px de conteúdo
+    // numa caixa de 281 px), então G já a via sem esta abertura. Só que essa
+    // leitura é um efeito colateral: `content-visibility: hidden` diz que o
+    // conteúdo é PULADO, e o navegador o dispõe por gentileza, ao ser
+    // perguntado. No dia em que ele parar, a fórmula escondida mediria 0 contra
+    // 0 e passaria por não existir — o gate estreitaria sozinho, em silêncio, e
+    // logo sobre a dívida que ele nasceu para cobrar (D21). Abrir custa três
+    // linhas e não muda número nenhum hoje. Cada bloco volta ao estado anterior.
+    const fechados = [...document.querySelectorAll("details:not([open])")];
+    fechados.forEach((d) => d.setAttribute("open", ""));
+    const formulasCortadas = [...document.querySelectorAll("mjx-container")]
+      .filter((e) => e.scrollWidth > e.clientWidth + 1)
+      .map((e) => ({ sw: e.scrollWidth, cw: e.clientWidth,
+                     tex: (e.textContent || "").trim().slice(0, 46) }));
+    fechados.forEach((d) => d.removeAttribute("open"));
+
     return {
       scrollWidth: document.documentElement.scrollWidth,
       viewport: W,
-      estouram: [...document.querySelectorAll("body *")]
-        .filter((e) => e.getBoundingClientRect().right > W + 1 && !dentroDeRolagem(e))
-        .slice(0, 3)
-        .map((e) => e.tagName + (e.className ? "." + String(e.className).split(" ")[0] : "")),
+      estouram,
+      // G: a fórmula está dentro de um contêiner que rola, então ela escapa de
+      // A por construção. O que se mede aqui é outra coisa: o conteúdo dela cabe
+      // na caixa em que ela é DESENHADA? Não cabendo, a expressão termina na
+      // margem, e no Chromium móvel nem barra aparece antes do gesto.
+      formulasCortadas,
       exercicios: document.querySelectorAll(".exercicio").length,
       labsVazios: [...document.querySelectorAll("[data-lab]")]
         .filter((e) => !e.querySelector("canvas, svg, table, button"))
@@ -154,7 +248,30 @@ for (const nome of paginas) {
     };
   });
 
-  const noFonte = exerciciosNoFonte(nome);
+  // F roda numa segunda passada porque ela CLICA: separar deixa claro que a
+  // primeira leitura enxergou a página intocada.
+  const ias = await aba.evaluate(() => {
+    const nomeDe = (s) => s.getAttribute("data-interacao") || "(interação sem id)";
+    const secoes = [...document.querySelectorAll(".interacao")];
+    const incompletas = [], vazaram = [], mudas = [];
+    for (const sec of secoes) {
+      const botao = sec.querySelector(".ia-revelar");
+      const status = sec.querySelector(".ia-status");
+      const controle = sec.querySelector(".ia-livre, .ia-num, .ia-opcao, .ia-branco");
+      if (!botao || !status || !controle) { incompletas.push(nomeDe(sec)); continue; }
+      // Clicar por `evaluate` e não pelo Playwright é deliberado: o cartão pode
+      // estar `hidden` (só um aparece por vez) e o Playwright, com razão, recusa
+      // clicar no que não se vê. Aqui o alvo da asserção é a regra, não o
+      // acerto do ponteiro — a visibilidade quem cobra é a asserção A.
+      botao.click();
+      if (sec.getAttribute("data-revelado") === "true") vazaram.push(nomeDe(sec));
+      else if (!(status.textContent || "").trim()) mudas.push(nomeDe(sec));
+    }
+    return { montadas: secoes.length, incompletas, vazaram, mudas };
+  });
+
+  const noFonte = blocosNoFonte(nome, "exercicio");
+  const iasNoFonte = blocosNoFonte(nome, "interacao");
 
   if (visto.scrollWidth > visto.viewport + 1) {
     falhas.push(`${nome} · A · rola de lado: ${visto.scrollWidth}px num visor de ${visto.viewport}px` +
@@ -171,17 +288,73 @@ for (const nome of paginas) {
   }
   if (!visto.companion) falhas.push(`${nome} · D · companion ausente do DOM`);
   if (errosJs.length) falhas.push(`${nome} · E · erro de JavaScript: ${errosJs[0]}`);
+
+  if (iasNoFonte !== null) {
+    comInteracoes += ias.montadas;
+    if (iasNoFonte !== ias.montadas) {
+      falhas.push(`${nome} · F · o fonte declara ${iasNoFonte} interação(ões) e o navegador montou ${ias.montadas}`);
+    }
+  }
+  if (ias.incompletas.length) {
+    falhas.push(`${nome} · F · interação sem botão, sem status ou sem onde responder: ${ias.incompletas.join(", ")}`);
+  }
+  if (ias.vazaram.length) {
+    falhas.push(`${nome} · F · revelou sem o leitor ter respondido — ${ias.vazaram.join(", ")}. ` +
+                `A explicação tem de vir DEPOIS da tentativa; revelada antes, ela vira texto lido.`);
+  }
+  if (ias.mudas.length) {
+    falhas.push(`${nome} · F · bloqueou a revelação e não disse por quê: ${ias.mudas.join(", ")}. ` +
+                `Botão que não responde e não explica é botão quebrado, para o leitor.`);
+  }
+
+  // G — fórmula cortada na margem.
+  //
+  // Stub de redirecionamento não entra: ele carrega, o `meta refresh` leva o
+  // navegador ao capítulo de destino, e o que se mediria aqui seria o destino
+  // outra vez, com outro nome. Contar duas vezes a mesma fórmula obrigaria a
+  // dívida a declarar o mesmo número em dois lugares, e o segundo envelheceria
+  // calado. O destino é medido no turno dele.
+  const caminhoFinal = new URL(aba.url()).pathname.replace(/^\//, "");
+  if (caminhoFinal !== nome) {
+    redirecionadas++;
+  } else {
+    comFormulas++;
+    const cortadas = visto.formulasCortadas;
+    const previsto = FORMULA_CORTADA_PENDENTE.get(nome.replace(/\.html$/, "")) || 0;
+    formulasCortadasTotal += cortadas.length;
+    dividaDeclarada += previsto;
+    if (cortadas.length > previsto) {
+      const amostra = cortadas.slice(0, 3)
+        .map((f) => `${f.sw}px num espaço de ${f.cw}px ("${f.tex}…")`).join("; ");
+      falhas.push(`${nome} · G · ${cortadas.length} fórmula(s) terminam cortadas na margem ` +
+                  `(a dívida declarada é ${previsto}): ${amostra}. ` +
+                  `Quebre a fórmula em duas linhas — o eixo horizontal já é do baralho.`);
+    } else if (cortadas.length < previsto) {
+      falhas.push(`${nome} · G · a dívida declara ${previsto} fórmula(s) cortada(s) e há ${cortadas.length}: ` +
+                  `atualize FORMULA_CORTADA_PENDENTE (publicar/jornada.mjs). ` +
+                  `Dívida paga que continua na lista vira teto para o próximo corte.`);
+    }
+  }
 }
 
 await navegador.close();
 servidor.close();
 
 console.log(`Jornada: ${paginas.length} página(s) abertas em Chromium a ${LARGURA}px · ` +
-            `${comExercicios} com fonte rastreável para conferir a contagem de exercícios.`);
+            `${comExercicios} com fonte rastreável para conferir a contagem de exercícios · ` +
+            `${comInteracoes} interação(ões) clicada(s) sem resposta para ver se seguram.`);
+// Sempre, inclusive no verde: a asserção G dispensa os stubs e tolera uma dívida,
+// e quem dispensa em silêncio estreita o gate sem avisar ninguém.
+console.log(`   Fórmulas: ${comFormulas} página(s) medidas e ${redirecionadas} dispensadas ` +
+            `(stub de redirecionamento, medido no destino) · ` +
+            `${formulasCortadasTotal} fórmula(s) ainda cortam, contra ${dividaDeclarada} ` +
+            `declarada(s) em FORMULA_CORTADA_PENDENTE para essas páginas.`);
 if (falhas.length) {
   console.error(`✗ ${falhas.length} problema(s) que o leitor veria:`);
   falhas.forEach((f) => console.error("   " + f));
   process.exit(1);
 }
 console.log("✓ nenhuma página rola de lado, os exercícios do fonte chegam ao DOM, " +
-            "os laboratórios montam, o companion carrega e o console fica limpo.");
+            "os laboratórios montam, o companion carrega, o console fica limpo, " +
+            "nenhuma interação revela antes de o leitor responder e nenhuma fórmula " +
+            "termina cortada na margem fora da dívida declarada.");

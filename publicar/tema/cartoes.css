@@ -1,0 +1,86 @@
+/* Modo cartão — o capítulo lido uma tela por vez (ver publicar/tema/cartoes.js).
+   Só usa as variáveis do tema (--bg/--fg/--muted/--line/--link/--prat), então
+   claro e escuro saem de graça e não há `prefers-color-scheme` novo aqui. */
+
+/* ---- barra de topo: o interruptor e o progresso -------------------------- */
+/* `padding-right` reserva o canto do botão de tema, que é `position: fixed` no
+   alto à direita (estilo.css) — e a troca de cartão traz esta barra justamente
+   para o alto da tela. Sem a folga, a ponta da barra de progresso lê o fim do
+   capítulo por baixo de um botão. */
+.cartoes-barra { display: flex; align-items: center; gap: .7rem; margin: 0 0 1.3rem;
+  padding-right: 2.6rem; }
+.cartoes-alt { flex: 0 0 auto; background: var(--sidebar); border: 1px solid var(--line);
+  color: var(--fg); border-radius: 999px; padding: .38rem .85rem; font: inherit;
+  font-size: .82rem; cursor: pointer; line-height: 1.3; }
+.cartoes-alt:hover { border-color: var(--prat); }
+.cartoes-trilho { display: none; }
+.cartoes-barra.ligado .cartoes-trilho { display: block; flex: 1 1 auto; min-width: 0;
+  height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.cartoes-trilho i { display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--link), var(--prat));
+  border-radius: 2px; transition: width .35s ease; }
+
+/* ---- o corte declarado --------------------------------------------------- */
+/* O marcador `:::cartao` do Markdown vira este `<hr>` (ver publicar/cartoes.mjs).
+   Ele existe para o JavaScript saber onde cortar; para o leitor da página longa
+   ele não existe, e é por isso que some nas duas mídias — tela e papel. */
+.corte-cartao { display: none; }
+
+/* O que não entrou em cartão nenhum. Continua no capítulo; sai da TELA enquanto
+   o baralho está aberto, para o leitor não ver meio texto solto embaixo do
+   cartão da vez. Desligar o modo cartão devolve tudo à ordem original. */
+.cartoes-fora { display: none; }
+
+/* ---- o cartão ------------------------------------------------------------ */
+.cartao { animation: cartao-entra .3s ease; }
+.cartao[hidden] { display: none; }
+@keyframes cartao-entra { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.cartao:focus { outline: none; }
+.cartao:focus-visible { outline: 2px solid var(--prat); outline-offset: 8px; border-radius: 10px; }
+/* O primeiro título do cartão já está no topo da tela: a margem que o separava
+   do parágrafo anterior, no fluxo longo, aqui só empurra o conteúdo para baixo. */
+.cartao > h2:first-of-type, .cartao > h3:first-of-type { margin-top: 0; }
+.cartao-nivel { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 .35rem; }
+
+/* ---- navegação ----------------------------------------------------------- */
+.cartoes-nav { margin: 1.6rem 0 .5rem; padding-top: .9rem; border-top: 1px solid var(--line); }
+/* Capítulo com muitos cabeçalhos rende muitos pontos. Eles rolam DENTRO da
+   própria faixa — a página nunca rola de lado por causa deles. */
+.cartoes-pontos { display: flex; gap: 5px; align-items: center; justify-content: center;
+  overflow-x: auto; padding-bottom: .8rem; scrollbar-width: none; }
+.cartoes-pontos::-webkit-scrollbar { display: none; }
+.cartoes-pontos i { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--line); transition: background .2s ease; }
+.cartoes-pontos i.vista { background: var(--muted); }
+.cartoes-pontos i.on { background: var(--link); transform: scale(1.25); }
+.cartoes-linha { display: flex; align-items: center; gap: .5rem; }
+.cartoes-btn { flex: 1 1 0; min-width: 0; background: var(--sidebar);
+  border: 1px solid var(--line); color: var(--fg); border-radius: 11px;
+  padding: .7rem .5rem; font: inherit; font-size: .88rem; cursor: pointer; }
+.cartoes-btn:hover:not(:disabled) { border-color: var(--prat); }
+.cartoes-btn:disabled { opacity: .35; cursor: default; }
+.cartoes-conta { flex: 0 0 auto; min-width: 3.4rem; text-align: center;
+  color: var(--muted); font-size: .82rem; font-variant-numeric: tabular-nums; }
+
+/* Anúncio para leitor de tela: existe na árvore de acessibilidade, não na tela.
+   `display: none` o tiraria da árvore junto — que é o oposto do objetivo. */
+.cartoes-vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cartao { animation: none; }
+  .cartoes-trilho i { transition: none; }
+  .cartoes-pontos i { transition: none; }
+}
+
+/* No papel não há "próxima tela": imprime-se o capítulo inteiro, mesmo com o
+   modo cartão ligado, e sem a botoeira que viraria um retângulo morto. */
+@media print {
+  .cartoes-barra, .cartoes-nav { display: none !important; }
+  .cartao[hidden] { display: block !important; }
+  /* No papel o capítulo sai INTEIRO — inclusive o que ficou fora do baralho.
+     Um trecho sem gesto não vira cartão; nem por isso deixa de ser o capítulo. */
+  .cartoes-fora { display: block !important; }
+  .cartao-nivel { display: none; }
+}

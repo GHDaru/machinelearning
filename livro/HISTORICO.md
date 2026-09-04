@@ -9,7 +9,7 @@
 
 Fecha o **ciclo 009**, e fecha as quatro colunas que ele abriu para os 29 capítulos: voz, exercícios, prova e **fontes**. Modelo de IA usado: Claude Opus 5.
 
-**Os números.** 412 exercícios (342 de capítulo, três por objetivo em escada, mais 70 distribuídos em sete provas), 25 laboratórios, 48 páginas. Nenhuma prova vale nota, por decisão do [ADR 0014](../adr/0014-tres-exercicios-por-objetivo.md): pontua-se por ter feito.
+**Os números.** 412 exercícios (342 de capítulo, três por objetivo em escada, mais 70 distribuídos em sete provas), 25 laboratórios, 48 páginas. Nenhuma prova vale nota, por decisão do [ADR 0014](../adr/0014-tres-exercicios-por-objetivo-e-a-prova.md): pontua-se por ter feito.
 
 **A coluna `fontes` foi a que mais rendeu, e o que ela rendeu não foi conforto.** Vinte e oito capítulos conferidos um a um, abrindo cada fonte da tabela de selos. A maioria devolveu achado. Alguns exemplos do que estava publicado e não se sustentava:
 

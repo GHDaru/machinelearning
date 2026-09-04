@@ -27,14 +27,14 @@ O v5 é o v4 **mais a seção histórica** que o Princípio X tornou obrigatóri
 10. **Síntese + "o que levar"** — leitura executiva e as ideias exportáveis para o trabalho do leitor.
 11. **Verificação** — 2–3 perguntas abertas que testam exatamente os objetivos do item 1.
 
-A posição do item 3 é a regra, não sugestão: **depois** do problema e **antes** da intuição. Antes do problema, a história não tem a que se agarrar; depois da fórmula, o leitor já pulou.
+O item 3 admite **duas posições**, e só duas ([ADR 0022](../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md), emenda 1.3.0 da constituição). A posição padrão é a acima: depois do problema e antes da intuição, porque antes do problema a história não tem a que se agarrar. A alternativa é **ao fim do capítulo**, quando é a prática que leva o leitor ao aperto: é o caso do `II.2`, em que o leitor vê duas rotas darem a mesma reta e um coeficiente mentir com R² de 0,982 antes de saber de onde veio o critério. O que não muda com a posição são os cinco elementos e a tabela de selos.
 
 ### 2.1 Cabeçalho obrigatório
 
 ```markdown
 # 04 — Avaliação
 
-> **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](../HISTORICO.md)
+> **Estado da arte capturado em 2026-08** · última revisão 2026-08-01 · [histórico](HISTORICO.md)
 ```
 
 O selo diz ao leitor se a seção "estado da arte" está fresca — o que a data de um evento citado no corpo não faz.
@@ -64,6 +64,22 @@ A terceira superfície do livro, ao lado de exercício e vídeo:
 | **Laboratório** | **deixa manipular** | **não** |
 
 Um laboratório roda inteiro no navegador. Não há gabarito a esconder — o gabarito é o comportamento do próprio objeto. Isso o torna a superfície mais robusta do livro: funciona mesmo com o backend fora do ar.
+
+> **O laboratório vem antes da explicação — e há uma fronteira que esta regra não declarava.**
+> Praticar antes de ser ensinado rende em **conceito e transferência** (g = 0,36) e **não rende em
+> procedimento** (g = −0,03) — Sinha & Kapur, 2021, 53 estudos. Num ato de procedimento, o exemplo
+> trabalhado vem primeiro, e o leitor produz depois.
+>
+> E a prática tem de ser **assistida**: descoberta sem apoio rende **d = −0,38**, e com feedback,
+> exemplo e andaime rende **+0,30** (Alfieri et al., 2011). A diferença é de sinal, não de grau.
+>
+> A evidência inteira, com o selo de proveniência de cada achado, a fronteira onde ele deixa de valer
+> e a fila de verificação, está em [`BASE-EDUCACIONAL.md`](BASE-EDUCACIONAL.md). Os dois números acima
+> ainda estão em ⏳, e o documento diz o que isso permite e o que não permite.
+>
+> A condição que quase ninguém cumpre: **a explicação que vem depois tem de construir sobre o que o
+> leitor tentou** (g = 0,56, contra 0,20 quando ignora). Laboratório seguido de texto genérico é a
+> versão que produz os efeitos pequenos. Ver [ADR 0022](../adr/0022-a-ordem-do-capitulo-pratica-antes-historia-depois.md).
 
 **Regras de autoria:**
 
