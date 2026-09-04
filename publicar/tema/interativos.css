@@ -210,6 +210,22 @@
 
 /* ---- laboratório de regressão linear ---- */
 .lab-canvas-larga { width: 100%; touch-action: none; }
+
+/* Os dois painéis do laboratório de regressão: a nuvem de pontos e o plano
+   (a, b) com as curvas de nível. Lado a lado onde há largura; empilhados no
+   celular, onde a soma das duas alturas tem de caber no teto de 1.600px do
+   cartão — por isso o desenho encolhe a razão altura/largura quando empilha.
+   A altura de cada canvas é escrita pelo JS, que lê o `clientWidth` (D18). */
+.laboratorio[data-lab="regressao-linear"] .lab-visual { container-type: inline-size; }
+.lab-planos { display: grid; grid-template-columns: 1fr; gap: .5rem; align-items: start; }
+/* Lado a lado só quando a COLUNA DO GRÁFICO tem largura, e não quando a janela
+   tem: num visor de 1280px esta coluna mede 380px, e a regra por janela punha
+   dois gráficos de 183px lado a lado — menores no computador do que no
+   celular. Consulta de contêiner mede o lugar certo; onde ela não existe, o
+   padrão empilhado vale, que é o arranjo seguro. */
+@container (min-width: 620px) {
+  .lab-planos { grid-template-columns: 1fr 1fr; gap: .7rem; }
+}
 /* O canvas deste laboratório é bem mais largo que o do neurônio, e a grade
    `1fr auto` espremia o painel a ponto de cortar os números. Aqui o painel
    tem largura própria e o gráfico fica com o resto. */

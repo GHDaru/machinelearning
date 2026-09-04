@@ -16240,7 +16240,7 @@
     "b": 4,
     "ruido": 3.2
    },
-   "intro": "Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta.\n\n1. **Minimize no olho** até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Mostrar os quadrados\"**: você minimiza a soma das áreas.\n3. **Revele a reta ótima** e descubra sozinho quanto custou o olho.",
+   "intro": "Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta. No segundo painel, o mesmo ajuste visto de cima.\n\n1. **Minimize no olho** até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Ver os quadrados\"**: você minimiza a soma das áreas.\n3. **Revele a ótima** e veja o rastro parar no fundo da tigela.",
    "pagina": "ii-2-modelos-lineares"
   },
   {

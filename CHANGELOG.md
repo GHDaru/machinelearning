@@ -6,6 +6,64 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a tigela deixou de ser palavra: o plano (a, b) virou painel vivo (D25)
+
+- **O defeito, medido.** O `II.2` tinha **zero figuras em 39 cartões**, e o cartão 9 apoiava a
+  dedução inteira numa frase: *"L é uma soma de quadrados, uma superfície convexa em (a, b), uma
+  tigela; tigela tem um fundo, e só um"*. É dessa afirmação que sai o direito de derivar, igualar
+  a zero e chamar o resultado de mínimo, e os cartões 10 a 14 pedem a álgebra num visor de 360px
+  a partir de um substantivo. A referência de microlearning mostra a tigela três vezes.
+- **O conserto não é ilustração.** O laboratório do cartão 8 ganhou um **segundo painel**: o plano
+  (a, b) com as curvas de nível do erro quadrático médio, o fundo marcado, o ponto do leitor sobre
+  ele e o **rastro** de onde ele já esteve. O leitor arrasta a alça da reta e vê o próprio ponto
+  descer a tigela.
+- **Nenhuma manopla nova** ([ADR 0015](adr/0015-animacao-e-laboratorio-sem-manopla.md)): o controle
+  continua sendo a alça e os dois cursores, e o painel é a consequência visível deles. O par
+  corrente e o erro nele são escritos na tela, com nome, ao lado do erro do fundo.
+- **A aritmética é exata, e é testada como tal.** Com as equações normais,
+  `L(a, b) = L(â, b̂) + A·u² + 2B·u·v + C·v²`, e a forma é positiva definida — um fundo, e só um.
+  `publicar/testes/lab-tigela.mjs` confere a decomposição contra o cálculo bruto do erro e mede
+  cada anel desenhado em 24 ângulos, além de cobrar rastro, quadro e legibilidade. Os cinco modos
+  de falha foram vistos reprovando antes de o teste entrar.
+- **O laboratório passou a ler `clientWidth`** e a diagramar em pixels de CSS (defeito **D18**):
+  o texto que chegava ao leitor a **6,0px** numa coluna de 360px agora chega a **12,0px**, medido
+  num Chromium. Sobram 26 laboratórios com backing store fixo.
+- **Os dois painéis couberam no cartão sem estourar o teto de 1.600px**, e o preço está declarado:
+  rótulo de botão mais curto (que passou de três linhas para duas no celular), veredito de uma
+  linha só, e a dica que repetia a intro do laboratório. O cartão 8 mede **1.563px** contra 1.561
+  antes, com 158 palavras.
+- **O cartão 9 passou a apontar para o gesto**: "a tigela que você percorreu no laboratório". A
+  explicação que constrói sobre a tentativa do leitor rende g = 0,56; a que a ignora, g = 0,20
+  ([`BASE-EDUCACIONAL.md`](livro/BASE-EDUCACIONAL.md) §3.1).
+
+### Corrigido — 223 siglas chegavam nuas ao leitor, e a causa era uma linha do motor (D24)
+
+- **O defeito, medido.** O motor embrulha cada sigla conhecida em `<abbr>` com a expansão no
+  `title`, e o embrulho parava na **primeira alternativa de exercício de cada página**: 223
+  ocorrências nuas dentro de bloco interativo, 207 `<abbr>` em 35 das 49 páginas, e o `II.2`
+  com **zero** `<abbr>` usando "AUC" quatro vezes sem expandir nenhuma. Viola o Princípio VIII.
+- **A causa não era a ordem de renderização.** O passe `abrirSiglas` já rodava depois de os
+  blocos interativos virarem HTML. O que o parava era `<input>` na lista de tags protegidas:
+  elemento vazio, escrito sem barra final, subia o contador de proteção e nunca o descia. Da
+  primeira alternativa em diante a página inteira ficava protegida, prosa comum junto.
+- **O conserto**: elemento vazio nunca abre escopo de proteção, e `label` e `button` saem da
+  lista, porque é ali que moram o texto da alternativa e o rótulo do gesto. Resultado: 207
+  `<abbr>` viram **470**, e a conta de sigla nua nos 27 capítulos vai a zero. O passe passou a
+  alcançar também o teaser do cabeçalho do capítulo e a descrição da capa.
+- **Asserção nova na auditoria da jornada**: `H` abre cada página num Chromium e cobra que toda
+  sigla do dicionário em texto visível esteja dentro de um `<abbr>`. Falha nas duas direções, no
+  molde do `FORMULA_CORTADA_PENDENTE`, e imprime os números inclusive no verde.
+- **Dívida declarada, com o motivo escrito**: 14 ocorrências em 5 páginas continuam nuas porque
+  são escritas pelo navegador, por `publicar/tema/laboratorios.js`, depois da carga — o "IQR" da
+  tabela do boxplot, o "SQE" do painel de perda, o "AUC 0.65" do mostrador de vazamento. Nenhuma
+  passa pelo motor. Entram em `SIGLA_NUA_PENDENTE`, com número por página.
+- **O dicionário virou módulo**: `publicar/siglas.mjs` guarda as 65 siglas e o passe, com teste
+  próprio em `publicar/testes/siglas.mjs` (12 casos, sem navegador).
+- **Uma isenção que era falsa passou a ser verdadeira.** `gates/glossario-ligado.mjs` dispensa as
+  siglas da tabela escrevendo que "o motor já a embrulha em `<abbr>`". Era verdade em 35 páginas
+  e falso onde o texto era interativo. O comentário passou a dizer isso, com a data, e a apontar
+  quem mede o mecanismo que sustenta a isenção.
+
 ### Adicionado — o glossário deixou de ser um arquivo para o qual ninguém aponta
 
 - **A régua, medida.** A página de perda da regressão linear do Google Machine Learning Crash

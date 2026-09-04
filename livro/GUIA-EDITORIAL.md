@@ -202,7 +202,7 @@ Antes do copyedit de superfície, um passo de **revisão *developmental***: re-v
 ## 8. Siglas e glossário (política)
 
 - **Toda sigla é apresentada por extenso na 1ª ocorrência** de um capítulo ("Support Vector Machine (SVM)") e dali em diante o texto pode usar só a sigla.
-- O motor reforça isso: envolve automaticamente cada sigla conhecida em `<abbr>`, de modo que passar o mouse revela o significado em qualquer ocorrência, sem poluir o texto-fonte. O mapa vive em `publicar/build.mjs` e é espelhado em [`glossario.md`](glossario.md).
+- O motor reforça isso: envolve automaticamente cada sigla conhecida em `<abbr>`, de modo que passar o mouse revela o significado em qualquer ocorrência, sem poluir o texto-fonte. O mapa vive em `publicar/siglas.mjs` e é espelhado em [`glossario.md`](glossario.md); a asserção H de `publicar/jornada.mjs` abre a página e cobra que nenhuma sigla conhecida chegue nua ao leitor.
 - Ao introduzir uma sigla nova, adicione-a **nos dois lugares** e confira a expansão na fonte (Princípio I).
 
 ## 9. Fluxo repetível para um contribuidor

@@ -76,6 +76,30 @@
 //      pelo baralho, e uma fórmula que só se lê rolando de lado disputa com ele o
 //      mesmo gesto. Por isso G cobra ausência de corte, e não presença de dica.
 //
+//   H. **Nenhuma sigla conhecida chega nua ao leitor.** Para cada sigla do
+//      dicionário `publicar/siglas.mjs`, exige que toda ocorrência em texto
+//      visível esteja dentro de um `<abbr>`. É o Princípio VIII cobrado onde o
+//      leitor está, e não no Markdown.
+//
+//      H existe por causa da D24 do ROADMAP, medida em 2026-09-04. O motor
+//      embrulhava a sigla, e o embrulho parava na primeira alternativa de
+//      exercício de cada página: `<input>` é elemento vazio, o contador de
+//      proteção de `abrirSiglas` subia com ele e nunca descia. O II.2 tinha
+//      zero `<abbr>` na página inteira e usava "AUC" quatro vezes sem expandir
+//      nenhuma. Nenhum gate via isso, porque todos liam a fonte.
+//
+//      A segunda ordem é o que torna H obrigatória: o gate do glossário dispensa
+//      as siglas de propósito, escrevendo que "o motor já a embrulha em `<abbr>`".
+//      A isenção de um gate estava apoiada num mecanismo que ninguém media. H é
+//      quem passa a medi-lo.
+//
+//      O QUE H NÃO COBRA, e por quê. Sigla dentro de `code`, `pre`, `a`,
+//      cabeçalho ou `textarea` fica de fora: o motor não embrulha nenhum desses
+//      de propósito (ver `TAGS_PROT` em `publicar/siglas.mjs`), e cobrar aqui o
+//      que o motor recusa lá seria pedir ao autor um conserto impossível. A
+//      página `glossario.html` fica inteira de fora: ela É a tabela de
+//      expansões, e embrulhar a expansão na própria expansão é circular.
+//
 // COMO RODAR
 //
 //   npm i -D playwright && npx playwright install chromium   (uma vez)
@@ -93,6 +117,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { dirname, resolve, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { SIGLAS } from "./siglas.mjs";
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = resolve(RAIZ, "docs");
@@ -172,6 +197,46 @@ export const FORMULA_CORTADA_PENDENTE = new Map([
   ["iv-2-reforco", 1],
 ]);
 
+// A DÍVIDA DE SIGLA NUA, na mesma disciplina da de cima: falha nas DUAS
+// direções. Página que passa a deixar sigla nua quebra o gate; página que se
+// limpou e continua declarada aqui também.
+//
+// O QUE SOBROU, medido em 2026-09-04 num Chromium a 360px, depois de o
+// `abrirSiglas` ser consertado. No HTML que o motor escreve a conta foi a zero
+// nos 27 capítulos, porque o defeito era do motor e não do texto. As 14
+// ocorrências abaixo têm outra origem: elas são escritas pelo NAVEGADOR, por
+// `publicar/tema/laboratorios.js`, depois que a página carrega — o cabeçalho
+// "IQR" da tabela do boxplot, a linha "SQE" do painel de perda, o "AUC 0.65" do
+// mostrador de vazamento. Nenhuma delas passa pelo motor, e nenhuma edição de
+// capítulo as alcança.
+//
+// Por que não estão consertadas nesta rodada, dito em voz alta: o conserto certo
+// é levar o dicionário `siglas.mjs` para dentro do tema e reabrir a sigla depois
+// de cada desenho do laboratório. Isso é um segundo passe, em código que
+// reescreve o próprio texto a cada movimento de alça, e um passe que se dispara
+// nas próprias alterações precisa de guarda contra laço. Escrever a expansão à
+// mão no `laboratorios.js` resolveria a tela e criaria uma segunda cópia do
+// dicionário, que é exatamente o que o módulo de siglas existe para evitar.
+//
+// Por isso a dívida fica declarada, com número por página, em vez de a asserção
+// dispensar `.lab-area` em silêncio: dispensa não tem prazo, dívida tem conta.
+export const SIGLA_NUA_PENDENTE = new Map([
+  ["i-1-ciclo-ciencia-de-dados", 1],
+  ["i-4-analise-exploratoria", 3],
+  ["ii-1-avaliacao", 3],
+  ["ii-2-modelos-lineares", 5],
+  ["ii-7-series-temporais", 2],
+]);
+
+// A ÚNICA PÁGINA DISPENSADA, e o motivo dela é o mesmo que o motor já aplica:
+// `build.mjs` não passa o glossário por `abrirSiglas`. O glossário é a tabela
+// que DEFINE as siglas, e embrulhar "MSE" num `title` que diz "MSE" é circular.
+const PAGINAS_SEM_SIGLA = new Set(["glossario.html"]);
+
+// Ordenada da mais longa para a mais curta, como no motor: sem isso "ML" casaria
+// dentro de "MLOps" antes de "MLOps" ter chance.
+const CHAVES_SIGLA = Object.keys(SIGLAS).sort((a, b) => b.length - a.length);
+
 const paginas = (process.env.SO_ESTAS
   ? process.env.SO_ESTAS.split(",").map((s) => (s.endsWith(".html") ? s : s + ".html"))
   : readdirSync(DOCS).filter((n) => n.endsWith(".html"))).sort();
@@ -186,6 +251,7 @@ const falhas = [];
 let comExercicios = 0;
 let comInteracoes = 0;
 let comFormulas = 0, redirecionadas = 0, formulasCortadasTotal = 0, dividaDeclarada = 0;
+let comSiglas = 0, siglasAbertasTotal = 0, siglasNuasTotal = 0, dividaDeSigla = 0;
 const errosJs = [];
 aba.on("pageerror", (e) => errosJs.push(String(e).slice(0, 140)));
 aba.on("console", (m) => { if (m.type() === "error" && !/ERR_CERT|ERR_NAME|ERR_CONNECTION/.test(m.text())) errosJs.push(m.text().slice(0, 140)); });
@@ -195,7 +261,7 @@ for (const nome of paginas) {
   await aba.goto(`http://127.0.0.1:${PORTA}/${nome}`, { waitUntil: "load" });
   await aba.waitForTimeout(250);
 
-  const visto = await aba.evaluate(() => {
+  const visto = await aba.evaluate((chaves) => {
     const W = window.innerWidth;
     const dentroDeRolagem = (e) => {
       for (let a = e.parentElement; a; a = a.parentElement) {
@@ -245,8 +311,43 @@ for (const nome of paginas) {
         .filter((e) => !e.querySelector("canvas, svg, table, button"))
         .map((e) => e.getAttribute("data-lab")),
       companion: !!document.querySelector(".cmp"),
+      // H — sigla nua no texto que o leitor lê.
+      //
+      // "Visível" aqui é o texto do DOCUMENTO, e não o que cabe na tela agora.
+      // No modo cartão o leitor vê um cartão por vez, e medir por visibilidade
+      // computada dispensaria 38 dos 39 cartões do II.2 sem dizer nada. O
+      // conteúdo de `<template>` entra pelo mesmo motivo ao contrário: ele ainda
+      // não está na tela, mas é a revelação da interação, e chega ao leitor no
+      // clique dele.
+      siglasNuas: (() => {
+        const re = new RegExp("\\b(" + chaves.join("|") + ")\\b", "g");
+        const PROT = "pre, code, a, abbr, h1, h2, h3, h4, h5, h6, script, style, textarea";
+        const achados = [];
+        const varrer = (raiz) => {
+          const passo = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+          for (let n = passo.nextNode(); n; n = passo.nextNode()) {
+            const pai = n.parentElement;
+            if (!pai || pai.closest(PROT)) continue;
+            const texto = n.nodeValue || "";
+            re.lastIndex = 0;
+            let m;
+            // `lab` separa as duas origens possíveis, e a distinção decide onde
+            // se conserta: fora do laboratório o texto vem do motor, e sigla nua
+            // ali é defeito do passe; dentro, o texto é desenhado pelo navegador
+            // e nenhuma edição do motor o alcança.
+            const emLab = !!pai.closest("[data-lab]");
+            while ((m = re.exec(texto))) {
+              achados.push({ sigla: m[1], lab: emLab, ctx: texto.replace(/\s+/g, " ").trim().slice(0, 60) });
+            }
+          }
+        };
+        varrer(document.body);
+        for (const t of document.querySelectorAll("template")) varrer(t.content);
+        return achados;
+      })(),
+      siglasAbertas: document.querySelectorAll("abbr[title]").length,
     };
-  });
+  }, CHAVES_SIGLA);
 
   // F roda numa segunda passada porque ela CLICA: separar deixa claro que a
   // primeira leitura enxergou a página intocada.
@@ -334,6 +435,40 @@ for (const nome of paginas) {
                   `atualize FORMULA_CORTADA_PENDENTE (publicar/jornada.mjs). ` +
                   `Dívida paga que continua na lista vira teto para o próximo corte.`);
     }
+
+    // H — sigla conhecida que chegou nua ao leitor.
+    if (!PAGINAS_SEM_SIGLA.has(nome)) {
+      comSiglas++;
+      siglasAbertasTotal += visto.siglasAbertas;
+      const nuas = visto.siglasNuas;
+      const previstoSigla = SIGLA_NUA_PENDENTE.get(nome.replace(/\.html$/, "")) || 0;
+      siglasNuasTotal += nuas.length;
+      dividaDeSigla += previstoSigla;
+      if (nuas.length > previstoSigla) {
+        const quais = [...new Set(nuas.map((n) => n.sigla))].slice(0, 6).join(", ");
+        const amostra = nuas.slice(0, 3).map((n) => `"${n.sigla}" em "…${n.ctx}…"`).join("; ");
+        const noLab = nuas.filter((n) => n.lab).length;
+        // A pista mais útil que o gate pode dar é ONDE se conserta. Dizer só
+        // "abra a sigla" manda quem chegou depois procurar no motor um texto que
+        // o motor nunca escreveu.
+        const onde = noLab === nuas.length
+          ? `Todas estão dentro de laboratório: são desenhadas pelo navegador, em ` +
+            `publicar/tema/laboratorios.js, e o passe do motor não as alcança. ` +
+            `Ou a sigla se abre na origem, ou o número novo entra em SIGLA_NUA_PENDENTE, com data.`
+          : noLab
+            ? `${noLab} delas estão dentro de laboratório (texto desenhado pelo navegador, em ` +
+              `publicar/tema/laboratorios.js) e ${nuas.length - noLab} vêm do motor. ` +
+              `As do motor são defeito do passe; as do laboratório se abrem na origem ou entram na dívida.`
+            : `O Princípio VIII manda abrir a sigla; quem abre é o \`abrirSiglas\` de publicar/siglas.mjs, ` +
+              `e sigla nua aqui quer dizer que o passe não alcançou este texto.`;
+        falhas.push(`${nome} · H · ${nuas.length} sigla(s) chegam nuas ao leitor ` +
+                    `(a dívida declarada é ${previstoSigla}): ${quais}. ${amostra}. ${onde}`);
+      } else if (nuas.length < previstoSigla) {
+        falhas.push(`${nome} · H · a dívida declara ${previstoSigla} sigla(s) nua(s) e há ${nuas.length}: ` +
+                    `atualize SIGLA_NUA_PENDENTE (publicar/jornada.mjs). ` +
+                    `Dívida paga que continua na lista vira teto para a próxima sigla nua.`);
+      }
+    }
   }
 }
 
@@ -349,6 +484,11 @@ console.log(`   Fórmulas: ${comFormulas} página(s) medidas e ${redirecionadas}
             `(stub de redirecionamento, medido no destino) · ` +
             `${formulasCortadasTotal} fórmula(s) ainda cortam, contra ${dividaDeclarada} ` +
             `declarada(s) em FORMULA_CORTADA_PENDENTE para essas páginas.`);
+// Idem para H: os dois números saem sempre, inclusive no verde. Um gate que
+// dispensa páginas e tolera dívida tem de dizer quanto dispensou.
+console.log(`   Siglas: ${comSiglas} página(s) medidas e ${PAGINAS_SEM_SIGLA.size} dispensada(s) ` +
+            `(o glossário define as siglas) · ${siglasAbertasTotal} ocorrência(s) em <abbr> · ` +
+            `${siglasNuasTotal} ainda nua(s), contra ${dividaDeSigla} declarada(s) em SIGLA_NUA_PENDENTE.`);
 if (falhas.length) {
   console.error(`✗ ${falhas.length} problema(s) que o leitor veria:`);
   falhas.forEach((f) => console.error("   " + f));
@@ -356,5 +496,6 @@ if (falhas.length) {
 }
 console.log("✓ nenhuma página rola de lado, os exercícios do fonte chegam ao DOM, " +
             "os laboratórios montam, o companion carrega, o console fica limpo, " +
-            "nenhuma interação revela antes de o leitor responder e nenhuma fórmula " +
-            "termina cortada na margem fora da dívida declarada.");
+            "nenhuma interação revela antes de o leitor responder, nenhuma fórmula " +
+            "termina cortada na margem e nenhuma sigla conhecida chega nua ao leitor, " +
+            "fora das dívidas declaradas.");

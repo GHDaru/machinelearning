@@ -29,6 +29,7 @@ import { verificar as verificarIntervalos } from "./intervalos.mjs";
 import { verificar as verificarTema } from "./gates/tema-unico.mjs";
 import { verificar as verificarHtml } from "./gates/html-integro.mjs";
 import { verificar as verificarLinks } from "./gates/links-relativos.mjs";
+import { abrirSiglas } from "./siglas.mjs";
 
 // Quanto de cada capítulo com baralho fica fora dele. Ver `pontasDe`.
 const pontasFora = [];
@@ -195,61 +196,6 @@ function marcarCallouts(html) {
   });
 }
 
-// Siglas "abertas" — fonte única; o glossário espelha (Guia Editorial).
-const SIGLAS = {
-  ML: "Machine Learning", IA: "Inteligência Artificial",
-  MLP: "Multi-Layer Perceptron", CNN: "Convolutional Neural Network", RNN: "Recurrent Neural Network",
-  LSTM: "Long Short-Term Memory", GRU: "Gated Recurrent Unit", GAN: "Generative Adversarial Network",
-  SVM: "Support Vector Machine", KNN: "K-Nearest Neighbors", PCA: "Principal Component Analysis",
-  SGD: "Stochastic Gradient Descent", MSE: "Mean Squared Error", MAE: "Mean Absolute Error",
-  EQM: "Erro Quadrático Médio — o MSE da literatura em inglês", SQE: "Soma dos Quadrados dos Erros",
-  EAM: "Erro Absoluto Médio — o MAE da literatura em inglês",
-  RMSE: "Root Mean Squared Error", MAPE: "Mean Absolute Percentage Error",
-  AUC: "Area Under the Curve", ROC: "Receiver Operating Characteristic",
-  RL: "Reinforcement Learning", MDP: "Markov Decision Process", PPO: "Proximal Policy Optimization",
-  RLHF: "Reinforcement Learning from Human Feedback", DQN: "Deep Q-Network",
-  LLM: "Large Language Model", NLP: "Natural Language Processing", RAG: "Retrieval-Augmented Generation",
-  BERT: "Bidirectional Encoder Representations from Transformers", GPT: "Generative Pre-trained Transformer",
-  SHAP: "SHapley Additive exPlanations", LIME: "Local Interpretable Model-agnostic Explanations",
-  MLOps: "Machine Learning Operations",
-  ETL: "Extract, Transform, Load", API: "Application Programming Interface",
-  SDK: "Software Development Kit", CLI: "Command-Line Interface", GPU: "Graphics Processing Unit",
-  CPU: "Central Processing Unit", TPU: "Tensor Processing Unit",
-  JSON: "JavaScript Object Notation", HTTP: "HyperText Transfer Protocol", CSV: "Comma-Separated Values",
-  DOI: "Digital Object Identifier", LGPD: "Lei Geral de Proteção de Dados",
-  IQR: "Interquartile Range — intervalo interquartil (Q3 − Q1)",
-  ARIMA: "AutoRegressive Integrated Moving Average", ACF: "Autocorrelation Function — função de autocorrelação",
-  PACF: "Partial Autocorrelation Function — função de autocorrelação parcial",
-  OLAP: "Online Analytical Processing", OLTP: "Online Transaction Processing",
-  ELT: "Extract, Load, Transform", CRISP: "CRoss-Industry Standard Process",
-  EDA: "Exploratory Data Analysis — análise exploratória de dados",
-  CART: "Classification and Regression Trees", TF: "Term Frequency", IDF: "Inverse Document Frequency",
-  IID: "Independent and Identically Distributed", ERM: "Empirical Risk Minimization",
-  PAC: "Probably Approximately Correct", NLL: "Negative Log-Likelihood",
-  KL: "Kullback-Leibler", ELBO: "Evidence Lower Bound", DDD: "Domain-Driven Design",
-};
-const RE_SIGLAS = new RegExp("\\b(" + Object.keys(SIGLAS).sort((a, b) => b.length - a.length).join("|") + ")\\b", "g");
-const TAGS_PROT = /^(pre|code|a|abbr|h[1-6]|script|style|input|textarea|button|label)$/i;
-function ligarCitacoes(texto) {
-  return texto.replace(/arXiv\s+(\d{4}\.\d{4,5})/g,
-    (m, id) => `<a class="cita" href="bibliografia.html" title="ver na Bibliografia">arXiv ${id}</a>`);
-}
-function abrirSiglas(html) {
-  const re = /<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g;
-  const sub = (t) => ligarCitacoes(t).replace(RE_SIGLAS, (s) => `<abbr title="${SIGLAS[s]}">${s}</abbr>`);
-  let out = "", last = 0, m, prot = 0;
-  while ((m = re.exec(html))) {
-    const txt = html.slice(last, m.index);
-    out += prot > 0 ? txt : sub(txt);
-    const tag = m[1].toLowerCase();
-    if (TAGS_PROT.test(tag) && !m[0].endsWith("/>")) prot += m[0][1] === "/" ? -1 : 1;
-    if (prot < 0) prot = 0;
-    out += m[0];
-    last = re.lastIndex;
-  }
-  return out + (prot > 0 ? html.slice(last) : sub(html.slice(last)));
-}
-
 // "02 — Dados" -> { num: "02", texto: "Dados" }.
 const dividirTitulo = (t) => {
   const p = t.split("—");
@@ -366,7 +312,7 @@ function paginaSplash(placar) {
   <div class="splash-texto">
     <h1>${sumario.titulo}</h1>
     <p class="splash-sub">${sumario.subtitulo}</p>
-    <p class="splash-desc">Um livro que <em>corrige você</em>: cada capítulo traz exercícios avaliados no servidor, vídeos curados e uma etapa da construção <code>ml-zero</code> — do NumPy cru ao modelo servido por API.</p>
+    ${abrirSiglas(`<p class="splash-desc">Um livro que <em>corrige você</em>: cada capítulo traz exercícios avaliados no servidor, vídeos curados e uma etapa da construção <code>ml-zero</code> — do NumPy cru ao modelo servido por API.</p>`)}
     <div class="splash-ctas">
       <a class="btn btn-primario btn-grande" href="sumario.html">Entrar no livro →</a>
       <a class="btn btn-escuro" href="banco-de-exercicios.html">Praticar</a>
@@ -527,7 +473,13 @@ ${item.teaser ? `<p class="cap-teaser">${item.teaser}</p>` : ""}
     corpo = corpo.replace(new RegExp("<blockquote>\\s*<p><strong>" + RE_CAPTURA.source + "[\\s\\S]*?<\\/blockquote>\\s*"), "");
   }
 
-  if (item.slug !== "glossario") corpo = abrirSiglas(corpo);
+  // O passe alcança o CORPO e o CABEÇALHO do capítulo. O teaser do hero é prosa
+  // que o leitor lê antes de tudo ("MDP, Q-learning e DQN"), e ele é montado
+  // depois do corpo, fora do alcance de quem só embrulhasse `corpo`.
+  if (item.slug !== "glossario") {
+    corpo = abrirSiglas(corpo);
+    if (hero) hero = abrirSiglas(hero);
+  }
   writeFileSync(
     resolve(SAIDA, `${item.slug}.html`),
     pagina({
