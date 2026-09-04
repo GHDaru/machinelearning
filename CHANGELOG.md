@@ -6,26 +6,34 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
-### Adicionado — aula (fora do livro): descritiva campo a campo + o primeiro MLP na Califórnia
+### Adicionado — aula (fora do livro): descritiva campo a campo, cru × tratado, e o primeiro MLP na Califórnia
 - **Notebook `etapa-22/descritiva_mlp_california.ipynb`**, no mesmo formato do
-  `etapa-21/exploratoria_limonada.ipynb`: descritiva de cada uma das 9 colunas
-  quantitativas do arquivo cru (histograma + boxplot, assimetria, curtose,
-  outliers pelo IQR), com os cuidados que a régua do IQR não pega sozinha —
-  a bimodalidade de `latitude`/`longitude` (Los Angeles × Baía de São
+  `etapa-21/exploratoria_limonada.ipynb`. Introdução ao dataset (a unidade
+  *block group*, o mapa dos dez campos, cinco armadilhas anunciadas antes de
+  serem medidas), seguida da descritiva de cada uma das 9 colunas quantitativas
+  do arquivo cru (histograma + boxplot, assimetria, curtose, outliers pelo
+  IQR) — a bimodalidade de `latitude`/`longitude` (Los Angeles × Baía de São
   Francisco), o *top-coding* de `housing_median_age` em 52 anos (6,17% do
-  arquivo) e de `median_income` nos dois extremos, e o teto de `median_house_value`
-  em US$ 500 001 (965 setores, 4,68%).
+  arquivo) e de `median_income` nos dois extremos, e o teto de
+  `median_house_value` em US$ 500.001 (965 setores, 4,68%).
 - **Diagnóstica rápida**: correlação de cada campo com o alvo, com o mesmo
   aviso que a ficha do dado já registra — `latitude`/`longitude` parecem fracas
   isoladas e não são, porque a informação está no par.
-- **O MLP sem tratar nada**: os 8 campos numéricos crus (sem padronizar, sem
-  derivar razão nenhuma) treinam um `MLPRegressor` que converge mal
+- **O MLP sem tratar os números, mas com *one-hot* na categórica**:
+  `ocean_proximity` entra codificada (a codificação mínima para virar número),
+  os 8 campos numéricos continuam crus. `MLPRegressor` converge mal
   (`ConvergenceWarning`, sem exceção) e perde para uma regressão linear simples
-  — MAE de US$ 66.049 contra US$ 51.373, ambos medidos no notebook.
+  — MAE de US$ 61.907 contra US$ 50.413, medidos no notebook.
+- **Com tratamento**: a mesma arquitetura, agora com as 8 numéricas padronizadas
+  (`StandardScaler`) e o alvo escalado (÷100.000, a convenção do capítulo
+  III.2). MAE cai para US$ 36.997 (−40% sobre o MLP cru), converge em menos
+  épocas e sem aviso, e passa a bater a regressão linear. Uma ablação 2×2
+  (entrada tratada × alvo tratado, cada combinação isolada) mostra que **nenhum
+  dos dois tratamentos sozinho** entrega o ganho — só os dois juntos.
 - **Tabela de 40 configurações**, gerada por `itertools.product` (5 arquiteturas
-  × 2 ativações × 2 otimizadores × 2 níveis de regularização L2), para o aluno
-  escolher um `FORMATO`, rodar e comparar contra as linhas de base — com o
-  aviso de que uma rodada é amostra de tamanho 1.
+  × 2 ativações × 2 otimizadores × 2 níveis de regularização L2), agora sobre
+  os dados **tratados**, para o aluno escolher um `FORMATO`, rodar e comparar
+  — com o aviso de que uma rodada é amostra de tamanho 1.
 - Notebook **executado e com saída gravada** (figuras e números), reproduzindo
   o hábito do `etapa-21`; não ganhou `tests/test_etapa_22.py` pela mesma razão
   que o `etapa-21` não tem — é material de aula, não uma etapa do pipeline
