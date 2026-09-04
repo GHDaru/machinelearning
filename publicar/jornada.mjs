@@ -331,8 +331,13 @@ for (const nome of paginas) {
             const texto = n.nodeValue || "";
             re.lastIndex = 0;
             let m;
+            // `lab` separa as duas origens possíveis, e a distinção decide onde
+            // se conserta: fora do laboratório o texto vem do motor, e sigla nua
+            // ali é defeito do passe; dentro, o texto é desenhado pelo navegador
+            // e nenhuma edição do motor o alcança.
+            const emLab = !!pai.closest("[data-lab]");
             while ((m = re.exec(texto))) {
-              achados.push({ sigla: m[1], ctx: texto.replace(/\s+/g, " ").trim().slice(0, 60) });
+              achados.push({ sigla: m[1], lab: emLab, ctx: texto.replace(/\s+/g, " ").trim().slice(0, 60) });
             }
           }
         };
@@ -442,10 +447,22 @@ for (const nome of paginas) {
       if (nuas.length > previstoSigla) {
         const quais = [...new Set(nuas.map((n) => n.sigla))].slice(0, 6).join(", ");
         const amostra = nuas.slice(0, 3).map((n) => `"${n.sigla}" em "…${n.ctx}…"`).join("; ");
+        const noLab = nuas.filter((n) => n.lab).length;
+        // A pista mais útil que o gate pode dar é ONDE se conserta. Dizer só
+        // "abra a sigla" manda quem chegou depois procurar no motor um texto que
+        // o motor nunca escreveu.
+        const onde = noLab === nuas.length
+          ? `Todas estão dentro de laboratório: são desenhadas pelo navegador, em ` +
+            `publicar/tema/laboratorios.js, e o passe do motor não as alcança. ` +
+            `Ou a sigla se abre na origem, ou o número novo entra em SIGLA_NUA_PENDENTE, com data.`
+          : noLab
+            ? `${noLab} delas estão dentro de laboratório (texto desenhado pelo navegador, em ` +
+              `publicar/tema/laboratorios.js) e ${nuas.length - noLab} vêm do motor. ` +
+              `As do motor são defeito do passe; as do laboratório se abrem na origem ou entram na dívida.`
+            : `O Princípio VIII manda abrir a sigla; quem abre é o \`abrirSiglas\` de publicar/siglas.mjs, ` +
+              `e sigla nua aqui quer dizer que o passe não alcançou este texto.`;
         falhas.push(`${nome} · H · ${nuas.length} sigla(s) chegam nuas ao leitor ` +
-                    `(a dívida declarada é ${previstoSigla}): ${quais}. ${amostra}. ` +
-                    `O Princípio VIII manda abrir a sigla; quem abre é o \`abrirSiglas\` de publicar/siglas.mjs, ` +
-                    `e sigla nua aqui quer dizer que o passe não alcançou este texto.`);
+                    `(a dívida declarada é ${previstoSigla}): ${quais}. ${amostra}. ${onde}`);
       } else if (nuas.length < previstoSigla) {
         falhas.push(`${nome} · H · a dívida declara ${previstoSigla} sigla(s) nua(s) e há ${nuas.length}: ` +
                     `atualize SIGLA_NUA_PENDENTE (publicar/jornada.mjs). ` +
