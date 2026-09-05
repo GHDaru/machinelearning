@@ -1,0 +1,627 @@
+{
+ "gerado": "2026-09-05",
+ "impressao": {
+  "arquivo": "publicar/tema/laboratorios.js",
+  "bytes": 263554,
+  "sha256": "3127a12eae008b9b"
+ },
+ "paginas": {
+  "0-2-fundamentos": {
+   "labs": [
+    {
+     "id": "fundamentos-l1",
+     "tipo": "anima-vies-variancia",
+     "canvas": [
+      "grau do polinômio",
+      "treino",
+      "validação"
+     ],
+     "dom": "LABORATÓRIO Suba o grau do polinômio e veja o instante em que a validação vira FUNDAMENTOS-L1 As três parcelas acima são fáceis de enunciar e continuam abstratas até alguém ver as duas curvas se separarem. Aqui não há nada a manipular: o dado é o mesmo o tempo todo, e a única coisa que se move é o grau do polinômio ajustado, de 1 a 15. São 20 pontos de treino, sorteados de uma curva conhecida com ruído somado. A cada quadro, um grau a mais. Assista as duas curvas. A azul, do erro de treino, só desce — sempre descerá, porque mais grau é mais liberdade para passar perto dos pontos que ela já viu. A laranja, da validação, desce junto no começo, encontra o fundo no grau 5 e depois vira para cima. Esse é o ponto exato em que ganhar liberdade deixa de ajudar e passa a atrapalhar. Dois números do painel merecem ser lidos com calma: No fundo da curva, a validação marca cerca de 0,013. Não é zero, e não vai a zero: o ruído somado aos dados tem variância de aproximadamente 0,011, e esse é o piso irredutível. Nenhum grau, nenhum modelo, nenhuma quantidade de esforço atravessa esse chão. No grau 15, o treino cai para cerca de 0,003 — abaixo do piso. Um erro menor que o ruído não é um modelo melhor: é um modelo que decorou o ruído daqueles 20 pontos. E a validação, no mesmo grau, sobe para perto de 0,48, quase quarenta vezes o fundo. Agora clique em \"E com 3× mais dados de treino?\". Vale tentar prever antes: o fundo muda de lugar? Ele não muda. O melhor grau continua sendo o 5. O que muda é o preço de errar para cima: no grau 15, a validação sai de cerca de 0,48 para perto de 0,015, praticamente o piso. Mais dado não descobre o grau certo para você; ele torna o excesso de complexidade quase inofensivo, que é uma coisa diferente e mais útil de saber. grau 0 Recomeçar E com 3× mais dados de treino?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "i-1-ciclo-ciencia-de-dados": {
+   "labs": [
+    {
+     "id": "ciclo-ciencia-de-dados-l1",
+     "tipo": "anima-horizonte",
+     "canvas": [
+      "renovação no dia 60 · horizonte do rótulo em 5 dias",
+      "azul = AUC · vermelho = fração ainda acionável",
+      "tracejado = a renovação"
+     ],
+     "dom": "LABORATÓRIO A AUC sobe, a lista chega tarde CICLO-CIENCIA-DE-DADOS-L1 Mil e duzentos clientes. O horizonte do rótulo desliza de 5 a 120 dias de silêncio, e duas curvas aparecem juntas: em azul, a AUC do modelo; em vermelho, a fração dos clientes marcados que ainda dá para acionar quando o alarme toca, dado que cada um decide a renovação na data dele. Assista as duas. Elas andam em sentidos opostos. A AUC sobe de 0,66 para 0,76, e sobe por um motivo legítimo: cliente calado há quatro meses é fácil de prever. É esta curva que vai para o relatório, e é ela que faz a equipe do capítulo escolher os 90 dias. Do outro lado, a fração acionável cai até 0,000: no horizonte longo, todo mundo que o modelo aponta já passou da própria renovação. O produto das duas tem máximo no meio. Com a renovação caindo em média no dia 60, o melhor valor aparece no horizonte de 23 dias — muito antes do ponto onde a AUC é melhor. Agora clique em \"E se a renovação fosse no dia 30?\". Nada no modelo mudou, nada nos dados mudou. O ótimo vai para 11 dias. É a tese do capítulo em dois números. O horizonte certo não sai da tabela, sai do prazo da operação — e quando o prazo muda, o rótulo tem de mudar junto, mesmo que os dados sejam exatamente os mesmos. A curva azul não sabe disso e nunca vai saber, porque a AUC não tem como perguntar quando a decisão pode ser tomada. É por isso que o entendimento do negócio é a fase 1, e não uma conversa que se tem depois de o modelo ficar pronto. renovação no dia 60 · horizonte 5 dias · AUC 0.6534 · fração ainda acionável 1.000 Rodar de novo E se a renovação fosse no dia 30?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "i-3-dados": {
+   "labs": [
+    {
+     "id": "dados-l1",
+     "tipo": "anima-vazamento",
+     "canvas": [
+      "intensidade do vazamento",
+      "AUC 1,0",
+      "0,5",
+      "1. alvo disfarçado",
+      "2. normalizar antes de dividir",
+      "2b. codificar por alvo antes de dividir",
+      "3. duplicata"
+     ],
+     "dom": "LABORATÓRIO As três fontes lado a lado, com a intensidade do vazamento subindo DADOS-L1 As três fontes acima foram descritas uma a uma. Aqui elas são medidas juntas, no mesmo dado e com o mesmo modelo, cada uma com a própria intensidade subindo de 0 a 1. Na intensidade 0 as quatro curvas são o mesmo experimento honesto, e é por isso que todas partem de AUC 0,570. O modelo é um k-vizinhos ponderado por distância. A escolha importa: é o mais simples que consegue memorizar, e sem memória a terceira fonte não teria efeito nenhum. O que a varredura mede: Fonte AUC no fim Quanto inflou 1. alvo disfarçado 0,991 +0,421 2. normalizar antes de dividir 0,567 −0,003 2b. codificar por alvo antes de dividir 0,753 +0,183 3. duplicata 1,000 +0,430 Duas linhas disparam até o teto, e são as que qualquer revisão pega: um relatório com AUC 1,000 desperta suspeita sozinho. A segunda linha é a que este capítulo pede para você olhar. Normalizar antes de dividir, que é o erro mais comum de todos, não inflou nada: o efeito ficou em três milésimos, e para baixo. Clicando em \"Outro conjunto de sorteios\", ele vira dois milésimos para cima. O sinal nem é estável. Você não detectaria esse vazamento nem se procurasse por ele. E por que isso não é uma boa notícia # A quarta curva existe para responder a essa pergunta, e ela é o mesmo erro da segunda: aprender alguma coisa dos dados antes de dividir. A única diferença é o que se aprende. Média e desvio de uma coluna numérica quase não se movem quando o teste entra na conta. Já a média do alvo por categoria, num conjunto com muitas categorias raras, se move muito: a codificação de uma categoria com duas ou três linhas passa a conter o rótulo daquelas linhas. O mesmo descuido salta de três milésimos para cento e oitenta e três milésimos. A lição não é \"normalizar antes de dividir é inofensivo\". É mais desconfortável: o tamanho do vazamento não se lê no erro, e sim no quanto a estatística vazada se mexe. Como você não vai calcular isso caso a caso, sobra a regra sem exceção — tudo que aprende dos dados aprende só do treino. intensidade 0.00 Recomeçar Outro conjunto de sorteios",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "i-4-analise-exploratoria": {
+   "labs": [
+    {
+     "id": "analise-exploratoria-l1",
+     "tipo": "explorar-variavel",
+     "canvas": [
+      "media",
+      "mediana",
+      "Q1",
+      "Q3",
+      "P50",
+      "15.1",
+      "102.9"
+     ],
+     "dom": "LABORATÓRIO Análise monovariada — venda de limonada ANALISE-EXPLORATORIA-L1 As cinco colunas numéricas do conjunto de 365 dias de venda de limonada. Em cima o histograma, embaixo o boxplot, na mesma escala horizontal — para você ver os dois falando da mesma distribuição. A linha tracejada laranja é a média; a verde, a mediana. O afastamento entre elas é o sinal de assimetria mais barato que existe. Percorra as cinco colunas e responda, para cada uma: A distribuição é simétrica? De que lado ela puxa? Há outliers pela regra da cerca de 1,5 × IQR? Quantos? A média é uma boa descrição desta variável — ou a mediana descreve melhor? Duas colunas têm respostas surpreendentes. Os exercícios logo abaixo pedem os números que só o painel mostra — abra o laboratório antes de responder, porque o enunciado não os entrega. Variável temperatura precipitacao panfletos preco vendas classes do histograma n 365 valores distintos 176 média 60.73 mediana (P50) 61.10 moda 55.90 (×8) desvio-padrão 16.17 mínimo · máximo 15.10 · 103 Q1 · Q3 49.70 · 71.30 IQR 21.60 P10 · P90 38.10 · 80.74 cerca (1,5 × IQR) 17.30 · 104 outliers 1 Distribuição aproximadamente simétrica. 1 ponto(s) fora da cerca de 1,5 × IQR — em vermelho no boxplot. Histograma em cima, boxplot embaixo, na mesma escala horizontal. A linha tracejada laranja é a média; a verde, a mediana.",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "i-5-visualizacao-storytelling": {
+   "labs": [
+    {
+     "id": "visualizacao-storytelling-l1",
+     "tipo": "anima-eixo",
+     "canvas": [
+      "satisfação do cliente · barra · base do eixo em 0.0",
+      "T1  88.1",
+      "T2  88.4",
+      "T3  88.9",
+      "T4  89.2"
+     ],
+     "dom": "LABORATÓRIO Suba a base do eixo e veja o que acontece com o que não mudou VISUALIZACAO-STORYTELLING-L1 Quatro barras, quatro números: 88,1 · 88,4 · 88,9 · 89,2. Eles não mudam em nenhum quadro desta animação. O que sobe é a base do eixo, de 0 até 88. Antes de assistir, arrisque um número. Com o eixo começando em 88, quantas vezes a última barra fica maior que a primeira na tela? Doze. As alturas passam a valer 0,1 · 0,4 · 0,9 · 1,2, e 1,2 ÷ 0,1 = 12. A razão real entre os dois valores é 1,0125, ou seja, uma diferença de pouco mais de 1%. O exagero é de quase doze vezes, e nenhum número foi falsificado no caminho. Esta animação corrigiu o próprio livro. O exercício logo abaixo dizia \"cerca de onze vezes\". São doze, exatamente. A conta é curta e passou despercebida até a máquina fazê-la, o que é a versão caseira do que o capítulo IV.1 conta sobre números que viajam sem ser conferidos. Agora clique em \"E se fosse uma linha?\". Mesmos dados, mesma base truncada, e a leitura deixa de ser abusiva. Não é indulgência: numa linha o que codifica a quantidade é a inclinação, não o comprimento, então cortar a base não quebra a codificação. Por isso a regra do capítulo tem duas metades: barra sempre parte do zero; linha pode não partir, desde que o corte esteja visível e declarado. satisfação do cliente · barra · valores 88.1 · 88.4 · 88.9 · 89.2 (inalterados) · base do eixo 0.0 · razão real entre a maior e a menor 1.0125 · razão das alturas na tela 1.01 Rodar de novo E se fosse uma linha?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "i-6-representacao": {
+   "labs": [
+    {
+     "id": "representacao-l1",
+     "tipo": "anima-escala",
+     "canvas": [
+      "colunas como vieram · escala da coluna 1 em 1.0x",
+      "azul = vizinhos ainda iguais (de 5)",
+      "vermelho = fração de rótulos virados"
+     ],
+     "dom": "LABORATÓRIO Troque a unidade de uma coluna e conte os vizinhos REPRESENTACAO-L1 Trezentos pontos, dois atributos, k-vizinhos com k = 5. A tabela é a mesma do começo ao fim: o que muda é a unidade da primeira coluna, multiplicada progressivamente até 100×. Metros para centímetros, reais para centavos, a coisa mais inofensiva que existe numa planilha. Duas curvas: quantos dos 5 vizinhos de cada ponto ainda são os mesmos, e a fração de rótulos previstos que virou. Antes de assistir, arrisque. Trocando a unidade de uma coluna, quantos dos 5 vizinhos você acha que sobrevivem? Sobram 0,81. Menos de um de cinco. E 31% dos rótulos previstos viram — quase um terço das decisões do modelo muda porque alguém exportou a planilha em outra unidade. Nenhum número foi corrompido; nenhuma linha foi perdida. Agora clique em \"E se as colunas fossem padronizadas antes?\". Os 5 vizinhos continuam os 5 vizinhos, e 0,0% dos rótulos viram. Repare que a segunda linha não é uma melhora: é uma invariância. Não são \"quase 5\" nem \"poucos rótulos\"; são exatamente 5,00 e exatamente 0,0%. Padronizar não deixa o k-NN mais esperto. Deixa a resposta dele indiferente à unidade em que o dado chegou — e é isso que se quer, porque a unidade não é informação sobre o problema, é acidente de quem exportou. E a ordem é o assunto. Padronizar não protege se a padronização rodar antes da troca de unidade: aí ela padroniza a régua velha e a nova passa por cima. Só protege quem padroniza depois que o dado chegou, dentro do pipeline, toda vez. É a mesma disciplina que o capítulo I.3 exige contra vazamento, aplicada a outro risco. colunas como vieram · escala da coluna 1 em 1.0x · dos 5 vizinhos, ainda são os mesmos 5.00 · rótulos previstos que viraram 0.0% Rodar de novo E se as colunas fossem padronizadas antes?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "ii-1-avaliacao": {
+   "labs": [
+    {
+     "id": "avaliacao-l1",
+     "tipo": "anima-limiar",
+     "canvas": [
+      "escores dos positivos",
+      "escores dos negativos",
+      "matriz de confusão (de 2000)",
+      "VP",
+      "57",
+      "FP",
+      "0",
+      "FN",
+      "943",
+      "VN",
+      "1000",
+      "ROC · falso positivo × revocação"
+     ],
+     "dom": "LABORATÓRIO Desça o limiar e veja quais números se mexem AVALIACAO-L1 Não há nada a treinar aqui. Os escores já existem, os positivos sorteados de uma distribuição e os negativos de outra, e a única coisa que se move é onde se corta. O limiar desce de 0,98 a 0,00, e a cada quadro a matriz de confusão, a acurácia, a precisão e a revocação mudam junto, com o ponto andando sobre a ROC. Assista uma vez com as classes equilibradas. Precisão e revocação andam em direções opostas, que é a troca da qual o capítulo inteiro depende, e o melhor F1 aparece no meio do caminho. Agora, antes de clicar, responda: se só 1% dos casos fosse positivo, o que aconteceria com a acurácia? Escreva a sua resposta e então clique em \"E se só 1% fosse positivo?\". Ela sobe. No limiar alto a acurácia bate 0,992 com revocação de 0,168: o modelo está deixando escapar mais de 80% dos positivos e acertando quase tudo, porque quase tudo é negativo. Dizer \"não\" a todo mundo já daria 0,990. É o O1 deste capítulo em três números na tela. Repare agora no que não se mexeu. A AUC-ROC fica em 0,968 nas duas prevalências, dígito por dígito. Não é coincidência da simulação, é a definição: a ROC compara positivos com positivos e negativos com negativos, e a proporção entre os dois não entra na conta. Já a AUC-PR cai de 0,925 para 0,578, porque a precisão depende da prevalência. É por isso que a seção acima prefere a AUC-PR para classe rara, e é a distância entre o O4 e o O1 vista de uma vez só. prevalência 0.50 · limiar 0.98 · VP 57 FP 0 FN 943 VN 1000 · acurácia 0.528 · precisão 1.000 · revocação 0.057 · AUC-ROC 0.968 · AUC-PR 0.925 Rodar de novo E se só 1% fosse positivo?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "ii-2-modelos-lineares": {
+   "labs": [
+    {
+     "id": "modelos-lineares-l1",
+     "tipo": "regressao-linear",
+     "canvas": [
+      "x",
+      "y",
+      "-4.7",
+      "a",
+      "8.6",
+      "44",
+      "b",
+      "-37",
+      "fundo · EQM 9.48",
+      "o plano (a, b): a tigela vista de cima",
+      "você  a 0.00 · b 0.00 · EQM 238"
+     ],
+     "dom": "LABORATÓRIO Mínimos quadrados à mão MODELOS-LINEARES-L1 Cada segmento cinza é um resíduo: a distância vertical de um ponto até a sua reta. Minimize no olho até o número parar de cair, ligue \"Ver os quadrados\" para ver que ele soma áreas, e revele a ótima. inclinação a intercepto b EQM — o que minimizamos 238 SQE — soma dos quadrados 5713 RMSE — na unidade de y 15.43 EAM — erro absoluto médio 14.25 R² -5.83 O menor EQM aqui é 9.48. Falta 229. Ajustar sozinho Revelar a ótima Ver os quadrados Novos dados Arraste as alças ● nas pontas da reta.",
+     "temApi": true,
+     "vocabulario": null
+    },
+    {
+     "id": "modelos-lineares-l2",
+     "tipo": "anima-normais",
+     "canvas": [
+      "atributos como vieram · excesso de erro sobre o ótimo fechado (log)",
+      "passo 0",
+      "passo 4000",
+      "1e1",
+      "1e-6"
+     ],
+     "dom": "LABORATÓRIO O gradiente atrás de uma resposta que já existe MODELOS-LINEARES-L2 Trezentos pontos, 4 000 passos. Rode como os atributos vieram, depois padronizados. atributos como vieram · passo 0 · passo de 7.3e-3 · soma dos quadrados por ponto 50.2949 · excesso de erro sobre o ótimo fechado 1.46e+2 Rodar de novo E se os atributos fossem padronizados?",
+     "temApi": false,
+     "vocabulario": null
+    },
+    {
+     "id": "modelos-lineares-l3",
+     "tipo": "regressao-limonada",
+     "canvas": [],
+     "dom": "LABORATÓRIO Primeira volta MODELOS-LINEARES-L3 A primeira das cinco voltas do painel. Ajustar agora antes intercepto — — preco — — Clique em Ajustar.",
+     "temApi": true,
+     "vocabulario": [
+      "intercepto",
+      "agora",
+      "antes",
+      "dias no ajuste",
+      "Clique em Ajustar.",
+      "Algo mudou. Ajuste de novo.",
+      "Marque ao menos um atributo.",
+      "Neste recorte a coluna tem um valor só. O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há.",
+      "Dias de menos para tantos atributos.",
+      "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.",
+      "preco"
+     ]
+    },
+    {
+     "id": "modelos-lineares-l4",
+     "tipo": "regressao-limonada",
+     "canvas": [],
+     "dom": "LABORATÓRIO Segunda volta MODELOS-LINEARES-L4 Marque temperatura e ajuste de novo. temperatura Ajustar agora antes intercepto — — preco — — temperatura — — Clique em Ajustar.",
+     "temApi": true,
+     "vocabulario": [
+      "intercepto",
+      "agora",
+      "antes",
+      "dias no ajuste",
+      "Clique em Ajustar.",
+      "Algo mudou. Ajuste de novo.",
+      "Marque ao menos um atributo.",
+      "Neste recorte a coluna tem um valor só. O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há.",
+      "Dias de menos para tantos atributos.",
+      "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.",
+      "preco",
+      "temperatura"
+     ]
+    },
+    {
+     "id": "modelos-lineares-l5",
+     "tipo": "regressao-limonada",
+     "canvas": [],
+     "dom": "LABORATÓRIO Terceira volta MODELOS-LINEARES-L5 Marque as duas caixas e ajuste. Uma linha nova aparece embaixo. precipitacao panfletos Ajustar agora antes intercepto — — preco — — temperatura — — precipitacao — — panfletos — — R² — — Clique em Ajustar.",
+     "temApi": true,
+     "vocabulario": [
+      "intercepto",
+      "agora",
+      "antes",
+      "dias no ajuste",
+      "Clique em Ajustar.",
+      "Algo mudou. Ajuste de novo.",
+      "Marque ao menos um atributo.",
+      "Neste recorte a coluna tem um valor só. O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há.",
+      "Dias de menos para tantos atributos.",
+      "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.",
+      "R²",
+      "preco",
+      "temperatura",
+      "precipitacao",
+      "panfletos"
+     ]
+    },
+    {
+     "id": "modelos-lineares-l6",
+     "tipo": "regressao-limonada",
+     "canvas": [],
+     "dom": "LABORATÓRIO Quarta volta MODELOS-LINEARES-L6 alta_temporada vale 1 nos 62 dias de julho e agosto, e 0 nos outros 303. preco alta_temporada Ajustar agora antes intercepto — — temperatura — — precipitacao — — panfletos — — preco — — alta_temporada — — R² — — Clique em Ajustar.",
+     "temApi": true,
+     "vocabulario": [
+      "intercepto",
+      "agora",
+      "antes",
+      "dias no ajuste",
+      "Clique em Ajustar.",
+      "Algo mudou. Ajuste de novo.",
+      "Marque ao menos um atributo.",
+      "Neste recorte a coluna tem um valor só. O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há.",
+      "Dias de menos para tantos atributos.",
+      "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.",
+      "R²",
+      "temperatura",
+      "precipitacao",
+      "panfletos",
+      "preco",
+      "alta_temporada"
+     ]
+    },
+    {
+     "id": "modelos-lineares-l7",
+     "tipo": "regressao-limonada",
+     "canvas": [],
+     "dom": "LABORATÓRIO Quinta volta MODELOS-LINEARES-L7 O corte escolhe quantos dias entram. Mexa nele e ajuste de novo. corte de treino Ajustar agora antes intercepto — — preco — — temperatura — — precipitacao — — panfletos — — R² — — Clique em Ajustar.",
+     "temApi": true,
+     "vocabulario": [
+      "intercepto",
+      "agora",
+      "antes",
+      "dias no ajuste",
+      "Clique em Ajustar.",
+      "Algo mudou. Ajuste de novo.",
+      "Marque ao menos um atributo.",
+      "Neste recorte a coluna tem um valor só. O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há.",
+      "Dias de menos para tantos atributos.",
+      "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.",
+      "R²",
+      "preco",
+      "temperatura",
+      "precipitacao",
+      "panfletos"
+     ]
+    },
+    {
+     "id": "modelos-lineares-l8",
+     "tipo": "regressao-limonada",
+     "canvas": [],
+     "dom": "LABORATÓRIO Sexta volta MODELOS-LINEARES-L8 Escolha um mês e ajuste. Depois tente outro, e outro. preco recorte o ano inteiro janeiro fevereiro março abril maio junho julho agosto setembro outubro novembro dezembro Ajustar agora antes intercepto — — temperatura — — precipitacao — — panfletos — — preco — — R² — — Clique em Ajustar.",
+     "temApi": true,
+     "vocabulario": [
+      "intercepto",
+      "agora",
+      "antes",
+      "dias no ajuste",
+      "Clique em Ajustar.",
+      "Algo mudou. Ajuste de novo.",
+      "Marque ao menos um atributo.",
+      "Neste recorte a coluna tem um valor só. O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há.",
+      "Dias de menos para tantos atributos.",
+      "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.",
+      "R²",
+      "temperatura",
+      "precipitacao",
+      "panfletos",
+      "preco"
+     ]
+    }
+   ]
+  },
+  "ii-3-regressao-logistica": {
+   "labs": [
+    {
+     "id": "regressao-logistica-l1",
+     "tipo": "anima-separavel",
+     "canvas": [
+      "sem penalização · norma de w (laranja) e perda (azul)",
+      "passo 0",
+      "passo 400"
+     ],
+     "dom": "LABORATÓRIO A perda ainda cai. O modelo ainda melhora? REGRESSAO-LOGISTICA-L1 Duzentos pontos, duas classes, linearmente separáveis por uma folga estreita. Descida de gradiente na entropia cruzada, 400 passos. Três números no placar: a norma de w, a perda e a acurácia. No passo 52 a acurácia chega a 1,000 e não sai mais de lá. Todos os pontos do lado certo, todos. Aqui vem a pergunta que a animação existe para fazer. Do passo 52 ao 400 a perda continua caindo, de 0,23 para 0,078. O modelo continua melhorando? Não. A fronteira é a mesma; o que muda é a confiança. A norma de w vai de 6,08 no passo 200 para 7,91 no passo 400, e continuaria subindo se a animação não parasse. Com dado separável, o máximo da verossimilhança não existe em ponto nenhum: a perda tende a zero à medida que a norma tende ao infinito, empurrando as probabilidades para 0 e para 1. Não é o otimizador que está mal ajustado, é que não há ponto ótimo a alcançar. E \"não há solução fechada\" quer dizer exatamente isto quando se olha de perto. Clique em \"E se houvesse penalização L2?\". A norma para em 3,31 e fica lá, a perda estabiliza em 0,226, e a acurácia continua 1,000. A penalização não melhorou a classificação: ela devolveu ao problema um ponto ótimo que ele não tinha. É por isso que regularizar não é ajuste fino. sem penalização · passo 0 · norma de w 0.00 · perda 0.6931 · acurácia 0.500 Rodar de novo E se houvesse penalização L2?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "ii-4-otimizacao": {
+   "labs": [
+    {
+     "id": "otimizacao-l1",
+     "tipo": "anima-taxas",
+     "canvas": [
+      "época",
+      "taxa 0.001",
+      "taxa 0.1",
+      "taxa 1.5"
+     ],
+     "dom": "LABORATÓRIO Três taxas na mesma paisagem, e a mesma taxa em duas perdas OTIMIZACAO-L1 A tabela acima descreve formas de curva, e forma não se compara em sequência: é preciso ver as três ao mesmo tempo. Aqui não há nada a manipular. O dado é o mesmo, a paisagem é a mesma, o ponto de partida é o mesmo, e a única diferença entre as três curvas é o tamanho do passo. São 60 épocas de gradiente descendente com taxas de 0,001, 0,1 e 1,5. Assista e compare com as três primeiras linhas da tabela: 0,001 desce. Depois de 60 épocas, saiu de cerca de 0,58 para 0,5521 — menos de 10% do caminho. É a curva que \"desce, mas quase imperceptivelmente\", e o perigo dela é parecer saudável: ela nunca dá erro, nunca oscila, e só custa tempo. 0,1 desce de verdade e chega a 0,0061. 1,5 sai da moldura. A seta marca a época em que ela passou do teto e a linha parou de ser desenhada. O 1,5 não estoura por azar. Nesta paisagem a fronteira de estabilidade é exatamente 1,0: acima dela, cada passo salta o mínimo e chega mais longe do que estava, e a distância cresce a cada época. Agora troque só a perda # Clique em \"E se a perda fosse logística?\". Vale prever antes: o mesmo 1,5 estoura de novo? Não estoura. Com perda logística, sobre o mesmo dado, a taxa 1,5 termina em 0,1455 — e é a melhor das três, à frente do 0,1, que chega a 0,4545. A taxa que era destrutiva em uma paisagem é a mais eficiente na outra. A razão está na seção seguinte, e é o motivo de esta animação existir: o erro quadrático não tem teto, e a perda logística tem. Guarde a consequência prática antes de ler o porquê: \"não explodiu\" não é evidência de que a taxa está boa — e, como o 0,001 mostra do outro lado, \"não explodiu\" também não é evidência de que ela está aprendendo. erro quadrático · época 0 · taxa 0.001: fora da escala (começando) · taxa 0.1: fora da escala (começando) · taxa 1.5: fora da escala (começando) Recomeçar E se a perda fosse logística?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "ii-5-arvores-ensembles": {
+   "labs": [
+    {
+     "id": "arvores-ensembles-l1",
+     "tipo": "anima-ensemble",
+     "canvas": [
+      "uma árvore, cada vez mais fundo · 0 cortes gastos de 60",
+      "erro de treino 1.473",
+      "erro de validação 1.727"
+     ],
+     "dom": "LABORATÓRIO O mesmo orçamento de cortes, gasto de dois jeitos ARVORES-ENSEMBLES-L1 Sessenta cortes. Ou você os gasta numa árvore só, que vai ficando mais funda, ou os espalha em tocos somados, um corte cada. Mesmo dado, mesma divisão treino/validação, mesmo orçamento. A linha laranja é a previsão; os dois erros aparecem embaixo. Comece pela árvore. O erro de treino desce sem parar, como tem de descer. Mas olhe o de validação: ele chega ao melhor valor, 0,2969, no corte 11 — e depois sobe. A árvore passa os 21 cortes seguintes ficando pior, e termina 20% acima do próprio melhor. Agora clique em \"E gastando os mesmos cortes em tocos?\". O erro de validação desce e continua descendo até o corte 59. E aqui vem a parte que quase nunca se conta. O melhor ponto isolado é da árvore, não do boosting: 0,2969 contra 0,3041. Se você soubesse parar exatamente no corte 11, a árvore única seria a melhor escolha. Só que você não sabe. O corte 11 não tem nada de especial visto de dentro do treino: o erro de treino segue caindo alegremente por lá. A única coisa que aponta o corte 11 é o conjunto de validação, e se você o tem, também pode usá-lo para parar o boosting. A diferença prática é a penalidade do erro: errar o ponto de parada da árvore custa 20% de erro a mais; errar o do boosting custa quase nada, porque a curva dele é quase plana no fim. É por isso que o boosting é o padrão em dado tabular, e não por ser mais expressivo. Ele é mais fácil de não estragar. uma árvore, cada vez mais fundo · cortes 0 de 60 · erro de treino 1.4734 · erro de validação 1.7272 Rodar de novo E gastando os mesmos cortes em tocos?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "ii-7-series-temporais": {
+   "labs": [
+    {
+     "id": "series-temporais-l1",
+     "tipo": "anima-origem-movel",
+     "canvas": [
+      "a série · do tracejado em diante, as 8 dobras",
+      "MAE por dobra (origem móvel)",
+      "embaralhado: 0.76"
+     ],
+     "dom": "LABORATÓRIO O mesmo modelo, medido dos dois jeitos SERIES-TEMPORAIS-L1 Uma série, um modelo, os mesmos atributos. Muda só o protocolo de avaliação. A janela de origem móvel avança, e o MAE de cada uma das oito dobras aparece em barra; a linha vermelha é o MAE da divisão embaralhada, calculado uma vez sobre as mesmas linhas. Antes de assistir, preveja o sinal. A divisão embaralhada é o método errado, então o número que ela produz vai sair maior ou menor que o certo? Sai menor: 0,76 contra 1,47. E é exatamente isso que a torna perigosa. Erro que aparece grande ninguém publica; erro que aparece pequeno vira slide, e a diferença entre os dois é invisível para quem só vê o slide. Agora clique em \"E se houvesse uma quebra de regime?\". A origem móvel sente o degrau e o MAE médio salta para 3,07, enquanto o embaralhado mal se mexe, de 0,76 para 0,82. Ele quase não enxerga a quebra, porque as linhas de depois dela estão no treino dele. O tamanho da mentira não é fixo, e essa é a lição de verdade. Sem quebra, o embaralhado mente por um fator de 1,9; com quebra, 3,7. A mesma dependência aparece se você mexer na tendência da série: com uma tendência três vezes menor, a mentira cai para 1,1, quase indistinguível. Ou seja, o método errado parece inofensivo justamente quando o mundo está parado, e passa a mentir quando o mundo se mexe. Só que é quando o mundo se mexe que você precisa da previsão. série sem quebra · dobras concluídas 0 de 8 · MAE médio da origem móvel 0.00 · MAE da divisão embaralhada 0.76 Rodar de novo E se houvesse uma quebra de regime?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "ii-8-do-modelo-a-decisao": {
+   "labs": [
+    {
+     "id": "do-modelo-a-decisao-l1",
+     "tipo": "anima-custo",
+     "canvas": [
+      "escore calibrado · limiar ótimo medido, contra 1/(1+custo)",
+      "custo do FN = 1",
+      "= 10",
+      "limiar 1,0",
+      "limiar 0,0"
+     ],
+     "dom": "LABORATÓRIO Encareça o falso negativo e veja para onde o limiar vai DO-MODELO-A-DECISAO-L1 O modelo não muda em nenhum quadro desta animação. Os escores são os mesmos do começo ao fim. O que sobe é o custo do falso negativo, de 1 a 10, com o falso positivo valendo 1; a linha azul é o limiar que minimiza o custo esperado, medido por varredura. Antes de assistir, preveja a direção. Deixar passar um positivo ficou dez vezes mais caro que dar um alarme falso. O limiar ótimo sobe ou desce? Desce, de 0,46 para 0,115. A intuição diz \"preciso ter mais certeza antes de agir\", e ela está exatamente invertida: o que encareceu foi não agir. Quando errar por omissão dói mais, o corte certo é apontar mais gente, aceitando mais alarme falso de propósito. O tracejado é a fórmula 1/(1 + custo), e a linha medida a acompanha. Não é coincidência: com escore calibrado, esse é o corte ótimo, e ele sai de uma conta de duas linhas. A animação está exibindo um resultado, não uma tendência. O preço de não decidir. Quem deixa o limiar em 0,50 \"porque é o padrão\" não fica parado: no custo 10, essa inércia sai 2 220 mais cara por mil casos que o corte ótimo. Esse é o número para levar à reunião, e ele não é uma métrica estatística. Agora clique em \"E se o escore não fosse calibrado?\". Os escores são espremidos para perto de 0,3, o que preserva a ordem e mata a calibração: a AUC não muda, e o modelo continua ordenando igual. A fórmula desaba na hora — o limiar ótimo medido quase para de responder ao custo, indo de 0,34 a 0,26 onde deveria ir de 0,50 a 0,11. É a terceira pergunta do capítulo II.1, a da calibração, aparecendo aqui como dinheiro perdido em vez de refinamento técnico. Se a decisão a jusante multiplica a probabilidade por um valor, calibração deixou de ser opcional. pronto para rodar Rodar de novo E se o escore não fosse calibrado?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iii-1-neuronio-artificial": {
+   "labs": [
+    {
+     "id": "neuronio-artificial-l1",
+     "tipo": "neuronio-mp",
+     "canvas": [
+      "x₁",
+      "x₂",
+      "(0,0)",
+      "(0,1)",
+      "(1,0)",
+      "(1,1)"
+     ],
+     "dom": "LABORATÓRIO Neurônio de McCulloch–Pitts NEURONIO-ARTIFICIAL-L1 Cada ponto no gráfico é uma linha da tabela-verdade. Verde = deveria disparar; branco/cinza = não deveria. A reta é w₁x₁ + w₂x₂ = θ, e a região sombreada é onde o neurônio dispara. Sua tarefa: mover a reta até que todos os pontos verdes fiquem dentro da região sombreada e todos os outros fiquem fora. Comece pelo E (AND). Depois tente OU, NÃO-E e NÃO-OU, que têm solução, e cada um tem infinitas soluções. Deixe o OU-EXCLUSIVO (XOR) por último. Função que você quer construir E (AND) OU (OR) NÃO-E (NAND) NÃO-OU (NOR) OU-EXCLUSIVO (XOR) peso w₁ peso w₂ limiar θ saída = 1 se 0.0·x₁ + 0.0·x₂ ≥ 0.0, senão 0 x₁ x₂ esperado seu neurônio 0 0 0 1 ✘ 0 1 0 1 ✘ 1 0 0 1 ✘ 1 1 1 1 ✔ 1 de 4 corretos. Ajuste os pesos e o limiar. Cada ponto é uma linha da tabela-verdade. A reta é w₁x₁ + w₂x₂ = θ. A região sombreada é onde o neurônio dispara (saída 1).",
+     "temApi": false,
+     "vocabulario": null
+    },
+    {
+     "id": "neuronio-artificial-l2",
+     "tipo": "anima-perceptron",
+     "canvas": [],
+     "dom": "LABORATÓRIO O perceptron aprendendo, e onde ele para NEURONIO-ARTIFICIAL-L2 No laboratório acima você procurou os pesos. Aqui quem procura é o método: a cada passo ele olha um exemplo, e se errou, empurra a fronteira na direção daquele ponto. É a regra de 1958 inteira, e não há mais nada nela. Assista até a contagem de erros zerar. Depois clique em \"E se os dados forem XOR?\" e assista de novo, com o relógio na mão. O que você vai ver na segunda vez é o assunto da próxima seção. época 0 · 0 erros nesta passada Rodar de novo E se os dados forem XOR?",
+     "temApi": false,
+     "vocabulario": null
+    },
+    {
+     "id": "neuronio-artificial-l3",
+     "tipo": "perceptron-treino",
+     "canvas": [
+      "x₁",
+      "x₂"
+     ],
+     "dom": "LABORATÓRIO Agora o aprendizado é seu: um passo por vez NEURONIO-ARTIFICIAL-L3 No laboratório de cima o método rodava sozinho. Aqui você é o relógio. \"Um passo\" mostra a regra de 1958 acontecendo uma vez: ele pega um exemplo, compara o que saiu com o que devia sair, e corrige os pesos só se errou. O placar diz qual exemplo foi, o que esperava, o que saiu, e se mexeu em alguma coisa. Faça assim: escolha o E (AND), aperte \"Um passo\" umas dez vezes lendo o placar a cada vez, e só depois use \"Uma época\" e \"Rodar até parar\". Com o AND ele fecha em cinco épocas. Depois troque para XOR e rode até parar. Ele para porque bateu no teto de 60 épocas, não porque acertou: ficam 2 erros de 4, e os pesos continuam se mexendo para sempre. E agora a parte que o autor deste livro queria que você visse # Troque \"Quantas entradas o neurônio tem\" para 4 entradas. O plano some, e some por um motivo honesto: quatro entradas não cabem numa folha de papel. O que aparece no lugar são as barras dos pesos. Rode até parar. Ele converge em 10 épocas, com zero erros de 16 casos. Guarde esta assimetria, porque ela vale para o livro inteiro: perdemos a figura, não o método. A regra é a mesma, os pesos são os mesmos, o erro continua sendo um número que se calcula. O que acabou foi a nossa capacidade de olhar — e confundir \"não consigo desenhar\" com \"não consigo verificar\" é um dos erros mais caros que existem em aprendizado de máquina. Daqui em diante, quase tudo neste livro acontece em dimensões que você nunca vai ver. Quantas entradas o neurônio tem 2 entradas (dá para desenhar) 4 entradas (não dá) Função a aprender (só com 2 entradas) E (AND) OU (OR) NÃO-E (NAND) OU-EXCLUSIVO (XOR) taxa de aprendizado Um passo Uma época Rodar até parar Zerar os pesos AND · época 0 · erros agora 3 de 4 · w1=0.00 w2=0.00 b=0.00",
+     "temApi": true,
+     "vocabulario": null
+    },
+    {
+     "id": "neuronio-artificial-l5",
+     "tipo": "perceptron-tabela",
+     "canvas": [],
+     "dom": "LABORATÓRIO A mesma tabela, com a sua partida NEURONIO-ARTIFICIAL-L5 A tabela acima é uma partida entre infinitas. Aqui você escolhe a sua: mude a taxa, os pesos iniciais e o limiar, ou aperte \"Sortear pesos\" e aceite o que vier. A tabela é recalculada inteira, e o placar responde a única pergunta que importa: em quantas épocas convergiu. Faça três medições antes de seguir. Primeiro, baixe a taxa para 0,1 sem mexer no resto e conte as épocas. Depois suba para 1 e conte de novo. Por último, ponha os dois pesos iniciais em 0,9 com a taxa em 0,5, e repare no número que aparece. Depois troque o alvo para XOR e veja o placar dizer que parou pelo teto, e não por acerto. A regra é Δwᵢ = η · erro · xᵢ. Mude a partida e veja o número de épocas mudar. Função a aprender OU E NÃO-E XOR Taxa de aprendizado η w₁ inicial w₂ inicial Limiar θ Sortear pesos ép x₁ w₁ x₂ w₂ soma θ esperado saída erro Δw₁ Δw₂ 1 0 -0,2 0 0,4 0 0,5 0 0 0 0 0 1 0 -0,2 1 0,4 0,4 0,5 1 0 +1 0 0,5 1 1 -0,2 0 0,9 -0,2 0,5 1 0 +1 0,5 0 1 1 0,3 1 0,9 1,2 0,5 1 1 0 0 0 2 0 0,3 0 0,9 0 0,5 0 0 0 0 0 2 0 0,3 1 0,9 0,9 0,5 1 1 0 0 0 2 1 0,3 0 0,9 0,3 0,5 1 0 +1 0,5 0 2 1 0,8 1 0,9 1,7 0,5 1 1 0 0 0 3 0 0,8 0 0,9 0 0,5 0 0 0 0 0 3 0 0,8 1 0,9 0,9 0,5 1 1 0 0 0 3 1 0,8 0 0,9 0,8 0,5 1 1 0 0 0 3 1 0,8 1 0,9 1,7 0,5 1 1 0 0 0 Convergiu em 3 épocas. Pesos finais: w₁ = 0,8, w₂ = 0,9.",
+     "temApi": true,
+     "vocabulario": null
+    },
+    {
+     "id": "neuronio-artificial-l4",
+     "tipo": "circuito-neuronios",
+     "canvas": [
+      "x₁ x₂",
+      "A",
+      "B",
+      "saída",
+      "XOR",
+      "0  0",
+      "0",
+      "0  1",
+      "1",
+      "1  0",
+      "1  1",
+      "x₁ ─┬─→ A ─┐",
+      "    │       ├─→ saída",
+      "x₂ ─┴─→ B ─┘"
+     ],
+     "dom": "LABORATÓRIO Monte o XOR com dois neurônios e um terceiro por cima NEURONIO-ARTIFICIAL-L4 Três neurônios de McCulloch–Pitts, com os pesos que você já viu no primeiro laboratório. Os dois de baixo, A e B, recebem x₁ e x₂. O de cima recebe as saídas de A e B — e é só isso que muda. Sua tarefa: escolher que porta cada um dos três implementa, até que a coluna \"saída\" fique igual à coluna \"XOR\" nas quatro linhas. Vale tentar antes de ler a próxima frase. Se quiser uma pista: pense em o que o XOR quer dizer em palavras — \"um ou outro, mas não os dois\". Essa frase tem duas metades, e cada metade é uma porta que você já sabe construir. A resposta é A = OU, B = NÃO-E, saída = E. \"Pelo menos um\" e \"não os dois\". Repare no que aconteceu, porque é a tese da Parte III inteira. Nenhum dos três neurônios é diferente do que você usou na primeira página deste capítulo. Nenhum aprendeu nada: você escolheu as portas na mão. O que mudou foi a composição — a saída de dois neurônios virou a entrada de um terceiro. E o ganho é exatamente o que faltava: com duas retas em vez de uma, o plano deixa de ser cortado ao meio e passa a ser cortado em faixas. O XOR mora numa faixa. O que este laboratório não faz é achar as portas sozinho. Você as escolheu porque sabia o que queria. Ninguém sabe qual porta pôr num circuito de dez mil neurônios, e é por isso que o capítulo III.2 existe: ele mantém a composição que você acabou de montar e troca a sua escolha por um método. A camada escondida do capítulo seguinte é este A e este B, com os pesos aprendidos em vez de escolhidos. Neurônio A (recebe x₁ e x₂) E (AND) OU (OR) NÃO-E (NAND) NÃO-OU (NOR) Neurônio B (recebe x₁ e x₂) E (AND) OU (OR) NÃO-E (NAND) NÃO-OU (NOR) Neurônio de saída (recebe A e B) E (AND) OU (OR) NÃO-E (NAND) NÃO-OU (NOR) A = OU (OR) · B = E (AND) · saída = E (AND) · linhas certas do XOR: 1 de 4",
+     "temApi": true,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iii-2-redes-neurais": {
+   "labs": [
+    {
+     "id": "redes-neurais-l1",
+     "tipo": "anima-mlp-xor",
+     "canvas": [],
+     "dom": "LABORATÓRIO O XOR resolvido, e as duas retas girando REDES-NEURAIS-L1 É o mesmo XOR em que o perceptron do capítulo III.1 oscilava sem fim. Aqui a rede é 2 → 2 → 1, com tanh na camada escondida, e ninguém escolheu peso nenhum: ela parte de valores aleatórios e desce o gradiente. As duas retas são as fronteiras que as duas unidades escondidas estão aprendendo, e são o conteúdo da animação, não enfeite. Repare que a solução nunca vira uma fronteira curva: são duas retas, e quem as combina é a camada de saída — exatamente o (OU) E (NÃO-E) da tabela, encontrado sozinho. Ponto com contorno é ponto que a rede ainda erra. Assista até a contagem fechar, na época 142. Depois use os dois outros botões, nesta ordem. \"E sem a camada escondida?\" deixa tudo igual e tira só a camada do meio. Mesma descida, mesma perda, mesmo tempo, e ela empaca em 24 de 48, que é o acaso. O que resolveu o XOR não foi o gradiente: foi a camada. \"E se a inicialização for infeliz?\" mantém a camada e muda apenas de onde os pesos partem. A rede empaca em 24 de 48 com a perda parada em 0,348, e não sai mais dali. Não há erro nenhum: o método está correto, a implementação está correta, e a descida caiu num mínimo local. Varrendo 60 inicializações sobre este mesmo conjunto, 44 resolvem e 16 não. Esse botão existe porque o problema apareceu de verdade ao construir esta animação — a primeira semente escolhida era uma das 16. É o modo de falha \"inicialização ruim\" do objetivo O4, e vê-lo aqui torna o resto do capítulo menos abstrato. camada escondida com 2 neurônios · época 0 · perda 1.000 · 23 de 48 certos Rodar de novo E sem a camada escondida? E se a inicialização for infeliz?",
+     "temApi": false,
+     "vocabulario": null
+    },
+    {
+     "id": "redes-neurais-l3",
+     "tipo": "mlp-tabela",
+     "canvas": [],
+     "dom": "LABORATÓRIO Os nove pesos mudando: agora o relógio é seu REDES-NEURAIS-L3 Esta é a rede da conta à mão, e você segura o botão. Aperte \"Um passo\" uma vez e compare com a tabela que acabou de ler: o caso é 𝑥 = ( 1 , 0 ) , a previsão vai a 0,5548, a perda a 0,1982, e os nove pesos param exatamente nos números impressos acima. Não é uma ilustração parecida; é a mesma conta. Repare nas duas linhas com gradiente zero, destacadas. São 𝑤 21 e 𝑤 22 , os pesos que multiplicam 𝑥 2 , e 𝑥 2 vale 0 neste caso. É a atribuição de culpa acontecendo na tela. Depois solte: \"Uma época\" percorre os quatro casos, \"100 épocas\" acelera. A tabela da seção anterior usa lote cheio — um ajuste por época, com os quatro casos somados. Aqui o ajuste é por caso, quatro por época, e por isso o XOR fecha muito antes: 583 épocas com a partida do capítulo e 𝜂 = 0 , 5 . Métodos diferentes, números diferentes, e é bom que a diferença apareça. Escreva a previsão antes de mexer # Troque \"Partida dos pesos\" para \"tudo zero\". Zero parece a partida mais neutra que existe, e a previsão quase unânime é \"vai demorar mais\". Está errada, e o erro não é de grau. A rede nunca fecha o XOR. Ela empaca em 3 de 4 — exatamente onde o perceptron do capítulo III.1 empacava, com a diferença de que agora há uma camada escondida inteira sem servir para nada. A razão está no placar, e ele diz em voz alta: ℎ 1 e ℎ 2 continuam idênticas. Com todos os pesos iguais, as duas unidades calculam a mesma coisa, recebem o mesmo delta e mudam do mesmo jeito, para sempre. Nada no método quebra o empate. Duas unidades escondidas viram uma. É por isso que inicialização é assimetria, e não ruído decorativo. Sortear os pesos não serve para \"começar em algum lugar\": serve para que as unidades comecem diferentes umas das outras. Guarde este mecanismo, porque ele é o mesmo que o capítulo III.3 retoma ao explicar por que a escala da inicialização decide se o gradiente some ou explode. O primeiro passo é o do capítulo, número por número. Escreva a sua previsão antes de trocar a partida para “tudo zero”. Partida dos pesos a do capítulo tudo zero sorteada Taxa de aprendizado η Um passo Uma época (4 casos) 100 épocas Reiniciar Passo 0 — nenhum peso se mexeu ainda. O próximo caso é x = (1, 0), alvo 1: o do capítulo. peso antes gradiente depois w₁₁ 0,5000 — 0,5000 w₂₁ -0,4000 — -0,4000 b₁ 0,1000 — 0,1000 w₁₂ 0,3000 — 0,3000 w₂₂ 0,8000 — 0,8000 b₂ -0,2000 — -0,2000 v₁ 0,6000 — 0,6000 v₂ -0,7000 — -0,7000 c 0,2000 — 0,2000 Perda média nos 4 casos: 0,2520 · acerta 2 de 4",
+     "temApi": true,
+     "vocabulario": null
+    },
+    {
+     "id": "redes-neurais-l2",
+     "tipo": "iframe",
+     "canvas": [],
+     "dom": "LABORATÓRIO O Playground: uma manopla por pergunta REDES-NEURAIS-L2 Este é o TensorFlow Playground, servido daqui mesmo — ele funciona com a sua rede fora do ar, e não manda nada para lugar nenhum. É código de terceiro sob Apache 2.0, e não um produto oficial do Google; a procedência está em publicar/tema/playground/LEIA-ME.md. Ele tem oito controles, e é aí que mora o perigo. Mexer em três coisas ao mesmo tempo, ver a perda cair e não saber qual delas causou é o oposto de aprender. Então a regra deste laboratório é uma só: uma manopla por pergunta, e você escreve a previsão antes de mexer. A interface está em inglês. A tradução dos rótulos: Na tela Em português Learning rate taxa de aprendizado Activation função de ativação Regularization / rate regularização e a força dela Features atributos de entrada Hidden layers camadas escondidas Training / Test loss perda de treino e de teste Noise ruído nos dados Ratio of training to test data proporção treino/teste As cinco perguntas # Dados em círculo, zero camadas escondidas, só x₁ e x₂. Preveja a perda antes de rodar. Depois acrescente x₁² e x₂² como entrada. Pergunta: por que a camada escondida dispensa esse gesto manual? Espiral: 1 camada de 8 unidades contra 2 camadas de 4. A contagem de parâmetros é parecida. Preveja qual treina melhor. Erra-se aqui com frequência. Espiral, 4 camadas, ativação Linear em todas. Desenhe num papel a fronteira que você espera, e só então rode. É o exercício e1 deste capítulo, em movimento. A mesma configuração, reinicializada cinco vezes. Quantas resolvem? Compare com as 44 de 60 que a animação do XOR mediu, logo acima. Troque tanh por ReLU. Pergunta final, e é a que separa quem leu o teorema de Hornik de quem decorou o nome dele: mudou o que a rede pode representar, ou só o quanto ela consegue treinar?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iii-3-treinar-redes-profundas": {
+   "labs": [
+    {
+     "id": "treinar-redes-profundas-l1",
+     "tipo": "anima-gradiente",
+     "canvas": [
+      "sigmoide + Xavier · norma do gradiente por camada (log)",
+      "10⁻⁶",
+      "camada 1",
+      "camada 20"
+     ],
+     "dom": "LABORATÓRIO Veja o gradiente descer 20 camadas, e a ReLU não bastar TREINAR-REDES-PROFUNDAS-L1 A animação é o próprio passo para trás. Uma rede de 20 camadas com 48 unidades cada, pesos sorteados de verdade, e a barra de cada camada é a norma do gradiente que chega ali, em escala logarítmica. A linha tracejada marca 10⁻⁶, o \"dividido por um milhão\" da seção anterior. Comece com sigmoide + Xavier e acompanhe as barras encolhendo da direita para a esquerda. A última camada recebe 1,09; a primeira recebe 1,4 × 10⁻¹². Não é aprender devagar, é não aprender: o gradiente atravessou a linha do milionésimo lá pela camada 10 e continuou caindo. Agora, antes de clicar, preveja: trocando a sigmoide pela ReLU, as barras ficam de pé? Clique em \"Trocar para ReLU + Xavier\". Elas melhoram nove ordens de grandeza, e ainda assim a primeira camada fica em 1,2 × 10⁻³. A ReLU sozinha não resolveu; ela transformou um problema fatal num problema grave. O motivo está três parágrafos acima: a dedução de Xavier supõe ativação aproximadamente linear, e a ReLU zera metade das entradas. Clique de novo, para ReLU + He. A primeira camada recebe 0,86, contra 1,09 na última. As barras ficam de pé, e o que mudou foi um fator 2 na variância dos pesos. Os três modos são a mesma rede. Os pesos saem do mesmo sorteio nos três; o que muda é a escala e a ativação. Entre Xavier e He, inclusive, os pesos são literalmente os mesmos multiplicados por √2 em cada camada — e como escalar por um número positivo não muda o sinal de nada, a máscara da ReLU é idêntica nos dois. Por isso a razão entre as duas primeiras camadas é exatamente (√2)¹⁹ ≈ 724, e não um número qualquer. Se fossem três redes diferentes, a comparação mediria sorteio, não inicialização. sigmoide + Xavier · rede de 20 camadas Rodar de novo Trocar para ReLU + Xavier",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iii-4-visao": {
+   "labs": [
+    {
+     "id": "visao-l1",
+     "tipo": "anima-convolucao",
+     "canvas": [
+      "imagem na posição do treino · o mesmo filtro em toda posição",
+      "mapa de ativação",
+      "densa: 257 pesos",
+      "convolucional: 26 pesos"
+     ],
+     "dom": "LABORATÓRIO Ande 3 pixels com a imagem e veja qual dos dois sobrevive VISAO-L1 Duas redinhas treinadas aqui dentro, por descida de gradiente, no mesmo conjunto: uma camada densa sobre a imagem de 16×16 (257 pesos) e um filtro 5×5 com máximo sobre o mapa (26 pesos). A forma a detectar é uma cruz, e no treino ela aparece sempre na mesma posição — que é exatamente a situação descrita lá em cima, no problema deste capítulo. Assista o filtro percorrer as 144 posições e o mapa de ativação se pintar. Ao fim, as duas resolvem: a densa dá 1,000 e a convolucional dá 0,997. Empate. Agora, antes de clicar: a mesma cruz, andada 3 pixels na diagonal. Nada mais muda. O que acontece com cada uma? a convolucional: 0,996. Praticamente nada. O pico só andou de lugar no mapa. a densa: 0,009. Ela não ficou pior, ela ficou cega. Repare que a densa tinha dez vezes mais pesos e perdeu. Não perdeu por falta de capacidade: perdeu porque cada peso dela é casado com uma posição, e três pixels bastam para que nenhum dos pesos treinados esteja mais debaixo da forma. A convolucional não é mais esperta, é mais restrita — e a restrição é justamente a informação que a densa não tinha: a de que um padrão vale igual em qualquer lugar da imagem. É a mesma economia da seção acima, vista pelo outro lado. Lá ela aparece como memória: 1 728 pesos contra 9,6 milhões. Aqui aparece como generalização, que é a parte que a conta de memória não mostra. imagem na posição do treino · parâmetros: densa 257, convolucional 26 · posições varridas 0 de 144 Rodar de novo E se a imagem andasse 3 px?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iii-5-sequencias-linguagem": {
+   "labs": [
+    {
+     "id": "sequencias-linguagem-l1",
+     "tipo": "anima-memoria",
+     "canvas": [
+      "recorrência, inicialização padrão · quanto do sinal chega a cada posição anterior (log)",
+      "1‰ do inicial",
+      "saída",
+      "100 passos atrás"
+     ],
+     "dom": "LABORATÓRIO Até onde o gradiente chega para trás SEQUENCIAS-LINGUAGEM-L1 Retropropagação no tempo de verdade: a cada quadro, o sinal do erro recua um passo pela sequência, e a barra mostra quanto dele chega àquela posição. A escala é logarítmica, e a linha tracejada marca um milésimo do sinal inicial. Com a inicialização padrão, o sinal cai a 0,926 do que era a cada passo. É uma queda geométrica, e é isso que a palavra \"exponencialmente\" do exercício acima quer dizer. Mas repare até onde ele chega: a barra só cruza o milésimo na posição 95. Isto contraria o que se costuma repetir. A ideia de que uma rede recorrente \"esquece depois de uns dez passos\" não descreve a recorrência em geral; descreve uma matriz recorrente encolhida ou saturada. Com os pesos que se usa para inicializar, o alcance é bem maior — e o problema prático continua real, só que por outro motivo, que o próximo botão mostra. Clique em \"Trocar para recorrência, pesos 40% menores\". A razão por passo cai para 0,624, e o sinal cruza o milésimo já na posição 14. Quarenta por cento nos pesos moveram o horizonte de memória quase sete vezes, porque 0,926ᵏ e 0,624ᵏ divergem muito rápido. A lição não é um número, é a forma. Quando a informação atravessa um produto de k fatores, o alcance não depende do tamanho da rede nem da quantidade de dados: depende da base. Uma mudança pequena na base vira uma mudança enorme no alcance, e é por isso que ajustar isso na mão nunca deu certo por muito tempo. Clique de novo, para a leitura por atenção. A razão fica em 1,006 e o sinal não cai: em 100 passos ele nunca chega ao milésimo. Não é um truque de escala. É que na atenção o caminho da saída até qualquer posição tem comprimento 1, e um caminho de comprimento 1 não tem produto onde encolher. recorrência, inicialização padrão · posições varridas 0 de 100 Rodar de novo Trocar para recorrência, pesos 40% menores",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iv-1-nao-supervisionado": {
+   "labs": [
+    {
+     "id": "nao-supervisionado-l1",
+     "tipo": "anima-kmeans",
+     "canvas": [],
+     "dom": "LABORATÓRIO Atribuir e recentrar, e a semente que decide o resultado NAO-SUPERVISIONADO-L1 O método são dois movimentos alternando, e a animação os separa de propósito: atribuir cada ponto ao centro mais próximo, depois recolocar cada centro na média dos seus pontos. As cruzes são os centros — elas não são pontos do dado, e confundir as duas coisas é o mal-entendido mais comum aqui. Os três grupos foram desenhados bem separados, então não há ambiguidade no dado. Assista a inércia cair em degraus até estabilizar em 2,243, na quarta iteração. Agora clique em \"E se a semente for outra?\". Mesmo dado, mesmo algoritmo, mesmo k, mesmo critério, e só os centros iniciais mudam. A execução estabiliza em 24,159, dez vezes pior, e o desenho mostra o que aconteceu: dois grupos verdadeiros foram fundidos num só, e o terceiro foi partido ao meio para pagar a conta. Não há erro em lugar nenhum. O método está correto, a implementação está correta, a execução está correta, e a resposta está errada — porque a inércia cai a cada passo e o algoritmo para no primeiro mínimo local que encontrar. Duas leituras que valem mais que a animação. A primeira: é por isso que as bibliotecas rodam várias inicializações e ficam com a melhor, e é por isso que rodar uma vez só é uma decisão, não um padrão inofensivo. A segunda é mais desconfortável — aqui o estrago é escandaloso, dez vezes na inércia, e qualquer comparação o pegaria. O caso perigoso é o outro: quando a partição infeliz sai só um pouco pior, parece plausível, e ninguém tem com o que compará-la. iteração 0 · atribuir · inércia 0.000 Rodar de novo E se a semente for outra?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iv-2-reforco": {
+   "labs": [
+    {
+     "id": "reforco-l1",
+     "tipo": "anima-exploracao",
+     "canvas": [
+      "ε caindo de 1 a 0,05 · valor de cada casa",
+      "laranja = +0.25 · verde = +1.5",
+      "recompensa por episódio"
+     ],
+     "dom": "LABORATÓRIO Tire a exploração e veja quanto ela valia REFORCO-L1 Um mundo de 7×7 com duas saídas: uma de +0,25 a cinco passos da largada, e uma de +1,5 a doze. Descontada, a segunda ainda vale mais que o dobro da primeira. Q-learning, um episódio por quadro, 600 episódios. O tom de cada casa é o valor que o agente atribui a ela. Com ε caindo de 1 a 0,05, o agente termina chegando ao prêmio grande em 529 dos 600 episódios, com recompensa média de 1,375. Antes de clicar, preveja. Explorar custa: cada ação ao acaso é uma ação que não colhe o melhor conhecido. Se tirarmos a exploração e o agente for sempre à melhor ação que conhece, ele fica melhor ou pior? Com ε = 0, ele chega ao prêmio grande em 5 episódios de 600. A recompensa média cai para 0,200, quase sete vezes menos. E não é um agente pior: é o mesmo algoritmo, partindo da mesma tabela e do mesmo fluxo de sorteios. Ele não fica preso por burrice. Ele acha a saída de +0,25, e a partir daí a melhor ação conhecida é positiva e leva até lá. Toda vez que decide, decide certo pela informação que tem. A informação que o tiraria dali só apareceria numa ação que ele deixou de tomar — e a regra que ele segue é justamente a de nunca tomá-la. É por isso que a seção acima chama o dilema de cerne, e não detalhe. O custo de explorar aparece no painel, em episódios \"desperdiçados\". O custo de não explorar não aparece em lugar nenhum: ele é o prêmio que o agente nunca viu, e ninguém sente falta do que não sabe que existe. ε caindo de 1 a 0,05 · episódio 0 de 600 · ε 1.000 · recompensa média dos últimos 20 0.000 Rodar de novo E se ε fosse 0 desde o começo?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "iv-3-ia-simbolica-fuzzy-evolutiva": {
+   "labs": [
+    {
+     "id": "ia-simbolica-fuzzy-evolutiva-l1",
+     "tipo": "anima-evolucao",
+     "canvas": [
+      "sem guardar o melhor · geração 0",
+      "cinza = pico largo (0,7) · verde = pico estreito (1,0)",
+      "laranja = melhor aptidão · azul = diversidade"
+     ],
+     "dom": "LABORATÓRIO A população que terminou pior do que começou IA-SIMBOLICA-FUZZY-EVOLUTIVA-L1 Uma paisagem com dois picos: um largo e baixo, de altura 0,7, e um estreito e alto, de altura 1,0. Oitenta candidatas, espalhadas ao acaso pelo espaço, 120 gerações de torneio, cruzamento por mistura e mutação. À direita, a melhor aptidão e a diversidade da população. Assista a diversidade despencar enquanto a melhor aptidão sobe. É o retrato que o capítulo descreve, e ele é fiel: a seleção consome variação, porque é isso que a seleção faz. Agora repare no número que fica no canto do placar. Na geração 0 a melhor candidata já valia 0,7349. Ao fim das 120 gerações, a melhor vale 0,7000. A população terminou pior do que começou, e não estagnou: perdeu. Alguém já estava perto do pico alto lá no início, e a descendência dessa candidata foi diluída até sumir. Antes de clicar, preveja o que conserta isso. Mais mutação, para manter diversidade? Não. Varri as taxas de mutação de 0,02 a 0,35 e o pico alto se perde em todas. O motivo está no cruzamento: o filho de uma candidata do pico alto com qualquer outra cai no vale entre os dois picos, onde a aptidão é zero. A linhagem boa morre pela média, não por falta de variação. Clique em \"E guardando o melhor de cada geração?\". Uma única candidata copiada intacta de uma geração para a seguinte, e a mesma população chega a 1,0000, o ótimo global. E a diversidade colapsa igual nos dois casos — 0,0901 contra 0,0906. Ou seja: a receita que todo mundo repete, \"mantenha a diversidade\", não é o que resolveu aqui. O que resolveu foi não jogar fora o que já se tinha achado. As duas coisas parecem a mesma e não são, e é o tipo de distinção que só aparece quando se mede as duas separadamente. sem guardar o melhor · geração 0 de 120 · melhor aptidão 0.7349 · diversidade 3.9170 · na geração 0 a população já tinha 0.7349 Rodar de novo E guardando o melhor de cada geração?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "v-1-interpretabilidade-justica": {
+   "labs": [
+    {
+     "id": "interpretabilidade-justica-l1",
+     "tipo": "anima-justica",
+     "canvas": [
+      "grupo A · prevalência 0.64",
+      "grupo B · prevalência 0.36",
+      "paridade",
+      "oportunidade",
+      "calibração"
+     ],
+     "dom": "LABORATÓRIO Mova o limiar de um grupo e tente acender os três INTERPRETABILIDADE-JUSTICA-L1 A álgebra acima é curta e continua abstrata até alguém tentar. Aqui não há nada a treinar: os escores dos dois grupos já existem, o limiar do grupo B está fixo em 0,50, e a única coisa que se move é onde se corta o escore do grupo A. Os dois grupos são calibrados por construção — dentro de cada um, um escore de 0,7 corresponde mesmo a 70% de positivos. É a premissa do teorema, e é por isso que a terceira luz fica verde o tempo todo. Assista o limiar descer de 0,75 a 0,25 e olhe as três luzes. A paridade acende num ponto; a igualdade de oportunidade acende noutro; e elas nunca acendem juntas. O melhor que a varredura inteira consegue é 2 de 3. Agora clique em \"E se as prevalências fossem iguais?\". Mesmo modelo, mesmo procedimento, mesma varredura, e agora existe um limiar em que os três acendem: 3 de 3. É essa a forma exata do teorema, e ela é mais útil que a frase \"não dá para ter tudo\": a impossibilidade não é uma lei da natureza nem um defeito do modelo. Ela depende de uma condição do mundo — a diferença de prevalência entre os grupos. E essa diferença costuma ser, ela mesma, resíduo de um acesso desigual anterior, o que explica por que a ação mais valiosa às vezes está fora do modelo. prevalências diferentes · limiar de A em 0.75 · taxa de positivos 0.252 contra 0.233 · revocação 0.339 contra 0.388 · 2 de 3 critérios Rodar de novo E se as prevalências fossem iguais?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  },
+  "v-3-mlops": {
+   "labs": [
+    {
+     "id": "mlops-l1",
+     "tipo": "anima-deriva",
+     "canvas": [
+      "deriva que DÓI · PSI (laranja) e AUC real (azul)",
+      "PSI 0,25",
+      "dia 0",
+      "dia 59"
+     ],
+     "dom": "LABORATÓRIO O PSI e a AUC na mesma linha do tempo MLOPS-L1 Sessenta dias. A linha laranja é o PSI da entrada contra a janela de referência, que você calcula hoje; a azul é a AUC real, que exige o rótulo. A partir do dia 20 a distribuição da entrada começa a andar. O PSI cruza 0,25 no dia 32. A AUC também cai cinco pontos no dia 32, e vale insistir nisso porque contraria o que se costuma prometer: o PSI não se mexeu antes. Os dois se movem juntos. O adiantamento vem de outro lugar, e é o lugar certo: o rótulo demora. Com 21 dias de latência, a queda do dia 32 só fica visível no dia 53. O PSI avisou 21 dias antes, e os 21 são exatamente a latência, não uma sensibilidade mágica do indicador. Agora clique em \"E se a deriva não doesse?\". A entrada anda exatamente do mesmo jeito: mesmo PSI, cruzando 0,25 no mesmo dia 32. E a AUC fica onde estava, em 0,85, sem nunca disparar a queda de cinco pontos. É a diferença entre alarme e veredito, medida. O mesmo valor de PSI acompanha um desastre e um não-evento. Quem religiosamente retreina quando o PSI passa de 0,25 vai retreinar à toa metade das vezes, e vai gastar a credibilidade do alarme antes da vez em que ele importava. O indicador de entrada diz \"vá olhar\"; quem diz se houve dano é o rótulo, quando chegar. deriva que dói · dia 0 · PSI ainda abaixo de 0,25 Rodar de novo E se a deriva não doesse?",
+     "temApi": false,
+     "vocabulario": null
+    }
+   ]
+  }
+ }
+}

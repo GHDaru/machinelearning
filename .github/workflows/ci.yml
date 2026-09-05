@@ -74,6 +74,38 @@ jobs:
         run: node gates/glossario-ligado.mjs
         working-directory: publicar
 
+      # Gate do pré-requisito antes do uso (ADR 0023). Nenhum cartão usa um
+      # termo que a sequência ainda não apresentou. O `II.2` tinha seis
+      # inversões medidas, e a pior delas era a AUC: usada em quatro lugares e
+      # definida em nenhum, sem que portão nenhum tivesse como perceber. Os 26
+      # capítulos ainda não anotados estão em PRE_REQUISITO_PENDENTE: medidos,
+      # relatados em toda execução, e não reprovam.
+      - name: Gate do pré-requisito antes do uso
+        run: node gates/pre-requisito.mjs
+        working-directory: publicar
+
+      # Gate do vocabulário desenhado (D28). O que o navegador escreve depois da
+      # carga não está no Markdown, e por isso não existia para portão nenhum: o
+      # painel do laboratório do cartão 4 do `II.2` imprime "R²" e o gate de
+      # pré-requisito declarava o termo apresentado no cartão 23. O corpus é
+      # gerado por um passe de navegador e guarda a impressão digital de
+      # `tema/laboratorios.js`; este passo confere só a impressão, que não precisa
+      # de navegador. Defasou, quem mexeu no tema regenera na máquina:
+      #   PLAYWRIGHT=… CHROMIUM=… node publicar/vocabulario-desenhado.mjs --gerar
+      - name: Gate do vocabulário desenhado
+        run: node vocabulario-desenhado.mjs
+        working-directory: publicar
+
+      # Gate da escada da prática (ADR 0023, decisão 2; régua da ADR 0014). O
+      # trio de um objetivo sobe e termina no verbo declarado: E1 dois degraus
+      # abaixo, E2 um degrau abaixo, E3 no verbo. Reprova teto não atingido, teto
+      # ultrapassado, queda de mais de um degrau dentro do nível e platô acima de
+      # quatro cartões. A dívida (22 abertas acima do verbo, 4 objetivos sem E3 e
+      # o platô de cinco na abertura do `II.2`) é medida, relatada e não reprova.
+      - name: Gate da escada da prática
+        run: node gates/escada.mjs
+        working-directory: publicar
+
       # Gate de links relativos: todo `[texto](alvo.md)` do livro resolve para
       # um arquivo que existe. Sem ele, o reescritor do build manda o alvo
       # desconhecido para o GitHub, e o erro de digitação vira um 404 bem-formado.

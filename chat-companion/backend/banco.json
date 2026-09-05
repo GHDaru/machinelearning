@@ -3707,36 +3707,19 @@
    "titulo_capitulo": "II.1 — Avaliação"
   },
   {
-   "id": "modelos-lineares-e28",
+   "id": "modelos-lineares-e42",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O4",
+   "tipo": "completar",
+   "objetivo": "O3",
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Você precisa prever **quantos reais** um cliente vai gastar. Qual das duas serve?",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "A linear, porque a saída pedida é um valor."
-    },
-    {
-     "correta": false,
-     "texto": "A logística, que usa a mesma forma somada."
-    },
-    {
-     "correta": false,
-     "texto": "Qualquer uma: a diferença é de notação."
-    },
-    {
-     "correta": false,
-     "texto": "Nenhuma: dinheiro exige um modelo próprio."
-    }
-   ],
-   "gabarito": "a regressão linear",
-   "porque": "A pergunta define o modelo: pedir **quanto** é regressão, e pedir **qual** é classificação. A saída da regressão linear é um número na mesma unidade da resposta observada, e é isso que a decisão precisa.\n\nQuem marca a logística confunde forma com função: ela usa a mesma soma ponderada e depois a espreme num intervalo entre 0 e 1, o que a torna inútil para reais. Quem marca \"qualquer uma\" repete a confusão que este capítulo separou logo no começo, porque perda, saída e existência de fórmula fechada mudam entre as duas. E quem pede um modelo próprio inventa uma exigência: dinheiro é um número contínuo como qualquer outro, e o que às vezes muda é a escala usada, nunca a família.",
+   "enunciado": "Num modelo linear, o número que multiplica um atributo chama-se ______, e aprender a lê-lo sem exagerar no que ele diz é o que este capítulo cobra.",
+   "opcoes": [],
+   "gabarito": "coeficiente|coeficientes|peso|pesos",
+   "porque": "É a palavra que o capítulo existe para ensinar a ler. Um coeficiente por atributo é o que o modelo linear entrega a mais que um placar de acerto, e é por isso que ele sobrevive onde é preciso justificar a decisão por escrito.\n\nDuas respostas próximas ficam de fora. Quem responde \"intercepto\" nomeou o deslocamento, que existe uma vez só e não pertence a atributo nenhum. Quem responde \"previsão\" nomeou o resultado da soma inteira, e não a parcela de uma coluna.\n\nA ordem do capítulo segue essa palavra: primeiro de onde ela sai, depois como se calcula, depois o que ela diz, e por último o que ela não diz.",
    "volte_para": "#objetivos-de-aprendizagem",
    "rubrica": null,
    "versoes": null,
@@ -3750,7 +3733,7 @@
    "tipo": "multipla",
    "objetivo": "O4",
    "pontos": 1,
-   "dificuldade": "media",
+   "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
    "enunciado": "No caso do banco, por que o modelo mais preciso é recusado?",
@@ -3781,43 +3764,6 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "modelos-lineares-e30",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O4",
-   "pontos": 1,
-   "dificuldade": "media",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a [calibração](../glossario.md#termos-fundamentais) pesa mais que a ordenação?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "A ordenação foi substituída pela calibração."
-    },
-    {
-     "correta": false,
-     "texto": "Provisão não aceita base estatística."
-    },
-    {
-     "correta": true,
-     "texto": "O número é multiplicado, não só ordenado."
-    },
-    {
-     "correta": false,
-     "texto": "Calibrar melhora a acurácia por limiar."
-    }
-   ],
-   "gabarito": "o número previsto é multiplicado",
-   "porque": "Ordenar exige só que o modelo ponha os casos na ordem certa. Multiplicar exige que **o valor** esteja certo: uma probabilidade de 0,4 que na verdade é 0,2 dobra a provisão, mesmo com a ordenação impecável.\n\nA primeira alternativa inventa uma sucessão que não existe, porque as duas medidas respondem a perguntas diferentes e convivem. A segunda é falsa, e provisão baseada em modelo é prática corrente e regulada. A quarta troca calibração por acurácia: recalibrar reescala as probabilidades sem mexer na ordem, então a acurácia por limiar pode não mudar nada.\n\nÉ a segunda linha da tabela que fecha este capítulo, e ela aparece aqui porque a leitura errada dela custa dinheiro antes de custar reputação.",
-   "volte_para": "#o-problema-o-modelo-que-todo-mundo-aprende-e-quase-ninguem-respeita",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
    "id": "modelos-lineares-e15",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
@@ -3827,7 +3773,7 @@
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Ajustar um modelo linear é escolher $w$ e $b$. Para saber se uma escolha é melhor que outra, o que precisa ser comparado?",
+   "enunciado": "Ajustar um modelo linear é escolher $a$ e $b$. Para saber se uma escolha é melhor que outra, o que precisa ser comparado?",
    "opcoes": [
     {
      "correta": false,
@@ -3853,6 +3799,30 @@
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
    "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e43",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma reta deixa os resíduos $-1$, $+2$, $-2$ e $+3$. Qual é a **soma das áreas** dos quadrados?",
+   "opcoes": [],
+   "gabarito": "18",
+   "porque": "Área do quadrado é o resíduo ao quadrado: $1 + 4 + 4 + 9 = \\mathbf{18}$. O sinal desaparece porque quadrado de negativo é positivo, e é por isso que errar para cima e errar para baixo não se cancelam.\n\nDois enganos dão números reconhecíveis. Quem soma os resíduos com sinal chega a 2, que é o número que a área existe para não deixar acontecer. Quem soma os valores absolutos chega a 8, que é outro critério legítimo e outro capítulo de consequências.\n\nRepare no que a área faz com o ponto distante: o resíduo 3 é uma vez e meia o resíduo 2, e entra na soma com 9 contra 4.",
+   "volte_para": "#ponha-a-reta-a-mao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 18,
+    "tolerancia": 0
+   }
   },
   {
    "id": "modelos-lineares-e8",
@@ -3901,7 +3871,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Por que a [regressão linear](../glossario.md#regressao-linear) minimiza o erro **ao quadrado** em vez do [erro absoluto](../glossario.md#regressao-linear)?",
+   "enunciado": "Por que a [regressão linear](../glossario.md#regressao-linear) minimiza o erro **ao quadrado** em vez do erro absoluto?",
    "opcoes": [
     {
      "correta": false,
@@ -3929,61 +3899,28 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "modelos-lineares-e9",
+   "id": "modelos-lineares-e44",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O1",
    "pontos": 1,
-   "dificuldade": "dificil",
+   "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Se a solução fechada das [equações normais](../glossario.md#modelos-lineares) é exata e existe, por que o livro ensina o gradiente?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Porque o gradiente encontra um mínimo melhor que a solução fechada."
-    },
-    {
-     "correta": false,
-     "texto": "Porque a solução fechada só vale quando os dados não têm ruído."
-    },
-    {
-     "correta": false,
-     "texto": "Porque o gradiente é mais preciso quando existem *outliers* no conjunto."
-    },
-    {
-     "correta": true,
-     "texto": "Porque inverter $d \\times d$ fica caro, e a logística não tem fórmula fechada."
-    }
-   ],
-   "gabarito": "custo com muitos atributos, e ela não existe na logística",
-   "porque": "Os dois motivos são de alcance, não de qualidade. No experimento do livro, gradiente e solução fechada chegam ao mesmo lugar, com diferença menor que 0,05 em cada coeficiente, e isso descarta a primeira alternativa pela evidência do próprio capítulo.\n\nA segunda inverte a lógica do método, porque a solução fechada é justamente o que se faz **quando** há ruído, e sem ruído bastariam dois pontos. A terceira confunde otimizador com critério: quem persegue *outlier* é o erro quadrático, e ele é o mesmo nas duas rotas.\n\nO que muda é onde cada um se aplica. Inverter uma matriz $d \\times d$ fica caro rápido conforme $d$ cresce, e para a regressão logística não há fórmula fechada nenhuma. O gradiente é a ferramenta **geral**, e a solução fechada é o caso de sorte de um modelo específico.",
-   "volte_para": "#a-solucao-fechada-existe-por-que-entao-gradiente",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
-   "id": "modelos-lineares-e16",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "completar",
-   "objetivo": "O1",
-   "pontos": 1,
-   "dificuldade": "facil",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Some as áreas dos quadrados cinza, divida pelo número de pontos, e você calculou o ______ daquela reta.",
+   "enunciado": "Uma terceira candidata entra na disputa, nos mesmos pontos $(1, 3)$, $(2, 5)$ e $(3, 4)$: a reta $\\hat{y} = 2x$. Calcule o EQM dela, com duas casas decimais.",
    "opcoes": [],
-   "gabarito": "EQM|erro quadrático médio|erro quadratico medio|erro quadrático|erro quadratico",
-   "porque": "Área do quadrado é resíduo ao quadrado, e somar as áreas é somar os quadrados dos resíduos. Dividir pelo número de pontos fecha exatamente a fórmula do EQM.\n\nDuas respostas próximas ficam de fora, e por bom motivo. Quem responde \"resíduo\" parou um passo antes, porque resíduo é o lado do quadrado e não a área somada. Quem responde \"soma dos quadrados\" parou na conta certa sem a divisão, e é a divisão que torna o número comparável entre conjuntos de tamanhos diferentes.\n\nO gesto de ver o erro como **área** é o que faz a punição desproporcional virar imagem: dobrar o resíduo quadruplica o quadrado, e é isso que a sua mão sente ao arrastar a reta.",
-   "volte_para": "#ponha-a-reta-a-mao",
+   "gabarito": "2.00 ± 0.02",
+   "porque": "Ela prevê 2, 4 e 6. Os resíduos são $+1$, $+1$ e $-2$; os quadrados, $1$, $1$ e $4$; a soma, $6$. Dividida por três, dá **2,00**, o triplo do EQM da primeira candidata e o quádruplo do da segunda.\n\nDois enganos dão números reconhecíveis. Quem soma os resíduos com sinal chega a zero e conclui que a reta é perfeita, o que é exatamente o motivo de o critério elevar ao quadrado. Quem esquece de dividir por três para em 6, que é a soma dos quadrados e não a média.\n\nRepare que esta candidata passa pela origem: ela não tem intercepto para ajustar, e paga caro por isso.",
+   "volte_para": "#escolher-entre-duas-retas-sem-derivada-nenhuma",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 2,
+    "tolerancia": 0.02
+   }
   },
   {
    "id": "modelos-lineares-e17",
@@ -3992,7 +3929,7 @@
    "tipo": "multipla",
    "objetivo": "O1",
    "pontos": 1,
-   "dificuldade": "media",
+   "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
    "enunciado": "Por que a convexidade de $L$ torna o ajuste confiável?",
@@ -4136,15 +4073,15 @@
     },
     {
      "correta": false,
-     "texto": "Que há colinearidade entre dois atributos, e um deles precisa sair."
+     "texto": "Que todos os $y$ são iguais, e a reta ótima fica horizontal."
     },
     {
      "correta": true,
-     "texto": "Que todos os $x$ são iguais, e nenhuma inclinação fica melhor que outra ali."
+     "texto": "Que todos os $x$ são iguais, e nenhuma inclinação é melhor que outra."
     }
    ],
    "gabarito": "todos os $x$ são iguais, e não existe reta",
-   "porque": "$S_{xx}$ é a variação de $x$ em torno da média. Zerado, significa que $x$ nunca variou, e sem variação no que se quer usar como explicação nenhuma inclinação é preferível a outra. A conta não quebra por imprecisão; ela quebra porque a pergunta não tem resposta nos dados.\n\nA primeira alternativa é a reação de quem vê divisão por zero e pensa em máquina, mas aqui o zero é exato e proposital. A segunda troca o denominador pelo numerador, já que ajuste perfeito zeraria os **resíduos**, e não a variação do atributo. A terceira descreve um fenômeno vizinho e diferente, porque colinearidade é dois atributos variando **juntos**, e ali a conta até fecha, só que a interpretação vira ruído.\n\nReconhecer isto na forma algébrica antes de encontrá-lo na forma de relatório é o ponto do passo 5.",
+   "porque": "$S_{xx}$ é a variação de $x$ em torno da média. Zerado, significa que $x$ nunca variou, e sem variação no que se quer usar como explicação nenhuma inclinação é preferível a outra. A conta não quebra por imprecisão; ela quebra porque a pergunta não tem resposta nos dados.\n\nA primeira alternativa é a reação de quem vê divisão por zero e pensa em máquina, mas aqui o zero é exato e proposital. A segunda troca o denominador pelo numerador, já que ajuste perfeito zeraria os **resíduos**, e não a variação do atributo. A terceira troca os eixos: com todos os $y$ iguais quem zera é $S_{xy}$, o numerador, e aí a reta existe e é horizontal, com inclinação zero. Zero em cima e zero embaixo são situações opostas.\n\nReconhecer isto na forma algébrica antes de encontrá-lo na forma de relatório é o ponto do passo 5.",
    "volte_para": "#passo-5-o-que-a-formula-avisa",
    "rubrica": null,
    "versoes": null,
@@ -4152,7 +4089,68 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "modelos-lineares-e26",
+   "id": "modelos-lineares-e45",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe decide ajustar uma reta **que passa pela origem**: $\\hat{y} = ax$, sem [intercepto](../glossario.md#regressao-linear) nenhum. A perda vira $L(a) = \\frac{1}{n}\\sum_i (y_i - ax_i)^2$, com um [parâmetro](../glossario.md#termos-fundamentais) só.\n\nRefaça a dedução para esse modelo, derivando e igualando a zero, e calcule $a$ para os pontos $(1, 2)$, $(2, 3)$ e $(3, 7)$. Responda com duas casas decimais.",
+   "opcoes": [],
+   "gabarito": "2.07 ± 0.02",
+   "porque": "Derivando, $\\frac{dL}{da} = -\\frac{2}{n}\\sum_i x_i(y_i - ax_i)$. Igualando a zero, sobra $\\sum_i x_i y_i = a\\sum_i x_i^2$, ou seja $a = \\frac{\\sum x_i y_i}{\\sum x_i^2} = \\frac{2 + 6 + 21}{1 + 4 + 9} = \\frac{29}{14} = \\mathbf{2{,}07}$.\n\nO engano que este exercício existe para pegar dá **2,50**: é o resultado de aplicar $S_{xy}/S_{xx}$, a fórmula do modelo com intercepto, a um modelo que não tem intercepto. Os desvios em torno da média entraram na fórmula anterior porque a condição em $b$ obrigava a reta a passar pelo centro de massa. Sem $b$ não há essa condição, a soma dos resíduos não é zero, e a reta não passa pelo centro de massa.\n\nÉ a diferença entre derivar e lembrar. Quem deriva refaz os dois passos e vê a condição sumir; quem lembra aplica a fórmula que decorou a um modelo que não é o dela.",
+   "volte_para": "#o-andaime-sai",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 2.07,
+    "tolerancia": 0.02
+   }
+  },
+  {
+   "id": "modelos-lineares-e46",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "facil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Passando de um atributo para $d$, o que deixa de valer da dedução que você acabou de fazer?",
+   "opcoes": [
+    {
+     "correta": true,
+     "texto": "Nada: muda a contagem das condições, de duas para $d + 1$."
+    },
+    {
+     "correta": false,
+     "texto": "A convexidade, porque com muitos atributos surgem mínimos locais."
+    },
+    {
+     "correta": false,
+     "texto": "A condição de que a soma dos resíduos é zero no ajuste ótimo."
+    },
+    {
+     "correta": false,
+     "texto": "O critério, porque com muitos atributos usa-se o erro absoluto."
+    }
+   ],
+   "gabarito": "nada do raciocínio muda; muda a contagem das condições",
+   "porque": "A perda continua sendo uma soma de quadrados, e soma de quadrados continua sendo convexa em qualquer número de parâmetros. Derivar em relação a cada um e igualar a zero continua sendo a rota. O que cresce é o tamanho do sistema.\n\nA segunda alternativa é o mal-entendido mais caro da lista, e ele custa confiança: mínimo local é assunto de rede neural, onde a perda deixa de ser quadrática nos parâmetros. A terceira é falsa, porque a derivada em relação ao intercepto continua existindo e continua dando o mesmo zero. A quarta troca o critério sem motivo, e trocar o critério é decisão de projeto, não consequência de ter mais colunas.\n\nA consequência prática vem no cartão seguinte: com muitos atributos, resolver o sistema exato passa a ter preço.",
+   "volte_para": "#de-um-atributo-para-varios",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e47",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "multipla",
@@ -4161,28 +4159,28 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O placar marca o **excesso sobre o ótimo fechado**. O que serve de referência para esse zero?",
+   "enunciado": "No passo 5, $S_{xx} = 0$ deixava a reta sem existir. Sob colinearidade, o que acontece com a conta?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "O menor erro que o gradiente alcançou nos 4 000 passos."
+     "texto": "Ela também não fecha: o sistema fica sem solução, como com $S_{xx} = 0$."
     },
     {
      "correta": true,
-     "texto": "O erro que as equações normais devolvem."
+     "texto": "Ela fecha, e muitas combinações de pesos dão quase o mesmo erro."
     },
     {
      "correta": false,
-     "texto": "O erro de quem prevê sempre a média."
+     "texto": "Ela fecha, e o erro de previsão piora de forma mensurável."
     },
     {
      "correta": false,
-     "texto": "O erro num conjunto de teste separado."
+     "texto": "Ela fecha, e os coeficientes saem todos iguais entre si."
     }
    ],
-   "gabarito": "o erro da solução fechada",
-   "porque": "A animação só consegue dizer \"2,8% acima\" porque existe um número exato para comparar, e ele vem das equações normais. É o caso raro em que a resposta certa é conhecida antes de o otimizador começar.\n\nA primeira alternativa faria o placar mentir por construção: se a referência fosse o melhor do próprio gradiente, ele terminaria sempre a 0%. A terceira descreve a referência do $R^2$, que é outra régua e responde a outra pergunta. A quarta troca ajuste por generalização, e aqui nada foi separado, porque a animação compara duas formas de resolver o mesmo problema no mesmo dado.\n\nÉ por isso que este laboratório é possível só aqui. No capítulo II.3 não haveria com o que comparar.",
-   "volte_para": "#o-gradiente-contra-a-algebra",
+   "gabarito": "a conta fecha, e muitas combinações dão quase o mesmo erro",
+   "porque": "As duas situações são a mesma doença em graus opostos. Com $S_{xx} = 0$ falta variação por completo, e não há resposta nenhuma. Sob colinearidade falta variação **independente**, e o que sobra são muitas respostas quase igualmente boas, entre as quais o ajuste escolhe por detalhes da amostra.\n\nA terceira alternativa é a que mais engana, porque parece a consequência natural: se a conta ficou frouxa, o erro deveria piorar. Não piora, e é justamente por não piorar que o problema passa despercebido. A quarta inventa uma simetria que não existe, e sob colinearidade os coeficientes costumam sair grandes e de sinais opostos.\n\nA leitura que fica: a métrica de previsão não vê colinearidade, então nenhum painel vai avisar.",
+   "volte_para": "#quando-duas-colunas-dizem-quase-a-mesma-coisa",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
@@ -4198,7 +4196,7 @@
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O [gradiente](../glossario.md#regressao-linear) melhora muito com os atributos padronizados. A álgebra acertou **nos dois casos**. Por quê?",
+   "enunciado": "Dois atributos quase [colineares](../glossario.md#modelos-lineares) deixam a superfície num vale estreito, e padronizar a deixa redonda. Por que a [solução fechada](../glossario.md#regressao-linear) devolve a resposta exata **nos dois casos**?",
    "opcoes": [
     {
      "correta": false,
@@ -4218,8 +4216,82 @@
     }
    ],
    "gabarito": "as equações normais resolvem de uma vez",
-   "porque": "A forma da superfície é o que atrapalha **quem anda por ela**. As equações normais não andam: elas igualam as derivadas a zero e resolvem o sistema resultante, então um vale estreito e um vale redondo dão o mesmo trabalho.\n\nA primeira alternativa é falsa e útil de desmontar, porque padronizar **muda** os coeficientes ao mudar a unidade de cada atributo, e o que não muda é a função ajustada. A terceira confunde escala com correlação, já que subtrair média e dividir por desvio não desfaz o fato de dois atributos andarem juntos. A quarta atribui à álgebra um passo que ela não tem.\n\nA leitura que fica é a do próprio laboratório: o que mudou entre as duas execuções não foi o otimizador, foi o problema.",
+   "porque": "A forma da superfície é o que atrapalha **quem anda por ela**. As equações normais não andam: elas igualam as derivadas a zero e resolvem o sistema resultante, então um vale estreito e um vale redondo dão o mesmo trabalho.\n\nA primeira alternativa é falsa e útil de desmontar, porque padronizar **muda** os coeficientes ao mudar a unidade de cada atributo, e o que não muda é a função ajustada. A terceira confunde escala com correlação, já que subtrair média e dividir por desvio não desfaz o fato de dois atributos andarem juntos. A quarta atribui à álgebra um passo que ela não tem.\n\nGuarde a previsão, porque o cartão seguinte a põe à prova numa varredura de 4 000 passos.",
+   "volte_para": "#padronizar-muda-a-forma-nao-o-modelo",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e26",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "O que serve de referência para o zero do placar?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "O menor erro do próprio gradiente."
+    },
+    {
+     "correta": true,
+     "texto": "O erro que as equações normais devolvem."
+    },
+    {
+     "correta": false,
+     "texto": "O erro de quem prevê sempre a média."
+    },
+    {
+     "correta": false,
+     "texto": "O erro num teste separado."
+    }
+   ],
+   "gabarito": "o erro da solução fechada",
+   "porque": "A animação só consegue dizer \"2,8% acima\" porque existe um número exato para comparar, e ele vem das equações normais. É o caso raro em que a resposta certa é conhecida antes de o otimizador começar.\n\nA primeira alternativa faria o placar mentir por construção: se a referência fosse o melhor do próprio gradiente, ele terminaria sempre a 0%. A terceira descreve outra régua, a de quem prevê sempre a média, que responde a outra pergunta e volta mais adiante no capítulo. A quarta troca ajuste por generalização, e aqui nada foi separado, porque a animação compara duas formas de resolver o mesmo problema no mesmo dado.\n\nÉ por isso que este laboratório é possível só aqui. No capítulo II.3 não haveria com o que comparar.",
    "volte_para": "#o-gradiente-contra-a-algebra",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e9",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O1",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Se a solução fechada das [equações normais](../glossario.md#modelos-lineares) é exata e existe, por que o livro ensina o gradiente?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "Porque o gradiente encontra um mínimo melhor que a solução fechada."
+    },
+    {
+     "correta": false,
+     "texto": "Porque a solução fechada só vale quando os dados não têm ruído."
+    },
+    {
+     "correta": false,
+     "texto": "Porque o gradiente é mais preciso quando existem *outliers* no conjunto."
+    },
+    {
+     "correta": true,
+     "texto": "Porque resolver $d + 1$ equações é caro, e a logística não tem fechada."
+    }
+   ],
+   "gabarito": "custo com muitos atributos, e ela não existe na logística",
+   "porque": "Os dois motivos são de alcance, não de qualidade. No experimento do livro, gradiente e solução fechada chegam ao mesmo lugar, com diferença menor que 0,05 em cada coeficiente, e isso descarta a primeira alternativa pela evidência do próprio capítulo.\n\nA segunda inverte a lógica do método, porque a solução fechada é justamente o que se faz **quando** há ruído, e sem ruído bastariam dois pontos. A terceira confunde otimizador com critério: quem persegue *outlier* é o erro quadrático, e ele é o mesmo nas duas rotas.\n\nO que muda é onde cada um se aplica. Com $d$ atributos o sistema tem $d + 1$ equações, e resolvê-lo de uma vez fica caro depressa conforme $d$ cresce; e para a regressão logística não há fórmula fechada nenhuma. O gradiente é a ferramenta **geral**, e a solução fechada é o caso de sorte de um modelo específico.",
+   "volte_para": "#a-solucao-fechada-existe-por-que-entao-gradiente",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
@@ -4253,149 +4325,97 @@
    "id": "modelos-lineares-e22",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
-   "dificuldade": "facil",
+   "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Olhando **só** esta tabela, o que ela permite afirmar?",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "Que as quatro andam junto, sem dizer por quê."
-    },
-    {
-     "correta": false,
-     "texto": "Que a chuva derruba as vendas e o preço as levanta."
-    },
-    {
-     "correta": false,
-     "texto": "Que a precipitação é o melhor previsor da tabela."
-    },
-    {
-     "correta": false,
-     "texto": "Que subir o preço é a melhor alavanca do negócio."
-    }
-   ],
-   "gabarito": "andam junto com as vendas, sem dizer por quê",
-   "porque": "Correlação é uma medida de acompanhamento entre duas colunas. Ela diz que os números sobem e descem juntos, e não diz nada sobre quem move quem, nem sobre o que mais mudou ao mesmo tempo.\n\nA leitura causal (\"a chuva derruba, o preço levanta\") é o assunto do resto desta seção. A alternativa da precipitação é falsa dentro da própria tabela, porque quem tem o maior valor absoluto é `temperatura`, com 0,990. E \"subir o preço\" é a recomendação que vai para o slide e custa dinheiro.\n\nA tabela cumpriu o papel dela, que é apontar onde olhar. Quem para nela transforma um mapa em conclusão.",
+   "enunciado": "Clique em **Ajustar** e responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `preco`, com uma casa.",
+   "opcoes": [],
+   "gabarito": "47,0 ± 0,4",
+   "porque": "O painel devolve **+47,0**, com o intercepto em 9,6. Lido como decisão, ele diz que cada real a mais no copo vende quarenta e sete copos a mais, o que ninguém acredita — e é exatamente a recomendação que a tabela de correlação sugeria, agora com aparência de conta.\n\nDois números aparecem no lugar. Quem responde **0,5** copiou o 0,513 da tabela, que é correlação e não coeficiente: um é adimensional e mora entre −1 e 1, o outro está em copos por real. Quem responde **9,6** leu a linha do intercepto, que é a previsão quando o preço vale zero, isto é, fora de qualquer dia observado.\n\nA tabela apontou onde olhar; o ajuste pôs um número na recomendação errada. Nenhum dos dois diz **por quê**, e é o resto desta parte que vai dizer.",
    "volte_para": "#o-caso-da-limonada",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 47,
+    "tolerancia": 0.4
+   }
   },
   {
    "id": "modelos-lineares-e23",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O que torna `preco` um termômetro disfarçado aqui?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Foi registrado na unidade da temperatura."
-    },
-    {
-     "correta": true,
-     "texto": "O valor alto só sai nos meses quentes."
-    },
-    {
-     "correta": false,
-     "texto": "A correlação com as vendas passa de 0,5."
-    },
-    {
-     "correta": false,
-     "texto": "O valor baixo cobre 303 dos 365 dias."
-    }
-   ],
-   "gabarito": "o valor alto só aparece nos dois meses mais quentes",
-   "porque": "O que faz uma coluna virar termômetro é a **coincidência entre o recorte dela e o recorte de outra variável**. Aqui o preço de 0,50 e o mês de julho ocupam exatamente os mesmos 62 dias, então quem lê o preço está lendo o calendário.\n\nA primeira alternativa é falsa e vale desfazer, porque preço está em unidade monetária e temperatura em graus, e unidade não tem nada a ver com confundimento. A terceira confunde o sintoma com a causa, já que o valor 0,513 é o que precisa ser explicado. A quarta é um fato verdadeiro da tabela e irrelevante: o problema não é o valor comum aparecer muito, é o valor raro aparecer só num lugar.\n\nO teste que fica: para toda coluna suspeita, pergunte **em que subconjunto dos dados ela varia**. Se a resposta for \"num recorte só\", ela carrega o recorte junto.",
+   "enunciado": "Com `temperatura` marcada, responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `preco`, com duas casas.",
+   "opcoes": [],
+   "gabarito": "1,64 ± 0,06",
+   "porque": "Ele cai de 47,0 para 1,64, vinte e nove vezes menor, e continua **positivo**. A queda é a medida do quanto daquele 47,0 era calor disfarçado de preço; o que não cai é o que sobra sem dono, e o cartão seguinte mostra de quem ele é.\n\nTrês números aparecem no lugar. Quem responde **47,0** leu a coluna *antes*, que é a volta passada e está ali para comparação. Quem responde **0,42** leu a linha da `temperatura`, que é o outro coeficiente da mesma conta. E quem responde um número **negativo** respondeu a teoria econômica em vez do painel, que é o susto que este caso existe para dar.\n\nO teste que fica vale para qualquer coluna suspeita: pergunte **em que subconjunto dos dados ela varia**. Se a resposta for \"num recorte só\", ela carrega o recorte junto, e o coeficiente dela mede o recorte.",
    "volte_para": "#o-preco-e-um-termometro-disfarcado",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 1.64,
+    "tolerancia": 0.06
+   }
   },
   {
    "id": "modelos-lineares-e24",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O ajuste tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Que 98,2% das decisões de preço da barraca foram boas."
-    },
-    {
-     "correta": false,
-     "texto": "Que o efeito do preço tem 98,2% de chance."
-    },
-    {
-     "correta": true,
-     "texto": "Que ele reproduz 98,2% da variação observada."
-    },
-    {
-     "correta": false,
-     "texto": "Que 1,8% das linhas ficaram fora do ajuste."
-    }
-   ],
-   "gabarito": "reproduz 98,2% da variação observada nas vendas",
-   "porque": "O $R^2$ compara o erro do modelo com o erro de quem prevê sempre a média. Ele mede **ajuste ao passado**, e é uma afirmação sobre a coluna `vendas` e mais nada.\n\nAs três alternativas erradas são três formas de esticá-lo. A primeira o transforma em juízo de negócio, que ele não faz. A segunda o transforma em confiança sobre um coeficiente, que é outra conta inteira e que, aqui, seria falsa mesmo se fosse feita. A quarta o transforma em contagem de linhas, quando ele é uma razão entre variações.\n\nÉ por isso que ele está neste cartão. Reproduzir bem o passado e dizer o efeito de mexer numa alavanca são coisas diferentes, e o R² alto é justamente o que faz o relatório errado parecer sólido.",
+   "enunciado": "Com as quatro colunas no ajuste, responda o $R^2$, com três casas.",
+   "opcoes": [],
+   "gabarito": "0,982 ± 0,003",
+   "porque": "Ele sai em 0,982: o modelo reproduz 98,2% da variação de `vendas`. E repare no que a coluna *antes* mostra na mesma tela: o $R^2$ subiu de 0,980 para 0,982, quase nada, enquanto o coeficiente do preço subiu de 1,64 para **2,41**. Acrescentar dois controles deixou a leitura errada **maior**, e a qualidade do ajuste igual.\n\nDois números aparecem no lugar. Quem responde **0,980** não marcou as caixas e leu a volta anterior. Quem responde **98,2** trocou a fração pela porcentagem, e o painel imprime a fração.\n\nO $R^2$ mede ajuste ao passado, e é uma afirmação sobre a coluna `vendas` e mais nada. Ele não diz que 98,2% das decisões de preço foram boas, nem que 1,8% das linhas ficaram de fora, nem quanta confiança o coeficiente do preço merece. Reproduzir bem o passado e dizer o efeito de mexer numa alavanca são coisas diferentes, e o $R^2$ alto é justamente o que faz o relatório errado parecer sólido.",
    "volte_para": "#o-passo-que-deveria-salvar-e-nao-salva",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 0.982,
+    "tolerancia": 0.003
+   }
   },
   {
    "id": "modelos-lineares-e5",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "O modelo provou que subir o preço aumenta as vendas, e a correlação estava certa."
-    },
-    {
-     "correta": false,
-     "texto": "O coeficiente é positivo por erro numérico, e com mais dados ele viraria negativo."
-    },
-    {
-     "correta": true,
-     "texto": "`preco` marca julho e agosto, e a temperatura do dia não é tudo o que é verão."
-    },
-    {
-     "correta": false,
-     "texto": "O problema seria resolvido padronizando os atributos antes de ajustar o modelo."
-    }
-   ],
-   "gabarito": "`preco` funciona como indicador de julho e agosto",
-   "porque": "O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação \"é alta temporada\" (férias, fluxo de rua, hábito) que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.\n\nA primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico, porque não é ruído, é **viés**, e mais dados do mesmo tipo tornariam o coeficiente errado mais preciso em vez de mais correto. A quarta confunde escalas com confundimento, já que padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis, e não mexe em qual variável está roubando o efeito da outra.\n\nControlar por uma variável só remove o confundimento que aquela variável mede.",
+   "enunciado": "Marque `alta_temporada` e ajuste: o painel recusa. Desmarque `preco`, ajuste de novo, e responda o coeficiente de `alta_temporada`, com três casas.",
+   "opcoes": [],
+   "gabarito": "0,483 ± 0,012",
+   "porque": "Sai **0,483**, que é exatamente um quinto de 2,414. Não é coincidência: `preco` vale 0,30 + 0,20 × `alta_temporada`, dia a dia, sem resto. As duas colunas são a mesma variável com dois nomes, e é por isso que o painel se recusa a ajustar as duas juntas.\n\nOlhe as outras três linhas depois de trocar uma pela outra. `temperatura`, `precipitacao` e `panfletos` não mudam uma casa decimal, e o $R^2$ continua 0,982. O modelo é o mesmo; o que muda é o nome que o relatório dá ao efeito, e é só o nome que estava errado.\n\nDois números aparecem no lugar. Quem responde 2,414 leu a linha do preço, que é o mesmo efeito na escala do real. Quem responde 0,369 leu a `temperatura`. E o que fica é o teste: quando duas colunas marcam o mesmo recorte, a regressão não escolhe entre elas por mérito, e **controlar por um indicador do confundidor não é controlar pelo confundidor**.",
    "volte_para": "#o-passo-que-deveria-salvar-e-nao-salva",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 0.483,
+    "tolerancia": 0.012
+   }
   },
   {
    "id": "modelos-lineares-e4",
@@ -4404,86 +4424,70 @@
    "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
-   "dificuldade": "facil",
+   "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.",
+   "enunciado": "Ponha o corte em 200 e ajuste. Responda o coeficiente de `panfletos`, com quatro casas.",
    "opcoes": [],
-   "gabarito": "53 ± 4",
-   "porque": "O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.\n\nO engano previsível é multiplicar em vez de dividir, o que devolve 0,0188 e não responde à pergunta feita. O número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. \"0,0188\" não diz nada a quem manda imprimir panfleto; \"53 panfletos por copo\" diz, e diz que a panfletagem provavelmente não se paga.\n\nE a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** ainda.",
+   "gabarito": "0,0159 ± 0,0006",
+   "porque": "Com os 365 dias ele valia 0,0188; com os 200 primeiros, **0,0159**. Em panfletos por copo, a recomendação vai de 53 para 63, dez a mais, e ninguém tocou no método: só se mudou onde a janela começa e termina.\n\nAgora olhe a linha do $R^2$ na mesma tela. Ela vai de 0,982 para 0,985, isto é, o ajuste **melhorou** enquanto a leitura piorava dez panfletos. É a frase do começo do cartão acontecendo: a colinearidade estraga a leitura e deixa a previsão intacta, e por isso nenhum painel de desempenho a denuncia.\n\nDois números aparecem no lugar. Quem responde 0,0188 leu a coluna *antes*, que guarda o ajuste dos 365 dias. Quem responde 53 respondeu em panfletos por copo, que é o inverso do que foi pedido.",
    "volte_para": "#o-panfleto-de-brinde",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
    "titulo_capitulo": "II.2 — Modelos Lineares",
    "gabarito_num": {
-    "valor": 53,
-    "tolerancia": 4
+    "valor": 0.0159,
+    "tolerancia": 0.0006
    }
   },
   {
    "id": "modelos-lineares-e27",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "numerica",
    "objetivo": "O3",
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "A terceira linha devolve 1 para os doze meses. O que esse resultado prova?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Que o conjunto tem um erro de coleta, e um mês perdeu suas linhas."
-    },
-    {
-     "correta": false,
-     "texto": "Que o efeito do preço é pequeno, porque ele quase nunca foi mudado."
-    },
-    {
-     "correta": true,
-     "texto": "Que não há recorte mensal em que preço e estação variem separadamente."
-    },
-    {
-     "correta": false,
-     "texto": "Que o modelo precisa de um atributo novo indicando o mês de cada dia."
-    }
-   ],
-   "gabarito": "não há recorte em que os dois variem separados",
-   "porque": "A contagem de valores distintos por mês é o teste direto da pergunta \"existe comparação justa aqui dentro?\". Doze respostas iguais a 1 dizem que não existe, e é um fato sobre o **desenho da coleta**, não sobre o modelo.\n\nA primeira alternativa lê o resultado como defeito de arquivo, quando ele é uma propriedade real e consistente dos 365 dias. A segunda troca ausência de variação por efeito pequeno, e essas duas coisas são opostas: sem variação não há efeito estimável, nem grande nem pequeno. A quarta piora o problema, porque um indicador de mês seria colinear com o preço e apenas transferiria a confusão de nome.\n\nÉ o teste que vale levar para qualquer dado alheio. Antes de estimar o efeito de uma coluna, conte em quantos recortes ela varia.",
-   "volte_para": "#reproduza",
+   "enunciado": "Recorte **julho**, desmarque `preco` e ajuste. Responda o $R^2$, com três casas.",
+   "opcoes": [],
+   "gabarito": "0,948 ± 0,006",
+   "porque": "Sai **0,948** em 31 dias, e é esta a armadilha inteira do cartão: sem o preço o ajuste fecha, fecha bem, e não responde à pergunta que se foi ali fazer. A única coluna que um mês sozinho não consegue estimar é justamente a que interessava.\n\nDois números aparecem no lugar. Quem responde 0,982 não aplicou o recorte e leu o ano inteiro. Quem responde 0,932 deixou só a `temperatura` marcada.\n\nO que fica é um teste para qualquer dado alheio: antes de estimar o efeito de uma coluna, conte **em quantos recortes ela varia**. Se a resposta for \"num só\", nenhuma técnica aplicada depois inventa a comparação que a coleta não produziu, e um $R^2$ alto no que sobrou não é consolo, é disfarce.",
+   "volte_para": "#o-conserto-obvio",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 0.948,
+    "tolerancia": 0.006
+   }
   },
   {
-   "id": "modelos-lineares-e6",
+   "id": "modelos-lineares-e48",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "aberta",
-   "objetivo": "O4",
+   "tipo": "numerica",
+   "objetivo": "O3",
    "pontos": 1,
-   "dificuldade": "media",
+   "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto acima e um modelo linear com R² de 0,982.\n\nEscreva a resposta que você daria a ela, em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.",
+   "enunciado": "Abra o notebook e vá até a célula marcada com `# TODO`. Troque `corte = 300` por `corte = 250`: o modelo passa a treinar nos 250 primeiros dias e a ser avaliado nos 115 últimos. Rode e responda o **R² no teste**, com três casas decimais.",
    "opcoes": [],
-   "gabarito": null,
-   "porque": "Esta é a pergunta que separa \"treinei um modelo\" de \"respondi a alguém\". As três leituras que o exercício cobra estão no capítulo: o coeficiente não é causa, o R² alto não valida a recomendação, e o modelo linear continua sendo a escolha certa para **previsão de demanda**, que é outra pergunta.\n\nA resposta forte não é \"não dá para saber\". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* é respondida bem pelo modelo. *Quanto vendo a mais se eu baixar o preço?* não tem resposta no dado, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês.\n\nUma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita, e é exatamente o relatório que o capítulo existe para impedir.",
-   "volte_para": "#o-confundimento-e-perfeito",
-   "rubrica": "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria, variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico",
+   "gabarito": "0.953 ± 0.003",
+   "porque": "Com o corte em 250 o R² de teste é **0,953**, contra 0,919 do corte em 300. Ele **subiu** apesar de o modelo ter treinado com 50 dias a menos, e as duas metades da razão explicam por quê.\n\nEm cima, o erro caiu: o EQM de teste vai de 1,29 para 1,08, porque a janela avaliada deixa de ser só novembro e dezembro e passa a incluir setembro e outubro, que se parecem mais com o que o modelo viu. Embaixo, a variação das vendas na janela de teste sobe de 15,9 para 23,1: o R² compara o erro do modelo com o de quem prevê sempre a média **daquela janela**, e prever a média de um trecho pouco variável já é fácil.\n\nA leitura que fica vale para qualquer relatório: **R² não é comparável entre janelas de teste diferentes**. Dois números de R² só se comparam quando o denominador é o mesmo.\n\nUma ressalva de honestidade, e ela é da arquitetura: este exercício confere o número, e não a execução. Quem chegar ao valor por outro caminho passa igual.",
+   "volte_para": "#mao-na-massa",
+   "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
    "titulo_capitulo": "II.2 — Modelos Lineares",
-   "criterios": [
-    "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação",
-    "Não usa o R² alto como argumento a favor da recomendação de preço",
-    "Diz o que faltaria, variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve",
-    "Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque",
-    "Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico"
-   ]
+   "gabarito_num": {
+    "valor": 0.953,
+    "tolerancia": 0.003
+   }
   },
   {
    "id": "modelos-lineares-e12",
@@ -4492,7 +4496,7 @@
    "tipo": "multipla",
    "objetivo": "O3",
    "pontos": 1,
-   "dificuldade": "media",
+   "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
    "enunciado": "Num modelo de crédito, `renda_declarada` e `renda_comprovada` são quase idênticas. Com 200 linhas novas no treino, o coeficiente de um foi de +0,8 para −0,4, e o do outro fez o inverso. O erro de teste não mudou. Qual limitação isto ilustra?",
@@ -4535,7 +4539,7 @@
    "enunciado": "Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por isso que nenhuma delas aparece na [métrica](../glossario.md#termos-fundamentais) de teste.",
    "opcoes": [],
    "gabarito": "restrições|restricoes|requisitos|exigências|exigencias",
-   "porque": "A tabela não afirma que o linear prevê melhor. Ela lista **restrições** que o problema impõe antes de qualquer medição, e sob as quais um ganho de acerto precisa ser grande o bastante para pagar o que se perde.\n\nQuem responde \"vantagens\" inverte o sentido da seção, porque a vantagem é do problema e não do modelo. Quem responde \"métricas\" comete o erro que o cartão combate: latência, auditabilidade e calibração são exigências, e três delas nem são medidas por AUC.\n\nA consequência prática é a ordem de trabalho. Escreva as restrições antes de abrir o notebook, porque depois de ver o placar fica difícil não decidir por ele.",
+   "porque": "A tabela não afirma que o linear prevê melhor. Ela lista **restrições** que o problema impõe antes de qualquer medição, e sob as quais um ganho de acerto precisa ser grande o bastante para pagar o que se perde.\n\nQuem responde \"vantagens\" inverte o sentido da seção, porque a vantagem é do problema e não do modelo. Quem responde \"métricas\" comete o erro que o cartão combate: latência, auditabilidade e calibração são exigências, e nenhuma delas é medida por uma métrica de acerto.\n\nA consequência prática é a ordem de trabalho. Escreva as restrições antes de abrir o notebook, porque depois de ver o placar fica difícil não decidir por ele.",
    "volte_para": "#quando-o-linear-e-a-escolha-certa",
    "rubrica": null,
    "versoes": null,
@@ -4572,8 +4576,45 @@
     }
    ],
    "gabarito": "nenhuma se aplica, e a escolha volta a ser empírica",
-   "porque": "A tabela é uma lista de **restrições**, não uma preferência por família de modelo. Sem restrição ativa, o critério que sobra é o de sempre: meça no conjunto de teste e escolha o que serve melhor à decisão.\n\nA primeira alternativa lê a tabela como manifesto, que é o oposto da abertura da seção. A terceira inventa uma proibição inexistente, porque muitos dados não impedem um linear de ser adequado quando a relação é de fato linear. A quarta confunde tamanho do conjunto com calibração, e um modelo mal calibrado continua mal calibrado com um milhão de linhas.\n\nSobra uma linha da tabela que vale mesmo sem restrição nenhuma, e ela é o assunto do próximo cartão.",
+   "porque": "A tabela é uma lista de **restrições**, não uma preferência por família de modelo. Sem restrição ativa, o critério que sobra é o de sempre: meça no conjunto de teste e escolha o que serve melhor à decisão.\n\nA primeira alternativa lê a tabela como manifesto, que é o oposto da abertura da seção. A terceira inventa uma proibição inexistente, porque muitos dados não impedem um linear de ser adequado quando a relação é de fato linear. A quarta confunde tamanho do conjunto com calibração, e um modelo mal calibrado continua mal calibrado com um milhão de linhas.\n\nSobra uma linha da tabela que vale mesmo sem restrição nenhuma, e ela é o assunto do cartão que fecha esta parte.",
    "volte_para": "#quando-o-linear-e-a-escolha-certa",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares"
+  },
+  {
+   "id": "modelos-lineares-e30",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "multipla",
+   "objetivo": "O4",
+   "pontos": 1,
+   "dificuldade": "media",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Uma equipe multiplica a probabilidade prevista pelo valor da apólice para provisionar. Por que a [calibração](../glossario.md#termos-fundamentais) pesa mais que a ordenação?",
+   "opcoes": [
+    {
+     "correta": false,
+     "texto": "A ordenação foi substituída pela calibração."
+    },
+    {
+     "correta": false,
+     "texto": "Provisão não aceita base estatística."
+    },
+    {
+     "correta": true,
+     "texto": "O número é multiplicado, não só ordenado."
+    },
+    {
+     "correta": false,
+     "texto": "Calibrar melhora a acurácia por limiar."
+    }
+   ],
+   "gabarito": "o número previsto é multiplicado",
+   "porque": "Ordenar exige só que o modelo ponha os casos na ordem certa. Multiplicar exige que **o valor** esteja certo: uma probabilidade de 0,4 que na verdade é 0,2 dobra a provisão, mesmo com a ordenação impecável.\n\nA primeira alternativa inventa uma sucessão que não existe, porque as duas medidas respondem a perguntas diferentes e convivem. A segunda é falsa, e provisão baseada em modelo é prática corrente e regulada. A quarta troca calibração por acurácia: recalibrar reescala as probabilidades sem mexer na ordem, então a acurácia por limiar pode não mudar nada.\n\nÉ a terceira linha da tabela do cartão anterior, e ela vem logo depois dela porque a leitura errada custa dinheiro antes de custar reputação.",
+   "volte_para": "#duas-linhas-da-tabela-por-dentro",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
@@ -4621,185 +4662,47 @@
    "titulo_capitulo": "II.2 — Modelos Lineares"
   },
   {
-   "id": "modelos-lineares-e13",
+   "id": "modelos-lineares-e6",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "aberta",
    "objetivo": "O4",
    "pontos": 1,
-   "dificuldade": "facil",
+   "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Por que sempre treinar um modelo linear primeiro?",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "Porque diz em minutos quanto do sinal é linear."
-    },
-    {
-     "correta": false,
-     "texto": "Porque ele costuma vencer o modelo complexo."
-    },
-    {
-     "correta": false,
-     "texto": "Porque o modelo complexo exige um linear antes."
-    },
-    {
-     "correta": false,
-     "texto": "Porque é a única forma de achar vazamento no dado."
-    }
-   ],
-   "gabarito": "custa minutos e diz quanto do sinal é linear",
-   "porque": "É uma decisão de engenharia, não de gosto. O linear é a régua contra a qual o modelo complexo precisa se justificar, e a resposta dele muda o que vale a pena fazer depois.\n\n\"Costuma vencer\" é falso, e o próprio capítulo dá o contraexemplo: 0,4963 de AUC contra 0,9392 do boosting, no capítulo II.5. \"Exige um linear antes\" inventa uma dependência técnica que não existe, já que árvores e ensembles não pedem coeficiente nenhum para funcionar. E \"achar vazamento\" confunde linha de base com auditoria de dados, porque vazamento se detecta olhando como as colunas foram construídas.\n\nO corolário é o que se leva: se o modelo complexo ganha pouco do linear, você acabou de descobrir que o problema é fácil, e que a diferença entre os dois é custo de manutenção pelo resto da vida do sistema.",
+   "enunciado": "Agora use tudo. A dona da barraca de limonada quer decidir **o preço do próximo verão** e pede ajuda. Você tem os 365 dias do conjunto e um modelo linear com $R^2$ de 0,982, que é exatamente o tipo de linha de base que este cartão manda treinar primeiro.\n\nEscreva a resposta que você daria a ela, em até seis linhas, sem jargão. Diga o que o modelo serve para responder, o que ele **não** serve, e o que você precisaria para responder a pergunta que ela fez.",
+   "opcoes": [],
+   "gabarito": null,
+   "porque": "Esta é a pergunta que separa \"treinei um modelo\" de \"respondi a alguém\". As três leituras que o exercício cobra estão no capítulo: o coeficiente não é causa, o R² alto não valida a recomendação, e o modelo linear continua sendo a escolha certa para **previsão de demanda**, que é outra pergunta.\n\nA resposta forte não é \"não dá para saber\". É separar as duas perguntas: *quantos copos vou vender amanhã, dado o tempo?* é respondida bem pelo modelo. *Quanto vendo a mais se eu baixar o preço?* não tem resposta no dado, porque o preço nunca variou sem a estação variar junto. E propor o desenho que traria essa informação: alternar preço entre dias parecidos, dentro do mesmo mês.\n\nUma resposta que recomenda subir o preço citando o coeficiente positivo está errada mesmo que bem escrita, e é exatamente o relatório que o capítulo existe para impedir.",
    "volte_para": "#treine-sempre-um-linear-primeiro",
-   "rubrica": null,
+   "rubrica": "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação; Não usa o R² alto como argumento a favor da recomendação de preço; Diz o que faltaria, variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve; Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque; Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico",
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "criterios": [
+    "Reconhece que o modelo prevê bem as vendas mas não estima o efeito do preço, porque nos dados o preço mudou junto com a estação",
+    "Não usa o R² alto como argumento a favor da recomendação de preço",
+    "Diz o que faltaria, variar o preço de propósito em dias comparáveis, porque nenhum recorte dos dados atuais resolve",
+    "Mantém o modelo como útil para o que ele faz bem, como prever demanda e dimensionar estoque",
+    "Responde em linguagem que a dona da barraca entende, sem exigir vocabulário técnico"
+   ]
   },
   {
    "id": "modelos-lineares-e31",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O1",
-   "pontos": 1,
-   "dificuldade": "media",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Que problema os [mínimos quadrados](../glossario.md#regressao-linear) vieram resolver naquela astronomia?",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "Faltava uma regra explícita do que é a melhor curva."
-    },
-    {
-     "correta": false,
-     "texto": "Faltava observação para determinar a órbita direito."
-    },
-    {
-     "correta": false,
-     "texto": "O instrumento era impreciso, e o erro de medida grande."
-    },
-    {
-     "correta": false,
-     "texto": "Faltava como calcular à mão com tantas observações."
-    }
-   ],
-   "gabarito": "faltava uma regra explícita do que é \"a melhor curva\"",
-   "porque": "O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.\n\n\"Faltava observação\" inverte o quadro, porque com poucas observações não haveria discordância a resolver. O instrumento impreciso descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E a dificuldade de calcular à mão era um custo verdadeiro da época sem ser o que travava, porque mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.\n\nÉ esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.",
-   "volte_para": "#de-onde-isto-veio",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
-   "id": "modelos-lineares-e32",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O1",
+   "tipo": "completar",
+   "objetivo": "O5",
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O que a regra de minimizar a soma dos quadrados dos desvios trouxe que o \"escolher a olho\" não tinha?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Uma curva mais próxima da órbita verdadeira do que qualquer outra."
-    },
-    {
-     "correta": false,
-     "texto": "Uma forma de descartar automaticamente as observações defeituosas."
-    },
-    {
-     "correta": true,
-     "texto": "Uma resposta igual para quem refizer a conta com os mesmos dados."
-    },
-    {
-     "correta": false,
-     "texto": "Uma medida do erro de cada instrumento usado na observação."
-    }
-   ],
-   "gabarito": "a mesma resposta para qualquer pessoa",
-   "porque": "O ganho é de **arbitragem**, não de verdade. A regra fixa o que conta como melhor, e a partir daí o resultado deixa de depender de quem está segurando a régua.\n\nA primeira alternativa promete o que nenhum critério entrega: minimizar o quadrado dá a melhor curva **sob aquele critério**, e trocar o critério troca a curva. A segunda descreve descarte de *outlier*, que o erro quadrático justamente não faz, porque ele persegue o ponto distante em vez de ignorá-lo. A quarta confunde o método com a calibração de instrumento, que é outro problema inteiro.\n\nÉ por isso que a seção diz que a regra é **pública**. Duas pessoas podem discordar dela, e agora elas discordam de algo escrito.",
-   "volte_para": "#a-virada-uma-regra-publica",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
-   "id": "modelos-lineares-e33",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O1",
-   "pontos": 1,
-   "dificuldade": "dificil",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Segundo este capítulo, o que se está fazendo ao trocar a função de perda de um modelo?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Corrigindo um erro de modelagem que a perda anterior introduzia."
-    },
-    {
-     "correta": false,
-     "texto": "Ajustando um detalhe técnico do otimizador, sem efeito no resultado."
-    },
-    {
-     "correta": false,
-     "texto": "Escolhendo uma família de modelos diferente da que se tinha antes."
-    },
-    {
-     "correta": true,
-     "texto": "Trocando o critério que decide qual solução conta como a melhor."
-    }
-   ],
-   "gabarito": "trocando o critério de arbitragem",
-   "porque": "A perda define o que \"melhor\" significa naquele problema. Trocá-la muda a resposta vencedora sem mudar nem os dados nem a família de modelos, e por isso é **decisão de projeto**, com consequência sobre quem o modelo vai favorecer.\n\nA primeira alternativa supõe que existe uma perda correta a ser descoberta, e é exatamente a crença que a seção desfaz. A segunda é falsa e perigosa, porque a perda não é detalhe do otimizador: ela é o alvo, e trocar o alvo troca o resultado. A terceira confunde critério com hipótese, já que a reta continua reta com qualquer uma das duas perdas.\n\nO teste prático: se alguém trocar a perda do seu modelo sem escrever por quê, você perdeu o registro de qual erro o sistema decidiu tolerar.",
-   "volte_para": "#perda-e-criterio-de-arbitragem",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
-   "id": "modelos-lineares-e34",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O1",
-   "pontos": 1,
-   "dificuldade": "media",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Sobre a disputa, qual afirmação o capítulo sustenta?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Que Gauss provou o uso desde 1795, e está encerrado."
-    },
-    {
-     "correta": false,
-     "texto": "Que Legendre inventou a reta, e Gauss a divulgou."
-    },
-    {
-     "correta": false,
-     "texto": "Que os dois chegaram ao método no mesmo ano."
-    },
-    {
-     "correta": true,
-     "texto": "Que Legendre publicou antes, e Gauss reivindicou uso anterior a isso."
-    }
-   ],
-   "gabarito": "Legendre publicou primeiro, e Gauss reivindicou uso anterior",
-   "porque": "É o que as fontes seladas do capítulo sustentam, e nada além disso. A tabela de procedência marca as duas obras com ✓ᵐ, o que confere obra, ano e conteúdo geral, e não autoriza afirmar mais do que a existência e a data de cada publicação.\n\nA primeira alternativa transforma a reivindicação de Gauss em prova, e o próprio estudo de referência argumenta **sem concluir**. A segunda inverte os papéis e ainda erra o objeto, porque o que se disputava era o critério, não o desenho da reta. A terceira inventa uma simultaneidade que nenhuma fonte deste capítulo afirma.\n\nRepare no cuidado de registro: \"a literatura atribui a X\" e \"X publicou em 19NN\" são frases diferentes, e a segunda é a única que este cartão faz.",
-   "volte_para": "#a-disputa-de-prioridade-mais-famosa-da-estatistica",
+   "enunciado": "Escreva o que faltava naquela astronomia: não era observação nem instrumento melhor, era uma ______ explícita do que conta como a melhor curva.",
+   "opcoes": [],
+   "gabarito": "regra|regra explícita|regra explicita|critério|criterio|definição|definicao",
+   "porque": "O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.\n\nTrês respostas próximas erram, e o enunciado já descarta duas delas. \"Observação\" inverte o quadro, porque com poucas observações não haveria discordância a resolver. \"Instrumento\" nomeia uma causa real do desacordo e não o problema a resolver, já que o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E \"conta\", ou qualquer palavra de cálculo, descreve um custo verdadeiro da época sem ser o que travava: mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.\n\nÉ esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.",
+   "volte_para": "#de-onde-isto-veio",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
@@ -4810,70 +4713,33 @@
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "multipla",
-   "objetivo": "O1",
+   "objetivo": "O5",
    "pontos": 1,
    "dificuldade": "media",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "O que o resumo de Stigler, tal como o capítulo o cita, permite afirmar?",
+   "enunciado": "O que o resumo de Stigler, como o capítulo o cita, permite afirmar?",
    "opcoes": [
     {
      "correta": false,
-     "texto": "Que está provado que Gauss possuía o método bem antes de Legendre."
+     "texto": "Que está provado que Gauss o possuía antes."
     },
     {
      "correta": true,
-     "texto": "Que se argumenta, sem concluir, que Gauss o possuía bem antes."
+     "texto": "Que se argumenta, sem concluir, que ele o possuía antes."
     },
     {
      "correta": false,
-     "texto": "Que Gauss não possuía o método antes, e a reivindicação era falsa."
+     "texto": "Que Gauss não o possuía antes, e que a reivindicação dele era falsa."
     },
     {
      "correta": false,
-     "texto": "Que a comunidade científica da época conhecia o método por Gauss."
+     "texto": "Que a comunidade da época o conhecia por Gauss."
     }
    ],
    "gabarito": "argumenta-se, sem concluir",
-   "porque": "A ressalva *though not conclusively* está na frase citada, e ela é parte da afirmação. O capítulo pode reportar a tese que os autores **declaram**, e não pode transformá-la em fato demonstrado.\n\nA primeira alternativa é o erro que a ressalva existe para impedir, e é o mais fácil de cometer porque a frase soa conclusiva sem os parênteses. A terceira inverte o argumento, e ninguém afirmou isso. A quarta contradiz o próprio resumo, que diz o contrário: Gauss **falhou** em comunicar o método aos contemporâneos.\n\nVale ligar isto ao que o capítulo cobra do leitor. Um critério só serve como árbitro se for comunicado, e um resultado só existe para os outros depois de publicado de forma que dê para conferir.",
-   "volte_para": "#a-disputa-de-prioridade-mais-famosa-da-estatistica",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
-   "id": "modelos-lineares-e36",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O1",
-   "pontos": 1,
-   "dificuldade": "media",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "O capítulo lê a disputa Legendre-Gauss junto com o caso do backpropagation, no capítulo III.1. Qual é a leitura que ele extrai dos dois?",
-   "opcoes": [
-    {
-     "correta": false,
-     "texto": "Que o primeiro a descobrir sempre acaba reconhecido, mais cedo ou mais tarde."
-    },
-    {
-     "correta": false,
-     "texto": "Que disputas de prioridade são ruído, e não mudam o uso do método."
-    },
-    {
-     "correta": true,
-     "texto": "Que o crédito acompanha a comunicação do resultado, e não a descoberta."
-    },
-    {
-     "correta": false,
-     "texto": "Que publicar cedo demais prejudica quem ainda está aperfeiçoando a ideia."
-    }
-   ],
-   "gabarito": "o crédito acompanha a comunicação",
-   "porque": "Os dois casos apontam para o mesmo lado por caminhos opostos. Em um, o primeiro **publicador** leva; no outro, quem reinventa por último e comunica melhor leva. O que sobrevive nos dois é a comunicação.\n\nA primeira alternativa é desmentida pelos dois casos ao mesmo tempo. A segunda trata a disputa como fofoca, e ela é a evidência que sustenta a exigência prática do livro. A quarta inventa uma moral oposta, que nenhum dos dois casos sustenta.\n\nEsta é uma **leitura editorial**, marcada como tal na tabela de procedência abaixo. Ela interpreta dois episódios, e não é uma afirmação histórica sobre nenhum deles.",
-   "volte_para": "#a-disputa-de-prioridade-mais-famosa-da-estatistica",
+   "porque": "A ressalva *though not conclusively* está na frase citada, e ela é parte da afirmação. O capítulo pode reportar a tese que o autor **declara**, e não pode transformá-la em fato demonstrado.\n\nA primeira alternativa é o erro que a ressalva existe para impedir, e é o mais fácil de cometer porque a frase soa conclusiva sem os parênteses. A terceira inverte o argumento, e ninguém afirmou isso. A quarta contradiz o próprio resumo, que diz o contrário: Gauss **falhou** em comunicar o método aos contemporâneos.\n\nO corte não inventa palavra nenhuma e mesmo assim inverte o estatuto da afirmação, que é o tipo de erro mais difícil de auditar depois. A regra que fica é a mesma que este livro aplica aos próprios números: hedge do autor é parte da afirmação, e removê-lo é alterá-la.",
+   "volte_para": "#perda-e-criterio-de-arbitragem",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
@@ -4884,7 +4750,7 @@
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "completar",
-   "objetivo": "O1",
+   "objetivo": "O5",
    "pontos": 1,
    "dificuldade": "dificil",
    "secao": "corpo",
@@ -4894,43 +4760,6 @@
    "gabarito": "leitura editorial|leitura|interpretação|interpretacao|uma leitura editorial",
    "porque": "O 📖 marca o que o livro **conclui**, separando-o do que as fontes **dizem**. A frase é a tradução da virada de 1805 para uma regra de projeto de hoje, e essa tradução é responsabilidade do autor deste capítulo.\n\nTrês respostas próximas erram, e cada uma por um selo diferente. Quem responde \"fonte não encontrada\" descreveu o ❌, que é procurar e não achar; aqui ninguém procurou, porque não há o que procurar. Quem responde \"hipótese\" trata uma leitura conceitual como afirmação empírica à espera de experimento. E quem responde \"metadado\" descreveu o ✓ᵐ, que confere que uma obra existe e nada diz sobre o que ela afirma.\n\nA distinção tem consequência prática. Você pode discordar da leitura sem contestar nenhum fato histórico, o que é exatamente o tipo de discordância que um livro deve tornar possível.",
    "volte_para": "#de-onde-isto-veio",
-   "rubrica": null,
-   "versoes": null,
-   "pagina": "ii-2-modelos-lineares",
-   "titulo_capitulo": "II.2 — Modelos Lineares"
-  },
-  {
-   "id": "modelos-lineares-e38",
-   "capitulo": 10,
-   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
-   "objetivo": "O2",
-   "pontos": 1,
-   "dificuldade": "facil",
-   "secao": "corpo",
-   "objetivos": null,
-   "enunciado": "Por que a etapa 05 implementa as duas rotas, solução fechada e gradiente, em vez de só a mais rápida?",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "Porque poder comparar as duas torna o gradiente confiável."
-    },
-    {
-     "correta": false,
-     "texto": "Porque as duas dão respostas diferentes, e a média delas é melhor."
-    },
-    {
-     "correta": false,
-     "texto": "Porque a solução fechada falha em conjuntos com muitas linhas."
-    },
-    {
-     "correta": false,
-     "texto": "Porque o gradiente é exigido pela biblioteca padrão da trilha."
-    }
-   ],
-   "gabarito": "comparar as duas é o que torna o gradiente confiável",
-   "porque": "A etapa existe para o leitor ver, com os próprios dados, que as duas rotas param no mesmo lugar. É a única vez na trilha em que há resposta exata para servir de régua, e a confiança construída aqui é gasta na regressão logística, onde régua não existe.\n\n\"Respostas diferentes\" inventa um desacordo que o experimento nega, já que a diferença medida fica abaixo de 0,05 por coeficiente. \"Falha com muitas linhas\" troca linhas por colunas: o que encarece a solução fechada é a quantidade de **atributos**, porque a matriz a inverter é $d \\times d$. E \"exigido pela biblioteca\" inverte a dependência, porque a biblioteca padrão não exige método nenhum.\n\nVale notar o que a mesma etapa serve ao [capítulo II.4](ii-4-otimizacao.md): o 05 pergunta que função o modelo representa, e o 06 pergunta como se chega aos coeficientes.",
-   "volte_para": "#mao-na-massa",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
@@ -4961,23 +4790,47 @@
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "numerica",
-   "objetivo": "O4",
+   "objetivo": "O3",
    "pontos": 1,
-   "dificuldade": "media",
+   "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com [intercepto](../glossario.md#regressao-linear) precisa estimar nesse conjunto?",
+   "enunciado": "Questão 3, na célula 8.1 do [notebook](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb). Troque `arredondar` para `True` e rode: entra uma cópia da `temperatura`, arredondada ao grau. Responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `temperatura`, com quatro casas.",
    "opcoes": [],
-   "gabarito": "61",
-   "porque": "Um coeficiente por atributo, mais o intercepto: 60 + 1 = **61**. Compare com as 180 linhas disponíveis e você tem três exemplos por parâmetro, que é pouco.\n\nQuem responde 60 esqueceu o intercepto, que também é estimado dos dados e não é uma constante dada. Quem responde 180 confundiu parâmetro com exemplo, e essa troca é o coração da questão: o que decide a variância do ajuste é a **razão** entre os dois números.\n\nÉ a primeira linha da tabela de decisão do capítulo, agora em números. Com três linhas por parâmetro, um ensemble teria muito mais o que estimar errado, e é por isso que a resposta à questão 2 é começar pelo linear.",
+   "gabarito": "0,4985 ± 0,0006",
+   "porque": "Ele salta de 0,3692 para **0,4985**, e a coluna nova fica com −0,1295. Os dois somados dão 0,3690, que é o coeficiente de sempre: o mesmo efeito, agora repartido entre dois nomes, e a repartição decidida por detalhe de amostra.\n\nAgora olhe o $R^2$ da mesma saída: **0,9821**, a mesma casa decimal de antes. É a questão 3 em números. O placar não piora, e nada nele avisa que metade de um efeito passou a ser creditada a uma coluna que ninguém mediu no mundo.\n\nDois números aparecem no lugar. Quem responde 0,3692 leu a saída com `arredondar` em `False`, que é a do capítulo inteiro. Quem responde −0,1295 leu a linha da coluna nova.",
    "volte_para": "#verificacao",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
    "titulo_capitulo": "II.2 — Modelos Lineares",
    "gabarito_num": {
-    "valor": 61,
-    "tolerancia": 0
+    "valor": 0.4985,
+    "tolerancia": 0.0006
+   }
+  },
+  {
+   "id": "modelos-lineares-e50",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Questão 4, na célula 8.2 do mesmo notebook. Ponha `mes = 7` e rode: sai o $S_{xx}$ de cada coluna em julho. Responda o da `temperatura`, arredondado à unidade.",
+   "opcoes": [],
+   "gabarito": "1902 ± 5",
+   "porque": "Sai **1 902**, e o número só interessa pelo contraste da linha de baixo: o `preco` sai em 0,000, em julho e em qualquer outro mês que você escolher.\n\nEsse zero responde à questão 4 pela fórmula. Em $a = S_{xy}/S_{xx}$, o denominador é a variação do atributo dentro do recorte, e sem variação não há divisão a fazer. Não é um coeficiente ruim, é a ausência de coeficiente, e é o mesmo aviso do passo 5 da dedução.\n\nDois números aparecem no lugar. Quem responde 0 leu a linha do `preco`, que é o zero que o cartão quer, na coluna errada. Quem responde 129 deixou o mês que vem pronto na célula.",
+   "volte_para": "#verificacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 1902,
+    "tolerancia": 5
    }
   },
   {
@@ -16240,7 +16093,7 @@
     "b": 4,
     "ruido": 3.2
    },
-   "intro": "Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta. No segundo painel, o mesmo ajuste visto de cima.\n\n1. **Minimize no olho** até o EQM parar de cair, e anote o valor.\n2. **Ligue \"Ver os quadrados\"**: você minimiza a soma das áreas.\n3. **Revele a ótima** e veja o rastro parar no fundo da tigela.",
+   "intro": "Cada segmento cinza é um **[resíduo](../glossario.md#modelos-lineares)**: a distância vertical de um ponto até a **sua** reta.\n\n**Minimize no olho** até o número parar de cair, **ligue \"Ver os quadrados\"** para ver que ele soma áreas, e **revele a ótima**.",
    "pagina": "ii-2-modelos-lineares"
   },
   {
@@ -16254,7 +16107,151 @@
     "tipo": "anima-normais",
     "titulo": "O gradiente atrás de uma resposta que já existe"
    },
-   "intro": "Trezentos pontos, varredura de 4 000 passos, e o placar mede o excesso de erro sobre o ótimo fechado.",
+   "intro": "Trezentos pontos, 4 000 passos. Rode como os atributos vieram, depois padronizados.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
+   "id": "modelos-lineares-l3",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "regressao-limonada",
+   "titulo": "Primeira volta",
+   "config": {
+    "id": "modelos-lineares-l3",
+    "tipo": "regressao-limonada",
+    "titulo": "Primeira volta",
+    "fixos": [
+     "preco"
+    ]
+   },
+   "intro": "A primeira das cinco voltas do painel.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
+   "id": "modelos-lineares-l4",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "regressao-limonada",
+   "titulo": "Segunda volta",
+   "config": {
+    "id": "modelos-lineares-l4",
+    "tipo": "regressao-limonada",
+    "titulo": "Segunda volta",
+    "fixos": [
+     "preco"
+    ],
+    "escolher": [
+     "temperatura"
+    ]
+   },
+   "intro": "Marque `temperatura` e ajuste de novo.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
+   "id": "modelos-lineares-l5",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "regressao-limonada",
+   "titulo": "Terceira volta",
+   "config": {
+    "id": "modelos-lineares-l5",
+    "tipo": "regressao-limonada",
+    "titulo": "Terceira volta",
+    "fixos": [
+     "preco",
+     "temperatura"
+    ],
+    "escolher": [
+     "precipitacao",
+     "panfletos"
+    ],
+    "mostrar": [
+     "r2"
+    ]
+   },
+   "intro": "Marque as duas caixas e ajuste. Uma linha nova aparece embaixo.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
+   "id": "modelos-lineares-l6",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "regressao-limonada",
+   "titulo": "Quarta volta",
+   "config": {
+    "id": "modelos-lineares-l6",
+    "tipo": "regressao-limonada",
+    "titulo": "Quarta volta",
+    "fixos": [
+     "temperatura",
+     "precipitacao",
+     "panfletos"
+    ],
+    "escolher": [
+     "preco",
+     "alta_temporada"
+    ],
+    "ligados": [
+     "preco"
+    ],
+    "mostrar": [
+     "r2"
+    ]
+   },
+   "intro": "`alta_temporada` vale 1 nos 62 dias de julho e agosto, e 0 nos outros 303.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
+   "id": "modelos-lineares-l7",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "regressao-limonada",
+   "titulo": "Quinta volta",
+   "config": {
+    "id": "modelos-lineares-l7",
+    "tipo": "regressao-limonada",
+    "titulo": "Quinta volta",
+    "fixos": [
+     "preco",
+     "temperatura",
+     "precipitacao",
+     "panfletos"
+    ],
+    "mostrar": [
+     "r2"
+    ],
+    "corte": true
+   },
+   "intro": "O corte escolhe quantos dias entram. Mexa nele e ajuste de novo.",
+   "pagina": "ii-2-modelos-lineares"
+  },
+  {
+   "id": "modelos-lineares-l8",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "regressao-limonada",
+   "titulo": "Sexta volta",
+   "config": {
+    "id": "modelos-lineares-l8",
+    "tipo": "regressao-limonada",
+    "titulo": "Sexta volta",
+    "fixos": [
+     "temperatura",
+     "precipitacao",
+     "panfletos"
+    ],
+    "escolher": [
+     "preco"
+    ],
+    "ligados": [
+     "preco"
+    ],
+    "mostrar": [
+     "r2"
+    ],
+    "recorte": true
+   },
+   "intro": "Escolha um mês e ajuste. Depois tente outro, e outro.",
    "pagina": "ii-2-modelos-lineares"
   },
   {

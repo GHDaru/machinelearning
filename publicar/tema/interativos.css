@@ -263,6 +263,31 @@
 .lab-linha-erro td { background: rgba(200, 80, 80, .13); }
 .lab-nota { font-size: .78rem; color: var(--muted); margin: .35rem 0 0; }
 
+/* ---- a espiral da limonada (II.2) ----
+   Sem canvas, de propósito: o número sai no tamanho que o CSS pede em qualquer
+   largura (D18) e o leitor de tela o alcança. As caixas quebram em duas linhas
+   a 360px em vez de esticarem a coluna. */
+.lab-caixas { display: flex; flex-wrap: wrap; gap: .35rem .9rem; font-size: .88rem; }
+.lab-caixa { display: inline-flex; align-items: center; gap: .3rem; cursor: pointer; }
+.lab-caixa input { accent-color: var(--obj); }
+.lab-metricas td { white-space: nowrap; }
+.lab-metricas tr:first-child td { color: var(--muted); font-size: .8rem; }
+.lab-metricas th code { font-size: .95em; }
+
+/* O painel da limonada aparece em SEIS cartões seguidos, e cada cartão tem
+   teto de 1.600px a 360px. A tabela dele é o objeto mais alto do cartão, então
+   ela vai apertada: 13px de fonte (o dobro dos 6px que a D18 mediu no canvas)
+   e o entrelinha no mínimo que ainda dá alvo de toque confortável. */
+.laboratorio[data-lab="regressao-limonada"] { margin: 1.1rem 0; padding: .7rem .85rem .6rem; }
+.laboratorio[data-lab="regressao-limonada"] .lab-metricas { font-size: .82rem; margin-top: .35rem; }
+.laboratorio[data-lab="regressao-limonada"] .lab-metricas th,
+.laboratorio[data-lab="regressao-limonada"] .lab-metricas td { padding: .12rem .4rem .12rem 0; }
+.laboratorio[data-lab="regressao-limonada"] .lab-veredito { padding: .3rem .55rem; font-size: .8rem; }
+.laboratorio[data-lab="regressao-limonada"] .lab-painel { gap: .4rem; }
+.laboratorio[data-lab="regressao-limonada"] .lab-cab { margin-bottom: .25rem; }
+.laboratorio[data-lab="regressao-limonada"] .lab-intro { font-size: .88rem; }
+.laboratorio[data-lab="regressao-limonada"] .lab-intro p { margin: .1rem 0 .25rem; }
+
 /* ---------------------------------------------------------- interações
    A quarta superfície: FORMATIVA. Ela revela no cliente porque não vale nota
    (ver o cabeçalho de tema/interacoes.js). Verde de `--verif` para separá-la

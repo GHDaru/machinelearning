@@ -6,6 +6,186 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a rampa do fecho do `II.2`: os doze últimos cartões deixam de reconhecer e passam a produzir (D29)
+
+- **O defeito, confirmado com instrumento reproduzível.** A espiral da limonada consertou a
+  D27 e deixou um pico: a subida terminava no cartão 26 e os cartões 27 a 38 ficavam onde
+  estavam. Medido de novo, agora por um instrumento que vive no repositório
+  (`publicar/grau-de-producao.mjs`), a inclinação **dentro** dos cartões 27 a 38 era
+  −0,0017 por cartão, a média deles 2,13 contra 4,45 da espiral, e **quatro cartões** do
+  fecho estavam em 1,00, o grau de puro reconhecimento.
+- **O fecho passou a encomendar em vez de perguntar.** Seis interações que eram um `prever`
+  de três opções viraram `principio`, o tipo que o próprio capítulo usa quando quer um
+  argumento escrito (cartões 30, 31, 33, 34, 35 e 36). O `e31`, no bloco histórico, saiu de
+  quatro alternativas para um `completar` sobre a palavra que faltava naquela astronomia.
+- **A Verificação virou a volta executável que faltava.** As questões 3 e 4 tinham resposta
+  em número e ninguém a produzia. A seção 8 do
+  [`regressao_limonada.ipynb`](ml-zero/etapa-05/regressao_limonada.ipynb) ganhou duas células
+  com `# TODO`: uma faz entrar uma cópia quase idêntica da `temperatura`, e o coeficiente
+  dela salta de 0,3692 para **0,4985** com o $R^2$ parado em 0,9821; a outra imprime o
+  $S_{xx}$ de cada coluna dentro de um mês, e o `preco` sai em **0,000** em qualquer mês.
+  O `e40` e o `e50` cobram esses dois números. **O valor que vem pronto na célula não é o
+  que o exercício pede**, que é a regra que a D26 deixou.
+- **Os números que isso moveu.** Inclinação nos cartões 27 a 38: **−0,0017 → +0,0903** por
+  cartão. Média do fecho: **2,13 → 3,01**. Inclinação global: **−0,0034 → +0,0298**. O
+  último cartão no grau máximo sai de **26/38 (68,4%) para 38/38 (100%)**, e o último ato de
+  grau 5 sai de 71,1% para 100% do caminho. O menor grau do fecho vai de 1,00 para 2,50.
+  Na escada da prática, ρ(posição × dificuldade) do `II.2` sobe de **0,451 para 0,497**.
+- **`publicar/testes/grau-de-producao.mjs`** afirma as duas coisas que nada defendia: a régua
+  discrimina os cinco degraus (com os dois casos difíceis, `numerica` de conta à mão contra
+  `numerica` que manda rodar), e a rampa do `II.2` é asserção, não construção. Ele também
+  confere que a célula que cada exercício manda alterar **existe** no notebook e que o
+  gabarito **não** está impresso lá.
+
+
+### Adicionado — a escada da prática virou portão, e a camada que o navegador desenha entrou na conta dos portões de fonte
+
+- **A dívida que a reordenação do `II.2` deixou escrita.** A [ADR 0023](adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md)
+  decidiu dois portões e só o do pré-requisito foi construído. O da escada ficou como
+  dívida declarada pelo próprio construtor: a monotonia dentro de cada nível era sustentada
+  por construção, não por asserção, e qualquer edição futura a desfaria em silêncio.
+- **`publicar/gates/escada.mjs`** cobra a régua da [ADR 0014](adr/0014-tres-exercicios-por-objetivo-e-a-prova.md)
+  sem pedir etiqueta nova: `dificuldade` já tem exatamente os três valores dos três degraus
+  (E1 dois abaixo do verbo, E2 um abaixo, E3 no verbo). Quatro acusações, as quatro pedidas
+  pela ADR: teto não atingido, teto ultrapassado, queda de mais de um degrau dentro do nível
+  e platô acima de quatro cartões. O verbo de cada objetivo é ranqueado pela tabela de Bloom
+  do Guia Editorial §2.5, **lida do arquivo** em vez de copiada para o portão.
+- **O `II.2` não passou de primeira, e o que ele acusou não estava em relatório nenhum.**
+  O platô de seis cartões de reconhecimento que o especialista 2 mediu na abertura virou
+  **cinco** com a reordenação, e cinco continua sendo mais que quatro. Entra como dívida
+  declarada, com o número.
+- **Uma regra ratificada em 2026-08-13 e nunca cobrada.** A ADR 0014 fixou que só objetivos
+  de Avaliar e Criar puxam resposta aberta. São **22 exercícios `aberta` em 15 capítulos**
+  sob verbo abaixo disso, de 50 abertas no livro, mais **4 objetivos cujo trio nunca chega
+  a E3**. Nada disso reprova hoje: está medido, relatado em toda execução e cobrado nas duas
+  direções, como a dívida do pré-requisito.
+- **O ponto cego do canvas (D28), fechado pela raiz.** O que o tema escreve depois da carga
+  não está no Markdown, e por isso não existia para portão nenhum. Medido antes de escolher
+  a rota: na página do `II.2` o tema desenha **16 textos distintos com `fillText`**, e nenhum
+  deles é nó de texto, então ler o DOM montado não resolveria. `publicar/vocabulario-desenhado.mjs`
+  instrumenta `CanvasRenderingContext2D.fillText` antes de o tema rodar, junta o texto do
+  painel escrito em runtime, e deixa um corpus versionado com a **impressão digital de
+  `tema/laboratorios.js`**. Mexeu no tema sem regenerar, o portão reprova e diz o comando.
+- **O portão de pré-requisito passou a ler esse corpus**, e o que ele achou é maior do que o
+  roadmap sabia: não uma inversão desenhada, **três**. O `R²` que o painel imprime no cartão 4
+  e o capítulo apresenta no 23 (19 cartões de dívida), o `EAM — erro absoluto médio` do mesmo
+  painel dois cartões antes de o erro absoluto existir, e o **título do laboratório**, que
+  vive no marcador `:::lab` e nunca tinha sido lido por ninguém.
+- **E a dívida D24 estava subcontada.** A asserção H da jornada percorre nós de texto do DOM,
+  então ela conta as 14 siglas que o laboratório escreve e nenhuma das que ele desenha.
+  Medido no corpus: mais **7 ocorrências em 6 páginas** (AUC, ROC, EQM, MAE) que nunca
+  estiveram em conta nenhuma. O total honesto é 21, e o número novo é cobrado nas duas
+  direções em `SIGLA_EM_CANVAS_DECLARADA`.
+- **Os dois portões foram vistos falhando antes de entrar.** As quatro acusações da escada
+  foram provocadas uma a uma no capítulo real, e as duas da camada desenhada também.
+  Testes novos em `publicar/testes/escada.mjs` (23 casos) e
+  `publicar/testes/vocabulario-desenhado.mjs` (14 casos), mais os dois passos novos na
+  `ci.yml`.
+- **O limite do coletor, e a interface que o fecha.** Ele vê o que o laboratório desenha ao
+  abrir; texto que só aparece depois de um clique fica fora. A saída é uma função opcional,
+  `__api.vocabulario()`, que devolve tudo o que aquele painel pode imprimir em qualquer
+  estado. O coletor a chama quando existe e **conta quantos laboratórios a ofereceram**, de
+  modo que a ausência dela seja um número e não um silêncio.
+
+
+### Alterado — a sequência do `II.2`: carga cognitiva ordena, e um portão cobra a ordem ([ADR 0023](adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md))
+
+- **O defeito, medido por três especialistas independentes.** A recusa do autor (*"para um aluno
+  precisando de passos evolutivos, não está linear"*) não era de sinalização: uma única ocorrência
+  de "veremos" em 39 cartões. Era de **pré-requisito** e de **escada**. Seis conceitos eram usados
+  antes de existirem, e a correlação de postos entre a posição do cartão e a dificuldade declarada
+  era **0,173**, com 11 quedas de dificuldade, **nove delas dentro do mesmo nível**.
+- **A sequência foi refeita: 39 → 38 cartões, em oito níveis.** O laboratório da reta subiu do
+  cartão 8 para o 4 e passa a **preceder** a definição do erro quadrático médio, que então nomeia o
+  que o leitor acabou de produzir. Nascem quatro cartões que não existiam: um exemplo trabalhado
+  com três números antes de qualquer derivada, um desvanecido de andaime zero, a passagem de um
+  atributo para vários, e a colinearidade como cartão próprio. Os sete cartões de história viram
+  três. O notebook da limonada sai da posição 37 de 39 (94,9% do caminho) e vira o cartão 27 de 38,
+  na mesma classe que ele fecha.
+- **Zero inversão de pré-requisito, e um portão novo que cobra isso.**
+  `publicar/gates/pre-requisito.mjs` lê o vocabulário do glossário mais os símbolos que ele guarda
+  sob nome por extenso (`R²`, `AUC`), e reprova o cartão que usa um termo que a sequência ainda não
+  apresentou. "Apresentado" é **declarado** no marcador do cartão (`"apresenta"`), e o que vem de
+  capítulo anterior é declarado no primeiro (`"herdado"`, que passa a ser a lista de pré-requisitos
+  do capítulo). Os 26 capítulos ainda não anotados estão em `PRE_REQUISITO_PENDENTE`: medidos,
+  relatados em toda execução, e não reprovam. O gate foi visto acusando as seis inversões
+  reintroduzidas uma a uma.
+- **A dificuldade parou de cair dentro de uma classe.** ρ de Spearman entre posição e dificuldade
+  vai de **0,173 para 0,437**; as quedas caem de 11 para 7, e as **sete acontecem em fronteira de
+  nível** (antes, nove das onze eram dentro do mesmo nível).
+- **Os três bloqueadores da ADR foram fechados.** A **AUC** passa a ser definida no cartão do caso
+  da seguradora, onde estreia. Os sete exercícios de história deixam de mentir o objetivo `O1`
+  ("derivar") e apontam para um **`O5`** declarado, que é o que eles de fato medem; `O1` ganha o
+  exercício que faltava, uma derivação da reta sem intercepto que a fórmula decorada erra. E o
+  notebook `regressao_limonada.ipynb` deixa de escrever em prosa o gabarito de `e4`: o número
+  continua saindo quando o notebook roda, e não mais quando ele é apenas lido no navegador.
+- **O notebook ganhou um `# TODO`**, e o cartão "Mão na massa" ganhou o ciclo que o autor pediu: o
+  leitor altera o corte de treino e teste, roda, e cola o número de volta num exercício `numerica`
+  cujo gabarito nunca desce ao cliente. Com duas ressalvas declaradas no próprio cartão: o número
+  prova o número, nunca a execução.
+- **`O2` e `O4` foram reescritos** para ter um verbo só cada (Guia §2.5): `O2` passa a "calcular", e
+  `O4` sobe de "reconhecer" para **"decidir"**, que é o que os exercícios da tabela de restrições
+  sempre cobraram.
+
+### Adicionado — a espiral da limonada: o caso central do `II.2` virou seis voltas de laboratório (D27)
+
+- **O defeito, confirmado antes de consertar.** Um crítico cego mediu a escada do capítulo
+  contra o notebook do capítulo 10 do Géron. Com um instrumento declarado (grau de produção
+  exigido por cartão, 1 a 5, média dos atos de cada cartão), a inclinação do `II.2` era
+  **−0,0027 por cartão**, com média **2,71** na primeira metade e **2,63** na segunda: não é
+  ruído em torno de uma subida, é ausência de subida. O mesmo instrumento aplicado às 210
+  células do notebook dá **+0,0024**, com o ciclo inteiro fechado **32 vezes**, de 7,1% a
+  98,6% do caminho. Dos 38 exercícios, **21 eram "escolha uma"**, e a única resposta que o
+  aluno produzia estava a **84,2%**. O desvanecimento aparecia nos cartões 5, 7, 12, 14 e 23
+  e nunca mais.
+- **O caso da limonada era o pior lugar para isso acontecer.** 365 dias, quatro atributos e o
+  achado central do capítulo — confundimento perfeito, colinearidade, R² como armadilha —
+  gastos em **oito cartões seguidos de leitura com múltipla escolha no fim**. O aluno acertava
+  entre quatro alternativas sem nunca produzir um diagnóstico.
+- **O conserto é o mecanismo do Géron: a mesma alça, fechada seis vezes, um mecanismo novo
+  por volta e nunca dois.** Nasce o tipo de laboratório `regressao-limonada`, que ajusta por
+  solução fechada sobre o conjunto real e reabre nos cartões 21 a 26:
+
+  | volta | cartão | a decisão nova | o que o aluno produz |
+  |---|---|---|---|
+  | 1 | 21 (52,6%) | ajustar `vendas ~ preco`, sozinho | o coeficiente **+47,0** |
+  | 2 | 22 | a caixa `temperatura` | ele cai para **1,64** e **não morre** |
+  | 3 | 23 | `precipitacao` e `panfletos`, e a linha do R² | **R² 0,982**, com o preço subindo para 2,41 |
+  | 4 | 24 | a coluna derivada `alta_temporada` | o painel **recusa**, e sem o preço sai **0,483** |
+  | 5 | 25 | o corte de treino | com 200 dias, `panfletos` vai de 0,0188 a **0,0159** |
+  | 6 | 26 | o recorte de meses | recusa nos doze, e o que sobra em julho dá **R² 0,948** |
+
+- **Cinco exercícios deixaram de ser "escolha uma".** `e22`, `e23`, `e24`, `e5` e `e27` passam
+  a cobrar um número que só existe depois de o aluno rodar o ajuste. As "escolha uma" do
+  capítulo caem de **21 para 16**, as `numerica` sobem de 10 para 15, e a primeira execução
+  sobre o dado real sai de **68,4% e de fora da página** (o link para o Colab, no cartão 27)
+  para **52,6%, dentro do cartão**.
+- **O que o instrumento diz depois.** A inclinação global vai de −0,0027 para **+0,0047**, e a
+  segunda metade deixa de pedir menos que a primeira: média **2,63 → 3,09**. Contando só os
+  exercícios, a segunda metade sai de 1,79 para **2,32**. O portão da escada, que lê a
+  etiqueta `dificuldade` e não o que o exercício pede, registra ρ de 0,437 para **0,451**, depois 0,497 com a rampa da D29 — a
+  diferença entre os dois números é a medida do que uma etiqueta não enxerga.
+- **A recusa é conteúdo, não erro.** Com `preco` e `alta_temporada` marcadas o sistema não
+  fecha, porque `preco` = 0,30 + 0,20 × `alta_temporada` dia a dia, sem resto: é a frase
+  "preço e estação são a mesma variável com dois nomes" virando mensagem do painel. E em
+  qualquer mês recortado o preço tem um valor só, então o painel devolve o aviso do **passo 5**
+  da dedução, nomeando a coluna constante em vez de dizer "singular".
+- **Sem canvas, e é decisão.** O painel escreve em tabela do DOM. A 360px o menor texto sai a
+  **12,8px** (contra os 6,0px que a D18 mediu no canvas de backing store fixo), o leitor de
+  tela alcança os números, e não há o que reescalar. Também não há barra comparando
+  coeficientes lado a lado: seria bonita e seria o erro que o cartão 28 nomeia. A única
+  comparação que o painel oferece é a coluna **antes**, o mesmo coeficiente contra ele mesmo
+  na volta anterior.
+- **D28 respeitada por construção.** O painel só imprime `R²` a partir do cartão 23, que é o
+  que o apresenta, e expõe `__api.vocabulario()` com tudo o que pode escrever em qualquer
+  estado, inclusive as três recusas que só aparecem depois de um clique. Seis laboratórios
+  passam a oferecer a função.
+- **`publicar/testes/lab-limonada.mjs`** (25 verificações) dirige os seis painéis exatamente
+  como cada enunciado manda e compara com o gabarito **lido do Markdown**, não copiado para o
+  teste. Ele foi visto reprovando com o gabarito trocado, com a recusa deixando de nomear a
+  coluna, com duas decisões estreando na mesma volta, com o R² impresso dois cartões antes de
+  ser apresentado, e com `alta_temporada` marcando só julho.
+
 ### Adicionado — a tigela deixou de ser palavra: o plano (a, b) virou painel vivo (D25)
 
 - **O defeito, medido.** O `II.2` tinha **zero figuras em 39 cartões**, e o cartão 9 apoiava a

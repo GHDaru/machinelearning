@@ -5,6 +5,34 @@
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
 
+## Edição 2.1 (em curso) — 2026-09-05 · a sequência do `II.2`, e o portão do pré-requisito
+
+Implementa a [ADR 0023](../adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md). Modelo de IA usado: Claude Opus 5.
+
+**O que mudou no `II.2`.** A ordem, não o contrato: os 39 cartões viram **38**, em oito níveis, com o laboratório da reta antes da definição do erro quadrático médio, quatro cartões novos entre os degraus que faltavam, os sete cartões de história comprimidos em três, e o notebook da limonada movido de 94,9% do caminho para 71% — dentro da classe que ele fecha, com o ciclo de alterar, rodar e colar o resultado de volta.
+
+**Os dois números que o ciclo moveu.** Inversões de pré-requisito entre os conceitos medidos: **5 → 0**. Correlação de postos entre posição do cartão e dificuldade declarada: **0,173 → 0,437**, com todas as sete quedas restantes em fronteira de nível.
+
+**O portão novo.** `publicar/gates/pre-requisito.mjs` cobra a regra que faltava e que nenhum outro portão conseguia ver: a AUC era usada em quatro lugares do capítulo e definida em nenhum, passando limpo pelo gate de glossário, que confere que o termo é *ligado* e não que foi *apresentado*, e pelo de exercícios, que confere que o objetivo *existe* e não que ele *corresponde*. Ele foi visto acusando as seis inversões reintroduzidas uma a uma.
+
+**A espiral da limonada (D27), 2026-09-05.** A ordem consertada não consertou a *exigência*: um crítico cego mediu a escada contra o notebook do capítulo 10 do Géron e achou que, depois do cartão 15, ela vira piso. O instrumento é declarado: grau de produção pedido por cartão, de 1 (escolher entre alternativas) a 5 (manipular e ler um resultado que muda), tomando a média dos atos do cartão. Por ele, a inclinação era **−0,0027 por cartão**, com 2,71 de média na primeira metade e 2,63 na segunda. O mesmo instrumento nas 210 células do notebook dá **+0,0024**, com o ciclo fechado 32 vezes entre 7,1% e 98,6% do caminho.
+
+O conserto copia o mecanismo do Géron, não o formato: o caso da limonada, que era gasto em oito cartões de leitura, passa a ser **o mesmo painel reaberto seis vezes**, nos cartões 21 a 26, com **um mecanismo novo por volta e nunca dois**. O leitor ajusta `vendas ~ preco` sozinho e lê +47,0; marca `temperatura` e vê o coeficiente cair para 1,64 sem morrer; acrescenta as outras duas colunas e vê o R² parar em 0,982 enquanto o preço **sobe** para 2,41; marca a coluna `alta_temporada` e recebe uma recusa, porque `preco` = 0,30 + 0,20 × ela, dia a dia; mexe no corte de treino e vê a recomendação de panfletagem andar dez panfletos com o R² melhorando; recorta um mês e recebe o aviso do passo 5 da dedução, com a coluna constante nomeada.
+
+**Os números que isso moveu.** Exercícios de "escolha uma": 21 → 16, e `numerica` 10 → 15. A primeira execução sobre o dado real sai de 68,4% do caminho e de fora da página (o link do Colab) para **52,6%, dentro do cartão**. A inclinação global vai de −0,0027 para **+0,0047**, e a segunda metade deixa de pedir menos que a primeira: 2,63 → 3,09.
+
+**A dívida que o conserto deixa, e ela é nova.** A subida é um pico, não uma rampa: os cartões 27 a 38 não mudaram, e a inclinação medida *dentro* da segunda metade fica negativa. Entra como **D29** no roadmap, com o número.
+
+**A rampa do fecho (D29), 2026-09-05.** O instrumento da espiral deixou de ser um cálculo de sessão e virou arquivo: `publicar/grau-de-producao.mjs`, com a escala declarada em código (1 escolher entre alternativas · 2 lembrar um termo · 3 completar uma conta cujos dados estão no enunciado · 4 escrever um argumento próprio · 5 manipular um artefato que roda). Remedido por ele, o defeito é maior do que a D29 registrou: os cartões 27 a 38 valiam 2,13 contra 4,45 da espiral, e quatro deles estavam em **1,00**, que é reconhecimento puro.
+
+O conserto tem três movimentos e nenhum deles é outra espiral. Seis interações de "escolha uma" viraram `principio`, o tipo que o capítulo já usa quando quer o argumento escrito. O `e31`, no bloco histórico, que não comporta notebook, saiu de quatro alternativas para um `completar`. E a **Verificação** virou a volta executável que faltava: as questões 3 e 4 sempre tiveram resposta em número e ninguém a produzia, então a seção 8 do notebook da limonada ganhou duas células com `# TODO` — a coluna quase idêntica, que reparte o coeficiente da temperatura entre dois nomes sem mexer no $R^2$, e o $S_{xx}$ por coluna dentro de um mês, que devolve zero no `preco` e responde à questão 4 pela fórmula.
+
+**Os números.** Inclinação dentro dos cartões 27 a 38: **−0,0017 → +0,0903** por cartão. Média do fecho: 2,13 → 3,01. Inclinação global: −0,0034 → +0,0298. O último cartão no grau máximo sai de **68,4% para 100%** do caminho, e o último ato de grau 5 sai de 71,1% para 100%; a régua do Géron vai a 98,6%. O ρ da escada sobe de 0,451 para 0,497.
+
+**O que sobra.** O cartão 38 fechou a 1.571px num teto de 1.600, e a folga de altura do capítulo continua sendo o que limita o desenho: não cabe mais um ato em nenhum cartão do fecho, exceto no 29. A rampa é medida por cartão, e dentro do fecho ela ainda tem dentes, com o cartão 33 acima dos dois seguintes.
+
+**Uma correção de registro que o ciclo obrigou.** Sete exercícios do bloco histórico declaravam o objetivo `O1`, "derivar a regressão linear como minimização", e cobravam disciplina de proveniência. Agora existe um `O5` declarado, e `O1` ganhou o exercício que faltava: derivar a reta sem intercepto, cujo engano previsível é aplicar a fórmula decorada do modelo que tem intercepto.
+
 ## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações
 
 Fecha o **ciclo 009**, e fecha as quatro colunas que ele abriu para os 29 capítulos: voz, exercícios, prova e **fontes**. Modelo de IA usado: Claude Opus 5.
