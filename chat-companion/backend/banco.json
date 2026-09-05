@@ -4692,33 +4692,16 @@
    "id": "modelos-lineares-e31",
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
-   "tipo": "multipla",
+   "tipo": "completar",
    "objetivo": "O5",
    "pontos": 1,
    "dificuldade": "facil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Que problema os mínimos quadrados vieram resolver naquela astronomia?",
-   "opcoes": [
-    {
-     "correta": true,
-     "texto": "Faltava uma regra explícita do que é a melhor curva."
-    },
-    {
-     "correta": false,
-     "texto": "Faltava observação suficiente para determinar a órbita direito."
-    },
-    {
-     "correta": false,
-     "texto": "O instrumento era impreciso demais."
-    },
-    {
-     "correta": false,
-     "texto": "Faltava como calcular à mão tantas observações."
-    }
-   ],
-   "gabarito": "faltava uma regra explícita do que é \"a melhor curva\"",
-   "porque": "O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.\n\n\"Faltava observação\" inverte o quadro, porque com poucas observações não haveria discordância a resolver. O instrumento impreciso descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E a dificuldade de calcular à mão era um custo verdadeiro da época sem ser o que travava, porque mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.\n\nÉ esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.",
+   "enunciado": "Escreva o que faltava naquela astronomia: não era observação nem instrumento melhor, era uma ______ explícita do que conta como a melhor curva.",
+   "opcoes": [],
+   "gabarito": "regra|regra explícita|regra explicita|critério|criterio|definição|definicao",
+   "porque": "O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.\n\nTrês respostas próximas erram, e o enunciado já descarta duas delas. \"Observação\" inverte o quadro, porque com poucas observações não haveria discordância a resolver. \"Instrumento\" nomeia uma causa real do desacordo e não o problema a resolver, já que o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E \"conta\", ou qualquer palavra de cálculo, descreve um custo verdadeiro da época sem ser o que travava: mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.\n\nÉ esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.",
    "volte_para": "#de-onde-isto-veio",
    "rubrica": null,
    "versoes": null,
@@ -4807,23 +4790,47 @@
    "capitulo": 10,
    "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
    "tipo": "numerica",
-   "objetivo": "O4",
+   "objetivo": "O3",
    "pontos": 1,
-   "dificuldade": "media",
+   "dificuldade": "dificil",
    "secao": "corpo",
    "objetivos": null,
-   "enunciado": "Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com [intercepto](../glossario.md#regressao-linear) precisa estimar nesse conjunto?",
+   "enunciado": "Questão 3, na célula 8.1 do [notebook](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb). Troque `arredondar` para `True` e rode: entra uma cópia da `temperatura`, arredondada ao grau. Responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `temperatura`, com quatro casas.",
    "opcoes": [],
-   "gabarito": "61",
-   "porque": "Um coeficiente por atributo, mais o intercepto: 60 + 1 = **61**. Compare com as 180 linhas disponíveis e você tem três exemplos por parâmetro, que é pouco.\n\nQuem responde 60 esqueceu o intercepto, que também é estimado dos dados e não é uma constante dada. Quem responde 180 confundiu parâmetro com exemplo, e essa troca é o coração da questão: o que decide a variância do ajuste é a **razão** entre os dois números.\n\nÉ a primeira linha da tabela de decisão do capítulo, agora em números. Com três linhas por parâmetro, um ensemble teria muito mais o que estimar errado, e é por isso que a resposta à questão 2 é começar pelo linear.",
+   "gabarito": "0,4985 ± 0,0006",
+   "porque": "Ele salta de 0,3692 para **0,4985**, e a coluna nova fica com −0,1295. Os dois somados dão 0,3690, que é o coeficiente de sempre: o mesmo efeito, agora repartido entre dois nomes, e a repartição decidida por detalhe de amostra.\n\nAgora olhe o $R^2$ da mesma saída: **0,9821**, a mesma casa decimal de antes. É a questão 3 em números. O placar não piora, e nada nele avisa que metade de um efeito passou a ser creditada a uma coluna que ninguém mediu no mundo.\n\nDois números aparecem no lugar. Quem responde 0,3692 leu a saída com `arredondar` em `False`, que é a do capítulo inteiro. Quem responde −0,1295 leu a linha da coluna nova.",
    "volte_para": "#verificacao",
    "rubrica": null,
    "versoes": null,
    "pagina": "ii-2-modelos-lineares",
    "titulo_capitulo": "II.2 — Modelos Lineares",
    "gabarito_num": {
-    "valor": 61,
-    "tolerancia": 0
+    "valor": 0.4985,
+    "tolerancia": 0.0006
+   }
+  },
+  {
+   "id": "modelos-lineares-e50",
+   "capitulo": 10,
+   "arquivo": "livro/capitulos/ii-2-modelos-lineares.md",
+   "tipo": "numerica",
+   "objetivo": "O2",
+   "pontos": 1,
+   "dificuldade": "dificil",
+   "secao": "corpo",
+   "objetivos": null,
+   "enunciado": "Questão 4, na célula 8.2 do mesmo notebook. Ponha `mes = 7` e rode: sai o $S_{xx}$ de cada coluna em julho. Responda o da `temperatura`, arredondado à unidade.",
+   "opcoes": [],
+   "gabarito": "1902 ± 5",
+   "porque": "Sai **1 902**, e o número só interessa pelo contraste da linha de baixo: o `preco` sai em 0,000, em julho e em qualquer outro mês que você escolher.\n\nEsse zero responde à questão 4 pela fórmula. Em $a = S_{xy}/S_{xx}$, o denominador é a variação do atributo dentro do recorte, e sem variação não há divisão a fazer. Não é um coeficiente ruim, é a ausência de coeficiente, e é o mesmo aviso do passo 5 da dedução.\n\nDois números aparecem no lugar. Quem responde 0 leu a linha do `preco`, que é o zero que o cartão quer, na coluna errada. Quem responde 129 deixou o mês que vem pronto na célula.",
+   "volte_para": "#verificacao",
+   "rubrica": null,
+   "versoes": null,
+   "pagina": "ii-2-modelos-lineares",
+   "titulo_capitulo": "II.2 — Modelos Lineares",
+   "gabarito_num": {
+    "valor": 1902,
+    "tolerancia": 5
    }
   },
   {

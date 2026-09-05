@@ -23,6 +23,14 @@ O conserto copia o mecanismo do Géron, não o formato: o caso da limonada, que 
 
 **A dívida que o conserto deixa, e ela é nova.** A subida é um pico, não uma rampa: os cartões 27 a 38 não mudaram, e a inclinação medida *dentro* da segunda metade fica negativa. Entra como **D29** no roadmap, com o número.
 
+**A rampa do fecho (D29), 2026-09-05.** O instrumento da espiral deixou de ser um cálculo de sessão e virou arquivo: `publicar/grau-de-producao.mjs`, com a escala declarada em código (1 escolher entre alternativas · 2 lembrar um termo · 3 completar uma conta cujos dados estão no enunciado · 4 escrever um argumento próprio · 5 manipular um artefato que roda). Remedido por ele, o defeito é maior do que a D29 registrou: os cartões 27 a 38 valiam 2,13 contra 4,45 da espiral, e quatro deles estavam em **1,00**, que é reconhecimento puro.
+
+O conserto tem três movimentos e nenhum deles é outra espiral. Seis interações de "escolha uma" viraram `principio`, o tipo que o capítulo já usa quando quer o argumento escrito. O `e31`, no bloco histórico, que não comporta notebook, saiu de quatro alternativas para um `completar`. E a **Verificação** virou a volta executável que faltava: as questões 3 e 4 sempre tiveram resposta em número e ninguém a produzia, então a seção 8 do notebook da limonada ganhou duas células com `# TODO` — a coluna quase idêntica, que reparte o coeficiente da temperatura entre dois nomes sem mexer no $R^2$, e o $S_{xx}$ por coluna dentro de um mês, que devolve zero no `preco` e responde à questão 4 pela fórmula.
+
+**Os números.** Inclinação dentro dos cartões 27 a 38: **−0,0017 → +0,0903** por cartão. Média do fecho: 2,13 → 3,01. Inclinação global: −0,0034 → +0,0298. O último cartão no grau máximo sai de **68,4% para 100%** do caminho, e o último ato de grau 5 sai de 71,1% para 100%; a régua do Géron vai a 98,6%. O ρ da escada sobe de 0,451 para 0,497.
+
+**O que sobra.** O cartão 38 fechou a 1.571px num teto de 1.600, e a folga de altura do capítulo continua sendo o que limita o desenho: não cabe mais um ato em nenhum cartão do fecho, exceto no 29. A rampa é medida por cartão, e dentro do fecho ela ainda tem dentes, com o cartão 33 acima dos dois seguintes.
+
 **Uma correção de registro que o ciclo obrigou.** Sete exercícios do bloco histórico declaravam o objetivo `O1`, "derivar a regressão linear como minimização", e cobravam disciplina de proveniência. Agora existe um `O5` declarado, e `O1` ganhou o exercício que faltava: derivar a reta sem intercepto, cujo engano previsível é aplicar a fórmula decorada do modelo que tem intercepto.
 
 ## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações

@@ -6,6 +6,38 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — a rampa do fecho do `II.2`: os doze últimos cartões deixam de reconhecer e passam a produzir (D29)
+
+- **O defeito, confirmado com instrumento reproduzível.** A espiral da limonada consertou a
+  D27 e deixou um pico: a subida terminava no cartão 26 e os cartões 27 a 38 ficavam onde
+  estavam. Medido de novo, agora por um instrumento que vive no repositório
+  (`publicar/grau-de-producao.mjs`), a inclinação **dentro** dos cartões 27 a 38 era
+  −0,0017 por cartão, a média deles 2,13 contra 4,45 da espiral, e **quatro cartões** do
+  fecho estavam em 1,00, o grau de puro reconhecimento.
+- **O fecho passou a encomendar em vez de perguntar.** Seis interações que eram um `prever`
+  de três opções viraram `principio`, o tipo que o próprio capítulo usa quando quer um
+  argumento escrito (cartões 30, 31, 33, 34, 35 e 36). O `e31`, no bloco histórico, saiu de
+  quatro alternativas para um `completar` sobre a palavra que faltava naquela astronomia.
+- **A Verificação virou a volta executável que faltava.** As questões 3 e 4 tinham resposta
+  em número e ninguém a produzia. A seção 8 do
+  [`regressao_limonada.ipynb`](ml-zero/etapa-05/regressao_limonada.ipynb) ganhou duas células
+  com `# TODO`: uma faz entrar uma cópia quase idêntica da `temperatura`, e o coeficiente
+  dela salta de 0,3692 para **0,4985** com o $R^2$ parado em 0,9821; a outra imprime o
+  $S_{xx}$ de cada coluna dentro de um mês, e o `preco` sai em **0,000** em qualquer mês.
+  O `e40` e o `e50` cobram esses dois números. **O valor que vem pronto na célula não é o
+  que o exercício pede**, que é a regra que a D26 deixou.
+- **Os números que isso moveu.** Inclinação nos cartões 27 a 38: **−0,0017 → +0,0903** por
+  cartão. Média do fecho: **2,13 → 3,01**. Inclinação global: **−0,0034 → +0,0298**. O
+  último cartão no grau máximo sai de **26/38 (68,4%) para 38/38 (100%)**, e o último ato de
+  grau 5 sai de 71,1% para 100% do caminho. O menor grau do fecho vai de 1,00 para 2,50.
+  Na escada da prática, ρ(posição × dificuldade) do `II.2` sobe de **0,451 para 0,497**.
+- **`publicar/testes/grau-de-producao.mjs`** afirma as duas coisas que nada defendia: a régua
+  discrimina os cinco degraus (com os dois casos difíceis, `numerica` de conta à mão contra
+  `numerica` que manda rodar), e a rampa do `II.2` é asserção, não construção. Ele também
+  confere que a célula que cada exercício manda alterar **existe** no notebook e que o
+  gabarito **não** está impresso lá.
+
+
 ### Adicionado — a escada da prática virou portão, e a camada que o navegador desenha entrou na conta dos portões de fonte
 
 - **A dívida que a reordenação do `II.2` deixou escrita.** A [ADR 0023](adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md)
@@ -131,7 +163,7 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 - **O que o instrumento diz depois.** A inclinação global vai de −0,0027 para **+0,0047**, e a
   segunda metade deixa de pedir menos que a primeira: média **2,63 → 3,09**. Contando só os
   exercícios, a segunda metade sai de 1,79 para **2,32**. O portão da escada, que lê a
-  etiqueta `dificuldade` e não o que o exercício pede, registra ρ de 0,437 para **0,451** — a
+  etiqueta `dificuldade` e não o que o exercício pede, registra ρ de 0,437 para **0,451**, depois 0,497 com a rampa da D29 — a
   diferença entre os dois números é a medida do que uma etiqueta não enxerga.
 - **A recusa é conteúdo, não erro.** Com `preco` e `alta_temporada` marcadas o sistema não
   fecha, porque `preco` = 0,30 + 0,20 × `alta_temporada` dia a dia, sem resto: é a frase

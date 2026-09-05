@@ -1067,17 +1067,15 @@ Complete: as cinco linhas da tabela seguinte são ______ do sistema, e é por is
 | **[Linha de base](../glossario.md#termos-fundamentais) obrigatória** | é a régua contra a qual o modelo complexo se justifica |
 | **Latência apertada** | uma multiplicação de vetores, muito mais rápida que uma floresta |
 
-:::interacao {"id":"modelos-lineares-i38","tipo":"prever","titulo":"A linha que vale sempre"}
-Quatro linhas só entram com a restrição correspondente. Uma vale sempre.
+:::interacao {"id":"modelos-lineares-i38","tipo":"principio","titulo":"A linha que vale sempre"}
+Quatro linhas da tabela só entram quando a restrição correspondente existe. Uma vale sempre.
 
-- ( ) Poucos dados por atributo.
-- ( ) Necessidade de auditoria.
-- (!) Linha de base obrigatória.
-
-> **pergunta:** Qual delas?
+> **pergunta:** Escreva qual é, e o que ela responde que as outras quatro não respondem.
 > **revela:** **Linha de base obrigatória.** As outras quatro dependem do contexto: só valem se houver pouco dado, regulador, dinheiro multiplicado ou prazo de resposta.
 >
 > A linha de base não depende de nada disso. Ela responde "quanto do sinal é simplesmente linear?", e essa pergunta existe em todo problema, inclusive naqueles em que o linear vai perder feio no fim.
+>
+> Se a sua frase nomeou a linha certa e parou aí, falta a metade que decide. O que a torna incondicional é a pergunta que ela responde vir **antes** da comparação, e não depender de quem ficou na frente no teste.
 :::
 
 :::exercicio {"id":"modelos-lineares-e25","tipo":"multipla","objetivo":"O4","dificuldade":"media"}
@@ -1107,14 +1105,10 @@ Duas das cinco escondem um mecanismo, e é o mecanismo que decide.
 
 **Probabilidade que vira dinheiro.** O linear sai razoavelmente calibrado, e ensembles frequentemente precisam de correção posterior ([capítulo II.1](ii-1-avaliacao.md)). Ordenar bem e acertar o valor são exigências diferentes, e só a segunda sobrevive a uma multiplicação.
 
-:::interacao {"id":"modelos-lineares-i27","tipo":"prever","titulo":"Duzentas linhas, cinquenta colunas"}
+:::interacao {"id":"modelos-lineares-i27","tipo":"principio","titulo":"Duzentas linhas, cinquenta colunas"}
 Um conjunto tem 200 linhas e 50 colunas, e você compara um linear com um ensemble.
 
-- ( ) O ensemble, que aproveita o pouco.
-- (!) O linear, com menos a estimar.
-- ( ) Empate: o tamanho não pesa.
-
-> **pergunta:** Quem tende a ir melhor no teste?
+> **pergunta:** Escreva quem tende a ir melhor no teste, e faça a contagem que sustenta a sua resposta.
 > **revela:** O **linear**, e a razão é contagem. Com 50 colunas ele estima 51 números; o ensemble estima uma estrutura muito maior a partir das mesmas 200 linhas, e sobra amostra para cada corte decorar ruído.
 >
 > Não é uma lei, é uma tendência com mecanismo conhecido: quanto mais o modelo tem a estimar, mais dado ele precisa para estimar bem. É o mesmo raciocínio de viés e variância do [capítulo 0.2](../0-2-fundamentos.md), aplicado à escolha da família.
@@ -1182,14 +1176,10 @@ A [linha de base](../glossario.md#termos-fundamentais) tem um corolário que val
 
 E o contraexemplo honesto, para o corolário não virar fé: no [capítulo II.5](ii-5-arvores-ensembles.md) o linear faz **0,4963 de AUC** contra **0,9392** do boosting, num dado de fronteira irregular.
 
-:::interacao {"id":"modelos-lineares-i22","tipo":"prever","titulo":"Quando o ganho é pequeno"}
+:::interacao {"id":"modelos-lineares-i22","tipo":"principio","titulo":"Quando o ganho é pequeno"}
 Você treinou o linear, treinou o complexo depois, e no mesmo teste o ganho do segundo foi pequeno.
 
-- ( ) O complexo foi mal configurado.
-- (!) O sinal é quase todo linear.
-- ( ) O teste é pequeno demais.
-
-> **pergunta:** O que esse resultado revelou?
+> **pergunta:** Escreva o que esse resultado revelou, e a decisão de engenharia que ele autoriza.
 > **revela:** Que **o sinal é quase todo linear**. A linha de base não serve para ser vencida: ela serve para dizer quanto de estrutura o problema tem além de uma soma ponderada.
 >
 > E aí a conta vira de engenharia. O ganho pequeno é permanente, e o custo do modelo complexo também: mais dependências, mais tempo de treino, mais superfície para quebrar, e uma explicação que ninguém escreve na carta de recusa.
@@ -1223,31 +1213,22 @@ Escreva a resposta que você daria a ela, em até seis linhas, sem jargão. Diga
 
 **O nome.** *Moindres carrés*, [mínimos quadrados](../glossario.md#regressao-linear), é de Legendre, e é a definição do critério.
 
-:::interacao {"id":"modelos-lineares-i28","tipo":"prever","titulo":"Dois astrônomos, os mesmos dados"}
+:::interacao {"id":"modelos-lineares-i28","tipo":"principio","titulo":"Dois astrônomos, os mesmos dados"}
 Dois astrônomos recebem as mesmas observações e escolhem a olho.
 
-- (!) Órbitas diferentes, e sem árbitro.
-- ( ) A mesma órbita: o dado é o mesmo.
-- ( ) Órbitas diferentes, e a média vale.
-
-> **pergunta:** O que eles obtêm?
+> **pergunta:** Escreva o que eles obtêm, e diga se a média das duas escolhas resolveria.
 > **revela:** **Órbitas diferentes, e sem árbitro.** O problema não era falta de dado nem falta de talento: era não existir uma regra escrita que dissesse o que "melhor curva" significa.
 >
 > A opção da média parece conciliadora e não resolve nada, porque a média de duas escolhas arbitrárias continua arbitrária. Sem critério declarado, não há como preferir uma resposta, nem como reconstruir a resposta de ontem.
 :::
 
-:::exercicio {"id":"modelos-lineares-e31","tipo":"multipla","objetivo":"O5","dificuldade":"facil"}
-Que problema os mínimos quadrados vieram resolver naquela astronomia?
+:::exercicio {"id":"modelos-lineares-e31","tipo":"completar","objetivo":"O5","dificuldade":"facil"}
+Escreva o que faltava naquela astronomia: não era observação nem instrumento melhor, era uma ______ explícita do que conta como a melhor curva.
 
-- [x] Faltava uma regra explícita do que é a melhor curva.
-- [ ] Faltava observação suficiente para determinar a órbita direito.
-- [ ] O instrumento era impreciso demais.
-- [ ] Faltava como calcular à mão tantas observações.
-
-> **gabarito:** faltava uma regra explícita do que é "a melhor curva"
+> **gabarito:** regra|regra explícita|regra explicita|critério|criterio|definição|definicao
 > **porque:** O aperto era de **critério**, não de matéria-prima. Observações havia de sobra, e o excesso é que criava o problema: elas discordavam, e nada dizia como arbitrar entre as curvas candidatas.
 >
-> "Faltava observação" inverte o quadro, porque com poucas observações não haveria discordância a resolver. O instrumento impreciso descreve uma causa real do desacordo e não o problema a resolver: o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E a dificuldade de calcular à mão era um custo verdadeiro da época sem ser o que travava, porque mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.
+> Três respostas próximas erram, e o enunciado já descarta duas delas. "Observação" inverte o quadro, porque com poucas observações não haveria discordância a resolver. "Instrumento" nomeia uma causa real do desacordo e não o problema a resolver, já que o erro de medida é o motivo de os pontos não caírem sobre uma curva, e o método existe justamente para conviver com ele. E "conta", ou qualquer palavra de cálculo, descreve um custo verdadeiro da época sem ser o que travava: mesmo com todo o tempo do mundo, sem critério não há resposta a calcular.
 >
 > É esse o sentido de dizer que a regressão **é** uma minimização. O que se inventou não foi a reta, foi o que conta como melhor reta.
 > **volte para:** #de-onde-isto-veio
@@ -1263,14 +1244,10 @@ Legendre publicou primeiro, em 1805. Gauss publicou em 1809, afirmando usar o m�
 
 No [capítulo III.1](iii-1-neuronio-artificial.md) o crédito pelo *backpropagation* fica com quem reinventou por último. Os dois casos dizem: **crédito não segue descoberta, segue comunicação.**
 
-:::interacao {"id":"modelos-lineares-i30","tipo":"prever","titulo":"Trocar a perda é trocar o quê"}
+:::interacao {"id":"modelos-lineares-i30","tipo":"principio","titulo":"Trocar a perda é trocar o quê"}
 Uma equipe passa a minimizar o [erro absoluto](../glossario.md#regressao-linear), nos mesmos dados.
 
-- ( ) O modelo, que deixa de ser uma soma ponderada.
-- ( ) Nada de essencial: as duas medem o mesmo erro.
-- (!) O critério, e com ele a reta vencedora.
-
-> **pergunta:** O que essa equipe está trocando?
+> **pergunta:** Escreva o que essa equipe está trocando, e o que continua exatamente igual.
 > **revela:** O **critério**. A família de modelos continua a mesma reta, e o que muda é a regra que decide qual reta ganha, porque o absoluto pesa o ponto distante dez vezes onde o quadrático pesa cem.
 >
 > A opção do "nada de essencial" é a confusão que a seção existe para desfazer. Perda não é uma propriedade do mundo que se descobre: é uma escolha declarada, e por isso trocá-la é decisão de projeto que precisa ser justificada e registrada.
@@ -1304,14 +1281,10 @@ O que o resumo de Stigler, como o capítulo o cita, permite afirmar?
 | ⏳ | As notas de Olbers (1816) e Bessel (1832), e o ataque público de Legendre em 1820. O resumo de Stigler fala em "new evidence, both documentary and statistical", **sem nomear quais** |
 | 📖 | A ideia reaproveitável ("perda é critério de arbitragem") e a ligação com o capítulo III.1 |
 
-:::interacao {"id":"modelos-lineares-i34","tipo":"prever","titulo":"O selo da ideia reaproveitável"}
+:::interacao {"id":"modelos-lineares-i34","tipo":"principio","titulo":"O selo da ideia reaproveitável"}
 "Perda é critério de arbitragem" é a frase que este capítulo mais quer que você leve embora.
 
-- ( ) ✓, fonte aberta e lida.
-- ( ) ✓ᵐ, metadados conferidos.
-- (!) 📖, leitura deste livro.
-
-> **pergunta:** Que selo ela leva na tabela, e por quê?
+> **pergunta:** Escreva que selo ela leva na tabela, e o que o selo escolhido nega sobre ela.
 > **revela:** **📖.** Nenhum documento de 1805 diz "função de perda é critério de arbitragem": a frase é a interpretação que este livro faz do que aconteceu, e vender interpretação como fato histórico é uma das três proibições da casa.
 >
 > Repare que o selo não enfraquece a ideia. Ele diz de onde ela vem, e é justamente por vir de leitura editorial que ela pode ser discutida sem que ninguém precise abrir um arquivo de 1805.
@@ -1372,7 +1345,7 @@ Complete a síntese do capítulo: uma [função de perda](../glossario.md#termos
 4. No laboratório, o que aconteceria com a reta ótima se todos os pontos tivessem o mesmo $x$? Responda pela fórmula, não pelo desenho.
 
 :::interacao {"id":"modelos-lineares-i37","tipo":"principio","titulo":"A primeira, de cabeça"}
-Responda a questão 1 acima antes de revelar, escrevendo o argumento inteiro com suas palavras.
+Responda a questão 1 antes de revelar, com as suas palavras.
 
 > **pergunta:** Por que a reta ótima passa por $(\bar{x}, \bar{y})$?
 > **revela:** No mínimo, a derivada da perda em relação a $b$ se anula, e isso equivale a dizer que a soma dos resíduos é zero. Dividindo por $n$, a média dos resíduos é zero, o que dá $\bar{y} - a\bar{x} - b = 0$. Logo o ponto $(\bar{x}, \bar{y})$ satisfaz a equação da reta.
@@ -1380,14 +1353,26 @@ Responda a questão 1 acima antes de revelar, escrevendo o argumento inteiro com
 > Compare com o que você escreveu. Se o seu argumento partiu do desenho, ou de "faz sentido que passe pelo meio", ele não é uma demonstração: o que fecha a questão é a condição de primeira ordem, e nada além dela.
 :::
 
-:::exercicio {"id":"modelos-lineares-e40","tipo":"numerica","objetivo":"O4","dificuldade":"media"}
-Na questão 2 acima, você tem 180 linhas e 60 atributos. Quantos números um modelo linear com [intercepto](../glossario.md#regressao-linear) precisa estimar nesse conjunto?
+:::exercicio {"id":"modelos-lineares-e40","tipo":"numerica","objetivo":"O3","dificuldade":"dificil"}
+Questão 3, na célula 8.1 do [notebook](https://github.com/GHDaru/machinelearning/blob/main/ml-zero/etapa-05/regressao_limonada.ipynb). Troque `arredondar` para `True` e rode: entra uma cópia da `temperatura`, arredondada ao grau. Responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `temperatura`, com quatro casas.
 
-> **gabarito:** 61
-> **porque:** Um coeficiente por atributo, mais o intercepto: 60 + 1 = **61**. Compare com as 180 linhas disponíveis e você tem três exemplos por parâmetro, que é pouco.
+> **gabarito:** 0,4985 ± 0,0006
+> **porque:** Ele salta de 0,3692 para **0,4985**, e a coluna nova fica com −0,1295. Os dois somados dão 0,3690, que é o coeficiente de sempre: o mesmo efeito, agora repartido entre dois nomes, e a repartição decidida por detalhe de amostra.
 >
-> Quem responde 60 esqueceu o intercepto, que também é estimado dos dados e não é uma constante dada. Quem responde 180 confundiu parâmetro com exemplo, e essa troca é o coração da questão: o que decide a variância do ajuste é a **razão** entre os dois números.
+> Agora olhe o $R^2$ da mesma saída: **0,9821**, a mesma casa decimal de antes. É a questão 3 em números. O placar não piora, e nada nele avisa que metade de um efeito passou a ser creditada a uma coluna que ninguém mediu no mundo.
 >
-> É a primeira linha da tabela de decisão do capítulo, agora em números. Com três linhas por parâmetro, um ensemble teria muito mais o que estimar errado, e é por isso que a resposta à questão 2 é começar pelo linear.
+> Dois números aparecem no lugar. Quem responde 0,3692 leu a saída com `arredondar` em `False`, que é a do capítulo inteiro. Quem responde −0,1295 leu a linha da coluna nova.
+> **volte para:** #verificacao
+:::
+
+:::exercicio {"id":"modelos-lineares-e50","tipo":"numerica","objetivo":"O2","dificuldade":"dificil"}
+Questão 4, na célula 8.2 do mesmo notebook. Ponha `mes = 7` e rode: sai o $S_{xx}$ de cada coluna em julho. Responda o da `temperatura`, arredondado à unidade.
+
+> **gabarito:** 1902 ± 5
+> **porque:** Sai **1 902**, e o número só interessa pelo contraste da linha de baixo: o `preco` sai em 0,000, em julho e em qualquer outro mês que você escolher.
+>
+> Esse zero responde à questão 4 pela fórmula. Em $a = S_{xy}/S_{xx}$, o denominador é a variação do atributo dentro do recorte, e sem variação não há divisão a fazer. Não é um coeficiente ruim, é a ausência de coeficiente, e é o mesmo aviso do passo 5 da dedução.
+>
+> Dois números aparecem no lugar. Quem responde 0 leu a linha do `preco`, que é o zero que o cartão quer, na coluna errada. Quem responde 129 deixou o mês que vem pronto na célula.
 > **volte para:** #verificacao
 :::

@@ -139,7 +139,7 @@ const livro = verificar({
 }, { semNivel: new Set() });
 checa("o capítulo em modo cartão é medido de ponta a ponta", livro.conta.cartoes, 38);
 checa("e o ρ publicado é reproduzível pela mesma régua",
-  Math.abs(spearman(fatiarEscada(readFileSync(resolve(RAIZ, "livro", "capitulos", "ii-2-modelos-lineares.md"), "utf8")).cartoes) - 0.45) < 0.02,
+  Math.abs(spearman(fatiarEscada(readFileSync(resolve(RAIZ, "livro", "capitulos", "ii-2-modelos-lineares.md"), "utf8")).cartoes) - 0.50) < 0.02,
   true);
 
 // 9. a régua tem de discriminar: dificuldade inventada não vira degrau.
