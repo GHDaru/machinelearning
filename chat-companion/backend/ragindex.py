@@ -171,9 +171,30 @@ class BookIndex:
             return []
         pontuados = []
         for b in self.blocos:
-            score = sum(1 for t in b["termos"] if t in termos)
-            if score:
-                pontuados.append((score, b))
+            toks = b["termos"]
+            if not toks:
+                continue
+            # COBERTURA antes de FREQUÊNCIA, e o motivo tem data.
+            #
+            # A linha antiga era `sum(1 for t in toks if t in termos)`, que conta
+            # cada REPETIÇÃO. A docstring deste módulo sempre prometeu
+            # "sobreposição de termos", que é operação de conjunto; o código
+            # media multiconjunto. Enquanto os capítulos tinham tamanhos
+            # parecidos, os dois davam quase a mesma ordem e ninguém percebeu.
+            #
+            # Em 2026-09-04 o capítulo II.2 passou de 7.500 para 15.900 palavras
+            # e a diferença apareceu: perguntando "onde está regressão
+            # logística?", o tutor devolvia o II.2, que fala de regressão
+            # linear e cita a logística de passagem. O capítulo certo, quatro
+            # vezes menor, saía do top 3. Volume vencia pertinência.
+            #
+            # Agora o critério primeiro é quantos termos DISTINTOS da pergunta o
+            # bloco cobre, e o desempate é a densidade deles no bloco. Um trecho
+            # curto que fala do assunto ganha de um capítulo longo que o menciona.
+            achados = termos.intersection(toks)
+            if achados:
+                densidade = sum(1 for t in toks if t in termos) / len(toks)
+                pontuados.append(((len(achados), densidade), b))
         pontuados.sort(key=lambda x: x[0], reverse=True)
         # `capitulo` vai junto: sem ele o modelo recebia caminho de arquivo e
         # título de seção, e tinha de INFERIR como o capítulo se chama. Foi
