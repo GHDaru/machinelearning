@@ -102,6 +102,21 @@ jobs:
       #
       # Custam um Chromium (~150 MB) no runner. O leitor não paga nada disso:
       # a trilha de custo zero é a do aluno, não a da nossa integração.
+      # DUAS instalações, e a diferença derrubou este workflow três vezes.
+      #
+      # `npx playwright install` baixa o NAVEGADOR. Ele não põe o PACOTE no
+      # `node_modules`, porque o `npx` resolve o binário num cache temporário e
+      # some. Os gates fazem `import("playwright")`, que é o pacote, então o
+      # passo de baixo é obrigatório e o de cima não o substitui.
+      #
+      # `--no-save` de propósito: o pacote entra no runner e não no
+      # `package.json`. O navegador pesa uns 150 MB, e a trilha de custo zero é
+      # a do leitor, não a da nossa integração. Quem clona para ler o livro
+      # continua sem baixar nada disso.
+      - name: Instalar o pacote playwright (o import dos gates)
+        run: npm install --no-save playwright@1
+        working-directory: publicar
+
       - name: Instalar o Chromium para os gates de navegador
         run: npx --yes playwright@1 install --with-deps chromium
         working-directory: publicar
