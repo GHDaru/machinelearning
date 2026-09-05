@@ -16,15 +16,27 @@ name: Publicar o livro
 # os portões correm ANTES. Previews de branch continuam automáticos na Vercel —
 # é o motivo de termos migrado.
 
+# POR QUE NÃO HÁ FILTRO DE CAMINHOS AQUI (2026-09-05)
+#
+# Havia, e ele listava `livro/`, `publicar/`, `ml-zero/`, a constituição e este
+# arquivo. A economia era real e o custo apareceu de uma vez:
+#
+#   1. uma publicação reprovou na CI, por um teste do backend;
+#   2. o conserto foi em `chat-companion/backend/`, que não estava na lista;
+#   3. o push seguinte rodou a CI, passou, e **não disparou esta publicação**;
+#   4. o site ficou com a versão antiga, e nada em lugar nenhum disse isso.
+#
+# A falha silenciosa é o ponto. Um deploy vermelho avisa; um deploy que não
+# acontece não avisa nada, e quem olha o commit verde na `main` conclui que
+# está no ar. Foi exatamente essa conclusão errada que se tirou aqui.
+#
+# O filtro economizava minutos de runner e pagava com correção. Este repositório
+# recusa essa troca em todos os outros portões, e passa a recusá-la aqui: toda
+# entrada na `main` publica, e quem decide se o conteúdo presta são os portões
+# que já correm dentro deste workflow, antes do deploy.
 on:
   push:
     branches: [main]
-    paths:
-      - "livro/**"
-      - "publicar/**"
-      - "ml-zero/**"
-      - ".specify/memory/constitution.md"
-      - ".github/workflows/publicar.yml"
   workflow_dispatch:
 
 permissions:
