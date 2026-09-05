@@ -84,6 +84,20 @@
 //     `:::aprofundar`, que nasce fechado — pelo mesmo motivo que o gate de
 //     glossário o ignora.
 //
+// A CAMADA QUE O NAVEGADOR DESENHA (D28 do ROADMAP)
+//
+// Faltava uma fatia do cartão, e ela não estava no Markdown. O laboratório do
+// cartão 4 imprime `R²` no painel, e este gate declarava R² apresentado no
+// cartão 23: 50 pontos percentuais de inversão que nenhum portão de fonte via,
+// porque o texto é escrito pelo navegador depois da carga.
+//
+// O conserto não é ler o DOM: metade desse texto é `fillText` em canvas e não é
+// nó de texto nenhum. `publicar/vocabulario-desenhado.mjs` instrumenta o próprio
+// desenho, num passe de navegador, e deixa um corpus com a impressão digital do
+// tema. Este gate cola o texto de cada laboratório no cartão que o hospeda, e
+// REPROVA se o corpus estiver defasado — corpus velho responde com o
+// vocabulário de ontem e não avisa.
+//
 // O VOCABULÁRIO
 //
 // Os verbetes do glossário, lidos com a mesma função do gate de glossário, mais
@@ -105,6 +119,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve, join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { termosDoGlossario, normalizar, ocorrencias } from "./glossario-ligado.mjs";
+import { lerVocabularioDesenhado, textoDesenhado } from "../vocabulario-desenhado.mjs";
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -152,6 +167,7 @@ export function fatiarParaPreRequisito(markdown) {
           titulo: String(attrs.titulo || ""),
           apresenta: Array.isArray(attrs.apresenta) ? attrs.apresenta.map(String) : [],
           herdado: Array.isArray(attrs.herdado) ? attrs.herdado.map(String) : [],
+          labs: [],
           bruto: [],
         };
         cartoes.push(atual);
@@ -162,7 +178,17 @@ export function fatiarParaPreRequisito(markdown) {
 
     if (RE_APROFUNDAR.test(linha)) { emAprofundamento = true; continue; }
     if (emAprofundamento) { if (RE_FECHA_BLOCO.test(linha)) emAprofundamento = false; continue; }
-    if (RE_ABRE_BLOCO.test(linha)) { emBloco = true; emResposta = false; continue; }
+    if (RE_ABRE_BLOCO.test(linha)) {
+      emBloco = true; emResposta = false;
+      // O laboratório é a única coisa do cartão cujo TEXTO não está aqui: ele é
+      // desenhado pelo navegador depois da carga. Guardar o id agora é o que
+      // permite colar, mais abaixo, o vocabulário que ele imprime.
+      const lab = linha.match(/^:::lab[ \t]*(\{[^\n]*\})/);
+      if (lab) {
+        try { const a = JSON.parse(lab[1]); if (a.id) atual.labs.push(String(a.id)); } catch { /* o build já reprova */ }
+      }
+      continue;
+    }
     if (RE_FECHA_BLOCO.test(linha)) { emBloco = false; emResposta = false; continue; }
 
     if (emBloco && /^\s*>/.test(linha)) {
@@ -181,6 +207,7 @@ export function fatiarParaPreRequisito(markdown) {
     titulo: c.titulo,
     apresenta: c.apresenta,
     herdado: c.herdado,
+    labs: c.labs,
     // O rótulo de link vira o texto que o leitor vê; o alvo sai.
     texto: c.bruto.join("\n")
       .replace(/`[^`\n]*`/g, (t) => " ".repeat(t.length))
@@ -360,16 +387,85 @@ export function lerLivro(raiz = RAIZ) {
   return { glossario, capitulos };
 }
 
-export function verificar({ glossario, capitulos }, pendentes = PRE_REQUISITO_PENDENTE) {
+// A dívida da camada desenhada, medida em 2026-09-05. Termo cujo primeiro uso
+// SÓ existe no que o laboratório imprime, e cuja inversão é trabalho de conteúdo
+// alheio a este portão: ou o laboratório para de imprimir o rótulo antes da
+// hora, ou o cartão que o hospeda passa a apresentar o termo. Cobrada nas duas
+// direções, como todas as outras.
+//
+// O roadmap conhecia UMA inversão desenhada. Ligado o corpus, são TRÊS, e as
+// duas novas nunca tinham sido vistas por ninguém: é o tamanho real do ponto
+// cego, e a razão de ele valer um portão em vez de um conserto pontual.
+export const DESENHADO_PENDENTE = new Map([
+  ["ii-2-modelos-lineares", new Set([
+    // O painel do `regressao-linear` imprime "R²" no cartão 4 (10,5% do caminho)
+    // e o capítulo apresenta o termo no cartão 23 (60,5%). É a D28.
+    "R²",
+    // O mesmo painel imprime "EAM — erro absoluto médio" no cartão 4, e o erro
+    // absoluto só é apresentado no 6, onde o capítulo compara as duas perdas.
+    "Erro absoluto",
+    // O TÍTULO do laboratório ("Mínimos quadrados à mão") chega ao leitor no
+    // cartão 4 e o termo é apresentado no 5. Um cartão de dívida, e ele existe
+    // porque o título vive no marcador `:::lab`, que o gate não lia.
+    "Mínimos quadrados",
+  ])],
+]);
+
+export function verificar({ glossario, capitulos, desenhado }, pendentes = PRE_REQUISITO_PENDENTE,
+                          desenhadoPendente = DESENHADO_PENDENTE) {
   const vocab = vocabulario(glossario);
   const problemas = [];
   const cobrado = { capitulos: 0, cartoes: 0, usos: 0, distintos: 0, apresentados: 0, herdados: 0 };
   const divida = { capitulos: 0, cartoes: 0, usos: 0, distintos: 0, anotados: 0 };
 
+  let inversoesDesenhadas = 0, labsMedidos = 0;
   for (const cap of capitulos) {
     const cartoes = fatiarParaPreRequisito(cap.fonte);
     if (!cartoes.length) continue;                     // capítulo sem baralho declarado
-    const r = verificarCapitulo(cartoes, vocab);
+
+    // A MESMA RÉGUA, DUAS VEZES: sem a camada desenhada e com ela. O que só
+    // aparece na segunda é, por construção, defeito que o Markdown não contém —
+    // e é essa diferença que a lista de dívida governa. Comparar as duas saídas
+    // custa uma passada e dispensa adivinhar de onde veio cada acusação.
+    const semDesenho = new Set(verificarCapitulo(cartoes, vocab).problemas);
+    const desenhos = desenhado ? textoDesenhado(desenhado, cap.slug) : null;
+    // A impressão digital cobre o TEMA; ela não cobre o capítulo. Um laboratório
+    // novo no Markdown, com o tema intacto, deixaria o corpus certo e incompleto,
+    // e o gate leria o cartão sem a camada que ele desenha. Por isso o id
+    // declarado tem de existir no corpus.
+    const laboratorios = cartoes.flatMap((c) => c.labs || []);
+    if (desenhos && laboratorios.length) {
+      const faltando = laboratorios.filter((id) => !desenhos.has(id));
+      if (faltando.length) {
+        problemas.push(
+          `${cap.slug}: ${faltando.length} laboratório(s) declarado(s) no Markdown que o corpus não conhece ` +
+          `(${faltando.join(", ")}). O tema não mudou, o capítulo mudou: regenere com ` +
+          `PLAYWRIGHT=… CHROMIUM=… node publicar/vocabulario-desenhado.mjs --gerar`
+        );
+      }
+    }
+    const comDesenho = cartoes.map((c) => {
+      const extra = desenhos ? (c.labs || []).map((id) => desenhos.get(id) || "").filter(Boolean) : [];
+      if (extra.length) labsMedidos += extra.length;
+      return extra.length ? { ...c, texto: c.texto + "\n" + extra.join("\n") } : c;
+    });
+    const r = verificarCapitulo(comDesenho, vocab);
+    const dispensadosAqui = desenhadoPendente.get(cap.slug) || new Set();
+    const naoPagos = new Set(dispensadosAqui);
+    r.problemas = r.problemas.filter((p) => {
+      if (semDesenho.has(p)) return true;              // o Markdown já dizia isso
+      inversoesDesenhadas++;
+      for (const termo of dispensadosAqui) {
+        if (p.includes(`"${termo}"`)) { naoPagos.delete(termo); return false; }
+      }
+      return true;
+    });
+    for (const termo of naoPagos) {
+      r.problemas.push(
+        `"${termo}": está em DESENHADO_PENDENTE e a camada desenhada não o acusa mais. ` +
+        `Tire-o da lista no mesmo commit — dívida paga que continua declarada esconde a próxima.`
+      );
+    }
     if (pendentes.has(cap.slug)) {
       divida.capitulos++;
       divida.cartoes += cartoes.length;
@@ -407,12 +503,24 @@ export function verificar({ glossario, capitulos }, pendentes = PRE_REQUISITO_PE
       `Estes números NÃO reprovam — existem para que ninguém precise descobrir sozinho o tamanho do que falta.`
     );
   }
+  resumo.push(
+    `   Camada desenhada: ${labsMedidos} laboratório(s) com vocabulário colado no cartão que os hospeda, ` +
+    `${inversoesDesenhadas} inversão(ões) que só existem no que o navegador imprime ` +
+    `(D28: o portão de fonte não vê o canvas nem o painel escrito em runtime).`
+  );
   return { problemas, cobrado, divida, resumo, vocabulario: vocab.length };
 }
 
 const executado = process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url));
 if (executado) {
-  const { problemas, resumo } = verificar(lerLivro());
+  // O corpus do vocabulário desenhado é entrada obrigatória, e defasagem
+  // reprova. Sem isso o gate responderia com o que o tema imprimia ontem.
+  const { paginas, aviso } = lerVocabularioDesenhado();
+  if (aviso) {
+    console.error("✗ " + aviso);
+    process.exit(1);
+  }
+  const { problemas, resumo } = verificar({ ...lerLivro(), desenhado: paginas });
   resumo.forEach((l) => console.log(l));
   if (problemas.length) {
     console.error(`✗ ${problemas.length} problema(s) de pré-requisito:`);

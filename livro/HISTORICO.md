@@ -15,6 +15,14 @@ Implementa a [ADR 0023](../adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-esca
 
 **O portão novo.** `publicar/gates/pre-requisito.mjs` cobra a regra que faltava e que nenhum outro portão conseguia ver: a AUC era usada em quatro lugares do capítulo e definida em nenhum, passando limpo pelo gate de glossário, que confere que o termo é *ligado* e não que foi *apresentado*, e pelo de exercícios, que confere que o objetivo *existe* e não que ele *corresponde*. Ele foi visto acusando as seis inversões reintroduzidas uma a uma.
 
+**A espiral da limonada (D27), 2026-09-05.** A ordem consertada não consertou a *exigência*: um crítico cego mediu a escada contra o notebook do capítulo 10 do Géron e achou que, depois do cartão 15, ela vira piso. O instrumento é declarado: grau de produção pedido por cartão, de 1 (escolher entre alternativas) a 5 (manipular e ler um resultado que muda), tomando a média dos atos do cartão. Por ele, a inclinação era **−0,0027 por cartão**, com 2,71 de média na primeira metade e 2,63 na segunda. O mesmo instrumento nas 210 células do notebook dá **+0,0024**, com o ciclo fechado 32 vezes entre 7,1% e 98,6% do caminho.
+
+O conserto copia o mecanismo do Géron, não o formato: o caso da limonada, que era gasto em oito cartões de leitura, passa a ser **o mesmo painel reaberto seis vezes**, nos cartões 21 a 26, com **um mecanismo novo por volta e nunca dois**. O leitor ajusta `vendas ~ preco` sozinho e lê +47,0; marca `temperatura` e vê o coeficiente cair para 1,64 sem morrer; acrescenta as outras duas colunas e vê o R² parar em 0,982 enquanto o preço **sobe** para 2,41; marca a coluna `alta_temporada` e recebe uma recusa, porque `preco` = 0,30 + 0,20 × ela, dia a dia; mexe no corte de treino e vê a recomendação de panfletagem andar dez panfletos com o R² melhorando; recorta um mês e recebe o aviso do passo 5 da dedução, com a coluna constante nomeada.
+
+**Os números que isso moveu.** Exercícios de "escolha uma": 21 → 16, e `numerica` 10 → 15. A primeira execução sobre o dado real sai de 68,4% do caminho e de fora da página (o link do Colab) para **52,6%, dentro do cartão**. A inclinação global vai de −0,0027 para **+0,0047**, e a segunda metade deixa de pedir menos que a primeira: 2,63 → 3,09.
+
+**A dívida que o conserto deixa, e ela é nova.** A subida é um pico, não uma rampa: os cartões 27 a 38 não mudaram, e a inclinação medida *dentro* da segunda metade fica negativa. Entra como **D29** no roadmap, com o número.
+
 **Uma correção de registro que o ciclo obrigou.** Sete exercícios do bloco histórico declaravam o objetivo `O1`, "derivar a regressão linear como minimização", e cobravam disciplina de proveniência. Agora existe um `O5` declarado, e `O1` ganhou o exercício que faltava: derivar a reta sem intercepto, cujo engano previsível é aplicar a fórmula decorada do modelo que tem intercepto.
 
 ## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações

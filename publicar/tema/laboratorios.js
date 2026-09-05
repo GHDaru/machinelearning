@@ -889,6 +889,379 @@
   }
 
 
+  // ------------------------------------------ a espiral da limonada (II.2)
+
+  /* O MESMO painel, reaberto cinco vezes, uma decisão nova de cada vez.
+
+     POR QUE ELE EXISTE (D27). Um crítico cego mediu a escada do capítulo
+     contra o notebook do capítulo 10 do Géron e achou o defeito: depois do
+     cartão 15 a inclinação da dificuldade é −0,0027 por cartão, e o caso da
+     limonada — 365 dias, quatro atributos, o achado central do capítulo —
+     era gasto em oito cartões seguidos de leitura com múltipla escolha no
+     fim. O Géron fecha a mesma alça nove vezes e acrescenta UM mecanismo por
+     volta; aqui a alça é ajustar, ler o coeficiente, decidir o que muda.
+
+     O QUE ELE NÃO TEM, E É DECISÃO
+
+     Não tem canvas. Nenhum. Duas razões, e as duas são medidas:
+
+       D18 — desenho em canvas com backing store fixo entrega fonte de 12px a
+         6,0px numa coluna de 360px. Sem canvas o número sai a 12,0px, que é o
+         tamanho que o CSS pede, em qualquer largura, sem `fitCanvas` nenhum.
+       D28 — o que o navegador desenha num canvas é invisível a todo portão
+         que lê a fonte. Uma tabela do DOM continua invisível ao portão, mas é
+         lida por leitor de tela, é copiável e é conferível no teste sem
+         adivinhar pixel.
+
+     Não tem barra comparando coeficientes lado a lado. Seria bonito e seria o
+     erro que o cartão 28 nomeia: coeficiente não é comparável entre atributos
+     sem padronização. A comparação que o painel oferece é a única legítima —
+     o MESMO coeficiente contra ele mesmo no ajuste anterior, na coluna
+     "antes". É ela que faz a colinearidade acontecer em vez de ser descrita.
+
+     O AJUSTE NÃO É AUTOMÁTICO. Mudar um controle marca o resultado como
+     vencido e o painel diz isso; o número só volta com um clique em
+     "Ajustar". Uma decisão, uma rodada, uma leitura: é o gesto que a volta da
+     espiral cobra, e painel que se atualiza sozinho o dissolve. */
+
+  var LIMONADA = null;                 // promessa única: cinco painéis, um GET
+  function dadosLimonada(caminho) {
+    if (LIMONADA) return LIMONADA;
+    LIMONADA = fetch(caminho).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    }).then(function (txt) {
+      // `.trim()` em cada campo: com terminador CRLF o `\r` cola no último
+      // nome de coluna e `l["vendas"]` devolve undefined — a coluna inteira
+      // vira NaN e o painel exibe, com confiança, o número da rodada anterior.
+      var linhas = txt.trim().split(/\r?\n/);
+      var cab = linhas[0].split(",").map(function (c) { return c.trim(); });
+      return linhas.slice(1).map(function (l) {
+        var v = l.split(","), o = {};
+        cab.forEach(function (c, i) { o[c] = (v[i] || "").trim(); });
+        return o;
+      });
+    });
+    return LIMONADA;
+  }
+
+  /* Eliminação de Gauss com pivotamento parcial sobre as equações normais.
+     É a MESMA solução fechada que o capítulo deduz e que a etapa 05 do
+     `ml-zero` implementa — e é de propósito que ela devolve `null` no caso
+     singular em vez de um número: o passo 5 do capítulo ensina que o divisor
+     zero é um aviso, e engolir o aviso seria desmentir o capítulo. */
+  function resolverSistema(A, b) {
+    var n = b.length, i, j, k, M = [], escala = 0;
+    for (i = 0; i < n; i++) {
+      M.push(A[i].concat([b[i]]));
+      for (j = 0; j < n; j++) escala = Math.max(escala, Math.abs(A[i][j]));
+    }
+    // O limiar é RELATIVO à escala da matriz, e não um absoluto: um pivô só é
+    // zero em comparação com o tamanho das outras entradas.
+    //
+    // HONESTIDADE SOBRE O GANHO, porque ele foi medido e é menor do que parece.
+    // No conjunto da limonada, com `alta_temporada` marcada junto do preço, o
+    // pivô morto vale −3,4e−12 numa matriz de escala 1,4e+6, e um limiar
+    // absoluto de 1e−10 também o recusaria. Multiplicar o dado por mil ou por
+    // um milhão não inverte isso, porque a coluna derivada continua valendo 0
+    // ou 1 e o pivotamento parcial a deixa por último. Ou seja: **aqui as duas
+    // réguas concordam**, e o teste da espiral não consegue distinguir uma da
+    // outra. A relativa fica por ser correta por construção — a decisão de
+    // recusar não pode depender da unidade em que alguém mediu a coluna —, e
+    // não porque tenha consertado um defeito observado.
+    var piso = 1e-9 * (escala || 1);
+    for (k = 0; k < n; k++) {
+      var p = k;
+      for (i = k + 1; i < n; i++) if (Math.abs(M[i][k]) > Math.abs(M[p][k])) p = i;
+      if (Math.abs(M[p][k]) < piso) return null;
+      var t = M[k]; M[k] = M[p]; M[p] = t;
+      for (i = k + 1; i < n; i++) {
+        var f = M[i][k] / M[k][k];
+        for (j = k; j <= n; j++) M[i][j] -= f * M[k][j];
+      }
+    }
+    var x = new Array(n);
+    for (i = n - 1; i >= 0; i--) {
+      var s = M[i][n];
+      for (j = i + 1; j < n; j++) s -= M[i][j] * x[j];
+      x[i] = s / M[i][i];
+    }
+    return x;
+  }
+
+  function ajusteMultiplo(linhas, colunas, alvo) {
+    var n = linhas.length, p = colunas.length + 1, i, j, k;
+    if (n < p) return { erro: "poucos" };
+    var X = [], y = [];
+    for (i = 0; i < n; i++) {
+      var lin = [1];
+      for (j = 0; j < colunas.length; j++) lin.push(parseFloat(linhas[i][colunas[j]]));
+      if (lin.some(function (v) { return !isFinite(v); })) return { erro: "coluna" };
+      var alv = parseFloat(linhas[i][alvo]);
+      if (!isFinite(alv)) return { erro: "coluna" };
+      X.push(lin); y.push(alv);
+    }
+    // A coluna que não varia é nomeada ANTES de o sistema estourar: dizer
+    // "singular" é falar de álgebra; dizer "o preço tem um valor só nestes
+    // dias" é falar do dado, que é onde o defeito mora.
+    for (j = 0; j < colunas.length; j++) {
+      var vs = X.map(function (r) { return r[j + 1]; });
+      var mu = vs.reduce(function (a, v) { return a + v; }, 0) / n;
+      var va = vs.reduce(function (a, v) { return a + (v - mu) * (v - mu); }, 0) / n;
+      if (va < 1e-12) return { erro: "constante", coluna: colunas[j] };
+    }
+    var A = [], b = [];
+    for (i = 0; i < p; i++) {
+      var soma = 0, linA = [];
+      for (k = 0; k < n; k++) soma += X[k][i] * y[k];
+      b.push(soma);
+      for (j = 0; j < p; j++) {
+        var s2 = 0;
+        for (k = 0; k < n; k++) s2 += X[k][i] * X[k][j];
+        linA.push(s2);
+      }
+      A.push(linA);
+    }
+    var w = resolverSistema(A, b);
+    if (!w) return { erro: "singular" };
+    var my = y.reduce(function (a, v) { return a + v; }, 0) / n, sqe = 0, sqt = 0;
+    for (k = 0; k < n; k++) {
+      var prev = 0;
+      for (i = 0; i < p; i++) prev += X[k][i] * w[i];
+      sqe += (y[k] - prev) * (y[k] - prev);
+      sqt += (y[k] - my) * (y[k] - my);
+    }
+    return { w: w, n: n, r2: sqt === 0 ? 0 : 1 - sqe / sqt };
+  }
+
+  var MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho",
+               "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+  /* A única coluna que não vem do arquivo: 1 nos 62 dias de julho e agosto, 0
+     nos outros 303. Ela existe para uma volta só da espiral, a do cartão 24, e
+     o que ela demonstra é o que o capítulo afirma em prosa — que preço e
+     estação são a mesma variável com dois nomes. São mesmo: `preco` vale
+     0,30 + 0,20 × alta_temporada, dia a dia, sem resto. Marcadas as duas, o
+     sistema não fecha, e o painel recusa em vez de inventar. */
+  function comAltaTemporada(linhas) {
+    return linhas.map(function (l) {
+      var m = String(l.data || "").slice(5, 7);
+      var o = { alta_temporada: (m === "07" || m === "08") ? 1 : 0 };
+      for (var k in l) if (Object.prototype.hasOwnProperty.call(l, k)) o[k] = l[k];
+      return o;
+    });
+  }
+
+  function regressaoLimonada(raiz, cfg) {
+    var alvo = cfg.alvo || "vendas";
+    var fixos = cfg.fixos || ["preco"];
+    var opcionais = cfg.escolher || [];
+    var ligados = {};
+    (cfg.ligados || []).forEach(function (c) { ligados[c] = true; });
+    var mostraR2 = (cfg.mostrar || []).indexOf("r2") >= 0;
+    var estado = { dados: null, corte: 365, mes: "", ajuste: null, antes: null, vencido: false };
+
+    var corpo = el("div", "lab-corpo");
+    var painel = el("div", "lab-painel");
+    corpo.appendChild(painel);
+
+    // --- controles: um novo por volta da espiral ---
+    if (opcionais.length) {
+      var caixas = el("div", "lab-caixas");
+      opcionais.forEach(function (c) {
+        var rot = el("label", "lab-caixa");
+        var inp = document.createElement("input");
+        inp.type = "checkbox";
+        inp.checked = !!ligados[c];
+        inp.addEventListener("change", function () { ligados[c] = inp.checked; vencer(); });
+        rot.appendChild(inp);
+        rot.appendChild(el("code", null, c));
+        caixas.appendChild(rot);
+      });
+      painel.appendChild(caixas);
+    }
+    if (cfg.corte) {
+      var cCorte = campo("corte de treino", estado.corte, 5, function (v) {
+        estado.corte = Math.max(20, Math.min(365, Math.round(v) || 365));
+        vencer();
+      });
+      var faixaC = cCorte.querySelector(".lab-faixa");
+      faixaC.min = "20"; faixaC.max = "365"; faixaC.step = "5";
+      painel.appendChild(cCorte);
+    }
+    if (cfg.recorte) {
+      var sel = document.createElement("select");
+      sel.className = "lab-select";
+      var o0 = document.createElement("option");
+      o0.value = ""; o0.textContent = "o ano inteiro";
+      sel.appendChild(o0);
+      MESES.forEach(function (nome, i) {
+        var o = document.createElement("option");
+        o.value = String(i + 1 < 10 ? "0" + (i + 1) : i + 1);
+        o.textContent = nome;
+        sel.appendChild(o);
+      });
+      sel.addEventListener("change", function () { estado.mes = sel.value; vencer(); });
+      var wrap = el("label", "lab-campo");
+      wrap.appendChild(el("span", "lab-campo-rot", "recorte"));
+      wrap.appendChild(sel);
+      painel.appendChild(wrap);
+    }
+
+    var botoes = el("div", "lab-botoes");
+    var btAjustar = el("button", "lab-botao lab-botao-primario", "Ajustar");
+    btAjustar.type = "button";
+    btAjustar.addEventListener("click", ajustar);
+    botoes.appendChild(btAjustar);
+    painel.appendChild(botoes);
+
+    var placar = el("div", "lab-placar");
+    painel.appendChild(placar);
+
+    var veredito = el("p", "lab-veredito", "Clique em Ajustar.");
+    veredito.setAttribute("aria-live", "polite");
+    painel.appendChild(veredito);
+
+    function colunas() {
+      return fixos.concat(opcionais.filter(function (c) { return ligados[c]; }));
+    }
+    function recorte() {
+      var d = estado.dados || [];
+      if (estado.mes) {
+        d = d.filter(function (l) { return String(l.data || "").slice(5, 7) === estado.mes; });
+      }
+      return d.slice(0, estado.corte);
+    }
+    function vencer() {
+      if (!estado.ajuste) return;
+      estado.vencido = true;
+      pintar();
+    }
+    function num(v, casas) {
+      if (!isFinite(v)) return "—";
+      return v.toFixed(casas).replace(".", ",");
+    }
+
+    function ajustar() {
+      if (!estado.dados) return;
+      var cols = colunas();
+      if (!cols.length) {
+        estado.ajuste = null; estado.vencido = false;
+        pintar("Marque ao menos um atributo.");
+        return;
+      }
+      var r = ajusteMultiplo(recorte(), cols, alvo);
+      if (r.erro) {
+        estado.antes = null;
+        estado.ajuste = { falha: r, cols: cols };
+        estado.vencido = false;
+        pintar();
+        return;
+      }
+      estado.antes = estado.ajuste && !estado.ajuste.falha ? estado.ajuste : null;
+      estado.ajuste = { w: r.w, n: r.n, r2: r.r2, cols: cols };
+      estado.vencido = false;
+      pintar();
+    }
+
+    /* A tabela lista SEMPRE fixos + opcionais, marcados ou não, e a linha do
+       atributo que ficou de fora mostra um traço. Duas razões: a altura do
+       cartão não muda quando o leitor marca uma caixa (o teto de 1.600px é
+       medido no estado fechado, e painel que cresce ao ser usado passa no
+       portão e estoura na mão de quem lê), e o traço diz a verdade — fora do
+       modelo o coeficiente não é pequeno, é inexistente. */
+    function todasAsLinhas() { return fixos.concat(opcionais); }
+    function esqueleto() {
+      var linhas = "<tr><th></th><td>agora</td><td>antes</td></tr>" +
+                   "<tr><th>intercepto</th><td>—</td><td>—</td></tr>";
+      todasAsLinhas().forEach(function (c) {
+        linhas += '<tr class="' + (c === "preco" ? "lab-metrica-alvo" : "") +
+                  '"><th><code>' + c + "</code></th><td>—</td><td>—</td></tr>";
+      });
+      if (mostraR2) linhas += "<tr><th>R²</th><td>—</td><td>—</td></tr>";
+      placar.innerHTML = '<table class="lab-metricas"><tbody>' + linhas + "</tbody></table>";
+    }
+
+    function pintar(aviso) {
+      var a = estado.ajuste;
+      if (!a) {
+        esqueleto();
+        veredito.textContent = aviso || "Clique em Ajustar.";
+        return;
+      }
+      if (a.falha) {
+        esqueleto();
+        var f = a.falha;
+        veredito.textContent = f.erro === "constante"
+          ? "Neste recorte a coluna " + f.coluna + " tem um valor só. " +
+            "O passo 5 avisou: sem variação no atributo o divisor é zero, e reta não há. " +
+            "Tire essa coluna, ou abra o recorte."
+          : f.erro === "poucos"
+            ? "Dias de menos para tantos atributos."
+            : "As colunas marcadas dizem a mesma coisa, e o sistema não fecha.";
+        return;
+      }
+      var antes = estado.antes;
+      var linhas = "<tr><th></th><td>agora</td><td>antes</td></tr>";
+      function linha(rot, v, ant, casas, alvo2) {
+        linhas += '<tr class="' + (alvo2 ? "lab-metrica-alvo" : "") + '"><th>' + rot +
+          "</th><td>" + num(v, casas) + "</td><td>" +
+          (ant == null ? "—" : num(ant, casas)) + "</td></tr>";
+      }
+      linha("intercepto", a.w[0], antes ? antes.w[0] : null, 4, false);
+      todasAsLinhas().forEach(function (c) {
+        var i = a.cols.indexOf(c), j = antes ? antes.cols.indexOf(c) : -1;
+        linha("<code>" + c + "</code>", i >= 0 ? a.w[i + 1] : NaN,
+              j >= 0 ? antes.w[j + 1] : null, 4, c === "preco");
+      });
+      if (mostraR2) linha("R²", a.r2, antes ? antes.r2 : null, 3, false);
+      placar.innerHTML = '<table class="lab-metricas"><tbody>' + linhas + "</tbody></table>";
+      veredito.textContent = estado.vencido
+        ? "Algo mudou. Ajuste de novo."
+        : a.n + " dias no ajuste.";
+    }
+
+    raiz.appendChild(corpo);
+    // A tabela nasce com traços, e não vazia: assim a altura que o gate mede é
+    // a altura que o leitor tem depois do primeiro clique. Painel que cresce ao
+    // ser usado passa no portão e estoura na mão de quem lê.
+    esqueleto();
+    dadosLimonada(cfg.dados || "dados/limonada.csv").then(function (d) {
+      estado.dados = comAltaTemporada(d);
+      veredito.textContent = "Clique em Ajustar.";
+    }).catch(function () {
+      veredito.textContent = "Não consegui carregar o conjunto. Abrindo o arquivo " +
+        "direto do disco (file://) o navegador bloqueia a leitura — use o livro publicado.";
+    });
+
+    // Gancho de teste: o mesmo ajuste que o painel mostra, sem navegador.
+    raiz.__api = {
+      estado: estado, colunas: colunas, recorte: recorte,
+      ajustar: ajustar, pintar: pintar,
+      ligar: function (c, v) { ligados[c] = v; vencer(); },
+      corte: function (k) { estado.corte = k; vencer(); },
+      mes: function (m) { estado.mes = m; vencer(); },
+      resultado: function () { return estado.ajuste; },
+      carregar: function (d) { estado.dados = comAltaTemporada(d); },
+      /* A interface que `publicar/vocabulario-desenhado.mjs` pede (D28): tudo o
+         que este painel PODE imprimir, inclusive o que só aparece depois de um
+         clique. O coletor abre a página e vê o estado inicial; as três recusas
+         e o placar preenchido ficariam fora, e é justamente numa recusa que
+         mora a frase mais longa que o painel escreve. */
+      vocabulario: function () {
+        var v = ["intercepto", "agora", "antes", "dias no ajuste",
+                 "Clique em Ajustar.", "Algo mudou. Ajuste de novo.",
+                 "Marque ao menos um atributo.",
+                 "Neste recorte a coluna tem um valor só. O passo 5 avisou: " +
+                 "sem variação no atributo o divisor é zero, e reta não há.",
+                 "Dias de menos para tantos atributos.",
+                 "As colunas marcadas dizem a mesma coisa, e o sistema não fecha."];
+        if (mostraR2) v.push("R²");
+        return v.concat(fixos).concat(opcionais);
+      },
+    };
+  }
+
   // -------------------------------------------------- explorar uma variável
 
   /* Análise monovariada sobre o conjunto REAL do livro.
@@ -5802,6 +6175,7 @@
   }
 
   var TIPOS = { "neuronio-mp": neuronioMP, "regressao-linear": regressaoLinear,
+                "regressao-limonada": regressaoLimonada,
                 "explorar-variavel": explorarVariavel, "anima-perceptron": animaPerceptron,
                 "anima-mlp-xor": animaMLPXor, "anima-kmeans": animaKMeans,
                 "anima-justica": animaJustica, "anima-vies-variancia": animaViesVariancia,

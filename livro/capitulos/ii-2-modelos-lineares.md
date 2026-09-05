@@ -734,10 +734,10 @@ Comparando dois clientes, um com 2 000 reais a mais de renda e um dependente a m
 
 ## O caso da limonada
 
-O conjunto em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de uma barraca: tempo, panfletos, preço e copos vendidos.
+O conjunto em [`ml-zero/dados/limonada/`](../../ml-zero/dados/limonada/README.md) traz 365 dias de uma barraca.
 
 :::interacao {"id":"modelos-lineares-i14","tipo":"prever","titulo":"O sinal que você espera"}
-Nestes 365 dias, preço cobrado e copos vendidos aparecem correlacionados.
+Preço cobrado e copos vendidos andam juntos nestes 365 dias.
 
 - (!) Positivamente: caro vendeu mais.
 - ( ) Negativamente: caro afasta freguês.
@@ -756,22 +756,21 @@ Nestes 365 dias, preço cobrado e copos vendidos aparecem correlacionados.
 | `panfletos` | +0,805 |
 | **`preco`** | **+0,513** |
 
-Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais.** A última linha é onde o relatório morre: ela sugere *aumente o preço*, o oposto do que a barraca deve fazer.
+Calor vende, chuva atrapalha, panfleto ajuda. E **preço mais alto vende mais**.
 
-:::exercicio {"id":"modelos-lineares-e22","tipo":"multipla","objetivo":"O3","dificuldade":"facil"}
-Olhando **só** esta tabela, o que ela permite afirmar?
+:::lab {"id":"modelos-lineares-l3","tipo":"regressao-limonada","titulo":"Primeira volta","fixos":["preco"]}
+A primeira das cinco voltas do painel.
+:::
 
-- [x] Que as quatro andam junto, sem dizer por quê.
-- [ ] Que a chuva derruba as vendas e o preço as levanta.
-- [ ] Que a precipitação é o melhor previsor da tabela.
-- [ ] Que subir o preço é a melhor alavanca do negócio.
+:::exercicio {"id":"modelos-lineares-e22","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+Clique em **Ajustar** e responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `preco`, com uma casa.
 
-> **gabarito:** andam junto com as vendas, sem dizer por quê
-> **porque:** Correlação é uma medida de acompanhamento entre duas colunas. Ela diz que os números sobem e descem juntos, e não diz nada sobre quem move quem, nem sobre o que mais mudou ao mesmo tempo.
+> **gabarito:** 47,0 ± 0,4
+> **porque:** O painel devolve **+47,0**, com o intercepto em 9,6. Lido como decisão, ele diz que cada real a mais no copo vende quarenta e sete copos a mais, o que ninguém acredita — e é exatamente a recomendação que a tabela de correlação sugeria, agora com aparência de conta.
 >
-> A leitura causal ("a chuva derruba, o preço levanta") é o assunto do resto desta seção. A alternativa da precipitação é falsa dentro da própria tabela, porque quem tem o maior valor absoluto é `temperatura`, com 0,990. E "subir o preço" é a recomendação que vai para o slide e custa dinheiro.
+> Dois números aparecem no lugar. Quem responde **0,5** copiou o 0,513 da tabela, que é correlação e não coeficiente: um é adimensional e mora entre −1 e 1, o outro está em copos por real. Quem responde **9,6** leu a linha do intercepto, que é a previsão quando o preço vale zero, isto é, fora de qualquer dia observado.
 >
-> A tabela cumpriu o papel dela, que é apontar onde olhar. Quem para nela transforma um mapa em conclusão.
+> A tabela apontou onde olhar; o ajuste pôs um número na recomendação errada. Nenhum dos dois diz **por quê**, e é o resto desta parte que vai dizer.
 > **volte para:** #o-caso-da-limonada
 :::
 
@@ -779,14 +778,16 @@ Olhando **só** esta tabela, o que ela permite afirmar?
 
 ### O preço é um termômetro disfarçado
 
-Antes de explicar, olhe o dado.
-
 | preço | dias | temperatura média* | vendas médias | meses em que aparece |
 |---|---|---|---|---|
 | 0,30 | 303 | 57,0 | 23,7 | jan–jun, set–dez |
 | 0,50 | 62 | 78,8 | 33,1 | **só julho e agosto** |
 
-> \* A unidade da temperatura **não está no arquivo**, e a ficha do dado recusa-se a inventá-la. A faixa (15,1 a 102,9) é típica de Fahrenheit, onde 78,8 °F são cerca de 26 °C.
+> \* A unidade **não está no arquivo**. A faixa (15,1 a 102,9) é típica de Fahrenheit.
+
+:::lab {"id":"modelos-lineares-l4","tipo":"regressao-limonada","titulo":"Segunda volta","fixos":["preco"],"escolher":["temperatura"]}
+Marque `temperatura` e ajuste de novo.
+:::
 
 :::interacao {"id":"modelos-lineares-i15","tipo":"principio","titulo":"O que o preço está marcando"}
 O preço de 0,50 aparece em 62 dias, todos em julho e agosto.
@@ -799,20 +800,15 @@ O preço de 0,50 aparece em 62 dias, todos em julho e agosto.
 > A ideia reaproveitável: **uma coluna que só assume certo valor dentro de um recorte não mede o que o nome dela diz, mede o recorte.**
 :::
 
-:::exercicio {"id":"modelos-lineares-e23","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
-O que torna `preco` um termômetro disfarçado aqui?
+:::exercicio {"id":"modelos-lineares-e23","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+Com `temperatura` marcada, responda o [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) de `preco`, com duas casas.
 
-- [ ] Foi registrado na unidade da temperatura.
-- [x] O valor alto só sai nos meses quentes.
-- [ ] A correlação com as vendas passa de 0,5.
-- [ ] O valor baixo cobre 303 dos 365 dias.
-
-> **gabarito:** o valor alto só aparece nos dois meses mais quentes
-> **porque:** O que faz uma coluna virar termômetro é a **coincidência entre o recorte dela e o recorte de outra variável**. Aqui o preço de 0,50 e o mês de julho ocupam exatamente os mesmos 62 dias, então quem lê o preço está lendo o calendário.
+> **gabarito:** 1,64 ± 0,06
+> **porque:** Ele cai de 47,0 para 1,64, vinte e nove vezes menor, e continua **positivo**. A queda é a medida do quanto daquele 47,0 era calor disfarçado de preço; o que não cai é o que sobra sem dono, e o cartão seguinte mostra de quem ele é.
 >
-> A primeira alternativa é falsa e vale desfazer, porque preço está em unidade monetária e temperatura em graus, e unidade não tem nada a ver com confundimento. A terceira confunde o sintoma com a causa, já que o valor 0,513 é o que precisa ser explicado. A quarta é um fato verdadeiro da tabela e irrelevante: o problema não é o valor comum aparecer muito, é o valor raro aparecer só num lugar.
+> Três números aparecem no lugar. Quem responde **47,0** leu a coluna *antes*, que é a volta passada e está ali para comparação. Quem responde **0,42** leu a linha da `temperatura`, que é o outro coeficiente da mesma conta. E quem responde um número **negativo** respondeu a teoria econômica em vez do painel, que é o susto que este caso existe para dar.
 >
-> O teste que fica: para toda coluna suspeita, pergunte **em que subconjunto dos dados ela varia**. Se a resposta for "num recorte só", ela carrega o recorte junto.
+> O teste que fica vale para qualquer coluna suspeita: pergunte **em que subconjunto dos dados ela varia**. Se a resposta for "num recorte só", ela carrega o recorte junto, e o coeficiente dela mede o recorte.
 > **volte para:** #o-preco-e-um-termometro-disfarcado
 :::
 
@@ -820,20 +816,16 @@ O que torna `preco` um termômetro disfarçado aqui?
 
 ### O passo que deveria salvar, e não salva
 
-A resposta de manual, diante da limonada, é "controle pelas outras variáveis". Ajustando tudo junto:
+A resposta de manual é **controlar pelas outras variáveis**: marque as duas que faltam.
 
-```
-vendas = 3,192
-       + 0,3692 · temperatura
-       − 2,2460 · precipitacao
-       + 0,0188 · panfletos
-       + 2,4143 · preco          R² = 0,982
-```
+:::lab {"id":"modelos-lineares-l5","tipo":"regressao-limonada","titulo":"Terceira volta","fixos":["preco","temperatura"],"escolher":["precipitacao","panfletos"],"mostrar":["r2"]}
+Marque as duas caixas e ajuste. Uma linha nova aparece embaixo.
+:::
 
-O número no fim da conta é o **[coeficiente de determinação](../glossario.md#diagnostico-e-leitura-do-modelo)**, o $R^2$: a fração da variação de `vendas` que o modelo reproduz, onde 0 é não fazer melhor que prever sempre a média e 1 é acertar cada ponto. Aqui ele dá 0,982, que é altíssimo, e é exatamente por ser altíssimo que ele está neste cartão.
+Ela é o **[coeficiente de determinação](../glossario.md#diagnostico-e-leitura-do-modelo)**, o $R^2$: a fração da variação de `vendas` que o modelo reproduz, de 0 (prever sempre a média) a 1 (acertar cada ponto). Ele sai altíssimo, e é por ser altíssimo que está aqui.
 
 :::interacao {"id":"modelos-lineares-i3","tipo":"desvanecido","titulo":"Quem explica os 9,4 copos"}
-Do preço 0,30 para o 0,50 a venda média sobe de 23,7 para 33,1 copos, **9,4 a mais**, e a temperatura média sobe de 57,0 para 78,8. Complete as duas parcelas:
+Do preço 0,30 para o 0,50 a venda sobe 9,4 copos, e a temperatura sobe de 57,0 para 78,8. Complete as duas parcelas:
 
 - [?] temperatura: `0,3692 × (78,8 − 57,0)` => 8,05 copos
 - [?] preço: `2,4143 × (0,50 − 0,30)` => 0,48 copo
@@ -845,28 +837,27 @@ Do preço 0,30 para o 0,50 a venda média sobe de 23,7 para 33,1 copos, **9,4 a 
 > São as duas armadilhas deste capítulo na mesma conta. Coeficiente grande não é atributo importante enquanto não se padroniza, e aqueles 0,20 de variação de preço só aconteceram em julho e agosto.
 :::
 
-:::exercicio {"id":"modelos-lineares-e24","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
-O ajuste tem $R^2 = 0{,}982$. O que esse número autoriza a afirmar?
+:::exercicio {"id":"modelos-lineares-e24","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+Com as quatro colunas no ajuste, responda o $R^2$, com três casas.
 
-- [ ] Que 98,2% das decisões de preço da barraca foram boas.
-- [ ] Que o efeito do preço tem 98,2% de chance.
-- [x] Que ele reproduz 98,2% da variação observada.
-- [ ] Que 1,8% das linhas ficaram fora do ajuste.
-
-> **gabarito:** reproduz 98,2% da variação observada nas vendas
-> **porque:** O $R^2$ compara o erro do modelo com o erro de quem prevê sempre a média. Ele mede **ajuste ao passado**, e é uma afirmação sobre a coluna `vendas` e mais nada.
+> **gabarito:** 0,982 ± 0,003
+> **porque:** Ele sai em 0,982: o modelo reproduz 98,2% da variação de `vendas`. E repare no que a coluna *antes* mostra na mesma tela: o $R^2$ subiu de 0,980 para 0,982, quase nada, enquanto o coeficiente do preço subiu de 1,64 para **2,41**. Acrescentar dois controles deixou a leitura errada **maior**, e a qualidade do ajuste igual.
 >
-> As três alternativas erradas são três formas de esticá-lo. A primeira o transforma em juízo de negócio, que ele não faz. A segunda o transforma em confiança sobre um coeficiente, que é outra conta inteira e que, aqui, seria falsa mesmo se fosse feita. A quarta o transforma em contagem de linhas, quando ele é uma razão entre variações.
+> Dois números aparecem no lugar. Quem responde **0,980** não marcou as caixas e leu a volta anterior. Quem responde **98,2** trocou a fração pela porcentagem, e o painel imprime a fração.
 >
-> É por isso que ele está neste cartão. Reproduzir bem o passado e dizer o efeito de mexer numa alavanca são coisas diferentes, e o R² alto é justamente o que faz o relatório errado parecer sólido.
+> O $R^2$ mede ajuste ao passado, e é uma afirmação sobre a coluna `vendas` e mais nada. Ele não diz que 98,2% das decisões de preço foram boas, nem que 1,8% das linhas ficaram de fora, nem quanta confiança o coeficiente do preço merece. Reproduzir bem o passado e dizer o efeito de mexer numa alavanca são coisas diferentes, e o $R^2$ alto é justamente o que faz o relatório errado parecer sólido.
 > **volte para:** #o-passo-que-deveria-salvar-e-nao-salva
 :::
 
 :::cartao {"nivel":4,"titulo":"Controlar remove só o que a variável mede","apresenta":["Confundidor"]}
 
-O [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) do preço continua **positivo**. Controlar pela temperatura não desfez nada, porque a temperatura média não captura *ser julho*, e o que sobrou de julho continua morando dentro de `preco`.
+O [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) do preço continua **positivo**: a temperatura média não captura *ser julho*, e o que sobrou de julho mora dentro de `preco`.
 
-Um **[confundidor](../glossario.md#estatistica-descritiva-e-exploracao)** é a variável que mexe nas outras duas e cria associação sem causa. Aqui ele é "ser julho", e ninguém o mediu. **Controlar por uma variável só remove o confundimento que aquela variável mede:** se o confundidor real é a estação e você mediu a temperatura do dia, a regressão devolve um número com aparência de rigor e sinal invertido. Nenhuma [métrica](../glossario.md#termos-fundamentais) avisa.
+Um **[confundidor](../glossario.md#estatistica-descritiva-e-exploracao)** é a variável que mexe nas outras duas e cria associação sem causa. Aqui ele é "ser julho", e ninguém o mediu: controlar por uma variável só remove o confundimento que **aquela** variável mede.
+
+:::lab {"id":"modelos-lineares-l6","tipo":"regressao-limonada","titulo":"Quarta volta","fixos":["temperatura","precipitacao","panfletos"],"escolher":["preco","alta_temporada"],"ligados":["preco"],"mostrar":["r2"]}
+`alta_temporada` vale 1 nos 62 dias de julho e agosto, e 0 nos outros 303.
+:::
 
 :::interacao {"id":"modelos-lineares-i16","tipo":"principio","titulo":"O que a temperatura não carregou"}
 A temperatura entrou no modelo e o coeficiente do preço continuou positivo.
@@ -879,20 +870,15 @@ A temperatura entrou no modelo e o coeficiente do preço continuou positivo.
 > A ideia reaproveitável: **controlar por um indicador do confundidor não é controlar pelo confundidor.** Antes de escrever "controlamos por X", pergunte quanto de X ficou de fora da medida de X.
 :::
 
-:::exercicio {"id":"modelos-lineares-e5","tipo":"multipla","objetivo":"O3","dificuldade":"dificil"}
-Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesmo com `temperatura` no modelo. Qual é a explicação correta?
+:::exercicio {"id":"modelos-lineares-e5","tipo":"numerica","objetivo":"O3","dificuldade":"dificil"}
+Marque `alta_temporada` e ajuste: o painel recusa. Desmarque `preco`, ajuste de novo, e responda o coeficiente de `alta_temporada`, com três casas.
 
-- [ ] O modelo provou que subir o preço aumenta as vendas, e a correlação estava certa.
-- [ ] O coeficiente é positivo por erro numérico, e com mais dados ele viraria negativo.
-- [x] `preco` marca julho e agosto, e a temperatura do dia não é tudo o que é verão.
-- [ ] O problema seria resolvido padronizando os atributos antes de ajustar o modelo.
-
-> **gabarito:** `preco` funciona como indicador de julho e agosto
-> **porque:** O preço de 0,50 só existe em 62 dias, todos em julho e agosto. Ele carrega a informação "é alta temporada" (férias, fluxo de rua, hábito) que a temperatura média do dia não representa inteira. O que sobra desse efeito é atribuído ao único atributo que o marca: o preço.
+> **gabarito:** 0,483 ± 0,012
+> **porque:** Sai **0,483**, que é exatamente um quinto de 2,414. Não é coincidência: `preco` vale 0,30 + 0,20 × `alta_temporada`, dia a dia, sem resto. As duas colunas são a mesma variável com dois nomes, e é por isso que o painel se recusa a ajustar as duas juntas.
 >
-> A primeira alternativa é a leitura que vai para o slide de recomendação e custa dinheiro. A segunda inverte o diagnóstico, porque não é ruído, é **viés**, e mais dados do mesmo tipo tornariam o coeficiente errado mais preciso em vez de mais correto. A quarta confunde escalas com confundimento, já que padronizar muda a **magnitude** dos coeficientes para que sejam comparáveis, e não mexe em qual variável está roubando o efeito da outra.
+> Olhe as outras três linhas depois de trocar uma pela outra. `temperatura`, `precipitacao` e `panfletos` não mudam uma casa decimal, e o $R^2$ continua 0,982. O modelo é o mesmo; o que muda é o nome que o relatório dá ao efeito, e é só o nome que estava errado.
 >
-> Controlar por uma variável só remove o confundimento que aquela variável mede.
+> Dois números aparecem no lugar. Quem responde 2,414 leu a linha do preço, que é o mesmo efeito na escala do real. Quem responde 0,369 leu a `temperatura`. E o que fica é o teste: quando duas colunas marcam o mesmo recorte, a regressão não escolhe entre elas por mérito, e **controlar por um indicador do confundidor não é controlar pelo confundidor**.
 > **volte para:** #o-passo-que-deveria-salvar-e-nao-salva
 :::
 
@@ -900,32 +886,34 @@ Na regressão múltipla da limonada, `preco` fica com coeficiente **+2,41** mesm
 
 ### O panfleto, de brinde
 
-O preço foi a causalidade em números, e não em advertência. Vem outro de brinde: `temperatura` e `panfletos` correlacionam **+0,798**, porque em dia quente distribuíam-se mais panfletos. O [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) do panfleto sai em 0,0188, e lido como efeito da panfletagem é falso.
+Vem outro de brinde: `temperatura` e `panfletos` correlacionam **+0,798**, porque em dia quente distribuíam-se mais panfletos. O [coeficiente](../glossario.md#diagnostico-e-leitura-do-modelo) do panfleto sai em 0,0188, e lido como efeito da panfletagem é falso.
 
-[Colinearidade](../glossario.md#modelos-lineares) não estraga a previsão. Estraga a **leitura**, e é o modo de falha mais traiçoeiro do modelo linear, porque o erro de validação não muda.
+[Colinearidade](../glossario.md#modelos-lineares) não estraga a previsão. Estraga a **leitura**, porque o erro de validação não muda.
 
-:::interacao {"id":"modelos-lineares-i17","tipo":"prever","titulo":"Panfleto em dia frio"}
-Suponha que a barraca passasse a distribuir a mesma quantidade de panfletos em dias frios e em dias quentes, e que o modelo fosse reajustado.
+:::lab {"id":"modelos-lineares-l7","tipo":"regressao-limonada","titulo":"Quinta volta","fixos":["preco","temperatura","precipitacao","panfletos"],"mostrar":["r2"],"corte":true}
+O corte escolhe quantos dias entram. Mexa nele e ajuste de novo.
+:::
 
-- ( ) Subiria, porque haveria mais panfletos distribuídos ao longo do ano.
-- ( ) Ficaria igual, porque o coeficiente já está controlado pela temperatura.
-- (!) Desceria, porque parte dos 0,0188 de hoje é calor, e não panfleto.
+:::interacao {"id":"modelos-lineares-i17","tipo":"principio","titulo":"Panfleto em dia frio"}
+Suponha que a barraca passasse a distribuir a mesma quantidade de panfletos em dia frio e em dia quente, e que o modelo fosse reajustado.
 
-> **pergunta:** O que aconteceria com o coeficiente de `panfletos`?
-> **revela:** **Desceria.** Hoje o panfleto aparece junto do calor e leva crédito por vendas que o calor explicaria sozinho. Distribuindo panfleto em dia frio também, essa carona acaba.
+> **pergunta:** Escreva o que aconteceria com o coeficiente de `panfletos`, e por quê.
+> **revela:** Ele **desceria**. Hoje o panfleto aparece junto do calor e leva crédito por vendas que o calor explicaria sozinho; distribuindo panfleto em dia frio também, essa carona acaba.
 >
-> Quem previu "ficaria igual" fez a aposta que o cartão anterior desmontou: a temperatura está no modelo, e ainda assim não captura tudo o que anda junto dela. E a leitura de negócio piora com a correção, porque o número honesto seria pior ainda que o de hoje.
+> Quem respondeu "ficaria igual" fez a aposta que o cartão anterior desmontou: a temperatura está no modelo, e ainda assim não captura tudo o que anda junto dela.
+>
+> E há um hábito a levar daqui. Inverter o coeficiente devolve a unidade que a decisão usa: 0,0188 copo por panfleto vira 1 ÷ 0,0188 ≈ **53 panfletos por copo**. "0,0188" não diz nada a quem manda imprimir; "53 panfletos por copo" diz, e diz que a panfletagem provavelmente não se paga. Com o número honesto, ela se pagaria menos ainda.
 :::
 
 :::exercicio {"id":"modelos-lineares-e4","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
-Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para vender **um copo a mais**? Responda com um número inteiro aproximado.
+Ponha o corte em 200 e ajuste. Responda o coeficiente de `panfletos`, com quatro casas.
 
-> **gabarito:** 53 ± 4
-> **porque:** O coeficiente é 0,0188 copo por panfleto, então um copo pede 1 ÷ 0,0188 ≈ 53 panfletos.
+> **gabarito:** 0,0159 ± 0,0006
+> **porque:** Com os 365 dias ele valia 0,0188; com os 200 primeiros, **0,0159**. Em panfletos por copo, a recomendação vai de 53 para 63, dez a mais, e ninguém tocou no método: só se mudou onde a janela começa e termina.
 >
-> O engano previsível é multiplicar em vez de dividir, o que devolve 0,0188 e não responde à pergunta feita. O número importa menos que o hábito: **inverter o coeficiente devolve a unidade que a decisão usa**. "0,0188" não diz nada a quem manda imprimir panfleto; "53 panfletos por copo" diz, e diz que a panfletagem provavelmente não se paga.
+> Agora olhe a linha do $R^2$ na mesma tela. Ela vai de 0,982 para 0,985, isto é, o ajuste **melhorou** enquanto a leitura piorava dez panfletos. É a frase do começo do cartão acontecendo: a colinearidade estraga a leitura e deixa a previsão intacta, e por isso nenhum painel de desempenho a denuncia.
 >
-> E a ressalva vale mais que a conta: `panfletos` correlaciona +0,798 com `temperatura`, então parte desses 0,0188 é calor. O número real, se a barraca distribuísse panfletos sem escolher o dia, seria **menor** ainda.
+> Dois números aparecem no lugar. Quem responde 0,0188 leu a coluna *antes*, que guarda o ajuste dos 365 dias. Quem responde 53 respondeu em panfletos por copo, que é o inverso do que foi pedido.
 > **volte para:** #o-panfleto-de-brinde
 :::
 
@@ -933,11 +921,13 @@ Pelo ajuste múltiplo acima, quantos panfletos precisam ser distribuídos para v
 
 ### O conserto óbvio
 
-O conserto de manual seria **isolar um período em que o preço varie sem a estação variar junto**: restringir a julho, onde o calor é parecido dia após dia, e ajustar `vendas` contra `preco` só ali. Basta contar quantos preços distintos cada mês tem.
+O conserto de manual seria **isolar um período em que o preço varie sem a estação variar junto**: recortar um mês, onde o calor é parecido dia após dia.
 
-A contagem devolve **1 para os doze meses**. São 0,30 de janeiro a junho e de setembro a dezembro, e 0,50 nos 62 dias de julho e agosto. Restringir a julho não isola o efeito do preço: deixa o preço constante, e é o passo 5 da dedução voltando com roupa de negócio, porque ali $S_{xx}$ do preço é zero.
+:::lab {"id":"modelos-lineares-l8","tipo":"regressao-limonada","titulo":"Sexta volta","fixos":["temperatura","precipitacao","panfletos"],"escolher":["preco"],"ligados":["preco"],"mostrar":["r2"],"recorte":true}
+Escolha um mês e ajuste. Depois tente outro, e outro.
+:::
 
-O [confundimento](../glossario.md#estatistica-descritiva-e-exploracao) aqui é **perfeito**: preço e estação são a mesma variável com dois nomes. É a resposta menos confortável e a mais honesta que a análise pode dar.
+O painel recusa nos doze, e o aviso é o do passo 5: em cada mês o preço tem um valor só, então $S_{xx}$ dele é zero. O [confundimento](../glossario.md#estatistica-descritiva-e-exploracao) aqui é **perfeito**, e preço e estação são a mesma variável com dois nomes.
 
 :::interacao {"id":"modelos-lineares-i24","tipo":"principio","titulo":"O dado que teria respondido"}
 A pergunta da dona da barraca não tem resposta nestes 365 dias.
@@ -950,20 +940,15 @@ A pergunta da dona da barraca não tem resposta nestes 365 dias.
 > É por isso que o experimento é caro e vale o preço. Quem controla a atribuição do tratamento compra a única coisa que a observação não vende.
 :::
 
-:::exercicio {"id":"modelos-lineares-e27","tipo":"multipla","objetivo":"O3","dificuldade":"media"}
-A contagem devolve 1 para os doze meses. O que esse resultado prova?
+:::exercicio {"id":"modelos-lineares-e27","tipo":"numerica","objetivo":"O3","dificuldade":"media"}
+Recorte **julho**, desmarque `preco` e ajuste. Responda o $R^2$, com três casas.
 
-- [ ] Que o conjunto tem um erro de coleta, e um mês perdeu suas linhas.
-- [ ] Que o efeito do preço é pequeno, porque ele quase nunca foi mudado.
-- [x] Que não há recorte mensal em que preço e estação variem separadamente.
-- [ ] Que o modelo precisa de um atributo novo indicando o mês de cada dia.
-
-> **gabarito:** não há recorte em que os dois variem separados
-> **porque:** A contagem de valores distintos por mês é o teste direto da pergunta "existe comparação justa aqui dentro?". Doze respostas iguais a 1 dizem que não existe, e é um fato sobre o **desenho da coleta**, não sobre o modelo.
+> **gabarito:** 0,948 ± 0,006
+> **porque:** Sai **0,948** em 31 dias, e é esta a armadilha inteira do cartão: sem o preço o ajuste fecha, fecha bem, e não responde à pergunta que se foi ali fazer. A única coluna que um mês sozinho não consegue estimar é justamente a que interessava.
 >
-> A primeira alternativa lê o resultado como defeito de arquivo, quando ele é uma propriedade real e consistente dos 365 dias. A segunda troca ausência de variação por efeito pequeno, e essas duas coisas são opostas: sem variação não há efeito estimável, nem grande nem pequeno. A quarta piora o problema, porque um indicador de mês seria colinear com o preço e apenas transferiria a confusão de nome.
+> Dois números aparecem no lugar. Quem responde 0,982 não aplicou o recorte e leu o ano inteiro. Quem responde 0,932 deixou só a `temperatura` marcada.
 >
-> É o teste que vale levar para qualquer dado alheio. Antes de estimar o efeito de uma coluna, conte em quantos recortes ela varia.
+> O que fica é um teste para qualquer dado alheio: antes de estimar o efeito de uma coluna, conte **em quantos recortes ela varia**. Se a resposta for "num só", nenhuma técnica aplicada depois inventa a comparação que a coleta não produziu, e um $R^2$ alto no que sobrou não é consolo, é disfarce.
 > **volte para:** #o-conserto-obvio
 :::
 

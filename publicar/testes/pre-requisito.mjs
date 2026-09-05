@@ -190,7 +190,14 @@ const doisCapitulos = {
 const rel = verificar(doisCapitulos, new Set(["devedor"]));
 checa("o capítulo pendente não reprova", rel.problemas.length, 1);
 checa("e o pendente é contado no resumo", rel.divida.capitulos, 1);
-checa("o resumo imprime a dívida mesmo quando o cobrado passa", rel.resumo.length, 2);
+// O resumo tem três linhas desde que a camada desenhada entrou (D28): a conta
+// do cobrado, a da dívida e a do que o navegador imprime. Medir por CONTEÚDO,
+// e não por tamanho, para a próxima linha nova não derrubar um teste que
+// nunca falou de tamanho nenhum.
+checa("o resumo imprime a dívida mesmo quando o cobrado passa",
+  rel.resumo.some((l) => /Dívida declarada/.test(l)), true);
+checa("e diz quantas inversões só existem na camada desenhada",
+  rel.resumo.some((l) => /Camada desenhada/.test(l)), true);
 
 // a cobrança da lista: quem pagou tem de sair dela
 const pago = {

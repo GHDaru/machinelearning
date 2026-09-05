@@ -161,7 +161,8 @@ Esta seção é o que torna o documento utilizável por um agente. Teoria que n�
 | Regra | Cobrada por | O que reprova |
 |---|---|---|
 | Todo exercício aponta para um objetivo declarado | `publicar/exercicios.mjs` | objetivo citado que não existe no capítulo |
-| O teto do exercício é o verbo do objetivo | [ADR 0014](../adr/0014-tres-exercicios-por-objetivo-e-a-prova.md), revisão humana | — |
+| O teto do exercício é o verbo do objetivo, e a exigência sobe dentro do nível ([ADR 0014](../adr/0014-tres-exercicios-por-objetivo-e-a-prova.md), [ADR 0023](../adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md)) | `publicar/gates/escada.mjs` | objetivo sem exercício em E3, `aberta` sob verbo abaixo de Avaliar, mais de uma `aberta` por objetivo, queda de mais de um degrau dentro do nível, platô acima de quatro cartões |
+| O que o navegador desenha conta como texto do cartão | `publicar/vocabulario-desenhado.mjs`, lido por `publicar/gates/pre-requisito.mjs` | corpus ausente ou defasado do tema, termo que o laboratório imprime antes de o capítulo o apresentar |
 | A interação não revela antes da resposta | **asserção F** de `publicar/jornada.mjs` | clica em revelar sem responder e algo aparece |
 | Todo cartão fecha, com interação e exercício | `publicar/gates/cartoes-legiveis.mjs` | fora de 400–1.600px, de 80–250 palavras, ou sem os dois |
 | O baralho não tem ilha escondida | `ilhasDe()` em `publicar/cartoes.mjs` | trecho entre dois cartões que some no modo cartão |
@@ -171,7 +172,7 @@ Esta seção é o que torna o documento utilizável por um agente. Teoria que n�
 | A fórmula não termina cortada na margem | **asserção G** de `publicar/jornada.mjs` | `scrollWidth` maior que `clientWidth` |
 | Retorno que só diz "errado" é proibido | Princípio VIII.2, revisão humana | — |
 
-As três linhas com "revisão humana" são dívida declarada, não descuido: são as regras que ainda não viraram asserção executável.
+As duas linhas com "revisão humana" são dívida declarada, não descuido: são as regras que ainda não viraram asserção executável. A terceira saiu da lista em 2026-09-05, quando a escada virou portão. O que ele NÃO alcança está escrito no próprio arquivo: `dificuldade` é relativa ao objetivo, então um `multipla` rotulado `dificil` sob um verbo que diz "derivar" passa sem fazer ninguém derivar nada.
 
 ---
 
