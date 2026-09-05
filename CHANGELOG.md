@@ -6,6 +6,45 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Alterado — a sequência do `II.2`: carga cognitiva ordena, e um portão cobra a ordem ([ADR 0023](adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md))
+
+- **O defeito, medido por três especialistas independentes.** A recusa do autor (*"para um aluno
+  precisando de passos evolutivos, não está linear"*) não era de sinalização: uma única ocorrência
+  de "veremos" em 39 cartões. Era de **pré-requisito** e de **escada**. Seis conceitos eram usados
+  antes de existirem, e a correlação de postos entre a posição do cartão e a dificuldade declarada
+  era **0,173**, com 11 quedas de dificuldade, **nove delas dentro do mesmo nível**.
+- **A sequência foi refeita: 39 → 38 cartões, em oito níveis.** O laboratório da reta subiu do
+  cartão 8 para o 4 e passa a **preceder** a definição do erro quadrático médio, que então nomeia o
+  que o leitor acabou de produzir. Nascem quatro cartões que não existiam: um exemplo trabalhado
+  com três números antes de qualquer derivada, um desvanecido de andaime zero, a passagem de um
+  atributo para vários, e a colinearidade como cartão próprio. Os sete cartões de história viram
+  três. O notebook da limonada sai da posição 37 de 39 (94,9% do caminho) e vira o cartão 27 de 38,
+  na mesma classe que ele fecha.
+- **Zero inversão de pré-requisito, e um portão novo que cobra isso.**
+  `publicar/gates/pre-requisito.mjs` lê o vocabulário do glossário mais os símbolos que ele guarda
+  sob nome por extenso (`R²`, `AUC`), e reprova o cartão que usa um termo que a sequência ainda não
+  apresentou. "Apresentado" é **declarado** no marcador do cartão (`"apresenta"`), e o que vem de
+  capítulo anterior é declarado no primeiro (`"herdado"`, que passa a ser a lista de pré-requisitos
+  do capítulo). Os 26 capítulos ainda não anotados estão em `PRE_REQUISITO_PENDENTE`: medidos,
+  relatados em toda execução, e não reprovam. O gate foi visto acusando as seis inversões
+  reintroduzidas uma a uma.
+- **A dificuldade parou de cair dentro de uma classe.** ρ de Spearman entre posição e dificuldade
+  vai de **0,173 para 0,437**; as quedas caem de 11 para 7, e as **sete acontecem em fronteira de
+  nível** (antes, nove das onze eram dentro do mesmo nível).
+- **Os três bloqueadores da ADR foram fechados.** A **AUC** passa a ser definida no cartão do caso
+  da seguradora, onde estreia. Os sete exercícios de história deixam de mentir o objetivo `O1`
+  ("derivar") e apontam para um **`O5`** declarado, que é o que eles de fato medem; `O1` ganha o
+  exercício que faltava, uma derivação da reta sem intercepto que a fórmula decorada erra. E o
+  notebook `regressao_limonada.ipynb` deixa de escrever em prosa o gabarito de `e4`: o número
+  continua saindo quando o notebook roda, e não mais quando ele é apenas lido no navegador.
+- **O notebook ganhou um `# TODO`**, e o cartão "Mão na massa" ganhou o ciclo que o autor pediu: o
+  leitor altera o corte de treino e teste, roda, e cola o número de volta num exercício `numerica`
+  cujo gabarito nunca desce ao cliente. Com duas ressalvas declaradas no próprio cartão: o número
+  prova o número, nunca a execução.
+- **`O2` e `O4` foram reescritos** para ter um verbo só cada (Guia §2.5): `O2` passa a "calcular", e
+  `O4` sobe de "reconhecer" para **"decidir"**, que é o que os exercícios da tabela de restrições
+  sempre cobraram.
+
 ### Adicionado — a tigela deixou de ser palavra: o plano (a, b) virou painel vivo (D25)
 
 - **O defeito, medido.** O `II.2` tinha **zero figuras em 39 cartões**, e o cartão 9 apoiava a

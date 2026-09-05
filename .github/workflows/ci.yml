@@ -74,6 +74,16 @@ jobs:
         run: node gates/glossario-ligado.mjs
         working-directory: publicar
 
+      # Gate do pré-requisito antes do uso (ADR 0023). Nenhum cartão usa um
+      # termo que a sequência ainda não apresentou. O `II.2` tinha seis
+      # inversões medidas, e a pior delas era a AUC: usada em quatro lugares e
+      # definida em nenhum, sem que portão nenhum tivesse como perceber. Os 26
+      # capítulos ainda não anotados estão em PRE_REQUISITO_PENDENTE: medidos,
+      # relatados em toda execução, e não reprovam.
+      - name: Gate do pré-requisito antes do uso
+        run: node gates/pre-requisito.mjs
+        working-directory: publicar
+
       # Gate de links relativos: todo `[texto](alvo.md)` do livro resolve para
       # um arquivo que existe. Sem ele, o reescritor do build manda o alvo
       # desconhecido para o GitHub, e o erro de digitação vira um 404 bem-formado.

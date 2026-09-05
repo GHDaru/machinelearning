@@ -106,7 +106,7 @@
 | **Resíduo** | O que sobrou: valor observado menos previsto. No ajuste ótimo, a soma deles é zero |
 | **EQM** (erro quadrático médio) | A média dos resíduos ao quadrado. É o **MSE** da literatura em inglês |
 | **Equações normais** | O sistema que sai de derivar a perda e igualar a zero. Resolve a regressão linear **sem iteração** |
-| **Colinearidade** | Dois atributos que medem quase a mesma coisa. O erro não piora; a **interpretação** vira ruído |
+| **Colinearidade** (colinear, colineares) | Dois atributos que medem quase a mesma coisa. O erro não piora; a **interpretação** vira ruído |
 | **Logito** | O logaritmo da razão de chances. É ele que é linear nos atributos, **não** a probabilidade |
 | **Chance** (*odds*) | Razão entre a probabilidade de ocorrer e a de não ocorrer: $p/(1-p)$. **Em português corrente "chance" significa probabilidade — aqui, não** |
 | **Razão de chances** (*odds ratio*) | O quociente entre duas chances. É o que o coeficiente da logística multiplica: $e^{w}$ |

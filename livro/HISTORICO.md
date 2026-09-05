@@ -5,6 +5,18 @@
 > Toda edição registra também a **versão do modelo de IA** usada. Saídas de modelo de linguagem são não-determinísticas; sem esse registro, o resultado não é reproduzível nem auditável (Princípio IV).
 
 
+## Edição 2.1 (em curso) — 2026-09-05 · a sequência do `II.2`, e o portão do pré-requisito
+
+Implementa a [ADR 0023](../adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md). Modelo de IA usado: Claude Opus 5.
+
+**O que mudou no `II.2`.** A ordem, não o contrato: os 39 cartões viram **38**, em oito níveis, com o laboratório da reta antes da definição do erro quadrático médio, quatro cartões novos entre os degraus que faltavam, os sete cartões de história comprimidos em três, e o notebook da limonada movido de 94,9% do caminho para 71% — dentro da classe que ele fecha, com o ciclo de alterar, rodar e colar o resultado de volta.
+
+**Os dois números que o ciclo moveu.** Inversões de pré-requisito entre os conceitos medidos: **5 → 0**. Correlação de postos entre posição do cartão e dificuldade declarada: **0,173 → 0,437**, com todas as sete quedas restantes em fronteira de nível.
+
+**O portão novo.** `publicar/gates/pre-requisito.mjs` cobra a regra que faltava e que nenhum outro portão conseguia ver: a AUC era usada em quatro lugares do capítulo e definida em nenhum, passando limpo pelo gate de glossário, que confere que o termo é *ligado* e não que foi *apresentado*, e pelo de exercícios, que confere que o objetivo *existe* e não que ele *corresponde*. Ele foi visto acusando as seis inversões reintroduzidas uma a uma.
+
+**Uma correção de registro que o ciclo obrigou.** Sete exercícios do bloco histórico declaravam o objetivo `O1`, "derivar a regressão linear como minimização", e cobravam disciplina de proveniência. Agora existe um `O5` declarado, e `O1` ganhou o exercício que faltava: derivar a reta sem intercepto, cujo engano previsível é aplicar a fórmula decorada do modelo que tem intercepto.
+
 ## Edição 2.0 — 2026-08-13 · a v0 completa: exercícios, provas, procedências e as 22 animações
 
 Fecha o **ciclo 009**, e fecha as quatro colunas que ele abriu para os 29 capítulos: voz, exercícios, prova e **fontes**. Modelo de IA usado: Claude Opus 5.

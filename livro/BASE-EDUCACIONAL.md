@@ -166,6 +166,7 @@ Esta seção é o que torna o documento utilizável por um agente. Teoria que n�
 | Todo cartão fecha, com interação e exercício | `publicar/gates/cartoes-legiveis.mjs` | fora de 400–1.600px, de 80–250 palavras, ou sem os dois |
 | O baralho não tem ilha escondida | `ilhasDe()` em `publicar/cartoes.mjs` | trecho entre dois cartões que some no modo cartão |
 | O termo do glossário é ligado no primeiro uso do cartão | `publicar/gates/glossario-ligado.mjs` | termo usado e nunca ligado, link fora do primeiro uso, link repetido no mesmo cartão, âncora inexistente |
+| Nenhum cartão usa conceito que a sequência ainda não apresentou ([ADR 0023](../adr/0023-a-sequencia-do-ii-2-carga-cognitiva-e-a-escada.md)) | `publicar/gates/pre-requisito.mjs` | termo usado antes do cartão que o apresenta, termo usado e nunca apresentado, anotação morta, dois donos para o mesmo termo, herdado que o capítulo não usa |
 | O comprimento da alternativa não entrega a resposta | `publicar/gates/vies-de-comprimento.mjs` | \|z\| > 2,5 nas duas direções |
 | A fórmula não termina cortada na margem | **asserção G** de `publicar/jornada.mjs` | `scrollWidth` maior que `clientWidth` |
 | Retorno que só diz "errado" é proibido | Princípio VIII.2, revisão humana | — |
