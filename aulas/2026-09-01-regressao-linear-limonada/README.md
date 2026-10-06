@@ -27,6 +27,7 @@ amplitude < 1 copo, sem sinal; a série do ano com o preço 0,50 sombreado no pi
 | [`aula2_regressao.ipynb`](aula2_regressao.ipynb) | O notebook da aula 2 |
 | [`prova_aula2_rascunho.md`](prova_aula2_rascunho.md) | **Rascunho** da prova 2, a revisar antes da aula (ver nota no cabeçalho) |
 | [`prova_aula2_rascunho_google_forms.gs`](prova_aula2_rascunho_google_forms.gs) | Script do Forms correspondente ao rascunho |
+| [`explicador_ridge_lasso.html`](explicador_ridge_lasso.html) | Página didática sobre Ridge e Lasso (abra no navegador): 6 seções, 8 figuras calculadas/desenhadas dos dados da limonada. Cada seção venceu comparação cega contra o explained.ai/regularization (Terence Parr), e a página inteira passou por um crítico adversarial que rendeu 4 correções — inclusive a "pegadinha de régua" dos λ do scikit-learn (Lasso divide o erro por 2n; Ridge não) |
 
 Roteiro: **1)** retomada · **2)** **regressão item a item** — uma reta para cada variável
 contra `vendas`, com a, b, r, R² e RMSE por item (temperatura sozinha: R² 0,98; o preço

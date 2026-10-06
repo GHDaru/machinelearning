@@ -1,0 +1,548 @@
+<title>Ridge × Lasso</title>
+<style>
+/* Layout: coluna de leitura única; figuras em cartão discreto; nav de seções no topo.
+   Paleta: papel quente + âmbar como acento de método; atributos da limonada com a
+   paleta bright de Tol (daltônico-segura), sempre com rótulo direto. */
+:root{
+  --bg:#faf8f4; --fg:#26241f; --muted:#6e6c62; --card:#ffffff; --borda:#e5e2d8;
+  --acc:#8a5600; --acc-fig:#b06f00; --formula-bg:#f1eee6;
+  --c-temperatura:#EE6677; --c-precipitacao:#4477AA; --c-panfletos:#228833; --c-preco:#AA3377;
+  --serif:'Source Serif 4',Georgia,serif; --sans:'Source Sans 3',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1b1a16; --fg:#e9e7df; --muted:#a39f91; --card:#23221c; --borda:#3a382e; --acc:#e3b264; --acc-fig:#e3b264; --formula-bg:#2a2820;
+  --c-temperatura:#f08a95; --c-precipitacao:#6f9fd8; --c-panfletos:#5fb878; --c-preco:#cf7fb0;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#1b1a16; --fg:#e9e7df; --muted:#a39f91; --card:#23221c; --borda:#3a382e;
+  --acc:#e3b264; --acc-fig:#e3b264; --formula-bg:#2a2820;
+  --c-temperatura:#f08a95; --c-precipitacao:#6f9fd8; --c-panfletos:#5fb878; --c-preco:#cf7fb0;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--fg);font:16.5px/1.62 var(--sans);margin:0;
+     padding-block:30px 60px;padding-inline:18px;}
+main{max-width:720px;margin-inline:auto;}
+header.capa{margin-bottom:34px;}
+.eyebrow{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:600;}
+h1{font-family:var(--serif);font-size:2.4rem;line-height:1.12;margin:.25rem 0 .6rem;text-wrap:balance;}
+.lede{font-size:1.08rem;color:var(--muted);max-width:60ch;}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+nav.toc a{font-size:.85rem;text-decoration:none;color:var(--fg);border:1px solid var(--borda);
+          background:var(--card);border-radius:999px;padding:4px 12px;}
+nav.toc a:hover{border-color:var(--acc);color:var(--acc);}
+section{margin-top:44px;}
+h2{font-family:var(--serif);font-size:1.62rem;line-height:1.2;margin:0 0 .4rem;text-wrap:balance;
+   padding-top:10px;border-top:3px solid var(--acc);}
+h2 .num{color:var(--acc);font-size:1rem;vertical-align:.35em;margin-right:.5em;letter-spacing:.05em;}
+h3{font-family:var(--serif);font-size:1.14rem;margin:1.6rem 0 .3rem;}
+p{margin:.65rem 0;}
+ul{margin:.5rem 0;padding-left:1.3rem;}
+li{margin:.25rem 0;}
+var{font-style:italic;font-family:var(--serif);}
+.formula{background:var(--formula-bg);border-radius:8px;padding:12px 16px;margin:.9rem 0;
+         font-size:1.05rem;overflow-x:auto;}
+figure{margin:1.4rem 0;background:var(--card);border:1px solid var(--borda);border-radius:10px;
+       padding:16px 16px 12px;}
+figure svg{display:block;}
+figcaption{font-size:.88rem;color:var(--muted);margin-top:10px;line-height:1.5;}
+figcaption b{color:var(--fg);}
+.refback{font-size:.9rem;color:var(--muted);font-style:italic;}
+footer{margin-top:56px;border-top:1px solid var(--borda);padding-top:18px;font-size:.86rem;
+       color:var(--muted);}
+footer p{margin:.4rem 0;}
+a{color:var(--acc);}
+@media (max-width:480px){h1{font-size:1.9rem}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<main>
+<header class="capa">
+  <div class="eyebrow">Análise Preditiva · o caso da limonada</div>
+  <h1>Ridge × Lasso</h1>
+  <p class="lede">Dois jeitos de cobrar pelo tamanho dos coeficientes — e por que um deles desliga atributos enquanto o outro só os encolhe. Todos os números desta página foram calculados nos dados da limonada que a turma já conhece.</p>
+  <nav class="toc">
+    <a href="#abertura">Por que regularizar</a>
+    <a href="#ridge">Ridge (L2)</a>
+    <a href="#lasso">Lasso (L1)</a>
+    <a href="#porque-zero">Por que o L1 zera</a>
+    <a href="#matematica">A matemática na prática</a>
+    <a href="#quando-usar">Quando usar</a>
+  </nav>
+</header>
+
+<section id="abertura">
+<h2><span class="num">1</span>Por que regularizar</h2>
+
+<p>A regressão linear por mínimos quadrados faz uma promessa simples: dados os atributos, encontrar os coeficientes que produzem o menor erro quadrático no treino. No caso da limonada, com os quatro atributos padronizados, essa promessa entrega temperatura +5,98, precipitação −0,60, panfletos +0,24 e preço +0,17 — tudo em copos por desvio-padrão. O erro de treino é o menor possível, por construção. A pergunta desta abertura é por que isso pode não bastar.</p>
+
+<h3>O que dá errado com mínimos quadrados</h3>
+
+<p>O problema não está na conta. A dedução que vimos está correta, e o mínimo que ela encontra é de fato o mínimo. O problema é o que essa conta faz quando os dados são imperfeitos, e três situações já conhecidas da limonada mostram o padrão.</p>
+
+<p><strong>Poucos dados por coeficiente.</strong> Com 365 dias e 4 atributos, cada coeficiente é estimado com folga. Quando expandimos a base para 14 atributos, essa folga encolhe — e o risco muda de natureza. Na limonada o teste ainda segura: o modelo cheio de 14 atributos empata com o enxuto em R² de teste (0,9906). O dano aparece primeiro nos coeficientes, que ficam instáveis e ilegíveis. Mas o U da figura abaixo é o destino dessa estrada: siga acrescentando atributos além do que o dado sustenta e o erro de treino continua caindo enquanto o de teste para de cair e volta a subir. A regularização ataca os dois males — o sobreajuste quando ele chega, e a instabilidade que vem antes dele.</p>
+
+<figure><svg viewBox="0 0 560 300" role="img" aria-label="Erro de treino cai sempre; erro de teste faz um U e volta a subir na região de sobreajuste." style="max-width:100%;height:auto">
+<rect x="290" y="30" width="210" height="235" fill="var(--acc-fig,#b06f00)" fill-opacity=".08"/>
+<line x1="290" y1="30" x2="290" y2="265" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 4"/>
+<text x="395" y="50" font-size="11.5" text-anchor="middle" fill="currentColor" fill-opacity=".85" font-weight="600">sobreajuste</text>
+<line x1="60" y1="265" x2="500" y2="265" stroke="currentColor" stroke-opacity=".6"/>
+<line x1="60" y1="30" x2="60" y2="265" stroke="currentColor" stroke-opacity=".6"/>
+<path d="M60,80 C180,205 320,245 498,258" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2.4"/>
+<text x="332" y="232" font-size="11.5" fill="currentColor" fill-opacity=".75">erro de treino</text>
+<path d="M60,100 C150,195 225,212 290,212 C370,212 440,160 500,85" fill="none" stroke="var(--acc-fig,#b06f00)" stroke-width="2.6"/>
+<text x="400" y="128" font-size="11.5" fill="var(--acc-fig,#b06f00)" font-weight="600">erro de teste</text>
+<circle cx="290" cy="212" r="4" fill="var(--acc-fig,#b06f00)"/>
+<text x="280" y="288" font-size="11.5" fill="currentColor" fill-opacity=".8" text-anchor="middle">complexidade do modelo →</text>
+<text x="20" y="150" font-size="11.5" fill="currentColor" fill-opacity=".8" text-anchor="middle" transform="rotate(-90 20 150)">erro de previsão</text>
+</svg><figcaption><b>O sobreajuste em uma imagem.</b> O erro de treino só desce; o de teste faz um U. À direita do mínimo, o modelo está decorando o treino. Curvas conceituais, sem escala.</figcaption></figure>
+
+<p><strong>Outliers.</strong> O erro quadrático eleva cada resíduo ao quadrado, então um dia atípico (um feriado, uma anotação errada no caderno de vendas) fala mais alto do que muitos dias normais juntos. Medimos o estrago na limonada: numa regressão simples de vendas sobre a temperatura padronizada, a inclinação limpa é +6,81 copos por desvio-padrão; corrompa as vendas de um único dia (o mais quente do ano, de 43 para 430 copos) e ela infla para +9,58. Uma penalidade L2 forte devolve a inclinação para +5,26: o puxão do outlier encolhe, ao custo de viés (ficou abaixo até do valor limpo). Regularizar atenua o estrago, mas não é o remédio específico — para outlier, o instrumento certo continua sendo investigar o ponto e, se preciso, trocar a perda (o erro absoluto, como vimos na regressão linear).</p>
+
+<p><strong>Colinearidade.</strong> Temperatura e panfletos têm correlação de +0,80: nos dias quentes se distribui mais panfleto. Quando dois atributos contam quase a mesma história, os mínimos quadrados não têm critério para dividir o crédito entre eles. Combinações muito diferentes de coeficientes produzem quase o mesmo erro de treino, e a escolha entre elas acaba decidida pelo ruído da amostra: troque algumas semanas de dados e os coeficientes trocam de tamanho, às vezes de sinal, sem que o erro de treino se mexa. O preço já nos pregou peça parecida — a correlação de +0,51 entre preço e vendas era confundimento com a estação, porque o preço de 0,50 só existia em julho e agosto. Atributos que andam juntos confundem qualquer tentativa de atribuir crédito.</p>
+
+<h3>Coeficiente gigante, modelo nervoso</h3>
+
+<p>As três situações deixam o mesmo sintoma: coeficientes maiores do que o fenômeno justifica. Daí a premissa que organiza esta página: <strong>coeficiente gigante é modelo nervoso</strong>. Um coeficiente é uma alavanca. Ele diz quantos copos a previsão se move quando o atributo varia um desvio-padrão: com a temperatura em +5,98, qualquer variação nessa entrada chega à previsão multiplicada por 5,98. Isso vale para o sinal verdadeiro, mas vale igualmente para erro de medida, para ruído e para o padrão espúrio que só existia no treino. Quanto maior o coeficiente, mais a previsão balança com uma mudança pequena na entrada.</p>
+
+<p>Sob colinearidade, o nervosismo ganha uma forma própria: o modelo pode inflar o coeficiente de um atributo e compensar no atributo correlacionado. No treino, onde os dois andam juntos, os excessos se cancelam e ninguém percebe. Num dado novo em que eles se descolem (um dia quente sem panfletos, por exemplo), o cancelamento desaparece e a previsão dispara.</p>
+
+<p>A figura abaixo adianta um resultado que a página ainda vai construir. A mesma relação entre temperatura e vendas pode ser descrita por um coeficiente de +5,98 (mínimos quadrados) ou de +0,98 (o que o ridge entrega com <var>λ</var>=1585): a inclinação menor abre mão de um pouco de ajuste no treino, mas uma mesma oscilação na entrada produz uma oscilação muito menor na previsão.</p>
+
+<figure><svg viewBox="0 0 560 330" role="img" aria-label="Duas retas de previsão: inclinação +5,98 produz faixa de previsões larga; inclinação +0,98, faixa estreita, para a mesma variação de entrada." style="max-width:100%;height:auto">
+<rect x="260" y="24" width="40" height="266" fill="currentColor" fill-opacity=".07"/>
+<text x="280" y="320" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".8">mesma variação na entrada</text>
+<line x1="62" y1="290" x2="520" y2="290" stroke="currentColor" stroke-opacity=".6"/>
+<line x1="62" y1="24" x2="62" y2="290" stroke="currentColor" stroke-opacity=".6"/>
+<line x1="120" y1="279" x2="440" y2="29" stroke="currentColor" stroke-opacity=".55" stroke-width="2.4"/>
+<text x="422" y="22" font-size="11.5" text-anchor="end" fill="currentColor" fill-opacity=".75">mínimos quadrados (λ→0): +5,98</text>
+<line x1="80" y1="187" x2="500" y2="118" stroke="var(--acc-fig,#b06f00)" stroke-width="2.8"/>
+<text x="500" y="106" font-size="11.5" text-anchor="end" fill="var(--acc-fig,#b06f00)" font-weight="600">ridge (λ=1585): +0,98</text>
+<line x1="62" y1="169" x2="260" y2="169" stroke="currentColor" stroke-opacity=".55" stroke-dasharray="4 4"/>
+<line x1="62" y1="138" x2="300" y2="138" stroke="currentColor" stroke-opacity=".55" stroke-dasharray="4 4"/>
+<line x1="62" y1="158" x2="260" y2="158" stroke="var(--acc-fig,#b06f00)" stroke-opacity=".7" stroke-dasharray="4 4"/>
+<line x1="62" y1="151" x2="300" y2="151" stroke="var(--acc-fig,#b06f00)" stroke-opacity=".7" stroke-dasharray="4 4"/>
+<path d="M54,138 L48,138 L48,169 L54,169" fill="none" stroke="currentColor" stroke-opacity=".55"/>
+<text x="42" y="157" font-size="10.5" text-anchor="end" fill="currentColor" fill-opacity=".75">faixa larga</text>
+<path d="M58,151 L52,151 L52,158 L58,158" fill="none" stroke="var(--acc-fig,#b06f00)"/>
+<text x="46" y="134" font-size="10.5" text-anchor="end" fill="var(--acc-fig,#b06f00)">faixa estreita</text>
+<text x="290" y="310" font-size="11.5" fill="currentColor" fill-opacity="0"> </text>
+<text x="460" y="310" font-size="11.5" fill="currentColor" fill-opacity=".8" text-anchor="end">temperatura (padronizada) →</text>
+<text x="22" y="157" font-size="11.5" fill="currentColor" fill-opacity=".8" text-anchor="middle" transform="rotate(-90 22 157)">vendas previstas (copos)</text>
+</svg><figcaption><b>Coeficiente gigante é modelo nervoso.</b> A mesma variação de entrada vira uma faixa larga de previsões com inclinação +5,98 e uma faixa estreita com +0,98. Encolher coeficiente é acalmar a previsão.</figcaption></figure>
+
+<h3>Viés e variância, em uma frase</h3>
+
+<p><strong>Regularizar é aceitar um pouco de viés para comprar muita redução de variância:</strong> encolhemos os coeficientes de propósito, o que torna as previsões sistematicamente mais tímidas (viés), em troca de previsões que não mudam de figura a cada amostra nova (variância). Bem dosado, o encolhimento descarta sobretudo ruído — e o erro que importa, o de teste, cai.</p>
+
+<h3>A ideia única: cobrar pelo tamanho dos coeficientes</h3>
+
+<p>Se o sintoma é coeficiente grande, o remédio é direto: colocar o tamanho dos coeficientes dentro da função de custo. Em vez de minimizar só o erro quadrático, minimizamos o erro mais uma multa que cresce com os coeficientes:</p>
+
+<p class="formula">custo(<var>β</var>) = Σ (<var>y</var><sub>i</sub> − <var>ŷ</var><sub>i</sub>)<sup>2</sup> + <var>λ</var> · tamanho(<var>β</var>)</p>
+
+<p><var>λ</var> é o preço da multa. Com <var>λ</var>→0 a multa desaparece e recuperamos os mínimos quadrados de sempre, com a temperatura em +5,98. Com <var>λ</var> grande, manter um coeficiente alto só compensa se ele reduzir muito o erro: cada coeficiente passa a ter de pagar o próprio aluguel. É aqui que a padronização sem vazamento, vista antes, deixa de ser detalhe e vira pré-requisito — a multa compara tamanhos de coeficientes, e essa comparação só é justa se todos os atributos estiverem na mesma escala.</p>
+
+<p>Resta uma decisão que a fórmula esconde na palavra <strong>tamanho</strong>: como medir o tamanho de um conjunto de coeficientes? Há duas respostas naturais, e cada uma gera um método com personalidade própria — ridge e lasso, os protagonistas das próximas seções.</p>
+</section>
+
+<section id="ridge">
+<h2><span class="num">2</span>Ridge (L2)</h2>
+
+<p>Lembre do que os mínimos quadrados fizeram com a limonada: temperatura levou +5,98 copos por desvio-padrão, e os outros três atributos ficaram com migalhas. O problema não é o número em si — é a confiança com que ele foi escolhido. Com temperatura e panfletos correlacionados em +0,80, existem muitas combinações de coeficientes que produzem quase o mesmo erro de treino. Os mínimos quadrados escolhem a que minimiza o erro por uma margem microscópica, mesmo que isso signifique empilhar todo o sinal num atributo só. O ridge nasce de uma desconfiança saudável: se várias respostas explicam os dados igualmente bem, prefira a mais contida.</p>
+
+<h3>A penalidade: pagar pelo quadrado do coeficiente</h3>
+
+<p>A ideia é adicionar um custo pelo tamanho dos coeficientes. O modelo continua querendo errar pouco, mas agora cada coeficiente grande sai caro. Em fórmula, o ridge minimiza:</p>
+
+<p class="formula">custo = Σ<sub>i</sub> (<var>y</var><sub>i</sub> − <var>ŷ</var><sub>i</sub>)<sup>2</sup> + <var>λ</var> · Σ<sub>j</sub> <var>w</var><sub>j</sub><sup>2</sup></p>
+
+<p>O primeiro termo é o erro quadrático que você já conhece da dedução de mínimos quadrados. O segundo é a novidade: a soma dos quadrados dos coeficientes, multiplicada por <var>λ</var>. Dois detalhes importam aqui:</p>
+
+<ul>
+<li><strong>A penalidade é quadrática.</strong> Elevar ao quadrado torna coeficientes grandes desproporcionalmente caros: reduzir um coeficiente de 5,98 economiza muito mais penalidade do que reduzir um de 0,24. Por isso o ridge prefere vários coeficientes médios a um gigante acompanhado de anões.</li>
+<li><strong>A penalidade só é justa porque padronizamos.</strong> O termo <var>w</var><sub>j</sub><sup>2</sup> trata todos os coeficientes na mesma moeda. Se temperatura estivesse em graus e preço em reais, os coeficientes viveriam em escalas incomparáveis e a penalidade puniria o atributo errado. É a padronização sem vazamento, feita antes, que torna essa soma significativa.</li>
+</ul>
+
+<h3>O que acontece quando λ cresce</h3>
+
+<p>Com <var>λ</var> → 0, a penalidade não pesa nada e recuperamos exatamente os mínimos quadrados: +5,98, −0,60, +0,24, +0,17. Agora suba o preço. Com <var>λ</var> = 1585, os coeficientes da limonada ficam: temperatura +0,98, precipitação −0,87, panfletos +0,74, preço +0,45.</p>
+
+<p>Duas coisas saltam desse resultado. Primeira: <strong>ninguém zerou</strong>. Todos os quatro atributos continuam no modelo, apenas encolhidos — e isso vale para qualquer <var>λ</var>, por maior que seja. Segunda, e mais estranha: três coeficientes <strong>cresceram</strong> em módulo. Precipitação foi de −0,60 para −0,87; panfletos, de +0,24 para +0,74; preço, de +0,17 para +0,45. Como uma penalidade que pune tamanho faz coeficientes crescerem?</p>
+
+<p>A resposta está na colinearidade. Temperatura e panfletos carregam sinal parecido (correlação +0,80). Quando o ridge encolhe o coeficiente caro da temperatura, parte do poder explicativo que ela carregava não se perde: é redistribuída para os atributos correlacionados, que ficam mais baratos de usar. O ridge troca um coeficiente enorme por vários moderados que, juntos, explicam quase o mesmo. É por isso que, num caminho de coeficientes, alguns módulos sobem antes de começar a descer.</p>
+
+<p>E por que nunca chegam a zero exato? Pela mesma razão que torna a penalidade quadrática branda com os pequenos: o custo marginal de um coeficiente perto de zero é quase nulo. Se <var>w</var> já é minúsculo, <var>w</var><sup>2</sup> é minúsculo ao quadrado — manter um restinho de coeficiente custa quase nada e ainda reduz um pouco o erro. A conta sempre fecha a favor de manter. O encolhimento é suave e assintótico: aproxima-se de zero sem nunca tocar.</p>
+
+<h3>A leitura geométrica: a restrição circular</h3>
+
+<p>Há um segundo jeito de enxergar o ridge, equivalente ao primeiro: em vez de somar uma penalidade, imponha um orçamento. Minimize o erro quadrático <em>sujeito a</em> Σ <var>w</var><sub>j</sub><sup>2</sup> ≤ <var>t</var>. Cada valor de <var>λ</var> corresponde a um orçamento <var>t</var>: λ grande, orçamento apertado.</p>
+
+<p>Com dois coeficientes, a região permitida por essa restrição é um <strong>círculo</strong> centrado na origem — todos os pontos cuja soma de quadrados cabe no orçamento. O erro de treino, por sua vez, desenha elipses concêntricas em volta da solução de mínimos quadrados: quanto mais longe dela, maior o erro. A solução do ridge é o ponto onde a menor elipse possível encosta no círculo.</p>
+
+<p>A regra operacional é mais robusta que o desenho: <strong>percorra a fronteira do orçamento e fique com o ponto de menor erro</strong>. A elipse tangente é consequência dessa busca, não o método — as curvas de nível que aparecem em qualquer figura são uma amostra arbitrária, e "procurar a curva que encosta" engana quando a curva certa não foi desenhada. E há um caso que o desenho costuma esconder: se o orçamento for folgado a ponto de conter o próprio mínimo dos mínimos quadrados, a restrição não muda nada e a solução regularizada é o mínimo de sempre — é o λ pequeno demais.</p>
+
+<p>E aqui mora a explicação geométrica do que vimos nos números: <strong>o círculo não tem quinas</strong>. O ponto de tangência entre uma elipse e um círculo pode cair em qualquer lugar da borda, e quase nunca cai exatamente sobre um eixo — que é onde um coeficiente valeria zero. O contorno liso encolhe todo mundo um pouco; não empurra ninguém para fora. (Guarde essa imagem: quando o círculo virar um losango com quinas nos eixos, você terá o lasso.)</p>
+
+<figure><svg viewBox="0 0 520 340" role="img" aria-label="Restrição circular do ridge: a menor elipse de erro encosta no círculo num ponto fora dos eixos; nenhum coeficiente zera." style="max-width:100%;height:auto">
+<line x1="40" y1="210" x2="490" y2="210" stroke="currentColor" stroke-opacity=".45"/>
+<line x1="190" y1="20" x2="190" y2="330" stroke="currentColor" stroke-opacity=".45"/>
+<text x="484" y="226" font-size="11.5" text-anchor="end" fill="currentColor" fill-opacity=".8"><tspan font-style="italic">w</tspan><tspan baseline-shift="sub" font-size="9">temperatura</tspan></text>
+<text x="200" y="32" font-size="11.5" fill="currentColor" fill-opacity=".8"><tspan font-style="italic">w</tspan><tspan baseline-shift="sub" font-size="9">panfletos</tspan></text>
+<circle cx="190" cy="210" r="70" fill="var(--acc-fig,#b06f00)" fill-opacity=".10" stroke="var(--acc-fig,#b06f00)" stroke-width="2"/>
+<text x="150" y="265" font-size="11" fill="var(--acc-fig,#b06f00)" font-weight="600">Σw² ≤ t</text>
+<g transform="rotate(-35 390 90)" stroke="currentColor" stroke-opacity=".35" fill="none">
+  <ellipse cx="390" cy="90" rx="36" ry="18"/><ellipse cx="390" cy="90" rx="76" ry="38"/><ellipse cx="390" cy="90" rx="118" ry="59"/><ellipse cx="390" cy="90" rx="162" ry="81"/>
+</g>
+<circle cx="390" cy="90" r="4" fill="currentColor"/>
+<text x="400" y="84" font-size="11" fill="currentColor" fill-opacity=".85">mínimos quadrados</text>
+<circle cx="248" cy="172" r="5.5" fill="var(--acc-fig,#b06f00)" stroke="white" stroke-width="1.5"/>
+<text x="258" y="166" font-size="11.5" fill="var(--acc-fig,#b06f00)" font-weight="600">solução ridge</text>
+<text x="258" y="181" font-size="10.5" fill="currentColor" fill-opacity=".7">fora dos eixos: os dois vivem</text>
+</svg><figcaption><b>O orçamento do ridge é um círculo.</b> A menor elipse de erro que o alcança encosta num ponto fora dos eixos: os dois coeficientes encolhem, nenhum zera. Desenho conceitual com dois coeficientes.</figcaption></figure>
+
+<h3>λ como botão de rigidez</h3>
+
+<p>Vale pensar em <var>λ</var> como um botão de rigidez do modelo. Girado para perto de zero, o modelo é flexível: confia inteiramente nos dados de treino e devolve os mínimos quadrados, com toda a instabilidade que a colinearidade permite. Girado para cima, o modelo endurece: os coeficientes são puxados em direção a zero e o modelo passa a reagir menos a qualquer atributo individual. Nenhuma das pontas é a certa por princípio — rigidez demais ignora sinal verdadeiro, rigidez de menos abraça ruído. O valor bom de <var>λ</var> é um fato empírico, decidido comparando desempenho em dados que o modelo não viu, exatamente como na avaliação treino/teste que vocês já praticaram.</p>
+
+<h3>Como ler um caminho de coeficientes</h3>
+
+<p>O retrato mais informativo do ridge não é um modelo, é a família inteira deles: o <strong>caminho de coeficientes</strong>, um gráfico com <var>λ</var> no eixo horizontal e o valor de cada coeficiente no vertical, uma curva por atributo.</p>
+
+<figure><svg viewBox="0 0 640 360" role="img" aria-label="Caminho dos coeficientes do ridge na limonada: todos encolhem suavemente e nenhum chega a zero; panfletos, preço e precipitação crescem em módulo antes de encolher." style="max-width:100%;height:auto">
+<line x1="52" y1="30" x2="52" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="52" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">0,01</text>
+<line x1="161" y1="30" x2="161" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="161" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">0,1</text>
+<line x1="270" y1="30" x2="270" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="270" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">1</text>
+<line x1="380" y1="30" x2="380" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="380" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">10</text>
+<line x1="489" y1="30" x2="489" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="489" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">100</text>
+<line x1="598" y1="30" x2="598" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="598" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">1000</text>
+<line x1="52" y1="305" x2="620" y2="305" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="309" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">−1</text>
+<line x1="52" y1="268" x2="620" y2="268" stroke="currentColor" stroke-opacity=".45"/>
+<text x="45" y="272" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">0</text>
+<line x1="52" y1="194" x2="620" y2="194" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="198" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">2</text>
+<line x1="52" y1="119" x2="620" y2="119" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="123" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">4</text>
+<line x1="52" y1="45" x2="620" y2="45" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="49" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">6</text>
+<text x="336" y="354" font-size="11.5" text-anchor="middle" fill="currentColor" fill-opacity=".8">λ (escala logarítmica)</text>
+<text x="14" y="175" font-size="11.5" text-anchor="middle" fill="currentColor" fill-opacity=".8" transform="rotate(-90 14 175)">coeficiente (copos por dp)</text>
+<line x1="620" y1="30" x2="620" y2="320" stroke="currentColor" stroke-opacity=".5" stroke-dasharray="5 4"/>
+<text x="614" y="42" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".8">λ = 1585</text>
+<polyline points="52.0,46.0 66.6,46.0 81.2,46.0 95.7,46.0 110.2,46.1 124.8,46.1 139.4,46.2 154.0,46.3 168.5,46.4 183.1,46.6 197.6,46.8 212.2,47.1 226.8,47.6 241.3,48.2 255.9,49.0 270.5,50.0 285.0,51.4 299.6,53.3 314.2,55.8 328.7,59.0 343.3,63.1 357.8,68.3 372.4,74.6 387.0,82.2 401.5,91.0 416.1,100.9 430.7,111.5 445.2,122.6 459.8,133.7 474.4,144.5 488.9,154.9 503.5,164.7 518.0,174.0 532.6,182.9 547.2,191.5 561.7,199.9 576.3,208.3 590.9,216.4 605.4,224.3 620.0,231.7" fill="none" stroke="var(--c-temperatura,#EE6677)" stroke-width="2.4" stroke-linejoin="round"/>
+<polyline points="52.0,290.8 66.6,290.8 81.2,290.8 95.7,290.8 110.2,290.8 124.8,290.9 139.4,290.9 154.0,291.0 168.5,291.0 183.1,291.2 197.6,291.3 212.2,291.5 226.8,291.8 241.3,292.2 255.9,292.7 270.5,293.4 285.0,294.3 299.6,295.4 314.2,297.0 328.7,299.0 343.3,301.5 357.8,304.6 372.4,308.4 387.0,312.7 401.5,317.5 416.1,322.5 430.7,327.4 445.2,331.8 459.8,335.4 474.4,337.8 488.9,338.8 503.5,338.4 518.0,336.7 532.6,333.8 547.2,329.7 561.7,324.7 576.3,319.0 590.9,312.9 605.4,306.5 620.0,300.3" fill="none" stroke="var(--c-precipitacao,#4477AA)" stroke-width="2.4" stroke-linejoin="round"/>
+<polyline points="52.0,258.7 66.6,258.7 81.2,258.7 95.7,258.7 110.2,258.7 124.8,258.7 139.4,258.7 154.0,258.7 168.5,258.6 183.1,258.6 197.6,258.5 212.2,258.4 226.8,258.3 241.3,258.2 255.9,258.0 270.5,257.7 285.0,257.3 299.6,256.9 314.2,256.2 328.7,255.4 343.3,254.3 357.8,252.9 372.4,251.2 387.0,249.1 401.5,246.5 416.1,243.5 430.7,240.2 445.2,236.5 459.8,232.8 474.4,229.2 488.9,226.1 503.5,223.5 518.0,222.0 532.6,221.5 547.2,222.3 561.7,224.3 576.3,227.4 590.9,231.4 605.4,235.9 620.0,240.6" fill="none" stroke="var(--c-panfletos,#228833)" stroke-width="2.4" stroke-linejoin="round"/>
+<polyline points="52.0,261.2 66.6,261.2 81.2,261.2 95.7,261.2 110.2,261.2 124.8,261.2 139.4,261.2 154.0,261.2 168.5,261.1 183.1,261.1 197.6,261.1 212.2,261.0 226.8,261.0 241.3,260.9 255.9,260.7 270.5,260.6 285.0,260.4 299.6,260.1 314.2,259.7 328.7,259.2 343.3,258.6 357.8,257.8 372.4,256.8 387.0,255.6 401.5,254.3 416.1,252.7 430.7,251.1 445.2,249.3 459.8,247.6 474.4,245.9 488.9,244.4 503.5,243.1 518.0,242.2 532.6,241.7 547.2,241.9 561.7,242.7 576.3,244.1 590.9,246.1 605.4,248.5 620.0,251.2" fill="none" stroke="var(--c-preco,#AA3377)" stroke-width="2.4" stroke-linejoin="round"/>
+<line x1="52" y1="14" x2="70" y2="14" stroke="var(--c-temperatura,#EE6677)" stroke-width="3"/>
+<text x="75" y="18" font-size="11.5" fill="currentColor">temperatura</text>
+<line x1="199" y1="14" x2="217" y2="14" stroke="var(--c-precipitacao,#4477AA)" stroke-width="3"/>
+<text x="222" y="18" font-size="11.5" fill="currentColor">precipitação</text>
+<line x1="356" y1="14" x2="374" y2="14" stroke="var(--c-panfletos,#228833)" stroke-width="3"/>
+<text x="379" y="18" font-size="11.5" fill="currentColor">panfletos</text>
+<line x1="483" y1="14" x2="501" y2="14" stroke="var(--c-preco,#AA3377)" stroke-width="3"/>
+<text x="506" y="18" font-size="11.5" fill="currentColor">preço</text>
+</svg><figcaption><b>O caminho do ridge na limonada, calculado dos dados.</b> Encolhimento suave, sem zeros — e panfletos, preço e precipitação crescem em módulo antes de encolher: é o sinal da temperatura sendo redistribuído pela colinearidade.</figcaption></figure>
+
+<p>A leitura se faz da esquerda para a direita. Na borda esquerda, com <var>λ</var> ínfimo, cada curva parte do seu valor de mínimos quadrados. Conforme você avança, a curva da temperatura desce de forma contínua — sem degraus, sem saltos. As curvas de precipitação, panfletos e preço fazem o movimento contraintuitivo que já explicamos: afastam-se de zero primeiro, recebendo o sinal redistribuído da temperatura, para só depois dobrar rumo a zero. E em nenhum ponto do gráfico uma curva cruza o zero e fica lá: todas se achatam sobre a linha de referência sem jamais colar nela.</p>
+
+<p>Três hábitos de leitura valem a pena. Primeiro, olhe a ordem das curvas na esquerda e na direita: no ridge da limonada, a hierarquia muda — temperatura domina com folga em λ pequeno, mas em λ = 1585 os quatro coeficientes estão na mesma ordem de grandeza. Segundo, procure cruzamentos e subidas: curva que cresce quando as outras caem é assinatura de colinearidade, não de importância crescente. Terceiro, lembre que o gráfico mostra o que o modelo faria para cada rigidez — qual rigidez usar continua sendo pergunta para o conjunto de teste, não para o desenho.</p>
+</section>
+
+<section id="lasso">
+<h2><span class="num">3</span>Lasso (L1)</h2>
+
+<p>Na primeira passada pelos dados da limonada, o lasso descartou 6 dos 14 atributos expandidos e ainda assim empatou o R² de teste em 0,9906. O ridge, em toda a varredura de λ, não descartou nenhum. Essa diferença não é um detalhe de implementação: ela nasce de uma única troca na penalidade, e esta seção mostra por que essa troca muda tudo.</p>
+
+<h3>O que muda: o preço de cada coeficiente</h3>
+
+<p>O ridge cobra pelo quadrado de cada coeficiente. Isso tem uma consequência sutil: perto de zero, a multa quase desaparece, porque o quadrado de um número pequeno é minúsculo. Para o ridge, manter um coeficiente pequenininho custa quase nada, e sempre sobra um fiapo de ajuste que compensa esse custo quase nulo. Resultado: o ridge encolhe, encolhe, encolhe — e nunca chega a zero.</p>
+
+<p>O lasso cobra pelo valor absoluto. Agora o pedágio é constante: reduzir um coeficiente de 0,1 para zero economiza, por unidade, o mesmo que reduzi-lo lá no alto. Não existe mais a zona de conforto perto de zero. Se um atributo contribui para o ajuste menos do que o pedágio que seu coeficiente custa, a melhor jogada é zerar de verdade. A penalidade empurra com força constante em direção ao zero, e coeficientes fracos não têm como resistir.</p>
+
+<p>Com a intuição no lugar, a fórmula. O lasso minimiza:</p>
+
+<p class="formula">custo = Σ<sub>i</sub> (<var>y</var><sub>i</sub> − <var>ŷ</var><sub>i</sub>)<sup>2</sup> + <var>λ</var> · Σ<sub>j</sub> |<var>w</var><sub>j</sub>|</p>
+
+<p>Compare com o ridge, cuja penalidade é <var>λ</var> · Σ<sub>j</sub> <var>w</var><sub>j</sub><sup>2</sup>. Uma letra de diferença na fórmula — módulo em vez de quadrado — e um comportamento qualitativamente distinto: o lasso produz coeficientes exatamente iguais a zero. Isso significa que ele faz <strong>seleção de atributos embutida</strong>: o modelo que sai do lasso já vem com os atributos irrelevantes removidos, sem nenhuma etapa separada de escolha manual.</p>
+
+<h3>A restrição em diamante</h3>
+
+<p>Há um jeito geométrico de enxergar por que o módulo zera e o quadrado não. Penalizar é equivalente a impor um orçamento aos coeficientes: no ridge, a soma dos quadrados não pode passar de um teto, o que desenha um círculo no plano dos coeficientes; no lasso, é a soma dos módulos que tem teto, o que desenha um losango — um diamante com as pontas em cima dos eixos.</p>
+
+<p>A solução regularizada é o ponto onde as curvas de nível do erro de treino encostam na região permitida. Um círculo é liso: o ponto de contato cai em um lugar qualquer da borda, quase nunca exatamente sobre um eixo. O diamante tem quinas, e as quinas ficam sobre os eixos. Uma quina "agarra" o contato: para uma faixa inteira de posições da solução sem restrição, o toque acontece na ponta do diamante. E estar na ponta significa que um dos coeficientes vale exatamente zero. O círculo encolhe todo mundo um pouco; o diamante encosta alguém na parede.</p>
+
+<figure><svg viewBox="0 0 640 310" role="img" aria-label="Círculo do ridge tocado num ponto genérico da borda; diamante do lasso agarrando o contato na quina sobre o eixo, onde um coeficiente vale zero." style="max-width:100%;height:auto">
+<text x="150" y="22" font-size="12.5" text-anchor="middle" fill="currentColor" font-weight="600">Ridge: círculo</text>
+<line x1="30" y1="185" x2="280" y2="185" stroke="currentColor" stroke-opacity=".45"/>
+<line x1="150" y1="40" x2="150" y2="295" stroke="currentColor" stroke-opacity=".45"/>
+<circle cx="150" cy="185" r="55" fill="var(--acc-fig,#b06f00)" fill-opacity=".10" stroke="var(--acc-fig,#b06f00)" stroke-width="2"/>
+<g transform="rotate(-30 245 110)" stroke="currentColor" stroke-opacity=".35" fill="none">
+  <ellipse cx="245" cy="110" rx="26" ry="13"/><ellipse cx="245" cy="110" rx="56" ry="28"/><ellipse cx="245" cy="110" rx="88" ry="44"/>
+</g>
+<circle cx="245" cy="110" r="3.5" fill="currentColor"/>
+<circle cx="193" cy="151" r="5.5" fill="var(--acc-fig,#b06f00)" stroke="white" stroke-width="1.5"/>
+<text x="150" y="268" font-size="10.5" text-anchor="middle" fill="currentColor" fill-opacity=".8">nenhum coeficiente zera</text>
+<text x="470" y="22" font-size="12.5" text-anchor="middle" fill="currentColor" font-weight="600">Lasso: diamante</text>
+<line x1="350" y1="185" x2="600" y2="185" stroke="currentColor" stroke-opacity=".45"/>
+<line x1="470" y1="40" x2="470" y2="295" stroke="currentColor" stroke-opacity=".45"/>
+<polygon points="470,123 532,185 470,247 408,185" fill="var(--acc-fig,#b06f00)" fill-opacity=".10" stroke="var(--acc-fig,#b06f00)" stroke-width="2"/>
+<g transform="rotate(-30 565 110)" stroke="currentColor" stroke-opacity=".35" fill="none">
+  <ellipse cx="565" cy="110" rx="26" ry="13"/><ellipse cx="565" cy="110" rx="56" ry="28"/><ellipse cx="565" cy="110" rx="88" ry="44"/>
+</g>
+<circle cx="565" cy="110" r="3.5" fill="currentColor"/>
+<circle cx="470" cy="123" r="5.5" fill="var(--acc-fig,#b06f00)" stroke="white" stroke-width="1.5"/>
+<text x="482" y="116" font-size="11" fill="var(--acc-fig,#b06f00)" font-weight="600">quina: <tspan font-style="italic">w</tspan><tspan baseline-shift="sub" font-size="9">1</tspan> = 0</text>
+<text x="470" y="268" font-size="10.5" text-anchor="middle" fill="currentColor" fill-opacity=".8">a quina agarra o contato sobre o eixo</text>
+</svg><figcaption><b>O mesmo problema sob dois orçamentos.</b> O círculo do ridge é tocado num ponto genérico da borda; o diamante do lasso agarra o contato na quina — e quina sobre o eixo significa coeficiente exatamente zero.</figcaption></figure>
+
+<h3>A ordem em que os atributos morrem</h3>
+
+<p>Volte à limonada com os quatro atributos padronizados. Com λ→0 o lasso coincide com os mínimos quadrados. Agora aumente λ devagar e observe quem desiste primeiro:</p>
+
+<ul>
+<li>O <strong>preço</strong> zera primeiro, em λ≈0,29.</li>
+<li>Os <strong>panfletos</strong> zeram em λ≈0,54.</li>
+<li>A <strong>precipitação</strong> resiste até λ≈1,36.</li>
+<li>A <strong>temperatura</strong> só cai em λ≈8,6.</li>
+</ul>
+
+<figure><svg viewBox="0 0 640 360" role="img" aria-label="Caminho dos coeficientes do lasso na limonada: cada curva encosta no zero e fica lá; preço zera primeiro, temperatura por último." style="max-width:100%;height:auto">
+<line x1="52" y1="30" x2="52" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="52" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">0,01</text>
+<line x1="161" y1="30" x2="161" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="161" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">0,1</text>
+<line x1="270" y1="30" x2="270" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="270" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">1</text>
+<line x1="380" y1="30" x2="380" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="380" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">10</text>
+<line x1="489" y1="30" x2="489" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="489" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">100</text>
+<line x1="598" y1="30" x2="598" y2="320" stroke="currentColor" stroke-opacity=".12"/>
+<text x="598" y="336" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">1000</text>
+<line x1="52" y1="305" x2="620" y2="305" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="309" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">−1</text>
+<line x1="52" y1="268" x2="620" y2="268" stroke="currentColor" stroke-opacity=".45"/>
+<text x="45" y="272" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">0</text>
+<line x1="52" y1="194" x2="620" y2="194" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="198" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">2</text>
+<line x1="52" y1="119" x2="620" y2="119" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="123" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">4</text>
+<line x1="52" y1="45" x2="620" y2="45" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 3"/>
+<text x="45" y="49" font-size="11" text-anchor="end" fill="currentColor" fill-opacity=".75">6</text>
+<text x="336" y="354" font-size="11.5" text-anchor="middle" fill="currentColor" fill-opacity=".8">λ (escala logarítmica)</text>
+<text x="14" y="175" font-size="11.5" text-anchor="middle" fill="currentColor" fill-opacity=".8" transform="rotate(-90 14 175)">coeficiente (copos por dp)</text>
+<polyline points="52.0,45.7 66.6,45.6 81.2,45.5 95.7,45.4 110.2,45.3 124.8,45.1 139.4,44.8 154.0,44.5 168.5,43.9 183.1,43.3 197.6,42.4 212.2,42.2 226.8,42.9 241.3,44.5 255.9,48.3 270.5,53.5 285.0,65.1 299.6,83.3 314.2,108.0 328.7,141.6 343.3,187.2 357.8,249.2 372.4,267.9 387.0,267.9 401.5,267.9 416.1,267.9 430.7,267.9 445.2,267.9 459.8,267.9 474.4,267.9 488.9,267.9 503.5,267.9 518.0,267.9 532.6,267.9 547.2,267.9 561.7,267.9 576.3,267.9 590.9,267.9 605.4,267.9 620.0,267.9" fill="none" stroke="var(--c-temperatura,#EE6677)" stroke-width="2.4" stroke-linejoin="round"/>
+<polyline points="52.0,290.4 66.6,290.3 81.2,290.2 95.7,290.0 110.2,289.7 124.8,289.4 139.4,288.9 154.0,288.3 168.5,287.5 183.1,286.3 197.6,284.8 212.2,283.1 226.8,281.4 241.3,278.8 255.9,275.0 270.5,269.8 285.0,267.9 299.6,267.9 314.2,267.9 328.7,267.9 343.3,267.9 357.8,267.9 372.4,267.9 387.0,267.9 401.5,267.9 416.1,267.9 430.7,267.9 445.2,267.9 459.8,267.9 474.4,267.9 488.9,267.9 503.5,267.9 518.0,267.9 532.6,267.9 547.2,267.9 561.7,267.9 576.3,267.9 590.9,267.9 605.4,267.9 620.0,267.9" fill="none" stroke="var(--c-precipitacao,#4477AA)" stroke-width="2.4" stroke-linejoin="round"/>
+<polyline points="52.0,259.0 66.6,259.0 81.2,259.1 95.7,259.2 110.2,259.4 124.8,259.6 139.4,259.9 154.0,260.3 168.5,260.9 183.1,261.7 197.6,262.7 212.2,264.2 226.8,266.3 241.3,267.9 255.9,267.9 270.5,267.9 285.0,267.9 299.6,267.9 314.2,267.9 328.7,267.9 343.3,267.9 357.8,267.9 372.4,267.9 387.0,267.9 401.5,267.9 416.1,267.9 430.7,267.9 445.2,267.9 459.8,267.9 474.4,267.9 488.9,267.9 503.5,267.9 518.0,267.9 532.6,267.9 547.2,267.9 561.7,267.9 576.3,267.9 590.9,267.9 605.4,267.9 620.0,267.9" fill="none" stroke="var(--c-panfletos,#228833)" stroke-width="2.4" stroke-linejoin="round"/>
+<polyline points="52.0,261.5 66.6,261.6 81.2,261.7 95.7,261.9 110.2,262.2 124.8,262.5 139.4,262.9 154.0,263.6 168.5,264.4 183.1,265.5 197.6,267.1 212.2,267.9 226.8,267.9 241.3,267.9 255.9,267.9 270.5,267.9 285.0,267.9 299.6,267.9 314.2,267.9 328.7,267.9 343.3,267.9 357.8,267.9 372.4,267.9 387.0,267.9 401.5,267.9 416.1,267.9 430.7,267.9 445.2,267.9 459.8,267.9 474.4,267.9 488.9,267.9 503.5,267.9 518.0,267.9 532.6,267.9 547.2,267.9 561.7,267.9 576.3,267.9 590.9,267.9 605.4,267.9 620.0,267.9" fill="none" stroke="var(--c-preco,#AA3377)" stroke-width="2.4" stroke-linejoin="round"/>
+<line x1="52" y1="14" x2="70" y2="14" stroke="var(--c-temperatura,#EE6677)" stroke-width="3"/>
+<text x="75" y="18" font-size="11.5" fill="currentColor">temperatura</text>
+<line x1="199" y1="14" x2="217" y2="14" stroke="var(--c-precipitacao,#4477AA)" stroke-width="3"/>
+<text x="222" y="18" font-size="11.5" fill="currentColor">precipitação</text>
+<line x1="356" y1="14" x2="374" y2="14" stroke="var(--c-panfletos,#228833)" stroke-width="3"/>
+<text x="379" y="18" font-size="11.5" fill="currentColor">panfletos</text>
+<line x1="483" y1="14" x2="501" y2="14" stroke="var(--c-preco,#AA3377)" stroke-width="3"/>
+<text x="506" y="18" font-size="11.5" fill="currentColor">preço</text>
+<circle cx="212" cy="268" r="4.5" fill="var(--c-preco,#AA3377)" stroke="white" stroke-width="1.5"/>
+<text x="208" y="258" font-size="11" text-anchor="end" fill="var(--c-preco,#AA3377)" font-weight="600">preço · λ≈0,29</text>
+<circle cx="241" cy="268" r="4.5" fill="var(--c-panfletos,#228833)" stroke="white" stroke-width="1.5"/>
+<text x="247" y="258" font-size="11" text-anchor="start" fill="var(--c-panfletos,#228833)" font-weight="600">panfletos · λ≈0,54</text>
+<circle cx="285" cy="268" r="4.5" fill="var(--c-precipitacao,#4477AA)" stroke="white" stroke-width="1.5"/>
+<text x="289" y="284" font-size="11" text-anchor="start" fill="var(--c-precipitacao,#4477AA)" font-weight="600">precipitação · λ≈1,4</text>
+<circle cx="372" cy="268" r="4.5" fill="var(--c-temperatura,#EE6677)" stroke="white" stroke-width="1.5"/>
+<text x="378" y="258" font-size="11" text-anchor="start" fill="var(--c-temperatura,#EE6677)" font-weight="600">temperatura · λ≈8,6</text>
+</svg><figcaption><b>O caminho do lasso na limonada, calculado dos dados.</b> Cada curva encosta no zero e fica lá. O preço morre primeiro (λ≈0,29); a temperatura resiste até λ≈8,6 — trinta vezes mais.</figcaption></figure>
+
+<p>Essa ordem não é sorteio: é um ranking de quanto cada atributo explica <strong>que os outros ainda não explicam</strong>. A temperatura exige um λ quase trinta vezes maior do que o que eliminou o preço — ela é o atributo de que o modelo menos consegue abrir mão. O porquê de cada morte, atributo por atributo, é o exemplo trabalhado da seção 5.</p>
+
+<p>Uma leitura cuidadosa dessa ordem importa. Morrer cedo não prova que o atributo é inútil no mundo; prova que ele é <strong>redundante ou fraco dado o resto do modelo</strong>. Os panfletos podem até ter algum efeito real sobre as vendas, mas, colados na temperatura como estão nestes dados, o lasso não tem como separar os dois — e fica com o mais informativo.</p>
+
+<p>O contraste com o ridge fecha o argumento: no fim da varredura dele (λ=1585, na convenção própria do ridge — réguas de λ não se comparam entre métodos, ver a seção 5), ninguém zerou, e não zeraria para λ nenhum. O ridge dilui a responsabilidade entre atributos parecidos; o lasso decide quem fica. Quando o objetivo é um modelo enxuto e legível — como os 8 de 14 atributos da primeira passada — essa decisão é exatamente o que se quer comprar.</p>
+</section>
+
+<section id="porque-zero">
+<h2><span class="num">4</span>Por que o L1 zera e o L2 não</h2>
+
+<p>O contraste das duas seções anteriores não é acidente de implementação nem capricho do dataset. Ele nasce de uma diferença pequena na fórmula da penalidade — e essa diferença pequena muda completamente o comportamento perto de zero. Há duas maneiras de enxergar o mecanismo, e elas se reforçam. Vamos às duas.</p>
+
+<h3>Primeira vista: a geometria da quina</h3>
+
+<p>Comece pela pergunta certa: que conjunto de coeficientes a penalidade considera "barato"? No L1, o custo extra é a soma dos módulos, <var>λ</var> (|<var>w</var><sub>1</sub>| + |<var>w</var><sub>2</sub>| + …). No L2, é a soma dos quadrados. Com dois coeficientes, o conjunto de pontos com o mesmo custo L1 desenha o losango da figura da seção anterior; o conjunto com o mesmo custo L2 desenha um círculo, liso por toda a borda.</p>
+
+<p>Agora sobreponha o erro. As curvas de nível do erro quadrático são elipses centradas na solução de mínimos quadrados. O otimizador procura o ponto que equilibra erro baixo e penalidade baixa — visualmente, o ponto onde uma elipse do erro encosta na fronteira da região barata. E aqui entra a quina: o losango tem vértices exatamente sobre os eixos, e um vértice é um ponto saliente que as elipses tendem a tocar primeiro. Tocar um vértice do eixo vertical significa <var>w</var><sub>1</sub> = 0: um coeficiente morreu. O círculo não tem saliência nenhuma; a elipse encosta nele em algum ponto genérico da borda, e um ponto genérico quase nunca cai em cima de um eixo. Resultado: coeficientes pequenos, mas vivos.</p>
+
+<h3>Segunda vista: a força do puxão</h3>
+
+<p>A geometria diz onde o otimizador para; a segunda vista diz por quê. Pense na penalidade como uma força que puxa cada coeficiente em direção a zero, enquanto o erro puxa na direção contrária, defendendo o valor que ajuda a prever. O coeficiente estaciona onde as duas forças se equilibram.</p>
+
+<p>A diferença está em como a força da penalidade depende do tamanho do coeficiente. No L1, a penalidade é <var>λ</var>|<var>w</var>|, e a inclinação do módulo é a mesma em qualquer ponto: o puxão para zero vale <var>λ</var>, constante, esteja o coeficiente grande ou já minúsculo. No L2, a penalidade é <var>λ</var><var>w</var><sup>2</sup>, cuja inclinação é 2<var>λ</var><var>w</var>: o puxão é proporcional ao próprio coeficiente. Isso tem uma consequência decisiva perto de zero. No L1, um coeficiente pequeno continua apanhando com força cheia <var>λ</var>; se o erro não consegue defendê-lo com força maior que essa, ele é empurrado até zero e fica lá, porque sair de zero custaria <var>λ</var> de imediato. No L2, à medida que o coeficiente encolhe, o puxão 2<var>λ</var><var>w</var> encolhe junto e praticamente desaparece; sempre existe um valor pequeno em que a defesa fraca do erro empata com o puxão ainda mais fraco da penalidade. O coeficiente estaciona pequeno — e nunca nulo.</p>
+
+<figure><svg viewBox="0 0 560 280" role="img" aria-label="Força que puxa o coeficiente a zero: constante no L1, proporcional ao peso no L2; perto de zero o L2 praticamente desaparece." style="max-width:100%;height:auto">
+<rect x="70" y="30" width="80" height="210" fill="currentColor" fill-opacity=".07"/>
+<line x1="70" y1="240" x2="520" y2="240" stroke="currentColor" stroke-opacity=".6"/>
+<line x1="70" y1="30" x2="70" y2="240" stroke="currentColor" stroke-opacity=".6"/>
+<line x1="70" y1="100" x2="505" y2="100" stroke="var(--acc-fig,#b06f00)" stroke-width="2.8"/>
+<text x="330" y="88" font-size="11.5" text-anchor="end" fill="var(--acc-fig,#b06f00)" font-weight="600">L1: puxão constante = λ</text>
+<line x1="70" y1="240" x2="505" y2="62" stroke="currentColor" stroke-opacity=".55" stroke-width="2.4" stroke-dasharray="7 5"/>
+<text x="470" y="52" font-size="11.5" text-anchor="end" fill="currentColor" fill-opacity=".75">L2: puxão = 2λw</text>
+<text x="110" y="262" font-size="10.5" text-anchor="middle" fill="currentColor" fill-opacity=".85">perto de zero:</text>
+<text x="110" y="275" font-size="10.5" text-anchor="middle" fill="currentColor" fill-opacity=".85">o L2 solta, o L1 segue puxando</text>
+<text x="460" y="262" font-size="11.5" text-anchor="end" fill="currentColor" fill-opacity=".8">coeficiente <tspan font-style="italic">w</tspan> →</text>
+<text x="24" y="135" font-size="11.5" fill="currentColor" fill-opacity=".8" text-anchor="middle" transform="rotate(-90 24 135)">puxão para zero</text>
+</svg><figcaption><b>A força do puxão para zero.</b> No L1 ela vale λ em qualquer ponto; no L2 vale 2λ<i>w</i> e desaparece junto com o peso. Perto de zero, o L2 solta e o L1 segue puxando — por isso só o L1 zera.</figcaption></figure>
+
+<h3>O mecanismo nos números da limonada</h3>
+
+<p>A vista da força prevê a ordem de execução que a seção anterior mostrou: quem tem menos a oferecer ao erro cai primeiro. O preço, com +0,17 de contribuição, é o primeiro a perder a queda de braço; a temperatura, que carrega quase todo o sinal, é defendida pelo erro com muito mais força — é preciso um puxão trinta vezes maior para derrubá-la. <span class="refback">(Reveja o caminho do lasso na seção 3: cada curva encosta no zero exatamente onde a defesa do erro empata com o puxão λ.)</span></p>
+
+<p>O ridge conta a história oposta — nenhum coeficiente morre, em λ algum da varredura —, e o detalhe que parece estranho (módulos que <em>crescem</em> ao longo do caminho) é a colinearidade redistribuindo sinal, como a seção 2 explicou. O ridge divide o trabalho entre variáveis parecidas; o lasso escolhe uma e dispensa as outras. Nenhum dos dois está "certo": são respostas diferentes à mesma pergunta sobre o que fazer com informação redundante.</p>
+
+<h3>Desfazendo um mito: o losango não é uma cerca</h3>
+
+<p>A figura do losango e do círculo sugere que o otimizador trabalha dentro de uma região proibida de sair, como se houvesse uma cerca rígida em volta da origem. Não é isso que o código faz. O que o otimizador minimiza é uma soma única: erro + penalidade. A penalidade não proíbe nada; ela apenas cobra. Um coeficiente pode assumir qualquer valor, desde que pague o preço, e o <var>λ</var> regula quanto custa cada unidade de módulo ou de quadrado. É uma restrição suave, negociada centavo a centavo, e a vista da força descreve essa negociação diretamente.</p>
+
+<p>As duas formulações contam a mesma história: para cada valor de <var>λ</var> na versão com penalidade existe um tamanho de região na versão com cerca que leva à mesma solução, e é por isso que a geometria continua sendo um bom guia para a intuição. Mas guarde a hierarquia: o desenho da quina explica <em>onde</em> a solução cai; a soma erro + penalidade é <em>o que</em> de fato se minimiza. Quando os dois quadros parecerem discordar, confie na soma.</p>
+</section>
+
+<section id="matematica">
+<h2><span class="num">5</span>A matemática na prática: um exemplo trabalhado</h2>
+
+<p>Agora abrimos a conta que esteve por trás de tudo. A boa notícia: é a mesma conta dos mínimos quadrados, com um termo a mais.</p>
+
+<h3>Onde a regularização entra na função de custo</h3>
+
+<p>Até aqui, o ajuste tinha um único objetivo: errar pouco no treino. A regularização não troca esse objetivo — ela acrescenta um segundo termo à mesma soma, que cobra pelo tamanho dos coeficientes. O ridge cobra pelo quadrado de cada coeficiente:</p>
+
+<p class="formula"><strong>minimizar</strong>&nbsp;&nbsp;EQM(<var>β</var>) + <var>λ</var> · (<var>β</var><sub>1</sub><sup>2</sup> + <var>β</var><sub>2</sub><sup>2</sup> + … + <var>β</var><sub>p</sub><sup>2</sup>)</p>
+
+<p>O lasso cobra pelo valor absoluto:</p>
+
+<p class="formula"><strong>minimizar</strong>&nbsp;&nbsp;EQM(<var>β</var>) + <var>λ</var> · (|<var>β</var><sub>1</sub>| + |<var>β</var><sub>2</sub>| + … + |<var>β</var><sub>p</sub>|)</p>
+
+<p>O primeiro termo é o EQM de sempre. O segundo é a <strong>penalidade</strong>, e <var>λ</var> é o preço: quanto custa cada unidade de coeficiente. O intercepto <var>β</var><sub>0</sub> fica de fora da penalidade — ele só desloca a previsão para o nível médio das vendas, não expressa dependência de nenhum atributo. E não há cota nem cerca no código: existe uma única soma a minimizar, a restrição suave da seção anterior, em que um coeficiente grande continua permitido desde que pague por si mesmo reduzindo o erro mais do que custa.</p>
+
+<p><strong>Uma pegadinha de régua.</strong> A escala de <var>λ</var> depende de convenção, exatamente como as convenções da perda que vimos na regressão linear: a mesma ideia aparece escrita com a soma dos erros, com o EQM ou com um ½ na frente, e cada forma muda o número de <var>λ</var> sem mudar o método. O scikit-learn, por exemplo, divide o erro por 2<var>n</var> no Lasso e usa a soma crua no Ridge — e os λ desta página seguem essas convenções. Consequência: <strong>o 8,6 do lasso e o 1585 do ridge não são comparáveis entre si</strong> (na régua do lasso, o 1585 do ridge vale cerca de 2,2). Compare λs apenas dentro do mesmo método; entre métodos, compare comportamento — e o comportamento que distingue os dois não depende de régua nenhuma: o ridge não zera coeficiente para λ algum, o lasso zera.</p>
+
+<h3>λ liga os dois extremos</h3>
+
+<p>O <var>λ</var> é um botão que varre de zero a infinito, e as pontas são conhecidas:</p>
+
+<ul>
+<li>Com <var>λ</var> = 0, a penalidade desaparece da soma e sobra o EQM puro: voltamos exatamente aos mínimos quadrados que deduzimos.</li>
+<li>Com <var>λ</var> → ∞, qualquer coeficiente diferente de zero custa mais do que qualquer erro que ele evite. Todos vão a zero, sobra só o intercepto, e o modelo vira uma constante: prevê a média das vendas do treino para qualquer dia.</li>
+</ul>
+
+<p>Todo modelo regularizado vive entre essas duas pontas: entre memorizar o treino e ignorá-lo. Escolher o <var>λ</var> é escolher o ponto do caminho, e isso se faz como toda escolha honesta nesta disciplina — avaliando em dados que o ajuste não viu.</p>
+
+<h3>O exemplo: a limonada com o λ subindo</h3>
+
+<p>Voltemos aos 4 atributos padronizados, com o alvo em copos vendidos. Com <var>λ</var> → 0, o lasso devolve o retrato dos mínimos quadrados: temperatura +5,98, precipitação −0,60, panfletos +0,24 e preço +0,17. A temperatura domina, e os outros três dividem migalhas. Agora subimos o preço <var>λ</var> e observamos quem deixa de pagar o aluguel — é o caminho que você já viu na seção 3; aqui, lemos cada morte.</p>
+
+<p>O primeiro a morrer é o <strong>preço</strong>, em <var>λ</var> ≈ 0,29. A turma sabe por quê. A correlação de +0,51 entre preço e vendas era confundimento com a estação: o preço de 0,50 só existe em julho e agosto, exatamente quando o calor já faz as vendas subirem. Com a temperatura dentro do modelo, o preço quase não acrescenta informação — seu coeficiente já nascia pequeno (+0,17) e é o primeiro que não vale o que custa.</p>
+
+<p>Em <var>λ</var> ≈ 0,54 caem os <strong>panfletos</strong>. Também aqui a história já era conhecida: com correlação de +0,80 entre panfletos e temperatura, quase tudo o que os panfletos "sabem" a temperatura já disse. O lasso descarta a cópia e fica com o original.</p>
+
+<p>Em <var>λ</var> ≈ 1,36 vai a <strong>precipitação</strong>. Ela carrega sinal próprio — chuva derruba venda, e esse efeito não é cópia da temperatura — mas é um sinal pequeno (−0,60), e num certo ponto o preço do coeficiente supera o erro que ele evita.</p>
+
+<p>A <strong>temperatura</strong> só zera em <var>λ</var> ≈ 8,6: resiste a um <var>λ</var> quase trinta vezes maior do que o que bastou para eliminar o preço. A ordem de eliminação do lasso reproduziu, por pura otimização, o diagnóstico que a turma fez olhando os dados — o atributo confundido morre primeiro, o sinal real morre por último.</p>
+
+<p>Uma ressalva antes de gostar demais disso. O lasso não "sabe" o que é confundimento; ele ordena os atributos pela contribuição preditiva de cada um dado que os outros estão no modelo. O preço morreu primeiro porque a temperatura já explicava o que ele fingia explicar, não porque o algoritmo entendeu a estação. Quando o confundidor verdadeiro não está entre os atributos, o lasso mantém o impostor com a maior boa vontade. A leitura causal continua sendo trabalho de quem analisa.</p>
+
+<h3>O mesmo cenário no ridge: ninguém morre, todos encolhem</h3>
+
+<p>O ridge conta outra história com os mesmos dados, e a comparação lado a lado fecha a seção:</p>
+
+<figure><svg viewBox="0 0 640 300" role="img" aria-label="Coeficientes da limonada: mínimos quadrados contra ridge com lambda 1585. A temperatura despenca de +5,98 para +0,98; os outros três crescem em módulo." style="max-width:100%;height:auto">
+<line x1="136" y1="34" x2="136" y2="266" stroke="currentColor" stroke-opacity=".12"/>
+<text x="136" y="282" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">−1</text>
+<line x1="201" y1="34" x2="201" y2="266" stroke="currentColor" stroke-opacity=".45"/>
+<text x="201" y="282" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">0</text>
+<line x1="331" y1="34" x2="331" y2="266" stroke="currentColor" stroke-opacity=".12"/>
+<text x="331" y="282" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">2</text>
+<line x1="460" y1="34" x2="460" y2="266" stroke="currentColor" stroke-opacity=".12"/>
+<text x="460" y="282" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">4</text>
+<line x1="590" y1="34" x2="590" y2="266" stroke="currentColor" stroke-opacity=".12"/>
+<text x="590" y="282" font-size="11" text-anchor="middle" fill="currentColor" fill-opacity=".75">6</text>
+<text x="363" y="296" font-size="11.5" text-anchor="middle" fill="currentColor" fill-opacity=".8">coeficiente (copos por dp)</text>
+<rect x="110" y="10" width="14" height="10" rx="2" fill="currentColor" fill-opacity=".38"/>
+<text x="129" y="19" font-size="11.5" fill="currentColor">mínimos quadrados (λ→0)</text>
+<rect x="315" y="10" width="14" height="10" rx="2" fill="var(--acc-fig,#b06f00)"/>
+<text x="339" y="19" font-size="11.5" fill="currentColor">ridge (λ = 1585)</text>
+<text x="102" y="70" font-size="12" text-anchor="end" fill="currentColor">temperatura</text>
+<rect x="200.8" y="48" width="387.9" height="14" rx="3" fill="currentColor" fill-opacity=".38"/>
+<text x="593.7" y="59" font-size="10.5" text-anchor="start" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">+5,98</text>
+<rect x="200.8" y="68" width="63.3" height="14" rx="3" fill="var(--acc-fig,#b06f00)"/>
+<text x="269.1" y="79" font-size="10.5" text-anchor="start" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">+0,98</text>
+<text x="102" y="126" font-size="12" text-anchor="end" fill="currentColor">precipitação</text>
+<rect x="161.6" y="104" width="39.2" height="14" rx="3" fill="currentColor" fill-opacity=".38"/>
+<text x="156.6" y="115" font-size="10.5" text-anchor="end" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">−0,60</text>
+<rect x="144.3" y="124" width="56.5" height="14" rx="3" fill="var(--acc-fig,#b06f00)"/>
+<text x="139.3" y="135" font-size="10.5" text-anchor="end" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">−0,87</text>
+<text x="102" y="182" font-size="12" text-anchor="end" fill="currentColor">panfletos</text>
+<rect x="200.8" y="160" width="15.7" height="14" rx="3" fill="currentColor" fill-opacity=".38"/>
+<text x="221.5" y="171" font-size="10.5" text-anchor="start" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">+0,24</text>
+<rect x="200.8" y="180" width="47.7" height="14" rx="3" fill="var(--acc-fig,#b06f00)"/>
+<text x="253.6" y="191" font-size="10.5" text-anchor="start" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">+0,74</text>
+<text x="102" y="238" font-size="12" text-anchor="end" fill="currentColor">preço</text>
+<rect x="200.8" y="216" width="11.3" height="14" rx="3" fill="currentColor" fill-opacity=".38"/>
+<text x="217.1" y="227" font-size="10.5" text-anchor="start" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">+0,17</text>
+<rect x="200.8" y="236" width="29.2" height="14" rx="3" fill="var(--acc-fig,#b06f00)"/>
+<text x="235.0" y="247" font-size="10.5" text-anchor="start" fill="currentColor" fill-opacity=".85" font-variant-numeric="tabular-nums">+0,45</text>
+<line x1="201" y1="34" x2="201" y2="266" stroke="currentColor" stroke-opacity=".45"/>
+</svg><figcaption><b>Mínimos quadrados × ridge (λ=1585), nos dados da limonada.</b> A temperatura despenca de +5,98 para +0,98; os outros três crescem em módulo. Encolher não é dividir todo mundo pela mesma constante.</figcaption></figure>
+
+<p>O retrato final é mais achatado: nos mínimos quadrados a temperatura esmagava os demais, e sob o ridge pesado os quatro coeficientes ficam na mesma ordem de grandeza, com o sinal diluído entre parentes — a redistribuição por colinearidade da seção 2, agora em barras.</p>
+
+<p>Essa diferença de temperamento explica o resultado que a turma já viu nos 14 atributos expandidos: o lasso manteve 8 de 14 e empatou o R² de teste em 0,9906. Ele pôde cortar porque, entre atributos redundantes, eliminar a cópia não perde sinal — é exatamente o que o caminho de eliminação mostra em câmera lenta.</p>
+
+<p>O que levar desta seção: regularizar é pôr preço no tamanho dos coeficientes dentro da própria função de custo, sem cota e sem regra externa. O <var>λ</var> varre o caminho entre os mínimos quadrados e o modelo constante. E a ordem em que o lasso elimina atributos é material de leitura — na limonada, ela recontou a história do confundimento e da colinearidade que os dados já tinham contado.</p>
+</section>
+
+<section id="quando-usar">
+<h2><span class="num">6</span>Quando usar cada um</h2>
+
+<p>Ridge e lasso partem da mesma ideia e divergem num detalhe que decide o destino dos coeficientes pequenos: o ridge perde o interesse em zerá-los (o quadrado de um número pequeno é minúsculo) e os deixa pequenos, mas vivos; o lasso cobra o mesmo preço por unidade até o fim e desliga quem não ajuda. Em resumo: <strong>ridge encolhe todo mundo, lasso desliga quem não ajuda</strong>.</p>
+
+<h3>Lasso: quando você desconfia de atributo sobrando</h3>
+
+<p>A ordem de eliminação que você leu nas seções 3 e 5 funciona como um ranking de utilidade: o preço confundido caiu primeiro (λ≈0,29), a temperatura resistiu trinta vezes mais. Use o lasso quando suspeitar que parte dos atributos é irrelevante e quiser um modelo enxuto e explicável: menos coeficientes para apresentar, menos atributos para coletar quando o modelo estiver em produção. Foi esse o papel dele na expansão para 14 atributos, onde manteve 8 sem perder desempenho de teste.</p>
+
+<h3>Ridge: quando os atributos são úteis, mas correlacionados</h3>
+
+<p>Sob colinearidade, os mínimos quadrados ficam instáveis, porque existem muitas maneiras quase equivalentes de dividir o crédito entre atributos que carregam a mesma informação; uma pequena mudança nos dados pode trocar essa divisão por outra. O ridge responde encolhendo e repartindo — é a redistribuição que você viu no caminho da seção 2 e nas barras da seção 5. Essa repartição é a fonte da estabilidade: em vez de apostar tudo em um único representante do grupo correlacionado, o ridge espalha o crédito entre todos. Prefira o ridge quando acreditar que muitos atributos contribuem de verdade e houver correlação entre eles.</p>
+
+<h3>Padronizar antes é obrigatório</h3>
+
+<p>A penalidade soma coeficientes como se fossem comparáveis entre si, mas o tamanho de um coeficiente depende da unidade do atributo. Se a precipitação fosse registrada em metros em vez de milímetros, o coeficiente teria de crescer na mesma proporção para dizer a mesma coisa, e a penalidade, que é cega a escala, passaria a puni-lo por esse crescimento. Sem padronização, ridge e lasso deixam de punir os atributos menos úteis e passam a punir os atributos cuja unidade, por acaso, exige coeficiente grande. Padronizar coloca todos na mesma régua: cada coeficiente passa a dizer quantos copos as vendas mudam por desvio-padrão do atributo, e a penalidade volta a comparar importância, não unidade. Vale a regra de sempre: média e desvio-padrão calculados só no treino e aplicados ao teste, para não vazar informação.</p>
+
+<h3>Como escolher λ</h3>
+
+<p><var>λ</var> não pode ser escolhido minimizando o erro de treino, porque nesse jogo <var>λ</var>&nbsp;=&nbsp;0 ganha sempre: penalidade nenhuma, ajuste máximo. Também não pode ser escolhido olhando o teste, porque o teste só serve de juiz enquanto não participa de nenhuma decisão; usá-lo para escolher <var>λ</var> o transforma em treino disfarçado, e o número final deixa de medir generalização. A saída é a validação cruzada dentro do treino:</p>
+
+<ul>
+<li>divida o conjunto de treino em <var>k</var> blocos;</li>
+<li>para cada candidato a <var>λ</var>, treine deixando um bloco de fora e meça o erro nesse bloco, revezando qual bloco fica de fora;</li>
+<li>escolha o <var>λ</var> de menor erro médio de validação, retreine com o treino inteiro e só então toque no teste, uma única vez.</li>
+</ul>
+
+<h3>Elastic net, em uma frase</h3>
+
+<p>O elastic net coloca as duas penalidades na mesma função de custo, uma parcela em |<var>β</var>| e outra em <var>β</var><sup>2</sup>, e serve quando você quer a seleção de atributos do lasso sem abrir mão da estabilidade do ridge entre atributos correlacionados.</p>
+
+<h3>Empatou? Fique com o menor</h3>
+
+<p>Resta o critério de desempate. Na expansão da limonada para 14 atributos, o lasso manteve 8 e empatou o R² de teste em 0,9906 com o modelo cheio. Quando dois modelos empatam no teste, prefira o de menos parâmetros: cada atributo a menos é um dado a menos para coletar, um coeficiente a menos para explicar e uma dependência a menos para quebrar quando o mundo mudar. Esse é o princípio da parcimônia, e ele decide mais escolhas de engenharia do que qualquer fórmula desta seção.</p>
+</section>
+
+<footer>
+<p><strong>Procedência dos números.</strong> Todos os coeficientes, caminhos e pontos de zeramento desta página foram calculados nos dados da limonada (<a href="https://github.com/GHDaru/machinelearning/tree/main/ml-zero/dados/limonada">ml-zero/dados/limonada</a>, sintético, 365 dias), com os quatro atributos padronizados e Ridge/Lasso do scikit-learn; nenhum número foi digitado à mão. O resultado dos 14 atributos (lasso com 8 de 14, R² de teste 0,9906) é o da aula 2 da sequência.</p>
+<p><strong>Como esta página foi feita.</strong> Cada seção passou por um ciclo construtor × crítico independente, comparada às cegas contra a seção equivalente de <a href="https://explained.ai/regularization/index.html">"A visual explanation for regularization of linear models"</a> (Terence Parr), usada como régua de qualidade — recomendada como leitura complementar, em inglês.</p>
+<p>Material de aula de Análise Preditiva · caso da limonada · fora do livro.</p>
+</footer>
+</main>
