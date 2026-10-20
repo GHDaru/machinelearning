@@ -26,6 +26,13 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   (+0,050 vs. +0,117) — o ponto do exercício `regressao-logistica-e9`.
 - Verificado por execução de ponta a ponta a partir da pasta da etapa, como
   o aluno faria (`nbclient`, kernel `python3`, 0 erros).
+- **`ml-zero/etapa-05/questionario_forms_logistica.md`**: 17 perguntas prontas
+  para colar num Google Forms em modo teste, com gabarito e feedback. Três
+  sobre os vídeos indicados (StatQuest com legenda em português; Hashtag
+  Programação), as nove do próprio capítulo, e cinco amarradas aos números
+  que o notebook imprime (−0,757; empate em 0,8092 com revocação 0; 0,574 e
+  0,608 com o limiar na prevalência; razão de chances 1,382; +0,050 contra
+  +0,117). A última é dissertativa, com critérios de correção.
 
 ### Adicionado — aula (fora do livro): busca em 100 configurações e análise de efeito principal
 - **Nova seção 9, "Explorando o espaço de busca"**, entre o capstone (seção 8) e a síntese (agora seção 10). Espaço de hiperparâmetros com estrutura condicional — `num_camadas` (1 a 3), `camada1` (6 valores, sempre existe), `camada2` (3 valores, só se `num_camadas>=2`), `camada3` (4 valores, só se `num_camadas==3`), `max_iter` (4 valores) — 384 combinações possíveis.
