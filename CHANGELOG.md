@@ -6,6 +6,27 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): notebook de regressão logística (inadimplência)
+- **`ml-zero/etapa-05/regressao_logistica_inadimplencia.ipynb`**, a lacuna que o
+  próprio capítulo [II.3](livro/capitulos/ii-3-regressao-logistica.md) sinalizava
+  ("`regressao_limonada.ipynb` cobre só linear — notebook de logística está na
+  fila"). Reaproveita o gerador de inadimplência sintética da etapa 00
+  (`dados.gerar`/`dividir` — processo logístico conhecido, 3 atributos, seed
+  fixa) e a `RegressaoLogistica` da etapa 05; nenhuma dependência nova.
+- Mostra a regressão linear comum extrapolando para fora de [0,1] num cliente
+  nada absurdo (previsão −0,757), antes de introduzir a logística.
+- Reproduz a armadilha da etapa 00 no próprio problema de classe rara: no
+  limiar padrão (0,5) a acurácia do modelo **empata** com a linha de base e a
+  revocação da classe 1 é 0 — baixar o limiar para a prevalência (0,191)
+  recupera revocação (0,608) ao custo de acurácia (0,574).
+- Interpreta os coeficientes via `razao_de_chances()` e confere o **sinal**
+  contra o processo gerador conhecido (algo só possível com dado sintético).
+- Demonstra, com dois clientes de risco diferente, o mesmo aumento de
+  `uso_do_limite` deslocando a probabilidade de jeitos bem diferentes
+  (+0,050 vs. +0,117) — o ponto do exercício `regressao-logistica-e9`.
+- Verificado por execução de ponta a ponta a partir da pasta da etapa, como
+  o aluno faria (`nbclient`, kernel `python3`, 0 erros).
+
 ### Adicionado — aula (fora do livro): busca em 100 configurações e análise de efeito principal
 - **Nova seção 9, "Explorando o espaço de busca"**, entre o capstone (seção 8) e a síntese (agora seção 10). Espaço de hiperparâmetros com estrutura condicional — `num_camadas` (1 a 3), `camada1` (6 valores, sempre existe), `camada2` (3 valores, só se `num_camadas>=2`), `camada3` (4 valores, só se `num_camadas==3`), `max_iter` (4 valores) — 384 combinações possíveis.
 - **Amostragem com cobertura garantida**: ~100 combinações únicas, construídas em duas fases (cobertura mínima de 3 ocorrências por valor de cada hiperparâmetro, depois preenchimento aleatório), verificada por `assert` no próprio notebook — sem gabarito manual. Validada com três especialistas independentes (AutoML, DOE/análise fatorial, design instrucional) antes de implementar.
