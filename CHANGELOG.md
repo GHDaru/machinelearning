@@ -6,6 +6,102 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): notebook de regressão logística (inadimplência)
+- **`ml-zero/etapa-05/regressao_logistica_inadimplencia.ipynb`**, a lacuna que o
+  próprio capítulo [II.3](livro/capitulos/ii-3-regressao-logistica.md) sinalizava
+  ("`regressao_limonada.ipynb` cobre só linear — notebook de logística está na
+  fila"). Reaproveita o gerador de inadimplência sintética da etapa 00
+  (`dados.gerar`/`dividir` — processo logístico conhecido, 3 atributos, seed
+  fixa) e a `RegressaoLogistica` da etapa 05; nenhuma dependência nova.
+- Mostra a regressão linear comum extrapolando para fora de [0,1] num cliente
+  nada absurdo (previsão −0,757), antes de introduzir a logística.
+- Reproduz a armadilha da etapa 00 no próprio problema de classe rara: no
+  limiar padrão (0,5) a acurácia do modelo **empata** com a linha de base e a
+  revocação da classe 1 é 0 — baixar o limiar para a prevalência (0,191)
+  recupera revocação (0,608) ao custo de acurácia (0,574).
+- Interpreta os coeficientes via `razao_de_chances()` e confere o **sinal**
+  contra o processo gerador conhecido (algo só possível com dado sintético).
+- Demonstra, com dois clientes de risco diferente, o mesmo aumento de
+  `uso_do_limite` deslocando a probabilidade de jeitos bem diferentes
+  (+0,050 vs. +0,117) — o ponto do exercício `regressao-logistica-e9`.
+- Verificado por execução de ponta a ponta a partir da pasta da etapa, como
+  o aluno faria (`nbclient`, kernel `python3`, 0 erros).
+- **`ml-zero/etapa-05/questionario_forms_logistica.md`**: 17 perguntas prontas
+  para colar num Google Forms em modo teste, com gabarito e feedback. Três
+  sobre os vídeos indicados (StatQuest com legenda em português; Hashtag
+  Programação), as nove do próprio capítulo, e cinco amarradas aos números
+  que o notebook imprime (−0,757; empate em 0,8092 com revocação 0; 0,574 e
+  0,608 com o limiar na prevalência; razão de chances 1,382; +0,050 contra
+  +0,117). A última é dissertativa, com critérios de correção.
+
+### Adicionado — aula (fora do livro): busca em 100 configurações e análise de efeito principal
+- **Nova seção 9, "Explorando o espaço de busca"**, entre o capstone (seção 8) e a síntese (agora seção 10). Espaço de hiperparâmetros com estrutura condicional — `num_camadas` (1 a 3), `camada1` (6 valores, sempre existe), `camada2` (3 valores, só se `num_camadas>=2`), `camada3` (4 valores, só se `num_camadas==3`), `max_iter` (4 valores) — 384 combinações possíveis.
+- **Amostragem com cobertura garantida**: ~100 combinações únicas, construídas em duas fases (cobertura mínima de 3 ocorrências por valor de cada hiperparâmetro, depois preenchimento aleatório), verificada por `assert` no próprio notebook — sem gabarito manual. Validada com três especialistas independentes (AutoML, DOE/análise fatorial, design instrucional) antes de implementar.
+- **Triagem paralela real**: as 100 configurações treinadas de fato, em paralelo (`joblib` + `threadpool_limits(1)` para evitar disputa de threads entre processos), 1 semente cada — 362s no total. 39 das 100 bateram em `ConvergenceWarning`; várias configurações com `max_iter` nominal diferente empataram no MAE por já terem convergido antes do teto menor.
+- **Efeito principal por hiperparâmetro**: mediana + amplitude por nível de cada fator (mesma régua da seção 8, aplicada a hiperparâmetros em vez de sementes), com `camada2`/`camada3` restritos ao subconjunto onde existem — nunca preenchidos artificialmente. Achado real: a largura da 1ª camada domina (amplitude US$ 2.352 entre medianas), `max_iter` é o que menos separa os grupos (US$ 747) — porque muita rede já convergiu sozinha antes do teto. Um modelo substituto (`HistGradientBoostingRegressor` + *permutation importance*) confirma a mesma ordem geral, oferecido como aprofundamento opcional.
+- **Confirmação com a regra de 1 erro-padrão**: o top-5 da triagem, re-treinado com as mesmas 5 sementes da seção 8. Resultado real: as 5 configurações ficaram estatisticamente empatadas — a escolha final foi por parsimônia (menos parâmetros) entre as empatadas, não pelo menor número decimal da tabela.
+- **A tabela de 100 combinações também existe como planilha real do Google Sheets**, para a turma preencher/consultar em conjunto (fora do repositório, no Drive do professor).
+- `resumo_final` (seção 8) ganhou o campo `busca_ampla`, em vez de um objeto paralelo — um único artefato que cresce ao longo da aula.
+- Notebook reexecutado do zero (92 células, 0 erros, 16 figuras, ~12,5 min de execução — dominados pelas 125 chamadas reais de `MLPRegressor.fit()` da seção 9).
+
+### Adicionado — aula (fora do livro): capstone de 5 sementes, forward pass real, e correções de uma rodada de crítica adversarial
+- **Rodada de aprimoramento com três especialistas e um aluno crítico.** Um agente buscou o notebook de referência de Aurélien Géron (`ageron/handson-ml3`, capítulo 10, MLP no mesmo dataset); três especialistas com contexto independente (MLP, redes neurais/otimização, design instrucional) construíram uma régua de qualidade a partir dessa referência; um quarto agente, interpretando um aluno cético, percorreu o notebook célula a célula contra essa régua. O achado central: o capítulo *prometia* em texto um capstone de 5 sementes e nunca o implementava em código — entre outras 18 lacunas, priorizadas por gravidade.
+- **Seção nova "O capstone"**: a configuração escolhida pelo aluno (seção 7) agora roda de fato com 5 sementes, nos dados tratados e nos crus, reporta mediana e amplitude dos dois grupos, e monta um `resumo_final` (JSON) com toda a sessão do aluno — o artefato pronto para uma avaliação externa.
+- **Forward pass numérico real**: a seção 6 ganhou uma célula que calcula $h=f(W_1x+b_1)$, $\hat y=W_2h+b_2$ à mão, com NumPy puro, usando os pesos reais do MLP tratado sobre uma linha real do treino, e confere contra `.predict()` — fecha a lacuna que antes só tinha um diagrama esquemático.
+- **Diagnóstico de overfitting**: a seção 5 agora reporta o MAE de treino ao lado do MAE de teste do MLP tratado (US$ 35.069 vs. US$ 36.997) — próximos, evidência de que a rede não decorou o treino.
+- **Comparação de capacidade**: MLP tratado (961 parâmetros) vs. regressão linear (14) impressa explicitamente, em vez de ficar implícita.
+- **Feedback automático nos dois exercícios** (seções 4 e 7): erro percentual e veredito (otimista/pessimista) entre a previsão do aluno e o MAE observado, em vez de só exibir os dois números lado a lado. `FORMATO` inválido agora levanta uma mensagem amigável em vez de um `KeyError` cru do pandas.
+- **Gabarito de referência**: uma amostra de 6 dos 40 formatos mede uma faixa plausível de MAE antes do aluno rodar o seu, para distinguir "resultado normal" de "troquei uma variável por engano".
+- **"Limitações do MLP" consolidadas** numa subseção própria da síntese (sensibilidade a escala e a semente, caixa-preta, custo de treino, risco de overfitting), e a ligação explícita entre a ativação não-linear (seção 6) e a interação latitude×longitude que a correlação simples não via (seção 3).
+- **Conteúdo de avaliação em Forms preparado à parte** (`avaliacao_forms.md`, fora deste notebook): não há API de criação de Google Forms disponível nesta sessão, então o material entregue é o conjunto de perguntas pronto para colar num formulário, mapeado 1:1 com os campos de `resumo_final`.
+- Notebook reexecutado do zero (74 células, 0 erros, 15 figuras).
+
+### Adicionado — aula (fora do livro): descritiva campo a campo, cru × tratado, e o primeiro MLP na Califórnia
+- **Notebook `etapa-22/descritiva_mlp_california.ipynb`**, no mesmo formato do
+  `etapa-21/exploratoria_limonada.ipynb`. Introdução ao dataset (a unidade
+  *block group*, o mapa dos dez campos, cinco armadilhas anunciadas antes de
+  serem medidas), seguida da descritiva de cada uma das 9 colunas quantitativas
+  do arquivo cru (histograma + boxplot, assimetria, curtose, outliers pelo
+  IQR) — a bimodalidade de `latitude`/`longitude` (Los Angeles × Baía de São
+  Francisco), o *top-coding* de `housing_median_age` em 52 anos (6,17% do
+  arquivo) e de `median_income` nos dois extremos, e o teto de
+  `median_house_value` em US$ 500.001 (965 setores, 4,68%).
+- **Diagnóstica rápida**: correlação de cada campo com o alvo, com o mesmo
+  aviso que a ficha do dado já registra — `latitude`/`longitude` parecem fracas
+  isoladas e não são, porque a informação está no par.
+- **O MLP sem tratar os números, mas com *one-hot* na categórica**:
+  `ocean_proximity` entra codificada (a codificação mínima para virar número),
+  os 8 campos numéricos continuam crus. `MLPRegressor` converge mal
+  (`ConvergenceWarning`, sem exceção) e perde para uma regressão linear simples
+  — MAE de US$ 61.907 contra US$ 50.413, medidos no notebook.
+- **Com tratamento**: a mesma arquitetura, agora com as 8 numéricas padronizadas
+  (`StandardScaler`) e o alvo escalado (÷100.000, a convenção do capítulo
+  III.2). MAE cai para US$ 36.997 (−40% sobre o MLP cru), converge em menos
+  épocas e sem aviso, e passa a bater a regressão linear. Uma ablação 2×2
+  (entrada tratada × alvo tratado, cada combinação isolada) mostra que **nenhum
+  dos dois tratamentos sozinho** entrega o ganho — só os dois juntos.
+- **Seção nova "Por dentro do MLP"**: cada hiperparâmetro explicado com equação
+  e visual — a equação do *forward pass* e um esquema de rede para
+  `hidden_layer_sizes` (com a contagem real de parâmetros para 13 entradas);
+  ReLU e tanh plotadas lado a lado; a regra de atualização do `adam` e a ideia
+  de `lbfgs` como quase-Newton, ilustradas pelas curvas de perda reais dos
+  MLPs cru e tratado já treinados (a mesma arquitetura, `ConvergenceWarning`
+  visível numa e não na outra); a perda com regularização L2 para `alpha`,
+  com uma medição real (`0.0001` a `10`) mostrando quando ela passa a doer; e
+  o que `max_iter` conta em cada solver (épocas para `adam`/`sgd`, iterações
+  para `lbfgs` — unidades diferentes, não comparáveis direto).
+- **Tabela de 40 configurações**, gerada por `itertools.product` (5 arquiteturas
+  × 2 ativações × 2 otimizadores × **2 tetos de época** `max_iter` — `50` e
+  `400`, substituindo `alpha`, que fica fixo em `0.0001` e é explicado à parte),
+  sobre os dados **tratados**, para o aluno escolher um `FORMATO`, rodar e
+  comparar — com o aviso de que uma rodada é amostra de tamanho 1 e de que um
+  `FORMATO` em `max_iter=50` pode perder só por falta de tempo de treino, não
+  por arquitetura ruim.
+- Notebook **executado e com saída gravada** (14 figuras, todos os números
+  medidos), reproduzindo o hábito do `etapa-21`; não ganhou
+  `tests/test_etapa_22.py` pela mesma razão que o `etapa-21` não tem — é
+  material de aula, não uma etapa do pipeline `ml-zero`.
+
 ### Adicionado — a rampa do fecho do `II.2`: os doze últimos cartões deixam de reconhecer e passam a produzir (D29)
 
 - **O defeito, confirmado com instrumento reproduzível.** A espiral da limonada consertou a
