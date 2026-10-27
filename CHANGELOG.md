@@ -26,6 +26,12 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
   (+0,050 vs. +0,117) — o ponto do exercício `regressao-logistica-e9`.
 - Verificado por execução de ponta a ponta a partir da pasta da etapa, como
   o aluno faria (`nbclient`, kernel `python3`, 0 erros).
+- **Varredura do limiar** na seção 3 do notebook: θ de 0,01 a 0,99 com acurácia,
+  precisão, revocação e F1 no mesmo gráfico (`matplotlib`, com tabela de
+  reserva sem ele), e a matriz de confusão em três limiares (0,5; prevalência;
+  maior F1). Achados: nenhum cliente do teste passa de 0,463 de probabilidade,
+  por isso 0,5 não corta ninguém; o F1 máximo é 0,358 em θ = 0,18, num platô
+  de 0,12 a 0,24; onde a revocação ainda vale algo, a precisão não chega a 0,30.
 - **`ml-zero/etapa-05/questionario_forms_logistica.md`**: 17 perguntas prontas
   para colar num Google Forms em modo teste, com gabarito e feedback. Três
   sobre os vídeos indicados (StatQuest com legenda em português; Hashtag
