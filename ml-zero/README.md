@@ -221,7 +221,7 @@ pip install notebook
 jupyter notebook
 ```
 
-Cinco dos sete notebooks usam **só a biblioteca padrão** e o código deste diretório — nada a instalar. As exceções são o da **etapa 21**, que usa `pandas` e `matplotlib` porque o assunto dele é *ler distribuição* e desenhar histograma à mão ensinaria sobre desenho ([ADR 0010](../adr/0010-pandas-na-etapa-de-exploracao.md)), e o da **etapa 19**, que usa `scikit-learn` e `kagglehub`. Os três primeiros já vêm no Colab; o `kagglehub` é uma linha de `pip`, e o notebook roda sem ele pela cópia congelada.
+A maioria dos notebooks usa **só a biblioteca padrão** e o código deste diretório — nada a instalar. As exceções são o da **etapa 21**, que usa `pandas` e `matplotlib` porque o assunto dele é *ler distribuição* e desenhar histograma à mão ensinaria sobre desenho ([ADR 0010](../adr/0010-pandas-na-etapa-de-exploracao.md)), e o da **etapa 19**, que usa `scikit-learn` e `kagglehub`. Os três primeiros já vêm no Colab; o `kagglehub` é uma linha de `pip`, e o notebook roda sem ele pela cópia congelada. O notebook de **regressão logística** (etapa 05) usa `matplotlib` só para um gráfico e, sem ele, imprime uma tabela no lugar.
 
 > **Os notebooks são verificados.** Todas as células de código são executadas antes de cada publicação, a partir da pasta da etapa, como o aluno faria. Notebook que não roda é pior que notebook nenhum: ele quebra no meio da aula.
 >
