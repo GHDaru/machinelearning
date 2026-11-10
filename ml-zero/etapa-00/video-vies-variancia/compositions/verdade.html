@@ -13,7 +13,7 @@
     .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
     .fit.um { opacity: 1; stroke-width: 5; }
     .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
-    .readout { position: absolute; left: 340px; top: 230px; width: 360px; padding: 20px 24px; border-radius: 18px;
+    .readout { position: absolute; left: 340px; top: 230px; width: 440px; padding: 20px 24px; border-radius: 18px;
                background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
     .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
     .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
@@ -21,7 +21,7 @@
     #ve-l2 { top: 920px; }
   </style>
   <div id="root" data-composition-id="verdade" data-width="1920" data-height="1080">
-    <div id="ve-l1" class="clip linha" data-start="0.3" data-duration="8.7"><span>A curva verdadeira existe.</span></div>
+    <div id="ve-l1" class="clip linha" data-start="0.3" data-duration="8.7"><span>Agora um desenho. O desenho certo existe.</span></div>
     <div id="ve-svg" class="clip" data-start="0" data-duration="9">
       <svg width="1920" height="1080" viewBox="0 0 1920 1080">
         <line class="eixo" x1="300" y1="860" x2="1620" y2="860"/><line class="eixo" x1="300" y1="200" x2="300" y2="860"/><text class="rot" x="300" y="900">x = −1</text><text class="rot" x="1620" y="900" text-anchor="end">x = 1</text>
@@ -48,7 +48,7 @@
 <circle class="pt" cx="1587.0" cy="367.1" r="9"/></g>
       </svg>
     </div>
-    <div id="ve-l2" class="clip linha" data-start="4.2" data-duration="4.8" data-hold><span>Você só vê 20 pontos dela, com ruído.</span></div>
+    <div id="ve-l2" class="clip linha" data-start="4.2" data-duration="4.8" data-hold><span>Mas você só vê 20 pontinhos dele, meio borrados pelo vento.</span></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });

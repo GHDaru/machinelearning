@@ -1,0 +1,62 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 54px; letter-spacing: -0.02em; line-height: 1.15; top: 50px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .eixo { stroke: var(--ink-soft); stroke-width: 2; }
+    .rot { font-size: 28px; fill: var(--ink-soft); font-family: Inter, sans-serif; }
+    .verdade { fill: none; stroke: var(--ink); stroke-width: 5; }
+    .verdade-fraca { fill: none; stroke: var(--ink-faint); stroke-width: 5; stroke-dasharray: 10 10; }
+    .pt { fill: var(--ponto); }
+    .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
+    .fit.um { opacity: 1; stroke-width: 5; }
+    .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
+    .readout { position: absolute; left: 340px; top: 230px; width: 440px; padding: 20px 24px; border-radius: 18px;
+               background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
+    .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
+    .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
+
+    .anel { fill: none; stroke: var(--ink-faint); stroke-width: 4; }
+    .centro { fill: var(--ink); }
+    .dardo { fill: var(--acento2); stroke: var(--papel); stroke-width: 3; }
+    .tit { font-size: 36px; font-weight: 700; fill: var(--ink); font-family: Inter, sans-serif; }
+    #al-l2, #al-l3, #al-l4 { top: 900px; font-size: 48px; }
+    #al-nota { position: absolute; left: 0; right: 0; top: 200px; text-align: center; font-size: 28px; color: var(--ink-soft); }
+  </style>
+  <div id="root" data-composition-id="alvo" data-width="1920" data-height="1080">
+    <div id="al-l1" class="clip linha" data-start="0.3" data-duration="17.7"><span>Imagine jogar dardos num alvo.</span></div>
+    <div id="al-nota" class="clip" data-start="0.3" data-duration="17.7"><span>é só uma analogia; os números de verdade vêm nas próximas cenas</span></div>
+    <div id="al-svg" class="clip" data-start="0" data-duration="18">
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+        <g id="al-g0"><circle cx="400" cy="540" r="170" class="anel"/><circle cx="400" cy="540" r="125" class="anel"/><circle cx="400" cy="540" r="80" class="anel"/><circle cx="400" cy="540" r="35" class="anel"/><circle cx="400" cy="540" r="8" class="centro"/><circle id="al-d0-0" cx="478" cy="454" r="11" class="dardo"/><circle id="al-d0-1" cx="504" cy="438" r="11" class="dardo"/><circle id="al-d0-2" cx="493" cy="438" r="11" class="dardo"/><circle id="al-d0-3" cx="510" cy="473" r="11" class="dardo"/><circle id="al-d0-4" cx="514" cy="463" r="11" class="dardo"/><circle id="al-d0-5" cx="501" cy="466" r="11" class="dardo"/><circle id="al-d0-6" cx="485" cy="472" r="11" class="dardo"/><circle id="al-d0-7" cx="477" cy="465" r="11" class="dardo"/></g><g id="al-g1"><circle cx="960" cy="540" r="170" class="anel"/><circle cx="960" cy="540" r="125" class="anel"/><circle cx="960" cy="540" r="80" class="anel"/><circle cx="960" cy="540" r="35" class="anel"/><circle cx="960" cy="540" r="8" class="centro"/><circle id="al-d1-0" cx="1009" cy="544" r="11" class="dardo"/><circle id="al-d1-1" cx="931" cy="693" r="11" class="dardo"/><circle id="al-d1-2" cx="964" cy="499" r="11" class="dardo"/><circle id="al-d1-3" cx="971" cy="503" r="11" class="dardo"/><circle id="al-d1-4" cx="933" cy="515" r="11" class="dardo"/><circle id="al-d1-5" cx="1102" cy="542" r="11" class="dardo"/><circle id="al-d1-6" cx="972" cy="587" r="11" class="dardo"/><circle id="al-d1-7" cx="1101" cy="524" r="11" class="dardo"/></g><g id="al-g2"><circle cx="1520" cy="540" r="170" class="anel"/><circle cx="1520" cy="540" r="125" class="anel"/><circle cx="1520" cy="540" r="80" class="anel"/><circle cx="1520" cy="540" r="35" class="anel"/><circle cx="1520" cy="540" r="8" class="centro"/><circle id="al-d2-0" cx="1510" cy="580" r="11" class="dardo"/><circle id="al-d2-1" cx="1497" cy="534" r="11" class="dardo"/><circle id="al-d2-2" cx="1531" cy="577" r="11" class="dardo"/><circle id="al-d2-3" cx="1505" cy="501" r="11" class="dardo"/><circle id="al-d2-4" cx="1531" cy="532" r="11" class="dardo"/><circle id="al-d2-5" cx="1514" cy="547" r="11" class="dardo"/><circle id="al-d2-6" cx="1524" cy="545" r="11" class="dardo"/><circle id="al-d2-7" cx="1513" cy="561" r="11" class="dardo"/></g>
+        <text id="al-t0" class="tit" x="400" y="790" text-anchor="middle">mira torta</text>
+        <text id="al-t1" class="tit" x="960" y="790" text-anchor="middle">mão trêmula</text>
+        <text id="al-t2" class="tit" x="1520" y="790" text-anchor="middle">só o vento</text>
+      </svg>
+    </div>
+    <div id="al-l2" class="clip linha" data-start="3" data-duration="4.6"><span>Mira torta: erra sempre para o mesmo lado. Isso é viés.</span></div>
+    <div id="al-l3" class="clip linha" data-start="8" data-duration="4.6"><span>Mão trêmula: cada dardo cai num lugar. Isso é variância.</span></div>
+    <div id="al-l4" class="clip linha" data-start="13" data-duration="5" data-hold><span>E o vento, que ninguém controla: isso é ruído.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#al-l1 span", 0.3); tl.fromTo("#al-nota span", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.6);
+    gsap.set(".dardo", { opacity: 0 }); gsap.set([".tit"], { opacity: 0 });
+    tl.fromTo("#al-svg .anel, #al-svg .centro", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.4);
+    const lanca = (k, t) => {
+      for (let i = 0; i < 8; i++)
+        tl.fromTo("#al-d" + k + "-" + i, { opacity: 0, scale: 2.2, transformOrigin: "center" }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.in" }, t + i * 0.22);
+      tl.fromTo("#al-t" + k, { opacity: 0 }, { opacity: 1, duration: 0.3 }, t + 2);
+    };
+    blurIn("#al-l2 span", 3); lanca(0, 3.2); blurOut("#al-l2 span", 7.5);
+    blurIn("#al-l3 span", 8); lanca(1, 8.2); blurOut("#al-l3 span", 12.5);
+    blurIn("#al-l4 span", 13); lanca(2, 13.2);
+    window.__timelines["alvo"] = tl;
+  </script>
+</template>

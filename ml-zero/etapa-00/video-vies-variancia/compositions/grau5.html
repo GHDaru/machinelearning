@@ -13,7 +13,7 @@
     .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
     .fit.um { opacity: 1; stroke-width: 5; }
     .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
-    .readout { position: absolute; left: 340px; top: 230px; width: 360px; padding: 20px 24px; border-radius: 18px;
+    .readout { position: absolute; left: 340px; top: 230px; width: 440px; padding: 20px 24px; border-radius: 18px;
                background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
     .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
     .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
@@ -21,7 +21,7 @@
     #grau5-l2 { top: 920px; font-size: 48px; } #grau5-l3 { top: 920px; font-size: 48px; }
   </style>
   <div id="root" data-composition-id="grau5" data-width="1920" data-height="1080">
-    <div id="grau5-l1" class="clip linha" data-start="0" data-duration="14"><span>Grau 5: o grau que o capítulo escolhe.</span></div>
+    <div id="grau5-l1" class="clip linha" data-start="0" data-duration="14"><span>Uma curva no meio do caminho: dobra um pouco, não demais.</span></div>
     <div id="grau5-svg" class="clip" data-start="0" data-duration="14">
       <svg width="1920" height="1080" viewBox="0 0 1920 1080">
         <defs><clipPath id="grau5-clip"><rect x="300" y="200" width="1320" height="660"/></clipPath></defs>
@@ -86,13 +86,13 @@
     </div>
     <div id="grau5-ro" class="clip readout" data-start="7.7" data-duration="6.3">
       <div class="inner">
-        <div class="t">viés²</div><div class="g">0,0000</div>
-        <div class="t">variância</div><div class="g">0,0040</div>
-        <div class="t">ruído (o chão)</div><div class="g">0,011</div>
+        <div class="t">mira torta (viés²)</div><div class="g">0,0000</div>
+        <div class="t">mão trêmula (variância)</div><div class="g">0,0040</div>
+        <div class="t">vento (ruído)</div><div class="g">0,011</div>
       </div>
     </div>
-    <div id="grau5-l2" class="clip linha" data-start="2.8" data-duration="4.9"><span>30 amostras: as curvas balançam pouco, e a média (laranja) quase é a verdade.</span></div>
-    <div id="grau5-l3" class="clip linha" data-start="8.1" data-duration="5.9" data-hold><span>Chão: 0,011. Nenhum modelo passa dele.</span></div>
+    <div id="grau5-l2" class="clip linha" data-start="2.8" data-duration="4.9"><span>Sorteie 30 vezes: balança pouco, e a média (laranja) quase é o desenho.</span></div>
+    <div id="grau5-l3" class="clip linha" data-start="8.1" data-duration="5.9" data-hold><span>O que sobra é o vento: 0,011. Ninguém tira.</span></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });

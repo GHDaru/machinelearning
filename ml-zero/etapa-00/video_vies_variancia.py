@@ -99,7 +99,7 @@ CSS_BASE = """
     .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
     .fit.um { opacity: 1; stroke-width: 5; }
     .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
-    .readout { position: absolute; left: 340px; top: 230px; width: 360px; padding: 20px 24px; border-radius: 18px;
+    .readout { position: absolute; left: 340px; top: 230px; width: 440px; padding: 20px 24px; border-radius: 18px;
                background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
     .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
     .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
@@ -114,9 +114,69 @@ def eixos():
             f'<text class="rot" x="{PX}" y="{PY+PH+40}">x = −1</text><text class="rot" x="{PX+PW}" y="{PY+PH+40}" text-anchor="end">x = 1</text>')
 CLIP = f'<clipPath id="{{p}}-clip"><rect x="{PX}" y="{PY}" width="{PW}" height="{PH}"/></clipPath>'
 
+# ---------------------------------------------------------------- cena 0: o alvo (18 s), só analogia
+_ra = random.Random(5)
+def _dardos(cx, cy, dx, dy, espalha, n=8):
+    return [(cx + dx + _ra.gauss(0, espalha), cy + dy + _ra.gauss(0, espalha)) for _ in range(n)]
+ALVOS = [  # (título, dardos)
+    ("mira torta", _dardos(0, 0, 95, -70, 14)),
+    ("mão trêmula", _dardos(0, 0, 0, 0, 70)),
+    ("só o vento", _dardos(0, 0, 0, 0, 16)),
+]
+def alvo_svg(k, cx, cy):
+    aneis = "".join(f'<circle cx="{cx}" cy="{cy}" r="{r}" class="anel"/>' for r in (170, 125, 80, 35))
+    dardos = "".join(f'<circle id="al-d{k}-{i}" cx="{cx+x:.0f}" cy="{cy+y:.0f}" r="11" class="dardo"/>' for i, (x, y) in enumerate(ALVOS[k][1]))
+    return f'<g id="al-g{k}">{aneis}<circle cx="{cx}" cy="{cy}" r="8" class="centro"/>{dardos}</g>'
+AL1 = "Imagine jogar dardos num alvo."
+AL2 = "Mira torta: erra sempre para o mesmo lado. Isso é viés."
+AL3 = "Mão trêmula: cada dardo cai num lugar. Isso é variância."
+AL4 = "E o vento, que ninguém controla: isso é ruído."
+alvo = f"""<template>
+  <style>{CSS_BASE}
+    .anel {{ fill: none; stroke: var(--ink-faint); stroke-width: 4; }}
+    .centro {{ fill: var(--ink); }}
+    .dardo {{ fill: var(--acento2); stroke: var(--papel); stroke-width: 3; }}
+    .tit {{ font-size: 36px; font-weight: 700; fill: var(--ink); font-family: Inter, sans-serif; }}
+    #al-l2, #al-l3, #al-l4 {{ top: 900px; font-size: 48px; }}
+    #al-nota {{ position: absolute; left: 0; right: 0; top: 200px; text-align: center; font-size: 28px; color: var(--ink-soft); }}
+  </style>
+  <div id="root" data-composition-id="alvo" data-width="1920" data-height="1080">
+    <div id="al-l1" class="clip linha" data-start="0.3" data-duration="17.7"><span>{AL1}</span></div>
+    <div id="al-nota" class="clip" data-start="0.3" data-duration="17.7"><span>é só uma analogia; os números de verdade vêm nas próximas cenas</span></div>
+    <div id="al-svg" class="clip" data-start="0" data-duration="18">
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+        {alvo_svg(0, 400, 540)}{alvo_svg(1, 960, 540)}{alvo_svg(2, 1520, 540)}
+        <text id="al-t0" class="tit" x="400" y="790" text-anchor="middle">{ALVOS[0][0]}</text>
+        <text id="al-t1" class="tit" x="960" y="790" text-anchor="middle">{ALVOS[1][0]}</text>
+        <text id="al-t2" class="tit" x="1520" y="790" text-anchor="middle">{ALVOS[2][0]}</text>
+      </svg>
+    </div>
+    <div id="al-l2" class="clip linha" data-start="3" data-duration="4.6"><span>{AL2}</span></div>
+    <div id="al-l3" class="clip linha" data-start="8" data-duration="4.6"><span>{AL3}</span></div>
+    <div id="al-l4" class="clip linha" data-start="13" data-duration="5" data-hold><span>{AL4}</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({{ paused: true }});
+    {BLUR_JS}
+    blurIn("#al-l1 span", 0.3); tl.fromTo("#al-nota span", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.3 }}, 0.6);
+    gsap.set(".dardo", {{ opacity: 0 }}); gsap.set([".tit"], {{ opacity: 0 }});
+    tl.fromTo("#al-svg .anel, #al-svg .centro", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.5 }}, 0.4);
+    const lanca = (k, t) => {{
+      for (let i = 0; i < 8; i++)
+        tl.fromTo("#al-d" + k + "-" + i, {{ opacity: 0, scale: 2.2, transformOrigin: "center" }}, {{ opacity: 1, scale: 1, duration: 0.25, ease: "power3.in" }}, t + i * 0.22);
+      tl.fromTo("#al-t" + k, {{ opacity: 0 }}, {{ opacity: 1, duration: 0.3 }}, t + 2);
+    }};
+    blurIn("#al-l2 span", 3); lanca(0, 3.2); blurOut("#al-l2 span", 7.5);
+    blurIn("#al-l3 span", 8); lanca(1, 8.2); blurOut("#al-l3 span", 12.5);
+    blurIn("#al-l4 span", 13); lanca(2, 13.2);
+    window.__timelines["alvo"] = tl;
+  </script>
+</template>
+"""
+
 # ---------------------------------------------------------------- cena 1: a verdade (9 s)
-V1 = "A curva verdadeira existe."
-V2 = f"Você só vê {N_TREINO} pontos dela, com ruído."
+V1 = "Agora um desenho. O desenho certo existe."
+V2 = f"Mas você só vê {N_TREINO} pontinhos dele, meio borrados pelo vento."
 verdade_html = f"""<template>
   <style>{CSS_BASE}
     #ve-l2 {{ top: 920px; }}
@@ -174,9 +234,9 @@ def cena_grau(cid, g, dur, l1, l2, l3, extra_js="", extra_html=""):
     </div>
     <div id="{cid}-ro" class="clip readout" data-start="{dur*0.55:.1f}" data-duration="{dur - dur*0.55:.1f}">
       <div class="inner">
-        <div class="t">viés²</div><div class="g">{dec(r['vies2'], 4)}</div>
-        <div class="t">variância</div><div class="g">{dec(r['var'], 4 if r['var'] < 1 else 2)}</div>
-        <div class="t">ruído (o chão)</div><div class="g">{dec(PISO, 3)}</div>
+        <div class="t">mira torta (viés²)</div><div class="g">{dec(r['vies2'], 4)}</div>
+        <div class="t">mão trêmula (variância)</div><div class="g">{dec(r['var'], 4 if r['var'] < 1 else 2)}</div>
+        <div class="t">vento (ruído)</div><div class="g">{dec(PISO, 3)}</div>
       </div>
     </div>
     <div id="{cid}-l2" class="clip linha" data-start="{dur*0.2:.1f}" data-duration="{dur*0.35:.1f}"><span>{l2}</span></div>
@@ -206,17 +266,17 @@ def cena_grau(cid, g, dur, l1, l2, l3, extra_js="", extra_html=""):
 
 g1 = RES[N_TREINO][G_BAIXO]; g5 = RES[N_TREINO][JOELHO]; g15 = RES[N_TREINO][G_ALTO]
 grau1 = cena_grau("grau1", G_BAIXO, 15,
-    "Uma reta pelos 20 pontos.",
-    f"E se os 20 pontos fossem outros? {N_MOSTRADAS} amostras, {N_MOSTRADAS} retas.",
-    "Todas erram igual, no mesmo lugar. Isso é viés.")
+    "Tente com uma régua: uma reta pelos pontinhos.",
+    f"Sorteie outros {N_TREINO} pontinhos, {N_MOSTRADAS} vezes: {N_MOSTRADAS} retas quase iguais.",
+    "Todas erram para o mesmo lado. Mira torta.")
 grau15 = cena_grau("grau15", G_ALTO, 16,
-    f"Um polinômio de grau {G_ALTO}: passa por todos os pontos.",
-    f"Outros 20 pontos, {N_MOSTRADAS} vezes: cada amostra conta outra história.",
-    f"Isso é variância. No treino, erro {dec(g15['tr'], 3)}: decorou o ruído.")
+    "Agora um barbante que passa por todos os pontinhos.",
+    f"Sorteie outros pontinhos: o barbante vai parar em qualquer lugar.",
+    f"Mão trêmula. Ele decorou os pontinhos, não o desenho.")
 grau5 = cena_grau("grau5", JOELHO, 14,
-    f"Grau {JOELHO}: o grau que o capítulo escolhe.",
-    f"{N_MOSTRADAS} amostras: as curvas balançam pouco, e a média (laranja) quase é a verdade.",
-    f"Chão: {dec(PISO, 3)}. Nenhum modelo passa dele.")
+    "Uma curva no meio do caminho: dobra um pouco, não demais.",
+    f"Sorteie {N_MOSTRADAS} vezes: balança pouco, e a média (laranja) quase é o desenho.",
+    f"O que sobra é o vento: {dec(PISO, 3)}. Ninguém tira.")
 
 # ---------------------------------------------------------------- cena 5: a curva em U (18 s)
 UX, UY, UW, UH = 300, 200, 1320, 640
@@ -224,9 +284,9 @@ LMIN, LMAX = -3, 1
 def ux(g): return UX + (g - 1) / (GRAU_MAX - 1) * UW
 def uy(v): return UY + UH - (math.log10(max(v, 1e-4)) - LMIN) / (LMAX - LMIN) * UH
 def upoli(chave, n): return " ".join(f"{ux(g):.1f},{uy(RES[n][g][chave]):.1f}" for g in range(1, GRAU_MAX + 1))
-U1 = "Grau por grau: o erro de treino só desce. O de validação vira."
-U2 = f"Joelho no grau {JOELHO}. No grau {G_ALTO}, treino {dec(g15['tr'], 3)} (abaixo do chão), validação {dec(g15['va'], 1)}."
-U3 = f"Com 3× mais dados o joelho não anda. O castigo do grau {G_ALTO} cai para {dec(RES[3*N_TREINO][G_ALTO]['va'], 3)}."
+U1 = "Quanto mais a curva pode dobrar, menos erra nos pontinhos que já viu (azul)."
+U2 = f"Mas nos pontinhos novos (laranja) melhora até o {JOELHO} e depois piora. Dobrar demais é mão trêmula."
+U3 = f"Com 3× mais pontinhos a mão treme menos: o {G_ALTO} cai de {dec(g15['va'], 1)} para {dec(RES[3*N_TREINO][G_ALTO]['va'], 3)}."
 ticks = "".join(f'<text class="rot" x="{UX-14}" y="{uy(10**e)+10:.0f}" text-anchor="end">{dec(10**e, 3) if e < 0 else int(10**e)}</text>'
                 f'<line class="eixo" x1="{UX-6}" y1="{uy(10**e):.0f}" x2="{UX}" y2="{uy(10**e):.0f}"/>' for e in range(LMIN, LMAX + 1))
 curvau = f"""<template>
@@ -246,17 +306,17 @@ curvau = f"""<template>
         <line class="eixo" x1="{UX}" y1="{UY+UH}" x2="{UX+UW}" y2="{UY+UH}"/><line class="eixo" x1="{UX}" y1="{UY}" x2="{UX}" y2="{UY+UH}"/>
         {ticks}
         {"".join(f'<text class="rot" x="{ux(g):.0f}" y="{UY+UH+40}" text-anchor="middle">{g}</text>' for g in range(1, GRAU_MAX+1))}
-        <text class="rot" x="{UX+UW/2:.0f}" y="{UY+UH+80}" text-anchor="middle">grau do polinômio</text>
-        <text class="rot" x="{UX}" y="{UY-16}">erro quadrático médio (escala log; mediana de {R} amostras)</text>
+        <text class="rot" x="{UX+UW/2:.0f}" y="{UY+UH+80}" text-anchor="middle">quanto a curva pode dobrar (grau do polinômio)</text>
+        <text class="rot" x="{UX}" y="{UY-16}">quanto erra (escala log; mediana de {R} sorteios)</text>
         <line id="cu-chao" class="chao" x1="{UX}" y1="{uy(PISO):.0f}" x2="{UX+UW}" y2="{uy(PISO):.0f}"/>
-        <text id="cu-chao-t" class="rot" x="{UX+UW-10}" y="{uy(PISO)-12:.0f}" text-anchor="end">chão do ruído {dec(PISO, 3)}</text>
+        <text id="cu-chao-t" class="rot" x="{UX+UW-10}" y="{uy(PISO)-12:.0f}" text-anchor="end">o vento: {dec(PISO, 3)}</text>
         <polyline id="cu-tr" class="treino" points="{upoli('tr', N_TREINO)}" pathLength="1"/>
         <polyline id="cu-va" class="val" points="{upoli('va', N_TREINO)}" pathLength="1"/>
         <polyline id="cu-va60" class="val mais" points="{upoli('va', 3*N_TREINO)}"/>
         <line id="cu-joelho" class="joelho" x1="{ux(JOELHO):.0f}" y1="{UY}" x2="{ux(JOELHO):.0f}" y2="{UY+UH}"/>
-        <text class="leg" id="cu-leg-tr" x="{UX+30}" y="{UY+40}" style="fill: var(--treino)">treino</text>
-        <text class="leg" id="cu-leg-va" x="{UX+30}" y="{UY+80}" style="fill: var(--validacao)">validação ({N_TREINO} pontos)</text>
-        <text class="leg" id="cu-leg-va60" x="{UX+30}" y="{UY+120}" style="fill: var(--validacao)">validação ({3*N_TREINO} pontos)</text>
+        <text class="leg" id="cu-leg-tr" x="{UX+30}" y="{UY+40}" style="fill: var(--treino)">nos pontinhos que já viu</text>
+        <text class="leg" id="cu-leg-va" x="{UX+30}" y="{UY+80}" style="fill: var(--validacao)">em pontinhos novos ({N_TREINO} para aprender)</text>
+        <text class="leg" id="cu-leg-va60" x="{UX+30}" y="{UY+120}" style="fill: var(--validacao)">em pontinhos novos ({3*N_TREINO} para aprender)</text>
       </svg>
     </div>
     <div id="cu-l2" class="clip linha" data-start="7.2" data-duration="5.6" data-hold><span>{U2}</span></div>
@@ -281,9 +341,9 @@ curvau = f"""<template>
 """
 
 # ---------------------------------------------------------------- cena 6: o diagnóstico (12 s)
-D1 = "Erro alto e parecido nos dois: viés. Peça mais capacidade."
-D2 = "Vão grande entre treino e validação: variância. Peça mais dados, ou menos liberdade."
-D3 = "Erro no chão: ruído. Pare."
+D1 = "Erra sempre igual? Mira torta. Deixe a curva dobrar mais."
+D2 = "Muda a cada sorteio? Mão trêmula. Mais pontinhos, ou dobrar menos."
+D3 = "Só erra o vento? Pare. Está bom."
 ideia = f"""<template>
   <style>{CSS_BASE}
     .linha {{ font-size: 58px; }}
@@ -304,7 +364,7 @@ ideia = f"""<template>
 """
 
 # ---------------------------------------------------------------- raiz
-DUR = {"verdade": 9, "grau1": 15, "grau15": 16, "grau5": 14, "curvau": 18, "ideia": 12}
+DUR = {"alvo": 18, "verdade": 9, "grau1": 15, "grau15": 16, "grau5": 14, "curvau": 18, "ideia": 12}
 starts, t = {}, 0
 for k, d in DUR.items():
     starts[k] = t; t += d
@@ -345,7 +405,7 @@ index = f"""<!doctype html>
 
 (RAIZ / "compositions").mkdir(parents=True, exist_ok=True)
 (RAIZ / "index.html").write_text(index, encoding="utf-8")
-for nome, html in [("verdade", verdade_html), ("grau1", grau1), ("grau15", grau15), ("grau5", grau5),
+for nome, html in [("alvo", alvo), ("verdade", verdade_html), ("grau1", grau1), ("grau15", grau15), ("grau5", grau5),
                    ("curvau", curvau), ("ideia", ideia)]:
     (RAIZ / "compositions" / f"{nome}.html").write_text(html, encoding="utf-8")
 (RAIZ / "hyperframes.json").write_text(json.dumps({
