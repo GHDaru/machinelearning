@@ -1,0 +1,25 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 64px; letter-spacing: -0.02em; line-height: 1.15; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .pos { fill: var(--pagou); } .neg { fill: var(--naopagou); }
+
+    .linha { font-size: 68px; }
+    #id-l1 { top: 330px; } #id-l2 { top: 470px; } #id-l3 { top: 660px; color: var(--accent); }
+  </style>
+  <div id="root" data-composition-id="ideia" data-width="1920" data-height="1080">
+    <div id="id-l1" class="clip linha" data-start="0.3" data-duration="9.7"><span>A árvore não ajusta uma reta: ela faz perguntas.</span></div>
+    <div id="id-l2" class="clip linha" data-start="3.6" data-duration="6.4"><span>E para quando responder não melhora mais.</span></div>
+    <div id="id-l3" class="clip linha" data-start="6.6" data-duration="3.4" data-hold><span>Funda demais, decora o treino. Daí a floresta.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.22, ease: "power4.out" }, t);
+    blurIn("#id-l1 span", 0.3); blurIn("#id-l2 span", 3.6); blurIn("#id-l3 span", 6.6);
+    window.__timelines["ideia"] = tl;
+  </script>
+</template>

@@ -6,6 +6,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): animação "árvore de decisão: o caso da inadimplência"
+- **`ml-zero/etapa-07/video_arvore.py`** gera um projeto [HyperFrames](https://github.com/heygen-com/hyperframes)
+  (HTML + GSAP renderizado a MP4, 1920×1080, 30 fps, 66 s, sem som) em
+  `ml-zero/etapa-07/video-arvore/`. Quatro cenas: a pergunta (o cliente nº 2 do
+  notebook de logística), o corte (a varredura do atributo com a impureza de Gini
+  dos dois lados), a árvore crescendo até profundidade 2 e o cliente descendo até
+  a folha, e a ideia em três linhas.
+- **Nenhum número é ilustrativo**: a `Arvore(max_profundidade=2, min_folha=10)` da
+  etapa 07, ajustada no treino da etapa 00 (2 399 clientes), corta a raiz em
+  `uso_do_limite ≤ 0,367` (Gini 0,308 → 0,303), depois renda em cada lado
+  (≤ 4 314 e ≤ 3 502); o cliente de alto risco cai numa folha de 600 clientes com
+  30% de inadimplência, contra 0,347 da logística. O script recalcula tudo e
+  falha se a árvore mudar de forma.
+- Verificado com `hyperframes check` (0 erros) e por snapshots de todas as cenas;
+  renderizado localmente com `hyperframes render --quality looks`.
+
 ### Adicionado — aula (fora do livro): notebook de regressão logística (inadimplência)
 - **`ml-zero/etapa-05/regressao_logistica_inadimplencia.ipynb`**, a lacuna que o
   próprio capítulo [II.3](livro/capitulos/ii-3-regressao-logistica.md) sinalizava
