@@ -6,6 +6,21 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): animação "floresta aleatória: por que a média para de mexer"
+- **`ml-zero/etapa-07/video_floresta.py`** gera o segundo projeto HyperFrames
+  (72 s, seis cenas) em `ml-zero/etapa-07/video-floresta/`. O fio: uma árvore
+  funda treinada em tudo responde 0,31 para o cliente nº 2; a mesma árvore
+  treinada em 30 reamostragens bootstrap responde de 0,00 a 1,00 (desvio 0,203);
+  a média acumulada das 30 para em 0,31; cada árvore sozinha tem AUC 0,535 no
+  teste e a média delas, 0,573. Entre cinco sementes, a resposta ao cliente varia
+  ±0,080 numa árvore e ±0,029 na floresta (2,8× menos); a AUC, ±0,021 contra
+  ±0,011. Fecha com o segundo sorteio (um atributo por corte, √3 ≈ 1) e a ideia:
+  "a média cancela o erro que não se repete".
+- Todos os números são recalculados pelo script a cada execução, com as classes
+  `Arvore` e `Floresta` da etapa 07; o único elemento marcado como ilustrativo é
+  a ordem dos atributos sorteados na cena 4, dita na própria cena.
+- `hyperframes check` sem erros; snapshots de cada cena revisados.
+
 ### Adicionado — aula (fora do livro): animação "árvore de decisão: o caso da inadimplência"
 - **`ml-zero/etapa-07/video_arvore.py`** gera um projeto [HyperFrames](https://github.com/heygen-com/hyperframes)
   (HTML + GSAP renderizado a MP4, 1920×1080, 30 fps, 66 s, sem som) em

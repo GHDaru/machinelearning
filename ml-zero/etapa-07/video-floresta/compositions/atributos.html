@@ -1,0 +1,62 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 56px; letter-spacing: -0.02em; line-height: 1.15; top: 60px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .pos { fill: var(--pagou); } .neg { fill: var(--naopagou); }
+
+    #at-wrap { position: absolute; left: 0; right: 0; top: 230px; display: flex; justify-content: center; gap: 40px; }
+    .atr { width: 300px; height: 110px; border-radius: 18px; background: var(--papel); box-shadow: 0 10px 30px rgba(28,37,54,.12);
+            display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 600; color: var(--ink-soft);
+            border: 5px solid transparent; }
+    .atr.on { color: var(--accent); border-color: var(--accent); }
+    #at-svg { position: absolute; inset: 0; }
+    .galho { stroke: var(--ink-faint); stroke-width: 5; }
+    .no { fill: var(--papel); stroke: var(--accent); stroke-width: 5; }
+    .etq { font-family: "IBM Plex Mono", monospace; font-size: 30px; fill: var(--accent); font-weight: 600; }
+    #at-nota { position: absolute; left: 0; right: 0; top: 860px; text-align: center; font-size: 28px; color: var(--ink-soft); }
+    #at-l2 { top: 920px; font-size: 44px; }
+  </style>
+  <div id="root" data-composition-id="atributos" data-width="1920" data-height="1080">
+    <div id="at-l1" class="clip linha" data-start="0" data-duration="5.6"><span>O segundo sorteio: em cada corte, só um atributo pode concorrer.</span></div>
+    <div id="at-wrap" class="clip" data-start="0.4" data-duration="9.6"><div class="inner" style="display:flex; gap:40px;"><div class="atr" id="at-renda"><span>renda</span></div><div class="atr" id="at-meses"><span>meses</span></div><div class="atr" id="at-uso"><span>uso</span></div></div></div>
+    <div id="at-svg" class="clip" data-start="1" data-duration="9">
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+        <line class="galho" x1="960" y1="460" x2="760" y2="620"/><line class="galho" x1="960" y1="460" x2="1160" y2="620"/>
+        <line class="galho" x1="760" y1="620" x2="660" y2="760"/><line class="galho" x1="760" y1="620" x2="860" y2="760"/>
+        <line class="galho" x1="1160" y1="620" x2="1060" y2="760"/><line class="galho" x1="1160" y1="620" x2="1260" y2="760"/>
+        <circle class="no" id="at-n0" cx="960" cy="460" r="22"/><text class="etq" id="at-e0" x="996" y="470" opacity="0">sorteou: uso</text>
+        <circle class="no" id="at-n1" cx="760" cy="620" r="22"/><text class="etq" id="at-e1" x="724" y="630" text-anchor="end" opacity="0">sorteou: renda</text>
+        <circle class="no" id="at-n2" cx="1160" cy="620" r="22"/><text class="etq" id="at-e2" x="1196" y="630" opacity="0">sorteou: meses</text>
+        <circle class="no" cx="660" cy="760" r="16"/><circle class="no" cx="860" cy="760" r="16"/><circle class="no" cx="1060" cy="760" r="16"/><circle class="no" cx="1260" cy="760" r="16"/>
+      </svg>
+    </div>
+    <div id="at-nota" class="clip" data-start="1" data-duration="9"><span>com 3 atributos, √3 ≈ 1 por corte (o padrão da Floresta do ml-zero); a ordem acima é só ilustrativa</span></div>
+    <div id="at-l2" class="clip linha" data-start="6" data-duration="4" data-hold><span>Sem isso as árvores se parecem demais, e a média de iguais não ajuda.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#at-l1 span", 0);
+    tl.fromTo("#at-wrap .atr", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: "expo.out" }, 0.4);
+    tl.fromTo("#at-svg svg", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1);
+    tl.fromTo("#at-nota span", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.2);
+    const ordem = ["uso", "renda", "meses"];
+    ordem.forEach((n, i) => {
+      const t = 1.8 + i * 1.3;
+      tl.call(() => { document.querySelectorAll("#at-wrap .atr").forEach(e => e.classList.remove("on")); document.getElementById("at-" + n).classList.add("on"); }, null, t);
+      tl.call(() => { document.getElementById("at-" + n).classList.remove("on"); }, null, t - 0.01);
+      tl.fromTo("#at-e" + i, { opacity: 0 }, { opacity: 1, duration: 0.25 }, t + 0.2);
+      tl.fromTo("#at-n" + i, { attr: { r: 22 } }, { attr: { r: 30 }, duration: 0.3, ease: "back.out(2)" }, t);
+    });
+    blurOut("#at-l1 span", 5.4);
+    blurIn("#at-l2 span", 6);
+    window.__timelines["atributos"] = tl;
+  </script>
+</template>

@@ -1,0 +1,44 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 56px; letter-spacing: -0.02em; line-height: 1.15; top: 60px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .pos { fill: var(--pagou); } .neg { fill: var(--naopagou); }
+
+    #pg-card { position: absolute; left: 600px; top: 330px; width: 720px; padding: 40px 48px; border-radius: 24px;
+               background: var(--papel); box-shadow: 0 20px 60px rgba(28,37,54,.12); }
+    #pg-card .rot { font-size: 28px; color: var(--ink-soft); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+    #pg-card .campo { display: flex; justify-content: space-between; font-size: 40px; margin-top: 22px; }
+    #pg-card .campo b { font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+    #pg-resp { position: absolute; left: 0; right: 0; top: 700px; text-align: center; font-family: "IBM Plex Mono", monospace;
+               font-size: 120px; font-weight: 600; color: var(--accent); }
+    #pg-l2 { top: 880px; }
+  </style>
+  <div id="root" data-composition-id="pergunta" data-width="1920" data-height="1080">
+    <div id="pg-card" class="clip" data-start="0" data-duration="7" data-hold>
+      <div class="inner">
+        <div class="rot">cliente nº 2 do notebook</div>
+        <div class="campo"><span>renda mensal</span><b>R$ 2 500</b></div>
+        <div class="campo"><span>meses de relacionamento</span><b>4</b></div>
+        <div class="campo"><span>uso do limite</span><b>60%</b></div>
+      </div>
+    </div>
+    <div id="pg-l1" class="clip linha" data-start="0.4" data-duration="6.6"><span>Uma árvore funda, treinada em tudo, respondeu 0,31.</span></div>
+    <div id="pg-resp" class="clip" data-start="1.6" data-duration="5.4"><span>0,31</span></div>
+    <div id="pg-l2" class="clip linha" data-start="4" data-duration="3"><span>Quanto você confia nesse número?</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#pg-l1 span", 0.4);
+    tl.fromTo("#pg-resp span", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, 1.6);
+    blurIn("#pg-l2 span", 4);
+    window.__timelines["pergunta"] = tl;
+  </script>
+</template>
