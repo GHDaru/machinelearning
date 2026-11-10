@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #F3F1EC; --papel: #FFFFFF; --ink: #1C2536; --ink-soft: #5B6578; --ink-faint: #B9C0CC;
+        --accent: #4D4A8C; --acento2: #C96A1B; --ponto: #1C2536; --treino: #2F6DB5; --validacao: #C96A1B;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #fundo { position: absolute; inset: 0; background: var(--ground); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="84" data-width="1920" data-height="1080">
+      <div id="fundo"></div>
+      <div id="verdade" data-composition-id="verdade" data-composition-src="compositions/verdade.html" data-start="0" data-duration="9" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="grau1" data-composition-id="grau1" data-composition-src="compositions/grau1.html" data-start="9" data-duration="15" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="grau15" data-composition-id="grau15" data-composition-src="compositions/grau15.html" data-start="24" data-duration="16" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="grau5" data-composition-id="grau5" data-composition-src="compositions/grau5.html" data-start="40" data-duration="14" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="curvau" data-composition-id="curvau" data-composition-src="compositions/curvau.html" data-start="54" data-duration="18" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="ideia" data-composition-id="ideia" data-composition-src="compositions/ideia.html" data-start="72" data-duration="12" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

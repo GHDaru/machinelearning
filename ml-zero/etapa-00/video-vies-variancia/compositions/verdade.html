@@ -1,0 +1,67 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 54px; letter-spacing: -0.02em; line-height: 1.15; top: 50px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .eixo { stroke: var(--ink-soft); stroke-width: 2; }
+    .rot { font-size: 28px; fill: var(--ink-soft); font-family: Inter, sans-serif; }
+    .verdade { fill: none; stroke: var(--ink); stroke-width: 5; }
+    .verdade-fraca { fill: none; stroke: var(--ink-faint); stroke-width: 5; stroke-dasharray: 10 10; }
+    .pt { fill: var(--ponto); }
+    .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
+    .fit.um { opacity: 1; stroke-width: 5; }
+    .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
+    .readout { position: absolute; left: 340px; top: 230px; width: 360px; padding: 20px 24px; border-radius: 18px;
+               background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
+    .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
+    .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
+
+    #ve-l2 { top: 920px; }
+  </style>
+  <div id="root" data-composition-id="verdade" data-width="1920" data-height="1080">
+    <div id="ve-l1" class="clip linha" data-start="0.3" data-duration="8.7"><span>A curva verdadeira existe.</span></div>
+    <div id="ve-svg" class="clip" data-start="0" data-duration="9">
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+        <line class="eixo" x1="300" y1="860" x2="1620" y2="860"/><line class="eixo" x1="300" y1="200" x2="300" y2="860"/><text class="rot" x="300" y="900">x = −1</text><text class="rot" x="1620" y="900" text-anchor="end">x = 1</text>
+        <polyline id="ve-verdade" class="verdade" points="300.0,647.5 313.2,656.5 326.4,665.4 339.6,674.1 352.8,682.6 366.0,690.9 379.2,698.8 392.4,706.5 405.6,713.8 418.8,720.7 432.0,727.2 445.2,733.2 458.4,738.8 471.6,743.9 484.8,748.4 498.0,752.4 511.2,755.9 524.4,758.7 537.6,760.9 550.8,762.6 564.0,763.5 577.2,763.9 590.4,763.6 603.6,762.6 616.8,761.0 630.0,758.7 643.2,755.8 656.4,752.2 669.6,747.9 682.8,743.0 696.0,737.5 709.2,731.4 722.4,724.7 735.6,717.4 748.8,709.5 762.0,701.1 775.2,692.2 788.4,682.8 801.6,672.9 814.8,662.6 828.0,651.9 841.2,640.8 854.4,629.3 867.6,617.6 880.8,605.6 894.0,593.3 907.2,580.9 920.4,568.3 933.6,555.6 946.8,542.8 960.0,530.0 973.2,517.2 986.4,504.4 999.6,491.7 1012.8,479.1 1026.0,466.7 1039.2,454.4 1052.4,442.4 1065.6,430.7 1078.8,419.2 1092.0,408.1 1105.2,397.4 1118.4,387.1 1131.6,377.2 1144.8,367.8 1158.0,358.9 1171.2,350.5 1184.4,342.6 1197.6,335.3 1210.8,328.6 1224.0,322.5 1237.2,317.0 1250.4,312.1 1263.6,307.8 1276.8,304.2 1290.0,301.3 1303.2,299.0 1316.4,297.4 1329.6,296.4 1342.8,296.1 1356.0,296.5 1369.2,297.4 1382.4,299.1 1395.6,301.3 1408.8,304.1 1422.0,307.6 1435.2,311.6 1448.4,316.1 1461.6,321.2 1474.8,326.8 1488.0,332.8 1501.2,339.3 1514.4,346.2 1527.6,353.5 1540.8,361.2 1554.0,369.1 1567.2,377.4 1580.4,385.9 1593.6,394.6 1606.8,403.5 1620.0,412.5" pathLength="1"/>
+        <g id="ve-pts"><circle class="pt" cx="333.0" cy="672.5" r="9"/>
+<circle class="pt" cx="399.0" cy="714.7" r="9"/>
+<circle class="pt" cx="465.0" cy="745.4" r="9"/>
+<circle class="pt" cx="531.0" cy="750.6" r="9"/>
+<circle class="pt" cx="597.0" cy="733.4" r="9"/>
+<circle class="pt" cx="663.0" cy="790.1" r="9"/>
+<circle class="pt" cx="729.0" cy="736.9" r="9"/>
+<circle class="pt" cx="795.0" cy="662.3" r="9"/>
+<circle class="pt" cx="861.0" cy="635.9" r="9"/>
+<circle class="pt" cx="927.0" cy="565.6" r="9"/>
+<circle class="pt" cx="993.0" cy="500.1" r="9"/>
+<circle class="pt" cx="1059.0" cy="437.7" r="9"/>
+<circle class="pt" cx="1125.0" cy="342.1" r="9"/>
+<circle class="pt" cx="1191.0" cy="351.5" r="9"/>
+<circle class="pt" cx="1257.0" cy="264.3" r="9"/>
+<circle class="pt" cx="1323.0" cy="312.4" r="9"/>
+<circle class="pt" cx="1389.0" cy="319.1" r="9"/>
+<circle class="pt" cx="1455.0" cy="315.9" r="9"/>
+<circle class="pt" cx="1521.0" cy="362.3" r="9"/>
+<circle class="pt" cx="1587.0" cy="367.1" r="9"/></g>
+      </svg>
+    </div>
+    <div id="ve-l2" class="clip linha" data-start="4.2" data-duration="4.8" data-hold><span>Você só vê 20 pontos dela, com ruído.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#ve-l1 span", 0.3);
+    gsap.set("#ve-verdade", { strokeDasharray: 1, strokeDashoffset: 1 });
+    tl.fromTo("#ve-verdade", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.2, ease: "power2.inOut" }, 0.6);
+    tl.fromTo("#ve-pts circle", { opacity: 0, scale: 0.3, transformOrigin: "center" }, { opacity: 1, scale: 1, duration: 0.3, stagger: 0.08, ease: "back.out(1.6)" }, 4.4);
+    tl.to("#ve-verdade", { opacity: 0.35, duration: 0.6 }, 6.4);
+    blurIn("#ve-l2 span", 4.2);
+    window.__timelines["verdade"] = tl;
+  </script>
+</template>

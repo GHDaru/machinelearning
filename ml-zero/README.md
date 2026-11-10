@@ -25,6 +25,7 @@ A etapa 00 usa **só a biblioteca padrão do Python** — nem NumPy. Isso é del
 | [`etapa-00/dados.py`](etapa-00/dados.py) | Gera o dataset sintético (seed fixa) e divide em treino/validação/teste com estratificação |
 | [`etapa-00/baseline.py`](etapa-00/baseline.py) | `MajorityBaseline`, `MeanBaseline`, `acuracia`, `matriz_confusao` |
 | [`etapa-00/rodar.py`](etapa-00/rodar.py) | O roteiro completo, com a saída comentada |
+| [`etapa-00/video_vies_variancia.py`](etapa-00/video_vies_variancia.py) | Gera o projeto [HyperFrames](https://github.com/heygen-com/hyperframes) da animação "viés e variância" em `etapa-00/video-vies-variancia/`: o experimento do laboratório do capítulo 0.2 (polinômios de grau 1 a 15 em 20 pontos) repetido em 100 reamostragens, com viés², variância e o chão do ruído medidos |
 | [`tests/test_etapa_00.py`](tests/test_etapa_00.py) | 17 testes — o gabarito da etapa |
 
 ### O que você deve ver
