@@ -95,6 +95,7 @@ A `FichaDeDataset` segue a mesma filosofia: não é um documento que alguém pro
 | [`etapa-07/linear.py`](etapa-07/linear.py) | Régua linear — referência para o capítulo II.2 |
 | [`etapa-07/rodar.py`](etapa-07/rodar.py) | O experimento do capítulo (~4 min) |
 | [`etapa-07/video_arvore.py`](etapa-07/video_arvore.py) | Gera o projeto [HyperFrames](https://github.com/heygen-com/hyperframes) da animação "árvore de decisão: o caso da inadimplência" em `etapa-07/video-arvore/`; todos os números vêm da `Arvore` ajustada nos dados da etapa 00 |
+| [`etapa-07/video_floresta.py`](etapa-07/video_floresta.py) | O mesmo para a floresta aleatória, em `etapa-07/video-floresta/`: 30 árvores fundas em reamostragens bootstrap, a média acumulada, a AUC de cada árvore contra a da floresta, e a variação entre 5 sementes |
 | [`tests/test_etapa_07.py`](tests/test_etapa_07.py) | 21 testes (rápidos: usam dado pequeno) |
 
 ### O que você deve ver

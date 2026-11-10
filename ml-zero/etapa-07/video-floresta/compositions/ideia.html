@@ -1,0 +1,28 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 56px; letter-spacing: -0.02em; line-height: 1.15; top: 60px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .pos { fill: var(--pagou); } .neg { fill: var(--naopagou); }
+
+    .linha { font-size: 66px; }
+    #id-l1 { top: 330px; } #id-l2 { top: 470px; } #id-l3 { top: 660px; color: var(--accent); font-size: 56px; }
+  </style>
+  <div id="root" data-composition-id="ideia" data-width="1920" data-height="1080">
+    <div id="id-l1" class="clip linha" data-start="0.3" data-duration="7.7"><span>Trinta árvores erradas de jeitos diferentes.</span></div>
+    <div id="id-l2" class="clip linha" data-start="2.6" data-duration="5.4"><span>A média cancela o erro que não se repete.</span></div>
+    <div id="id-l3" class="clip linha" data-start="5" data-duration="3" data-hold><span>Daí "aleatória": amostra e atributos sorteados, de propósito.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#id-l1 span", 0.3); blurIn("#id-l2 span", 2.6); blurIn("#id-l3 span", 5);
+    window.__timelines["ideia"] = tl;
+  </script>
+</template>

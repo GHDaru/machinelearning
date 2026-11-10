@@ -1,0 +1,42 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 56px; letter-spacing: -0.02em; line-height: 1.15; top: 60px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .pos { fill: var(--pagou); } .neg { fill: var(--naopagou); }
+
+    #re-tab { position: absolute; left: 160px; right: 160px; top: 280px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0 16px; font-size: 34px; }
+    th { font-weight: 600; color: var(--ink-soft); font-size: 28px; text-align: center; letter-spacing: .03em; text-transform: uppercase; }
+    td { background: var(--papel); padding: 26px 18px; text-align: center; box-shadow: 0 8px 24px rgba(28,37,54,.08); }
+    td:first-child { text-align: left; font-weight: 700; border-radius: 16px 0 0 16px; }
+    td:last-child { border-radius: 0 16px 16px 0; }
+    #re-r1 td { color: var(--accent); }
+    #re-l2 { top: 760px; }
+    #re-l3 { top: 880px; font-size: 40px; color: var(--ink-soft); }
+  </style>
+  <div id="root" data-composition-id="resultado" data-width="1920" data-height="1080">
+    <div id="re-l1" class="clip linha" data-start="0" data-duration="5"><span>Cinco sementes diferentes. O que muda?</span></div>
+    <div id="re-tab" class="clip" data-start="0.6" data-duration="11.4"><div class="inner"><table><tr><th></th><th>resposta ao cliente</th><th>faixa em 5 sementes</th><th>desvio</th><th>AUC no teste</th><th>desvio da AUC</th></tr><tr id="re-r0"><td>árvore funda</td><td class="mono">0,31</td><td class="mono">0,21 a 0,43</td><td class="mono">±0,080</td><td class="mono">0,523</td><td class="mono">±0,021</td></tr><tr id="re-r1"><td>floresta de 30</td><td class="mono">0,33</td><td class="mono">0,26 a 0,35</td><td class="mono">±0,029</td><td class="mono">0,573</td><td class="mono">±0,011</td></tr></table></div></div>
+    <div id="re-l2" class="clip linha" data-start="5.4" data-duration="6.6" data-hold><span>A floresta não é mais esperta. É mais estável.</span></div>
+    <div id="re-l3" class="clip linha" data-start="8" data-duration="4" data-hold><span>A resposta variou 2.8× menos; a AUC, 1.9×.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#re-l1 span", 0);
+    tl.fromTo("#re-tab th", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.6);
+    tl.fromTo("#re-r0 td", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "expo.out" }, 1.2);
+    tl.fromTo("#re-r1 td", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "expo.out" }, 2.6);
+    blurOut("#re-l1 span", 4.8);
+    blurIn("#re-l2 span", 5.4);
+    blurIn("#re-l3 span", 8);
+    window.__timelines["resultado"] = tl;
+  </script>
+</template>
