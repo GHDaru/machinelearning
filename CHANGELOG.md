@@ -6,6 +6,22 @@ Todas as mudanças notáveis deste projeto. Formato baseado em [Keep a Changelog
 
 ## [Unreleased]
 
+### Adicionado — aula (fora do livro): animação "viés e variância: a curva que balança"
+- **`ml-zero/etapa-00/video_vies_variancia.py`** gera o terceiro projeto HyperFrames
+  (84 s, seis cenas) em `ml-zero/etapa-00/video-vies-variancia/`. Reproduz em
+  Python puro o laboratório `fundamentos-l1` do capítulo 0.2 (mesma curva
+  verdadeira, mesmo ruído de 0,15, 20 pontos, graus 1 a 15 por Gram-Schmidt) e o
+  repete em 100 reamostragens, o que o laboratório do site não faz: assim viés²
+  (média das curvas contra a verdade) e variância (dispersão das curvas) viram
+  números na tela, não só nomes.
+- Medidos: grau 1, viés² 0,172 e variância 0,001 (todas as retas erram igual);
+  grau 5, viés² 0,0000 e variância 0,004, validação 0,015 contra o chão de 0,011;
+  grau 15, variância 9,3 e treino 0,002, abaixo do chão. O joelho fica no grau 5;
+  com 60 pontos ele não anda e a validação do grau 15 cai para 0,015. O script
+  falha se o joelho mudar de grau.
+- A curva em U é desenhada em escala log, porque a variância do grau 15 não cabe
+  numa escala linear junto com o chão; o eixo diz isso.
+
 ### Adicionado — aula (fora do livro): animação "floresta aleatória: por que a média para de mexer"
 - **`ml-zero/etapa-07/video_floresta.py`** gera o segundo projeto HyperFrames
   (72 s, seis cenas) em `ml-zero/etapa-07/video-floresta/`. O fio: uma árvore

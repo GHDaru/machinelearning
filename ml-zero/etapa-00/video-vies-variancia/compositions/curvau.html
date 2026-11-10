@@ -1,0 +1,70 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 54px; letter-spacing: -0.02em; line-height: 1.15; top: 50px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .eixo { stroke: var(--ink-soft); stroke-width: 2; }
+    .rot { font-size: 28px; fill: var(--ink-soft); font-family: Inter, sans-serif; }
+    .verdade { fill: none; stroke: var(--ink); stroke-width: 5; }
+    .verdade-fraca { fill: none; stroke: var(--ink-faint); stroke-width: 5; stroke-dasharray: 10 10; }
+    .pt { fill: var(--ponto); }
+    .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
+    .fit.um { opacity: 1; stroke-width: 5; }
+    .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
+    .readout { position: absolute; left: 340px; top: 230px; width: 360px; padding: 20px 24px; border-radius: 18px;
+               background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
+    .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
+    .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
+
+    .treino { fill: none; stroke: var(--treino); stroke-width: 5; }
+    .val { fill: none; stroke: var(--validacao); stroke-width: 5; }
+    .val.mais { stroke-dasharray: 14 10; }
+    .chao { stroke: var(--ink-faint); stroke-width: 3; stroke-dasharray: 8 8; }
+    .joelho { stroke: var(--ink); stroke-width: 3; stroke-dasharray: 6 6; }
+    .leg { font-size: 28px; font-family: Inter, sans-serif; font-weight: 600; }
+    #cu-l2, #cu-l3 { top: 920px; font-size: 44px; }
+  </style>
+  <div id="root" data-composition-id="curvau" data-width="1920" data-height="1080">
+    <div id="cu-l1" class="clip linha" data-start="0" data-duration="7"><span>Grau por grau: o erro de treino só desce. O de validação vira.</span></div>
+    <div id="cu-svg" class="clip" data-start="0" data-duration="18">
+      <svg width="1920" height="1080" viewBox="0 0 1920 1080">
+        <line class="eixo" x1="300" y1="840" x2="1620" y2="840"/><line class="eixo" x1="300" y1="200" x2="300" y2="840"/>
+        <text class="rot" x="286" y="850" text-anchor="end">0,001</text><line class="eixo" x1="294" y1="840" x2="300" y2="840"/><text class="rot" x="286" y="690" text-anchor="end">0,010</text><line class="eixo" x1="294" y1="680" x2="300" y2="680"/><text class="rot" x="286" y="530" text-anchor="end">0,100</text><line class="eixo" x1="294" y1="520" x2="300" y2="520"/><text class="rot" x="286" y="370" text-anchor="end">1</text><line class="eixo" x1="294" y1="360" x2="300" y2="360"/><text class="rot" x="286" y="210" text-anchor="end">10</text><line class="eixo" x1="294" y1="200" x2="300" y2="200"/>
+        <text class="rot" x="300" y="880" text-anchor="middle">1</text><text class="rot" x="394" y="880" text-anchor="middle">2</text><text class="rot" x="489" y="880" text-anchor="middle">3</text><text class="rot" x="583" y="880" text-anchor="middle">4</text><text class="rot" x="677" y="880" text-anchor="middle">5</text><text class="rot" x="771" y="880" text-anchor="middle">6</text><text class="rot" x="866" y="880" text-anchor="middle">7</text><text class="rot" x="960" y="880" text-anchor="middle">8</text><text class="rot" x="1054" y="880" text-anchor="middle">9</text><text class="rot" x="1149" y="880" text-anchor="middle">10</text><text class="rot" x="1243" y="880" text-anchor="middle">11</text><text class="rot" x="1337" y="880" text-anchor="middle">12</text><text class="rot" x="1431" y="880" text-anchor="middle">13</text><text class="rot" x="1526" y="880" text-anchor="middle">14</text><text class="rot" x="1620" y="880" text-anchor="middle">15</text>
+        <text class="rot" x="960" y="920" text-anchor="middle">grau do polinômio</text>
+        <text class="rot" x="300" y="184">erro quadrático médio (escala log; mediana de 100 amostras)</text>
+        <line id="cu-chao" class="chao" x1="300" y1="672" x2="1620" y2="672"/>
+        <text id="cu-chao-t" class="rot" x="1610" y="660" text-anchor="end">chão do ruído 0,011</text>
+        <polyline id="cu-tr" class="treino" points="300.0,482.3 394.3,482.4 488.6,673.7 582.9,676.8 677.1,703.4 771.4,708.3 865.7,715.2 960.0,716.8 1054.3,724.7 1148.6,732.7 1242.9,740.5 1337.1,754.6 1431.4,767.7 1525.7,787.2 1620.0,797.2" pathLength="1"/>
+        <polyline id="cu-va" class="val" points="300.0,481.7 394.3,481.4 488.6,645.7 582.9,642.9 677.1,652.9 771.4,651.0 865.7,648.3 960.0,642.8 1054.3,636.7 1148.6,626.3 1242.9,604.4 1337.1,576.3 1431.4,511.6 1525.7,411.3 1620.0,295.5" pathLength="1"/>
+        <polyline id="cu-va60" class="val mais" points="300.0,481.9 394.3,481.9 488.6,652.0 582.9,651.1 677.1,665.5 771.4,663.9 865.7,662.8 960.0,661.8 1054.3,661.3 1148.6,660.5 1242.9,659.5 1337.1,658.3 1431.4,656.7 1525.7,656.3 1620.0,654.0"/>
+        <line id="cu-joelho" class="joelho" x1="677" y1="200" x2="677" y2="840"/>
+        <text class="leg" id="cu-leg-tr" x="330" y="240" style="fill: var(--treino)">treino</text>
+        <text class="leg" id="cu-leg-va" x="330" y="280" style="fill: var(--validacao)">validação (20 pontos)</text>
+        <text class="leg" id="cu-leg-va60" x="330" y="320" style="fill: var(--validacao)">validação (60 pontos)</text>
+      </svg>
+    </div>
+    <div id="cu-l2" class="clip linha" data-start="7.2" data-duration="5.6" data-hold><span>Joelho no grau 5. No grau 15, treino 0,002 (abaixo do chão), validação 2,5.</span></div>
+    <div id="cu-l3" class="clip linha" data-start="13" data-duration="5" data-hold><span>Com 3× mais dados o joelho não anda. O castigo do grau 15 cai para 0,015.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#cu-l1 span", 0);
+    gsap.set(["#cu-tr", "#cu-va"], { strokeDasharray: 1, strokeDashoffset: 1 });
+    gsap.set(["#cu-joelho", "#cu-leg-va60", "#cu-va60"], { opacity: 0 });
+    tl.fromTo("#cu-tr", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5, ease: "none" }, 0.8);
+    tl.fromTo("#cu-va", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 5, ease: "none" }, 0.8);
+    tl.fromTo("#cu-joelho", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 6.2);
+    blurOut("#cu-l1 span", 6.8); blurIn("#cu-l2 span", 7.2);
+    blurOut("#cu-l2 span", 12.6); blurIn("#cu-l3 span", 13);
+    tl.fromTo("#cu-va60", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out" }, 13.2);
+    tl.fromTo("#cu-leg-va60", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 13.2);
+    window.__timelines["curvau"] = tl;
+  </script>
+</template>

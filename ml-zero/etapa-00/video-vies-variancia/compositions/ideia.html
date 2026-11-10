@@ -1,0 +1,38 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: var(--ground); font-family: Inter, sans-serif; color: var(--ink); }
+    .linha { position: absolute; left: 160px; right: 160px; text-align: center; font-weight: 700;
+             font-size: 54px; letter-spacing: -0.02em; line-height: 1.15; top: 50px; }
+    .linha span { display: inline-block; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .eixo { stroke: var(--ink-soft); stroke-width: 2; }
+    .rot { font-size: 28px; fill: var(--ink-soft); font-family: Inter, sans-serif; }
+    .verdade { fill: none; stroke: var(--ink); stroke-width: 5; }
+    .verdade-fraca { fill: none; stroke: var(--ink-faint); stroke-width: 5; stroke-dasharray: 10 10; }
+    .pt { fill: var(--ponto); }
+    .fit { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.28; }
+    .fit.um { opacity: 1; stroke-width: 5; }
+    .media { fill: none; stroke: var(--acento2); stroke-width: 6; }
+    .readout { position: absolute; left: 340px; top: 230px; width: 360px; padding: 20px 24px; border-radius: 18px;
+               background: var(--papel); box-shadow: 0 12px 40px rgba(28,37,54,.12); font-size: 28px; }
+    .readout .g { font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600; }
+    .readout .t { color: var(--ink-soft); font-size: 28px; letter-spacing: .04em; text-transform: uppercase; margin-top: 10px; }
+
+    .linha { font-size: 58px; }
+    #id-l1 { top: 300px; } #id-l2 { top: 460px; } #id-l3 { top: 680px; color: var(--accent); }
+  </style>
+  <div id="root" data-composition-id="ideia" data-width="1920" data-height="1080">
+    <div id="id-l1" class="clip linha" data-start="0.3" data-duration="11.7" data-hold><span>Erro alto e parecido nos dois: viés. Peça mais capacidade.</span></div>
+    <div id="id-l2" class="clip linha" data-start="4" data-duration="8" data-hold><span>Vão grande entre treino e validação: variância. Peça mais dados, ou menos liberdade.</span></div>
+    <div id="id-l3" class="clip linha" data-start="8.4" data-duration="3.6" data-hold><span>Erro no chão: ruído. Pare.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+    const blurIn = (sel, t) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, t);
+    const blurOut = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(6px)", duration: 0.18 }, t);
+
+    blurIn("#id-l1 span", 0.3); blurIn("#id-l2 span", 4); blurIn("#id-l3 span", 8.4);
+    window.__timelines["ideia"] = tl;
+  </script>
+</template>
